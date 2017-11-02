@@ -1,0 +1,29 @@
+.navbarLight, .navbarDark {
+  width: 150px;
+  height: 100%;
+  position: fixed;
+}
+
+.navbarLight {
+  color: black;
+  background-color: #DEDEDF;
+}
+
+.navbarDark {
+  color: white;
+  background-color: #202225;
+}
+
+.text {
+  text-align: center;
+  font-size: 30px;
+  padding-top: 10px;
+  margin-bottom: 0px;
+}
+
+.navButtons {
+  width: 110px;
+  height: auto;
+  margin-top: 20px;
+  margin-left: 20px;
+}
