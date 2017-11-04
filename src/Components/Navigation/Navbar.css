@@ -5,18 +5,16 @@
 }
 
 .navbarLight {
-  color: black;
   background-color: #DEDEDF;
 }
 
 .navbarDark {
-  color: white;
   background-color: #202225;
 }
 
 .text {
   text-align: center;
-  font-size: 30px;
+  font-size: 35px;
   padding-top: 10px;
   margin-bottom: 0px;
 }

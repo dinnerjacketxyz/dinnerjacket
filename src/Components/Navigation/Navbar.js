@@ -23,7 +23,10 @@ class Navbar extends Component {
   render() {
     return (
       <div id='navbar' className='navbarLight'>
-        <p className='text'>Test</p>
+        <p className='text'>
+          Dinner
+          Jacket
+        </p>
         <p/>
         <div className='navButtons'>
         <button className='fluid ui red button'>Button 1</button>

@@ -5,8 +5,10 @@ div {
 
 .light {
   background-color: #FFFFFF;
+  color: black;
 }
 
 .dark {
   background-color: #2a2c31;
+  color: white;
 }
