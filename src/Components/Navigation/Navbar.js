@@ -18,6 +18,7 @@ class Navbar extends Component {
     }
     document.getElementById('main').className = mainClass
     document.getElementById('navbar').className = navClass
+    console.log(__dirname)
   }
 
   render() {

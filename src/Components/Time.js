@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import './Time.css'
 
-
 class Time extends Component {
   interval = setInterval(this.tick, 1000)
 
@@ -12,7 +11,6 @@ class Time extends Component {
     for (let i = 0; i < times.length; i++) {
       times[i] = ('0' + times[i].toString()).slice(-2)
     }
-    console.log(times)
     text.innerHTML = times.join(':')
   }
 
