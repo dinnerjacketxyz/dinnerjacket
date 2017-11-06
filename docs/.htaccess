@@ -1,4 +1,0 @@
-# Remove www from any URLs that have them:
-RewriteEngine on
-RewriteCond %{HTTP_HOST} ^www\.
-RewriteRule ^(.*)$ http://dinnerjacket.xyz/$1 [R=301,L]
