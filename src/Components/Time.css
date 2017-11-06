@@ -8,6 +8,13 @@
 }
 
 .timeText {
-  transform: translateX(-40%) translateY(-50%);
+  transform: translateX(75%) translateY(-50%);
   font-size: 50px;
+  text-align: center;
+}
+
+.infoText {
+  margin-top: 30px;
+  transform: translateX(-40%) translateY(-50%);
+  text-align: center;
 }
