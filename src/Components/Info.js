@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import './Time.css'
+import './Info.css'
 
-class Time extends Component {
+class Info extends Component {
   interval = setInterval(this.tick, 1000)
 
   tick() {
@@ -30,4 +30,4 @@ class Time extends Component {
   }
 }
 
-export default Time
+export default Info
