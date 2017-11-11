@@ -19,7 +19,7 @@ class Info extends Component {
       <div className='time'>
         <p id='timeText' className='timeText'>Loading...</p>
         <p className='infoText'>
-          dinnerjacket.xyz is currently under development<br/>
+          dinnerjacket.xyz is currently in development<br/>
           In the meantime, please take our short
             <a className='infoText' href='https://goo.gl/forms/hfEYOtGlBHiOQFwU2'
               target='_blank'> survey </a>
