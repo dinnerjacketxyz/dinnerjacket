@@ -15,8 +15,8 @@ ReactDOM.render((
   <HashRouter>
     <div id='main' className='light'>
       <Navbar />
-      <Route exact path='/' component={Info}/>
-      <Route path='/settings' component={Settings}/>
+      <Route exact path='/settings' component={Settings}/>
+      <Route path='/' component={Info}/>
     </div>
   </HashRouter>
   ), document.getElementById('root')
