@@ -5,9 +5,9 @@ import './index.css'
 import registerServiceWorker from './registerServiceWorker'
 import './semantic-ui-css/semantic.min.css'
 import { HashRouter, Route } from 'react-router-dom'
-import Navbar from './Components/Navigation/Navbar'
 //import './App.css'
 
+import Navbar from './Components/Navigation/Navbar'
 import Info from './Components/Main/Info'
 import Settings from './Components/Settings/Settings'
 
