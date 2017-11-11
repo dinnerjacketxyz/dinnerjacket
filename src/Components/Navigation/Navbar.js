@@ -21,6 +21,16 @@ class Navbar extends Component {
     console.log(__dirname)
   }
 
+  mainClick() {
+    window.location = '/#/'
+    //window.state = window.STATES.MAIN
+  }
+
+  settingsClick() {
+    window.location = '/#/settings'
+    //window.state = window.STATES.SETTINGS
+  }
+
   render() {
     return (
       <div id='navbar' className='navbarLight'>
@@ -30,9 +40,9 @@ class Navbar extends Component {
         </p>
         <p/>
         <div className='navButtons'>
-        <button className='fluid ui red button'>Button 1</button>
+        <button className='fluid ui red button' onClick={this.mainClick}>Main</button>
         <p/>
-        <button className='fluid ui blue button'>Button 2</button>
+        <button className='fluid ui blue button' onClick={this.settingsClick}>Settings</button>
         <p/>
         <button className='fluid ui green loading button'>Loading</button>
         <p/>
@@ -45,4 +55,4 @@ class Navbar extends Component {
   }
 }
 
-export default Navbar;
+export default Navbar

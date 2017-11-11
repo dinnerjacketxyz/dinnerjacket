@@ -1,0 +1,13 @@
+.settings {
+  margin-left: 150px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.settingsText {
+  font-size: 40px;
+  transform: translateX(-70%) translateY(-60%);
+}

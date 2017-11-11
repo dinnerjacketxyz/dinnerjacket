@@ -1,12 +1,26 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
-import App from './App'
+//import App from './App'
 import registerServiceWorker from './registerServiceWorker'
 import './semantic-ui-css/semantic.min.css'
+import { HashRouter, Route } from 'react-router-dom'
+import Navbar from './Components/Navigation/Navbar'
+//import './App.css'
 
-ReactDOM.render(
-  <App />,
-  document.getElementById('root')
+import Info from './Components/Main/Info'
+import Settings from './Components/Settings/Settings'
+
+ReactDOM.render((
+  <HashRouter>
+    <div id='main' className='light'>
+      <Navbar />
+      <Route exact path='/' component={Info}/>
+      <Route path='/settings' component={Settings}/>
+    </div>
+  </HashRouter>
+  ), document.getElementById('root')
 )
 registerServiceWorker()
+
+// <Route path='/settings' component={Settings}/>
