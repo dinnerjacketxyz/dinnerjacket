@@ -8,9 +8,9 @@
 }
 
 .timeText {
-  transform: translateX(77%) translateY(-50%);
+  transform: translateX(75%) translateY(-50%);
   font-size: 50px;
-  text-aligin: center;
+  text-align: center;
 }
 
 .infoText {
