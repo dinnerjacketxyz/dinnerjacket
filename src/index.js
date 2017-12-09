@@ -11,6 +11,8 @@ import Navbar from './Components/Navigation/Navbar'
 import Info from './Components/Main/Info'
 import Settings from './Components/Settings/Settings'
 
+console.log(Route.path)
+
 ReactDOM.render((
   <HashRouter>
     <div id='main' className='light'>
