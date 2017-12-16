@@ -8,17 +8,13 @@
 }
 
 .timeText {
-  transform: translateX(225%) translateY(-160%);
+  transform: translateX(80%) translateY(-100%);
   font-size: 50px;
   text-align: center;
 }
 
 .infoText {
   margin-top: 30px;
-  transform: translateX(20%) translateY(-250%);
+  transform: translateX(-38%) translateY(-165%);
   text-align: center;
-}
-
-.yt {
-  transform: translateX(-76%) translateY(40%);
 }

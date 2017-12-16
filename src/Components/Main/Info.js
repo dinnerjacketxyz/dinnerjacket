@@ -27,10 +27,6 @@ class Info extends Component {
               target='_blank'> survey </a>
           to help us improve the site. Thanks!
         </p>
-        <iframe className='yt' width="560" height="315" 
-          src="https://www.youtube.com/embed/JZ01cmdwhfg?autoplay=1" 
-          frameBorder="0" gesture="media" allow="encrypted-media" allowFullScreen>
-        </iframe>
       </div>
     )
   }

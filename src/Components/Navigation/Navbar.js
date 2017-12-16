@@ -22,12 +22,12 @@ class Navbar extends Component {
   }
 
   mainClick() {
-    window.location = '/#/'
+    window.location = '/'
     //window.state = window.STATES.MAIN
   }
 
   settingsClick() {
-    window.location = '/#/settings'
+    window.location = '/settings'
     //window.state = window.STATES.SETTINGS
   }
 
