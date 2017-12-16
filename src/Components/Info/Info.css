@@ -1,0 +1,19 @@
+.time {
+  margin-left: 150px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timeText {
+  transform: translateY(-80%);
+  margin-left: 2%;
+  font-size: 50px;
+}
+
+.infoText {
+  transform: translateX(-68%) translateY(-60%);
+  text-align: center;
+}
