@@ -20,29 +20,40 @@ class App extends Component {
 
   showInfo = () => {
     const {visible} = this.state
-    this.setState({visible: 0})
+    this.setState({visible: window.STATES.INFO}) //TODO change to window state vars
   }
 
   showSettings = () => {
     const {visible} = this.state
-    this.setState({visible: 1})
+    this.setState({visible: window.STATES.SETTINGS})
   }
 
   render() {
     return (
       <div id='main' className='light'>
         <div id='navbar' className='navbarLight'>
-          <p className='text'>
-            Dinner
-            Jacket
-          </p>
-          <p/>
+
+          <div className='sidebarIcon'>
+            <button className='ui compact icon button'>
+              <i className='sidebar icon' />
+            </button>
+          </div>
+
           <div className='navButtons'>
-            <button className='fluid ui red button' onClick={this.showInfo}>Main</button>
+            <button className='fluid ui labeled icon red button' onClick={this.showInfo}>
+              Main
+              <i className='wait icon' />
+            </button>
             <p/>
-            <button className='fluid ui blue button' onClick={this.showSettings}>Settings</button>
+            <button className='fluid ui labeled icon blue button' onClick={this.showSettings}>
+              Settings
+              <i className='settings icon' />
+            </button>
             <p/>
-            <button className='fluid ui purple button' onClick={this.toggleTheme}>Theme</button>
+            <button className='fluid ui labeled icon purple button' onClick={this.toggleTheme}>
+              Theme
+              <i className='theme icon' />  
+            </button>
           </div>
         </div>
         <div className='content'>

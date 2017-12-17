@@ -46,8 +46,15 @@ div {
 }
 
 .navButtons {
-  width: 110px;
+  width: 130px;
   height: auto;
   margin-top: 20px;
-  margin-left: 20px;
+  margin-left: 10px;
+}
+
+.sidebarIcon {
+  width: auto;
+  height: auto;
+  margin-top: 5px;
+  margin-left: 5px;
 }
