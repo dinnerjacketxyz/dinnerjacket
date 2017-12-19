@@ -11,17 +11,19 @@ window.STATES = {
 }
 
 const W_DEFAULT = '150px'
-const W_MIN = '52px'
+const W_MIN = '58px'
+const W_LOGO_MIN = '50px'
 
 let navbarMin = false // Based on cookie from previous visit in future
-const NAV_COLOURS = ['red', 'blue', 'purple']
-const NAV_TEXT = ['Main', 'Settings', 'Theme']
+let darkTheme = false
+const NAV_COLOURS = ['red', 'blue', 'purple', 'grey']
+const NAV_TEXT = ['Main', 'Settings', 'Theme', 'Log In']
 let btnNavDefault = []
 let btnNavMin = []
 
 for (let i = 0; i < NAV_COLOURS.length; i++) {
   btnNavDefault[i] = 'fluid ui labeled icon ' + NAV_COLOURS[i] + ' button'
-  btnNavMin[i] = 'ui compact icon ' + NAV_COLOURS[i] + ' button'
+  btnNavMin[i] = 'ui icon ' + NAV_COLOURS[i] + ' button'
 }
 
 class App extends Component {
@@ -32,26 +34,46 @@ class App extends Component {
     this.state = {visible: window.STATES.INFO}
   }
   
+  // Gets called when navbar toggle icon is pressed
   toggleNavbar = () => {
     console.log('navbar toggled')
     let nav = document.getElementById('navbar')
+    let logo = document.getElementById('logo')
     let content = document.getElementById('content')
     let btnNav1 = document.getElementById('btnNav1')
     let btnNav2 = document.getElementById('btnNav2')
     let btnNav3 = document.getElementById('btnNav3')
+    let btnNav4 = document.getElementById('btnNav4')
+    let sidebarIcon = document.getElementById('sidebarIcon')
     
     if (navbarMin) {
       nav.style.width = W_DEFAULT
+      sidebarIcon.style.width = 'auto'
+      logo.style.width = 'auto'
+      logo.style.marginLeft = ''
       content.style.marginLeft = W_DEFAULT
     } else {
       nav.style.width = W_MIN
+      sidebarIcon.style.width = W_MIN
+      logo.style.width = W_LOGO_MIN
+      logo.style.marginLeft = '-5.5px'
       content.style.marginLeft = W_MIN
     }
 
-    toggleButton(btnNav1, 0)
-    toggleButton(btnNav2, 1)
-    toggleButton(btnNav3, 2)
     navbarMin = !navbarMin
+
+    let wait = 0
+    if (navbarMin) {
+      wait = 150
+    }
+
+    window.setTimeout(() => {
+      console.log('time')
+      toggleButton(btnNav1, 0)
+      toggleButton(btnNav2, 1)
+      toggleButton(btnNav3, 2)
+      toggleButton(btnNav4, 3)
+    }, wait)
   }
 
   showInfo = () => {
@@ -69,14 +91,14 @@ class App extends Component {
   render() {
     let nav = document.getElementById('navbar')
     return (
-      <div id='main' className='light'>
-        <div id='navbar' className='navbarLight'>
+      <div id='main' className='main'>
+        <div id='navbar' className='navbar'>
 
-          <div className='sidebarIcon'>
-            <button className='ui compact icon button' onClick={this.toggleNavbar}>
+          <div id='sidebarIcon' className='sidebarIcon'>
+            <button className='ui icon button' onClick={this.toggleNavbar}>
               <i className='sidebar icon' />
             </button>
-            <img className='sidebarLogo' type='image/png' />
+            <img id='logo' className='sidebarLogo' type='image/png' />
           </div>
 
           <div className='navButtons'>
@@ -95,6 +117,14 @@ class App extends Component {
               <i className='theme icon' />  
             </button>
           </div>
+
+          <div className='logInButton'>
+            <button className={btnNavDefault[3]} id='btnNav4' onClick={this.toggleTheme}>
+              {NAV_TEXT[3]}
+              <i className='unlock icon' />  
+            </button>
+          </div>
+
         </div>
         <div className='content' id='content'>
           {this.state.visible === window.STATES.INFO && <Info />}
@@ -106,22 +136,26 @@ class App extends Component {
 
   // Toggles display theme between light and dark
   toggleTheme() {
-    let mainClass = document.getElementById('main').className
-    let navClass = document.getElementById('navbar').className
-    if (mainClass === 'light') {
-      mainClass = 'dark'
-      navClass = 'navbarDark'
-    } else if (mainClass === 'dark') {
-      mainClass = 'light'
-      navClass = 'navbarLight'
+    let content = document.getElementById('content')
+    let nav = document.getElementById('navbar')
+    let main = document.getElementById('main')
+    
+    if (darkTheme) {
+      content.style.backgroundColor = 'white'
+      nav.style.backgroundColor = '#DEDEDF'
+      main.style.color = 'black'
+    } else {
+      content.style.backgroundColor = '#2a2c31'
+      nav.style.backgroundColor = '#202225'
+      main.style.color = 'white'
     }
-    document.getElementById('main').className = mainClass
-    document.getElementById('navbar').className = navClass
+
+    darkTheme = !darkTheme
   }
 }
 
 function toggleButton(button, index) {
-  if (navbarMin) {
+  if (!navbarMin) {
     button.className = btnNavDefault[index]
     button.childNodes[0].nodeValue = NAV_TEXT[index]
   } else {
