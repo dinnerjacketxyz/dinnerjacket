@@ -16,6 +16,7 @@ const W_LOGO_MIN = '50px'
 
 let navbarMin = false // Based on cookie from previous visit in future
 let darkTheme = false
+let loggedIn = false
 const NAV_COLOURS = ['red', 'blue', 'purple', 'grey']
 const NAV_TEXT = ['Main', 'Settings', 'Theme', 'Log In']
 let btnNavDefault = []
@@ -86,6 +87,18 @@ class App extends Component {
     this.setState({visible: window.STATES.SETTINGS})
   }
 
+  // Handles pressing of Log In/Log Out button in bottom left
+  logInOut = () => {
+    console.log('log in/out pressed')
+    if (loggedIn) {
+      // Log user out
+
+    } else {
+      // Authenticate/Log user in
+
+    }
+  }
+
   // Always renders navbar
   // Renders active page
   render() {
@@ -119,7 +132,7 @@ class App extends Component {
           </div>
 
           <div className='logInButton'>
-            <button className={btnNavDefault[3]} id='btnNav4' onClick={this.toggleTheme}>
+            <button className={btnNavDefault[3]} id='btnNav4' onClick={this.logInOut}>
               {NAV_TEXT[3]}
               <i className='unlock icon' />  
             </button>
