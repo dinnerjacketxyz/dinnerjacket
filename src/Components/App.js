@@ -27,6 +27,24 @@ for (let i = 0; i < NAV_COLOURS.length; i++) {
   btnNavMin[i] = 'ui icon ' + NAV_COLOURS[i] + ' button'
 }
 
+ // global oauth stuff
+const cred = {
+    client: {
+        id: 'dinnerjacket',
+        secret: 'WcU0dWcaW7V6Ex91dG5hi8thYyQ'
+    },
+    auth: {
+        tokenHost: 'https://student.sbhs.net.au',
+        tokenPath: '/token',
+        authorizePath: '/authorize'
+    }
+}
+const oauth2 = require('simple-oauth2').create(cred);
+const authorizationUri = oauth2.authorizationCode.authorizeURL({
+    redirect_uri: 'http://localhost:3000/callback',
+    scope: 'all-ro',
+});
+
 class App extends Component {
   constructor(props) {
     super(props)
@@ -95,7 +113,7 @@ class App extends Component {
 
     } else {
       // Authenticate/Log user in
-
+      window.location = authorizationUri
     }
   }
 
