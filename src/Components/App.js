@@ -29,20 +29,27 @@ for (let i = 0; i < NAV_COLOURS.length; i++) {
 
  // global oauth stuff
 const cred = {
-    client: {
-        id: 'dinnerjacket',
-        secret: 'WcU0dWcaW7V6Ex91dG5hi8thYyQ'
-    },
-    auth: {
-        tokenHost: 'https://student.sbhs.net.au',
-        tokenPath: '/token',
-        authorizePath: '/authorize'
-    }
+  client: {
+    id: 'dinnerjacket',
+    secret: 'WcU0dWcaW7V6Ex91dG5hi8thYyQ'
+  },
+  auth: {
+    tokenHost: 'https://student.sbhs.net.au',
+    tokenPath: '/token',
+    authorizePath: '/authorize'
+  }
 }
 const oauth2 = require('simple-oauth2').create(cred);
+let redirect = ''
+if (window.location.hostname === 'localhost') {
+  console.log('App running in localhost')
+  redirect = 'http://localhost:3000/callback'
+} else {
+  redirect = 'http://www.dinnerjacket.xyz/callback'
+}
 const authorizationUri = oauth2.authorizationCode.authorizeURL({
-    redirect_uri: 'http://localhost:3000/callback',
-    scope: 'all-ro',
+  redirect_uri: redirect,
+  scope: 'all-ro',
 });
 
 class App extends Component {
