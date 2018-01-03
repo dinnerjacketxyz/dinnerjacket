@@ -30,13 +30,13 @@ for (let i = 0; i < NAV_COLOURS.length; i++) {
  // global oauth stuff
 const cred = {
   client: {
-    id: 'dinnerjacket',
-    secret: 'WcU0dWcaW7V6Ex91dG5hi8thYyQ'
+    id: 'dinnerjacket_1514947891',
+    secret: 'REDACTED'
   },
   auth: {
     tokenHost: 'https://student.sbhs.net.au',
-    tokenPath: '/token',
-    authorizePath: '/authorize'
+    tokenPath: '/api/token',
+    authorizePath: '/api/authorize'
   }
 }
 const oauth2 = require('simple-oauth2').create(cred);
@@ -50,6 +50,7 @@ if (window.location.hostname === 'localhost') {
 const authorizationUri = oauth2.authorizationCode.authorizeURL({
   redirect_uri: redirect,
   scope: 'all-ro',
+  state: 'abc'
 });
 
 class App extends Component {
