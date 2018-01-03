@@ -53,6 +53,35 @@ const authorizationUri = oauth2.authorizationCode.authorizeURL({
   state: 'abc'
 });
 
+const http = require('http')
+http.get('/callback', (res) => {
+
+  // get url path
+  const url = document.location.href
+
+  // extract code from url
+  const code = url.substr(36, 40)
+  console.log(code)
+
+  getToken(code)
+
+});
+
+function getToken(code) {
+  const options = {
+    code,
+  };
+
+  oauth2.authorizationCode.getToken(options, (error, result) => {
+    if (error) {
+      console.error('Access Token Error', error.message);
+    }
+
+    console.log('The resulting token: ', result);
+
+  });
+}
+
 class App extends Component {
   constructor(props) {
     super(props)
@@ -115,15 +144,19 @@ class App extends Component {
 
   // Handles pressing of Log In/Log Out button in bottom left
   logInOut = () => {
-    console.log('log in/out pressed')
+    //console.log('log in/out pressed')
     if (loggedIn) {
       // Log user out
-
+      console.log('logging out')
     } else {
       // Authenticate/Log user in
+      console.log('logging in')
       window.location = authorizationUri
+      
     }
   }
+
+
 
   // Always renders navbar
   // Renders active page
