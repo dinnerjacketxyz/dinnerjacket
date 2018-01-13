@@ -18,7 +18,17 @@ app.use(session({
     conString: process.env.DATABASE_URL
       || process.env.OPENSHIFT_POSTGRESQL_DB_URL
   }) : null,
-  secret: 'a', // This is most likely a problem tnhat we need to fix at some point
+
+  /*
+  |     REPLACE THIS WITH SESSION SECRET WHEN RUNNING
+  */
+
+  secret: REDACTED,
+
+  /*
+  |     DO NOT FORGET TO REMOVE IT AGAIN BEFORE YOU PUSH
+  */
+
   saveUninitialized: false,
   resave: false,
   cookie: { maxAge: 90 * 24 * 60 * 60 * 1000 } // 90 Days

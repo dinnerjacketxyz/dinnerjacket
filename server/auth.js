@@ -1,6 +1,6 @@
 module.exports = (app) => {
   'use strict'
-
+   
   const redirectURI = 'http://localhost:3000/callback'
   console.log(redirectURI)
 
@@ -12,7 +12,7 @@ module.exports = (app) => {
       |     REPLACE THIS WITH CLIENT SECRET WHEN RUNNING
       */
 
-      secret: 'REDACTED'
+      secret: REDACTED
 
       /*
       |     DO NOT FORGET TO REMOVE IT AGAIN BEFORE YOU PUSH
@@ -26,7 +26,7 @@ module.exports = (app) => {
     }
   }
 
-  var token
+  let token
 
   const oauth2module = require('simple-oauth2')
   const oauth2 = oauth2module.create(cred)
@@ -64,7 +64,6 @@ module.exports = (app) => {
 
   const https = require('https')
  
-
   app.get('/loginsuccess', (req, res) => {
     // exchange token for resources here
 
