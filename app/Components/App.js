@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+const css = require('./App.css')
 
 class App extends Component {
   toggleLogin() {

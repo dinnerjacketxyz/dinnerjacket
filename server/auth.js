@@ -18,7 +18,6 @@ module.exports = (app) => {
       |     DO NOT FORGET TO REMOVE IT AGAIN BEFORE YOU PUSH
       */
 
-      
     },
     auth: {
       tokenHost: 'https://student.sbhs.net.au',
