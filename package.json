@@ -1,24 +1,27 @@
 {
   "name": "dinnerjacket",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.0.1",
+  "description": "SBHS organiser",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index"
+  },
+  "author": "",
+  "license": "GPL-3.0",
   "dependencies": {
+    "compression": "^1.7.1",
+    "connect-pg-simple": "^4.2.1",
     "express": "^4.16.2",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0",
-    "react-router": "^4.2.0",
-    "react-router-dom": "^4.2.2",
-    "react-scripts": "1.0.14",
-    "semantic-ui-css": "^2.2.12",
+    "express-session": "^1.15.6",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
     "simple-oauth2": "^1.5.0"
   },
-  "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  },
-  "homepage": "http://dinnerjacket.xyz"
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2017": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "webpack": "^3.10.0"
+  }
 }
