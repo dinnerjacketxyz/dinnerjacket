@@ -8,6 +8,13 @@ module.exports = {
     path: path.join(__dirname, 'public'),
     filename: 'app.js'
   },
+
+  plugins: [
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery'
+    })
+  ],
   
   module: {
     loaders: [
