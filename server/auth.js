@@ -12,7 +12,7 @@ module.exports = (app) => {
       |     REPLACE THIS WITH CLIENT SECRET WHEN RUNNING
       */
 
-      secret: 'a'
+      secret: REDACTED
 
       /*
       |     DO NOT FORGET TO REMOVE IT AGAIN BEFORE YOU PUSH
