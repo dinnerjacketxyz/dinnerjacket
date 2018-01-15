@@ -1,6 +1,9 @@
+const data = require('../app/data')
+
 module.exports = (app) => {
   'use strict'
    
+  // Change this to URL 'https://dinnerjacket.xyz/callback' for production
   const redirectURI = 'http://localhost:3000/callback'
   console.log(redirectURI)
 
@@ -12,7 +15,7 @@ module.exports = (app) => {
       |     REPLACE THIS WITH CLIENT SECRET WHEN RUNNING
       */
 
-      secret: 'a'
+      secret: 'REDACTED'
 
       /*
       |     DO NOT FORGET TO REMOVE IT AGAIN BEFORE YOU PUSH
@@ -80,10 +83,13 @@ module.exports = (app) => {
       // parse result
       res.setEncoding('utf8');
       res.on('data', function (body) {
-        console.log(body);
+        console.log(body)
+        //data.data['details/participation'] = body
+        //data.fillData(body, 'details/participation')
       });
     });
 
+    // Change this to URL 'https://dinnerjacket.xyz/' for production
     res.redirect('http://localhost:3000/')
   })
 

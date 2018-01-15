@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 const css = require('./App.css')
+const data = require('../data')
 
 // Global variables
 // Represents the current visible content
@@ -12,8 +13,8 @@ const W_LOGO_MIN = '50px'
 let navbarMin = false // Based on cookie from previous visit in future
 let darkTheme = false
 let loggedIn = false
-const NAV_COLOURS = ['red', 'blue', 'purple', 'grey']
-const NAV_TEXT = ['Main', 'Settings', 'Theme', 'Log In']
+const NAV_COLOURS = ['red', 'blue', 'purple', 'green', 'grey']
+const NAV_TEXT = ['Bells', 'Notes', 'Notices', 'Settings', 'Log In']
 let btnNavDefault = []
 let btnNavMin = []
 
@@ -80,10 +81,13 @@ class App extends Component {
     }, wait)
   }
 
+  test() {
+    console.log(data.data['details/participation'])
+  }
+
   // Always renders navbar
   // Renders active page
   render() {
-    let nav = document.getElementById('navbar')
     return (
       <div id='main' className='main'>
         <div id='navbar' className='navbar'>
@@ -96,25 +100,30 @@ class App extends Component {
           </div>
 
           <div className='navButtons'>
-            <button className={btnNavDefault[0]} id='btnNav1'>
+            <button className={btnNavDefault[0]} id='btnNav1' onClick={this.test}>
               {NAV_TEXT[0]}
-              <i className='wait icon' />
+              <i className='bell icon' />
             </button>
             <p/>
             <button className={btnNavDefault[1]} id='btnNav2'>
               {NAV_TEXT[1]}
-              <i className='settings icon' />
+              <i className='sticky note icon' />
             </button>
             <p/>
-            <button className={btnNavDefault[2]} id='btnNav3' onClick={this.toggleTheme}>
+            <button className={btnNavDefault[2]} id='btnNav3'>
               {NAV_TEXT[2]}
-              <i className='theme icon' />  
+              <i className='announcement icon' />  
+            </button>
+            <p/>
+            <button className={btnNavDefault[3]} id='btnNav4'>
+              {NAV_TEXT[3]}
+              <i className='settings icon' />  
             </button>
           </div>
 
           <div className='logInButton'>
-            <button className={btnNavDefault[3]} id='btnNav4' onClick={this.toggleLogin}>
-              {NAV_TEXT[3]}
+            <button className={btnNavDefault[4]} id='btnNav5' onClick={this.toggleLogin}>
+              {NAV_TEXT[4]}
               <i className='unlock icon' />  
             </button>
           </div>
