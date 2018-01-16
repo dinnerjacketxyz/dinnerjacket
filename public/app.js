@@ -18413,6 +18413,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     let btnNav2 = document.getElementById('btnNav2');
     let btnNav3 = document.getElementById('btnNav3');
     let btnNav4 = document.getElementById('btnNav4');
+    let btnNav5 = document.getElementById('btnNav5');
     let sidebarIcon = document.getElementById('sidebarIcon');
 
     if (navbarMin) {
@@ -18442,6 +18443,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       toggleButton(btnNav2, 1);
       toggleButton(btnNav3, 2);
       toggleButton(btnNav4, 3);
+      toggleButton(btnNav5, 4);
     }, wait);
   }
 
