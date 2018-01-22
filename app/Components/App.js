@@ -37,46 +37,56 @@ class App extends Component {
   render() {
     return (
       <div id='main' className='main'>
-        <nav className='uk-navbar-container uk-margin' uk-navbar>
+        <nav className='uk-navbar-container uk-margin' uk-navbar='true'>
           <div className='uk-navbar-left'>
-            <a href='' className='uk-navbar-item uk-logo' uk-icon='icon: star'>Logo</a>
             <ul className='uk-navbar-nav'>
               <li className='uk-animation-toggle'>
-                <a href='#' className='uk-animation-shake uk-animation-fast'>
-                  <span className='uk-icon uk-margin-small-right' uk-icon='icon: star'></span>
+                <a className='uk-box-shadow-hover-medium'>
+                  Dashboard
+                </a>
+              </li>
+              <li className='uk-animation-toggle'>
+                <a className='uk-box-shadow-hover-medium'>
                   Timetable
                 </a>
               </li>
               <li className='uk-animation-toggle'>
-                <a href='#' className='uk-animation-shake uk-animation-fast'>
-                  <span className='uk-icon uk-margin-small-right' uk-icon='icon: star'></span>
+                <a className='uk-box-shadow-hover-medium'>
                   Notes
                 </a>
               </li>
               <li className='uk-animation-toggle'>
-                <a href='#' className='uk-animation-shake uk-animation-fast'>
-                  <span className='uk-icon uk-margin-small-right' uk-icon='icon: star'></span>
+                <a className='uk-box-shadow-hover-medium'>
                   Daily Notices
                 </a>
               </li>
+              <li className='uk-animation-toggle'>
+                <a className='uk-box-shadow-hover-medium'>
+                  Calendar
+                </a>
+              </li>
             </ul>
-        </div>
-        <div className='uk-navbar-right'>
-          <ul className='uk-navbar-nav'>
-            <li>
-              <a href='#' uk-icon='icon: triangle-down'>Mr Magnoots</a>
-                <div className='uk-navbar-dropdown'>
+          </div>
+          
+          <div className='uk-navbar-right'>
+            <ul className='uk-navbar-nav'>
+              <li className='uk-animation-toggle'>
+                <a className='uk-box-shadow-hover-medium' uk-icon='icon: chevron-down'>
+                  Stu Studentson
+                </a>
+                <div className='uk-navbar-dropdown' uk-dropdown='mode: click'>
                   <ul className='uk-nav uk-navbar-dropdown-nav'>
-                    <li><a href='#'>Settings</a></li>
-                    <li><a href='#'>Profile</a></li>
-                    <li><a href='#' className='uk-text-danger'>Log Out</a></li>
+                    <li><a>Profile</a></li>
+                    <li><a>Settings</a></li>
+                    <li><a>SBHS Login</a></li>
+                    <li><a>Parent Login</a></li>
                   </ul>
                 </div>
-            </li>
-          </ul>
-        </div>
-      </nav>
-    </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
     )
   }
 

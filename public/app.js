@@ -18407,15 +18407,10 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       { id: 'main', className: 'main' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'nav',
-        { className: 'uk-navbar-container uk-margin', 'uk-navbar': true },
+        { className: 'uk-navbar-container uk-margin', 'uk-navbar': 'true' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
           { className: 'uk-navbar-left' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'a',
-            { href: '', className: 'uk-navbar-item uk-logo', 'uk-icon': 'icon: star' },
-            'Logo'
-          ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'ul',
             { className: 'uk-navbar-nav' },
@@ -18424,8 +18419,16 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
               { className: 'uk-animation-toggle' },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'a',
-                { href: '#', className: 'uk-animation-shake uk-animation-fast' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'uk-icon uk-margin-small-right', 'uk-icon': 'icon: star' }),
+                { className: 'uk-box-shadow-hover-medium' },
+                'Dashboard'
+              )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              { className: 'uk-animation-toggle' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'a',
+                { className: 'uk-box-shadow-hover-medium' },
                 'Timetable'
               )
             ),
@@ -18434,8 +18437,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
               { className: 'uk-animation-toggle' },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'a',
-                { href: '#', className: 'uk-animation-shake uk-animation-fast' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'uk-icon uk-margin-small-right', 'uk-icon': 'icon: star' }),
+                { className: 'uk-box-shadow-hover-medium' },
                 'Notes'
               )
             ),
@@ -18444,9 +18446,17 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
               { className: 'uk-animation-toggle' },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'a',
-                { href: '#', className: 'uk-animation-shake uk-animation-fast' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'uk-icon uk-margin-small-right', 'uk-icon': 'icon: star' }),
+                { className: 'uk-box-shadow-hover-medium' },
                 'Daily Notices'
+              )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              { className: 'uk-animation-toggle' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'a',
+                { className: 'uk-box-shadow-hover-medium' },
+                'Calendar'
               )
             )
           )
@@ -18459,15 +18469,15 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             { className: 'uk-navbar-nav' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'li',
-              null,
+              { className: 'uk-animation-toggle' },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'a',
-                { href: '#', 'uk-icon': 'icon: triangle-down' },
-                'Mr Magnoots'
+                { className: 'uk-box-shadow-hover-medium', 'uk-icon': 'icon: chevron-down' },
+                'Stu Studentson'
               ),
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
-                { className: 'uk-navbar-dropdown' },
+                { className: 'uk-navbar-dropdown', 'uk-dropdown': 'mode: click' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                   'ul',
                   { className: 'uk-nav uk-navbar-dropdown-nav' },
@@ -18476,16 +18486,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                     null,
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                       'a',
-                      { href: '#' },
-                      'Settings'
-                    )
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'li',
-                    null,
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                      'a',
-                      { href: '#' },
+                      null,
                       'Profile'
                     )
                   ),
@@ -18494,8 +18495,26 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                     null,
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                       'a',
-                      { href: '#', className: 'uk-text-danger' },
-                      'Log Out'
+                      null,
+                      'Settings'
+                    )
+                  ),
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'li',
+                    null,
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'a',
+                      null,
+                      'SBHS Login'
+                    )
+                  ),
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'li',
+                    null,
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'a',
+                      null,
+                      'Parent Login'
                     )
                   )
                 )
