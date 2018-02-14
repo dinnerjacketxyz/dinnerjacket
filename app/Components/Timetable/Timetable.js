@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 
-class Bells extends Component {
+class Timetable extends Component {
   render() {
     return (
       <div>
-        Bells
+        Timetable
       </div>
     )
   }
 }
 
-export default Bells
+export default Timetable
