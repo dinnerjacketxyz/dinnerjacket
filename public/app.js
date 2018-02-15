@@ -18405,7 +18405,10 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     super(props);
 
     // Set default state on launch
-    this.state = { visible: true };
+    //this.state = {visible: window.STATES.DASHBOARD}
+    this.state = {
+      visible: window.STATES.DASHBOARD
+    };
   }
 
   toggleLogin() {
@@ -18418,14 +18421,14 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
   showDashboard() {
     console.log('Dashboard tab clicked');
-    const { visible } = this.state;
-    this.setState({ visible: !visible });
+    let visible = this.state.visible;
+    this.setState({ visible: window.STATES.DASHBOARD });
   }
 
   showTimetable() {
     console.log('Timetable tab clicked');
-    const { visible } = this.state;
-    this.setState({ visible: !visible });
+    let visible = this.state.visible;
+    this.setState({ visible: window.STATES.TIMETABLE });
   }
 
   // Always renders navbar
@@ -18446,7 +18449,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             { className: 'uk-navbar-nav' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'li',
-              { className: 'uk-animation-toggle', onClick: this.showDashboard },
+              { className: 'uk-animation-toggle', onClick: this.showDashboard.bind(this) },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'a',
                 { className: 'uk-box-shadow-hover-medium' },
@@ -18456,7 +18459,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'li',
-              { className: 'uk-animation-toggle', onClick: this.showTimetable },
+              { className: 'uk-animation-toggle', onClick: this.showTimetable.bind(this) },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'a',
                 { className: 'uk-box-shadow-hover-medium' },
@@ -18555,8 +18558,8 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
         { className: 'content', id: 'content' },
-        this.state.visible === true && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__Dashboard_Dashboard__["a" /* default */], null),
-        this.state.visible === false && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Timetable_Timetable__["a" /* default */], null)
+        this.state.visible === window.STATES.DASHBOARD && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__Dashboard_Dashboard__["a" /* default */], null),
+        this.state.visible === window.STATES.TIMETABLE && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Timetable_Timetable__["a" /* default */], null)
       )
     );
   }
