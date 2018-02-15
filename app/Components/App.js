@@ -70,12 +70,12 @@ class App extends Component {
       <div id='main' className='main'>
         <nav className='uk-navbar uk-navbar-container uk-margin' uk-navbar='true'>
           <div className='uk-navbar-left'>
-            <img className='uk-margin-left uk-margin-right' src='icon.png' style="width:60px;height:60px"/>      
+            <img className='uk-margin-left uk-margin-right uk-margin' alt='' src='icon.png' style='width:60px;height:60px'/>      
             <ul className='uk-navbar-nav'>
 
               <li className='uk-animation-toggle' onClick={this.showDashboard.bind(this)}>
                 <a className='uk-box-shadow-hover-medium'>
-                  <span className='uk-icon uk-margin-small-right' uk-icon='icon: home' />
+                  <span className='uk-icon uk-margin-small-right' uk-icon='icon: home'/>
                   Dashboard
                 </a>
               </li>
