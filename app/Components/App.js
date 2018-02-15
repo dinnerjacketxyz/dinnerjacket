@@ -37,7 +37,10 @@ class App extends Component {
     super(props)
 
     // Set default state on launch
-     this.state = {visible: window.STATES.DASHBOARD}
+     //this.state = {visible: window.STATES.DASHBOARD}
+     this.state = {
+       visible: window.STATES.DASHBOARD
+     }
   }
 
   toggleLogin() {
@@ -50,14 +53,14 @@ class App extends Component {
 
   showDashboard() {
     console.log('Dashboard tab clicked')
-    const {visible} = this.state
-    this.setState({visible: window.STATES.DASHBOARD})
+    let visible = this.state.visible
+    this.setState({ visible: window.STATES.DASHBOARD })
   }
 
   showTimetable() {
     console.log('Timetable tab clicked')
-    const {visible} = this.state
-    this.setState({visible: window.STATES.TIMETABLE})
+    let visible = this.state.visible
+    this.setState({ visible: window.STATES.TIMETABLE })
   }
 
   // Always renders navbar
@@ -70,14 +73,14 @@ class App extends Component {
             <img className='uk-icon uk-margin-left uk-margin-right sidebarLogo' type='image/png' width='60px' />      
             <ul className='uk-navbar-nav'>
 
-              <li className='uk-animation-toggle' onClick={this.showDashboard}>
+              <li className='uk-animation-toggle' onClick={this.showDashboard.bind(this)}>
                 <a className='uk-box-shadow-hover-medium'>
                   <span className='uk-icon uk-margin-small-right' uk-icon='icon: home' />
                   Dashboard
                 </a>
               </li>
 
-              <li className='uk-animation-toggle' onClick={this.showTimetable}>
+              <li className='uk-animation-toggle' onClick={this.showTimetable.bind(this)}>
                 <a className='uk-box-shadow-hover-medium'>
                   <span className='uk-icon uk-margin-small-right' uk-icon='icon: star' />
                   Timetable
