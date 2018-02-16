@@ -15,7 +15,7 @@ module.exports = (app) => {
       |     REPLACE THIS WITH CLIENT SECRET WHEN RUNNING
       */
 
-      secret: 'HIPylm-t1okeymgNFtNIZOsoWyo'
+      secret: 'REDACTED'
 
       /*
       |     DO NOT FORGET TO REMOVE IT AGAIN BEFORE YOU PUSH
