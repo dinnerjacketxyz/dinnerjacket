@@ -15,7 +15,7 @@ module.exports = (app) => {
       |     REPLACE THIS WITH CLIENT SECRET WHEN RUNNING
       */
 
-      secret: 'REDACTED'
+      secret: 'HIPylm-t1okeymgNFtNIZOsoWyo'
 
       /*
       |     DO NOT FORGET TO REMOVE IT AGAIN BEFORE YOU PUSH
@@ -97,18 +97,14 @@ module.exports = (app) => {
 		// parse result
 		res.setEncoding('utf8');
 		res.on('data', function (body) {
-		storeFromAPI(body)
-		//data.data['details/participation'] = body
-		//data.fillData(body, 'details/participation')
+		  const baseURL = __dirname.substring(0, (__dirname.length - 7)) + '/app/'
+		  const appendURL = URL.replace('/', '_')
+		  fs.writeFile(baseURL + appendURL, data, (err) => {
+				
+		  });
+		  //data.data['details/participation'] = body
+		  //data.fillData(body, 'details/participation')
 		});
-	  });
-	}
-	
-	// This writes all the data that is returned to files
-	function storeFromAPI(data) {
-	  const saveURL = __dirname.substring()
- 	  fs.writeFile("test.txt", jsonData, function(err) {
-
 	  });
 	}
 	
