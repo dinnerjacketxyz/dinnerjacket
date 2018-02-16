@@ -3,6 +3,7 @@ import Dashboard from './Dashboard/Dashboard'
 import Timetable from './Timetable/Timetable'
 import Notes from './Notes/Notes'
 import Notices from './Notices/Notices'
+import Settings from './Settings/Settings'
 const css = require('./App.css')
 const data = require('../data')
 const icons = require('../uikit-icons.min')
@@ -13,9 +14,6 @@ const icons = require('../uikit-icons.min')
 // User notes
 // Daily notices
 // Student login
-
-// TODO create different navbar elements depending on accessLevel
-
 
 // Global variables
 // Represents the current visible content
@@ -29,7 +27,6 @@ window.STATES = {
   SETTINGS: 6
 }
 
-let darkTheme = false
 let loggedIn = false
 
 class App extends Component {
@@ -63,14 +60,31 @@ class App extends Component {
     this.setState({ visible: window.STATES.TIMETABLE })
   }
 
+  showNotes() {
+    console.log('User notes tab clicked')
+    let visible = this.state.visible
+    this.setState({ visible: window.STATES.NOTES })
+  }
+
+  showNotices() {
+    console.log('Daily notices tab clicked')
+    let visible = this.state.visible
+    this.setState({ visible: window.STATES.NOTICES })
+  }
+
+  showSettings() {
+    console.log('Settings tab clicked')
+    let visible = this.state.visible
+    this.setState({ visible: window.STATES.SETTINGS })
+  }
+
   // Always renders navbar
   // Renders active page
   render() {
     return (
       <div id='main' className='main'>
         <nav className='uk-navbar uk-navbar-container uk-margin' uk-navbar='true'>
-          <div className='uk-navbar-left'>
-            <img className='uk-margin-left uk-margin-right uk-margin' alt='' src='icon.png' style='width:60px;height:60px'/>      
+          <div className='uk-navbar-left'>      
             <ul className='uk-navbar-nav'>
 
               <li className='uk-animation-toggle' onClick={this.showDashboard.bind(this)}>
@@ -87,14 +101,14 @@ class App extends Component {
                 </a>
               </li>
 
-              <li className='uk-animation-toggle'>
+              <li className='uk-animation-toggle' onClick={this.showNotes.bind(this)}>
                 <a className='uk-box-shadow-hover-medium'>
                   <span className='uk-icon uk-margin-small-right' uk-icon='icon: file-edit' />
                   User Notes
                 </a>
               </li>
 
-              <li className='uk-animation-toggle'>
+              <li className='uk-animation-toggle' onClick={this.showNotices.bind(this)}>
                 <a className='uk-box-shadow-hover-medium'>
                   <span className='uk-icon uk-margin-small-right' uk-icon='icon: bell' />
                   Daily Notices
@@ -114,7 +128,7 @@ class App extends Component {
                 <div className='uk-navbar-dropdown' uk-dropdown='mode: click'>
                   <ul className='uk-nav uk-navbar-dropdown-nav'>
                     <li>
-                      <a>
+                      <a onClick={this.showSettings.bind(this)}>
                         <span className='uk-icon uk-margin-small-right' uk-icon='icon: cog' />
                         Settings
                       </a>
@@ -150,36 +164,13 @@ class App extends Component {
         <div className='content' id='content'>
           {this.state.visible === window.STATES.DASHBOARD && <Dashboard />}
           {this.state.visible === window.STATES.TIMETABLE && <Timetable />}
+          {this.state.visible === window.STATES.NOTES && <Notes />}
+          {this.state.visible === window.STATES.NOTICES && <Notices />}
         </div>
         
       </div>
     )
   }
-
-  // Probably will be moved into settings file
-  // Toggles display theme between light and dark
-  toggleTheme() {
-    let content = document.getElementById('content')
-    let nav = document.getElementById('navbar')
-    let main = document.getElementById('main')
-    
-    if (darkTheme) {
-      content.style.backgroundColor = 'white'
-      nav.style.backgroundColor = '#DEDEDF'
-      main.style.color = 'black'
-    } else {
-      content.style.backgroundColor = '#2a2c31'
-      nav.style.backgroundColor = '#202225'
-      main.style.color = 'white'
-    }
-
-    darkTheme = !darkTheme
-  }
 }
 
 export default App
-
-/*
- *{this.state.visible === window.STATES.INFO && <Info />}
- *{this.state.visible === window.STATES.SETTINGS && <Settings />}
- */

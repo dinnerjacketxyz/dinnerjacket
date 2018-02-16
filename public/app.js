@@ -65,6 +65,21 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+if (process.env.NODE_ENV === 'production') {
+  module.exports = __webpack_require__(16);
+} else {
+  module.exports = __webpack_require__(17);
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
+/***/ }),
+/* 1 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -254,21 +269,6 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(16);
-} else {
-  module.exports = __webpack_require__(17);
-}
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -332,7 +332,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 module.exports = emptyObject;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 4 */
@@ -392,7 +392,7 @@ function invariant(condition, format, a, b, c, d, e, f) {
 }
 
 module.exports = invariant;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 5 */
@@ -461,7 +461,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 module.exports = warning;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 6 */
@@ -625,7 +625,7 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
 
 module.exports = checkPropTypes;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 8 */
@@ -842,7 +842,7 @@ var EventListener = {
 };
 
 module.exports = EventListener;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 11 */
@@ -1036,7 +1036,7 @@ module.exports = focusNode;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
@@ -2438,7 +2438,7 @@ module.exports = react;
   })();
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 18 */
@@ -2503,7 +2503,7 @@ if (process.env.NODE_ENV === 'production') {
   module.exports = __webpack_require__(23);
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 20 */
@@ -2522,7 +2522,7 @@ if (process.env.NODE_ENV === 'production') {
 /*
  Modernizr 3.0.0pre (Custom Build) | MIT
 */
-var aa=__webpack_require__(1),l=__webpack_require__(8),B=__webpack_require__(9),C=__webpack_require__(2),ba=__webpack_require__(10),da=__webpack_require__(11),ea=__webpack_require__(12),fa=__webpack_require__(13),ia=__webpack_require__(14),D=__webpack_require__(3);
+var aa=__webpack_require__(0),l=__webpack_require__(8),B=__webpack_require__(9),C=__webpack_require__(2),ba=__webpack_require__(10),da=__webpack_require__(11),ea=__webpack_require__(12),fa=__webpack_require__(13),ia=__webpack_require__(14),D=__webpack_require__(3);
 function E(a){for(var b=arguments.length-1,c="Minified React error #"+a+"; visit http://facebook.github.io/react/docs/error-decoder.html?invariant\x3d"+a,d=0;d<b;d++)c+="\x26args[]\x3d"+encodeURIComponent(arguments[d+1]);b=Error(c+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings.");b.name="Invariant Violation";b.framesToPop=1;throw b;}aa?void 0:E("227");
 var oa={children:!0,dangerouslySetInnerHTML:!0,defaultValue:!0,defaultChecked:!0,innerHTML:!0,suppressContentEditableWarning:!0,suppressHydrationWarning:!0,style:!0};function pa(a,b){return(a&b)===b}
 var ta={MUST_USE_PROPERTY:1,HAS_BOOLEAN_VALUE:4,HAS_NUMERIC_VALUE:8,HAS_POSITIVE_NUMERIC_VALUE:24,HAS_OVERLOADED_BOOLEAN_VALUE:32,HAS_STRING_BOOLEAN_VALUE:64,injectDOMPropertyConfig:function(a){var b=ta,c=a.Properties||{},d=a.DOMAttributeNamespaces||{},e=a.DOMAttributeNames||{};a=a.DOMMutationMethods||{};for(var f in c){ua.hasOwnProperty(f)?E("48",f):void 0;var g=f.toLowerCase(),h=c[f];g={attributeName:g,attributeNamespace:null,propertyName:f,mutationMethod:null,mustUseProperty:pa(h,b.MUST_USE_PROPERTY),
@@ -2819,7 +2819,7 @@ if (process.env.NODE_ENV !== "production") {
   (function() {
 'use strict';
 
-var React = __webpack_require__(1);
+var React = __webpack_require__(0);
 var invariant = __webpack_require__(4);
 var warning = __webpack_require__(5);
 var ExecutionEnvironment = __webpack_require__(8);
@@ -18197,7 +18197,7 @@ module.exports = reactDom;
   })();
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 24 */
@@ -18360,20 +18360,22 @@ module.exports = camelize;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Dashboard_Dashboard__ = __webpack_require__(29);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Timetable_Timetable__ = __webpack_require__(30);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Notes_Notes__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Notices_Notices__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Settings_Settings__ = __webpack_require__(33);
 
 
 
 
 
-const css = __webpack_require__(33);
-const data = __webpack_require__(38);
-const icons = __webpack_require__(39);
+
+const css = __webpack_require__(34);
+const data = __webpack_require__(39);
+const icons = __webpack_require__(40);
 
 // Requirements for beta release
 // Daily timetable
@@ -18381,9 +18383,6 @@ const icons = __webpack_require__(39);
 // User notes
 // Daily notices
 // Student login
-
-// TODO create different navbar elements depending on accessLevel
-
 
 // Global variables
 // Represents the current visible content
@@ -18397,7 +18396,6 @@ window.STATES = {
   SETTINGS: 6
 };
 
-let darkTheme = false;
 let loggedIn = false;
 
 class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
@@ -18431,6 +18429,24 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     this.setState({ visible: window.STATES.TIMETABLE });
   }
 
+  showNotes() {
+    console.log('User notes tab clicked');
+    let visible = this.state.visible;
+    this.setState({ visible: window.STATES.NOTES });
+  }
+
+  showNotices() {
+    console.log('Daily notices tab clicked');
+    let visible = this.state.visible;
+    this.setState({ visible: window.STATES.NOTICES });
+  }
+
+  showSettings() {
+    console.log('Settings tab clicked');
+    let visible = this.state.visible;
+    this.setState({ visible: window.STATES.SETTINGS });
+  }
+
   // Always renders navbar
   // Renders active page
   render() {
@@ -18443,7 +18459,6 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
           { className: 'uk-navbar-left' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { className: 'uk-icon uk-margin-left uk-margin-right sidebarLogo', type: 'image/png', width: '60px' }),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'ul',
             { className: 'uk-navbar-nav' },
@@ -18469,7 +18484,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'li',
-              { className: 'uk-animation-toggle' },
+              { className: 'uk-animation-toggle', onClick: this.showNotes.bind(this) },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'a',
                 { className: 'uk-box-shadow-hover-medium' },
@@ -18479,7 +18494,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'li',
-              { className: 'uk-animation-toggle' },
+              { className: 'uk-animation-toggle', onClick: this.showNotices.bind(this) },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'a',
                 { className: 'uk-box-shadow-hover-medium' },
@@ -18514,7 +18529,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                     null,
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                       'a',
-                      null,
+                      { onClick: this.showSettings.bind(this) },
                       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'uk-icon uk-margin-small-right', 'uk-icon': 'icon: cog' }),
                       'Settings'
                     )
@@ -18559,45 +18574,22 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         'div',
         { className: 'content', id: 'content' },
         this.state.visible === window.STATES.DASHBOARD && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__Dashboard_Dashboard__["a" /* default */], null),
-        this.state.visible === window.STATES.TIMETABLE && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Timetable_Timetable__["a" /* default */], null)
+        this.state.visible === window.STATES.TIMETABLE && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Timetable_Timetable__["a" /* default */], null),
+        this.state.visible === window.STATES.NOTES && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Notes_Notes__["a" /* default */], null),
+        this.state.visible === window.STATES.NOTICES && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__Notices_Notices__["a" /* default */], null)
       )
     );
-  }
-
-  // Probably will be moved into settings file
-  // Toggles display theme between light and dark
-  toggleTheme() {
-    let content = document.getElementById('content');
-    let nav = document.getElementById('navbar');
-    let main = document.getElementById('main');
-
-    if (darkTheme) {
-      content.style.backgroundColor = 'white';
-      nav.style.backgroundColor = '#DEDEDF';
-      main.style.color = 'black';
-    } else {
-      content.style.backgroundColor = '#2a2c31';
-      nav.style.backgroundColor = '#202225';
-      main.style.color = 'white';
-    }
-
-    darkTheme = !darkTheme;
   }
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (App);
-
-/*
- *{this.state.visible === window.STATES.INFO && <Info />}
- *{this.state.visible === window.STATES.SETTINGS && <Settings />}
- */
 
 /***/ }),
 /* 29 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
 
@@ -18618,7 +18610,7 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
 
@@ -18639,7 +18631,7 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
 
@@ -18653,14 +18645,14 @@ class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   }
 }
 
-/* unused harmony default export */ var _unused_webpack_default_export = (Notes);
+/* harmony default export */ __webpack_exports__["a"] = (Notes);
 
 /***/ }),
 /* 32 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
 
@@ -18674,16 +18666,58 @@ class Notices extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   }
 }
 
-/* unused harmony default export */ var _unused_webpack_default_export = (Notices);
+/* harmony default export */ __webpack_exports__["a"] = (Notices);
 
 /***/ }),
 /* 33 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+
+
+let darkTheme = false;
+
+class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
+  // Toggles display theme between light and dark
+  toggleTheme() {
+    let content = document.getElementById('content');
+    let nav = document.getElementById('navbar');
+    let main = document.getElementById('main');
+
+    if (darkTheme) {
+      content.style.backgroundColor = 'white';
+      nav.style.backgroundColor = '#DEDEDF';
+      main.style.color = 'black';
+    } else {
+      content.style.backgroundColor = '#2a2c31';
+      nav.style.backgroundColor = '#202225';
+      main.style.color = 'white';
+    }
+
+    darkTheme = !darkTheme;
+  }
+
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      null,
+      'Settings'
+    );
+  }
+}
+
+/* unused harmony default export */ var _unused_webpack_default_export = (Settings);
+
+/***/ }),
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(34);
+var content = __webpack_require__(35);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -18691,7 +18725,7 @@ var transform;
 var options = {"hmr":true}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(36)(content, options);
+var update = __webpack_require__(37)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -18708,10 +18742,10 @@ if(false) {
 }
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(35)(false);
+exports = module.exports = __webpack_require__(36)(false);
 // imports
 
 
@@ -18722,7 +18756,7 @@ exports.push([module.i, "body {\r\n  margin: 0;\r\n  padding: 0;\r\n  font-famil
 
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports) {
 
 /*
@@ -18804,7 +18838,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -18860,7 +18894,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(37);
+var	fixUrls = __webpack_require__(38);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -19176,7 +19210,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports) {
 
 
@@ -19271,7 +19305,7 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports) {
 
 exports.data = {
@@ -19288,7 +19322,7 @@ exports.readData = (key) => {
 }*/
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*! UIkit 3.0.0-beta.37 | http://www.getuikit.com | (c) 2014 - 2017 YOOtheme | MIT License */
