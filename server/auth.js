@@ -2,7 +2,7 @@ const data = require('../app/data')
 
 module.exports = (app) => {
   'use strict'
-   
+	
   // Change this to URL 'https://dinnerjacket.xyz/callback' for production
   const redirectURI = 'http://localhost:3000/callback'
   console.log(redirectURI)
@@ -15,7 +15,7 @@ module.exports = (app) => {
       |     REPLACE THIS WITH CLIENT SECRET WHEN RUNNING
       */
 
-      secret: 'REDACTED'
+      secret: 'HIPylm-t1okeymgNFtNIZOsoWyo'
 
       /*
       |     DO NOT FORGET TO REMOVE IT AGAIN BEFORE YOU PUSH
@@ -29,6 +29,7 @@ module.exports = (app) => {
     }
   }
 
+  // This is where the token will be stored
   let token
 
   const oauth2module = require('simple-oauth2')
@@ -42,6 +43,7 @@ module.exports = (app) => {
 
   app.get('/login', (req, res) => {
     res.redirect(authorizationURI)
+	console.log(__dirname)
   })
 
   app.get('/callback', (req, res) => {
@@ -54,7 +56,7 @@ module.exports = (app) => {
 
     oauth2.authorizationCode.getToken(options, (error, result) => {
       if (error) {
-        console.log('Access Token Error', error.message);
+        console.log('Access Token Error: ', error.message);
         return res.json('Authentication failed');
       }
 
@@ -66,29 +68,51 @@ module.exports = (app) => {
   })
 
   const https = require('https')
+  const fs = require('fs');
  
   app.get('/loginsuccess', (req, res) => {
-    // exchange token for resources here
-
-    const httpsOptions = {
-      hostname: 'student.sbhs.net.au',
-      path: '/api/details/participation.json', // swap out this path to get different resources
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + token.token.access_token
-      }
-    }
-
-    https.get(httpsOptions, (res) => {
-      // parse result
-      res.setEncoding('utf8');
-      res.on('data', function (body) {
-        console.log(body)
-        //data.data['details/participation'] = body
-        //data.fillData(body, 'details/participation')
-      });
-    });
-
+    // exchange token for resources
+	
+	// URLs for resources
+	const URLs = ['dailynews/list.json',
+				  'diarycalendar/events.json',
+				  'timetable/daytimetable.json',
+				  'details/participation.json',
+				  'details/userinfo.json',
+				  'timetable/bells.json',
+				  'calendar/days.json',
+				  'calendar/terms.json',]
+    // URL is a String representing the URL of the resource to acquire (check authURL and publURL)
+	function getFromAPI(URL) {
+	  const httpsOptions = {
+	    hostname: 'student.sbhs.net.au',
+		path: '/api/' + URL,
+		method: 'GET',
+		headers: {
+		  'Authorization': 'Bearer ' + token.token.access_token
+		}
+	  }
+		  
+	  https.get(httpsOptions, (res) => {
+		// parse result
+		res.setEncoding('utf8');
+		res.on('data', function (body) {
+		  const baseURL = __dirname.substring(0, (__dirname.length - 7)) + '/app/'
+		  const appendURL = URL.replace('/', '_')
+		  fs.writeFile(baseURL + appendURL, data, (err) => {
+				
+		  });
+		  //data.data['details/participation'] = body
+		  //data.fillData(body, 'details/participation')
+		});
+	  });
+	}
+	
+    // for loop from 0 to 7
+	for (var i=0; i<8; i++) {
+	  getFromAPI(URLs[i])
+	}
+		  
     // Change this to URL 'https://dinnerjacket.xyz/' for production
     res.redirect('http://localhost:3000/')
   })
