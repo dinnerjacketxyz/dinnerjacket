@@ -17,6 +17,7 @@ const icons = require('../uikit-icons.min')
 
 // Global variables
 // Represents the current visible content
+
 window.STATES = {
   DASHBOARD: 0,
   TIMETABLE: 1,
@@ -58,6 +59,13 @@ class App extends Component {
     console.log('Timetable tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.TIMETABLE })
+
+    // Switch to active tab colour
+    let navbar = document.getElementById('navbar')
+
+    let tab = document.getElementById('timetableTab')
+    tab.className = 'uk-animation-toggle uk-active'
+    tab.childNodes(0).className = 'uk-box-shadow-hover-medium uk-card-primary'
   }
 
   showNotes() {
@@ -85,16 +93,16 @@ class App extends Component {
       <div id='main' className='main'>
         <nav className='uk-navbar uk-navbar-container uk-margin' uk-navbar='true'>
           <div className='uk-navbar-left'>      
-            <ul className='uk-navbar-nav'>
+            <ul id='navbar' className='uk-navbar-nav'>
 
-              <li className='uk-animation-toggle' onClick={this.showDashboard.bind(this)}>
-                <a className='uk-box-shadow-hover-medium'>
+              <li className='uk-animation-toggle uk-active' onClick={this.showDashboard.bind(this)}>
+                <a className='uk-box-shadow-hover-medium uk-card-primary'>
                   <span className='uk-icon uk-margin-small-right' uk-icon='icon: home'/>
                   Dashboard
                 </a>
               </li>
 
-              <li className='uk-animation-toggle' onClick={this.showTimetable.bind(this)}>
+              <li id='timetableTab' className='uk-animation-toggle' onClick={this.showTimetable.bind(this)}>
                 <a className='uk-box-shadow-hover-medium'>
                   <span className='uk-icon uk-margin-small-right' uk-icon='icon: star' />
                   Timetable
@@ -161,7 +169,7 @@ class App extends Component {
           </div>
         </nav>
 
-        <div className='content' id='content'>
+        <div id='content'>
           {this.state.visible === window.STATES.DASHBOARD && <Dashboard />}
           {this.state.visible === window.STATES.TIMETABLE && <Timetable />}
           {this.state.visible === window.STATES.NOTES && <Notes />}

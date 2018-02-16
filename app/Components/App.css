@@ -9,8 +9,8 @@ body {
 }
 
 .content {
+  align-content: center;
   margin-left: 10px;
-  position: fixed;
   background: white;
   transition: 150ms linear;
 }
