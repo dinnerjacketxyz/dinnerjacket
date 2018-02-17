@@ -32,9 +32,9 @@ window.STATES = {
 }
 
 let nameArray = [
-  'Dashboard', 
-  'Timetable', 
-  'User Notes', 
+  'Dashboard',
+  'Timetable',
+  'User Notes',
   'Daily Notices'
 ]
 
@@ -52,10 +52,10 @@ class App extends Component {
 
   toggleLogin() {
     // Ensure this toggles correctly between Login and Logout
-    // A user may already have a token and therefore in that case 
+    // A user may already have a token and therefore in that case
     // it needs to begin with 'Logout' functionality
     console.log('Login clicked')
-    
+
     let url = window.location.toString()
     if (url.substr(url.length - 11) === '/index.html') {
       alert('Run "npm start" to use server and login functions')
@@ -132,7 +132,7 @@ class App extends Component {
     console.log('Settings tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.SETTINGS })
-    
+
   }
 
   showProfile() {
@@ -152,8 +152,10 @@ class App extends Component {
   render() {
     return (
       <div id='main' className='main'>
-        <nav className='uk-navbar uk-navbar-container uk-margin' uk-navbar='true'>
-          <div className='uk-navbar-left'>      
+        <nav className='uk-navbar uk-navbar-container uk-margin' uk-navbar='true' height='70px'>
+
+          <div className='uk-navbar-left'>
+            <img id='logo' className='uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom' alt='logo' src='https://i.imgur.com/xxuf1ni.png' width='60px' height='50px'/>
             <ul id='navbar' className='uk-navbar-nav'>
 
               <li id='DashboardLi' className='uk-animation-toggle uk-active' onClick={this.showDashboard.bind(this)}>
@@ -243,7 +245,7 @@ class App extends Component {
           {this.state.visible === window.STATES.FEEDBACK && <Feedback />}
           {this.state.visible === window.STATES.PROFILE && <Profile />}
         </div>
-        
+
       </div>
     )
   }

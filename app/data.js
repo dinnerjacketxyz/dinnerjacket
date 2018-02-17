@@ -1,12 +1,13 @@
-exports.data = {
-  'details/participation': 'a'
-}
+class Data {
+  constructor() {
+    let userData = ''
+  }
 
-exports.fillData = (input, key) => {
-  data.data[key] = input
-  console.log(data.data[key])
+  setData(data) {
+    userData += data
+  }
+
+  getData() {
+    return userData
+  }
 }
-/*
-exports.readData = (key) => {
-  return data[key]
-}*/

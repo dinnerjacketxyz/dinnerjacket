@@ -2,7 +2,7 @@ const data = require('../app/data')
 
 module.exports = (app) => {
   'use strict'
-	
+
   // Change this to URL 'https://dinnerjacket.xyz/callback' for production
   const redirectURI = 'http://localhost:3000/callback'
   console.log(redirectURI)
@@ -15,7 +15,7 @@ module.exports = (app) => {
       |     REPLACE THIS WITH CLIENT SECRET WHEN RUNNING
       */
 
-      secret: 'HIPylm-t1okeymgNFtNIZOsoWyo'
+      secret: REDACTED
 
       /*
       |     DO NOT FORGET TO REMOVE IT AGAIN BEFORE YOU PUSH
@@ -69,10 +69,10 @@ module.exports = (app) => {
 
   const https = require('https')
   const fs = require('fs');
- 
+
   app.get('/loginsuccess', (req, res) => {
     // exchange token for resources
-	
+
 	// URLs for resources
 	const URLs = ['dailynews/list.json',
 				  'diarycalendar/events.json',
@@ -92,7 +92,7 @@ module.exports = (app) => {
 		  'Authorization': 'Bearer ' + token.token.access_token
 		}
 	  }
-		  
+
 	  https.get(httpsOptions, (res) => {
 		// parse result
 		res.setEncoding('utf8');
@@ -100,19 +100,19 @@ module.exports = (app) => {
 		  const baseURL = __dirname.substring(0, (__dirname.length - 7)) + '/app/'
 		  const appendURL = URL.replace('/', '_')
 		  fs.writeFile(baseURL + appendURL, data, (err) => {
-				
+
 		  });
 		  //data.data['details/participation'] = body
 		  //data.fillData(body, 'details/participation')
 		});
 	  });
 	}
-	
+
     // for loop from 0 to 7
 	for (var i=0; i<8; i++) {
 	  getFromAPI(URLs[i])
 	}
-		  
+
     // Change this to URL 'https://dinnerjacket.xyz/' for production
     res.redirect('http://localhost:3000/')
   })

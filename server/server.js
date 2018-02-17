@@ -3,6 +3,7 @@ const session = require('express-session')
 const compression = require('compression')
 const path = require('path')
 const pgSession = require('connect-pg-simple')(session)
+const secrets = require('./secrets')
 
 const PORT = 3000
 const IP = '0.0.0.0'
@@ -23,7 +24,7 @@ app.use(session({
   |     REPLACE THIS WITH SESSION SECRET WHEN RUNNING
   */
 
-  secret: 'REDACTED',
+  secret: REDACTED,
 
   /*
   |     DO NOT FORGET TO REMOVE IT AGAIN BEFORE YOU PUSH
