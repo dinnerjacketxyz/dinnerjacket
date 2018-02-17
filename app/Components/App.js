@@ -147,11 +147,6 @@ class App extends Component {
     this.setState({ visible: window.STATES.FEEDBACK })
   }
 
-  logoClicked() {
-    let logo = document.getElementByID('logo')
-    logo.style.transform = 'rotate(20deg)'
-  }
-
   // Always renders navbar
   // Renders active page
   render() {
@@ -161,7 +156,7 @@ class App extends Component {
           <div className='uk-navbar-left'>
             <img id='logo'
               className='uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom'
-              alt='logo' src='https://i.imgur.com/xxuf1ni.png' width='60px' height='50px' onClick={this.logoClicked.bind(this)}>
+              alt='logo' src='https://i.imgur.com/xxuf1ni.png' width='60px' height='50px'>
             </img>
             <ul id='navbar' className='uk-navbar-nav'>
 
