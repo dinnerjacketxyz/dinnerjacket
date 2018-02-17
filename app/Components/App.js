@@ -67,7 +67,7 @@ class App extends Component {
 
   blankNavbar() {
     //makes all navbar <li> look unselected
-    for (let i = 0; i <= 3; i++) {
+    for (let i = 0; i < document.getElementById('navbar').childNodes.length; i++) {
       console.log(i)
       let Li = document.getElementById(nameArray[i] + 'Li')
       let A = document.getElementById(nameArray[i] + 'A')
