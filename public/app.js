@@ -18433,7 +18433,8 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
   blankNavbar() {
     //makes all navbar <li> look unselected
-    for (let i = 0; i < document.getElementById('navbar').childNodes.length; i++) {
+    let tabCount = document.getElementById('navbar').childNodes.length;
+    for (let i = 0; i < tabCount; i++) {
       console.log(i);
       let Li = document.getElementById(nameArray[i] + 'Li');
       let A = document.getElementById(nameArray[i] + 'A');
