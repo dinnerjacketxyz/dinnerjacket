@@ -103,13 +103,13 @@ class Timetable extends Component {
               </div>
             </li>
 
-          `  <li>
+            <li>
               <div className='uk-column-1-5 uk-text-center uk-text-muted'>
-                  <p>MON</p>
-                  <p>TUE</p>
-                  <p>WED</p>
-                  <p>THU</p>
-                  <p>FRI</p>
+                <p>MON</p>
+                <p>TUE</p>
+                <p>WED</p>
+                <p>THU</p>
+                <p>FRI</p>
               </div>
 
               <div className='uk-column-1-5 uk-column-divider uk-width-auto'>

@@ -18367,15 +18367,19 @@ module.exports = camelize;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Notes_Notes__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Notices_Notices__ = __webpack_require__(32);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Settings_Settings__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Feedback_Feedback__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Profile_Profile__ = __webpack_require__(35);
 
 
 
 
 
 
-const css = __webpack_require__(34);
-const data = __webpack_require__(39);
-const icons = __webpack_require__(40);
+
+
+const css = __webpack_require__(36);
+const data = __webpack_require__(41);
+const icons = __webpack_require__(42);
 
 // Requirements for beta release
 // Daily timetable
@@ -18386,14 +18390,16 @@ const icons = __webpack_require__(40);
 
 // Global variables
 // Represents the current visible content
+
 window.STATES = {
   DASHBOARD: 0,
   TIMETABLE: 1,
   NOTES: 2,
   NOTICES: 3,
   CALENDAR: 4,
-  PROFILE: 5,
-  SETTINGS: 6
+  SETTINGS: 5,
+  FEEDBACK: 6,
+  PROFILE: 7
 };
 
 let loggedIn = false;
@@ -18403,7 +18409,6 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     super(props);
 
     // Set default state on launch
-    //this.state = {visible: window.STATES.DASHBOARD}
     this.state = {
       visible: window.STATES.DASHBOARD
     };
@@ -18430,15 +18435,10 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
     // Switch to active tab colour
     let navbar = document.getElementById('navbar');
-    for (i = 0; i < navbar.childNodes.length; i++) {
-      navbar.childNodes(i).className = 'uk-animation-toggle uk-active';
-      for (j = 0; i < navbar.childNodes(i).childNodes.length; j++) {
-        navbar.childNodes(i).childNodes(j).className = 'uk-box-shadow-hover-medium uk-card-primary';
-      }
-    }
 
     let tab = document.getElementById('timetableTab');
-    console.log(tab.className);
+    tab.className = 'uk-animation-toggle uk-active';
+    tab.childNodes(0).className = 'uk-box-shadow-hover-medium uk-card-primary';
   }
 
   showNotes() {
@@ -18457,6 +18457,18 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     console.log('Settings tab clicked');
     let visible = this.state.visible;
     this.setState({ visible: window.STATES.SETTINGS });
+  }
+
+  showProfile() {
+    console.log('Settings tab clicked');
+    let visible = this.state.visible;
+    this.setState({ visible: window.STATES.PROFILE });
+  }
+
+  showFeedback() {
+    console.log('Settings tab clicked');
+    let visible = this.state.visible;
+    this.setState({ visible: window.STATES.FEEDBACK });
   }
 
   // Always renders navbar
@@ -18551,7 +18563,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                     null,
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                       'a',
-                      null,
+                      { onClick: this.showFeedback.bind(this) },
                       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'uk-icon uk-margin-small-right', 'uk-icon': 'icon: comment' }),
                       'Feedback'
                     )
@@ -18561,7 +18573,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                     null,
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                       'a',
-                      null,
+                      { onClick: this.showProfile.bind(this) },
                       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'uk-icon uk-margin-small-right', 'uk-icon': 'icon: user' }),
                       'Profile'
                     )
@@ -18571,7 +18583,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                     null,
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                       'a',
-                      null,
+                      { onClick: this.toggleLogin.bind(this) },
                       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'uk-icon uk-margin-small-right', 'uk-icon': 'icon: sign-in' }),
                       'Log In'
                     )
@@ -18588,7 +18600,10 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         this.state.visible === window.STATES.DASHBOARD && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__Dashboard_Dashboard__["a" /* default */], null),
         this.state.visible === window.STATES.TIMETABLE && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Timetable_Timetable__["a" /* default */], null),
         this.state.visible === window.STATES.NOTES && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Notes_Notes__["a" /* default */], null),
-        this.state.visible === window.STATES.NOTICES && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__Notices_Notices__["a" /* default */], null)
+        this.state.visible === window.STATES.NOTICES && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__Notices_Notices__["a" /* default */], null),
+        this.state.visible === window.STATES.SETTINGS && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__Settings_Settings__["a" /* default */], null),
+        this.state.visible === window.STATES.FEEDBACK && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__Feedback_Feedback__["a" /* default */], null),
+        this.state.visible === window.STATES.PROFILE && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__Profile_Profile__["a" /* default */], null)
       )
     );
   }
@@ -18993,7 +19008,6 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
               )
             )
           ),
-          '`  ',
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'li',
             null,
@@ -19246,16 +19260,58 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   }
 }
 
-/* unused harmony default export */ var _unused_webpack_default_export = (Settings);
+/* harmony default export */ __webpack_exports__["a"] = (Settings);
 
 /***/ }),
 /* 34 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+
+
+class Feedback extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      null,
+      'Feedback'
+    );
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Feedback);
+
+/***/ }),
+/* 35 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+
+
+class Profile extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      null,
+      'Profile'
+    );
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Profile);
+
+/***/ }),
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(35);
+var content = __webpack_require__(37);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -19263,7 +19319,7 @@ var transform;
 var options = {"hmr":true}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(37)(content, options);
+var update = __webpack_require__(39)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -19280,10 +19336,10 @@ if(false) {
 }
 
 /***/ }),
-/* 35 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(36)(false);
+exports = module.exports = __webpack_require__(38)(false);
 // imports
 
 
@@ -19294,7 +19350,7 @@ exports.push([module.i, "body {\r\n  margin: 0;\r\n  padding: 0;\r\n  font-famil
 
 
 /***/ }),
-/* 36 */
+/* 38 */
 /***/ (function(module, exports) {
 
 /*
@@ -19376,7 +19432,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 37 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -19432,7 +19488,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(38);
+var	fixUrls = __webpack_require__(40);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -19748,7 +19804,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 38 */
+/* 40 */
 /***/ (function(module, exports) {
 
 
@@ -19843,7 +19899,7 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 39 */
+/* 41 */
 /***/ (function(module, exports) {
 
 exports.data = {
@@ -19860,7 +19916,7 @@ exports.readData = (key) => {
 }*/
 
 /***/ }),
-/* 40 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*! UIkit 3.0.0-beta.37 | http://www.getuikit.com | (c) 2014 - 2017 YOOtheme | MIT License */

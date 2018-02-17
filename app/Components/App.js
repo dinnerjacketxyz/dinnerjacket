@@ -4,6 +4,8 @@ import Timetable from './Timetable/Timetable'
 import Notes from './Notes/Notes'
 import Notices from './Notices/Notices'
 import Settings from './Settings/Settings'
+import Feedback from './Feedback/Feedback'
+import Profile from './Profile/Profile'
 const css = require('./App.css')
 const data = require('../data')
 const icons = require('../uikit-icons.min')
@@ -24,8 +26,9 @@ window.STATES = {
   NOTES: 2,
   NOTICES: 3,
   CALENDAR: 4,
-  PROFILE: 5,
-  SETTINGS: 6
+  SETTINGS: 5,
+  FEEDBACK: 6,
+  PROFILE: 7
 }
 
 let loggedIn = false
@@ -35,10 +38,9 @@ class App extends Component {
     super(props)
 
     // Set default state on launch
-     //this.state = {visible: window.STATES.DASHBOARD}
-     this.state = {
-       visible: window.STATES.DASHBOARD
-     }
+    this.state = {
+      visible: window.STATES.DASHBOARD
+    }
   }
 
   toggleLogin() {
@@ -84,6 +86,18 @@ class App extends Component {
     console.log('Settings tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.SETTINGS })
+  }
+
+  showProfile() {
+    console.log('Settings tab clicked')
+    let visible = this.state.visible
+    this.setState({ visible: window.STATES.PROFILE })
+  }
+
+  showFeedback() {
+    console.log('Settings tab clicked')
+    let visible = this.state.visible
+    this.setState({ visible: window.STATES.FEEDBACK })
   }
 
   // Always renders navbar
@@ -143,21 +157,21 @@ class App extends Component {
                     </li>
 
                     <li>
-                      <a>
+                      <a onClick={this.showFeedback.bind(this)}>
                         <span className='uk-icon uk-margin-small-right' uk-icon='icon: comment' />
                         Feedback
                       </a>
                     </li>
 
                     <li>
-                      <a>
+                      <a onClick={this.showProfile.bind(this)}>
                         <span className='uk-icon uk-margin-small-right' uk-icon='icon: user' />
                         Profile
                       </a>
                     </li>
 
                     <li>
-                      <a>
+                      <a onClick={this.toggleLogin.bind(this)}>
                         <span className='uk-icon uk-margin-small-right' uk-icon='icon: sign-in' />
                         Log In
                       </a>
@@ -174,6 +188,9 @@ class App extends Component {
           {this.state.visible === window.STATES.TIMETABLE && <Timetable />}
           {this.state.visible === window.STATES.NOTES && <Notes />}
           {this.state.visible === window.STATES.NOTICES && <Notices />}
+          {this.state.visible === window.STATES.SETTINGS && <Settings />}
+          {this.state.visible === window.STATES.FEEDBACK && <Feedback />}
+          {this.state.visible === window.STATES.PROFILE && <Profile />}
         </div>
         
       </div>
