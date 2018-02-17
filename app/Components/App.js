@@ -31,6 +31,13 @@ window.STATES = {
   PROFILE: 7
 }
 
+let nameArray = [
+  'Dashboard', 
+  'Timetable', 
+  'User Notes', 
+  'Daily Notices'
+]
+
 let loggedIn = false
 
 class App extends Component {
@@ -58,41 +65,73 @@ class App extends Component {
     }
   }
 
+  blankNavbar() {
+    //makes all navbar <li> look unselected
+    for (let i = 0; i <= 3; i++) {
+      console.log(i)
+      let Li = document.getElementById(nameArray[i] + 'Li')
+      let A = document.getElementById(nameArray[i] + 'A')
+      let B = document.getElementById(nameArray[i] + 'B')
+      let P = document.getElementById(nameArray[i] + 'P')
+
+      Li.className = 'uk-animation-toggle'
+      P.innerText = nameArray[i]
+      A.className = 'uk-box-shadow-hover-medium'
+      B.innerText = ''
+    }
+  }
+
+  selectedNavbar(num) {
+    //makes all navbar <li> look unselected
+    this.blankNavbar()
+
+    //makes one specific <li> look selected
+
+    let Li = document.getElementById(nameArray[num] + 'Li')
+    let A = document.getElementById(nameArray[num] + 'A')
+    let B = document.getElementById(nameArray[num] + 'B')
+    let P = document.getElementById(nameArray[num] + 'P')
+
+    Li.className = 'uk-animation-toggle uk-active'
+    P.innerText = ''
+    A.className = 'uk-box-shadow-hover-medium uk-card-primary'
+    B.innerText = nameArray[num]
+
+  }
+
   showDashboard() {
     console.log('Dashboard tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.DASHBOARD })
+    this.selectedNavbar(window.STATES.DASHBOARD)
   }
 
   showTimetable() {
     console.log('Timetable tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.TIMETABLE })
-
-    // Switch to active tab colour
-    let navbar = document.getElementById('navbar')
-
-    let tab = document.getElementById('timetableTab')
-    tab.className = 'uk-animation-toggle uk-active'
-    tab.childNodes(0).className = 'uk-box-shadow-hover-medium uk-card-primary'
+    this.selectedNavbar(window.STATES.TIMETABLE)
   }
 
   showNotes() {
     console.log('User notes tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.NOTES })
+    this.selectedNavbar(window.STATES.NOTES)
   }
 
   showNotices() {
     console.log('Daily notices tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.NOTICES })
+    this.selectedNavbar(window.STATES.NOTICES)
   }
 
   showSettings() {
     console.log('Settings tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.SETTINGS })
+    
   }
 
   showProfile() {
@@ -116,31 +155,35 @@ class App extends Component {
           <div className='uk-navbar-left'>      
             <ul id='navbar' className='uk-navbar-nav'>
 
-              <li className='uk-animation-toggle uk-active' onClick={this.showDashboard.bind(this)}>
-                <a className='uk-box-shadow-hover-medium uk-card-primary'>
+              <li id='DashboardLi' className='uk-animation-toggle uk-active' onClick={this.showDashboard.bind(this)}>
+                <a id='DashboardA' className='uk-box-shadow-hover-medium uk-card-primary'>
                   <span className='uk-icon uk-margin-small-right' uk-icon='icon: home'/>
-                  Dashboard
+                  <p id='DashboardP'></p>
+                  <b id='DashboardB'>Dashboard</b>
                 </a>
               </li>
 
-              <li id='timetableTab' className='uk-animation-toggle' onClick={this.showTimetable.bind(this)}>
-                <a className='uk-box-shadow-hover-medium'>
+              <li id='TimetableLi' className='uk-animation-toggle' onClick={this.showTimetable.bind(this)}>
+                <a id='TimetableA' className='uk-box-shadow-hover-medium'>
                   <span className='uk-icon uk-margin-small-right' uk-icon='icon: star' />
-                  Timetable
+                  <p id='TimetableP'>Timetable</p>
+                  <b id='TimetableB'></b>
                 </a>
               </li>
 
-              <li className='uk-animation-toggle' onClick={this.showNotes.bind(this)}>
-                <a className='uk-box-shadow-hover-medium'>
+              <li id='User NotesLi' className='uk-animation-toggle' onClick={this.showNotes.bind(this)}>
+                <a id='User NotesA' className='uk-box-shadow-hover-medium'>
                   <span className='uk-icon uk-margin-small-right' uk-icon='icon: file-edit' />
-                  User Notes
+                  <p id='User NotesP'>User Notes</p>
+                  <b id='User NotesB'></b>
                 </a>
               </li>
 
-              <li className='uk-animation-toggle' onClick={this.showNotices.bind(this)}>
-                <a className='uk-box-shadow-hover-medium'>
+              <li id='Daily NoticesLi' className='uk-animation-toggle' onClick={this.showNotices.bind(this)}>
+                <a id='Daily NoticesA' className='uk-box-shadow-hover-medium'>
                   <span className='uk-icon uk-margin-small-right' uk-icon='icon: bell' />
-                  Daily Notices
+                  <p id='Daily NoticesP'>Daily Notices</p>
+                  <b id='Daily NoticesB'></b>
                 </a>
               </li>
 
