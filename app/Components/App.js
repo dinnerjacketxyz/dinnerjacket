@@ -48,7 +48,14 @@ class App extends Component {
     // A user may already have a token and therefore in that case 
     // it needs to begin with 'Logout' functionality
     console.log('Login clicked')
-    window.location.href = '/login'
+    
+    let url = window.location.toString()
+    if (url.substr(url.length - 11) === '/index.html') {
+      alert('Run "npm start" to use server and login functions')
+      console.log('Run "npm start" to use server and login functions')
+    } else {
+      window.location.href = '/login'
+    }
   }
 
   showDashboard() {
