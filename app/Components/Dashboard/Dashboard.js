@@ -1,18 +1,31 @@
 import React, { Component } from 'react'
+import daytimetable from '../../Data/timetable_daytimetable.json'
+
 const css = require('./Dashboard')
+let timetable = ''
 
 class Dashboard extends Component {
+  constructor(props) {
+    super(props)
+    /*
+    let text = localStorage.getItem('../../Data/timetable_daytimetable.json')
+    let obj = JSON.parse(text)
+    console.log(obj.status)
+    */
+  }
+  
+
   render() {
     return (
       <div className='uk-flex uk-flex-center uk-text-center uk-margin-left uk-margin-right'>
-        <div className='uk-card uk-card-default uk-card-body uk-card small uk-width-1-3'>
+        <div className='uk-card uk-card-default uk-card-body uk-card large uk-width-2-5@xl uk-width-3-5@m uk-width-4-5@s'>
           <span className='uk-sortable-handle uk-float-left' uk-icon='icon: table'></span>
           <p className='uk-text-large'>Roll Call in</p>
           <h1 className='uk-text-center uk-heading-primary'>
             10:00:00
           </h1>
           <div className='uk-flex uk-flex-center'>
-            <table className='uk-table uk-table-hover uk-table-small uk-width-4-5@l'>
+            <table className='uk-table uk-table-hover uk-table-small uk-width-4-5@s'>
               <tbody>
                 <tr>
                   <td className='uk-text-lead uk-text-left'>
@@ -79,6 +92,7 @@ class Dashboard extends Component {
                 </tr>
               </tbody>
             </table>
+            <h1> </h1>
           </div>
         </div>
       </div>

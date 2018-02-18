@@ -1038,17 +1038,31 @@ module.exports = focusNode;
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Data_timetable_daytimetable_json__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Data_timetable_daytimetable_json___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Data_timetable_daytimetable_json__);
+
+
 
 const css = __webpack_require__(15);
+let timetable = '';
 
 class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
+  constructor(props) {
+    super(props);
+    /*
+    let text = localStorage.getItem('../../Data/timetable_daytimetable.json')
+    let obj = JSON.parse(text)
+    console.log(obj.status)
+    */
+  }
+
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
       { className: 'uk-flex uk-flex-center uk-text-center uk-margin-left uk-margin-right' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
-        { className: 'uk-card uk-card-default uk-card-body uk-card small uk-width-1-3' },
+        { className: 'uk-card uk-card-default uk-card-body uk-card large uk-width-2-5@xl uk-width-3-5@m uk-width-4-5@s' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'uk-sortable-handle uk-float-left', 'uk-icon': 'icon: table' }),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'p',
@@ -1065,7 +1079,7 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
           { className: 'uk-flex uk-flex-center' },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'table',
-            { className: 'uk-table uk-table-hover uk-table-small uk-width-4-5@l' },
+            { className: 'uk-table uk-table-hover uk-table-small uk-width-4-5@s' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'tbody',
               null,
@@ -1203,6 +1217,11 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                 )
               )
             )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'h1',
+            null,
+            ' '
           )
         )
       )
@@ -18545,12 +18564,12 @@ module.exports = camelize;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Dashboard_Dashboard__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Timetable_Timetable__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Notes_Notes__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Notices_Notices__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Settings_Settings__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Feedback_Feedback__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Profile_Profile__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Timetable_Timetable__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Notes_Notes__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Notices_Notices__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Settings_Settings__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Feedback_Feedback__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Profile_Profile__ = __webpack_require__(36);
 
 
 
@@ -18559,8 +18578,7 @@ module.exports = camelize;
 
 
 
-const css = __webpack_require__(36);
-const data = __webpack_require__(41);
+const css = __webpack_require__(37);
 const icons = __webpack_require__(42);
 
 // Requirements for beta release
@@ -18858,6 +18876,12 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
 /***/ }),
 /* 30 */
+/***/ (function(module, exports) {
+
+module.exports = {"status":"OK","date":"2018-02-19","bells":[{"bell":"R","time":"09:00","reasonShort":"Mon A","reason":"","bellDisplay":"Roll Call"},{"bell":"1","time":"09:05","reasonShort":"Mon A","reason":"","bellDisplay":"Period 1"},{"bell":"Transition","time":"10:05","reasonShort":"Mon A","reason":"","bellDisplay":"Transition"},{"bell":"2","time":"10:10","reasonShort":"Mon A","reason":"","bellDisplay":"Period 2"},{"bell":"Lunch 1","time":"11:10","reasonShort":"Mon A","reason":"","bellDisplay":"Lunch 1"},{"bell":"Lunch 2","time":"11:30","reasonShort":"Mon A","reason":"","bellDisplay":"Lunch 2"},{"bell":"3","time":"11:50","reasonShort":"Mon A","reason":"","bellDisplay":"Period 3"},{"bell":"Transition","time":"12:50","reasonShort":"Mon A","reason":"","bellDisplay":"Transition"},{"bell":"4","time":"12:55","reasonShort":"Mon A","reason":"","bellDisplay":"Period 4"},{"bell":"Recess","time":"13:55","reasonShort":"Mon A","reason":"","bellDisplay":"Recess"},{"bell":"5","time":"14:15","reasonShort":"Mon A","reason":"","bellDisplay":"Period 5"},{"bell":"End of Day","time":"15:15","reasonShort":"Mon A","reason":"","bellDisplay":"End of Day"}],"timetable":{"timetable":{"dayname":"Monday A","routine":"R1T2=3T4=5","rollcall":{"title":"12T","teacher":"DA","room":""},"periods":{"2":{"title":"M21","teacher":"MR","room":"103","fullTeacher":"Ms J Millar","year":"12"},"3":{"title":"SDs","teacher":"DM","room":"704","fullTeacher":"Ms R Dam","year":"12"},"5":{"title":"En2","teacher":"PD","room":"207","fullTeacher":"Ms C Pride","year":"12"},"R":{"title":"12T","teacher":"DA","room":""}}},"subjects":{"1213":{"title":"2013","shortTitle":"13","teacher":"","subject":"","fullTeacher":"","year":"12"},"12En2":{"title":"12 English 2","shortTitle":"En2","teacher":"PD","subject":"English Advanced","fullTeacher":"Ms C Pride","year":"12"},"12M21":{"title":"12 Maths 2U 1","shortTitle":"M21","teacher":"MR","subject":"Mathematics","fullTeacher":"Ms J Millar","year":"12"},"12SDs":{"title":"12 Software Des","shortTitle":"SDs","teacher":"DM","subject":"Software Design","fullTeacher":"Ms R Dam","year":"12"},"12_4_":{"title":"No class L4","shortTitle":"_4_","teacher":"","subject":"","fullTeacher":"","year":"12"},"12MH2":{"title":"12 Mod History","shortTitle":"MH2","teacher":"RG","subject":"Modern History","fullTeacher":"Ms M Rigby","year":"12"},"12SR2":{"title":"12 St of Rel II","shortTitle":"SR2","teacher":"LU","subject":"Studies of Religion II","fullTeacher":"Ms N Luu","year":"12"},"12_B_":{"title":"No class L6B","shortTitle":"_B_","teacher":"","subject":"","fullTeacher":"","year":"12"},"12Y12":{"title":"All Year 12","shortTitle":"Y12","teacher":"","subject":"","fullTeacher":"","year":"12"},"12T":{"title":"12T","shortTitle":"T","teacher":"","subject":"","fullTeacher":"","year":"12"},"12SAT":{"title":"Student Adviser","shortTitle":"SAT","teacher":"GF","subject":"","fullTeacher":"Mr R Gifford","year":"12"},"12Ret":{"title":"Returned","shortTitle":"Ret","teacher":"","subject":"","fullTeacher":"","year":"12"}}},"roomVariations":[],"classVariations":[],"serverTimezone":"39600","shouldDisplayVariations":true}
+
+/***/ }),
+/* 31 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -19403,7 +19427,7 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Timetable);
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -19424,7 +19448,7 @@ class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Notes);
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -19445,7 +19469,7 @@ class Notices extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Notices);
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -19487,7 +19511,7 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Settings);
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -19508,7 +19532,7 @@ class Feedback extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Feedback);
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -19529,13 +19553,13 @@ class Profile extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Profile);
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(37);
+var content = __webpack_require__(38);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -19543,7 +19567,7 @@ var transform;
 var options = {"hmr":true}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(39)(content, options);
+var update = __webpack_require__(40)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -19560,10 +19584,10 @@ if(false) {
 }
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(38)(false);
+exports = module.exports = __webpack_require__(39)(false);
 // imports
 
 
@@ -19574,7 +19598,7 @@ exports.push([module.i, "body {\r\n  margin: 0;\r\n  padding: 0;\r\n  font-famil
 
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports) {
 
 /*
@@ -19656,7 +19680,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -19712,7 +19736,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(40);
+var	fixUrls = __webpack_require__(41);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -20028,7 +20052,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports) {
 
 
@@ -20121,24 +20145,6 @@ module.exports = function (css) {
 	return fixedCss;
 };
 
-
-/***/ }),
-/* 41 */
-/***/ (function(module, exports) {
-
-class Data {
-  constructor() {
-    let userData = '';
-  }
-
-  setData(data) {
-    userData += data;
-  }
-
-  getData() {
-    return userData;
-  }
-}
 
 /***/ }),
 /* 42 */
