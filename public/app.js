@@ -1038,9 +1038,6 @@ module.exports = focusNode;
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Data_timetable_daytimetable_json__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Data_timetable_daytimetable_json___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Data_timetable_daytimetable_json__);
-
 
 
 const css = __webpack_require__(15);
@@ -18564,7 +18561,6 @@ module.exports = camelize;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Dashboard_Dashboard__ = __webpack_require__(15);
-<<<<<<< HEAD
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Timetable_Timetable__ = __webpack_require__(30);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Notes_Notes__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Notices_Notices__ = __webpack_require__(32);
@@ -18572,14 +18568,6 @@ module.exports = camelize;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__About_About__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Feedback_Feedback__ = __webpack_require__(35);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Profile_Profile__ = __webpack_require__(36);
-=======
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Timetable_Timetable__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Notes_Notes__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Notices_Notices__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Settings_Settings__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Feedback_Feedback__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Profile_Profile__ = __webpack_require__(36);
->>>>>>> 519617eebf9a5d3e5f695a934f3b01ff88b3fb50
 
 
 
@@ -18588,10 +18576,7 @@ module.exports = camelize;
 
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 519617eebf9a5d3e5f695a934f3b01ff88b3fb50
 const css = __webpack_require__(37);
 const icons = __webpack_require__(42);
 
@@ -18896,6 +18881,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         this.state.visible === window.STATES.NOTES && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Notes_Notes__["a" /* default */], null),
         this.state.visible === window.STATES.NOTICES && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__Notices_Notices__["a" /* default */], null),
         this.state.visible === window.STATES.SETTINGS && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__Settings_Settings__["a" /* default */], null),
+        this.state.visible === window.STATES.ABOUT && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__About_About__["a" /* default */], null),
         this.state.visible === window.STATES.FEEDBACK && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__Feedback_Feedback__["a" /* default */], null),
         this.state.visible === window.STATES.PROFILE && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__Profile_Profile__["a" /* default */], null)
       )
@@ -18907,12 +18893,6 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
 /***/ }),
 /* 30 */
-/***/ (function(module, exports) {
-
-module.exports = {"status":"OK","date":"2018-02-19","bells":[{"bell":"R","time":"09:00","reasonShort":"Mon A","reason":"","bellDisplay":"Roll Call"},{"bell":"1","time":"09:05","reasonShort":"Mon A","reason":"","bellDisplay":"Period 1"},{"bell":"Transition","time":"10:05","reasonShort":"Mon A","reason":"","bellDisplay":"Transition"},{"bell":"2","time":"10:10","reasonShort":"Mon A","reason":"","bellDisplay":"Period 2"},{"bell":"Lunch 1","time":"11:10","reasonShort":"Mon A","reason":"","bellDisplay":"Lunch 1"},{"bell":"Lunch 2","time":"11:30","reasonShort":"Mon A","reason":"","bellDisplay":"Lunch 2"},{"bell":"3","time":"11:50","reasonShort":"Mon A","reason":"","bellDisplay":"Period 3"},{"bell":"Transition","time":"12:50","reasonShort":"Mon A","reason":"","bellDisplay":"Transition"},{"bell":"4","time":"12:55","reasonShort":"Mon A","reason":"","bellDisplay":"Period 4"},{"bell":"Recess","time":"13:55","reasonShort":"Mon A","reason":"","bellDisplay":"Recess"},{"bell":"5","time":"14:15","reasonShort":"Mon A","reason":"","bellDisplay":"Period 5"},{"bell":"End of Day","time":"15:15","reasonShort":"Mon A","reason":"","bellDisplay":"End of Day"}],"timetable":{"timetable":{"dayname":"Monday A","routine":"R1T2=3T4=5","rollcall":{"title":"12T","teacher":"DA","room":""},"periods":{"2":{"title":"M21","teacher":"MR","room":"103","fullTeacher":"Ms J Millar","year":"12"},"3":{"title":"SDs","teacher":"DM","room":"704","fullTeacher":"Ms R Dam","year":"12"},"5":{"title":"En2","teacher":"PD","room":"207","fullTeacher":"Ms C Pride","year":"12"},"R":{"title":"12T","teacher":"DA","room":""}}},"subjects":{"1213":{"title":"2013","shortTitle":"13","teacher":"","subject":"","fullTeacher":"","year":"12"},"12En2":{"title":"12 English 2","shortTitle":"En2","teacher":"PD","subject":"English Advanced","fullTeacher":"Ms C Pride","year":"12"},"12M21":{"title":"12 Maths 2U 1","shortTitle":"M21","teacher":"MR","subject":"Mathematics","fullTeacher":"Ms J Millar","year":"12"},"12SDs":{"title":"12 Software Des","shortTitle":"SDs","teacher":"DM","subject":"Software Design","fullTeacher":"Ms R Dam","year":"12"},"12_4_":{"title":"No class L4","shortTitle":"_4_","teacher":"","subject":"","fullTeacher":"","year":"12"},"12MH2":{"title":"12 Mod History","shortTitle":"MH2","teacher":"RG","subject":"Modern History","fullTeacher":"Ms M Rigby","year":"12"},"12SR2":{"title":"12 St of Rel II","shortTitle":"SR2","teacher":"LU","subject":"Studies of Religion II","fullTeacher":"Ms N Luu","year":"12"},"12_B_":{"title":"No class L6B","shortTitle":"_B_","teacher":"","subject":"","fullTeacher":"","year":"12"},"12Y12":{"title":"All Year 12","shortTitle":"Y12","teacher":"","subject":"","fullTeacher":"","year":"12"},"12T":{"title":"12T","shortTitle":"T","teacher":"","subject":"","fullTeacher":"","year":"12"},"12SAT":{"title":"Student Adviser","shortTitle":"SAT","teacher":"GF","subject":"","fullTeacher":"Mr R Gifford","year":"12"},"12Ret":{"title":"Returned","shortTitle":"Ret","teacher":"","subject":"","fullTeacher":"","year":"12"}}},"roomVariations":[],"classVariations":[],"serverTimezone":"39600","shouldDisplayVariations":true}
-
-/***/ }),
-/* 31 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -19458,7 +19438,7 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Timetable);
 
 /***/ }),
-/* 32 */
+/* 31 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -19479,7 +19459,7 @@ class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Notes);
 
 /***/ }),
-/* 33 */
+/* 32 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -19500,7 +19480,7 @@ class Notices extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Notices);
 
 /***/ }),
-/* 34 */
+/* 33 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -19542,7 +19522,7 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Settings);
 
 /***/ }),
-/* 35 */
+/* 34 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -19554,13 +19534,56 @@ class About extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      null,
-      'About'
+      { className: 'uk-flex uk-flex-center uk-text-center uk-margin-left uk-margin-right' },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { className: 'uk-card uk-card-default uk-card-body uk-card large uk-width-2-5@xl uk-width-3-5@m uk-width-4-5@s' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'h1',
+          { className: 'uk-text-center uk-heading-secondary' },
+          'Dinner Jacket'
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'p',
+          { className: 'uk-text-medium' },
+          'beta 1'
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { id: 'logo',
+          className: 'uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom',
+          alt: 'logo', src: 'https://i.imgur.com/xxuf1ni.png', width: '300px', height: '250px' }),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'p',
+          { className: 'uk-text-large' },
+          '"he arrived all spiffed up in a dinner jacket"'
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'p',
+          { className: 'uk-text-medium' },
+          'Developed By'
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'a',
+          { className: 'uk-text-small' },
+          'Gregaly By Birth'
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'a',
+          { className: 'uk-text-small' },
+          'Stinky Ands Spen'
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'a',
+          { className: 'uk-text-small' },
+          'PHIL'
+        )
+      )
     );
   }
 }
 
-/* unused harmony default export */ var _unused_webpack_default_export = (About);
+/* harmony default export */ __webpack_exports__["a"] = (About);
 
 /***/ }),
 /* 35 */

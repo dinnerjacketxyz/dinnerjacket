@@ -257,6 +257,7 @@ class App extends Component {
           {this.state.visible === window.STATES.NOTES && <Notes />}
           {this.state.visible === window.STATES.NOTICES && <Notices />}
           {this.state.visible === window.STATES.SETTINGS && <Settings />}
+          {this.state.visible === window.STATES.ABOUT && <About />}
           {this.state.visible === window.STATES.FEEDBACK && <Feedback />}
           {this.state.visible === window.STATES.PROFILE && <Profile />}
         </div>

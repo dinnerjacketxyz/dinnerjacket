@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import daytimetable from '../../Data/timetable_daytimetable.json'
 
 const css = require('./Dashboard')
 let timetable = ''
@@ -13,7 +12,7 @@ class Dashboard extends Component {
     console.log(obj.status)
     */
   }
-  
+
 
   render() {
     return (
