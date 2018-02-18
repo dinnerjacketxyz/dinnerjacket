@@ -99,7 +99,7 @@ module.exports = (app) => {
 		res.on('data', function (body) {
 		  const baseURL = __dirname.substring(0, (__dirname.length - 7)) + '/app/'
 		  const appendURL = URL.replace('/', '_')
-		  fs.writeFile(baseURL + appendURL, data, (err) => {
+		  fs.writeFile(baseURL + appendURL, body, (err) => {
 
 		  });
 		  //data.data['details/participation'] = body

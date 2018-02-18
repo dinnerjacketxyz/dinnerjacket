@@ -1,0 +1,23 @@
+{
+    "username": "431978814",
+    "studentId": "431978814",
+    "givenName": "Vincent",
+    "surname": "Liu",
+    "rollClass": "12S",
+    "yearGroup": "12",
+    "role": "Student",
+    "department": "Year 12",
+    "office": "12S",
+    "email": "431978814@student.sbhs.nsw.edu.au",
+    "emailAliases": [
+        "vincent.liu4@student.sbhs.nsw.edu.au"
+    ],
+    "decEmail": "Vincent.Liu4@education.nsw.gov.au",
+    "groups": [
+        "Domain Users",
+        "2018-12SDs",
+        "2017-11SDS",
+        "BYOD.Charter-Signed",
+        "Year12"
+    ]
+}
