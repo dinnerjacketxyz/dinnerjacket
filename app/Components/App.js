@@ -7,7 +7,6 @@ import Settings from './Settings/Settings'
 import Feedback from './Feedback/Feedback'
 import Profile from './Profile/Profile'
 const css = require('./App.css')
-const data = require('../data')
 const icons = require('../uikit-icons.min')
 
 // Requirements for beta release

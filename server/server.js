@@ -3,7 +3,6 @@ const session = require('express-session')
 const compression = require('compression')
 const path = require('path')
 const pgSession = require('connect-pg-simple')(session)
-const secrets = require('./secrets')
 
 const PORT = 3000
 const IP = '0.0.0.0'

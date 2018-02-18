@@ -1,8 +1,7 @@
-const data = require('../app/data')
-
 module.exports = (app) => {
   'use strict'
 
+  // IMBORTANT
   // Change this to URL 'https://dinnerjacket.xyz/callback' for production
   const redirectURI = 'http://localhost:3000/callback'
   console.log(redirectURI)
@@ -52,67 +51,65 @@ module.exports = (app) => {
     const options = {
       code: code,
       redirect_uri: 'http://localhost:3000/callback'
-    };
+    }
 
     oauth2.authorizationCode.getToken(options, (error, result) => {
       if (error) {
         console.log('Access Token Error: ', error.message);
-        return res.json('Authentication failed');
+        return res.json('Authentication failed')
       }
 
-      token = oauth2.accessToken.create(result);
+      token = oauth2.accessToken.create(result)
       console.log('Token obtained')
 
       res.redirect('http://localhost:3000/loginsuccess')
-    });
+    })
   })
 
   const https = require('https')
-  const fs = require('fs');
+  const fs = require('fs')
 
   app.get('/loginsuccess', (req, res) => {
     // exchange token for resources
+    // URLs for resources
+    const URLs = [
+      'dailynews/list.json',
+      'diarycalendar/events.json',
+      'timetable/daytimetable.json',
+      'details/participation.json',
+      'details/userinfo.json',
+      'timetable/bells.json',
+      'calendar/days.json',
+      'calendar/terms.json'
+    ]
 
-	// URLs for resources
-	const URLs = ['dailynews/list.json',
-				  'diarycalendar/events.json',
-				  'timetable/daytimetable.json',
-				  'details/participation.json',
-				  'details/userinfo.json',
-				  'timetable/bells.json',
-				  'calendar/days.json',
-				  'calendar/terms.json',]
     // URL is a String representing the URL of the resource to acquire (check authURL and publURL)
-	function getFromAPI(URL) {
-	  const httpsOptions = {
-	    hostname: 'student.sbhs.net.au',
-		path: '/api/' + URL,
-		method: 'GET',
-		headers: {
-		  'Authorization': 'Bearer ' + token.token.access_token
-		}
-	  }
+	  function getFromAPI(URL) {
+      const httpsOptions = {
+        hostname: 'student.sbhs.net.au',
+        path: '/api/' + URL,
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + token.token.access_token
+        }
+      }
 
-	  https.get(httpsOptions, (res) => {
-		// parse result
-		res.setEncoding('utf8');
-		res.on('data', function (body) {
-		  const baseURL = __dirname.substring(0, (__dirname.length - 7)) + '/app/'
-		  const appendURL = URL.replace('/', '_')
-		  fs.writeFile(baseURL + appendURL, data, (err) => {
+      https.get(httpsOptions, (res) => {
+        // parse result
+        res.setEncoding('utf8')
+        res.on('data', function (body) {
+          const baseURL = __dirname.substring(0, (__dirname.length - 7)) + '/app/Data/'
+          const appendURL = URL.replace('/', '_')
+          fs.writeFile(baseURL + appendURL, body, (err) => {})
+        })
+      })
+  	}
 
-		  });
-		  //data.data['details/participation'] = body
-		  //data.fillData(body, 'details/participation')
-		});
-	  });
-	}
+    for (var i = 0; i < 8; i++) {
+      getFromAPI(URLs[i])
+    }
 
-    // for loop from 0 to 7
-	for (var i=0; i<8; i++) {
-	  getFromAPI(URLs[i])
-	}
-
+    // IMBORTANT
     // Change this to URL 'https://dinnerjacket.xyz/' for production
     res.redirect('http://localhost:3000/')
   })

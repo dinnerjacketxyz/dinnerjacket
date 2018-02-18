@@ -18693,12 +18693,6 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     this.setState({ visible: window.STATES.FEEDBACK });
   }
 
-  logoClicked() {
-    console.log('logo press');
-    let logo = document.getElementByID('logo');
-    logo.style.width = '500px';
-  }
-
   // Always renders navbar
   // Renders active page
   render() {
@@ -18711,13 +18705,9 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
           { className: 'uk-navbar-left' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'img',
-            { id: 'logo',
-              className: 'uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom',
-              alt: 'logo', src: 'https://i.imgur.com/xxuf1ni.png', width: '60px', height: '50px' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { onClick: this.logoClicked.bind(this) })
-          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { id: 'logo',
+            className: 'uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom',
+            alt: 'logo', src: 'https://i.imgur.com/xxuf1ni.png', width: '60px', height: '50px' }),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'ul',
             { id: 'navbar', className: 'uk-navbar-nav' },
