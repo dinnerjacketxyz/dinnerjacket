@@ -4,6 +4,7 @@ import Timetable from './Timetable/Timetable'
 import Notes from './Notes/Notes'
 import Notices from './Notices/Notices'
 import Settings from './Settings/Settings'
+import About from './About/About'
 import Feedback from './Feedback/Feedback'
 import Profile from './Profile/Profile'
 const css = require('./App.css')
@@ -26,11 +27,12 @@ window.STATES = {
   NOTICES: 3,
   CALENDAR: 4,
   SETTINGS: 5,
-  FEEDBACK: 6,
-  PROFILE: 7
+  ABOUT: 6,
+  FEEDBACK: 7,
+  PROFILE: 8
 }
 
-let nameArray = [
+const nameArray = [
   'Dashboard',
   'Timetable',
   'User Notes',
@@ -131,7 +133,12 @@ class App extends Component {
     console.log('Settings tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.SETTINGS })
+  }
 
+  showAbout() {
+    console.log('About tab clicked')
+    let visible = this.state.visible
+    this.setState({ visible: window.STATES.ABOUT })
   }
 
   showProfile() {
@@ -207,6 +214,13 @@ class App extends Component {
                       <a onClick={this.showSettings.bind(this)}>
                         <span className='uk-icon uk-margin-small-right' uk-icon='icon: cog' />
                         Settings
+                      </a>
+                    </li>
+
+                    <li>
+                      <a onClick={this.showAbout.bind(this)}>
+                        <span className='uk-icon uk-margin-small-right' uk-icon='icon: info' />
+                        About
                       </a>
                     </li>
 
