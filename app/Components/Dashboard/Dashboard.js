@@ -6,20 +6,16 @@ let timetable = ''
 class Dashboard extends Component {
   constructor(props) {
     super(props)
-    /*
-    let text = localStorage.getItem('../../Data/timetable_daytimetable.json')
-    let obj = JSON.parse(text)
-    console.log(obj.status)
-    */
+
   }
 
 
   render() {
     return (
       <div className='uk-flex uk-flex-center uk-text-center uk-margin-left uk-margin-right'>
-        <div className='uk-card uk-card-default uk-card-body uk-card large uk-width-5-6@xl uk-width-4-6@l uk-width-3-6@m uk-width-2-6@s'>
+        <div className='uk-card uk-card-default uk-card-body uk-card large uk-width-1-3@l uk-width-2-5@m uk-width-2-3@s uk-width-4-5@xs '>
           <p className='uk-text-large'>Roll Call in</p>
-          <h1 className='uk-text-center uk-heading-primary'>
+          <h1 className='uk-text-center uk-heading-primary uk-margin-small-top uk-margin-medium-bottom'>
             10:00:00
           </h1>
           <div className='uk-flex uk-flex-center'>

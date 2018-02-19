@@ -1,11 +1,16 @@
 import React, { Component } from 'react'
+const data = require('../../../server/data.js')
 
 class Timetable extends Component {
+  constructor(props) {
+    super(props)
+    console.log(data.dailynews_list)
+  }
+  
   render() {
     return (
       <div className='uk-flex-center uk-flex'> 
         <div className='uk-card uk-card-default uk-card-body uk-card-large'>
-          <a className='uk-icon-link uk-float-right' uk-icon='icon: plus-circle' />
           <ul className='uk-subnav uk-subnav-pill uk-flex-center uk-text-large' uk-switcher='animation: uk-animation-fade'>
             <li>
               <a href='#'>A</a>
@@ -21,11 +26,11 @@ class Timetable extends Component {
           <ul className='uk-switcher uk-margin'>
             <li>
               <div className='uk-column-1-5 uk-text-center uk-text-muted'>
-                <p>MON</p>
-                <p>TUE</p>
-                <p>WED</p>
-                <p>THU</p>
-                <p>FRI</p>
+                <p>MON A</p>
+                <p>TUE A</p>
+                <p>WED A</p>
+                <p>THU A</p>
+                <p>FRI A</p>
               </div>
 
               <div className='uk-column-1-5 uk-column-divider uk-width-auto'>
@@ -63,11 +68,11 @@ class Timetable extends Component {
 
             <li>
               <div className='uk-column-1-5 uk-text-center uk-text-muted'>
-                  <p>MON</p>
-                  <p>TUE</p>
-                  <p>WED</p>
-                  <p>THU</p>
-                  <p>FRI</p>
+                  <p>MON B</p>
+                  <p>TUE B</p>
+                  <p>WED B</p>
+                  <p>THU B</p>
+                  <p>FRI B</p>
               </div>
 
               <div className='uk-column-1-5 uk-column-divider uk-width-auto'>
@@ -105,11 +110,11 @@ class Timetable extends Component {
 
             <li>
               <div className='uk-column-1-5 uk-text-center uk-text-muted'>
-                <p>MON</p>
-                <p>TUE</p>
-                <p>WED</p>
-                <p>THU</p>
-                <p>FRI</p>
+                <p>MON C</p>
+                <p>TUE C</p>
+                <p>WED C</p>
+                <p>THU C</p>
+                <p>FRI C</p>
               </div>
 
               <div className='uk-column-1-5 uk-column-divider uk-width-auto'>

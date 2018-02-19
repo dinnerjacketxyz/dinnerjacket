@@ -15,7 +15,7 @@ const icons = require('../uikit-icons.min')
 // Full timetable
 // User notes
 // Daily notices
-// Student login
+// [DONE] Student login
 
 // Global variables
 // Represents the current visible content
@@ -69,7 +69,7 @@ class App extends Component {
   blankNavbar() {
     //makes all navbar <li> look unselected
     let tabCount = document.getElementById('navbar').childNodes.length
-    for (let i = 0; i < tabCount; i++) {
+    for (let i = 0; i < nameArray.length; i++) {
       console.log(i)
       let Li = document.getElementById(nameArray[i] + 'Li')
       let A = document.getElementById(nameArray[i] + 'A')
