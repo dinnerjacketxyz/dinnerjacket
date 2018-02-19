@@ -19022,7 +19022,7 @@ const data = __webpack_require__(32);
 class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   constructor(props) {
     super(props);
-    console.log(data.timetable_daytimetable);
+    console.log(data.dailynews_list);
   }
 
   render() {
@@ -19566,7 +19566,8 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
 let dailynews_list;
 let diarycalendar_events;
-let timetable_daytimetable;
+let day;
+let timetable;
 let details_participation;
 let details_userinfo;
 let timetable_bells;

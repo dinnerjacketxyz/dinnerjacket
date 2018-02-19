@@ -1,6 +1,7 @@
 let dailynews_list
 let diarycalendar_events
-let daytimetable
+let day
+let timetable
 let details_participation
 let details_userinfo
 let timetable_bells

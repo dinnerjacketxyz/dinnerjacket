@@ -76,6 +76,7 @@ module.exports = (app) => {
       'dailynews/list.json',
       'diarycalendar/events.json',
       'timetable/daytimetable.json',
+      'timetable/timetable.json',
       'details/participation.json',
       'details/userinfo.json',
       'timetable/bells.json',
@@ -105,18 +106,19 @@ module.exports = (app) => {
 				  switch (URL) {
 						case URLs[0]: data.dailynews_list = body; break;
 						case URLs[1]: data.diarycalendar_events = body; break;
-						case URLs[2]: data.timetable_daytimetable = body; break;
-						case URLs[3]: data.details_participation = body; break;
-						case URLs[4]: data.details_userinfo = body; break;
-						case URLs[5]: data.timetable_bells = body; break;
-						case URLs[6]: data.calendar_days = body; break;
-						case URLs[7]: data.calendar_terms = body; break;
+            case URLs[2]: data.timetable_dailytimetable = body; break;
+            case URLs[3]: data.timetable = body; break;
+						case URLs[4]: data.details_participation = body; break;
+						case URLs[5]: data.details_userinfo = body; break;
+						case URLs[6]: data.timetable_bells = body; break;
+						case URLs[7]: data.calendar_days = body; break;
+						case URLs[8]: data.calendar_terms = body; break;
           }
         })
       })
   	}
 		  
-    for (var i = 0; i < 8; i++) {
+    for (var i = 0; i < 9; i++) {
       getFromAPI(URLs[i])
     }
 
