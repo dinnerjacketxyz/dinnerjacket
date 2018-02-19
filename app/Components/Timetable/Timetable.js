@@ -5,7 +5,6 @@ class Timetable extends Component {
     return (
       <div className='uk-flex-center uk-flex'> 
         <div className='uk-card uk-card-default uk-card-body uk-card-large'>
-          <a className='uk-icon-link uk-float-right' uk-icon='icon: plus-circle' />
           <ul className='uk-subnav uk-subnav-pill uk-flex-center uk-text-large' uk-switcher='animation: uk-animation-fade'>
             <li>
               <a href='#'>A</a>
