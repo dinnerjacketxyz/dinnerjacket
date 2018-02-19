@@ -14,7 +14,7 @@ module.exports = (app) => {
       |     REPLACE THIS WITH CLIENT SECRET WHEN RUNNING
       */
 
-      secret: 'REDACTED'
+      secret: REDACTED
 
       /*
       |     DO NOT FORGET TO REMOVE IT AGAIN BEFORE YOU PUSH
@@ -67,7 +67,7 @@ module.exports = (app) => {
   })
 
   const https = require('https')
-  const fs = require('fs')
+  //const fs = require('fs')
 
   app.get('/loginsuccess', (req, res) => {
     // exchange token for resources
@@ -83,6 +83,7 @@ module.exports = (app) => {
       'calendar/terms.json'
     ]
 
+		const data = require('./data.js')
     // URL is a String representing the URL of the resource to acquire (check authURL and publURL)
 	  function getFromAPI(URL) {
       const httpsOptions = {
@@ -98,13 +99,23 @@ module.exports = (app) => {
         // parse result
         res.setEncoding('utf8')
         res.on('data', function (body) {
-          const baseURL = __dirname.substring(0, (__dirname.length - 7)) + '/app/Data/'
-          const appendURL = URL.replace('/', '_')
-          fs.writeFile(baseURL + appendURL, body, (err) => {})
+          //const baseURL = __dirname.substring(0, (__dirname.length - 7)) + '/app/Data/'
+          //const appendURL = URL.replace('/', '_')
+          //fs.writeFile(baseURL + appendURL, body, (err) => {})
+				  switch (URL) {
+						case URLs[0]: data.dailynews_list = body; break;
+						case URLs[1]: data.diarycalendar_events = body; break;
+						case URLs[2]: data.timetable_daytimetable = body; break;
+						case URLs[3]: data.details_participation = body; break;
+						case URLs[4]: data.details_userinfo = body; break;
+						case URLs[5]: data.timetable_bells = body; break;
+						case URLs[6]: data.calendar_days = body; break;
+						case URLs[7]: data.calendar_terms = body; break;
+          }
         })
       })
   	}
-
+		  
     for (var i = 0; i < 8; i++) {
       getFromAPI(URLs[i])
     }
