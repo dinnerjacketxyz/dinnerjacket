@@ -1,6 +1,12 @@
 import React, { Component } from 'react'
+const data = require('../../../server/data.js')
 
 class Timetable extends Component {
+  constructor(props) {
+    super(props)
+    console.log(data.daytimetable)
+  }
+  
   render() {
     return (
       <div className='uk-flex-center uk-flex'> 

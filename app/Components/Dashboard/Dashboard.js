@@ -6,11 +6,7 @@ let timetable = ''
 class Dashboard extends Component {
   constructor(props) {
     super(props)
-    /*
-    let text = localStorage.getItem('../../Data/timetable_daytimetable.json')
-    let obj = JSON.parse(text)
-    console.log(obj.status)
-    */
+
   }
 
 
