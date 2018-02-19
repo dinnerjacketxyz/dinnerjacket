@@ -4,29 +4,39 @@ let notes = {
   title: [],
   content: []
 }
-let noteCount = 0
-let selectedNote = 0
+let noteCount = 1
+let selectedNote = 1
 
-const NEW_NOTE_LIST = (<tr>
-    <td>
-      Lorem ipsum
-    </td>
-  </tr>)
+const NEW_NOTE_LIST = (<tr><td>Lorem ipsum</td></tr>)
 
 class Notes extends Component {
   constructor(props) {
     super(props)
 
     // Prints note content to the console every 5000ms (5 seconds)
-    setInterval(() => {
+    /*setInterval(() => {
       console.log(document.getElementById('note').value)
-    }, 5000)
+    }, 5000)*/
+
+    this.state = {
+      rows: []
+    }
+
   }
 
   addNote() {
-    console.log('Adding note')
+    /*console.log('Adding note')
     let noteList = document.getElementById('noteList')
-    noteList.innerHTML += NEW_NOTE_LIST
+    noteList.value += NEW_NOTE_LIST*/
+
+    let nextState = this.state
+    nextState.rows.push(noteCount)
+    this.setState(nextState)
+
+    noteCount++
+
+    console.log(document.getElementById('noteList').innerHTML)
+    console.log(this.state.rows)
   }
 
   render() {
@@ -41,21 +51,7 @@ class Notes extends Component {
               <div className='uk-overflow-auto'>
                 <table className='uk-table uk-table-small uk-table-hover'>
                   <tbody id='noteList'>
-                    <tr>
-                      <td>
-                        Lorem ipsum
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        Lorem ipsum
-                      </td>
-                    </tr>
-                      <tr>
-                        <td>
-                          Lorem ipsum
-                        </td>
-                      </tr>
+                    {this.state.rows.map(row => <tr><td>Lorem ipsum</td></tr>)}
                   </tbody>
                 </table>
               </div>

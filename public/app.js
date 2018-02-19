@@ -19449,8 +19449,8 @@ let notes = {
   title: [],
   content: []
 };
-let noteCount = 0;
-let selectedNote = 0;
+let noteCount = 1;
+let selectedNote = 1;
 
 const NEW_NOTE_LIST = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
   'tr',
@@ -19467,15 +19467,28 @@ class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     super(props);
 
     // Prints note content to the console every 5000ms (5 seconds)
-    setInterval(() => {
-      console.log(document.getElementById('note').value);
-    }, 5000);
+    /*setInterval(() => {
+      console.log(document.getElementById('note').value)
+    }, 5000)*/
+
+    this.state = {
+      rows: []
+    };
   }
 
   addNote() {
-    console.log('Adding note');
-    let noteList = document.getElementById('noteList');
-    noteList.innerText += NEW_NOTE_LIST;
+    /*console.log('Adding note')
+    let noteList = document.getElementById('noteList')
+    noteList.value += NEW_NOTE_LIST*/
+
+    let nextState = this.state;
+    nextState.rows.push(noteCount);
+    this.setState(nextState);
+
+    noteCount++;
+
+    console.log(document.getElementById('noteList').innerHTML);
+    console.log(this.state.rows);
   }
 
   render() {
@@ -19503,7 +19516,7 @@ class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                   'tbody',
                   { id: 'noteList' },
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  this.state.rows.map(row => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'tr',
                     null,
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -19511,25 +19524,7 @@ class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                       null,
                       'Lorem ipsum'
                     )
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'tr',
-                    null,
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                      'td',
-                      null,
-                      'Lorem ipsum'
-                    )
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'tr',
-                    null,
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                      'td',
-                      null,
-                      'Lorem ipsum'
-                    )
-                  )
+                  ))
                 )
               )
             )
