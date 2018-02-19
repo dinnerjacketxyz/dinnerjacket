@@ -1059,8 +1059,7 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       { className: 'uk-flex uk-flex-center uk-text-center uk-margin-left uk-margin-right' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
-        { className: 'uk-card uk-card-default uk-card-body uk-card large uk-width-2-5@xl uk-width-3-5@m uk-width-4-5@s' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'uk-sortable-handle uk-float-left', 'uk-icon': 'icon: table' }),
+        { className: 'uk-card uk-card-default uk-card-body uk-card large uk-width-5-6@xl uk-width-4-6@l uk-width-3-6@m uk-width-2-6@s' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'p',
           { className: 'uk-text-large' },
@@ -19446,32 +19445,64 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
 
+let notes = {
+  title: [],
+  content: []
+};
+let noteCount = 0;
+let selectedNote = 0;
+
+const NEW_NOTE_LIST = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+  'tr',
+  null,
+  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+    'td',
+    null,
+    'Lorem ipsum'
+  )
+);
+
 class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
+  constructor(props) {
+    super(props);
+
+    // Prints note content to the console every 5000ms (5 seconds)
+    setInterval(() => {
+      console.log(document.getElementById('note').value);
+    }, 5000);
+  }
+
+  addNote() {
+    console.log('Adding note');
+    let noteList = document.getElementById('noteList');
+    noteList.innerText += NEW_NOTE_LIST;
+  }
+
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
       { className: 'uk-flex uk-flex-center' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
-        { className: 'uk-text-center uk-margin-left uk-margin-right uk-grid-collapse uk-width-3-5@xl ', 'uk-grid': true, 'uk-sortable': 'handle: .uk-sortable-handle', 'uk-height-match': 'target: > div > .uk-card' },
+        { className: 'uk-text-center uk-margin-large-left uk-margin-large-right uk-grid-collapse uk-width-3-5@xl', 'uk-grid': 'true', 'uk-sortable': 'handle: .uk-sortable-handle', 'uk-height-match': 'target: > div > .uk-card' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
           { className: 'uk-width-1-5@m uk-height-large@m' },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'div',
             { className: 'uk-card uk-card-default uk-card-body' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { 'class': 'uk-sortable-handle uk-float-left', 'uk-icon': 'icon: table' }),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { href: '', 'class': 'uk-icon-link uk-float-right', 'uk-icon': 'icon: plus-circle' }),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'uk-sortable-handle uk-float-left', 'uk-icon': 'icon: table' }),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { className: 'uk-icon-link uk-float-right', 'uk-icon': 'icon: plus-circle', onClick: this.addNote.bind(this) }),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('h2', null),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'div',
-              { 'class': 'uk-overflow-auto' },
+              { className: 'uk-overflow-auto' },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'table',
-                { 'class': 'uk-table uk-table-small uk-table-hover' },
+                { className: 'uk-table uk-table-small uk-table-hover' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                   'tbody',
-                  null,
+                  { id: 'noteList' },
                   __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'tr',
                     null,
@@ -19514,7 +19545,130 @@ class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'div',
               { className: 'uk-flex uk-flex-center' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'uk-grid-divider uk-grid-small', 'uk-grid': true })
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'uk-grid-divider uk-grid-small', 'uk-grid': 'true' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'div',
+                  { className: '' },
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { href: '', 'uk-icon': 'icon: plus-circle' }),
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { href: '', 'uk-icon': 'icon: copy' }),
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { href: '', 'uk-icon': 'icon: trash' })
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'div',
+                  null,
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'select',
+                    { className: 'uk-select uk-form-small uk-form-width-small' },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'option',
+                      null,
+                      'Arial'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'option',
+                      null,
+                      'Comic Sans MS'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'option',
+                      null,
+                      'Calibri'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'option',
+                      null,
+                      'Cambria'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'option',
+                      null,
+                      'Courier'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'option',
+                      null,
+                      'Impact'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'option',
+                      null,
+                      'Roboto'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'option',
+                      null,
+                      'Source Sans'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'option',
+                      null,
+                      'Times New Roman'
+                    )
+                  )
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'div',
+                  null,
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'select',
+                    { className: 'uk-select uk-form-small uk-form-width-xsmall' },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'option',
+                      null,
+                      '8'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'option',
+                      null,
+                      '10'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'option',
+                      null,
+                      '12'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'option',
+                      null,
+                      '14'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'option',
+                      null,
+                      '18'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'option',
+                      null,
+                      '24'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'option',
+                      null,
+                      '36'
+                    )
+                  )
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'div',
+                  { className: '' },
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { href: '', 'uk-icon': 'icon: bold' }),
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { href: '', 'uk-icon': 'icon: italic' }),
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { href: '', 'uk-icon': 'icon: strikethrough' })
+                )
+              )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'uk-margin' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'uk-input uk-form-blank uk-form-large', type: 'Title', placeholder: 'Title' })
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'uk-margin' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('textarea', { className: 'uk-textarea uk-form-blank', rows: '10', placeholder: 'Body' })
             )
           )
         )

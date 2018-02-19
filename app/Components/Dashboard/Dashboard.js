@@ -17,8 +17,7 @@ class Dashboard extends Component {
   render() {
     return (
       <div className='uk-flex uk-flex-center uk-text-center uk-margin-left uk-margin-right'>
-        <div className='uk-card uk-card-default uk-card-body uk-card large uk-width-2-5@xl uk-width-3-5@m uk-width-4-5@s'>
-          <span className='uk-sortable-handle uk-float-left' uk-icon='icon: table'></span>
+        <div className='uk-card uk-card-default uk-card-body uk-card large uk-width-5-6@xl uk-width-4-6@l uk-width-3-6@m uk-width-2-6@s'>
           <p className='uk-text-large'>Roll Call in</p>
           <h1 className='uk-text-center uk-heading-primary'>
             10:00:00
