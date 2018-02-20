@@ -1314,7 +1314,7 @@ class About extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'span',
-              { 'class': 'uk-label' },
+              { className: 'uk-label' },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'i',
                 null,
@@ -19022,7 +19022,7 @@ const data = __webpack_require__(32);
 class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   constructor(props) {
     super(props);
-    console.log(data.dailynews_list);
+    console.log(this.data.data);
   }
 
   render() {
@@ -19564,6 +19564,7 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* 32 */
 /***/ (function(module, exports) {
 
+
 let dailynews_list;
 let diarycalendar_events;
 let day;
@@ -19573,6 +19574,8 @@ let details_userinfo;
 let timetable_bells;
 let calendar_days;
 let calendar_terms;
+
+let data = [dailynews_list, diarycalendar_events, day, timetable, details_participation, details_userinfo, timetable_bells, calendar_days, calendar_terms];
 
 /***/ }),
 /* 33 */

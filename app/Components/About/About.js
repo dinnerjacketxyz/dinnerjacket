@@ -34,7 +34,7 @@ class About extends Component {
             <p className='uk-article-meta'>/spɪf/</p>
             <span clasName='uk-article-meta'>
               <i>verb </i>
-              <span class="uk-label"><i>N. AMER.</i></span>
+              <span className="uk-label"><i>N. AMER.</i></span>
               <i> informal</i>
             </span>
             <br/>
