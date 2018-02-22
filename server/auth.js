@@ -70,7 +70,10 @@ module.exports = (app) => {
   //const fs = require('fs')
 
   app.get('/loginsuccess', (req, res) => {
-    // exchange token for resources
+    const data = require('./data.js')
+	console.log('num: ' + data.numDataObjectsReady)
+	
+	// exchange token for resources
     // URLs for resources
     const URLs = [
       'dailynews/list.json',
@@ -84,37 +87,36 @@ module.exports = (app) => {
       'calendar/terms.json'
     ]
 
-		const data = require('./data.js')
     // URL is a String representing the URL of the resource to acquire (check authURL and publURL)
-	  function getFromAPI(URL) {
-      const httpsOptions = {
-        hostname: 'student.sbhs.net.au',
-        path: '/api/' + URL,
-        method: 'GET',
-        headers: {
-          'Authorization': 'Bearer ' + token.token.access_token
-        }
-      }
+	function getFromAPI(URL) {
+	  const httpsOptions = {
+		hostname: 'student.sbhs.net.au',
+		path: '/api/' + URL,
+		method: 'GET',
+		headers: {
+		  'Authorization': 'Bearer ' + token.token.access_token
+		}
+	  }
 
-      https.get(httpsOptions, (res) => {
-        // parse result
-        res.setEncoding('utf8')
-        res.on('data', function (body) {
-          //const baseURL = __dirname.substring(0, (__dirname.length - 7)) + '/app/Data/'
-          //const appendURL = URL.replace('/', '_')
-          //fs.writeFile(baseURL + appendURL, body, (err) => {})
-				  switch (URL) {
-						case URLs[0]: data.dailynews_list = body; break;
-						case URLs[1]: data.diarycalendar_events = body; break;
-            case URLs[2]: data.timetable_dailytimetable = body; break;
-            case URLs[3]: data.timetable = body; break;
-						case URLs[4]: data.details_participation = body; break;
-						case URLs[5]: data.details_userinfo = body; break;
-						case URLs[6]: data.timetable_bells = body; break;
-						case URLs[7]: data.calendar_days = body; break;
-						case URLs[8]: data.calendar_terms = body; break;
-          }
-        })
+	  https.get(httpsOptions, (res) => {
+	    // parse result
+		res.setEncoding('utf8')
+		res.on('data', function (body) {
+		  //const baseURL = __dirname.substring(0, (__dirname.length - 7)) + '/app/Data/'
+		  //const appendURL = URL.replace('/', '_')
+		  //fs.writeFile(baseURL + appendURL, body, (err) => {})
+		  switch (URL) {
+			case URLs[0]: data.dailynews_list = body; break;
+		    case URLs[1]: data.diarycalendar_events = body; break;
+		    case URLs[2]: data.timetable_dailytimetable = body; break;
+	        case URLs[3]: data.timetable_timetable = body; break;
+		    case URLs[4]: data.details_participation = body; break;
+	  	    case URLs[5]: data.details_userinfo = body; break;
+		    case URLs[6]: data.timetable_bells = body; break;
+		    case URLs[7]: data.calendar_days = body; break;
+	  	    case URLs[8]: data.calendar_terms = body; break;
+		  }
+		})
       })
   	}
 		  

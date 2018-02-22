@@ -23,7 +23,7 @@ app.use(session({
   |     REPLACE THIS WITH SESSION SECRET WHEN RUNNING
   */
 
-  secret: REDACTED,
+  secret: 'a',
 
   /*
   |     DO NOT FORGET TO REMOVE IT AGAIN BEFORE YOU PUSH
