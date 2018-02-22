@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+const data = require('../../../server/data.js')
 const css = require('./Dashboard')
 let timetable = ''
 
@@ -8,11 +8,15 @@ class Dashboard extends Component {
     super(props)
 
   }
-
+	
+	dataTest() {
+		console.log(data.exportData('dailynews/list.json'))
+	}
 
   render() {
     return (
       <div className='uk-flex uk-flex-center uk-text-center uk-margin-left uk-margin-right'>
+				<button onClick={this.dataTest.bind(this)}>Data Test</button>
         <div className='uk-card uk-card-default uk-card-body uk-card large uk-width-1-3@l uk-width-2-5@m uk-width-2-3@s uk-width-4-5@xs '>
           <p className='uk-text-large'>Roll Call in</p>
           <h1 className='uk-text-center uk-heading-primary uk-margin-small-top uk-margin-medium-bottom'>

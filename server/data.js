@@ -1,20 +1,9 @@
-// returns true if all data items are present
-let dataReady = function() {
-  return (dailynews_list != null &&
-					diarycalendar_events != null &&
-					timetable_dailytimetable != null &&
-					timetable_timetable != null &&
-					details_participation != null &&
-					details_userinfo != null &&
-					timetable_bells != null &&
-					calendar_days != null &&
-					calendar_terms != null)
-}
+let self = this
 
 // export function so it can be externally accessed
-exports.dataReady = dataReady
-
+// exports.dataReady = dataReady()
 // declare variables to hold data
+
 let dailynews_list
 let diarycalendar_events
 let timetable_dailytimetable
@@ -25,7 +14,6 @@ let timetable_bells
 let calendar_days
 let calendar_terms
 
-// export variables so they can be externally accessed
 exports.dailynews_list = dailynews_list
 exports.diarycalendar_events = diarycalendar_events
 exports.timetable_dailytimetable = timetable_dailytimetable
@@ -36,3 +24,68 @@ exports.timetable_bells = timetable_bells
 exports.calendar_days = calendar_days
 exports.calendar_terms = calendar_terms
 
+const URLs = [
+							'dailynews/list.json',
+							'diarycalendar/events.json',
+							'timetable/daytimetable.json',
+							'timetable/timetable.json',
+							'details/participation.json',
+							'details/userinfo.json',
+							'timetable/bells.json',
+							'calendar/days.json',
+							'calendar/terms.json'
+							]
+
+exports.importData = (URL, data) => {
+	switch (URL) {
+		case URLs[0]: dailynews_list = data;
+			exports.dailynews_list = dailynews_list;
+			break;
+		case URLs[1]: diarycalendar_events = data;
+			exports.diarycalendar_events = diarycalendar_events;
+			break;
+		case URLs[2]: timetable_dailytimetable = data;
+			exports.timetable_dailytimetable = timetable_dailytimetable;
+			break;
+		case URLs[3]: timetable_timetable = data;
+			exports.timetable_timetable = timetable_timetable;
+			break;
+		case URLs[4]: details_participation = data;
+			exports.details_participation = details_participation;
+			break;
+		case URLs[5]: details_userinfo = data;
+			exports.details_userinfo = details_userinfo;
+			break;
+		case URLs[6]: timetable_bells = data;
+			exports.timetable_bells = timetable_bells;
+			break;
+		case URLs[7]: calendar_days = data;
+			exports.calendar_days = calendar_days;
+			break;
+		case URLs[8]: calendar_terms = data;
+			exports.calendar_terms = calendar_terms;
+			break;
+	  }
+	}
+exports.exportData = (URL) => {
+	switch (URL) {
+		case URLs[0]: return dailynews_list
+			break;
+		case URLs[1]: return diarycalendar_events
+			break;
+		case URLs[2]: return timetable_dailytimetable
+			break;
+		case URLs[3]: return timetable_timetable
+			break;
+		case URLs[4]: return details_participation
+			break;
+		case URLs[5]: return details_userinfo
+			break;
+		case URLs[6]: return timetable_bells
+			break;
+		case URLs[7]: return calendar_days
+			break;
+		case URLs[8]: return calendar_terms
+			break;
+	}
+}

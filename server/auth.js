@@ -70,9 +70,8 @@ module.exports = (app) => {
   //const fs = require('fs')
 
   app.get('/loginsuccess', (req, res) => {
-    const data = require('./data.js')
-	console.log('num: ' + data.numDataObjectsReady)
-	
+  const data = require('./data.js')
+		
 	// exchange token for resources
     // URLs for resources
     const URLs = [
@@ -95,7 +94,7 @@ module.exports = (app) => {
 		method: 'GET',
 		headers: {
 		  'Authorization': 'Bearer ' + token.token.access_token
-		}
+		  }
 	  }
 
 	  https.get(httpsOptions, (res) => {
@@ -104,21 +103,11 @@ module.exports = (app) => {
 		res.on('data', function (body) {
 		  //const baseURL = __dirname.substring(0, (__dirname.length - 7)) + '/app/Data/'
 		  //const appendURL = URL.replace('/', '_')
-		  //fs.writeFile(baseURL + appendURL, body, (err) => {})
-		  switch (URL) {
-			case URLs[0]: data.dailynews_list = body; break;
-		    case URLs[1]: data.diarycalendar_events = body; break;
-		    case URLs[2]: data.timetable_dailytimetable = body; break;
-	        case URLs[3]: data.timetable_timetable = body; break;
-		    case URLs[4]: data.details_participation = body; break;
-	  	    case URLs[5]: data.details_userinfo = body; break;
-		    case URLs[6]: data.timetable_bells = body; break;
-		    case URLs[7]: data.calendar_days = body; break;
-	  	    case URLs[8]: data.calendar_terms = body; break;
-		  }
+		  //fs.writeFile(baseURL + appendURL, body, (err) => {}
+			data.importData(URL, body)
 		})
-      })
-  	}
+	})
+}
 		  
     for (var i = 0; i < 9; i++) {
       getFromAPI(URLs[i])
@@ -132,4 +121,6 @@ module.exports = (app) => {
   app.get('/logout', (req, res) => {
     // logout
   })
+	
 }
+

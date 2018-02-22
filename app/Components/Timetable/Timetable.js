@@ -9,7 +9,7 @@ class Timetable extends Component {
   
   render() {
     return (
-      <div className='uk-flex-center uk-flex'> 
+      <div className='uk-flex-center uk-flex'>
         <div className='uk-card uk-card-default uk-card-body uk-card-large'>
           <ul className='uk-subnav uk-subnav-pill uk-flex-center uk-text-large' uk-switcher='animation: uk-animation-fade'>
             <li>
