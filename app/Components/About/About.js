@@ -4,7 +4,7 @@ const css = require('./About')
 class About extends Component {
   render() {
     return (
-      <div className='uk-flex uk-flex-center uk-text-center uk-margin-left uk-margin-right'>
+      <div className='uk-flex uk-flex-center uk-text-center uk-margin-top uk-margin-left uk-margin-right'>
         <div className='uk-card uk-card-default uk-card-body uk-card large uk-width-1-3@xl uk-width-2-5@m uk-width-3-5@s'>
           <img id='logo'
             className='uk-disabled'
