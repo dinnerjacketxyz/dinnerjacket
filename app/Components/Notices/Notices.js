@@ -4,7 +4,7 @@ class Notices extends Component {
   render() {
     return (
       <div className='uk-flex uk-flex-center'>
-      <div className='uk-margin-left uk-margin-right uk-card uk-card-default uk-card-body uk-width-1-3@xl uk-width-1-2@m uk-width-2-3@s'>
+      <div className='uk-margin-top uk-margin-left uk-margin-right uk-card uk-card-default uk-card-body uk-width-1-3@xl uk-width-1-2@m uk-width-2-3@s'>
         <table className='uk-table uk-table-small uk-table-hover'>
             <thead>
                 <tr>
