@@ -70,7 +70,7 @@ class App extends Component {
     //makes all navbar <li> look unselected
     let tabCount = document.getElementById('navbar').childNodes.length
     for (let i = 0; i < nameArray.length; i++) {
-      console.log(i)
+      //console.log(i)
       let Li = document.getElementById(nameArray[i] + 'Li')
       let A = document.getElementById(nameArray[i] + 'A')
       let B = document.getElementById(nameArray[i] + 'B')

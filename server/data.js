@@ -10,15 +10,17 @@ let calendar_days
 let calendar_terms
 
 // URLs used for setting and getting data
-const URLs = ['dailynews/list.json',
-              'diarycalendar/events.json',
-              'timetable/daytimetable.json',
-              'timetable/timetable.json',
-              'details/participation.json',
-              'details/userinfo.json',
-              'timetable/bells.json',
-              'calendar/days.json',
-              'calendar/terms.json']
+const URLs = [
+  'dailynews/list.json',
+  'diarycalendar/events.json',
+  'timetable/daytimetable.json',
+  'timetable/timetable.json',
+  'details/participation.json',
+  'details/userinfo.json',
+  'timetable/bells.json',
+  'calendar/days.json',
+  'calendar/terms.json'
+]
 
 // used to set data
 // URL - the URL (see above) for which to set data
