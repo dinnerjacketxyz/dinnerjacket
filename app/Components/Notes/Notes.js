@@ -9,36 +9,53 @@ import React, { Component } from 'react'
 
 let notes = [
   {
-    title: '',
-    content: ''
+    title: 'meme1',
+    content: 'memes'
+  },
+  {
+    title: 'meme2',
+    content: 'memes'
   }
 ]
 
-let selectedNote = 1
+let current
 
 class Notes extends Component {
   constructor(props) {
     super(props)
 
-    // Prints note content to the console every 5000ms (5 seconds)
-    /*setInterval(() => {
-      console.log(document.getElementById('note').value)
-    }, 5000)*/
-
-    this.state = {
-      rows: []
-    }
   }
 
   addNote() {
-    let nextState = this.state
-    nextState.rows.push(this.state.rows.length)
-    this.setState(nextState)
+    let temp = {title:"Untitled", content:"none"}
+    notes.unshift(temp)
+    this.displayList()
   }
 
-  notesClicked() {
-    console.log('note clicked')
-    console.log(event)
+  displayList() {
+    let titleList=''
+    for (let i = 0; i < notes.length; i++) { 
+      titleList += `<tr><td id='${i}'>${notes[i].title}</td></tr>`
+    }
+    let list = document.getElementById('noteList')
+    list.innerHTML = titleList
+  }
+
+  updateEditor(e) {
+    current = e.target.id
+    let editorTitle = document.getElementById('inputTitle')
+    let editorContent = document.getElementById('inputContent')
+    editorTitle.value = notes[current].title
+    editorContent.value = notes[current].content
+  }
+
+  modifyNotes() {
+    let editorTitle = document.getElementById('inputTitle')
+    let editorContent = document.getElementById('inputContent')
+    console.log(editorTitle.value)
+    notes[current].title = editorTitle.value
+    notes[current].content = editorContent.value
+    this.displayList()
   }
 
   render() {
@@ -47,13 +64,12 @@ class Notes extends Component {
         <div className='uk-text-center uk-margin-large-left uk-margin-top uk-margin-large-right uk-grid-collapse uk-width-3-5@xl' uk-grid='true' uk-sortable = 'handle: .uk-sortable-handle' uk-height-match='target: > div > .uk-card'>
           <div className='uk-width-1-5@m uk-height-large@m'>
             <div className='uk-card uk-card-default uk-card-body'>
-              <span className='uk-sortable-handle uk-float-left' uk-icon='icon: table'></span>
+              <span className='uk-sortable-handle uk-float-left' uk-icon='icon: table' onClick={this.displayList.bind(this)}></span>
               <a className='uk-icon-link uk-float-right' uk-icon='icon: plus-circle' onClick={this.addNote.bind(this)}/>
               <h2></h2>
               <div className='uk-overflow-auto'>
-                <table className='uk-table uk-table-small uk-table-hover' onClick={this.notesClicked.bind(this)}>
+                <table className='uk-table uk-table-small uk-table-hover uk-margin-top' onClick={this.updateEditor}>
                   <tbody id='noteList'>
-                    {this.state.rows.map(row => <tr><td>Lorem ipsum</td></tr>)}
                   </tbody>
                 </table>
               </div>
@@ -61,7 +77,7 @@ class Notes extends Component {
           </div>
           <div className='uk-width-expand'>
             <div className='uk-card uk-card-default uk-card-body'>
-              <span className='uk-sortable-handle uk-float-left' uk-icon='icon: table'></span>
+              <span className='uk-sortable-handle uk-float-left' uk-icon='icon: table' onClick={this.modifyNotes.bind(this)}></span>
               <div className='uk-flex uk-flex-center'>
                 <div className='uk-grid-divider uk-grid-small' uk-grid='true'>
                   <div className=''>
@@ -101,10 +117,10 @@ class Notes extends Component {
                 </div>
               </div>
               <div className='uk-margin'>
-                <input className='uk-input uk-form-blank uk-form-large' type='Title' placeholder='Title' />
+                <input id='inputTitle' className='uk-input uk-form-blank uk-form-large' type='Title' placeholder='Title'></input>
               </div>
               <div className='uk-margin'>
-                <textarea className='uk-textarea uk-form-blank' rows='10' placeholder='Body'></textarea>
+                <textarea id='inputContent' className='uk-textarea uk-form-blank' rows='10' placeholder='Body'></textarea>
               </div>
             </div>
           </div>
@@ -113,6 +129,8 @@ class Notes extends Component {
     )
   }
 }
+
+
 
 export default Notes
 

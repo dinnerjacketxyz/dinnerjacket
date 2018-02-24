@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 class Timetable extends Component {
   constructor(props) {
     super(props)
-    console.log(data.timetable)
   }
   
   render() {
