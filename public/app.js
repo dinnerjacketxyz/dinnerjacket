@@ -3276,178 +3276,175 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   }
 
   render() {
-    return (
-      //<div className='uk-flex uk-flex-center uk-text-center uk-margin-top uk-margin-left uk-margin-right'>
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { className: 'uk-flex uk-flex-center uk-text-center uk-margin-left uk-margin-right' },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'button',
+        { onClick: this.dataTest.bind(this) },
+        'Data Test'
+      ),
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
-        { className: 'uk-flex uk-flex-center uk-text-center uk-margin-left uk-margin-right' },
+        { className: 'uk-card uk-card-default uk-card-body uk-card large uk-width-1-3@l uk-width-2-5@m uk-width-2-3@s uk-width-4-5@xs ' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'button',
-          { onClick: this.dataTest.bind(this) },
-          'Data Test'
+          'p',
+          { className: 'uk-text-large' },
+          'Roll Call in'
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'h1',
+          { className: 'uk-text-center uk-heading-primary uk-margin-small-top uk-margin-medium-bottom' },
+          '10:00:00'
         ),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
-          { className: 'uk-card uk-card-default uk-card-body uk-card large uk-width-1-3@l uk-width-2-5@m uk-width-2-3@s uk-width-4-5@xs ' },
+          { className: 'uk-flex uk-flex-center' },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'p',
-            { className: 'uk-text-large' },
-            'Roll Call in'
+            'table',
+            { className: 'uk-table uk-table-hover uk-table-small uk-width-4-5@s' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'tbody',
+              null,
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'tr',
+                null,
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'td',
+                  { className: 'uk-text-lead uk-text-left' },
+                  'English',
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'dd',
+                    { className: 'uk-text-meta uk-text-muted uk-text-top uk-text-left' },
+                    'at 09:05 with Ms English'
+                  )
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'td',
+                  { className: 'uk-text-middle uk-table-shrink uk-text-lead' },
+                  '201'
+                )
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'tr',
+                null,
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'td',
+                  { className: 'uk-text-lead uk-text-left uk-text-muted' },
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'small',
+                    null,
+                    'Study Period'
+                  ),
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('dd', { className: 'uk-text-meta uk-text-muted uk-text-top uk-text-left' })
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'td',
+                  { className: 'uk-text-middle uk-table-shrink uk-text-lead uk-text-muted' },
+                  '10:10'
+                )
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'tr',
+                null,
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'td',
+                  { className: 'uk-text-lead uk-text-left uk-text-muted' },
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'small',
+                    null,
+                    'Lunch'
+                  ),
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('dd', { className: 'uk-text-meta uk-text-muted uk-text-top uk-text-left' })
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'td',
+                  { className: 'uk-text-middle uk-table-shrink uk-text-lead uk-text-muted' },
+                  '11:10'
+                )
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'tr',
+                null,
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'td',
+                  { className: 'uk-text-lead uk-text-left' },
+                  'Maths',
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'dd',
+                    { className: 'uk-text-meta uk-text-muted uk-text-top uk-text-left' },
+                    'at 11:50 with Ms Maths'
+                  )
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'td',
+                  { className: 'uk-text-middle uk-table-shrink uk-text-lead' },
+                  '101'
+                )
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'tr',
+                null,
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'td',
+                  { className: 'uk-text-lead uk-text-left' },
+                  'English',
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'dd',
+                    { className: 'uk-text-meta uk-text-muted uk-text-top uk-text-left' },
+                    'at 12:55 with Ms English'
+                  )
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'td',
+                  { className: 'uk-text-middle uk-table-shrink uk-text-lead' },
+                  '202'
+                )
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'tr',
+                null,
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'td',
+                  { className: 'uk-text-lead uk-text-left uk-text-muted' },
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'small',
+                    null,
+                    'Recess'
+                  ),
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('dd', { className: 'uk-text-meta uk-text-muted uk-text-top uk-text-left' })
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'td',
+                  { className: 'uk-text-middle uk-table-shrink uk-text-lead uk-text-muted' },
+                  '13:55'
+                )
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'tr',
+                null,
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'td',
+                  { className: 'uk-text-lead uk-text-left' },
+                  'Maths',
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'dd',
+                    { className: 'uk-text-meta uk-text-muted uk-text-top uk-text-left' },
+                    'at 14:15 with Ms English'
+                  )
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'td',
+                  { className: 'uk-text-middle uk-table-shrink uk-text-lead' },
+                  '101'
+                )
+              )
+            )
           ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'h1',
-            { className: 'uk-text-center uk-heading-primary uk-margin-small-top uk-margin-medium-bottom' },
-            '10:00:00'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'uk-flex uk-flex-center' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'table',
-              { className: 'uk-table uk-table-hover uk-table-small uk-width-4-5@s' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'tbody',
-                null,
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'tr',
-                  null,
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'td',
-                    { className: 'uk-text-lead uk-text-left' },
-                    'English',
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                      'dd',
-                      { className: 'uk-text-meta uk-text-muted uk-text-top uk-text-left' },
-                      'at 09:05 with Ms English'
-                    )
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'td',
-                    { className: 'uk-text-middle uk-table-shrink uk-text-lead' },
-                    '201'
-                  )
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'tr',
-                  null,
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'td',
-                    { className: 'uk-text-lead uk-text-left uk-text-muted' },
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                      'small',
-                      null,
-                      'Study Period'
-                    ),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('dd', { className: 'uk-text-meta uk-text-muted uk-text-top uk-text-left' })
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'td',
-                    { className: 'uk-text-middle uk-table-shrink uk-text-lead uk-text-muted' },
-                    '10:10'
-                  )
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'tr',
-                  null,
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'td',
-                    { className: 'uk-text-lead uk-text-left uk-text-muted' },
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                      'small',
-                      null,
-                      'Lunch'
-                    ),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('dd', { className: 'uk-text-meta uk-text-muted uk-text-top uk-text-left' })
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'td',
-                    { className: 'uk-text-middle uk-table-shrink uk-text-lead uk-text-muted' },
-                    '11:10'
-                  )
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'tr',
-                  null,
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'td',
-                    { className: 'uk-text-lead uk-text-left' },
-                    'Maths',
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                      'dd',
-                      { className: 'uk-text-meta uk-text-muted uk-text-top uk-text-left' },
-                      'at 11:50 with Ms Maths'
-                    )
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'td',
-                    { className: 'uk-text-middle uk-table-shrink uk-text-lead' },
-                    '101'
-                  )
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'tr',
-                  null,
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'td',
-                    { className: 'uk-text-lead uk-text-left' },
-                    'English',
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                      'dd',
-                      { className: 'uk-text-meta uk-text-muted uk-text-top uk-text-left' },
-                      'at 12:55 with Ms English'
-                    )
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'td',
-                    { className: 'uk-text-middle uk-table-shrink uk-text-lead' },
-                    '202'
-                  )
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'tr',
-                  null,
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'td',
-                    { className: 'uk-text-lead uk-text-left uk-text-muted' },
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                      'small',
-                      null,
-                      'Recess'
-                    ),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('dd', { className: 'uk-text-meta uk-text-muted uk-text-top uk-text-left' })
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'td',
-                    { className: 'uk-text-middle uk-table-shrink uk-text-lead uk-text-muted' },
-                    '13:55'
-                  )
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'tr',
-                  null,
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'td',
-                    { className: 'uk-text-lead uk-text-left' },
-                    'Maths',
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                      'dd',
-                      { className: 'uk-text-meta uk-text-muted uk-text-top uk-text-left' },
-                      'at 14:15 with Ms English'
-                    )
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'td',
-                    { className: 'uk-text-middle uk-table-shrink uk-text-lead' },
-                    '101'
-                  )
-                )
-              )
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'h1',
-              null,
-              ' '
-            )
+            null,
+            ' '
           )
         )
       )
