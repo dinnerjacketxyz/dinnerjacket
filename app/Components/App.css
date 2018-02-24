@@ -1,3 +1,12 @@
+.beta {
+  left: 115%; top: 55%
+}
+
+.time {
+  font-size: 60px!important;
+  line-height: 1.2;
+}
+
 body {
   margin: 0;
   padding: 0;

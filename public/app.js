@@ -24060,141 +24060,9 @@ module.exports = camelize;
 const css = __webpack_require__(80);
 const icons = __webpack_require__(82);
 
-// Requirements for beta release
-// Daily timetable
-// Full timetable
-// User notes
-// Daily notices
-// [DONE] Student login
-
-// Global variables
-// Represents the current visible content
-
-window.STATES = {
-  DASHBOARD: 0,
-  TIMETABLE: 1,
-  NOTES: 2,
-  NOTICES: 3,
-  CALENDAR: 4,
-  SETTINGS: 5,
-  ABOUT: 6,
-  FEEDBACK: 7,
-  PROFILE: 8
-};
-
-const nameArray = ['Dashboard', 'Timetable', 'User Notes', 'Daily Notices'];
-
-let loggedIn = false;
-
 class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   constructor(props) {
     super(props);
-
-    // Set default state on launch
-    this.state = {
-      visible: window.STATES.DASHBOARD
-    };
-  }
-
-  toggleLogin() {
-    // Ensure this toggles correctly between Login and Logout
-    // A user may already have a token and therefore in that case
-    // it needs to begin with 'Logout' functionality
-    console.log('Login clicked');
-
-    let url = window.location.toString();
-    if (url.substr(url.length - 11) === '/index.html') {
-      alert('Run "npm start" to use server and login functions');
-      console.log('Run "npm start" to use server and login functions');
-    } else {
-      window.location.href = '/login';
-    }
-  }
-
-  blankNavbar() {
-    //makes all navbar <li> look unselected
-    let tabCount = document.getElementById('navbar').childNodes.length;
-    for (let i = 0; i < nameArray.length; i++) {
-      console.log(i);
-      let Li = document.getElementById(nameArray[i] + 'Li');
-      let A = document.getElementById(nameArray[i] + 'A');
-      let B = document.getElementById(nameArray[i] + 'B');
-      let P = document.getElementById(nameArray[i] + 'P');
-
-      Li.className = 'uk-animation-toggle';
-      P.innerText = nameArray[i];
-      A.className = 'uk-box-shadow-hover-medium';
-      B.innerText = '';
-    }
-  }
-
-  selectedNavbar(num) {
-    //makes all navbar <li> look unselected
-    this.blankNavbar();
-
-    //makes one specific <li> look selected
-
-    let Li = document.getElementById(nameArray[num] + 'Li');
-    let A = document.getElementById(nameArray[num] + 'A');
-    let B = document.getElementById(nameArray[num] + 'B');
-    let P = document.getElementById(nameArray[num] + 'P');
-
-    Li.className = 'uk-animation-toggle uk-active';
-    P.innerText = '';
-    A.className = 'uk-box-shadow-hover-medium uk-card-primary';
-    B.innerText = nameArray[num];
-  }
-
-  showDashboard() {
-    console.log('Dashboard tab clicked');
-    let visible = this.state.visible;
-    this.setState({ visible: window.STATES.DASHBOARD });
-    this.selectedNavbar(window.STATES.DASHBOARD);
-  }
-
-  showTimetable() {
-    console.log('Timetable tab clicked');
-    let visible = this.state.visible;
-    this.setState({ visible: window.STATES.TIMETABLE });
-    this.selectedNavbar(window.STATES.TIMETABLE);
-  }
-
-  showNotes() {
-    console.log('User notes tab clicked');
-    let visible = this.state.visible;
-    this.setState({ visible: window.STATES.NOTES });
-    this.selectedNavbar(window.STATES.NOTES);
-  }
-
-  showNotices() {
-    console.log('Daily notices tab clicked');
-    let visible = this.state.visible;
-    this.setState({ visible: window.STATES.NOTICES });
-    this.selectedNavbar(window.STATES.NOTICES);
-  }
-
-  showSettings() {
-    console.log('Settings tab clicked');
-    let visible = this.state.visible;
-    this.setState({ visible: window.STATES.SETTINGS });
-  }
-
-  showAbout() {
-    console.log('About tab clicked');
-    let visible = this.state.visible;
-    this.setState({ visible: window.STATES.ABOUT });
-  }
-
-  showProfile() {
-    console.log('Settings tab clicked');
-    let visible = this.state.visible;
-    this.setState({ visible: window.STATES.PROFILE });
-  }
-
-  showFeedback() {
-    console.log('Settings tab clicked');
-    let visible = this.state.visible;
-    this.setState({ visible: window.STATES.FEEDBACK });
   }
 
   // Always renders navbar
@@ -24205,77 +24073,13 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       { id: 'main', className: 'main' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'nav',
-        { id: 'navbar', className: 'uk-navbar uk-navbar-container', 'uk-navbar': 'true', height: '70px' },
+        { className: 'uk-navbar uk-navbar-container uk-margin' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
           { className: 'uk-navbar-left' },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { id: 'logo',
             className: 'uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom',
-            alt: 'logo', src: 'https://i.imgur.com/xxuf1ni.png', width: '60px', height: '50px' }),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'ul',
-            { className: 'uk-navbar-nav' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              { id: 'DashboardLi', className: 'uk-animation-toggle uk-active', onClick: this.showDashboard.bind(this) },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'a',
-                { id: 'DashboardA', className: 'uk-box-shadow-hover-medium uk-card-primary' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'uk-icon uk-margin-small-right', 'uk-icon': 'icon: home' }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('p', { id: 'DashboardP' }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'b',
-                  { id: 'DashboardB' },
-                  'Dashboard'
-                )
-              )
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              { id: 'TimetableLi', className: 'uk-animation-toggle', onClick: this.showTimetable.bind(this) },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'a',
-                { id: 'TimetableA', className: 'uk-box-shadow-hover-medium' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'uk-icon uk-margin-small-right', 'uk-icon': 'icon: star' }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  { id: 'TimetableP' },
-                  'Timetable'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('b', { id: 'TimetableB' })
-              )
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              { id: 'User NotesLi', className: 'uk-animation-toggle', onClick: this.showNotes.bind(this) },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'a',
-                { id: 'User NotesA', className: 'uk-box-shadow-hover-medium' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'uk-icon uk-margin-small-right', 'uk-icon': 'icon: file-edit' }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  { id: 'User NotesP' },
-                  'User Notes'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('b', { id: 'User NotesB' })
-              )
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              { id: 'Daily NoticesLi', className: 'uk-animation-toggle', onClick: this.showNotices.bind(this) },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'a',
-                { id: 'Daily NoticesA', className: 'uk-box-shadow-hover-medium' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'uk-icon uk-margin-small-right', 'uk-icon': 'icon: bell' }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  { id: 'Daily NoticesP' },
-                  'Daily Notices'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('b', { id: 'Daily NoticesB' })
-              )
-            )
-          )
+            alt: 'logo', src: '64.png', width: '60px', height: '50px' })
         ),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
@@ -24288,66 +24092,8 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
               { className: 'uk-animation-toggle' },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'a',
-                { className: 'uk-box-shadow-hover-medium', 'uk-icon': 'icon: chevron-down' },
-                'Stu Studentson'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'div',
-                { className: 'uk-navbar-dropdown', 'uk-dropdown': 'mode: click' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'ul',
-                  { className: 'uk-nav uk-navbar-dropdown-nav' },
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'li',
-                    null,
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                      'a',
-                      { onClick: this.showSettings.bind(this) },
-                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'uk-icon uk-margin-small-right', 'uk-icon': 'icon: cog' }),
-                      'Settings'
-                    )
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'li',
-                    null,
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                      'a',
-                      { onClick: this.showAbout.bind(this) },
-                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'uk-icon uk-margin-small-right', 'uk-icon': 'icon: info' }),
-                      'About'
-                    )
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'li',
-                    null,
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                      'a',
-                      { onClick: this.showFeedback.bind(this) },
-                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'uk-icon uk-margin-small-right', 'uk-icon': 'icon: comment' }),
-                      'Feedback'
-                    )
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'li',
-                    null,
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                      'a',
-                      { onClick: this.showProfile.bind(this) },
-                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'uk-icon uk-margin-small-right', 'uk-icon': 'icon: user' }),
-                      'Profile'
-                    )
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'li',
-                    null,
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                      'a',
-                      { onClick: this.toggleLogin.bind(this) },
-                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'uk-icon uk-margin-small-right', 'uk-icon': 'icon: sign-in' }),
-                      'Log In'
-                    )
-                  )
-                )
+                { className: 'uk-box-shadow-hover-medium' },
+                'Login'
               )
             )
           )
@@ -24355,15 +24101,219 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       ),
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
-        { id: 'content' },
-        this.state.visible === window.STATES.DASHBOARD && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__Dashboard_Dashboard__["default"], null),
-        this.state.visible === window.STATES.TIMETABLE && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Timetable_Timetable__["a" /* default */], null),
-        this.state.visible === window.STATES.NOTES && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Notes_Notes__["a" /* default */], null),
-        this.state.visible === window.STATES.NOTICES && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__Notices_Notices__["a" /* default */], null),
-        this.state.visible === window.STATES.SETTINGS && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__Settings_Settings__["a" /* default */], null),
-        this.state.visible === window.STATES.ABOUT && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__About_About__["default"], null),
-        this.state.visible === window.STATES.FEEDBACK && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__Feedback_Feedback__["a" /* default */], null),
-        this.state.visible === window.STATES.PROFILE && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__Profile_Profile__["a" /* default */], null)
+        { className: 'uk-flex uk-flex-center' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'uk-grid uk-grid-collapse uk-child-width-1-2 uk-width-1-2@xl uk-width-4-5@m uk-text-center uk-margin-right uk-margin-left' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            null,
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'uk-card uk-card-default uk-card-body uk-animation-slide-top-small' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { id: 'logo',
+                className: 'uk-disabled',
+                alt: 'logo', src: '256.png', width: '150px', height: '150px' }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'span',
+                { className: 'uk-text-center uk-margin-top uk-h1' },
+                'DinnerJacket'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'span',
+                { className: 'uk-label uk-label-danger' },
+                'alpha'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                { className: 'uk-text-small uk-margin-small-top uk-margin-small-bottom' },
+                'alpha v0.1.0'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                { className: '' },
+                'This is an alpha. That means that you might try out new features that are still in development, or even run into technical issues from time to time.'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'h2',
+                { className: 'uk-h2 uk-margin-bottom' },
+                'Welcome!'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'button',
+                { className: 'uk-button uk-button-primary' },
+                'Login'
+              )
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            null,
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'uk-card uk-card-default uk-card-body' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                { className: 'uk-text-large' },
+                'Roll Call in'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'h1',
+                { className: 'time uk-text-center uk-heading-primary uk-margin-small-top uk-margin-medium-bottom' },
+                '10:00:00'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: '' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'table',
+                  { className: 'uk-table uk-table-hover uk-table-small' },
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'tbody',
+                    null,
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'tr',
+                      null,
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        { className: 'uk-text-lead uk-text-left' },
+                        'English',
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                          'dd',
+                          { className: 'uk-text-meta uk-text-muted uk-text-top uk-text-left' },
+                          'at 09:05 with Ms English'
+                        )
+                      ),
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        { className: 'uk-text-middle uk-table-shrink uk-text-lead' },
+                        '201'
+                      )
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'tr',
+                      null,
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        { className: 'uk-text-lead uk-text-left uk-text-muted' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                          'small',
+                          null,
+                          'Study Period'
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('dd', { className: 'uk-text-meta uk-text-muted uk-text-top uk-text-left' })
+                      ),
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        { className: 'uk-text-middle uk-table-shrink uk-text-lead uk-text-muted' },
+                        '10:10'
+                      )
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'tr',
+                      null,
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        { className: 'uk-text-lead uk-text-left uk-text-muted' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                          'small',
+                          null,
+                          'Lunch'
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('dd', { className: 'uk-text-meta uk-text-muted uk-text-top uk-text-left' })
+                      ),
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        { className: 'uk-text-middle uk-table-shrink uk-text-lead uk-text-muted' },
+                        '11:10'
+                      )
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'tr',
+                      null,
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        { className: 'uk-text-lead uk-text-left' },
+                        'Maths',
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                          'dd',
+                          { className: 'uk-text-meta uk-text-muted uk-text-top uk-text-left' },
+                          'at 11:50 with Ms Maths'
+                        )
+                      ),
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        { className: 'uk-text-middle uk-table-shrink uk-text-lead' },
+                        '101'
+                      )
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'tr',
+                      null,
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        { className: 'uk-text-lead uk-text-left' },
+                        'English',
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                          'dd',
+                          { className: 'uk-text-meta uk-text-muted uk-text-top uk-text-left' },
+                          'at 12:55 with Ms English'
+                        )
+                      ),
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        { className: 'uk-text-middle uk-table-shrink uk-text-lead' },
+                        '202'
+                      )
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'tr',
+                      null,
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        { className: 'uk-text-lead uk-text-left uk-text-muted' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                          'small',
+                          null,
+                          'Recess'
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('dd', { className: 'uk-text-meta uk-text-muted uk-text-top uk-text-left' })
+                      ),
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        { className: 'uk-text-middle uk-table-shrink uk-text-lead uk-text-muted' },
+                        '13:55'
+                      )
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'tr',
+                      null,
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        { className: 'uk-text-lead uk-text-left' },
+                        'Maths',
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                          'dd',
+                          { className: 'uk-text-meta uk-text-muted uk-text-top uk-text-left' },
+                          'at 14:15 with Ms English'
+                        )
+                      ),
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        { className: 'uk-text-middle uk-table-shrink uk-text-lead' },
+                        '101'
+                      )
+                    )
+                  )
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('h1', null)
+              )
+            )
+          )
+        )
       )
     );
   }
@@ -27833,7 +27783,7 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   }
 }
 
-/* harmony default export */ __webpack_exports__["a"] = (Timetable);
+/* unused harmony default export */ var _unused_webpack_default_export = (Timetable);
 
 /***/ }),
 /* 72 */
@@ -28071,7 +28021,7 @@ class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   }
 }
 
-/* harmony default export */ __webpack_exports__["a"] = (Notes);
+/* unused harmony default export */ var _unused_webpack_default_export = (Notes);
 
 /***/ }),
 /* 73 */
@@ -28864,7 +28814,7 @@ class Notices extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   }
 }
 
-/* harmony default export */ __webpack_exports__["a"] = (Notices);
+/* unused harmony default export */ var _unused_webpack_default_export = (Notices);
 
 /***/ }),
 /* 74 */
@@ -28920,7 +28870,7 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   }
 }
 
-/* harmony default export */ __webpack_exports__["a"] = (Settings);
+/* unused harmony default export */ var _unused_webpack_default_export = (Settings);
 
 /***/ }),
 /* 75 */
@@ -28946,7 +28896,7 @@ class Feedback extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   }
 }
 
-/* harmony default export */ __webpack_exports__["a"] = (Feedback);
+/* unused harmony default export */ var _unused_webpack_default_export = (Feedback);
 
 /***/ }),
 /* 76 */
@@ -28988,7 +28938,7 @@ exports = module.exports = __webpack_require__(34)(false);
 
 
 // module
-exports.push([module.i, ".container {\n  position: relative;\n\tpadding-bottom: 100%;\n\tpadding-top: 60px;\n\theight: 0;\n}\n\n.embed {\n  position: absolute;\n  border: none;\n  top: 0; right: 0;\n  bottom: 0; left: 0;\n  width: 100%;\n  height: 100%;\n}", ""]);
+exports.push([module.i, ".container {\r\n  position: relative;\r\n\tpadding-bottom: 100%;\r\n\tpadding-top: 60px;\r\n\theight: 0;\r\n}\r\n\r\n.embed {\r\n  position: absolute;\r\n  border: none;\r\n  top: 0; right: 0;\r\n  bottom: 0; left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n}", ""]);
 
 // exports
 
@@ -29107,7 +29057,7 @@ class Profile extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   }
 }
 
-/* harmony default export */ __webpack_exports__["a"] = (Profile);
+/* unused harmony default export */ var _unused_webpack_default_export = (Profile);
 
 /***/ }),
 /* 80 */
@@ -29149,7 +29099,7 @@ exports = module.exports = __webpack_require__(34)(false);
 
 
 // module
-exports.push([module.i, "body {\n  margin: 0;\n  padding: 0;\n  font-family: 'Lato', sans-serif;\n}\n\n.main {\n  transition: 150ms linear;\n}\n\n.content {\n  align-content: center;\n  margin-left: 10px;\n  background: white;\n  transition: 150ms linear;\n}\n\n.background {\n  background-color: #2a2c31;\n}\n\n.logo {\n  width: 38px;\n  height: 38px;\n  margin-top: 0.5px;\n  margin-left: 5px;\n  margin-right: 5px;\n  content: url('data:image/png;base64,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')\n}\n", ""]);
+exports.push([module.i, ".beta {\r\n  left: 115%; top: 55%\r\n}\r\n\r\n.time {\r\n  font-size: 60px!important;\r\n  line-height: 1.2;\r\n}\r\n\r\nbody {\r\n  margin: 0;\r\n  padding: 0;\r\n  font-family: 'Lato', sans-serif;\r\n}\r\n\r\n.main {\r\n  transition: 150ms linear;\r\n}\r\n\r\n.content {\r\n  align-content: center;\r\n  margin-left: 10px;\r\n  background: white;\r\n  transition: 150ms linear;\r\n}\r\n\r\n.background {\r\n  background-color: #2a2c31;\r\n}\r\n\r\n.logo {\r\n  width: 38px;\r\n  height: 38px;\r\n  margin-top: 0.5px;\r\n  margin-left: 5px;\r\n  margin-right: 5px;\r\n  content: url('data:image/png;base64,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')\r\n}\r\n", ""]);
 
 // exports
 
