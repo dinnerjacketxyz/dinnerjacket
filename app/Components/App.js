@@ -158,7 +158,7 @@ class App extends Component {
   render() {
     return (
       <div id='main' className='main'>
-        <nav id='navbar' className='uk-navbar uk-navbar-container uk-margin' uk-navbar='true' height='70px'>
+        <nav id='navbar' className='uk-navbar uk-navbar-container' uk-navbar='true' height='70px'>
           <div className='uk-navbar-left'>
             <img id='logo'
               className='uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom'

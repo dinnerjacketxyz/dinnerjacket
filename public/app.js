@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 35);
+/******/ 	return __webpack_require__(__webpack_require__.s = 36);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -261,9 +261,9 @@ process.umask = function() { return 0; };
 /* WEBPACK VAR INJECTION */(function(process) {
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(36);
-} else {
   module.exports = __webpack_require__(37);
+} else {
+  module.exports = __webpack_require__(38);
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
@@ -420,8 +420,8 @@ var util = __webpack_require__(7);
 util.inherits = __webpack_require__(3);
 /*</replacement>*/
 
-var Readable = __webpack_require__(27);
-var Writable = __webpack_require__(31);
+var Readable = __webpack_require__(26);
+var Writable = __webpack_require__(30);
 
 util.inherits(Duplex, Readable);
 
@@ -511,9 +511,9 @@ function forEach(xs, f) {
 
 
 
-var base64 = __webpack_require__(51)
-var ieee754 = __webpack_require__(52)
-var isArray = __webpack_require__(24)
+var base64 = __webpack_require__(52)
+var ieee754 = __webpack_require__(53)
+var isArray = __webpack_require__(23)
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -2793,7 +2793,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 if (process.env.NODE_ENV !== 'production') {
   var invariant = __webpack_require__(11);
   var warning = __webpack_require__(12);
-  var ReactPropTypesSecret = __webpack_require__(38);
+  var ReactPropTypesSecret = __webpack_require__(39);
   var loggedTypeFailures = {};
 }
 
@@ -3189,7 +3189,7 @@ module.exports = shallowEqual;
  * 
  */
 
-var isTextNode = __webpack_require__(41);
+var isTextNode = __webpack_require__(42);
 
 /*eslint-disable no-bitwise */
 
@@ -3255,9 +3255,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
-const data = __webpack_require__(23);
 const css = __webpack_require__(22);
-const http = __webpack_require__(49);
+const http = __webpack_require__(50);
 let timetable = '';
 
 class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
@@ -3266,9 +3265,11 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   }
 
   dataTest() {
-    http.get('/getdata', res => {
+    // returns daily notices, see auth.js for usage info
+    http.get('/getdata?url=dailynews/list.json', res => {
       res.setEncoding('utf8');
       res.on('data', function (body) {
+        // prints daily notices
         console.log(body);
       });
     });
@@ -3457,75 +3458,6 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* 23 */
 /***/ (function(module, exports) {
 
-// declare variables to hold data
-let dailynews_list;
-let diarycalendar_events;
-let timetable_dailytimetable;
-let timetable_timetable;
-let details_participation;
-let details_userinfo;
-let timetable_bells;
-let calendar_days;
-let calendar_terms;
-
-// URLs used for setting and getting data
-const URLs = ['dailynews/list.json', 'diarycalendar/events.json', 'timetable/daytimetable.json', 'timetable/timetable.json', 'details/participation.json', 'details/userinfo.json', 'timetable/bells.json', 'calendar/days.json', 'calendar/terms.json'];
-
-// used to set data
-// URL - the URL (see above) for which to set data
-// data - the data to set
-exports.importData = (URL, data) => {
-  switch (URL) {
-    case URLs[0]:
-      dailynews_list = data;break;
-    case URLs[1]:
-      diarycalendar_events = data;break;
-    case URLs[2]:
-      timetable_dailytimetable = data;break;
-    case URLs[3]:
-      timetable_timetable = data;break;
-    case URLs[4]:
-      details_participation = data;break;
-    case URLs[5]:
-      details_userinfo = data;break;
-    case URLs[6]:
-      timetable_bells = data;break;
-    case URLs[7]:
-      calendar_days = data;break;
-    case URLs[8]:
-      calendar_terms = data;break;
-  }
-};
-
-// used to get data
-// URL - the URL (see above) for which to get data
-exports.exportData = URL => {
-  switch (URL) {
-    case URLs[0]:
-      return dailynews_list;break;
-    case URLs[1]:
-      return diarycalendar_events;break;
-    case URLs[2]:
-      return timetable_dailytimetable;break;
-    case URLs[3]:
-      return timetable_timetable;break;
-    case URLs[4]:
-      return details_participation;break;
-    case URLs[5]:
-      return details_userinfo;break;
-    case URLs[6]:
-      return timetable_bells;break;
-    case URLs[7]:
-      return calendar_days;break;
-    case URLs[8]:
-      return calendar_terms;break;
-  }
-};
-
-/***/ }),
-/* 24 */
-/***/ (function(module, exports) {
-
 var toString = {}.toString;
 
 module.exports = Array.isArray || function (arr) {
@@ -3534,7 +3466,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 25 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {exports.fetch = isFunction(global.fetch) && isFunction(global.ReadableStream)
@@ -3610,20 +3542,20 @@ xhr = null // Help gc
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 26 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(27);
+exports = module.exports = __webpack_require__(26);
 exports.Stream = exports;
 exports.Readable = exports;
-exports.Writable = __webpack_require__(31);
+exports.Writable = __webpack_require__(30);
 exports.Duplex = __webpack_require__(5);
-exports.Transform = __webpack_require__(33);
-exports.PassThrough = __webpack_require__(59);
+exports.Transform = __webpack_require__(32);
+exports.PassThrough = __webpack_require__(60);
 
 
 /***/ }),
-/* 27 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3658,7 +3590,7 @@ var processNextTick = __webpack_require__(9);
 module.exports = Readable;
 
 /*<replacement>*/
-var isArray = __webpack_require__(24);
+var isArray = __webpack_require__(23);
 /*</replacement>*/
 
 /*<replacement>*/
@@ -3668,7 +3600,7 @@ var Duplex;
 Readable.ReadableState = ReadableState;
 
 /*<replacement>*/
-var EE = __webpack_require__(28).EventEmitter;
+var EE = __webpack_require__(27).EventEmitter;
 
 var EElistenerCount = function (emitter, type) {
   return emitter.listeners(type).length;
@@ -3676,7 +3608,7 @@ var EElistenerCount = function (emitter, type) {
 /*</replacement>*/
 
 /*<replacement>*/
-var Stream = __webpack_require__(29);
+var Stream = __webpack_require__(28);
 /*</replacement>*/
 
 // TODO(bmeurer): Change this back to const once hole checks are
@@ -3698,7 +3630,7 @@ util.inherits = __webpack_require__(3);
 /*</replacement>*/
 
 /*<replacement>*/
-var debugUtil = __webpack_require__(54);
+var debugUtil = __webpack_require__(55);
 var debug = void 0;
 if (debugUtil && debugUtil.debuglog) {
   debug = debugUtil.debuglog('stream');
@@ -3707,8 +3639,8 @@ if (debugUtil && debugUtil.debuglog) {
 }
 /*</replacement>*/
 
-var BufferList = __webpack_require__(55);
-var destroyImpl = __webpack_require__(30);
+var BufferList = __webpack_require__(56);
+var destroyImpl = __webpack_require__(29);
 var StringDecoder;
 
 util.inherits(Readable, Stream);
@@ -3791,7 +3723,7 @@ function ReadableState(options, stream) {
   this.decoder = null;
   this.encoding = null;
   if (options.encoding) {
-    if (!StringDecoder) StringDecoder = __webpack_require__(32).StringDecoder;
+    if (!StringDecoder) StringDecoder = __webpack_require__(31).StringDecoder;
     this.decoder = new StringDecoder(options.encoding);
     this.encoding = options.encoding;
   }
@@ -3947,7 +3879,7 @@ Readable.prototype.isPaused = function () {
 
 // backwards compatibility.
 Readable.prototype.setEncoding = function (enc) {
-  if (!StringDecoder) StringDecoder = __webpack_require__(32).StringDecoder;
+  if (!StringDecoder) StringDecoder = __webpack_require__(31).StringDecoder;
   this._readableState.decoder = new StringDecoder(enc);
   this._readableState.encoding = enc;
   return this;
@@ -4637,7 +4569,7 @@ function indexOf(xs, x) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(0)))
 
 /***/ }),
-/* 28 */
+/* 27 */
 /***/ (function(module, exports) {
 
 // Copyright Joyent, Inc. and other Node contributors.
@@ -4945,14 +4877,14 @@ function isUndefined(arg) {
 
 
 /***/ }),
-/* 29 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(28).EventEmitter;
+module.exports = __webpack_require__(27).EventEmitter;
 
 
 /***/ }),
-/* 30 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5030,7 +4962,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 31 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5106,12 +5038,12 @@ util.inherits = __webpack_require__(3);
 
 /*<replacement>*/
 var internalUtil = {
-  deprecate: __webpack_require__(58)
+  deprecate: __webpack_require__(59)
 };
 /*</replacement>*/
 
 /*<replacement>*/
-var Stream = __webpack_require__(29);
+var Stream = __webpack_require__(28);
 /*</replacement>*/
 
 /*<replacement>*/
@@ -5125,7 +5057,7 @@ function _isUint8Array(obj) {
 }
 /*</replacement>*/
 
-var destroyImpl = __webpack_require__(30);
+var destroyImpl = __webpack_require__(29);
 
 util.inherits(Writable, Stream);
 
@@ -5698,10 +5630,10 @@ Writable.prototype._destroy = function (err, cb) {
   this.end();
   cb(err);
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(56).setImmediate, __webpack_require__(2)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(57).setImmediate, __webpack_require__(2)))
 
 /***/ }),
-/* 32 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5979,7 +5911,7 @@ function simpleEnd(buf) {
 }
 
 /***/ }),
-/* 33 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6199,7 +6131,7 @@ function done(stream, er, data) {
 }
 
 /***/ }),
-/* 34 */
+/* 33 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6207,13 +6139,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
-const css = __webpack_require__(34);
+const css = __webpack_require__(33);
 
 class About extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { className: 'uk-flex uk-flex-center uk-text-center uk-margin-left uk-margin-right' },
+      { className: 'uk-flex uk-flex-center uk-text-center uk-margin-top uk-margin-left uk-margin-right' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
         { className: 'uk-card uk-card-default uk-card-body uk-card large uk-width-1-3@xl uk-width-2-5@m uk-width-3-5@s' },
@@ -6323,16 +6255,470 @@ class About extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["default"] = (About);
 
 /***/ }),
+/* 34 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function(useSourceMap) {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		return this.map(function (item) {
+			var content = cssWithMappingToString(item, useSourceMap);
+			if(item[2]) {
+				return "@media " + item[2] + "{" + content + "}";
+			} else {
+				return content;
+			}
+		}).join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+	var content = item[1] || '';
+	var cssMapping = item[3];
+	if (!cssMapping) {
+		return content;
+	}
+
+	if (useSourceMap && typeof btoa === 'function') {
+		var sourceMapping = toComment(cssMapping);
+		var sourceURLs = cssMapping.sources.map(function (source) {
+			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
+		});
+
+		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+	}
+
+	return [content].join('\n');
+}
+
+// Adapted from convert-source-map (MIT)
+function toComment(sourceMap) {
+	// eslint-disable-next-line no-undef
+	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+
+	return '/*# ' + data + ' */';
+}
+
+
+/***/ }),
 /* 35 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+
+var stylesInDom = {};
+
+var	memoize = function (fn) {
+	var memo;
+
+	return function () {
+		if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+		return memo;
+	};
+};
+
+var isOldIE = memoize(function () {
+	// Test for IE <= 9 as proposed by Browserhacks
+	// @see http://browserhacks.com/#hack-e71d8692f65334173fee715c222cb805
+	// Tests for existence of standard globals is to allow style-loader
+	// to operate correctly into non-standard environments
+	// @see https://github.com/webpack-contrib/style-loader/issues/177
+	return window && document && document.all && !window.atob;
+});
+
+var getElement = (function (fn) {
+	var memo = {};
+
+	return function(selector) {
+		if (typeof memo[selector] === "undefined") {
+			var styleTarget = fn.call(this, selector);
+			// Special case to return head of iframe instead of iframe itself
+			if (styleTarget instanceof window.HTMLIFrameElement) {
+				try {
+					// This will throw an exception if access to iframe is blocked
+					// due to cross-origin restrictions
+					styleTarget = styleTarget.contentDocument.head;
+				} catch(e) {
+					styleTarget = null;
+				}
+			}
+			memo[selector] = styleTarget;
+		}
+		return memo[selector]
+	};
+})(function (target) {
+	return document.querySelector(target)
+});
+
+var singleton = null;
+var	singletonCounter = 0;
+var	stylesInsertedAtTop = [];
+
+var	fixUrls = __webpack_require__(78);
+
+module.exports = function(list, options) {
+	if (typeof DEBUG !== "undefined" && DEBUG) {
+		if (typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+	}
+
+	options = options || {};
+
+	options.attrs = typeof options.attrs === "object" ? options.attrs : {};
+
+	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+	// tags it will allow on a page
+	if (!options.singleton && typeof options.singleton !== "boolean") options.singleton = isOldIE();
+
+	// By default, add <style> tags to the <head> element
+	if (!options.insertInto) options.insertInto = "head";
+
+	// By default, add <style> tags to the bottom of the target
+	if (!options.insertAt) options.insertAt = "bottom";
+
+	var styles = listToStyles(list, options);
+
+	addStylesToDom(styles, options);
+
+	return function update (newList) {
+		var mayRemove = [];
+
+		for (var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+
+			domStyle.refs--;
+			mayRemove.push(domStyle);
+		}
+
+		if(newList) {
+			var newStyles = listToStyles(newList, options);
+			addStylesToDom(newStyles, options);
+		}
+
+		for (var i = 0; i < mayRemove.length; i++) {
+			var domStyle = mayRemove[i];
+
+			if(domStyle.refs === 0) {
+				for (var j = 0; j < domStyle.parts.length; j++) domStyle.parts[j]();
+
+				delete stylesInDom[domStyle.id];
+			}
+		}
+	};
+};
+
+function addStylesToDom (styles, options) {
+	for (var i = 0; i < styles.length; i++) {
+		var item = styles[i];
+		var domStyle = stylesInDom[item.id];
+
+		if(domStyle) {
+			domStyle.refs++;
+
+			for(var j = 0; j < domStyle.parts.length; j++) {
+				domStyle.parts[j](item.parts[j]);
+			}
+
+			for(; j < item.parts.length; j++) {
+				domStyle.parts.push(addStyle(item.parts[j], options));
+			}
+		} else {
+			var parts = [];
+
+			for(var j = 0; j < item.parts.length; j++) {
+				parts.push(addStyle(item.parts[j], options));
+			}
+
+			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+		}
+	}
+}
+
+function listToStyles (list, options) {
+	var styles = [];
+	var newStyles = {};
+
+	for (var i = 0; i < list.length; i++) {
+		var item = list[i];
+		var id = options.base ? item[0] + options.base : item[0];
+		var css = item[1];
+		var media = item[2];
+		var sourceMap = item[3];
+		var part = {css: css, media: media, sourceMap: sourceMap};
+
+		if(!newStyles[id]) styles.push(newStyles[id] = {id: id, parts: [part]});
+		else newStyles[id].parts.push(part);
+	}
+
+	return styles;
+}
+
+function insertStyleElement (options, style) {
+	var target = getElement(options.insertInto)
+
+	if (!target) {
+		throw new Error("Couldn't find a style target. This probably means that the value for the 'insertInto' parameter is invalid.");
+	}
+
+	var lastStyleElementInsertedAtTop = stylesInsertedAtTop[stylesInsertedAtTop.length - 1];
+
+	if (options.insertAt === "top") {
+		if (!lastStyleElementInsertedAtTop) {
+			target.insertBefore(style, target.firstChild);
+		} else if (lastStyleElementInsertedAtTop.nextSibling) {
+			target.insertBefore(style, lastStyleElementInsertedAtTop.nextSibling);
+		} else {
+			target.appendChild(style);
+		}
+		stylesInsertedAtTop.push(style);
+	} else if (options.insertAt === "bottom") {
+		target.appendChild(style);
+	} else if (typeof options.insertAt === "object" && options.insertAt.before) {
+		var nextSibling = getElement(options.insertInto + " " + options.insertAt.before);
+		target.insertBefore(style, nextSibling);
+	} else {
+		throw new Error("[Style Loader]\n\n Invalid value for parameter 'insertAt' ('options.insertAt') found.\n Must be 'top', 'bottom', or Object.\n (https://github.com/webpack-contrib/style-loader#insertat)\n");
+	}
+}
+
+function removeStyleElement (style) {
+	if (style.parentNode === null) return false;
+	style.parentNode.removeChild(style);
+
+	var idx = stylesInsertedAtTop.indexOf(style);
+	if(idx >= 0) {
+		stylesInsertedAtTop.splice(idx, 1);
+	}
+}
+
+function createStyleElement (options) {
+	var style = document.createElement("style");
+
+	options.attrs.type = "text/css";
+
+	addAttrs(style, options.attrs);
+	insertStyleElement(options, style);
+
+	return style;
+}
+
+function createLinkElement (options) {
+	var link = document.createElement("link");
+
+	options.attrs.type = "text/css";
+	options.attrs.rel = "stylesheet";
+
+	addAttrs(link, options.attrs);
+	insertStyleElement(options, link);
+
+	return link;
+}
+
+function addAttrs (el, attrs) {
+	Object.keys(attrs).forEach(function (key) {
+		el.setAttribute(key, attrs[key]);
+	});
+}
+
+function addStyle (obj, options) {
+	var style, update, remove, result;
+
+	// If a transform function was defined, run it on the css
+	if (options.transform && obj.css) {
+	    result = options.transform(obj.css);
+
+	    if (result) {
+	    	// If transform returns a value, use that instead of the original css.
+	    	// This allows running runtime transformations on the css.
+	    	obj.css = result;
+	    } else {
+	    	// If the transform function returns a falsy value, don't add this css.
+	    	// This allows conditional loading of css
+	    	return function() {
+	    		// noop
+	    	};
+	    }
+	}
+
+	if (options.singleton) {
+		var styleIndex = singletonCounter++;
+
+		style = singleton || (singleton = createStyleElement(options));
+
+		update = applyToSingletonTag.bind(null, style, styleIndex, false);
+		remove = applyToSingletonTag.bind(null, style, styleIndex, true);
+
+	} else if (
+		obj.sourceMap &&
+		typeof URL === "function" &&
+		typeof URL.createObjectURL === "function" &&
+		typeof URL.revokeObjectURL === "function" &&
+		typeof Blob === "function" &&
+		typeof btoa === "function"
+	) {
+		style = createLinkElement(options);
+		update = updateLink.bind(null, style, options);
+		remove = function () {
+			removeStyleElement(style);
+
+			if(style.href) URL.revokeObjectURL(style.href);
+		};
+	} else {
+		style = createStyleElement(options);
+		update = applyToTag.bind(null, style);
+		remove = function () {
+			removeStyleElement(style);
+		};
+	}
+
+	update(obj);
+
+	return function updateStyle (newObj) {
+		if (newObj) {
+			if (
+				newObj.css === obj.css &&
+				newObj.media === obj.media &&
+				newObj.sourceMap === obj.sourceMap
+			) {
+				return;
+			}
+
+			update(obj = newObj);
+		} else {
+			remove();
+		}
+	};
+}
+
+var replaceText = (function () {
+	var textStore = [];
+
+	return function (index, replacement) {
+		textStore[index] = replacement;
+
+		return textStore.filter(Boolean).join('\n');
+	};
+})();
+
+function applyToSingletonTag (style, index, remove, obj) {
+	var css = remove ? "" : obj.css;
+
+	if (style.styleSheet) {
+		style.styleSheet.cssText = replaceText(index, css);
+	} else {
+		var cssNode = document.createTextNode(css);
+		var childNodes = style.childNodes;
+
+		if (childNodes[index]) style.removeChild(childNodes[index]);
+
+		if (childNodes.length) {
+			style.insertBefore(cssNode, childNodes[index]);
+		} else {
+			style.appendChild(cssNode);
+		}
+	}
+}
+
+function applyToTag (style, obj) {
+	var css = obj.css;
+	var media = obj.media;
+
+	if(media) {
+		style.setAttribute("media", media)
+	}
+
+	if(style.styleSheet) {
+		style.styleSheet.cssText = css;
+	} else {
+		while(style.firstChild) {
+			style.removeChild(style.firstChild);
+		}
+
+		style.appendChild(document.createTextNode(css));
+	}
+}
+
+function updateLink (link, options, obj) {
+	var css = obj.css;
+	var sourceMap = obj.sourceMap;
+
+	/*
+		If convertToAbsoluteUrls isn't defined, but sourcemaps are enabled
+		and there is no publicPath defined then lets turn convertToAbsoluteUrls
+		on by default.  Otherwise default to the convertToAbsoluteUrls option
+		directly
+	*/
+	var autoFixUrls = options.convertToAbsoluteUrls === undefined && sourceMap;
+
+	if (options.convertToAbsoluteUrls || autoFixUrls) {
+		css = fixUrls(css);
+	}
+
+	if (sourceMap) {
+		// http://stackoverflow.com/a/26603875
+		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+	}
+
+	var blob = new Blob([css], { type: "text/css" });
+
+	var oldSrc = link.href;
+
+	link.href = URL.createObjectURL(blob);
+
+	if(oldSrc) URL.revokeObjectURL(oldSrc);
+}
+
+
+/***/ }),
+/* 36 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(40);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Components_App__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Components_App__ = __webpack_require__(49);
 
 
 
@@ -6340,7 +6726,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Components_App__["a" /* default */], null), document.getElementById('app'));
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6368,7 +6754,7 @@ isValidElement:K,version:"16.2.0",__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_F
 
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7733,7 +8119,7 @@ module.exports = react;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7752,7 +8138,7 @@ module.exports = ReactPropTypesSecret;
 
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7790,15 +8176,15 @@ if (process.env.NODE_ENV === 'production') {
   // DCE check should happen before ReactDOM bundle executes so that
   // DevTools can report bad minification during injection.
   checkDCE();
-  module.exports = __webpack_require__(40);
+  module.exports = __webpack_require__(41);
 } else {
-  module.exports = __webpack_require__(43);
+  module.exports = __webpack_require__(44);
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8034,7 +8420,7 @@ Z.injectIntoDevTools({findFiberByHostInstance:pb,bundleType:0,version:"16.2.0",r
 
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8049,7 +8435,7 @@ Z.injectIntoDevTools({findFiberByHostInstance:pb,bundleType:0,version:"16.2.0",r
  * @typechecks
  */
 
-var isNode = __webpack_require__(42);
+var isNode = __webpack_require__(43);
 
 /**
  * @param {*} object The object to check.
@@ -8062,7 +8448,7 @@ function isTextNode(object) {
 module.exports = isTextNode;
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8090,7 +8476,7 @@ function isNode(object) {
 module.exports = isNode;
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8124,8 +8510,8 @@ var containsNode = __webpack_require__(20);
 var focusNode = __webpack_require__(21);
 var emptyObject = __webpack_require__(8);
 var checkPropTypes = __webpack_require__(14);
-var hyphenateStyleName = __webpack_require__(44);
-var camelizeStyleName = __webpack_require__(46);
+var hyphenateStyleName = __webpack_require__(45);
+var camelizeStyleName = __webpack_require__(47);
 
 /**
  * WARNING: DO NOT manually require this module.
@@ -21206,2199 +21592,7 @@ var possibleStandardNames = {
   wmode: 'wmode',
   wrap: 'wrap',
 
-  // SVG
-  about: 'about',
-  accentheight: 'accentHeight',
-  'accent-height': 'accentHeight',
-  accumulate: 'accumulate',
-  additive: 'additive',
-  alignmentbaseline: 'alignmentBaseline',
-  'alignment-baseline': 'alignmentBaseline',
-  allowreorder: 'allowReorder',
-  alphabetic: 'alphabetic',
-  amplitude: 'amplitude',
-  arabicform: 'arabicForm',
-  'arabic-form': 'arabicForm',
-  ascent: 'ascent',
-  attributename: 'attributeName',
-  attributetype: 'attributeType',
-  autoreverse: 'autoReverse',
-  azimuth: 'azimuth',
-  basefrequency: 'baseFrequency',
-  baselineshift: 'baselineShift',
-  'baseline-shift': 'baselineShift',
-  baseprofile: 'baseProfile',
-  bbox: 'bbox',
-  begin: 'begin',
-  bias: 'bias',
-  by: 'by',
-  calcmode: 'calcMode',
-  capheight: 'capHeight',
-  'cap-height': 'capHeight',
-  clip: 'clip',
-  clippath: 'clipPath',
-  'clip-path': 'clipPath',
-  clippathunits: 'clipPathUnits',
-  cliprule: 'clipRule',
-  'clip-rule': 'clipRule',
-  color: 'color',
-  colorinterpolation: 'colorInterpolation',
-  'color-interpolation': 'colorInterpolation',
-  colorinterpolationfilters: 'colorInterpolationFilters',
-  'color-interpolation-filters': 'colorInterpolationFilters',
-  colorprofile: 'colorProfile',
-  'color-profile': 'colorProfile',
-  colorrendering: 'colorRendering',
-  'color-rendering': 'colorRendering',
-  contentscripttype: 'contentScriptType',
-  contentstyletype: 'contentStyleType',
-  cursor: 'cursor',
-  cx: 'cx',
-  cy: 'cy',
-  d: 'd',
-  datatype: 'datatype',
-  decelerate: 'decelerate',
-  descent: 'descent',
-  diffuseconstant: 'diffuseConstant',
-  direction: 'direction',
-  display: 'display',
-  divisor: 'divisor',
-  dominantbaseline: 'dominantBaseline',
-  'dominant-baseline': 'dominantBaseline',
-  dur: 'dur',
-  dx: 'dx',
-  dy: 'dy',
-  edgemode: 'edgeMode',
-  elevation: 'elevation',
-  enablebackground: 'enableBackground',
-  'enable-background': 'enableBackground',
-  end: 'end',
-  exponent: 'exponent',
-  externalresourcesrequired: 'externalResourcesRequired',
-  fill: 'fill',
-  fillopacity: 'fillOpacity',
-  'fill-opacity': 'fillOpacity',
-  fillrule: 'fillRule',
-  'fill-rule': 'fillRule',
-  filter: 'filter',
-  filterres: 'filterRes',
-  filterunits: 'filterUnits',
-  floodopacity: 'floodOpacity',
-  'flood-opacity': 'floodOpacity',
-  floodcolor: 'floodColor',
-  'flood-color': 'floodColor',
-  focusable: 'focusable',
-  fontfamily: 'fontFamily',
-  'font-family': 'fontFamily',
-  fontsize: 'fontSize',
-  'font-size': 'fontSize',
-  fontsizeadjust: 'fontSizeAdjust',
-  'font-size-adjust': 'fontSizeAdjust',
-  fontstretch: 'fontStretch',
-  'font-stretch': 'fontStretch',
-  fontstyle: 'fontStyle',
-  'font-style': 'fontStyle',
-  fontvariant: 'fontVariant',
-  'font-variant': 'fontVariant',
-  fontweight: 'fontWeight',
-  'font-weight': 'fontWeight',
-  format: 'format',
-  from: 'from',
-  fx: 'fx',
-  fy: 'fy',
-  g1: 'g1',
-  g2: 'g2',
-  glyphname: 'glyphName',
-  'glyph-name': 'glyphName',
-  glyphorientationhorizontal: 'glyphOrientationHorizontal',
-  'glyph-orientation-horizontal': 'glyphOrientationHorizontal',
-  glyphorientationvertical: 'glyphOrientationVertical',
-  'glyph-orientation-vertical': 'glyphOrientationVertical',
-  glyphref: 'glyphRef',
-  gradienttransform: 'gradientTransform',
-  gradientunits: 'gradientUnits',
-  hanging: 'hanging',
-  horizadvx: 'horizAdvX',
-  'horiz-adv-x': 'horizAdvX',
-  horizoriginx: 'horizOriginX',
-  'horiz-origin-x': 'horizOriginX',
-  ideographic: 'ideographic',
-  imagerendering: 'imageRendering',
-  'image-rendering': 'imageRendering',
-  in2: 'in2',
-  'in': 'in',
-  inlist: 'inlist',
-  intercept: 'intercept',
-  k1: 'k1',
-  k2: 'k2',
-  k3: 'k3',
-  k4: 'k4',
-  k: 'k',
-  kernelmatrix: 'kernelMatrix',
-  kernelunitlength: 'kernelUnitLength',
-  kerning: 'kerning',
-  keypoints: 'keyPoints',
-  keysplines: 'keySplines',
-  keytimes: 'keyTimes',
-  lengthadjust: 'lengthAdjust',
-  letterspacing: 'letterSpacing',
-  'letter-spacing': 'letterSpacing',
-  lightingcolor: 'lightingColor',
-  'lighting-color': 'lightingColor',
-  limitingconeangle: 'limitingConeAngle',
-  local: 'local',
-  markerend: 'markerEnd',
-  'marker-end': 'markerEnd',
-  markerheight: 'markerHeight',
-  markermid: 'markerMid',
-  'marker-mid': 'markerMid',
-  markerstart: 'markerStart',
-  'marker-start': 'markerStart',
-  markerunits: 'markerUnits',
-  markerwidth: 'markerWidth',
-  mask: 'mask',
-  maskcontentunits: 'maskContentUnits',
-  maskunits: 'maskUnits',
-  mathematical: 'mathematical',
-  mode: 'mode',
-  numoctaves: 'numOctaves',
-  offset: 'offset',
-  opacity: 'opacity',
-  operator: 'operator',
-  order: 'order',
-  orient: 'orient',
-  orientation: 'orientation',
-  origin: 'origin',
-  overflow: 'overflow',
-  overlineposition: 'overlinePosition',
-  'overline-position': 'overlinePosition',
-  overlinethickness: 'overlineThickness',
-  'overline-thickness': 'overlineThickness',
-  paintorder: 'paintOrder',
-  'paint-order': 'paintOrder',
-  panose1: 'panose1',
-  'panose-1': 'panose1',
-  pathlength: 'pathLength',
-  patterncontentunits: 'patternContentUnits',
-  patterntransform: 'patternTransform',
-  patternunits: 'patternUnits',
-  pointerevents: 'pointerEvents',
-  'pointer-events': 'pointerEvents',
-  points: 'points',
-  pointsatx: 'pointsAtX',
-  pointsaty: 'pointsAtY',
-  pointsatz: 'pointsAtZ',
-  prefix: 'prefix',
-  preservealpha: 'preserveAlpha',
-  preserveaspectratio: 'preserveAspectRatio',
-  primitiveunits: 'primitiveUnits',
-  property: 'property',
-  r: 'r',
-  radius: 'radius',
-  refx: 'refX',
-  refy: 'refY',
-  renderingintent: 'renderingIntent',
-  'rendering-intent': 'renderingIntent',
-  repeatcount: 'repeatCount',
-  repeatdur: 'repeatDur',
-  requiredextensions: 'requiredExtensions',
-  requiredfeatures: 'requiredFeatures',
-  resource: 'resource',
-  restart: 'restart',
-  result: 'result',
-  results: 'results',
-  rotate: 'rotate',
-  rx: 'rx',
-  ry: 'ry',
-  scale: 'scale',
-  security: 'security',
-  seed: 'seed',
-  shaperendering: 'shapeRendering',
-  'shape-rendering': 'shapeRendering',
-  slope: 'slope',
-  spacing: 'spacing',
-  specularconstant: 'specularConstant',
-  specularexponent: 'specularExponent',
-  speed: 'speed',
-  spreadmethod: 'spreadMethod',
-  startoffset: 'startOffset',
-  stddeviation: 'stdDeviation',
-  stemh: 'stemh',
-  stemv: 'stemv',
-  stitchtiles: 'stitchTiles',
-  stopcolor: 'stopColor',
-  'stop-color': 'stopColor',
-  stopopacity: 'stopOpacity',
-  'stop-opacity': 'stopOpacity',
-  strikethroughposition: 'strikethroughPosition',
-  'strikethrough-position': 'strikethroughPosition',
-  strikethroughthickness: 'strikethroughThickness',
-  'strikethrough-thickness': 'strikethroughThickness',
-  string: 'string',
-  stroke: 'stroke',
-  strokedasharray: 'strokeDasharray',
-  'stroke-dasharray': 'strokeDasharray',
-  strokedashoffset: 'strokeDashoffset',
-  'stroke-dashoffset': 'strokeDashoffset',
-  strokelinecap: 'strokeLinecap',
-  'stroke-linecap': 'strokeLinecap',
-  strokelinejoin: 'strokeLinejoin',
-  'stroke-linejoin': 'strokeLinejoin',
-  strokemiterlimit: 'strokeMiterlimit',
-  'stroke-miterlimit': 'strokeMiterlimit',
-  strokewidth: 'strokeWidth',
-  'stroke-width': 'strokeWidth',
-  strokeopacity: 'strokeOpacity',
-  'stroke-opacity': 'strokeOpacity',
-  suppresscontenteditablewarning: 'suppressContentEditableWarning',
-  suppresshydrationwarning: 'suppressHydrationWarning',
-  surfacescale: 'surfaceScale',
-  systemlanguage: 'systemLanguage',
-  tablevalues: 'tableValues',
-  targetx: 'targetX',
-  targety: 'targetY',
-  textanchor: 'textAnchor',
-  'text-anchor': 'textAnchor',
-  textdecoration: 'textDecoration',
-  'text-decoration': 'textDecoration',
-  textlength: 'textLength',
-  textrendering: 'textRendering',
-  'text-rendering': 'textRendering',
-  to: 'to',
-  transform: 'transform',
-  'typeof': 'typeof',
-  u1: 'u1',
-  u2: 'u2',
-  underlineposition: 'underlinePosition',
-  'underline-position': 'underlinePosition',
-  underlinethickness: 'underlineThickness',
-  'underline-thickness': 'underlineThickness',
-  unicode: 'unicode',
-  unicodebidi: 'unicodeBidi',
-  'unicode-bidi': 'unicodeBidi',
-  unicoderange: 'unicodeRange',
-  'unicode-range': 'unicodeRange',
-  unitsperem: 'unitsPerEm',
-  'units-per-em': 'unitsPerEm',
-  unselectable: 'unselectable',
-  valphabetic: 'vAlphabetic',
-  'v-alphabetic': 'vAlphabetic',
-  values: 'values',
-  vectoreffect: 'vectorEffect',
-  'vector-effect': 'vectorEffect',
-  version: 'version',
-  vertadvy: 'vertAdvY',
-  'vert-adv-y': 'vertAdvY',
-  vertoriginx: 'vertOriginX',
-  'vert-origin-x': 'vertOriginX',
-  vertoriginy: 'vertOriginY',
-  'vert-origin-y': 'vertOriginY',
-  vhanging: 'vHanging',
-  'v-hanging': 'vHanging',
-  videographic: 'vIdeographic',
-  'v-ideographic': 'vIdeographic',
-  viewbox: 'viewBox',
-  viewtarget: 'viewTarget',
-  visibility: 'visibility',
-  vmathematical: 'vMathematical',
-  'v-mathematical': 'vMathematical',
-  vocab: 'vocab',
-  widths: 'widths',
-  wordspacing: 'wordSpacing',
-  'word-spacing': 'wordSpacing',
-  writingmode: 'writingMode',
-  'writing-mode': 'writingMode',
-  x1: 'x1',
-  x2: 'x2',
-  x: 'x',
-  xchannelselector: 'xChannelSelector',
-  xheight: 'xHeight',
-  'x-height': 'xHeight',
-  xlinkactuate: 'xlinkActuate',
-  'xlink:actuate': 'xlinkActuate',
-  xlinkarcrole: 'xlinkArcrole',
-  'xlink:arcrole': 'xlinkArcrole',
-  xlinkhref: 'xlinkHref',
-  'xlink:href': 'xlinkHref',
-  xlinkrole: 'xlinkRole',
-  'xlink:role': 'xlinkRole',
-  xlinkshow: 'xlinkShow',
-  'xlink:show': 'xlinkShow',
-  xlinktitle: 'xlinkTitle',
-  'xlink:title': 'xlinkTitle',
-  xlinktype: 'xlinkType',
-  'xlink:type': 'xlinkType',
-  xmlbase: 'xmlBase',
-  'xml:base': 'xmlBase',
-  xmllang: 'xmlLang',
-  'xml:lang': 'xmlLang',
-  xmlns: 'xmlns',
-  'xml:space': 'xmlSpace',
-  xmlnsxlink: 'xmlnsXlink',
-  'xmlns:xlink': 'xmlnsXlink',
-  xmlspace: 'xmlSpace',
-  y1: 'y1',
-  y2: 'y2',
-  y: 'y',
-  ychannelselector: 'yChannelSelector',
-  z: 'z',
-  zoomandpan: 'zoomAndPan'
-};
-
-function getStackAddendum$2() {
-  var stack = ReactDebugCurrentFrame.getStackAddendum();
-  return stack != null ? stack : '';
-}
-
-{
-  var warnedProperties$1 = {};
-  var hasOwnProperty$1 = Object.prototype.hasOwnProperty;
-  var EVENT_NAME_REGEX = /^on./;
-  var INVALID_EVENT_NAME_REGEX = /^on[^A-Z]/;
-  var rARIA$1 = new RegExp('^(aria)-[' + ATTRIBUTE_NAME_CHAR + ']*$');
-  var rARIACamel$1 = new RegExp('^(aria)[A-Z][' + ATTRIBUTE_NAME_CHAR + ']*$');
-
-  var validateProperty$1 = function (tagName, name, value, canUseEventSystem) {
-    if (hasOwnProperty$1.call(warnedProperties$1, name) && warnedProperties$1[name]) {
-      return true;
-    }
-
-    var lowerCasedName = name.toLowerCase();
-    if (lowerCasedName === 'onfocusin' || lowerCasedName === 'onfocusout') {
-      warning(false, 'React uses onFocus and onBlur instead of onFocusIn and onFocusOut. ' + 'All React events are normalized to bubble, so onFocusIn and onFocusOut ' + 'are not needed/supported by React.');
-      warnedProperties$1[name] = true;
-      return true;
-    }
-
-    // We can't rely on the event system being injected on the server.
-    if (canUseEventSystem) {
-      if (registrationNameModules.hasOwnProperty(name)) {
-        return true;
-      }
-      var registrationName = possibleRegistrationNames.hasOwnProperty(lowerCasedName) ? possibleRegistrationNames[lowerCasedName] : null;
-      if (registrationName != null) {
-        warning(false, 'Invalid event handler property `%s`. Did you mean `%s`?%s', name, registrationName, getStackAddendum$2());
-        warnedProperties$1[name] = true;
-        return true;
-      }
-      if (EVENT_NAME_REGEX.test(name)) {
-        warning(false, 'Unknown event handler property `%s`. It will be ignored.%s', name, getStackAddendum$2());
-        warnedProperties$1[name] = true;
-        return true;
-      }
-    } else if (EVENT_NAME_REGEX.test(name)) {
-      // If no event plugins have been injected, we are in a server environment.
-      // So we can't tell if the event name is correct for sure, but we can filter
-      // out known bad ones like `onclick`. We can't suggest a specific replacement though.
-      if (INVALID_EVENT_NAME_REGEX.test(name)) {
-        warning(false, 'Invalid event handler property `%s`. ' + 'React events use the camelCase naming convention, for example `onClick`.%s', name, getStackAddendum$2());
-      }
-      warnedProperties$1[name] = true;
-      return true;
-    }
-
-    // Let the ARIA attribute hook validate ARIA attributes
-    if (rARIA$1.test(name) || rARIACamel$1.test(name)) {
-      return true;
-    }
-
-    if (lowerCasedName === 'innerhtml') {
-      warning(false, 'Directly setting property `innerHTML` is not permitted. ' + 'For more information, lookup documentation on `dangerouslySetInnerHTML`.');
-      warnedProperties$1[name] = true;
-      return true;
-    }
-
-    if (lowerCasedName === 'aria') {
-      warning(false, 'The `aria` attribute is reserved for future use in React. ' + 'Pass individual `aria-` attributes instead.');
-      warnedProperties$1[name] = true;
-      return true;
-    }
-
-    if (lowerCasedName === 'is' && value !== null && value !== undefined && typeof value !== 'string') {
-      warning(false, 'Received a `%s` for a string attribute `is`. If this is expected, cast ' + 'the value to a string.%s', typeof value, getStackAddendum$2());
-      warnedProperties$1[name] = true;
-      return true;
-    }
-
-    if (typeof value === 'number' && isNaN(value)) {
-      warning(false, 'Received NaN for the `%s` attribute. If this is expected, cast ' + 'the value to a string.%s', name, getStackAddendum$2());
-      warnedProperties$1[name] = true;
-      return true;
-    }
-
-    var isReserved = isReservedProp(name);
-
-    // Known attributes should match the casing specified in the property config.
-    if (possibleStandardNames.hasOwnProperty(lowerCasedName)) {
-      var standardName = possibleStandardNames[lowerCasedName];
-      if (standardName !== name) {
-        warning(false, 'Invalid DOM property `%s`. Did you mean `%s`?%s', name, standardName, getStackAddendum$2());
-        warnedProperties$1[name] = true;
-        return true;
-      }
-    } else if (!isReserved && name !== lowerCasedName) {
-      // Unknown attributes should have lowercase casing since that's how they
-      // will be cased anyway with server rendering.
-      warning(false, 'React does not recognize the `%s` prop on a DOM element. If you ' + 'intentionally want it to appear in the DOM as a custom ' + 'attribute, spell it as lowercase `%s` instead. ' + 'If you accidentally passed it from a parent component, remove ' + 'it from the DOM element.%s', name, lowerCasedName, getStackAddendum$2());
-      warnedProperties$1[name] = true;
-      return true;
-    }
-
-    if (typeof value === 'boolean' && !shouldAttributeAcceptBooleanValue(name)) {
-      if (value) {
-        warning(false, 'Received `%s` for a non-boolean attribute `%s`.\n\n' + 'If you want to write it to the DOM, pass a string instead: ' + '%s="%s" or %s={value.toString()}.%s', value, name, name, value, name, getStackAddendum$2());
-      } else {
-        warning(false, 'Received `%s` for a non-boolean attribute `%s`.\n\n' + 'If you want to write it to the DOM, pass a string instead: ' + '%s="%s" or %s={value.toString()}.\n\n' + 'If you used to conditionally omit it with %s={condition && value}, ' + 'pass %s={condition ? value : undefined} instead.%s', value, name, name, value, name, name, name, getStackAddendum$2());
-      }
-      warnedProperties$1[name] = true;
-      return true;
-    }
-
-    // Now that we've validated casing, do not validate
-    // data types for reserved props
-    if (isReserved) {
-      return true;
-    }
-
-    // Warn when a known attribute is a bad type
-    if (!shouldSetAttribute(name, value)) {
-      warnedProperties$1[name] = true;
-      return false;
-    }
-
-    return true;
-  };
-}
-
-var warnUnknownProperties = function (type, props, canUseEventSystem) {
-  var unknownProps = [];
-  for (var key in props) {
-    var isValid = validateProperty$1(type, key, props[key], canUseEventSystem);
-    if (!isValid) {
-      unknownProps.push(key);
-    }
-  }
-
-  var unknownPropString = unknownProps.map(function (prop) {
-    return '`' + prop + '`';
-  }).join(', ');
-  if (unknownProps.length === 1) {
-    warning(false, 'Invalid value for prop %s on <%s> tag. Either remove it from the element, ' + 'or pass a string or number value to keep it in the DOM. ' + 'For details, see https://fb.me/react-attribute-behavior%s', unknownPropString, type, getStackAddendum$2());
-  } else if (unknownProps.length > 1) {
-    warning(false, 'Invalid values for props %s on <%s> tag. Either remove them from the element, ' + 'or pass a string or number value to keep them in the DOM. ' + 'For details, see https://fb.me/react-attribute-behavior%s', unknownPropString, type, getStackAddendum$2());
-  }
-};
-
-function validateProperties$2(type, props, canUseEventSystem) {
-  if (isCustomComponent(type, props)) {
-    return;
-  }
-  warnUnknownProperties(type, props, canUseEventSystem);
-}
-
-// TODO: direct imports like some-package/src/* are bad. Fix me.
-var getCurrentFiberOwnerName$1 = ReactDebugCurrentFiber.getCurrentFiberOwnerName;
-var getCurrentFiberStackAddendum$2 = ReactDebugCurrentFiber.getCurrentFiberStackAddendum;
-
-var didWarnInvalidHydration = false;
-var didWarnShadyDOM = false;
-
-var DANGEROUSLY_SET_INNER_HTML = 'dangerouslySetInnerHTML';
-var SUPPRESS_CONTENT_EDITABLE_WARNING = 'suppressContentEditableWarning';
-var SUPPRESS_HYDRATION_WARNING$1 = 'suppressHydrationWarning';
-var AUTOFOCUS = 'autoFocus';
-var CHILDREN = 'children';
-var STYLE = 'style';
-var HTML = '__html';
-
-var HTML_NAMESPACE = Namespaces.html;
-
-
-var getStack = emptyFunction.thatReturns('');
-
-{
-  getStack = getCurrentFiberStackAddendum$2;
-
-  var warnedUnknownTags = {
-    // Chrome is the only major browser not shipping <time>. But as of July
-    // 2017 it intends to ship it due to widespread usage. We intentionally
-    // *don't* warn for <time> even if it's unrecognized by Chrome because
-    // it soon will be, and many apps have been using it anyway.
-    time: true,
-    // There are working polyfills for <dialog>. Let people use it.
-    dialog: true
-  };
-
-  var validatePropertiesInDevelopment = function (type, props) {
-    validateProperties(type, props);
-    validateProperties$1(type, props);
-    validateProperties$2(type, props, /* canUseEventSystem */true);
-  };
-
-  // HTML parsing normalizes CR and CRLF to LF.
-  // It also can turn \u0000 into \uFFFD inside attributes.
-  // https://www.w3.org/TR/html5/single-page.html#preprocessing-the-input-stream
-  // If we have a mismatch, it might be caused by that.
-  // We will still patch up in this case but not fire the warning.
-  var NORMALIZE_NEWLINES_REGEX = /\r\n?/g;
-  var NORMALIZE_NULL_AND_REPLACEMENT_REGEX = /\u0000|\uFFFD/g;
-
-  var normalizeMarkupForTextOrAttribute = function (markup) {
-    var markupString = typeof markup === 'string' ? markup : '' + markup;
-    return markupString.replace(NORMALIZE_NEWLINES_REGEX, '\n').replace(NORMALIZE_NULL_AND_REPLACEMENT_REGEX, '');
-  };
-
-  var warnForTextDifference = function (serverText, clientText) {
-    if (didWarnInvalidHydration) {
-      return;
-    }
-    var normalizedClientText = normalizeMarkupForTextOrAttribute(clientText);
-    var normalizedServerText = normalizeMarkupForTextOrAttribute(serverText);
-    if (normalizedServerText === normalizedClientText) {
-      return;
-    }
-    didWarnInvalidHydration = true;
-    warning(false, 'Text content did not match. Server: "%s" Client: "%s"', normalizedServerText, normalizedClientText);
-  };
-
-  var warnForPropDifference = function (propName, serverValue, clientValue) {
-    if (didWarnInvalidHydration) {
-      return;
-    }
-    var normalizedClientValue = normalizeMarkupForTextOrAttribute(clientValue);
-    var normalizedServerValue = normalizeMarkupForTextOrAttribute(serverValue);
-    if (normalizedServerValue === normalizedClientValue) {
-      return;
-    }
-    didWarnInvalidHydration = true;
-    warning(false, 'Prop `%s` did not match. Server: %s Client: %s', propName, JSON.stringify(normalizedServerValue), JSON.stringify(normalizedClientValue));
-  };
-
-  var warnForExtraAttributes = function (attributeNames) {
-    if (didWarnInvalidHydration) {
-      return;
-    }
-    didWarnInvalidHydration = true;
-    var names = [];
-    attributeNames.forEach(function (name) {
-      names.push(name);
-    });
-    warning(false, 'Extra attributes from the server: %s', names);
-  };
-
-  var warnForInvalidEventListener = function (registrationName, listener) {
-    if (listener === false) {
-      warning(false, 'Expected `%s` listener to be a function, instead got `false`.\n\n' + 'If you used to conditionally omit it with %s={condition && value}, ' + 'pass %s={condition ? value : undefined} instead.%s', registrationName, registrationName, registrationName, getCurrentFiberStackAddendum$2());
-    } else {
-      warning(false, 'Expected `%s` listener to be a function, instead got a value of `%s` type.%s', registrationName, typeof listener, getCurrentFiberStackAddendum$2());
-    }
-  };
-
-  // Parse the HTML and read it back to normalize the HTML string so that it
-  // can be used for comparison.
-  var normalizeHTML = function (parent, html) {
-    // We could have created a separate document here to avoid
-    // re-initializing custom elements if they exist. But this breaks
-    // how <noscript> is being handled. So we use the same document.
-    // See the discussion in https://github.com/facebook/react/pull/11157.
-    var testElement = parent.namespaceURI === HTML_NAMESPACE ? parent.ownerDocument.createElement(parent.tagName) : parent.ownerDocument.createElementNS(parent.namespaceURI, parent.tagName);
-    testElement.innerHTML = html;
-    return testElement.innerHTML;
-  };
-}
-
-function ensureListeningTo(rootContainerElement, registrationName) {
-  var isDocumentOrFragment = rootContainerElement.nodeType === DOCUMENT_NODE || rootContainerElement.nodeType === DOCUMENT_FRAGMENT_NODE;
-  var doc = isDocumentOrFragment ? rootContainerElement : rootContainerElement.ownerDocument;
-  listenTo(registrationName, doc);
-}
-
-function getOwnerDocumentFromRootContainer(rootContainerElement) {
-  return rootContainerElement.nodeType === DOCUMENT_NODE ? rootContainerElement : rootContainerElement.ownerDocument;
-}
-
-// There are so many media events, it makes sense to just
-// maintain a list rather than create a `trapBubbledEvent` for each
-var mediaEvents = {
-  topAbort: 'abort',
-  topCanPlay: 'canplay',
-  topCanPlayThrough: 'canplaythrough',
-  topDurationChange: 'durationchange',
-  topEmptied: 'emptied',
-  topEncrypted: 'encrypted',
-  topEnded: 'ended',
-  topError: 'error',
-  topLoadedData: 'loadeddata',
-  topLoadedMetadata: 'loadedmetadata',
-  topLoadStart: 'loadstart',
-  topPause: 'pause',
-  topPlay: 'play',
-  topPlaying: 'playing',
-  topProgress: 'progress',
-  topRateChange: 'ratechange',
-  topSeeked: 'seeked',
-  topSeeking: 'seeking',
-  topStalled: 'stalled',
-  topSuspend: 'suspend',
-  topTimeUpdate: 'timeupdate',
-  topVolumeChange: 'volumechange',
-  topWaiting: 'waiting'
-};
-
-function trapClickOnNonInteractiveElement(node) {
-  // Mobile Safari does not fire properly bubble click events on
-  // non-interactive elements, which means delegated click listeners do not
-  // fire. The workaround for this bug involves attaching an empty click
-  // listener on the target node.
-  // http://www.quirksmode.org/blog/archives/2010/09/click_event_del.html
-  // Just set it using the onclick property so that we don't have to manage any
-  // bookkeeping for it. Not sure if we need to clear it when the listener is
-  // removed.
-  // TODO: Only do this for the relevant Safaris maybe?
-  node.onclick = emptyFunction;
-}
-
-function setInitialDOMProperties(tag, domElement, rootContainerElement, nextProps, isCustomComponentTag) {
-  for (var propKey in nextProps) {
-    if (!nextProps.hasOwnProperty(propKey)) {
-      continue;
-    }
-    var nextProp = nextProps[propKey];
-    if (propKey === STYLE) {
-      {
-        if (nextProp) {
-          // Freeze the next style object so that we can assume it won't be
-          // mutated. We have already warned for this in the past.
-          Object.freeze(nextProp);
-        }
-      }
-      // Relies on `updateStylesByID` not mutating `styleUpdates`.
-      setValueForStyles(domElement, nextProp, getStack);
-    } else if (propKey === DANGEROUSLY_SET_INNER_HTML) {
-      var nextHtml = nextProp ? nextProp[HTML] : undefined;
-      if (nextHtml != null) {
-        setInnerHTML(domElement, nextHtml);
-      }
-    } else if (propKey === CHILDREN) {
-      if (typeof nextProp === 'string') {
-        // Avoid setting initial textContent when the text is empty. In IE11 setting
-        // textContent on a <textarea> will cause the placeholder to not
-        // show within the <textarea> until it has been focused and blurred again.
-        // https://github.com/facebook/react/issues/6731#issuecomment-254874553
-        var canSetTextContent = tag !== 'textarea' || nextProp !== '';
-        if (canSetTextContent) {
-          setTextContent(domElement, nextProp);
-        }
-      } else if (typeof nextProp === 'number') {
-        setTextContent(domElement, '' + nextProp);
-      }
-    } else if (propKey === SUPPRESS_CONTENT_EDITABLE_WARNING || propKey === SUPPRESS_HYDRATION_WARNING$1) {
-      // Noop
-    } else if (propKey === AUTOFOCUS) {
-      // We polyfill it separately on the client during commit.
-      // We blacklist it here rather than in the property list because we emit it in SSR.
-    } else if (registrationNameModules.hasOwnProperty(propKey)) {
-      if (nextProp != null) {
-        if (true && typeof nextProp !== 'function') {
-          warnForInvalidEventListener(propKey, nextProp);
-        }
-        ensureListeningTo(rootContainerElement, propKey);
-      }
-    } else if (isCustomComponentTag) {
-      setValueForAttribute(domElement, propKey, nextProp);
-    } else if (nextProp != null) {
-      // If we're updating to null or undefined, we should remove the property
-      // from the DOM node instead of inadvertently setting to a string. This
-      // brings us in line with the same behavior we have on initial render.
-      setValueForProperty(domElement, propKey, nextProp);
-    }
-  }
-}
-
-function updateDOMProperties(domElement, updatePayload, wasCustomComponentTag, isCustomComponentTag) {
-  // TODO: Handle wasCustomComponentTag
-  for (var i = 0; i < updatePayload.length; i += 2) {
-    var propKey = updatePayload[i];
-    var propValue = updatePayload[i + 1];
-    if (propKey === STYLE) {
-      setValueForStyles(domElement, propValue, getStack);
-    } else if (propKey === DANGEROUSLY_SET_INNER_HTML) {
-      setInnerHTML(domElement, propValue);
-    } else if (propKey === CHILDREN) {
-      setTextContent(domElement, propValue);
-    } else if (isCustomComponentTag) {
-      if (propValue != null) {
-        setValueForAttribute(domElement, propKey, propValue);
-      } else {
-        deleteValueForAttribute(domElement, propKey);
-      }
-    } else if (propValue != null) {
-      setValueForProperty(domElement, propKey, propValue);
-    } else {
-      // If we're updating to null or undefined, we should remove the property
-      // from the DOM node instead of inadvertently setting to a string. This
-      // brings us in line with the same behavior we have on initial render.
-      deleteValueForProperty(domElement, propKey);
-    }
-  }
-}
-
-function createElement$1(type, props, rootContainerElement, parentNamespace) {
-  // We create tags in the namespace of their parent container, except HTML
-  var ownerDocument = getOwnerDocumentFromRootContainer(rootContainerElement);
-  var domElement;
-  var namespaceURI = parentNamespace;
-  if (namespaceURI === HTML_NAMESPACE) {
-    namespaceURI = getIntrinsicNamespace(type);
-  }
-  if (namespaceURI === HTML_NAMESPACE) {
-    {
-      var isCustomComponentTag = isCustomComponent(type, props);
-      // Should this check be gated by parent namespace? Not sure we want to
-      // allow <SVG> or <mATH>.
-      warning(isCustomComponentTag || type === type.toLowerCase(), '<%s /> is using uppercase HTML. Always use lowercase HTML tags ' + 'in React.', type);
-    }
-
-    if (type === 'script') {
-      // Create the script via .innerHTML so its "parser-inserted" flag is
-      // set to true and it does not execute
-      var div = ownerDocument.createElement('div');
-      div.innerHTML = '<script><' + '/script>'; // eslint-disable-line
-      // This is guaranteed to yield a script element.
-      var firstChild = div.firstChild;
-      domElement = div.removeChild(firstChild);
-    } else if (typeof props.is === 'string') {
-      // $FlowIssue `createElement` should be updated for Web Components
-      domElement = ownerDocument.createElement(type, { is: props.is });
-    } else {
-      // Separate else branch instead of using `props.is || undefined` above because of a Firefox bug.
-      // See discussion in https://github.com/facebook/react/pull/6896
-      // and discussion in https://bugzilla.mozilla.org/show_bug.cgi?id=1276240
-      domElement = ownerDocument.createElement(type);
-    }
-  } else {
-    domElement = ownerDocument.createElementNS(namespaceURI, type);
-  }
-
-  {
-    if (namespaceURI === HTML_NAMESPACE) {
-      if (!isCustomComponentTag && Object.prototype.toString.call(domElement) === '[object HTMLUnknownElement]' && !Object.prototype.hasOwnProperty.call(warnedUnknownTags, type)) {
-        warnedUnknownTags[type] = true;
-        warning(false, 'The tag <%s> is unrecognized in this browser. ' + 'If you meant to render a React component, start its name with ' + 'an uppercase letter.', type);
-      }
-    }
-  }
-
-  return domElement;
-}
-
-function createTextNode$1(text, rootContainerElement) {
-  return getOwnerDocumentFromRootContainer(rootContainerElement).createTextNode(text);
-}
-
-function setInitialProperties$1(domElement, tag, rawProps, rootContainerElement) {
-  var isCustomComponentTag = isCustomComponent(tag, rawProps);
-  {
-    validatePropertiesInDevelopment(tag, rawProps);
-    if (isCustomComponentTag && !didWarnShadyDOM && domElement.shadyRoot) {
-      warning(false, '%s is using shady DOM. Using shady DOM with React can ' + 'cause things to break subtly.', getCurrentFiberOwnerName$1() || 'A component');
-      didWarnShadyDOM = true;
-    }
-  }
-
-  // TODO: Make sure that we check isMounted before firing any of these events.
-  var props;
-  switch (tag) {
-    case 'iframe':
-    case 'object':
-      trapBubbledEvent('topLoad', 'load', domElement);
-      props = rawProps;
-      break;
-    case 'video':
-    case 'audio':
-      // Create listener for each media event
-      for (var event in mediaEvents) {
-        if (mediaEvents.hasOwnProperty(event)) {
-          trapBubbledEvent(event, mediaEvents[event], domElement);
-        }
-      }
-      props = rawProps;
-      break;
-    case 'source':
-      trapBubbledEvent('topError', 'error', domElement);
-      props = rawProps;
-      break;
-    case 'img':
-    case 'image':
-      trapBubbledEvent('topError', 'error', domElement);
-      trapBubbledEvent('topLoad', 'load', domElement);
-      props = rawProps;
-      break;
-    case 'form':
-      trapBubbledEvent('topReset', 'reset', domElement);
-      trapBubbledEvent('topSubmit', 'submit', domElement);
-      props = rawProps;
-      break;
-    case 'details':
-      trapBubbledEvent('topToggle', 'toggle', domElement);
-      props = rawProps;
-      break;
-    case 'input':
-      initWrapperState(domElement, rawProps);
-      props = getHostProps(domElement, rawProps);
-      trapBubbledEvent('topInvalid', 'invalid', domElement);
-      // For controlled components we always need to ensure we're listening
-      // to onChange. Even if there is no listener.
-      ensureListeningTo(rootContainerElement, 'onChange');
-      break;
-    case 'option':
-      validateProps(domElement, rawProps);
-      props = getHostProps$1(domElement, rawProps);
-      break;
-    case 'select':
-      initWrapperState$1(domElement, rawProps);
-      props = getHostProps$2(domElement, rawProps);
-      trapBubbledEvent('topInvalid', 'invalid', domElement);
-      // For controlled components we always need to ensure we're listening
-      // to onChange. Even if there is no listener.
-      ensureListeningTo(rootContainerElement, 'onChange');
-      break;
-    case 'textarea':
-      initWrapperState$2(domElement, rawProps);
-      props = getHostProps$3(domElement, rawProps);
-      trapBubbledEvent('topInvalid', 'invalid', domElement);
-      // For controlled components we always need to ensure we're listening
-      // to onChange. Even if there is no listener.
-      ensureListeningTo(rootContainerElement, 'onChange');
-      break;
-    default:
-      props = rawProps;
-  }
-
-  assertValidProps(tag, props, getStack);
-
-  setInitialDOMProperties(tag, domElement, rootContainerElement, props, isCustomComponentTag);
-
-  switch (tag) {
-    case 'input':
-      // TODO: Make sure we check if this is still unmounted or do any clean
-      // up necessary since we never stop tracking anymore.
-      track(domElement);
-      postMountWrapper(domElement, rawProps);
-      break;
-    case 'textarea':
-      // TODO: Make sure we check if this is still unmounted or do any clean
-      // up necessary since we never stop tracking anymore.
-      track(domElement);
-      postMountWrapper$3(domElement, rawProps);
-      break;
-    case 'option':
-      postMountWrapper$1(domElement, rawProps);
-      break;
-    case 'select':
-      postMountWrapper$2(domElement, rawProps);
-      break;
-    default:
-      if (typeof props.onClick === 'function') {
-        // TODO: This cast may not be sound for SVG, MathML or custom elements.
-        trapClickOnNonInteractiveElement(domElement);
-      }
-      break;
-  }
-}
-
-// Calculate the diff between the two objects.
-function diffProperties$1(domElement, tag, lastRawProps, nextRawProps, rootContainerElement) {
-  {
-    validatePropertiesInDevelopment(tag, nextRawProps);
-  }
-
-  var updatePayload = null;
-
-  var lastProps;
-  var nextProps;
-  switch (tag) {
-    case 'input':
-      lastProps = getHostProps(domElement, lastRawProps);
-      nextProps = getHostProps(domElement, nextRawProps);
-      updatePayload = [];
-      break;
-    case 'option':
-      lastProps = getHostProps$1(domElement, lastRawProps);
-      nextProps = getHostProps$1(domElement, nextRawProps);
-      updatePayload = [];
-      break;
-    case 'select':
-      lastProps = getHostProps$2(domElement, lastRawProps);
-      nextProps = getHostProps$2(domElement, nextRawProps);
-      updatePayload = [];
-      break;
-    case 'textarea':
-      lastProps = getHostProps$3(domElement, lastRawProps);
-      nextProps = getHostProps$3(domElement, nextRawProps);
-      updatePayload = [];
-      break;
-    default:
-      lastProps = lastRawProps;
-      nextProps = nextRawProps;
-      if (typeof lastProps.onClick !== 'function' && typeof nextProps.onClick === 'function') {
-        // TODO: This cast may not be sound for SVG, MathML or custom elements.
-        trapClickOnNonInteractiveElement(domElement);
-      }
-      break;
-  }
-
-  assertValidProps(tag, nextProps, getStack);
-
-  var propKey;
-  var styleName;
-  var styleUpdates = null;
-  for (propKey in lastProps) {
-    if (nextProps.hasOwnProperty(propKey) || !lastProps.hasOwnProperty(propKey) || lastProps[propKey] == null) {
-      continue;
-    }
-    if (propKey === STYLE) {
-      var lastStyle = lastProps[propKey];
-      for (styleName in lastStyle) {
-        if (lastStyle.hasOwnProperty(styleName)) {
-          if (!styleUpdates) {
-            styleUpdates = {};
-          }
-          styleUpdates[styleName] = '';
-        }
-      }
-    } else if (propKey === DANGEROUSLY_SET_INNER_HTML || propKey === CHILDREN) {
-      // Noop. This is handled by the clear text mechanism.
-    } else if (propKey === SUPPRESS_CONTENT_EDITABLE_WARNING || propKey === SUPPRESS_HYDRATION_WARNING$1) {
-      // Noop
-    } else if (propKey === AUTOFOCUS) {
-      // Noop. It doesn't work on updates anyway.
-    } else if (registrationNameModules.hasOwnProperty(propKey)) {
-      // This is a special case. If any listener updates we need to ensure
-      // that the "current" fiber pointer gets updated so we need a commit
-      // to update this element.
-      if (!updatePayload) {
-        updatePayload = [];
-      }
-    } else {
-      // For all other deleted properties we add it to the queue. We use
-      // the whitelist in the commit phase instead.
-      (updatePayload = updatePayload || []).push(propKey, null);
-    }
-  }
-  for (propKey in nextProps) {
-    var nextProp = nextProps[propKey];
-    var lastProp = lastProps != null ? lastProps[propKey] : undefined;
-    if (!nextProps.hasOwnProperty(propKey) || nextProp === lastProp || nextProp == null && lastProp == null) {
-      continue;
-    }
-    if (propKey === STYLE) {
-      {
-        if (nextProp) {
-          // Freeze the next style object so that we can assume it won't be
-          // mutated. We have already warned for this in the past.
-          Object.freeze(nextProp);
-        }
-      }
-      if (lastProp) {
-        // Unset styles on `lastProp` but not on `nextProp`.
-        for (styleName in lastProp) {
-          if (lastProp.hasOwnProperty(styleName) && (!nextProp || !nextProp.hasOwnProperty(styleName))) {
-            if (!styleUpdates) {
-              styleUpdates = {};
-            }
-            styleUpdates[styleName] = '';
-          }
-        }
-        // Update styles that changed since `lastProp`.
-        for (styleName in nextProp) {
-          if (nextProp.hasOwnProperty(styleName) && lastProp[styleName] !== nextProp[styleName]) {
-            if (!styleUpdates) {
-              styleUpdates = {};
-            }
-            styleUpdates[styleName] = nextProp[styleName];
-          }
-        }
-      } else {
-        // Relies on `updateStylesByID` not mutating `styleUpdates`.
-        if (!styleUpdates) {
-          if (!updatePayload) {
-            updatePayload = [];
-          }
-          updatePayload.push(propKey, styleUpdates);
-        }
-        styleUpdates = nextProp;
-      }
-    } else if (propKey === DANGEROUSLY_SET_INNER_HTML) {
-      var nextHtml = nextProp ? nextProp[HTML] : undefined;
-      var lastHtml = lastProp ? lastProp[HTML] : undefined;
-      if (nextHtml != null) {
-        if (lastHtml !== nextHtml) {
-          (updatePayload = updatePayload || []).push(propKey, '' + nextHtml);
-        }
-      } else {
-        // TODO: It might be too late to clear this if we have children
-        // inserted already.
-      }
-    } else if (propKey === CHILDREN) {
-      if (lastProp !== nextProp && (typeof nextProp === 'string' || typeof nextProp === 'number')) {
-        (updatePayload = updatePayload || []).push(propKey, '' + nextProp);
-      }
-    } else if (propKey === SUPPRESS_CONTENT_EDITABLE_WARNING || propKey === SUPPRESS_HYDRATION_WARNING$1) {
-      // Noop
-    } else if (registrationNameModules.hasOwnProperty(propKey)) {
-      if (nextProp != null) {
-        // We eagerly listen to this even though we haven't committed yet.
-        if (true && typeof nextProp !== 'function') {
-          warnForInvalidEventListener(propKey, nextProp);
-        }
-        ensureListeningTo(rootContainerElement, propKey);
-      }
-      if (!updatePayload && lastProp !== nextProp) {
-        // This is a special case. If any listener updates we need to ensure
-        // that the "current" props pointer gets updated so we need a commit
-        // to update this element.
-        updatePayload = [];
-      }
-    } else {
-      // For any other property we always add it to the queue and then we
-      // filter it out using the whitelist during the commit.
-      (updatePayload = updatePayload || []).push(propKey, nextProp);
-    }
-  }
-  if (styleUpdates) {
-    (updatePayload = updatePayload || []).push(STYLE, styleUpdates);
-  }
-  return updatePayload;
-}
-
-// Apply the diff.
-function updateProperties$1(domElement, updatePayload, tag, lastRawProps, nextRawProps) {
-  // Update checked *before* name.
-  // In the middle of an update, it is possible to have multiple checked.
-  // When a checked radio tries to change name, browser makes another radio's checked false.
-  if (tag === 'input' && nextRawProps.type === 'radio' && nextRawProps.name != null) {
-    updateChecked(domElement, nextRawProps);
-  }
-
-  var wasCustomComponentTag = isCustomComponent(tag, lastRawProps);
-  var isCustomComponentTag = isCustomComponent(tag, nextRawProps);
-  // Apply the diff.
-  updateDOMProperties(domElement, updatePayload, wasCustomComponentTag, isCustomComponentTag);
-
-  // TODO: Ensure that an update gets scheduled if any of the special props
-  // changed.
-  switch (tag) {
-    case 'input':
-      // Update the wrapper around inputs *after* updating props. This has to
-      // happen after `updateDOMProperties`. Otherwise HTML5 input validations
-      // raise warnings and prevent the new value from being assigned.
-      updateWrapper(domElement, nextRawProps);
-      break;
-    case 'textarea':
-      updateWrapper$1(domElement, nextRawProps);
-      break;
-    case 'select':
-      // <select> value update needs to occur after <option> children
-      // reconciliation
-      postUpdateWrapper(domElement, nextRawProps);
-      break;
-  }
-}
-
-function diffHydratedProperties$1(domElement, tag, rawProps, parentNamespace, rootContainerElement) {
-  {
-    var suppressHydrationWarning = rawProps[SUPPRESS_HYDRATION_WARNING$1] === true;
-    var isCustomComponentTag = isCustomComponent(tag, rawProps);
-    validatePropertiesInDevelopment(tag, rawProps);
-    if (isCustomComponentTag && !didWarnShadyDOM && domElement.shadyRoot) {
-      warning(false, '%s is using shady DOM. Using shady DOM with React can ' + 'cause things to break subtly.', getCurrentFiberOwnerName$1() || 'A component');
-      didWarnShadyDOM = true;
-    }
-  }
-
-  // TODO: Make sure that we check isMounted before firing any of these events.
-  switch (tag) {
-    case 'iframe':
-    case 'object':
-      trapBubbledEvent('topLoad', 'load', domElement);
-      break;
-    case 'video':
-    case 'audio':
-      // Create listener for each media event
-      for (var event in mediaEvents) {
-        if (mediaEvents.hasOwnProperty(event)) {
-          trapBubbledEvent(event, mediaEvents[event], domElement);
-        }
-      }
-      break;
-    case 'source':
-      trapBubbledEvent('topError', 'error', domElement);
-      break;
-    case 'img':
-    case 'image':
-      trapBubbledEvent('topError', 'error', domElement);
-      trapBubbledEvent('topLoad', 'load', domElement);
-      break;
-    case 'form':
-      trapBubbledEvent('topReset', 'reset', domElement);
-      trapBubbledEvent('topSubmit', 'submit', domElement);
-      break;
-    case 'details':
-      trapBubbledEvent('topToggle', 'toggle', domElement);
-      break;
-    case 'input':
-      initWrapperState(domElement, rawProps);
-      trapBubbledEvent('topInvalid', 'invalid', domElement);
-      // For controlled components we always need to ensure we're listening
-      // to onChange. Even if there is no listener.
-      ensureListeningTo(rootContainerElement, 'onChange');
-      break;
-    case 'option':
-      validateProps(domElement, rawProps);
-      break;
-    case 'select':
-      initWrapperState$1(domElement, rawProps);
-      trapBubbledEvent('topInvalid', 'invalid', domElement);
-      // For controlled components we always need to ensure we're listening
-      // to onChange. Even if there is no listener.
-      ensureListeningTo(rootContainerElement, 'onChange');
-      break;
-    case 'textarea':
-      initWrapperState$2(domElement, rawProps);
-      trapBubbledEvent('topInvalid', 'invalid', domElement);
-      // For controlled components we always need to ensure we're listening
-      // to onChange. Even if there is no listener.
-      ensureListeningTo(rootContainerElement, 'onChange');
-      break;
-  }
-
-  assertValidProps(tag, rawProps, getStack);
-
-  {
-    var extraAttributeNames = new Set();
-    var attributes = domElement.attributes;
-    for (var i = 0; i < attributes.length; i++) {
-      var name = attributes[i].name.toLowerCase();
-      switch (name) {
-        // Built-in SSR attribute is whitelisted
-        case 'data-reactroot':
-          break;
-        // Controlled attributes are not validated
-        // TODO: Only ignore them on controlled tags.
-        case 'value':
-          break;
-        case 'checked':
-          break;
-        case 'selected':
-          break;
-        default:
-          // Intentionally use the original name.
-          // See discussion in https://github.com/facebook/react/pull/10676.
-          extraAttributeNames.add(attributes[i].name);
-      }
-    }
-  }
-
-  var updatePayload = null;
-  for (var propKey in rawProps) {
-    if (!rawProps.hasOwnProperty(propKey)) {
-      continue;
-    }
-    var nextProp = rawProps[propKey];
-    if (propKey === CHILDREN) {
-      // For text content children we compare against textContent. This
-      // might match additional HTML that is hidden when we read it using
-      // textContent. E.g. "foo" will match "f<span>oo</span>" but that still
-      // satisfies our requirement. Our requirement is not to produce perfect
-      // HTML and attributes. Ideally we should preserve structure but it's
-      // ok not to if the visible content is still enough to indicate what
-      // even listeners these nodes might be wired up to.
-      // TODO: Warn if there is more than a single textNode as a child.
-      // TODO: Should we use domElement.firstChild.nodeValue to compare?
-      if (typeof nextProp === 'string') {
-        if (domElement.textContent !== nextProp) {
-          if (true && !suppressHydrationWarning) {
-            warnForTextDifference(domElement.textContent, nextProp);
-          }
-          updatePayload = [CHILDREN, nextProp];
-        }
-      } else if (typeof nextProp === 'number') {
-        if (domElement.textContent !== '' + nextProp) {
-          if (true && !suppressHydrationWarning) {
-            warnForTextDifference(domElement.textContent, nextProp);
-          }
-          updatePayload = [CHILDREN, '' + nextProp];
-        }
-      }
-    } else if (registrationNameModules.hasOwnProperty(propKey)) {
-      if (nextProp != null) {
-        if (true && typeof nextProp !== 'function') {
-          warnForInvalidEventListener(propKey, nextProp);
-        }
-        ensureListeningTo(rootContainerElement, propKey);
-      }
-    } else {
-      // Validate that the properties correspond to their expected values.
-      var serverValue;
-      var propertyInfo;
-      if (suppressHydrationWarning) {
-        // Don't bother comparing. We're ignoring all these warnings.
-      } else if (propKey === SUPPRESS_CONTENT_EDITABLE_WARNING || propKey === SUPPRESS_HYDRATION_WARNING$1 ||
-      // Controlled attributes are not validated
-      // TODO: Only ignore them on controlled tags.
-      propKey === 'value' || propKey === 'checked' || propKey === 'selected') {
-        // Noop
-      } else if (propKey === DANGEROUSLY_SET_INNER_HTML) {
-        var rawHtml = nextProp ? nextProp[HTML] || '' : '';
-        var serverHTML = domElement.innerHTML;
-        var expectedHTML = normalizeHTML(domElement, rawHtml);
-        if (expectedHTML !== serverHTML) {
-          warnForPropDifference(propKey, serverHTML, expectedHTML);
-        }
-      } else if (propKey === STYLE) {
-        // $FlowFixMe - Should be inferred as not undefined.
-        extraAttributeNames['delete'](propKey);
-        var expectedStyle = createDangerousStringForStyles(nextProp);
-        serverValue = domElement.getAttribute('style');
-        if (expectedStyle !== serverValue) {
-          warnForPropDifference(propKey, serverValue, expectedStyle);
-        }
-      } else if (isCustomComponentTag) {
-        // $FlowFixMe - Should be inferred as not undefined.
-        extraAttributeNames['delete'](propKey.toLowerCase());
-        serverValue = getValueForAttribute(domElement, propKey, nextProp);
-
-        if (nextProp !== serverValue) {
-          warnForPropDifference(propKey, serverValue, nextProp);
-        }
-      } else if (shouldSetAttribute(propKey, nextProp)) {
-        if (propertyInfo = getPropertyInfo(propKey)) {
-          // $FlowFixMe - Should be inferred as not undefined.
-          extraAttributeNames['delete'](propertyInfo.attributeName);
-          serverValue = getValueForProperty(domElement, propKey, nextProp);
-        } else {
-          var ownNamespace = parentNamespace;
-          if (ownNamespace === HTML_NAMESPACE) {
-            ownNamespace = getIntrinsicNamespace(tag);
-          }
-          if (ownNamespace === HTML_NAMESPACE) {
-            // $FlowFixMe - Should be inferred as not undefined.
-            extraAttributeNames['delete'](propKey.toLowerCase());
-          } else {
-            // $FlowFixMe - Should be inferred as not undefined.
-            extraAttributeNames['delete'](propKey);
-          }
-          serverValue = getValueForAttribute(domElement, propKey, nextProp);
-        }
-
-        if (nextProp !== serverValue) {
-          warnForPropDifference(propKey, serverValue, nextProp);
-        }
-      }
-    }
-  }
-
-  {
-    // $FlowFixMe - Should be inferred as not undefined.
-    if (extraAttributeNames.size > 0 && !suppressHydrationWarning) {
-      // $FlowFixMe - Should be inferred as not undefined.
-      warnForExtraAttributes(extraAttributeNames);
-    }
-  }
-
-  switch (tag) {
-    case 'input':
-      // TODO: Make sure we check if this is still unmounted or do any clean
-      // up necessary since we never stop tracking anymore.
-      track(domElement);
-      postMountWrapper(domElement, rawProps);
-      break;
-    case 'textarea':
-      // TODO: Make sure we check if this is still unmounted or do any clean
-      // up necessary since we never stop tracking anymore.
-      track(domElement);
-      postMountWrapper$3(domElement, rawProps);
-      break;
-    case 'select':
-    case 'option':
-      // For input and textarea we current always set the value property at
-      // post mount to force it to diverge from attributes. However, for
-      // option and select we don't quite do the same thing and select
-      // is not resilient to the DOM state changing so we don't do that here.
-      // TODO: Consider not doing this for input and textarea.
-      break;
-    default:
-      if (typeof rawProps.onClick === 'function') {
-        // TODO: This cast may not be sound for SVG, MathML or custom elements.
-        trapClickOnNonInteractiveElement(domElement);
-      }
-      break;
-  }
-
-  return updatePayload;
-}
-
-function diffHydratedText$1(textNode, text) {
-  var isDifferent = textNode.nodeValue !== text;
-  return isDifferent;
-}
-
-function warnForUnmatchedText$1(textNode, text) {
-  {
-    warnForTextDifference(textNode.nodeValue, text);
-  }
-}
-
-function warnForDeletedHydratableElement$1(parentNode, child) {
-  {
-    if (didWarnInvalidHydration) {
-      return;
-    }
-    didWarnInvalidHydration = true;
-    warning(false, 'Did not expect server HTML to contain a <%s> in <%s>.', child.nodeName.toLowerCase(), parentNode.nodeName.toLowerCase());
-  }
-}
-
-function warnForDeletedHydratableText$1(parentNode, child) {
-  {
-    if (didWarnInvalidHydration) {
-      return;
-    }
-    didWarnInvalidHydration = true;
-    warning(false, 'Did not expect server HTML to contain the text node "%s" in <%s>.', child.nodeValue, parentNode.nodeName.toLowerCase());
-  }
-}
-
-function warnForInsertedHydratedElement$1(parentNode, tag, props) {
-  {
-    if (didWarnInvalidHydration) {
-      return;
-    }
-    didWarnInvalidHydration = true;
-    warning(false, 'Expected server HTML to contain a matching <%s> in <%s>.', tag, parentNode.nodeName.toLowerCase());
-  }
-}
-
-function warnForInsertedHydratedText$1(parentNode, text) {
-  {
-    if (text === '') {
-      // We expect to insert empty text nodes since they're not represented in
-      // the HTML.
-      // TODO: Remove this special case if we can just avoid inserting empty
-      // text nodes.
-      return;
-    }
-    if (didWarnInvalidHydration) {
-      return;
-    }
-    didWarnInvalidHydration = true;
-    warning(false, 'Expected server HTML to contain a matching text node for "%s" in <%s>.', text, parentNode.nodeName.toLowerCase());
-  }
-}
-
-function restoreControlledState(domElement, tag, props) {
-  switch (tag) {
-    case 'input':
-      restoreControlledState$1(domElement, props);
-      return;
-    case 'textarea':
-      restoreControlledState$3(domElement, props);
-      return;
-    case 'select':
-      restoreControlledState$2(domElement, props);
-      return;
-  }
-}
-
-var ReactDOMFiberComponent = Object.freeze({
-	createElement: createElement$1,
-	createTextNode: createTextNode$1,
-	setInitialProperties: setInitialProperties$1,
-	diffProperties: diffProperties$1,
-	updateProperties: updateProperties$1,
-	diffHydratedProperties: diffHydratedProperties$1,
-	diffHydratedText: diffHydratedText$1,
-	warnForUnmatchedText: warnForUnmatchedText$1,
-	warnForDeletedHydratableElement: warnForDeletedHydratableElement$1,
-	warnForDeletedHydratableText: warnForDeletedHydratableText$1,
-	warnForInsertedHydratedElement: warnForInsertedHydratedElement$1,
-	warnForInsertedHydratedText: warnForInsertedHydratedText$1,
-	restoreControlledState: restoreControlledState
-});
-
-// TODO: direct imports like some-package/src/* are bad. Fix me.
-var getCurrentFiberStackAddendum$6 = ReactDebugCurrentFiber.getCurrentFiberStackAddendum;
-
-var validateDOMNesting = emptyFunction;
-
-{
-  // This validation code was written based on the HTML5 parsing spec:
-  // https://html.spec.whatwg.org/multipage/syntax.html#has-an-element-in-scope
-  //
-  // Note: this does not catch all invalid nesting, nor does it try to (as it's
-  // not clear what practical benefit doing so provides); instead, we warn only
-  // for cases where the parser will give a parse tree differing from what React
-  // intended. For example, <b><div></div></b> is invalid but we don't warn
-  // because it still parses correctly; we do warn for other cases like nested
-  // <p> tags where the beginning of the second element implicitly closes the
-  // first, causing a confusing mess.
-
-  // https://html.spec.whatwg.org/multipage/syntax.html#special
-  var specialTags = ['address', 'applet', 'area', 'article', 'aside', 'base', 'basefont', 'bgsound', 'blockquote', 'body', 'br', 'button', 'caption', 'center', 'col', 'colgroup', 'dd', 'details', 'dir', 'div', 'dl', 'dt', 'embed', 'fieldset', 'figcaption', 'figure', 'footer', 'form', 'frame', 'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hgroup', 'hr', 'html', 'iframe', 'img', 'input', 'isindex', 'li', 'link', 'listing', 'main', 'marquee', 'menu', 'menuitem', 'meta', 'nav', 'noembed', 'noframes', 'noscript', 'object', 'ol', 'p', 'param', 'plaintext', 'pre', 'script', 'section', 'select', 'source', 'style', 'summary', 'table', 'tbody', 'td', 'template', 'textarea', 'tfoot', 'th', 'thead', 'title', 'tr', 'track', 'ul', 'wbr', 'xmp'];
-
-  // https://html.spec.whatwg.org/multipage/syntax.html#has-an-element-in-scope
-  var inScopeTags = ['applet', 'caption', 'html', 'table', 'td', 'th', 'marquee', 'object', 'template',
-
-  // https://html.spec.whatwg.org/multipage/syntax.html#html-integration-point
-  // TODO: Distinguish by namespace here -- for <title>, including it here
-  // errs on the side of fewer warnings
-  'foreignObject', 'desc', 'title'];
-
-  // https://html.spec.whatwg.org/multipage/syntax.html#has-an-element-in-button-scope
-  var buttonScopeTags = inScopeTags.concat(['button']);
-
-  // https://html.spec.whatwg.org/multipage/syntax.html#generate-implied-end-tags
-  var impliedEndTags = ['dd', 'dt', 'li', 'option', 'optgroup', 'p', 'rp', 'rt'];
-
-  var emptyAncestorInfo = {
-    current: null,
-
-    formTag: null,
-    aTagInScope: null,
-    buttonTagInScope: null,
-    nobrTagInScope: null,
-    pTagInButtonScope: null,
-
-    listItemTagAutoclosing: null,
-    dlItemTagAutoclosing: null
-  };
-
-  var updatedAncestorInfo$1 = function (oldInfo, tag, instance) {
-    var ancestorInfo = _assign({}, oldInfo || emptyAncestorInfo);
-    var info = { tag: tag, instance: instance };
-
-    if (inScopeTags.indexOf(tag) !== -1) {
-      ancestorInfo.aTagInScope = null;
-      ancestorInfo.buttonTagInScope = null;
-      ancestorInfo.nobrTagInScope = null;
-    }
-    if (buttonScopeTags.indexOf(tag) !== -1) {
-      ancestorInfo.pTagInButtonScope = null;
-    }
-
-    // See rules for 'li', 'dd', 'dt' start tags in
-    // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-inbody
-    if (specialTags.indexOf(tag) !== -1 && tag !== 'address' && tag !== 'div' && tag !== 'p') {
-      ancestorInfo.listItemTagAutoclosing = null;
-      ancestorInfo.dlItemTagAutoclosing = null;
-    }
-
-    ancestorInfo.current = info;
-
-    if (tag === 'form') {
-      ancestorInfo.formTag = info;
-    }
-    if (tag === 'a') {
-      ancestorInfo.aTagInScope = info;
-    }
-    if (tag === 'button') {
-      ancestorInfo.buttonTagInScope = info;
-    }
-    if (tag === 'nobr') {
-      ancestorInfo.nobrTagInScope = info;
-    }
-    if (tag === 'p') {
-      ancestorInfo.pTagInButtonScope = info;
-    }
-    if (tag === 'li') {
-      ancestorInfo.listItemTagAutoclosing = info;
-    }
-    if (tag === 'dd' || tag === 'dt') {
-      ancestorInfo.dlItemTagAutoclosing = info;
-    }
-
-    return ancestorInfo;
-  };
-
-  /**
-   * Returns whether
-   */
-  var isTagValidWithParent = function (tag, parentTag) {
-    // First, let's check if we're in an unusual parsing mode...
-    switch (parentTag) {
-      // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-inselect
-      case 'select':
-        return tag === 'option' || tag === 'optgroup' || tag === '#text';
-      case 'optgroup':
-        return tag === 'option' || tag === '#text';
-      // Strictly speaking, seeing an <option> doesn't mean we're in a <select>
-      // but
-      case 'option':
-        return tag === '#text';
-      // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-intd
-      // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-incaption
-      // No special behavior since these rules fall back to "in body" mode for
-      // all except special table nodes which cause bad parsing behavior anyway.
-
-      // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-intr
-      case 'tr':
-        return tag === 'th' || tag === 'td' || tag === 'style' || tag === 'script' || tag === 'template';
-      // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-intbody
-      case 'tbody':
-      case 'thead':
-      case 'tfoot':
-        return tag === 'tr' || tag === 'style' || tag === 'script' || tag === 'template';
-      // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-incolgroup
-      case 'colgroup':
-        return tag === 'col' || tag === 'template';
-      // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-intable
-      case 'table':
-        return tag === 'caption' || tag === 'colgroup' || tag === 'tbody' || tag === 'tfoot' || tag === 'thead' || tag === 'style' || tag === 'script' || tag === 'template';
-      // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-inhead
-      case 'head':
-        return tag === 'base' || tag === 'basefont' || tag === 'bgsound' || tag === 'link' || tag === 'meta' || tag === 'title' || tag === 'noscript' || tag === 'noframes' || tag === 'style' || tag === 'script' || tag === 'template';
-      // https://html.spec.whatwg.org/multipage/semantics.html#the-html-element
-      case 'html':
-        return tag === 'head' || tag === 'body';
-      case '#document':
-        return tag === 'html';
-    }
-
-    // Probably in the "in body" parsing mode, so we outlaw only tag combos
-    // where the parsing rules cause implicit opens or closes to be added.
-    // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-inbody
-    switch (tag) {
-      case 'h1':
-      case 'h2':
-      case 'h3':
-      case 'h4':
-      case 'h5':
-      case 'h6':
-        return parentTag !== 'h1' && parentTag !== 'h2' && parentTag !== 'h3' && parentTag !== 'h4' && parentTag !== 'h5' && parentTag !== 'h6';
-
-      case 'rp':
-      case 'rt':
-        return impliedEndTags.indexOf(parentTag) === -1;
-
-      case 'body':
-      case 'caption':
-      case 'col':
-      case 'colgroup':
-      case 'frame':
-      case 'head':
-      case 'html':
-      case 'tbody':
-      case 'td':
-      case 'tfoot':
-      case 'th':
-      case 'thead':
-      case 'tr':
-        // These tags are only valid with a few parents that have special child
-        // parsing rules -- if we're down here, then none of those matched and
-        // so we allow it only if we don't know what the parent is, as all other
-        // cases are invalid.
-        return parentTag == null;
-    }
-
-    return true;
-  };
-
-  /**
-   * Returns whether
-   */
-  var findInvalidAncestorForTag = function (tag, ancestorInfo) {
-    switch (tag) {
-      case 'address':
-      case 'article':
-      case 'aside':
-      case 'blockquote':
-      case 'center':
-      case 'details':
-      case 'dialog':
-      case 'dir':
-      case 'div':
-      case 'dl':
-      case 'fieldset':
-      case 'figcaption':
-      case 'figure':
-      case 'footer':
-      case 'header':
-      case 'hgroup':
-      case 'main':
-      case 'menu':
-      case 'nav':
-      case 'ol':
-      case 'p':
-      case 'section':
-      case 'summary':
-      case 'ul':
-      case 'pre':
-      case 'listing':
-      case 'table':
-      case 'hr':
-      case 'xmp':
-      case 'h1':
-      case 'h2':
-      case 'h3':
-      case 'h4':
-      case 'h5':
-      case 'h6':
-        return ancestorInfo.pTagInButtonScope;
-
-      case 'form':
-        return ancestorInfo.formTag || ancestorInfo.pTagInButtonScope;
-
-      case 'li':
-        return ancestorInfo.listItemTagAutoclosing;
-
-      case 'dd':
-      case 'dt':
-        return ancestorInfo.dlItemTagAutoclosing;
-
-      case 'button':
-        return ancestorInfo.buttonTagInScope;
-
-      case 'a':
-        // Spec says something about storing a list of markers, but it sounds
-        // equivalent to this check.
-        return ancestorInfo.aTagInScope;
-
-      case 'nobr':
-        return ancestorInfo.nobrTagInScope;
-    }
-
-    return null;
-  };
-
-  var didWarn = {};
-
-  validateDOMNesting = function (childTag, childText, ancestorInfo) {
-    ancestorInfo = ancestorInfo || emptyAncestorInfo;
-    var parentInfo = ancestorInfo.current;
-    var parentTag = parentInfo && parentInfo.tag;
-
-    if (childText != null) {
-      warning(childTag == null, 'validateDOMNesting: when childText is passed, childTag should be null');
-      childTag = '#text';
-    }
-
-    var invalidParent = isTagValidWithParent(childTag, parentTag) ? null : parentInfo;
-    var invalidAncestor = invalidParent ? null : findInvalidAncestorForTag(childTag, ancestorInfo);
-    var invalidParentOrAncestor = invalidParent || invalidAncestor;
-    if (!invalidParentOrAncestor) {
-      return;
-    }
-
-    var ancestorTag = invalidParentOrAncestor.tag;
-    var addendum = getCurrentFiberStackAddendum$6();
-
-    var warnKey = !!invalidParent + '|' + childTag + '|' + ancestorTag + '|' + addendum;
-    if (didWarn[warnKey]) {
-      return;
-    }
-    didWarn[warnKey] = true;
-
-    var tagDisplayName = childTag;
-    var whitespaceInfo = '';
-    if (childTag === '#text') {
-      if (/\S/.test(childText)) {
-        tagDisplayName = 'Text nodes';
-      } else {
-        tagDisplayName = 'Whitespace text nodes';
-        whitespaceInfo = " Make sure you don't have any extra whitespace between tags on " + 'each line of your source code.';
-      }
-    } else {
-      tagDisplayName = '<' + childTag + '>';
-    }
-
-    if (invalidParent) {
-      var info = '';
-      if (ancestorTag === 'table' && childTag === 'tr') {
-        info += ' Add a <tbody> to your code to match the DOM tree generated by ' + 'the browser.';
-      }
-      warning(false, 'validateDOMNesting(...): %s cannot appear as a child of <%s>.%s%s%s', tagDisplayName, ancestorTag, whitespaceInfo, info, addendum);
-    } else {
-      warning(false, 'validateDOMNesting(...): %s cannot appear as a descendant of ' + '<%s>.%s', tagDisplayName, ancestorTag, addendum);
-    }
-  };
-
-  // TODO: turn this into a named export
-  validateDOMNesting.updatedAncestorInfo = updatedAncestorInfo$1;
-
-  // For testing
-  validateDOMNesting.isTagValidInContext = function (tag, ancestorInfo) {
-    ancestorInfo = ancestorInfo || emptyAncestorInfo;
-    var parentInfo = ancestorInfo.current;
-    var parentTag = parentInfo && parentInfo.tag;
-    return isTagValidWithParent(tag, parentTag) && !findInvalidAncestorForTag(tag, ancestorInfo);
-  };
-}
-
-var validateDOMNesting$1 = validateDOMNesting;
-
-// TODO: direct imports like some-package/src/* are bad. Fix me.
-var createElement = createElement$1;
-var createTextNode = createTextNode$1;
-var setInitialProperties = setInitialProperties$1;
-var diffProperties = diffProperties$1;
-var updateProperties = updateProperties$1;
-var diffHydratedProperties = diffHydratedProperties$1;
-var diffHydratedText = diffHydratedText$1;
-var warnForUnmatchedText = warnForUnmatchedText$1;
-var warnForDeletedHydratableElement = warnForDeletedHydratableElement$1;
-var warnForDeletedHydratableText = warnForDeletedHydratableText$1;
-var warnForInsertedHydratedElement = warnForInsertedHydratedElement$1;
-var warnForInsertedHydratedText = warnForInsertedHydratedText$1;
-var updatedAncestorInfo = validateDOMNesting$1.updatedAncestorInfo;
-var precacheFiberNode = precacheFiberNode$1;
-var updateFiberProps = updateFiberProps$1;
-
-
-{
-  var SUPPRESS_HYDRATION_WARNING = 'suppressHydrationWarning';
-  if (typeof Map !== 'function' || Map.prototype == null || typeof Map.prototype.forEach !== 'function' || typeof Set !== 'function' || Set.prototype == null || typeof Set.prototype.clear !== 'function' || typeof Set.prototype.forEach !== 'function') {
-    warning(false, 'React depends on Map and Set built-in types. Make sure that you load a ' + 'polyfill in older browsers. http://fb.me/react-polyfills');
-  }
-}
-
-injection$3.injectFiberControlledHostComponent(ReactDOMFiberComponent);
-
-var eventsEnabled = null;
-var selectionInformation = null;
-
-/**
- * True if the supplied DOM node is a valid node element.
- *
- * @param {?DOMElement} node The candidate DOM node.
- * @return {boolean} True if the DOM is a valid DOM node.
- * @internal
- */
-function isValidContainer(node) {
-  return !!(node && (node.nodeType === ELEMENT_NODE || node.nodeType === DOCUMENT_NODE || node.nodeType === DOCUMENT_FRAGMENT_NODE || node.nodeType === COMMENT_NODE && node.nodeValue === ' react-mount-point-unstable '));
-}
-
-function getReactRootElementInContainer(container) {
-  if (!container) {
-    return null;
-  }
-
-  if (container.nodeType === DOCUMENT_NODE) {
-    return container.documentElement;
-  } else {
-    return container.firstChild;
-  }
-}
-
-function shouldHydrateDueToLegacyHeuristic(container) {
-  var rootElement = getReactRootElementInContainer(container);
-  return !!(rootElement && rootElement.nodeType === ELEMENT_NODE && rootElement.hasAttribute(ROOT_ATTRIBUTE_NAME));
-}
-
-function shouldAutoFocusHostComponent(type, props) {
-  switch (type) {
-    case 'button':
-    case 'input':
-    case 'select':
-    case 'textarea':
-      return !!props.autoFocus;
-  }
-  return false;
-}
-
-var DOMRenderer = reactReconciler({
-  getRootHostContext: function (rootContainerInstance) {
-    var type = void 0;
-    var namespace = void 0;
-    var nodeType = rootContainerInstance.nodeType;
-    switch (nodeType) {
-      case DOCUMENT_NODE:
-      case DOCUMENT_FRAGMENT_NODE:
-        {
-          type = nodeType === DOCUMENT_NODE ? '#document' : '#fragment';
-          var root = rootContainerInstance.documentElement;
-          namespace = root ? root.namespaceURI : getChildNamespace(null, '');
-          break;
-        }
-      default:
-        {
-          var container = nodeType === COMMENT_NODE ? rootContainerInstance.parentNode : rootContainerInstance;
-          var ownNamespace = container.namespaceURI || null;
-          type = container.tagName;
-          namespace = getChildNamespace(ownNamespace, type);
-          break;
-        }
-    }
-    {
-      var validatedTag = type.toLowerCase();
-      var _ancestorInfo = updatedAncestorInfo(null, validatedTag, null);
-      return { namespace: namespace, ancestorInfo: _ancestorInfo };
-    }
-    return namespace;
-  },
-  getChildHostContext: function (parentHostContext, type) {
-    {
-      var parentHostContextDev = parentHostContext;
-      var _namespace = getChildNamespace(parentHostContextDev.namespace, type);
-      var _ancestorInfo2 = updatedAncestorInfo(parentHostContextDev.ancestorInfo, type, null);
-      return { namespace: _namespace, ancestorInfo: _ancestorInfo2 };
-    }
-    var parentNamespace = parentHostContext;
-    return getChildNamespace(parentNamespace, type);
-  },
-  getPublicInstance: function (instance) {
-    return instance;
-  },
-  prepareForCommit: function () {
-    eventsEnabled = isEnabled();
-    selectionInformation = getSelectionInformation();
-    setEnabled(false);
-  },
-  resetAfterCommit: function () {
-    restoreSelection(selectionInformation);
-    selectionInformation = null;
-    setEnabled(eventsEnabled);
-    eventsEnabled = null;
-  },
-  createInstance: function (type, props, rootContainerInstance, hostContext, internalInstanceHandle) {
-    var parentNamespace = void 0;
-    {
-      // TODO: take namespace into account when validating.
-      var hostContextDev = hostContext;
-      validateDOMNesting$1(type, null, hostContextDev.ancestorInfo);
-      if (typeof props.children === 'string' || typeof props.children === 'number') {
-        var string = '' + props.children;
-        var ownAncestorInfo = updatedAncestorInfo(hostContextDev.ancestorInfo, type, null);
-        validateDOMNesting$1(null, string, ownAncestorInfo);
-      }
-      parentNamespace = hostContextDev.namespace;
-    }
-    var domElement = createElement(type, props, rootContainerInstance, parentNamespace);
-    precacheFiberNode(internalInstanceHandle, domElement);
-    updateFiberProps(domElement, props);
-    return domElement;
-  },
-  appendInitialChild: function (parentInstance, child) {
-    parentInstance.appendChild(child);
-  },
-  finalizeInitialChildren: function (domElement, type, props, rootContainerInstance) {
-    setInitialProperties(domElement, type, props, rootContainerInstance);
-    return shouldAutoFocusHostComponent(type, props);
-  },
-  prepareUpdate: function (domElement, type, oldProps, newProps, rootContainerInstance, hostContext) {
-    {
-      var hostContextDev = hostContext;
-      if (typeof newProps.children !== typeof oldProps.children && (typeof newProps.children === 'string' || typeof newProps.children === 'number')) {
-        var string = '' + newProps.children;
-        var ownAncestorInfo = updatedAncestorInfo(hostContextDev.ancestorInfo, type, null);
-        validateDOMNesting$1(null, string, ownAncestorInfo);
-      }
-    }
-    return diffProperties(domElement, type, oldProps, newProps, rootContainerInstance);
-  },
-  shouldSetTextContent: function (type, props) {
-    return type === 'textarea' || typeof props.children === 'string' || typeof props.children === 'number' || typeof props.dangerouslySetInnerHTML === 'object' && props.dangerouslySetInnerHTML !== null && typeof props.dangerouslySetInnerHTML.__html === 'string';
-  },
-  shouldDeprioritizeSubtree: function (type, props) {
-    return !!props.hidden;
-  },
-  createTextInstance: function (text, rootContainerInstance, hostContext, internalInstanceHandle) {
-    {
-      var hostContextDev = hostContext;
-      validateDOMNesting$1(null, text, hostContextDev.ancestorInfo);
-    }
-    var textNode = createTextNode(text, rootContainerInstance);
-    precacheFiberNode(internalInstanceHandle, textNode);
-    return textNode;
-  },
-
-
-  now: now,
-
-  mutation: {
-    commitMount: function (domElement, type, newProps, internalInstanceHandle) {
-      domElement.focus();
-    },
-    commitUpdate: function (domElement, updatePayload, type, oldProps, newProps, internalInstanceHandle) {
-      // Update the props handle so that we know which props are the ones with
-      // with current event handlers.
-      updateFiberProps(domElement, newProps);
-      // Apply the diff to the DOM node.
-      updateProperties(domElement, updatePayload, type, oldProps, newProps);
-    },
-    resetTextContent: function (domElement) {
-      domElement.textContent = '';
-    },
-    commitTextUpdate: function (textInstance, oldText, newText) {
-      textInstance.nodeValue = newText;
-    },
-    appendChild: function (parentInstance, child) {
-      parentInstance.appendChild(child);
-    },
-    appendChildToContainer: function (container, child) {
-      if (container.nodeType === COMMENT_NODE) {
-        container.parentNode.insertBefore(child, container);
-      } else {
-        container.appendChild(child);
-      }
-    },
-    insertBefore: function (parentInstance, child, beforeChild) {
-      parentInstance.insertBefore(child, beforeChild);
-    },
-    insertInContainerBefore: function (container, child, beforeChild) {
-      if (container.nodeType === COMMENT_NODE) {
-        container.parentNode.insertBefore(child, beforeChild);
-      } else {
-        container.insertBefore(child, beforeChild);
-      }
-    },
-    removeChild: function (parentInstance, child) {
-      parentInstance.removeChild(child);
-    },
-    removeChildFromContainer: function (container, child) {
-      if (container.nodeType === COMMENT_NODE) {
-        container.parentNode.removeChild(child);
-      } else {
-        container.removeChild(child);
-      }
-    }
-  },
-
-  hydration: {
-    canHydrateInstance: function (instance, type, props) {
-      if (instance.nodeType !== ELEMENT_NODE || type.toLowerCase() !== instance.nodeName.toLowerCase()) {
-        return null;
-      }
-      // This has now been refined to an element node.
-      return instance;
-    },
-    canHydrateTextInstance: function (instance, text) {
-      if (text === '' || instance.nodeType !== TEXT_NODE) {
-        // Empty strings are not parsed by HTML so there won't be a correct match here.
-        return null;
-      }
-      // This has now been refined to a text node.
-      return instance;
-    },
-    getNextHydratableSibling: function (instance) {
-      var node = instance.nextSibling;
-      // Skip non-hydratable nodes.
-      while (node && node.nodeType !== ELEMENT_NODE && node.nodeType !== TEXT_NODE) {
-        node = node.nextSibling;
-      }
-      return node;
-    },
-    getFirstHydratableChild: function (parentInstance) {
-      var next = parentInstance.firstChild;
-      // Skip non-hydratable nodes.
-      while (next && next.nodeType !== ELEMENT_NODE && next.nodeType !== TEXT_NODE) {
-        next = next.nextSibling;
-      }
-      return next;
-    },
-    hydrateInstance: function (instance, type, props, rootContainerInstance, hostContext, internalInstanceHandle) {
-      precacheFiberNode(internalInstanceHandle, instance);
-      // TODO: Possibly defer this until the commit phase where all the events
-      // get attached.
-      updateFiberProps(instance, props);
-      var parentNamespace = void 0;
-      {
-        var hostContextDev = hostContext;
-        parentNamespace = hostContextDev.namespace;
-      }
-      return diffHydratedProperties(instance, type, props, parentNamespace, rootContainerInstance);
-    },
-    hydrateTextInstance: function (textInstance, text, internalInstanceHandle) {
-      precacheFiberNode(internalInstanceHandle, textInstance);
-      return diffHydratedText(textInstance, text);
-    },
-    didNotMatchHydratedContainerTextInstance: function (parentContainer, textInstance, text) {
-      {
-        warnForUnmatchedText(textInstance, text);
-      }
-    },
-    didNotMatchHydratedTextInstance: function (parentType, parentProps, parentInstance, textInstance, text) {
-      if (true && parentProps[SUPPRESS_HYDRATION_WARNING] !== true) {
-        warnForUnmatchedText(textInstance, text);
-      }
-    },
-    didNotHydrateContainerInstance: function (parentContainer, instance) {
-      {
-        if (instance.nodeType === 1) {
-          warnForDeletedHydratableElement(parentContainer, instance);
-        } else {
-          warnForDeletedHydratableText(parentContainer, instance);
-        }
-      }
-    },
-    didNotHydrateInstance: function (parentType, parentProps, parentInstance, instance) {
-      if (true && parentProps[SUPPRESS_HYDRATION_WARNING] !== true) {
-        if (instance.nodeType === 1) {
-          warnForDeletedHydratableElement(parentInstance, instance);
-        } else {
-          warnForDeletedHydratableText(parentInstance, instance);
-        }
-      }
-    },
-    didNotFindHydratableContainerInstance: function (parentContainer, type, props) {
-      {
-        warnForInsertedHydratedElement(parentContainer, type, props);
-      }
-    },
-    didNotFindHydratableContainerTextInstance: function (parentContainer, text) {
-      {
-        warnForInsertedHydratedText(parentContainer, text);
-      }
-    },
-    didNotFindHydratableInstance: function (parentType, parentProps, parentInstance, type, props) {
-      if (true && parentProps[SUPPRESS_HYDRATION_WARNING] !== true) {
-        warnForInsertedHydratedElement(parentInstance, type, props);
-      }
-    },
-    didNotFindHydratableTextInstance: function (parentType, parentProps, parentInstance, text) {
-      if (true && parentProps[SUPPRESS_HYDRATION_WARNING] !== true) {
-        warnForInsertedHydratedText(parentInstance, text);
-      }
-    }
-  },
-
-  scheduleDeferredCallback: rIC,
-  cancelDeferredCallback: cIC,
-
-  useSyncScheduling: !enableAsyncSchedulingByDefaultInReactDOM
-});
-
-injection$4.injectFiberBatchedUpdates(DOMRenderer.batchedUpdates);
-
-var warnedAboutHydrateAPI = false;
-
-function renderSubtreeIntoContainer(parentComponent, children, container, forceHydrate, callback) {
-  !isValidContainer(container) ? invariant(false, 'Target container is not a DOM element.') : void 0;
-
-  {
-    if (container._reactRootContainer && container.nodeType !== COMMENT_NODE) {
-      var hostInstance = DOMRenderer.findHostInstanceWithNoPortals(container._reactRootContainer.current);
-      if (hostInstance) {
-        warning(hostInstance.parentNode === container, 'render(...): It looks like the React-rendered content of this ' + 'container was removed without using React. This is not ' + 'supported and will cause errors. Instead, call ' + 'ReactDOM.unmountComponentAtNode to empty a container.');
-      }
-    }
-
-    var isRootRenderedBySomeReact = !!container._reactRootContainer;
-    var rootEl = getReactRootElementInContainer(container);
-    var hasNonRootReactChild = !!(rootEl && getInstanceFromNode$1(rootEl));
-
-    warning(!hasNonRootReactChild || isRootRenderedBySomeReact, 'render(...): Replacing React-rendered children with a new root ' + 'component. If you intended to update the children of this node, ' + 'you should instead have the existing children update their state ' + 'and render the new components instead of calling ReactDOM.render.');
-
-    warning(container.nodeType !== ELEMENT_NODE || !container.tagName || container.tagName.toUpperCase() !== 'BODY', 'render(): Rendering components directly into document.body is ' + 'discouraged, since its children are often manipulated by third-party ' + 'scripts and browser extensions. This may lead to subtle ' + 'reconciliation issues. Try rendering into a container element created ' + 'for your app.');
-  }
-
-  var root = container._reactRootContainer;
-  if (!root) {
-    var shouldHydrate = forceHydrate || shouldHydrateDueToLegacyHeuristic(container);
-    // First clear any existing content.
-    if (!shouldHydrate) {
-      var warned = false;
-      var rootSibling = void 0;
-      while (rootSibling = container.lastChild) {
-        {
-          if (!warned && rootSibling.nodeType === ELEMENT_NODE && rootSibling.hasAttribute(ROOT_ATTRIBUTE_NAME)) {
-            warned = true;
-            warning(false, 'render(): Target node has markup rendered by React, but there ' + 'are unrelated nodes as well. This is most commonly caused by ' + 'white-space inserted around server-rendered markup.');
-          }
-        }
-        container.removeChild(rootSibling);
-      }
-    }
-    {
-      if (shouldHydrate && !forceHydrate && !warnedAboutHydrateAPI) {
-        warnedAboutHydrateAPI = true;
-        lowPriorityWarning$1(false, 'render(): Calling ReactDOM.render() to hydrate server-rendered markup ' + 'will stop working in React v17. Replace the ReactDOM.render() call ' + 'with ReactDOM.hydrate() if you want React to attach to the server HTML.');
-      }
-    }
-    var newRoot = DOMRenderer.createContainer(container, shouldHydrate);
-    root = container._reactRootContainer = newRoot;
-    // Initial mount should not be batched.
-    DOMRenderer.unbatchedUpdates(function () {
-      DOMRenderer.updateContainer(children, newRoot, parentComponent, callback);
-    });
-  } else {
-    DOMRenderer.updateContainer(children, root, parentComponent, callback);
-  }
-  return DOMRenderer.getPublicRootInstance(root);
-}
-
-function createPortal(children, container) {
-  var key = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-
-  !isValidContainer(container) ? invariant(false, 'Target container is not a DOM element.') : void 0;
-  // TODO: pass ReactDOM portal implementation as third argument
-  return createPortal$1(children, container, null, key);
-}
-
-function ReactRoot(container, hydrate) {
-  var root = DOMRenderer.createContainer(container, hydrate);
-  this._reactRootContainer = root;
-}
-ReactRoot.prototype.render = function (children, callback) {
-  var root = this._reactRootContainer;
-  DOMRenderer.updateContainer(children, root, null, callback);
-};
-ReactRoot.prototype.unmount = function (callback) {
-  var root = this._reactRootContainer;
-  DOMRenderer.updateContainer(null, root, null, callback);
-};
-
-var ReactDOM = {
-  createPortal: createPortal,
-
-  findDOMNode: function (componentOrElement) {
-    {
-      var owner = ReactCurrentOwner.current;
-      if (owner !== null) {
-        var warnedAboutRefsInRender = owner.stateNode._warnedAboutRefsInRender;
-        warning(warnedAboutRefsInRender, '%s is accessing findDOMNode inside its render(). ' + 'render() should be a pure function of props and state. It should ' + 'never access something that requires stale data from the previous ' + 'render, such as refs. Move this logic to componentDidMount and ' + 'componentDidUpdate instead.', getComponentName(owner) || 'A component');
-        owner.stateNode._warnedAboutRefsInRender = true;
-      }
-    }
-    if (componentOrElement == null) {
-      return null;
-    }
-    if (componentOrElement.nodeType === ELEMENT_NODE) {
-      return componentOrElement;
-    }
-
-    var inst = get(componentOrElement);
-    if (inst) {
-      return DOMRenderer.findHostInstance(inst);
-    }
-
-    if (typeof componentOrElement.render === 'function') {
-      invariant(false, 'Unable to find node on an unmounted component.');
-    } else {
-      invariant(false, 'Element appears to be neither ReactComponent nor DOMNode. Keys: %s', Object.keys(componentOrElement));
-    }
-  },
-  hydrate: function (element, container, callback) {
-    // TODO: throw or warn if we couldn't hydrate?
-    return renderSubtreeIntoContainer(null, element, container, true, callback);
-  },
-  render: function (element, container, callback) {
-    return renderSubtreeIntoContainer(null, element, container, false, callback);
-  },
-  unstable_renderSubtreeIntoContainer: function (parentComponent, element, containerNode, callback) {
-    !(parentComponent != null && has(parentComponent)) ? invariant(false, 'parentComponent must be a valid React Component') : void 0;
-    return renderSubtreeIntoContainer(parentComponent, element, containerNode, false, callback);
-  },
-  unmountComponentAtNode: function (container) {
-    !isValidContainer(container) ? invariant(false, 'unmountComponentAtNode(...): Target container is not a DOM element.') : void 0;
-
-    if (container._reactRootContainer) {
-      {
-        var rootEl = getReactRootElementInContainer(container);
-        var renderedByDifferentReact = rootEl && !getInstanceFromNode$1(rootEl);
-        warning(!renderedByDifferentReact, "unmountComponentAtNode(): The node you're attempting to unmount " + 'was rendered by another copy of React.');
-      }
-
+<<<<<<< HEAD
       // Unmount should not be batched.
       DOMRenderer.unbatchedUpdates(function () {
         renderSubtreeIntoContainer(null, null, container, false, function () {
@@ -27280,185 +25474,5515 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
               )
             )
           ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'uk-column-1-5 uk-text-center uk-text-muted' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'MON C'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'TUE C'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'WED C'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'THU C'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'FRI C'
-              )
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'uk-column-1-5 uk-column-divider uk-width-auto' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 '
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 '
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003 '
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 '
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003 MAT \u2003 \u2003 101'
-              )
-            )
-          )
-        )
-      )
-    );
+=======
+  // SVG
+  about: 'about',
+  accentheight: 'accentHeight',
+  'accent-height': 'accentHeight',
+  accumulate: 'accumulate',
+  additive: 'additive',
+  alignmentbaseline: 'alignmentBaseline',
+  'alignment-baseline': 'alignmentBaseline',
+  allowreorder: 'allowReorder',
+  alphabetic: 'alphabetic',
+  amplitude: 'amplitude',
+  arabicform: 'arabicForm',
+  'arabic-form': 'arabicForm',
+  ascent: 'ascent',
+  attributename: 'attributeName',
+  attributetype: 'attributeType',
+  autoreverse: 'autoReverse',
+  azimuth: 'azimuth',
+  basefrequency: 'baseFrequency',
+  baselineshift: 'baselineShift',
+  'baseline-shift': 'baselineShift',
+  baseprofile: 'baseProfile',
+  bbox: 'bbox',
+  begin: 'begin',
+  bias: 'bias',
+  by: 'by',
+  calcmode: 'calcMode',
+  capheight: 'capHeight',
+  'cap-height': 'capHeight',
+  clip: 'clip',
+  clippath: 'clipPath',
+  'clip-path': 'clipPath',
+  clippathunits: 'clipPathUnits',
+  cliprule: 'clipRule',
+  'clip-rule': 'clipRule',
+  color: 'color',
+  colorinterpolation: 'colorInterpolation',
+  'color-interpolation': 'colorInterpolation',
+  colorinterpolationfilters: 'colorInterpolationFilters',
+  'color-interpolation-filters': 'colorInterpolationFilters',
+  colorprofile: 'colorProfile',
+  'color-profile': 'colorProfile',
+  colorrendering: 'colorRendering',
+  'color-rendering': 'colorRendering',
+  contentscripttype: 'contentScriptType',
+  contentstyletype: 'contentStyleType',
+  cursor: 'cursor',
+  cx: 'cx',
+  cy: 'cy',
+  d: 'd',
+  datatype: 'datatype',
+  decelerate: 'decelerate',
+  descent: 'descent',
+  diffuseconstant: 'diffuseConstant',
+  direction: 'direction',
+  display: 'display',
+  divisor: 'divisor',
+  dominantbaseline: 'dominantBaseline',
+  'dominant-baseline': 'dominantBaseline',
+  dur: 'dur',
+  dx: 'dx',
+  dy: 'dy',
+  edgemode: 'edgeMode',
+  elevation: 'elevation',
+  enablebackground: 'enableBackground',
+  'enable-background': 'enableBackground',
+  end: 'end',
+  exponent: 'exponent',
+  externalresourcesrequired: 'externalResourcesRequired',
+  fill: 'fill',
+  fillopacity: 'fillOpacity',
+  'fill-opacity': 'fillOpacity',
+  fillrule: 'fillRule',
+  'fill-rule': 'fillRule',
+  filter: 'filter',
+  filterres: 'filterRes',
+  filterunits: 'filterUnits',
+  floodopacity: 'floodOpacity',
+  'flood-opacity': 'floodOpacity',
+  floodcolor: 'floodColor',
+  'flood-color': 'floodColor',
+  focusable: 'focusable',
+  fontfamily: 'fontFamily',
+  'font-family': 'fontFamily',
+  fontsize: 'fontSize',
+  'font-size': 'fontSize',
+  fontsizeadjust: 'fontSizeAdjust',
+  'font-size-adjust': 'fontSizeAdjust',
+  fontstretch: 'fontStretch',
+  'font-stretch': 'fontStretch',
+  fontstyle: 'fontStyle',
+  'font-style': 'fontStyle',
+  fontvariant: 'fontVariant',
+  'font-variant': 'fontVariant',
+  fontweight: 'fontWeight',
+  'font-weight': 'fontWeight',
+  format: 'format',
+  from: 'from',
+  fx: 'fx',
+  fy: 'fy',
+  g1: 'g1',
+  g2: 'g2',
+  glyphname: 'glyphName',
+  'glyph-name': 'glyphName',
+  glyphorientationhorizontal: 'glyphOrientationHorizontal',
+  'glyph-orientation-horizontal': 'glyphOrientationHorizontal',
+  glyphorientationvertical: 'glyphOrientationVertical',
+  'glyph-orientation-vertical': 'glyphOrientationVertical',
+  glyphref: 'glyphRef',
+  gradienttransform: 'gradientTransform',
+  gradientunits: 'gradientUnits',
+  hanging: 'hanging',
+  horizadvx: 'horizAdvX',
+  'horiz-adv-x': 'horizAdvX',
+  horizoriginx: 'horizOriginX',
+  'horiz-origin-x': 'horizOriginX',
+  ideographic: 'ideographic',
+  imagerendering: 'imageRendering',
+  'image-rendering': 'imageRendering',
+  in2: 'in2',
+  'in': 'in',
+  inlist: 'inlist',
+  intercept: 'intercept',
+  k1: 'k1',
+  k2: 'k2',
+  k3: 'k3',
+  k4: 'k4',
+  k: 'k',
+  kernelmatrix: 'kernelMatrix',
+  kernelunitlength: 'kernelUnitLength',
+  kerning: 'kerning',
+  keypoints: 'keyPoints',
+  keysplines: 'keySplines',
+  keytimes: 'keyTimes',
+  lengthadjust: 'lengthAdjust',
+  letterspacing: 'letterSpacing',
+  'letter-spacing': 'letterSpacing',
+  lightingcolor: 'lightingColor',
+  'lighting-color': 'lightingColor',
+  limitingconeangle: 'limitingConeAngle',
+  local: 'local',
+  markerend: 'markerEnd',
+  'marker-end': 'markerEnd',
+  markerheight: 'markerHeight',
+  markermid: 'markerMid',
+  'marker-mid': 'markerMid',
+  markerstart: 'markerStart',
+  'marker-start': 'markerStart',
+  markerunits: 'markerUnits',
+  markerwidth: 'markerWidth',
+  mask: 'mask',
+  maskcontentunits: 'maskContentUnits',
+  maskunits: 'maskUnits',
+  mathematical: 'mathematical',
+  mode: 'mode',
+  numoctaves: 'numOctaves',
+  offset: 'offset',
+  opacity: 'opacity',
+  operator: 'operator',
+  order: 'order',
+  orient: 'orient',
+  orientation: 'orientation',
+  origin: 'origin',
+  overflow: 'overflow',
+  overlineposition: 'overlinePosition',
+  'overline-position': 'overlinePosition',
+  overlinethickness: 'overlineThickness',
+  'overline-thickness': 'overlineThickness',
+  paintorder: 'paintOrder',
+  'paint-order': 'paintOrder',
+  panose1: 'panose1',
+  'panose-1': 'panose1',
+  pathlength: 'pathLength',
+  patterncontentunits: 'patternContentUnits',
+  patterntransform: 'patternTransform',
+  patternunits: 'patternUnits',
+  pointerevents: 'pointerEvents',
+  'pointer-events': 'pointerEvents',
+  points: 'points',
+  pointsatx: 'pointsAtX',
+  pointsaty: 'pointsAtY',
+  pointsatz: 'pointsAtZ',
+  prefix: 'prefix',
+  preservealpha: 'preserveAlpha',
+  preserveaspectratio: 'preserveAspectRatio',
+  primitiveunits: 'primitiveUnits',
+  property: 'property',
+  r: 'r',
+  radius: 'radius',
+  refx: 'refX',
+  refy: 'refY',
+  renderingintent: 'renderingIntent',
+  'rendering-intent': 'renderingIntent',
+  repeatcount: 'repeatCount',
+  repeatdur: 'repeatDur',
+  requiredextensions: 'requiredExtensions',
+  requiredfeatures: 'requiredFeatures',
+  resource: 'resource',
+  restart: 'restart',
+  result: 'result',
+  results: 'results',
+  rotate: 'rotate',
+  rx: 'rx',
+  ry: 'ry',
+  scale: 'scale',
+  security: 'security',
+  seed: 'seed',
+  shaperendering: 'shapeRendering',
+  'shape-rendering': 'shapeRendering',
+  slope: 'slope',
+  spacing: 'spacing',
+  specularconstant: 'specularConstant',
+  specularexponent: 'specularExponent',
+  speed: 'speed',
+  spreadmethod: 'spreadMethod',
+  startoffset: 'startOffset',
+  stddeviation: 'stdDeviation',
+  stemh: 'stemh',
+  stemv: 'stemv',
+  stitchtiles: 'stitchTiles',
+  stopcolor: 'stopColor',
+  'stop-color': 'stopColor',
+  stopopacity: 'stopOpacity',
+  'stop-opacity': 'stopOpacity',
+  strikethroughposition: 'strikethroughPosition',
+  'strikethrough-position': 'strikethroughPosition',
+  strikethroughthickness: 'strikethroughThickness',
+  'strikethrough-thickness': 'strikethroughThickness',
+  string: 'string',
+  stroke: 'stroke',
+  strokedasharray: 'strokeDasharray',
+  'stroke-dasharray': 'strokeDasharray',
+  strokedashoffset: 'strokeDashoffset',
+  'stroke-dashoffset': 'strokeDashoffset',
+  strokelinecap: 'strokeLinecap',
+  'stroke-linecap': 'strokeLinecap',
+  strokelinejoin: 'strokeLinejoin',
+  'stroke-linejoin': 'strokeLinejoin',
+  strokemiterlimit: 'strokeMiterlimit',
+  'stroke-miterlimit': 'strokeMiterlimit',
+  strokewidth: 'strokeWidth',
+  'stroke-width': 'strokeWidth',
+  strokeopacity: 'strokeOpacity',
+  'stroke-opacity': 'strokeOpacity',
+  suppresscontenteditablewarning: 'suppressContentEditableWarning',
+  suppresshydrationwarning: 'suppressHydrationWarning',
+  surfacescale: 'surfaceScale',
+  systemlanguage: 'systemLanguage',
+  tablevalues: 'tableValues',
+  targetx: 'targetX',
+  targety: 'targetY',
+  textanchor: 'textAnchor',
+  'text-anchor': 'textAnchor',
+  textdecoration: 'textDecoration',
+  'text-decoration': 'textDecoration',
+  textlength: 'textLength',
+  textrendering: 'textRendering',
+  'text-rendering': 'textRendering',
+  to: 'to',
+  transform: 'transform',
+  'typeof': 'typeof',
+  u1: 'u1',
+  u2: 'u2',
+  underlineposition: 'underlinePosition',
+  'underline-position': 'underlinePosition',
+  underlinethickness: 'underlineThickness',
+  'underline-thickness': 'underlineThickness',
+  unicode: 'unicode',
+  unicodebidi: 'unicodeBidi',
+  'unicode-bidi': 'unicodeBidi',
+  unicoderange: 'unicodeRange',
+  'unicode-range': 'unicodeRange',
+  unitsperem: 'unitsPerEm',
+  'units-per-em': 'unitsPerEm',
+  unselectable: 'unselectable',
+  valphabetic: 'vAlphabetic',
+  'v-alphabetic': 'vAlphabetic',
+  values: 'values',
+  vectoreffect: 'vectorEffect',
+  'vector-effect': 'vectorEffect',
+  version: 'version',
+  vertadvy: 'vertAdvY',
+  'vert-adv-y': 'vertAdvY',
+  vertoriginx: 'vertOriginX',
+  'vert-origin-x': 'vertOriginX',
+  vertoriginy: 'vertOriginY',
+  'vert-origin-y': 'vertOriginY',
+  vhanging: 'vHanging',
+  'v-hanging': 'vHanging',
+  videographic: 'vIdeographic',
+  'v-ideographic': 'vIdeographic',
+  viewbox: 'viewBox',
+  viewtarget: 'viewTarget',
+  visibility: 'visibility',
+  vmathematical: 'vMathematical',
+  'v-mathematical': 'vMathematical',
+  vocab: 'vocab',
+  widths: 'widths',
+  wordspacing: 'wordSpacing',
+  'word-spacing': 'wordSpacing',
+  writingmode: 'writingMode',
+  'writing-mode': 'writingMode',
+  x1: 'x1',
+  x2: 'x2',
+  x: 'x',
+  xchannelselector: 'xChannelSelector',
+  xheight: 'xHeight',
+  'x-height': 'xHeight',
+  xlinkactuate: 'xlinkActuate',
+  'xlink:actuate': 'xlinkActuate',
+  xlinkarcrole: 'xlinkArcrole',
+  'xlink:arcrole': 'xlinkArcrole',
+  xlinkhref: 'xlinkHref',
+  'xlink:href': 'xlinkHref',
+  xlinkrole: 'xlinkRole',
+  'xlink:role': 'xlinkRole',
+  xlinkshow: 'xlinkShow',
+  'xlink:show': 'xlinkShow',
+  xlinktitle: 'xlinkTitle',
+  'xlink:title': 'xlinkTitle',
+  xlinktype: 'xlinkType',
+  'xlink:type': 'xlinkType',
+  xmlbase: 'xmlBase',
+  'xml:base': 'xmlBase',
+  xmllang: 'xmlLang',
+  'xml:lang': 'xmlLang',
+  xmlns: 'xmlns',
+  'xml:space': 'xmlSpace',
+  xmlnsxlink: 'xmlnsXlink',
+  'xmlns:xlink': 'xmlnsXlink',
+  xmlspace: 'xmlSpace',
+  y1: 'y1',
+  y2: 'y2',
+  y: 'y',
+  ychannelselector: 'yChannelSelector',
+  z: 'z',
+  zoomandpan: 'zoomAndPan'
+};
+
+function getStackAddendum$2() {
+  var stack = ReactDebugCurrentFrame.getStackAddendum();
+  return stack != null ? stack : '';
+}
+
+{
+  var warnedProperties$1 = {};
+  var hasOwnProperty$1 = Object.prototype.hasOwnProperty;
+  var EVENT_NAME_REGEX = /^on./;
+  var INVALID_EVENT_NAME_REGEX = /^on[^A-Z]/;
+  var rARIA$1 = new RegExp('^(aria)-[' + ATTRIBUTE_NAME_CHAR + ']*$');
+  var rARIACamel$1 = new RegExp('^(aria)[A-Z][' + ATTRIBUTE_NAME_CHAR + ']*$');
+
+  var validateProperty$1 = function (tagName, name, value, canUseEventSystem) {
+    if (hasOwnProperty$1.call(warnedProperties$1, name) && warnedProperties$1[name]) {
+      return true;
+    }
+
+    var lowerCasedName = name.toLowerCase();
+    if (lowerCasedName === 'onfocusin' || lowerCasedName === 'onfocusout') {
+      warning(false, 'React uses onFocus and onBlur instead of onFocusIn and onFocusOut. ' + 'All React events are normalized to bubble, so onFocusIn and onFocusOut ' + 'are not needed/supported by React.');
+      warnedProperties$1[name] = true;
+      return true;
+    }
+
+    // We can't rely on the event system being injected on the server.
+    if (canUseEventSystem) {
+      if (registrationNameModules.hasOwnProperty(name)) {
+        return true;
+      }
+      var registrationName = possibleRegistrationNames.hasOwnProperty(lowerCasedName) ? possibleRegistrationNames[lowerCasedName] : null;
+      if (registrationName != null) {
+        warning(false, 'Invalid event handler property `%s`. Did you mean `%s`?%s', name, registrationName, getStackAddendum$2());
+        warnedProperties$1[name] = true;
+        return true;
+      }
+      if (EVENT_NAME_REGEX.test(name)) {
+        warning(false, 'Unknown event handler property `%s`. It will be ignored.%s', name, getStackAddendum$2());
+        warnedProperties$1[name] = true;
+        return true;
+      }
+    } else if (EVENT_NAME_REGEX.test(name)) {
+      // If no event plugins have been injected, we are in a server environment.
+      // So we can't tell if the event name is correct for sure, but we can filter
+      // out known bad ones like `onclick`. We can't suggest a specific replacement though.
+      if (INVALID_EVENT_NAME_REGEX.test(name)) {
+        warning(false, 'Invalid event handler property `%s`. ' + 'React events use the camelCase naming convention, for example `onClick`.%s', name, getStackAddendum$2());
+      }
+      warnedProperties$1[name] = true;
+      return true;
+    }
+
+    // Let the ARIA attribute hook validate ARIA attributes
+    if (rARIA$1.test(name) || rARIACamel$1.test(name)) {
+      return true;
+    }
+
+    if (lowerCasedName === 'innerhtml') {
+      warning(false, 'Directly setting property `innerHTML` is not permitted. ' + 'For more information, lookup documentation on `dangerouslySetInnerHTML`.');
+      warnedProperties$1[name] = true;
+      return true;
+    }
+
+    if (lowerCasedName === 'aria') {
+      warning(false, 'The `aria` attribute is reserved for future use in React. ' + 'Pass individual `aria-` attributes instead.');
+      warnedProperties$1[name] = true;
+      return true;
+    }
+
+    if (lowerCasedName === 'is' && value !== null && value !== undefined && typeof value !== 'string') {
+      warning(false, 'Received a `%s` for a string attribute `is`. If this is expected, cast ' + 'the value to a string.%s', typeof value, getStackAddendum$2());
+      warnedProperties$1[name] = true;
+      return true;
+    }
+
+    if (typeof value === 'number' && isNaN(value)) {
+      warning(false, 'Received NaN for the `%s` attribute. If this is expected, cast ' + 'the value to a string.%s', name, getStackAddendum$2());
+      warnedProperties$1[name] = true;
+      return true;
+    }
+
+    var isReserved = isReservedProp(name);
+
+    // Known attributes should match the casing specified in the property config.
+    if (possibleStandardNames.hasOwnProperty(lowerCasedName)) {
+      var standardName = possibleStandardNames[lowerCasedName];
+      if (standardName !== name) {
+        warning(false, 'Invalid DOM property `%s`. Did you mean `%s`?%s', name, standardName, getStackAddendum$2());
+        warnedProperties$1[name] = true;
+        return true;
+      }
+    } else if (!isReserved && name !== lowerCasedName) {
+      // Unknown attributes should have lowercase casing since that's how they
+      // will be cased anyway with server rendering.
+      warning(false, 'React does not recognize the `%s` prop on a DOM element. If you ' + 'intentionally want it to appear in the DOM as a custom ' + 'attribute, spell it as lowercase `%s` instead. ' + 'If you accidentally passed it from a parent component, remove ' + 'it from the DOM element.%s', name, lowerCasedName, getStackAddendum$2());
+      warnedProperties$1[name] = true;
+      return true;
+    }
+
+    if (typeof value === 'boolean' && !shouldAttributeAcceptBooleanValue(name)) {
+      if (value) {
+        warning(false, 'Received `%s` for a non-boolean attribute `%s`.\n\n' + 'If you want to write it to the DOM, pass a string instead: ' + '%s="%s" or %s={value.toString()}.%s', value, name, name, value, name, getStackAddendum$2());
+      } else {
+        warning(false, 'Received `%s` for a non-boolean attribute `%s`.\n\n' + 'If you want to write it to the DOM, pass a string instead: ' + '%s="%s" or %s={value.toString()}.\n\n' + 'If you used to conditionally omit it with %s={condition && value}, ' + 'pass %s={condition ? value : undefined} instead.%s', value, name, name, value, name, name, name, getStackAddendum$2());
+      }
+      warnedProperties$1[name] = true;
+      return true;
+    }
+
+    // Now that we've validated casing, do not validate
+    // data types for reserved props
+    if (isReserved) {
+      return true;
+    }
+
+    // Warn when a known attribute is a bad type
+    if (!shouldSetAttribute(name, value)) {
+      warnedProperties$1[name] = true;
+      return false;
+    }
+
+    return true;
+  };
+}
+
+var warnUnknownProperties = function (type, props, canUseEventSystem) {
+  var unknownProps = [];
+  for (var key in props) {
+    var isValid = validateProperty$1(type, key, props[key], canUseEventSystem);
+    if (!isValid) {
+      unknownProps.push(key);
+    }
+  }
+
+  var unknownPropString = unknownProps.map(function (prop) {
+    return '`' + prop + '`';
+  }).join(', ');
+  if (unknownProps.length === 1) {
+    warning(false, 'Invalid value for prop %s on <%s> tag. Either remove it from the element, ' + 'or pass a string or number value to keep it in the DOM. ' + 'For details, see https://fb.me/react-attribute-behavior%s', unknownPropString, type, getStackAddendum$2());
+  } else if (unknownProps.length > 1) {
+    warning(false, 'Invalid values for props %s on <%s> tag. Either remove them from the element, ' + 'or pass a string or number value to keep them in the DOM. ' + 'For details, see https://fb.me/react-attribute-behavior%s', unknownPropString, type, getStackAddendum$2());
+  }
+};
+
+function validateProperties$2(type, props, canUseEventSystem) {
+  if (isCustomComponent(type, props)) {
+    return;
+  }
+  warnUnknownProperties(type, props, canUseEventSystem);
+}
+
+// TODO: direct imports like some-package/src/* are bad. Fix me.
+var getCurrentFiberOwnerName$1 = ReactDebugCurrentFiber.getCurrentFiberOwnerName;
+var getCurrentFiberStackAddendum$2 = ReactDebugCurrentFiber.getCurrentFiberStackAddendum;
+
+var didWarnInvalidHydration = false;
+var didWarnShadyDOM = false;
+
+var DANGEROUSLY_SET_INNER_HTML = 'dangerouslySetInnerHTML';
+var SUPPRESS_CONTENT_EDITABLE_WARNING = 'suppressContentEditableWarning';
+var SUPPRESS_HYDRATION_WARNING$1 = 'suppressHydrationWarning';
+var AUTOFOCUS = 'autoFocus';
+var CHILDREN = 'children';
+var STYLE = 'style';
+var HTML = '__html';
+
+var HTML_NAMESPACE = Namespaces.html;
+
+
+var getStack = emptyFunction.thatReturns('');
+
+{
+  getStack = getCurrentFiberStackAddendum$2;
+
+  var warnedUnknownTags = {
+    // Chrome is the only major browser not shipping <time>. But as of July
+    // 2017 it intends to ship it due to widespread usage. We intentionally
+    // *don't* warn for <time> even if it's unrecognized by Chrome because
+    // it soon will be, and many apps have been using it anyway.
+    time: true,
+    // There are working polyfills for <dialog>. Let people use it.
+    dialog: true
+  };
+
+  var validatePropertiesInDevelopment = function (type, props) {
+    validateProperties(type, props);
+    validateProperties$1(type, props);
+    validateProperties$2(type, props, /* canUseEventSystem */true);
+  };
+
+  // HTML parsing normalizes CR and CRLF to LF.
+  // It also can turn \u0000 into \uFFFD inside attributes.
+  // https://www.w3.org/TR/html5/single-page.html#preprocessing-the-input-stream
+  // If we have a mismatch, it might be caused by that.
+  // We will still patch up in this case but not fire the warning.
+  var NORMALIZE_NEWLINES_REGEX = /\r\n?/g;
+  var NORMALIZE_NULL_AND_REPLACEMENT_REGEX = /\u0000|\uFFFD/g;
+
+  var normalizeMarkupForTextOrAttribute = function (markup) {
+    var markupString = typeof markup === 'string' ? markup : '' + markup;
+    return markupString.replace(NORMALIZE_NEWLINES_REGEX, '\n').replace(NORMALIZE_NULL_AND_REPLACEMENT_REGEX, '');
+  };
+
+  var warnForTextDifference = function (serverText, clientText) {
+    if (didWarnInvalidHydration) {
+      return;
+    }
+    var normalizedClientText = normalizeMarkupForTextOrAttribute(clientText);
+    var normalizedServerText = normalizeMarkupForTextOrAttribute(serverText);
+    if (normalizedServerText === normalizedClientText) {
+      return;
+    }
+    didWarnInvalidHydration = true;
+    warning(false, 'Text content did not match. Server: "%s" Client: "%s"', normalizedServerText, normalizedClientText);
+  };
+
+  var warnForPropDifference = function (propName, serverValue, clientValue) {
+    if (didWarnInvalidHydration) {
+      return;
+    }
+    var normalizedClientValue = normalizeMarkupForTextOrAttribute(clientValue);
+    var normalizedServerValue = normalizeMarkupForTextOrAttribute(serverValue);
+    if (normalizedServerValue === normalizedClientValue) {
+      return;
+    }
+    didWarnInvalidHydration = true;
+    warning(false, 'Prop `%s` did not match. Server: %s Client: %s', propName, JSON.stringify(normalizedServerValue), JSON.stringify(normalizedClientValue));
+  };
+
+  var warnForExtraAttributes = function (attributeNames) {
+    if (didWarnInvalidHydration) {
+      return;
+    }
+    didWarnInvalidHydration = true;
+    var names = [];
+    attributeNames.forEach(function (name) {
+      names.push(name);
+    });
+    warning(false, 'Extra attributes from the server: %s', names);
+  };
+
+  var warnForInvalidEventListener = function (registrationName, listener) {
+    if (listener === false) {
+      warning(false, 'Expected `%s` listener to be a function, instead got `false`.\n\n' + 'If you used to conditionally omit it with %s={condition && value}, ' + 'pass %s={condition ? value : undefined} instead.%s', registrationName, registrationName, registrationName, getCurrentFiberStackAddendum$2());
+    } else {
+      warning(false, 'Expected `%s` listener to be a function, instead got a value of `%s` type.%s', registrationName, typeof listener, getCurrentFiberStackAddendum$2());
+    }
+  };
+
+  // Parse the HTML and read it back to normalize the HTML string so that it
+  // can be used for comparison.
+  var normalizeHTML = function (parent, html) {
+    // We could have created a separate document here to avoid
+    // re-initializing custom elements if they exist. But this breaks
+    // how <noscript> is being handled. So we use the same document.
+    // See the discussion in https://github.com/facebook/react/pull/11157.
+    var testElement = parent.namespaceURI === HTML_NAMESPACE ? parent.ownerDocument.createElement(parent.tagName) : parent.ownerDocument.createElementNS(parent.namespaceURI, parent.tagName);
+    testElement.innerHTML = html;
+    return testElement.innerHTML;
+  };
+}
+
+function ensureListeningTo(rootContainerElement, registrationName) {
+  var isDocumentOrFragment = rootContainerElement.nodeType === DOCUMENT_NODE || rootContainerElement.nodeType === DOCUMENT_FRAGMENT_NODE;
+  var doc = isDocumentOrFragment ? rootContainerElement : rootContainerElement.ownerDocument;
+  listenTo(registrationName, doc);
+}
+
+function getOwnerDocumentFromRootContainer(rootContainerElement) {
+  return rootContainerElement.nodeType === DOCUMENT_NODE ? rootContainerElement : rootContainerElement.ownerDocument;
+}
+
+// There are so many media events, it makes sense to just
+// maintain a list rather than create a `trapBubbledEvent` for each
+var mediaEvents = {
+  topAbort: 'abort',
+  topCanPlay: 'canplay',
+  topCanPlayThrough: 'canplaythrough',
+  topDurationChange: 'durationchange',
+  topEmptied: 'emptied',
+  topEncrypted: 'encrypted',
+  topEnded: 'ended',
+  topError: 'error',
+  topLoadedData: 'loadeddata',
+  topLoadedMetadata: 'loadedmetadata',
+  topLoadStart: 'loadstart',
+  topPause: 'pause',
+  topPlay: 'play',
+  topPlaying: 'playing',
+  topProgress: 'progress',
+  topRateChange: 'ratechange',
+  topSeeked: 'seeked',
+  topSeeking: 'seeking',
+  topStalled: 'stalled',
+  topSuspend: 'suspend',
+  topTimeUpdate: 'timeupdate',
+  topVolumeChange: 'volumechange',
+  topWaiting: 'waiting'
+};
+
+function trapClickOnNonInteractiveElement(node) {
+  // Mobile Safari does not fire properly bubble click events on
+  // non-interactive elements, which means delegated click listeners do not
+  // fire. The workaround for this bug involves attaching an empty click
+  // listener on the target node.
+  // http://www.quirksmode.org/blog/archives/2010/09/click_event_del.html
+  // Just set it using the onclick property so that we don't have to manage any
+  // bookkeeping for it. Not sure if we need to clear it when the listener is
+  // removed.
+  // TODO: Only do this for the relevant Safaris maybe?
+  node.onclick = emptyFunction;
+}
+
+function setInitialDOMProperties(tag, domElement, rootContainerElement, nextProps, isCustomComponentTag) {
+  for (var propKey in nextProps) {
+    if (!nextProps.hasOwnProperty(propKey)) {
+      continue;
+    }
+    var nextProp = nextProps[propKey];
+    if (propKey === STYLE) {
+      {
+        if (nextProp) {
+          // Freeze the next style object so that we can assume it won't be
+          // mutated. We have already warned for this in the past.
+          Object.freeze(nextProp);
+        }
+      }
+      // Relies on `updateStylesByID` not mutating `styleUpdates`.
+      setValueForStyles(domElement, nextProp, getStack);
+    } else if (propKey === DANGEROUSLY_SET_INNER_HTML) {
+      var nextHtml = nextProp ? nextProp[HTML] : undefined;
+      if (nextHtml != null) {
+        setInnerHTML(domElement, nextHtml);
+      }
+    } else if (propKey === CHILDREN) {
+      if (typeof nextProp === 'string') {
+        // Avoid setting initial textContent when the text is empty. In IE11 setting
+        // textContent on a <textarea> will cause the placeholder to not
+        // show within the <textarea> until it has been focused and blurred again.
+        // https://github.com/facebook/react/issues/6731#issuecomment-254874553
+        var canSetTextContent = tag !== 'textarea' || nextProp !== '';
+        if (canSetTextContent) {
+          setTextContent(domElement, nextProp);
+        }
+      } else if (typeof nextProp === 'number') {
+        setTextContent(domElement, '' + nextProp);
+      }
+    } else if (propKey === SUPPRESS_CONTENT_EDITABLE_WARNING || propKey === SUPPRESS_HYDRATION_WARNING$1) {
+      // Noop
+    } else if (propKey === AUTOFOCUS) {
+      // We polyfill it separately on the client during commit.
+      // We blacklist it here rather than in the property list because we emit it in SSR.
+    } else if (registrationNameModules.hasOwnProperty(propKey)) {
+      if (nextProp != null) {
+        if (true && typeof nextProp !== 'function') {
+          warnForInvalidEventListener(propKey, nextProp);
+        }
+        ensureListeningTo(rootContainerElement, propKey);
+      }
+    } else if (isCustomComponentTag) {
+      setValueForAttribute(domElement, propKey, nextProp);
+    } else if (nextProp != null) {
+      // If we're updating to null or undefined, we should remove the property
+      // from the DOM node instead of inadvertently setting to a string. This
+      // brings us in line with the same behavior we have on initial render.
+      setValueForProperty(domElement, propKey, nextProp);
+    }
   }
 }
 
-/* harmony default export */ __webpack_exports__["a"] = (Timetable);
+function updateDOMProperties(domElement, updatePayload, wasCustomComponentTag, isCustomComponentTag) {
+  // TODO: Handle wasCustomComponentTag
+  for (var i = 0; i < updatePayload.length; i += 2) {
+    var propKey = updatePayload[i];
+    var propValue = updatePayload[i + 1];
+    if (propKey === STYLE) {
+      setValueForStyles(domElement, propValue, getStack);
+    } else if (propKey === DANGEROUSLY_SET_INNER_HTML) {
+      setInnerHTML(domElement, propValue);
+    } else if (propKey === CHILDREN) {
+      setTextContent(domElement, propValue);
+    } else if (isCustomComponentTag) {
+      if (propValue != null) {
+        setValueForAttribute(domElement, propKey, propValue);
+      } else {
+        deleteValueForAttribute(domElement, propKey);
+      }
+    } else if (propValue != null) {
+      setValueForProperty(domElement, propKey, propValue);
+    } else {
+      // If we're updating to null or undefined, we should remove the property
+      // from the DOM node instead of inadvertently setting to a string. This
+      // brings us in line with the same behavior we have on initial render.
+      deleteValueForProperty(domElement, propKey);
+    }
+  }
+}
+
+function createElement$1(type, props, rootContainerElement, parentNamespace) {
+  // We create tags in the namespace of their parent container, except HTML
+  var ownerDocument = getOwnerDocumentFromRootContainer(rootContainerElement);
+  var domElement;
+  var namespaceURI = parentNamespace;
+  if (namespaceURI === HTML_NAMESPACE) {
+    namespaceURI = getIntrinsicNamespace(type);
+  }
+  if (namespaceURI === HTML_NAMESPACE) {
+    {
+      var isCustomComponentTag = isCustomComponent(type, props);
+      // Should this check be gated by parent namespace? Not sure we want to
+      // allow <SVG> or <mATH>.
+      warning(isCustomComponentTag || type === type.toLowerCase(), '<%s /> is using uppercase HTML. Always use lowercase HTML tags ' + 'in React.', type);
+    }
+
+    if (type === 'script') {
+      // Create the script via .innerHTML so its "parser-inserted" flag is
+      // set to true and it does not execute
+      var div = ownerDocument.createElement('div');
+      div.innerHTML = '<script><' + '/script>'; // eslint-disable-line
+      // This is guaranteed to yield a script element.
+      var firstChild = div.firstChild;
+      domElement = div.removeChild(firstChild);
+    } else if (typeof props.is === 'string') {
+      // $FlowIssue `createElement` should be updated for Web Components
+      domElement = ownerDocument.createElement(type, { is: props.is });
+    } else {
+      // Separate else branch instead of using `props.is || undefined` above because of a Firefox bug.
+      // See discussion in https://github.com/facebook/react/pull/6896
+      // and discussion in https://bugzilla.mozilla.org/show_bug.cgi?id=1276240
+      domElement = ownerDocument.createElement(type);
+    }
+  } else {
+    domElement = ownerDocument.createElementNS(namespaceURI, type);
+  }
+
+  {
+    if (namespaceURI === HTML_NAMESPACE) {
+      if (!isCustomComponentTag && Object.prototype.toString.call(domElement) === '[object HTMLUnknownElement]' && !Object.prototype.hasOwnProperty.call(warnedUnknownTags, type)) {
+        warnedUnknownTags[type] = true;
+        warning(false, 'The tag <%s> is unrecognized in this browser. ' + 'If you meant to render a React component, start its name with ' + 'an uppercase letter.', type);
+      }
+    }
+  }
+
+  return domElement;
+}
+
+function createTextNode$1(text, rootContainerElement) {
+  return getOwnerDocumentFromRootContainer(rootContainerElement).createTextNode(text);
+}
+
+function setInitialProperties$1(domElement, tag, rawProps, rootContainerElement) {
+  var isCustomComponentTag = isCustomComponent(tag, rawProps);
+  {
+    validatePropertiesInDevelopment(tag, rawProps);
+    if (isCustomComponentTag && !didWarnShadyDOM && domElement.shadyRoot) {
+      warning(false, '%s is using shady DOM. Using shady DOM with React can ' + 'cause things to break subtly.', getCurrentFiberOwnerName$1() || 'A component');
+      didWarnShadyDOM = true;
+    }
+  }
+
+  // TODO: Make sure that we check isMounted before firing any of these events.
+  var props;
+  switch (tag) {
+    case 'iframe':
+    case 'object':
+      trapBubbledEvent('topLoad', 'load', domElement);
+      props = rawProps;
+      break;
+    case 'video':
+    case 'audio':
+      // Create listener for each media event
+      for (var event in mediaEvents) {
+        if (mediaEvents.hasOwnProperty(event)) {
+          trapBubbledEvent(event, mediaEvents[event], domElement);
+        }
+      }
+      props = rawProps;
+      break;
+    case 'source':
+      trapBubbledEvent('topError', 'error', domElement);
+      props = rawProps;
+      break;
+    case 'img':
+    case 'image':
+      trapBubbledEvent('topError', 'error', domElement);
+      trapBubbledEvent('topLoad', 'load', domElement);
+      props = rawProps;
+      break;
+    case 'form':
+      trapBubbledEvent('topReset', 'reset', domElement);
+      trapBubbledEvent('topSubmit', 'submit', domElement);
+      props = rawProps;
+      break;
+    case 'details':
+      trapBubbledEvent('topToggle', 'toggle', domElement);
+      props = rawProps;
+      break;
+    case 'input':
+      initWrapperState(domElement, rawProps);
+      props = getHostProps(domElement, rawProps);
+      trapBubbledEvent('topInvalid', 'invalid', domElement);
+      // For controlled components we always need to ensure we're listening
+      // to onChange. Even if there is no listener.
+      ensureListeningTo(rootContainerElement, 'onChange');
+      break;
+    case 'option':
+      validateProps(domElement, rawProps);
+      props = getHostProps$1(domElement, rawProps);
+      break;
+    case 'select':
+      initWrapperState$1(domElement, rawProps);
+      props = getHostProps$2(domElement, rawProps);
+      trapBubbledEvent('topInvalid', 'invalid', domElement);
+      // For controlled components we always need to ensure we're listening
+      // to onChange. Even if there is no listener.
+      ensureListeningTo(rootContainerElement, 'onChange');
+      break;
+    case 'textarea':
+      initWrapperState$2(domElement, rawProps);
+      props = getHostProps$3(domElement, rawProps);
+      trapBubbledEvent('topInvalid', 'invalid', domElement);
+      // For controlled components we always need to ensure we're listening
+      // to onChange. Even if there is no listener.
+      ensureListeningTo(rootContainerElement, 'onChange');
+      break;
+    default:
+      props = rawProps;
+  }
+
+  assertValidProps(tag, props, getStack);
+
+  setInitialDOMProperties(tag, domElement, rootContainerElement, props, isCustomComponentTag);
+
+  switch (tag) {
+    case 'input':
+      // TODO: Make sure we check if this is still unmounted or do any clean
+      // up necessary since we never stop tracking anymore.
+      track(domElement);
+      postMountWrapper(domElement, rawProps);
+      break;
+    case 'textarea':
+      // TODO: Make sure we check if this is still unmounted or do any clean
+      // up necessary since we never stop tracking anymore.
+      track(domElement);
+      postMountWrapper$3(domElement, rawProps);
+      break;
+    case 'option':
+      postMountWrapper$1(domElement, rawProps);
+      break;
+    case 'select':
+      postMountWrapper$2(domElement, rawProps);
+      break;
+    default:
+      if (typeof props.onClick === 'function') {
+        // TODO: This cast may not be sound for SVG, MathML or custom elements.
+        trapClickOnNonInteractiveElement(domElement);
+      }
+      break;
+  }
+}
+
+// Calculate the diff between the two objects.
+function diffProperties$1(domElement, tag, lastRawProps, nextRawProps, rootContainerElement) {
+  {
+    validatePropertiesInDevelopment(tag, nextRawProps);
+  }
+
+  var updatePayload = null;
+
+  var lastProps;
+  var nextProps;
+  switch (tag) {
+    case 'input':
+      lastProps = getHostProps(domElement, lastRawProps);
+      nextProps = getHostProps(domElement, nextRawProps);
+      updatePayload = [];
+      break;
+    case 'option':
+      lastProps = getHostProps$1(domElement, lastRawProps);
+      nextProps = getHostProps$1(domElement, nextRawProps);
+      updatePayload = [];
+      break;
+    case 'select':
+      lastProps = getHostProps$2(domElement, lastRawProps);
+      nextProps = getHostProps$2(domElement, nextRawProps);
+      updatePayload = [];
+      break;
+    case 'textarea':
+      lastProps = getHostProps$3(domElement, lastRawProps);
+      nextProps = getHostProps$3(domElement, nextRawProps);
+      updatePayload = [];
+      break;
+    default:
+      lastProps = lastRawProps;
+      nextProps = nextRawProps;
+      if (typeof lastProps.onClick !== 'function' && typeof nextProps.onClick === 'function') {
+        // TODO: This cast may not be sound for SVG, MathML or custom elements.
+        trapClickOnNonInteractiveElement(domElement);
+      }
+      break;
+  }
+
+  assertValidProps(tag, nextProps, getStack);
+
+  var propKey;
+  var styleName;
+  var styleUpdates = null;
+  for (propKey in lastProps) {
+    if (nextProps.hasOwnProperty(propKey) || !lastProps.hasOwnProperty(propKey) || lastProps[propKey] == null) {
+      continue;
+    }
+    if (propKey === STYLE) {
+      var lastStyle = lastProps[propKey];
+      for (styleName in lastStyle) {
+        if (lastStyle.hasOwnProperty(styleName)) {
+          if (!styleUpdates) {
+            styleUpdates = {};
+          }
+          styleUpdates[styleName] = '';
+        }
+      }
+    } else if (propKey === DANGEROUSLY_SET_INNER_HTML || propKey === CHILDREN) {
+      // Noop. This is handled by the clear text mechanism.
+    } else if (propKey === SUPPRESS_CONTENT_EDITABLE_WARNING || propKey === SUPPRESS_HYDRATION_WARNING$1) {
+      // Noop
+    } else if (propKey === AUTOFOCUS) {
+      // Noop. It doesn't work on updates anyway.
+    } else if (registrationNameModules.hasOwnProperty(propKey)) {
+      // This is a special case. If any listener updates we need to ensure
+      // that the "current" fiber pointer gets updated so we need a commit
+      // to update this element.
+      if (!updatePayload) {
+        updatePayload = [];
+      }
+    } else {
+      // For all other deleted properties we add it to the queue. We use
+      // the whitelist in the commit phase instead.
+      (updatePayload = updatePayload || []).push(propKey, null);
+    }
+  }
+  for (propKey in nextProps) {
+    var nextProp = nextProps[propKey];
+    var lastProp = lastProps != null ? lastProps[propKey] : undefined;
+    if (!nextProps.hasOwnProperty(propKey) || nextProp === lastProp || nextProp == null && lastProp == null) {
+      continue;
+    }
+    if (propKey === STYLE) {
+      {
+        if (nextProp) {
+          // Freeze the next style object so that we can assume it won't be
+          // mutated. We have already warned for this in the past.
+          Object.freeze(nextProp);
+        }
+      }
+      if (lastProp) {
+        // Unset styles on `lastProp` but not on `nextProp`.
+        for (styleName in lastProp) {
+          if (lastProp.hasOwnProperty(styleName) && (!nextProp || !nextProp.hasOwnProperty(styleName))) {
+            if (!styleUpdates) {
+              styleUpdates = {};
+            }
+            styleUpdates[styleName] = '';
+          }
+        }
+        // Update styles that changed since `lastProp`.
+        for (styleName in nextProp) {
+          if (nextProp.hasOwnProperty(styleName) && lastProp[styleName] !== nextProp[styleName]) {
+            if (!styleUpdates) {
+              styleUpdates = {};
+            }
+            styleUpdates[styleName] = nextProp[styleName];
+          }
+        }
+      } else {
+        // Relies on `updateStylesByID` not mutating `styleUpdates`.
+        if (!styleUpdates) {
+          if (!updatePayload) {
+            updatePayload = [];
+          }
+          updatePayload.push(propKey, styleUpdates);
+        }
+        styleUpdates = nextProp;
+      }
+    } else if (propKey === DANGEROUSLY_SET_INNER_HTML) {
+      var nextHtml = nextProp ? nextProp[HTML] : undefined;
+      var lastHtml = lastProp ? lastProp[HTML] : undefined;
+      if (nextHtml != null) {
+        if (lastHtml !== nextHtml) {
+          (updatePayload = updatePayload || []).push(propKey, '' + nextHtml);
+        }
+      } else {
+        // TODO: It might be too late to clear this if we have children
+        // inserted already.
+      }
+    } else if (propKey === CHILDREN) {
+      if (lastProp !== nextProp && (typeof nextProp === 'string' || typeof nextProp === 'number')) {
+        (updatePayload = updatePayload || []).push(propKey, '' + nextProp);
+      }
+    } else if (propKey === SUPPRESS_CONTENT_EDITABLE_WARNING || propKey === SUPPRESS_HYDRATION_WARNING$1) {
+      // Noop
+    } else if (registrationNameModules.hasOwnProperty(propKey)) {
+      if (nextProp != null) {
+        // We eagerly listen to this even though we haven't committed yet.
+        if (true && typeof nextProp !== 'function') {
+          warnForInvalidEventListener(propKey, nextProp);
+        }
+        ensureListeningTo(rootContainerElement, propKey);
+      }
+      if (!updatePayload && lastProp !== nextProp) {
+        // This is a special case. If any listener updates we need to ensure
+        // that the "current" props pointer gets updated so we need a commit
+        // to update this element.
+        updatePayload = [];
+      }
+    } else {
+      // For any other property we always add it to the queue and then we
+      // filter it out using the whitelist during the commit.
+      (updatePayload = updatePayload || []).push(propKey, nextProp);
+    }
+  }
+  if (styleUpdates) {
+    (updatePayload = updatePayload || []).push(STYLE, styleUpdates);
+  }
+  return updatePayload;
+}
+
+// Apply the diff.
+function updateProperties$1(domElement, updatePayload, tag, lastRawProps, nextRawProps) {
+  // Update checked *before* name.
+  // In the middle of an update, it is possible to have multiple checked.
+  // When a checked radio tries to change name, browser makes another radio's checked false.
+  if (tag === 'input' && nextRawProps.type === 'radio' && nextRawProps.name != null) {
+    updateChecked(domElement, nextRawProps);
+  }
+
+  var wasCustomComponentTag = isCustomComponent(tag, lastRawProps);
+  var isCustomComponentTag = isCustomComponent(tag, nextRawProps);
+  // Apply the diff.
+  updateDOMProperties(domElement, updatePayload, wasCustomComponentTag, isCustomComponentTag);
+
+  // TODO: Ensure that an update gets scheduled if any of the special props
+  // changed.
+  switch (tag) {
+    case 'input':
+      // Update the wrapper around inputs *after* updating props. This has to
+      // happen after `updateDOMProperties`. Otherwise HTML5 input validations
+      // raise warnings and prevent the new value from being assigned.
+      updateWrapper(domElement, nextRawProps);
+      break;
+    case 'textarea':
+      updateWrapper$1(domElement, nextRawProps);
+      break;
+    case 'select':
+      // <select> value update needs to occur after <option> children
+      // reconciliation
+      postUpdateWrapper(domElement, nextRawProps);
+      break;
+  }
+}
+
+function diffHydratedProperties$1(domElement, tag, rawProps, parentNamespace, rootContainerElement) {
+  {
+    var suppressHydrationWarning = rawProps[SUPPRESS_HYDRATION_WARNING$1] === true;
+    var isCustomComponentTag = isCustomComponent(tag, rawProps);
+    validatePropertiesInDevelopment(tag, rawProps);
+    if (isCustomComponentTag && !didWarnShadyDOM && domElement.shadyRoot) {
+      warning(false, '%s is using shady DOM. Using shady DOM with React can ' + 'cause things to break subtly.', getCurrentFiberOwnerName$1() || 'A component');
+      didWarnShadyDOM = true;
+    }
+  }
+
+  // TODO: Make sure that we check isMounted before firing any of these events.
+  switch (tag) {
+    case 'iframe':
+    case 'object':
+      trapBubbledEvent('topLoad', 'load', domElement);
+      break;
+    case 'video':
+    case 'audio':
+      // Create listener for each media event
+      for (var event in mediaEvents) {
+        if (mediaEvents.hasOwnProperty(event)) {
+          trapBubbledEvent(event, mediaEvents[event], domElement);
+        }
+      }
+      break;
+    case 'source':
+      trapBubbledEvent('topError', 'error', domElement);
+      break;
+    case 'img':
+    case 'image':
+      trapBubbledEvent('topError', 'error', domElement);
+      trapBubbledEvent('topLoad', 'load', domElement);
+      break;
+    case 'form':
+      trapBubbledEvent('topReset', 'reset', domElement);
+      trapBubbledEvent('topSubmit', 'submit', domElement);
+      break;
+    case 'details':
+      trapBubbledEvent('topToggle', 'toggle', domElement);
+      break;
+    case 'input':
+      initWrapperState(domElement, rawProps);
+      trapBubbledEvent('topInvalid', 'invalid', domElement);
+      // For controlled components we always need to ensure we're listening
+      // to onChange. Even if there is no listener.
+      ensureListeningTo(rootContainerElement, 'onChange');
+      break;
+    case 'option':
+      validateProps(domElement, rawProps);
+      break;
+    case 'select':
+      initWrapperState$1(domElement, rawProps);
+      trapBubbledEvent('topInvalid', 'invalid', domElement);
+      // For controlled components we always need to ensure we're listening
+      // to onChange. Even if there is no listener.
+      ensureListeningTo(rootContainerElement, 'onChange');
+      break;
+    case 'textarea':
+      initWrapperState$2(domElement, rawProps);
+      trapBubbledEvent('topInvalid', 'invalid', domElement);
+      // For controlled components we always need to ensure we're listening
+      // to onChange. Even if there is no listener.
+      ensureListeningTo(rootContainerElement, 'onChange');
+      break;
+  }
+
+  assertValidProps(tag, rawProps, getStack);
+
+  {
+    var extraAttributeNames = new Set();
+    var attributes = domElement.attributes;
+    for (var i = 0; i < attributes.length; i++) {
+      var name = attributes[i].name.toLowerCase();
+      switch (name) {
+        // Built-in SSR attribute is whitelisted
+        case 'data-reactroot':
+          break;
+        // Controlled attributes are not validated
+        // TODO: Only ignore them on controlled tags.
+        case 'value':
+          break;
+        case 'checked':
+          break;
+        case 'selected':
+          break;
+        default:
+          // Intentionally use the original name.
+          // See discussion in https://github.com/facebook/react/pull/10676.
+          extraAttributeNames.add(attributes[i].name);
+      }
+    }
+  }
+
+  var updatePayload = null;
+  for (var propKey in rawProps) {
+    if (!rawProps.hasOwnProperty(propKey)) {
+      continue;
+    }
+    var nextProp = rawProps[propKey];
+    if (propKey === CHILDREN) {
+      // For text content children we compare against textContent. This
+      // might match additional HTML that is hidden when we read it using
+      // textContent. E.g. "foo" will match "f<span>oo</span>" but that still
+      // satisfies our requirement. Our requirement is not to produce perfect
+      // HTML and attributes. Ideally we should preserve structure but it's
+      // ok not to if the visible content is still enough to indicate what
+      // even listeners these nodes might be wired up to.
+      // TODO: Warn if there is more than a single textNode as a child.
+      // TODO: Should we use domElement.firstChild.nodeValue to compare?
+      if (typeof nextProp === 'string') {
+        if (domElement.textContent !== nextProp) {
+          if (true && !suppressHydrationWarning) {
+            warnForTextDifference(domElement.textContent, nextProp);
+          }
+          updatePayload = [CHILDREN, nextProp];
+        }
+      } else if (typeof nextProp === 'number') {
+        if (domElement.textContent !== '' + nextProp) {
+          if (true && !suppressHydrationWarning) {
+            warnForTextDifference(domElement.textContent, nextProp);
+          }
+          updatePayload = [CHILDREN, '' + nextProp];
+        }
+      }
+    } else if (registrationNameModules.hasOwnProperty(propKey)) {
+      if (nextProp != null) {
+        if (true && typeof nextProp !== 'function') {
+          warnForInvalidEventListener(propKey, nextProp);
+        }
+        ensureListeningTo(rootContainerElement, propKey);
+      }
+    } else {
+      // Validate that the properties correspond to their expected values.
+      var serverValue;
+      var propertyInfo;
+      if (suppressHydrationWarning) {
+        // Don't bother comparing. We're ignoring all these warnings.
+      } else if (propKey === SUPPRESS_CONTENT_EDITABLE_WARNING || propKey === SUPPRESS_HYDRATION_WARNING$1 ||
+      // Controlled attributes are not validated
+      // TODO: Only ignore them on controlled tags.
+      propKey === 'value' || propKey === 'checked' || propKey === 'selected') {
+        // Noop
+      } else if (propKey === DANGEROUSLY_SET_INNER_HTML) {
+        var rawHtml = nextProp ? nextProp[HTML] || '' : '';
+        var serverHTML = domElement.innerHTML;
+        var expectedHTML = normalizeHTML(domElement, rawHtml);
+        if (expectedHTML !== serverHTML) {
+          warnForPropDifference(propKey, serverHTML, expectedHTML);
+        }
+      } else if (propKey === STYLE) {
+        // $FlowFixMe - Should be inferred as not undefined.
+        extraAttributeNames['delete'](propKey);
+        var expectedStyle = createDangerousStringForStyles(nextProp);
+        serverValue = domElement.getAttribute('style');
+        if (expectedStyle !== serverValue) {
+          warnForPropDifference(propKey, serverValue, expectedStyle);
+        }
+      } else if (isCustomComponentTag) {
+        // $FlowFixMe - Should be inferred as not undefined.
+        extraAttributeNames['delete'](propKey.toLowerCase());
+        serverValue = getValueForAttribute(domElement, propKey, nextProp);
+
+        if (nextProp !== serverValue) {
+          warnForPropDifference(propKey, serverValue, nextProp);
+        }
+      } else if (shouldSetAttribute(propKey, nextProp)) {
+        if (propertyInfo = getPropertyInfo(propKey)) {
+          // $FlowFixMe - Should be inferred as not undefined.
+          extraAttributeNames['delete'](propertyInfo.attributeName);
+          serverValue = getValueForProperty(domElement, propKey, nextProp);
+        } else {
+          var ownNamespace = parentNamespace;
+          if (ownNamespace === HTML_NAMESPACE) {
+            ownNamespace = getIntrinsicNamespace(tag);
+          }
+          if (ownNamespace === HTML_NAMESPACE) {
+            // $FlowFixMe - Should be inferred as not undefined.
+            extraAttributeNames['delete'](propKey.toLowerCase());
+          } else {
+            // $FlowFixMe - Should be inferred as not undefined.
+            extraAttributeNames['delete'](propKey);
+          }
+          serverValue = getValueForAttribute(domElement, propKey, nextProp);
+        }
+
+        if (nextProp !== serverValue) {
+          warnForPropDifference(propKey, serverValue, nextProp);
+        }
+      }
+    }
+  }
+
+  {
+    // $FlowFixMe - Should be inferred as not undefined.
+    if (extraAttributeNames.size > 0 && !suppressHydrationWarning) {
+      // $FlowFixMe - Should be inferred as not undefined.
+      warnForExtraAttributes(extraAttributeNames);
+    }
+  }
+
+  switch (tag) {
+    case 'input':
+      // TODO: Make sure we check if this is still unmounted or do any clean
+      // up necessary since we never stop tracking anymore.
+      track(domElement);
+      postMountWrapper(domElement, rawProps);
+      break;
+    case 'textarea':
+      // TODO: Make sure we check if this is still unmounted or do any clean
+      // up necessary since we never stop tracking anymore.
+      track(domElement);
+      postMountWrapper$3(domElement, rawProps);
+      break;
+    case 'select':
+    case 'option':
+      // For input and textarea we current always set the value property at
+      // post mount to force it to diverge from attributes. However, for
+      // option and select we don't quite do the same thing and select
+      // is not resilient to the DOM state changing so we don't do that here.
+      // TODO: Consider not doing this for input and textarea.
+      break;
+    default:
+      if (typeof rawProps.onClick === 'function') {
+        // TODO: This cast may not be sound for SVG, MathML or custom elements.
+        trapClickOnNonInteractiveElement(domElement);
+      }
+      break;
+  }
+
+  return updatePayload;
+}
+
+function diffHydratedText$1(textNode, text) {
+  var isDifferent = textNode.nodeValue !== text;
+  return isDifferent;
+}
+
+function warnForUnmatchedText$1(textNode, text) {
+  {
+    warnForTextDifference(textNode.nodeValue, text);
+  }
+}
+
+function warnForDeletedHydratableElement$1(parentNode, child) {
+  {
+    if (didWarnInvalidHydration) {
+      return;
+    }
+    didWarnInvalidHydration = true;
+    warning(false, 'Did not expect server HTML to contain a <%s> in <%s>.', child.nodeName.toLowerCase(), parentNode.nodeName.toLowerCase());
+  }
+}
+
+function warnForDeletedHydratableText$1(parentNode, child) {
+  {
+    if (didWarnInvalidHydration) {
+      return;
+    }
+    didWarnInvalidHydration = true;
+    warning(false, 'Did not expect server HTML to contain the text node "%s" in <%s>.', child.nodeValue, parentNode.nodeName.toLowerCase());
+  }
+}
+
+function warnForInsertedHydratedElement$1(parentNode, tag, props) {
+  {
+    if (didWarnInvalidHydration) {
+      return;
+    }
+    didWarnInvalidHydration = true;
+    warning(false, 'Expected server HTML to contain a matching <%s> in <%s>.', tag, parentNode.nodeName.toLowerCase());
+  }
+}
+
+function warnForInsertedHydratedText$1(parentNode, text) {
+  {
+    if (text === '') {
+      // We expect to insert empty text nodes since they're not represented in
+      // the HTML.
+      // TODO: Remove this special case if we can just avoid inserting empty
+      // text nodes.
+      return;
+    }
+    if (didWarnInvalidHydration) {
+      return;
+    }
+    didWarnInvalidHydration = true;
+    warning(false, 'Expected server HTML to contain a matching text node for "%s" in <%s>.', text, parentNode.nodeName.toLowerCase());
+  }
+}
+
+function restoreControlledState(domElement, tag, props) {
+  switch (tag) {
+    case 'input':
+      restoreControlledState$1(domElement, props);
+      return;
+    case 'textarea':
+      restoreControlledState$3(domElement, props);
+      return;
+    case 'select':
+      restoreControlledState$2(domElement, props);
+      return;
+  }
+}
+
+var ReactDOMFiberComponent = Object.freeze({
+	createElement: createElement$1,
+	createTextNode: createTextNode$1,
+	setInitialProperties: setInitialProperties$1,
+	diffProperties: diffProperties$1,
+	updateProperties: updateProperties$1,
+	diffHydratedProperties: diffHydratedProperties$1,
+	diffHydratedText: diffHydratedText$1,
+	warnForUnmatchedText: warnForUnmatchedText$1,
+	warnForDeletedHydratableElement: warnForDeletedHydratableElement$1,
+	warnForDeletedHydratableText: warnForDeletedHydratableText$1,
+	warnForInsertedHydratedElement: warnForInsertedHydratedElement$1,
+	warnForInsertedHydratedText: warnForInsertedHydratedText$1,
+	restoreControlledState: restoreControlledState
+});
+
+// TODO: direct imports like some-package/src/* are bad. Fix me.
+var getCurrentFiberStackAddendum$6 = ReactDebugCurrentFiber.getCurrentFiberStackAddendum;
+
+var validateDOMNesting = emptyFunction;
+
+{
+  // This validation code was written based on the HTML5 parsing spec:
+  // https://html.spec.whatwg.org/multipage/syntax.html#has-an-element-in-scope
+  //
+  // Note: this does not catch all invalid nesting, nor does it try to (as it's
+  // not clear what practical benefit doing so provides); instead, we warn only
+  // for cases where the parser will give a parse tree differing from what React
+  // intended. For example, <b><div></div></b> is invalid but we don't warn
+  // because it still parses correctly; we do warn for other cases like nested
+  // <p> tags where the beginning of the second element implicitly closes the
+  // first, causing a confusing mess.
+
+  // https://html.spec.whatwg.org/multipage/syntax.html#special
+  var specialTags = ['address', 'applet', 'area', 'article', 'aside', 'base', 'basefont', 'bgsound', 'blockquote', 'body', 'br', 'button', 'caption', 'center', 'col', 'colgroup', 'dd', 'details', 'dir', 'div', 'dl', 'dt', 'embed', 'fieldset', 'figcaption', 'figure', 'footer', 'form', 'frame', 'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hgroup', 'hr', 'html', 'iframe', 'img', 'input', 'isindex', 'li', 'link', 'listing', 'main', 'marquee', 'menu', 'menuitem', 'meta', 'nav', 'noembed', 'noframes', 'noscript', 'object', 'ol', 'p', 'param', 'plaintext', 'pre', 'script', 'section', 'select', 'source', 'style', 'summary', 'table', 'tbody', 'td', 'template', 'textarea', 'tfoot', 'th', 'thead', 'title', 'tr', 'track', 'ul', 'wbr', 'xmp'];
+
+  // https://html.spec.whatwg.org/multipage/syntax.html#has-an-element-in-scope
+  var inScopeTags = ['applet', 'caption', 'html', 'table', 'td', 'th', 'marquee', 'object', 'template',
+
+  // https://html.spec.whatwg.org/multipage/syntax.html#html-integration-point
+  // TODO: Distinguish by namespace here -- for <title>, including it here
+  // errs on the side of fewer warnings
+  'foreignObject', 'desc', 'title'];
+
+  // https://html.spec.whatwg.org/multipage/syntax.html#has-an-element-in-button-scope
+  var buttonScopeTags = inScopeTags.concat(['button']);
+
+  // https://html.spec.whatwg.org/multipage/syntax.html#generate-implied-end-tags
+  var impliedEndTags = ['dd', 'dt', 'li', 'option', 'optgroup', 'p', 'rp', 'rt'];
+
+  var emptyAncestorInfo = {
+    current: null,
+
+    formTag: null,
+    aTagInScope: null,
+    buttonTagInScope: null,
+    nobrTagInScope: null,
+    pTagInButtonScope: null,
+
+    listItemTagAutoclosing: null,
+    dlItemTagAutoclosing: null
+  };
+
+  var updatedAncestorInfo$1 = function (oldInfo, tag, instance) {
+    var ancestorInfo = _assign({}, oldInfo || emptyAncestorInfo);
+    var info = { tag: tag, instance: instance };
+
+    if (inScopeTags.indexOf(tag) !== -1) {
+      ancestorInfo.aTagInScope = null;
+      ancestorInfo.buttonTagInScope = null;
+      ancestorInfo.nobrTagInScope = null;
+    }
+    if (buttonScopeTags.indexOf(tag) !== -1) {
+      ancestorInfo.pTagInButtonScope = null;
+    }
+
+    // See rules for 'li', 'dd', 'dt' start tags in
+    // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-inbody
+    if (specialTags.indexOf(tag) !== -1 && tag !== 'address' && tag !== 'div' && tag !== 'p') {
+      ancestorInfo.listItemTagAutoclosing = null;
+      ancestorInfo.dlItemTagAutoclosing = null;
+    }
+
+    ancestorInfo.current = info;
+
+    if (tag === 'form') {
+      ancestorInfo.formTag = info;
+    }
+    if (tag === 'a') {
+      ancestorInfo.aTagInScope = info;
+    }
+    if (tag === 'button') {
+      ancestorInfo.buttonTagInScope = info;
+    }
+    if (tag === 'nobr') {
+      ancestorInfo.nobrTagInScope = info;
+    }
+    if (tag === 'p') {
+      ancestorInfo.pTagInButtonScope = info;
+    }
+    if (tag === 'li') {
+      ancestorInfo.listItemTagAutoclosing = info;
+    }
+    if (tag === 'dd' || tag === 'dt') {
+      ancestorInfo.dlItemTagAutoclosing = info;
+    }
+
+    return ancestorInfo;
+  };
+
+  /**
+   * Returns whether
+   */
+  var isTagValidWithParent = function (tag, parentTag) {
+    // First, let's check if we're in an unusual parsing mode...
+    switch (parentTag) {
+      // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-inselect
+      case 'select':
+        return tag === 'option' || tag === 'optgroup' || tag === '#text';
+      case 'optgroup':
+        return tag === 'option' || tag === '#text';
+      // Strictly speaking, seeing an <option> doesn't mean we're in a <select>
+      // but
+      case 'option':
+        return tag === '#text';
+      // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-intd
+      // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-incaption
+      // No special behavior since these rules fall back to "in body" mode for
+      // all except special table nodes which cause bad parsing behavior anyway.
+
+      // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-intr
+      case 'tr':
+        return tag === 'th' || tag === 'td' || tag === 'style' || tag === 'script' || tag === 'template';
+      // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-intbody
+      case 'tbody':
+      case 'thead':
+      case 'tfoot':
+        return tag === 'tr' || tag === 'style' || tag === 'script' || tag === 'template';
+      // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-incolgroup
+      case 'colgroup':
+        return tag === 'col' || tag === 'template';
+      // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-intable
+      case 'table':
+        return tag === 'caption' || tag === 'colgroup' || tag === 'tbody' || tag === 'tfoot' || tag === 'thead' || tag === 'style' || tag === 'script' || tag === 'template';
+      // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-inhead
+      case 'head':
+        return tag === 'base' || tag === 'basefont' || tag === 'bgsound' || tag === 'link' || tag === 'meta' || tag === 'title' || tag === 'noscript' || tag === 'noframes' || tag === 'style' || tag === 'script' || tag === 'template';
+      // https://html.spec.whatwg.org/multipage/semantics.html#the-html-element
+      case 'html':
+        return tag === 'head' || tag === 'body';
+      case '#document':
+        return tag === 'html';
+    }
+
+    // Probably in the "in body" parsing mode, so we outlaw only tag combos
+    // where the parsing rules cause implicit opens or closes to be added.
+    // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-inbody
+    switch (tag) {
+      case 'h1':
+      case 'h2':
+      case 'h3':
+      case 'h4':
+      case 'h5':
+      case 'h6':
+        return parentTag !== 'h1' && parentTag !== 'h2' && parentTag !== 'h3' && parentTag !== 'h4' && parentTag !== 'h5' && parentTag !== 'h6';
+
+      case 'rp':
+      case 'rt':
+        return impliedEndTags.indexOf(parentTag) === -1;
+
+      case 'body':
+      case 'caption':
+      case 'col':
+      case 'colgroup':
+      case 'frame':
+      case 'head':
+      case 'html':
+      case 'tbody':
+      case 'td':
+      case 'tfoot':
+      case 'th':
+      case 'thead':
+      case 'tr':
+        // These tags are only valid with a few parents that have special child
+        // parsing rules -- if we're down here, then none of those matched and
+        // so we allow it only if we don't know what the parent is, as all other
+        // cases are invalid.
+        return parentTag == null;
+    }
+
+    return true;
+  };
+
+  /**
+   * Returns whether
+   */
+  var findInvalidAncestorForTag = function (tag, ancestorInfo) {
+    switch (tag) {
+      case 'address':
+      case 'article':
+      case 'aside':
+      case 'blockquote':
+      case 'center':
+      case 'details':
+      case 'dialog':
+      case 'dir':
+      case 'div':
+      case 'dl':
+      case 'fieldset':
+      case 'figcaption':
+      case 'figure':
+      case 'footer':
+      case 'header':
+      case 'hgroup':
+      case 'main':
+      case 'menu':
+      case 'nav':
+      case 'ol':
+      case 'p':
+      case 'section':
+      case 'summary':
+      case 'ul':
+      case 'pre':
+      case 'listing':
+      case 'table':
+      case 'hr':
+      case 'xmp':
+      case 'h1':
+      case 'h2':
+      case 'h3':
+      case 'h4':
+      case 'h5':
+      case 'h6':
+        return ancestorInfo.pTagInButtonScope;
+
+      case 'form':
+        return ancestorInfo.formTag || ancestorInfo.pTagInButtonScope;
+
+      case 'li':
+        return ancestorInfo.listItemTagAutoclosing;
+
+      case 'dd':
+      case 'dt':
+        return ancestorInfo.dlItemTagAutoclosing;
+
+      case 'button':
+        return ancestorInfo.buttonTagInScope;
+
+      case 'a':
+        // Spec says something about storing a list of markers, but it sounds
+        // equivalent to this check.
+        return ancestorInfo.aTagInScope;
+
+      case 'nobr':
+        return ancestorInfo.nobrTagInScope;
+    }
+
+    return null;
+  };
+
+  var didWarn = {};
+
+  validateDOMNesting = function (childTag, childText, ancestorInfo) {
+    ancestorInfo = ancestorInfo || emptyAncestorInfo;
+    var parentInfo = ancestorInfo.current;
+    var parentTag = parentInfo && parentInfo.tag;
+
+    if (childText != null) {
+      warning(childTag == null, 'validateDOMNesting: when childText is passed, childTag should be null');
+      childTag = '#text';
+    }
+
+    var invalidParent = isTagValidWithParent(childTag, parentTag) ? null : parentInfo;
+    var invalidAncestor = invalidParent ? null : findInvalidAncestorForTag(childTag, ancestorInfo);
+    var invalidParentOrAncestor = invalidParent || invalidAncestor;
+    if (!invalidParentOrAncestor) {
+      return;
+    }
+
+    var ancestorTag = invalidParentOrAncestor.tag;
+    var addendum = getCurrentFiberStackAddendum$6();
+
+    var warnKey = !!invalidParent + '|' + childTag + '|' + ancestorTag + '|' + addendum;
+    if (didWarn[warnKey]) {
+      return;
+    }
+    didWarn[warnKey] = true;
+
+    var tagDisplayName = childTag;
+    var whitespaceInfo = '';
+    if (childTag === '#text') {
+      if (/\S/.test(childText)) {
+        tagDisplayName = 'Text nodes';
+      } else {
+        tagDisplayName = 'Whitespace text nodes';
+        whitespaceInfo = " Make sure you don't have any extra whitespace between tags on " + 'each line of your source code.';
+      }
+    } else {
+      tagDisplayName = '<' + childTag + '>';
+    }
+
+    if (invalidParent) {
+      var info = '';
+      if (ancestorTag === 'table' && childTag === 'tr') {
+        info += ' Add a <tbody> to your code to match the DOM tree generated by ' + 'the browser.';
+      }
+      warning(false, 'validateDOMNesting(...): %s cannot appear as a child of <%s>.%s%s%s', tagDisplayName, ancestorTag, whitespaceInfo, info, addendum);
+    } else {
+      warning(false, 'validateDOMNesting(...): %s cannot appear as a descendant of ' + '<%s>.%s', tagDisplayName, ancestorTag, addendum);
+    }
+  };
+
+  // TODO: turn this into a named export
+  validateDOMNesting.updatedAncestorInfo = updatedAncestorInfo$1;
+
+  // For testing
+  validateDOMNesting.isTagValidInContext = function (tag, ancestorInfo) {
+    ancestorInfo = ancestorInfo || emptyAncestorInfo;
+    var parentInfo = ancestorInfo.current;
+    var parentTag = parentInfo && parentInfo.tag;
+    return isTagValidWithParent(tag, parentTag) && !findInvalidAncestorForTag(tag, ancestorInfo);
+  };
+}
+
+var validateDOMNesting$1 = validateDOMNesting;
+
+// TODO: direct imports like some-package/src/* are bad. Fix me.
+var createElement = createElement$1;
+var createTextNode = createTextNode$1;
+var setInitialProperties = setInitialProperties$1;
+var diffProperties = diffProperties$1;
+var updateProperties = updateProperties$1;
+var diffHydratedProperties = diffHydratedProperties$1;
+var diffHydratedText = diffHydratedText$1;
+var warnForUnmatchedText = warnForUnmatchedText$1;
+var warnForDeletedHydratableElement = warnForDeletedHydratableElement$1;
+var warnForDeletedHydratableText = warnForDeletedHydratableText$1;
+var warnForInsertedHydratedElement = warnForInsertedHydratedElement$1;
+var warnForInsertedHydratedText = warnForInsertedHydratedText$1;
+var updatedAncestorInfo = validateDOMNesting$1.updatedAncestorInfo;
+var precacheFiberNode = precacheFiberNode$1;
+var updateFiberProps = updateFiberProps$1;
+
+
+{
+  var SUPPRESS_HYDRATION_WARNING = 'suppressHydrationWarning';
+  if (typeof Map !== 'function' || Map.prototype == null || typeof Map.prototype.forEach !== 'function' || typeof Set !== 'function' || Set.prototype == null || typeof Set.prototype.clear !== 'function' || typeof Set.prototype.forEach !== 'function') {
+    warning(false, 'React depends on Map and Set built-in types. Make sure that you load a ' + 'polyfill in older browsers. http://fb.me/react-polyfills');
+  }
+}
+
+injection$3.injectFiberControlledHostComponent(ReactDOMFiberComponent);
+
+var eventsEnabled = null;
+var selectionInformation = null;
+
+/**
+ * True if the supplied DOM node is a valid node element.
+ *
+ * @param {?DOMElement} node The candidate DOM node.
+ * @return {boolean} True if the DOM is a valid DOM node.
+ * @internal
+ */
+function isValidContainer(node) {
+  return !!(node && (node.nodeType === ELEMENT_NODE || node.nodeType === DOCUMENT_NODE || node.nodeType === DOCUMENT_FRAGMENT_NODE || node.nodeType === COMMENT_NODE && node.nodeValue === ' react-mount-point-unstable '));
+}
+
+function getReactRootElementInContainer(container) {
+  if (!container) {
+    return null;
+  }
+
+  if (container.nodeType === DOCUMENT_NODE) {
+    return container.documentElement;
+  } else {
+    return container.firstChild;
+  }
+}
+
+function shouldHydrateDueToLegacyHeuristic(container) {
+  var rootElement = getReactRootElementInContainer(container);
+  return !!(rootElement && rootElement.nodeType === ELEMENT_NODE && rootElement.hasAttribute(ROOT_ATTRIBUTE_NAME));
+}
+
+function shouldAutoFocusHostComponent(type, props) {
+  switch (type) {
+    case 'button':
+    case 'input':
+    case 'select':
+    case 'textarea':
+      return !!props.autoFocus;
+  }
+  return false;
+}
+
+var DOMRenderer = reactReconciler({
+  getRootHostContext: function (rootContainerInstance) {
+    var type = void 0;
+    var namespace = void 0;
+    var nodeType = rootContainerInstance.nodeType;
+    switch (nodeType) {
+      case DOCUMENT_NODE:
+      case DOCUMENT_FRAGMENT_NODE:
+        {
+          type = nodeType === DOCUMENT_NODE ? '#document' : '#fragment';
+          var root = rootContainerInstance.documentElement;
+          namespace = root ? root.namespaceURI : getChildNamespace(null, '');
+          break;
+        }
+      default:
+        {
+          var container = nodeType === COMMENT_NODE ? rootContainerInstance.parentNode : rootContainerInstance;
+          var ownNamespace = container.namespaceURI || null;
+          type = container.tagName;
+          namespace = getChildNamespace(ownNamespace, type);
+          break;
+        }
+    }
+    {
+      var validatedTag = type.toLowerCase();
+      var _ancestorInfo = updatedAncestorInfo(null, validatedTag, null);
+      return { namespace: namespace, ancestorInfo: _ancestorInfo };
+    }
+    return namespace;
+  },
+  getChildHostContext: function (parentHostContext, type) {
+    {
+      var parentHostContextDev = parentHostContext;
+      var _namespace = getChildNamespace(parentHostContextDev.namespace, type);
+      var _ancestorInfo2 = updatedAncestorInfo(parentHostContextDev.ancestorInfo, type, null);
+      return { namespace: _namespace, ancestorInfo: _ancestorInfo2 };
+    }
+    var parentNamespace = parentHostContext;
+    return getChildNamespace(parentNamespace, type);
+  },
+  getPublicInstance: function (instance) {
+    return instance;
+  },
+  prepareForCommit: function () {
+    eventsEnabled = isEnabled();
+    selectionInformation = getSelectionInformation();
+    setEnabled(false);
+  },
+  resetAfterCommit: function () {
+    restoreSelection(selectionInformation);
+    selectionInformation = null;
+    setEnabled(eventsEnabled);
+    eventsEnabled = null;
+  },
+  createInstance: function (type, props, rootContainerInstance, hostContext, internalInstanceHandle) {
+    var parentNamespace = void 0;
+    {
+      // TODO: take namespace into account when validating.
+      var hostContextDev = hostContext;
+      validateDOMNesting$1(type, null, hostContextDev.ancestorInfo);
+      if (typeof props.children === 'string' || typeof props.children === 'number') {
+        var string = '' + props.children;
+        var ownAncestorInfo = updatedAncestorInfo(hostContextDev.ancestorInfo, type, null);
+        validateDOMNesting$1(null, string, ownAncestorInfo);
+      }
+      parentNamespace = hostContextDev.namespace;
+    }
+    var domElement = createElement(type, props, rootContainerInstance, parentNamespace);
+    precacheFiberNode(internalInstanceHandle, domElement);
+    updateFiberProps(domElement, props);
+    return domElement;
+  },
+  appendInitialChild: function (parentInstance, child) {
+    parentInstance.appendChild(child);
+  },
+  finalizeInitialChildren: function (domElement, type, props, rootContainerInstance) {
+    setInitialProperties(domElement, type, props, rootContainerInstance);
+    return shouldAutoFocusHostComponent(type, props);
+  },
+  prepareUpdate: function (domElement, type, oldProps, newProps, rootContainerInstance, hostContext) {
+    {
+      var hostContextDev = hostContext;
+      if (typeof newProps.children !== typeof oldProps.children && (typeof newProps.children === 'string' || typeof newProps.children === 'number')) {
+        var string = '' + newProps.children;
+        var ownAncestorInfo = updatedAncestorInfo(hostContextDev.ancestorInfo, type, null);
+        validateDOMNesting$1(null, string, ownAncestorInfo);
+      }
+    }
+    return diffProperties(domElement, type, oldProps, newProps, rootContainerInstance);
+  },
+  shouldSetTextContent: function (type, props) {
+    return type === 'textarea' || typeof props.children === 'string' || typeof props.children === 'number' || typeof props.dangerouslySetInnerHTML === 'object' && props.dangerouslySetInnerHTML !== null && typeof props.dangerouslySetInnerHTML.__html === 'string';
+  },
+  shouldDeprioritizeSubtree: function (type, props) {
+    return !!props.hidden;
+  },
+  createTextInstance: function (text, rootContainerInstance, hostContext, internalInstanceHandle) {
+    {
+      var hostContextDev = hostContext;
+      validateDOMNesting$1(null, text, hostContextDev.ancestorInfo);
+    }
+    var textNode = createTextNode(text, rootContainerInstance);
+    precacheFiberNode(internalInstanceHandle, textNode);
+    return textNode;
+  },
+
+
+  now: now,
+
+  mutation: {
+    commitMount: function (domElement, type, newProps, internalInstanceHandle) {
+      domElement.focus();
+    },
+    commitUpdate: function (domElement, updatePayload, type, oldProps, newProps, internalInstanceHandle) {
+      // Update the props handle so that we know which props are the ones with
+      // with current event handlers.
+      updateFiberProps(domElement, newProps);
+      // Apply the diff to the DOM node.
+      updateProperties(domElement, updatePayload, type, oldProps, newProps);
+    },
+    resetTextContent: function (domElement) {
+      domElement.textContent = '';
+    },
+    commitTextUpdate: function (textInstance, oldText, newText) {
+      textInstance.nodeValue = newText;
+    },
+    appendChild: function (parentInstance, child) {
+      parentInstance.appendChild(child);
+    },
+    appendChildToContainer: function (container, child) {
+      if (container.nodeType === COMMENT_NODE) {
+        container.parentNode.insertBefore(child, container);
+      } else {
+        container.appendChild(child);
+      }
+    },
+    insertBefore: function (parentInstance, child, beforeChild) {
+      parentInstance.insertBefore(child, beforeChild);
+    },
+    insertInContainerBefore: function (container, child, beforeChild) {
+      if (container.nodeType === COMMENT_NODE) {
+        container.parentNode.insertBefore(child, beforeChild);
+      } else {
+        container.insertBefore(child, beforeChild);
+      }
+    },
+    removeChild: function (parentInstance, child) {
+      parentInstance.removeChild(child);
+    },
+    removeChildFromContainer: function (container, child) {
+      if (container.nodeType === COMMENT_NODE) {
+        container.parentNode.removeChild(child);
+      } else {
+        container.removeChild(child);
+      }
+    }
+  },
+
+  hydration: {
+    canHydrateInstance: function (instance, type, props) {
+      if (instance.nodeType !== ELEMENT_NODE || type.toLowerCase() !== instance.nodeName.toLowerCase()) {
+        return null;
+      }
+      // This has now been refined to an element node.
+      return instance;
+    },
+    canHydrateTextInstance: function (instance, text) {
+      if (text === '' || instance.nodeType !== TEXT_NODE) {
+        // Empty strings are not parsed by HTML so there won't be a correct match here.
+        return null;
+      }
+      // This has now been refined to a text node.
+      return instance;
+    },
+    getNextHydratableSibling: function (instance) {
+      var node = instance.nextSibling;
+      // Skip non-hydratable nodes.
+      while (node && node.nodeType !== ELEMENT_NODE && node.nodeType !== TEXT_NODE) {
+        node = node.nextSibling;
+      }
+      return node;
+    },
+    getFirstHydratableChild: function (parentInstance) {
+      var next = parentInstance.firstChild;
+      // Skip non-hydratable nodes.
+      while (next && next.nodeType !== ELEMENT_NODE && next.nodeType !== TEXT_NODE) {
+        next = next.nextSibling;
+      }
+      return next;
+    },
+    hydrateInstance: function (instance, type, props, rootContainerInstance, hostContext, internalInstanceHandle) {
+      precacheFiberNode(internalInstanceHandle, instance);
+      // TODO: Possibly defer this until the commit phase where all the events
+      // get attached.
+      updateFiberProps(instance, props);
+      var parentNamespace = void 0;
+      {
+        var hostContextDev = hostContext;
+        parentNamespace = hostContextDev.namespace;
+      }
+      return diffHydratedProperties(instance, type, props, parentNamespace, rootContainerInstance);
+    },
+    hydrateTextInstance: function (textInstance, text, internalInstanceHandle) {
+      precacheFiberNode(internalInstanceHandle, textInstance);
+      return diffHydratedText(textInstance, text);
+    },
+    didNotMatchHydratedContainerTextInstance: function (parentContainer, textInstance, text) {
+      {
+        warnForUnmatchedText(textInstance, text);
+      }
+    },
+    didNotMatchHydratedTextInstance: function (parentType, parentProps, parentInstance, textInstance, text) {
+      if (true && parentProps[SUPPRESS_HYDRATION_WARNING] !== true) {
+        warnForUnmatchedText(textInstance, text);
+      }
+    },
+    didNotHydrateContainerInstance: function (parentContainer, instance) {
+      {
+        if (instance.nodeType === 1) {
+          warnForDeletedHydratableElement(parentContainer, instance);
+        } else {
+          warnForDeletedHydratableText(parentContainer, instance);
+        }
+      }
+    },
+    didNotHydrateInstance: function (parentType, parentProps, parentInstance, instance) {
+      if (true && parentProps[SUPPRESS_HYDRATION_WARNING] !== true) {
+        if (instance.nodeType === 1) {
+          warnForDeletedHydratableElement(parentInstance, instance);
+        } else {
+          warnForDeletedHydratableText(parentInstance, instance);
+        }
+      }
+    },
+    didNotFindHydratableContainerInstance: function (parentContainer, type, props) {
+      {
+        warnForInsertedHydratedElement(parentContainer, type, props);
+      }
+    },
+    didNotFindHydratableContainerTextInstance: function (parentContainer, text) {
+      {
+        warnForInsertedHydratedText(parentContainer, text);
+      }
+    },
+    didNotFindHydratableInstance: function (parentType, parentProps, parentInstance, type, props) {
+      if (true && parentProps[SUPPRESS_HYDRATION_WARNING] !== true) {
+        warnForInsertedHydratedElement(parentInstance, type, props);
+      }
+    },
+    didNotFindHydratableTextInstance: function (parentType, parentProps, parentInstance, text) {
+      if (true && parentProps[SUPPRESS_HYDRATION_WARNING] !== true) {
+        warnForInsertedHydratedText(parentInstance, text);
+      }
+    }
+  },
+
+  scheduleDeferredCallback: rIC,
+  cancelDeferredCallback: cIC,
+
+  useSyncScheduling: !enableAsyncSchedulingByDefaultInReactDOM
+});
+
+injection$4.injectFiberBatchedUpdates(DOMRenderer.batchedUpdates);
+
+var warnedAboutHydrateAPI = false;
+
+function renderSubtreeIntoContainer(parentComponent, children, container, forceHydrate, callback) {
+  !isValidContainer(container) ? invariant(false, 'Target container is not a DOM element.') : void 0;
+
+  {
+    if (container._reactRootContainer && container.nodeType !== COMMENT_NODE) {
+      var hostInstance = DOMRenderer.findHostInstanceWithNoPortals(container._reactRootContainer.current);
+      if (hostInstance) {
+        warning(hostInstance.parentNode === container, 'render(...): It looks like the React-rendered content of this ' + 'container was removed without using React. This is not ' + 'supported and will cause errors. Instead, call ' + 'ReactDOM.unmountComponentAtNode to empty a container.');
+      }
+    }
+
+    var isRootRenderedBySomeReact = !!container._reactRootContainer;
+    var rootEl = getReactRootElementInContainer(container);
+    var hasNonRootReactChild = !!(rootEl && getInstanceFromNode$1(rootEl));
+
+    warning(!hasNonRootReactChild || isRootRenderedBySomeReact, 'render(...): Replacing React-rendered children with a new root ' + 'component. If you intended to update the children of this node, ' + 'you should instead have the existing children update their state ' + 'and render the new components instead of calling ReactDOM.render.');
+
+    warning(container.nodeType !== ELEMENT_NODE || !container.tagName || container.tagName.toUpperCase() !== 'BODY', 'render(): Rendering components directly into document.body is ' + 'discouraged, since its children are often manipulated by third-party ' + 'scripts and browser extensions. This may lead to subtle ' + 'reconciliation issues. Try rendering into a container element created ' + 'for your app.');
+  }
+
+  var root = container._reactRootContainer;
+  if (!root) {
+    var shouldHydrate = forceHydrate || shouldHydrateDueToLegacyHeuristic(container);
+    // First clear any existing content.
+    if (!shouldHydrate) {
+      var warned = false;
+      var rootSibling = void 0;
+      while (rootSibling = container.lastChild) {
+        {
+          if (!warned && rootSibling.nodeType === ELEMENT_NODE && rootSibling.hasAttribute(ROOT_ATTRIBUTE_NAME)) {
+            warned = true;
+            warning(false, 'render(): Target node has markup rendered by React, but there ' + 'are unrelated nodes as well. This is most commonly caused by ' + 'white-space inserted around server-rendered markup.');
+          }
+        }
+        container.removeChild(rootSibling);
+      }
+    }
+    {
+      if (shouldHydrate && !forceHydrate && !warnedAboutHydrateAPI) {
+        warnedAboutHydrateAPI = true;
+        lowPriorityWarning$1(false, 'render(): Calling ReactDOM.render() to hydrate server-rendered markup ' + 'will stop working in React v17. Replace the ReactDOM.render() call ' + 'with ReactDOM.hydrate() if you want React to attach to the server HTML.');
+      }
+    }
+    var newRoot = DOMRenderer.createContainer(container, shouldHydrate);
+    root = container._reactRootContainer = newRoot;
+    // Initial mount should not be batched.
+    DOMRenderer.unbatchedUpdates(function () {
+      DOMRenderer.updateContainer(children, newRoot, parentComponent, callback);
+    });
+  } else {
+    DOMRenderer.updateContainer(children, root, parentComponent, callback);
+  }
+  return DOMRenderer.getPublicRootInstance(root);
+}
+
+function createPortal(children, container) {
+  var key = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
+  !isValidContainer(container) ? invariant(false, 'Target container is not a DOM element.') : void 0;
+  // TODO: pass ReactDOM portal implementation as third argument
+  return createPortal$1(children, container, null, key);
+}
+
+function ReactRoot(container, hydrate) {
+  var root = DOMRenderer.createContainer(container, hydrate);
+  this._reactRootContainer = root;
+}
+ReactRoot.prototype.render = function (children, callback) {
+  var root = this._reactRootContainer;
+  DOMRenderer.updateContainer(children, root, null, callback);
+};
+ReactRoot.prototype.unmount = function (callback) {
+  var root = this._reactRootContainer;
+  DOMRenderer.updateContainer(null, root, null, callback);
+};
+
+var ReactDOM = {
+  createPortal: createPortal,
+
+  findDOMNode: function (componentOrElement) {
+    {
+      var owner = ReactCurrentOwner.current;
+      if (owner !== null) {
+        var warnedAboutRefsInRender = owner.stateNode._warnedAboutRefsInRender;
+        warning(warnedAboutRefsInRender, '%s is accessing findDOMNode inside its render(). ' + 'render() should be a pure function of props and state. It should ' + 'never access something that requires stale data from the previous ' + 'render, such as refs. Move this logic to componentDidMount and ' + 'componentDidUpdate instead.', getComponentName(owner) || 'A component');
+        owner.stateNode._warnedAboutRefsInRender = true;
+      }
+    }
+    if (componentOrElement == null) {
+      return null;
+    }
+    if (componentOrElement.nodeType === ELEMENT_NODE) {
+      return componentOrElement;
+    }
+
+    var inst = get(componentOrElement);
+    if (inst) {
+      return DOMRenderer.findHostInstance(inst);
+    }
+
+    if (typeof componentOrElement.render === 'function') {
+      invariant(false, 'Unable to find node on an unmounted component.');
+    } else {
+      invariant(false, 'Element appears to be neither ReactComponent nor DOMNode. Keys: %s', Object.keys(componentOrElement));
+    }
+  },
+  hydrate: function (element, container, callback) {
+    // TODO: throw or warn if we couldn't hydrate?
+    return renderSubtreeIntoContainer(null, element, container, true, callback);
+  },
+  render: function (element, container, callback) {
+    return renderSubtreeIntoContainer(null, element, container, false, callback);
+  },
+  unstable_renderSubtreeIntoContainer: function (parentComponent, element, containerNode, callback) {
+    !(parentComponent != null && has(parentComponent)) ? invariant(false, 'parentComponent must be a valid React Component') : void 0;
+    return renderSubtreeIntoContainer(parentComponent, element, containerNode, false, callback);
+  },
+  unmountComponentAtNode: function (container) {
+    !isValidContainer(container) ? invariant(false, 'unmountComponentAtNode(...): Target container is not a DOM element.') : void 0;
+
+    if (container._reactRootContainer) {
+      {
+        var rootEl = getReactRootElementInContainer(container);
+        var renderedByDifferentReact = rootEl && !getInstanceFromNode$1(rootEl);
+        warning(!renderedByDifferentReact, "unmountComponentAtNode(): The node you're attempting to unmount " + 'was rendered by another copy of React.');
+      }
+
+      // Unmount should not be batched.
+      DOMRenderer.unbatchedUpdates(function () {
+        renderSubtreeIntoContainer(null, null, container, false, function () {
+          container._reactRootContainer = null;
+        });
+      });
+      // If you call unmountComponentAtNode twice in quick succession, you'll
+      // get `true` twice. That's probably fine?
+      return true;
+    } else {
+      {
+        var _rootEl = getReactRootElementInContainer(container);
+        var hasNonRootReactChild = !!(_rootEl && getInstanceFromNode$1(_rootEl));
+
+        // Check if the container itself is a React root node.
+        var isContainerReactRoot = container.nodeType === 1 && isValidContainer(container.parentNode) && !!container.parentNode._reactRootContainer;
+
+        warning(!hasNonRootReactChild, "unmountComponentAtNode(): The node you're attempting to unmount " + 'was rendered by React and is not a top-level container. %s', isContainerReactRoot ? 'You may have accidentally passed in a React root node instead ' + 'of its container.' : 'Instead, have the parent component update its state and ' + 'rerender in order to remove this component.');
+      }
+
+      return false;
+    }
+  },
+
+
+  // Temporary alias since we already shipped React 16 RC with it.
+  // TODO: remove in React 17.
+  unstable_createPortal: createPortal,
+
+  unstable_batchedUpdates: batchedUpdates,
+
+  unstable_deferredUpdates: DOMRenderer.deferredUpdates,
+
+  flushSync: DOMRenderer.flushSync,
+
+  __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED: {
+    // For TapEventPlugin which is popular in open source
+    EventPluginHub: EventPluginHub,
+    // Used by test-utils
+    EventPluginRegistry: EventPluginRegistry,
+    EventPropagators: EventPropagators,
+    ReactControlledComponent: ReactControlledComponent,
+    ReactDOMComponentTree: ReactDOMComponentTree,
+    ReactDOMEventListener: ReactDOMEventListener
+  }
+};
+
+if (enableCreateRoot) {
+  ReactDOM.createRoot = function createRoot(container, options) {
+    var hydrate = options != null && options.hydrate === true;
+    return new ReactRoot(container, hydrate);
+  };
+}
+
+var foundDevTools = DOMRenderer.injectIntoDevTools({
+  findFiberByHostInstance: getClosestInstanceFromNode,
+  bundleType: 1,
+  version: ReactVersion,
+  rendererPackageName: 'react-dom'
+});
+
+{
+  if (!foundDevTools && ExecutionEnvironment.canUseDOM && window.top === window.self) {
+    // If we're in Chrome or Firefox, provide a download link if not installed.
+    if (navigator.userAgent.indexOf('Chrome') > -1 && navigator.userAgent.indexOf('Edge') === -1 || navigator.userAgent.indexOf('Firefox') > -1) {
+      var protocol = window.location.protocol;
+      // Don't warn in exotic cases like chrome-extension://.
+      if (/^(https?|file):$/.test(protocol)) {
+        console.info('%cDownload the React DevTools ' + 'for a better development experience: ' + 'https://fb.me/react-devtools' + (protocol === 'file:' ? '\nYou might need to use a local HTTP server (instead of file://): ' + 'https://fb.me/react-devtools-faq' : ''), 'font-weight:bold');
+      }
+    }
+  }
+}
+
+
+
+var ReactDOM$2 = Object.freeze({
+	default: ReactDOM
+});
+
+var ReactDOM$3 = ( ReactDOM$2 && ReactDOM ) || ReactDOM$2;
+
+// TODO: decide on the top-level export form.
+// This is hacky but makes it work with both Rollup and Jest.
+var reactDom = ReactDOM$3['default'] ? ReactDOM$3['default'] : ReactDOM$3;
+
+module.exports = reactDom;
+  })();
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 71 */
+/* 45 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @typechecks
+ */
+
+
+
+var hyphenate = __webpack_require__(46);
+
+var msPattern = /^ms-/;
+
+/**
+ * Hyphenates a camelcased CSS property name, for example:
+ *
+ *   > hyphenateStyleName('backgroundColor')
+ *   < "background-color"
+ *   > hyphenateStyleName('MozTransition')
+ *   < "-moz-transition"
+ *   > hyphenateStyleName('msTransition')
+ *   < "-ms-transition"
+ *
+ * As Modernizr suggests (http://modernizr.com/docs/#prefixed), an `ms` prefix
+ * is converted to `-ms-`.
+ *
+ * @param {string} string
+ * @return {string}
+ */
+function hyphenateStyleName(string) {
+  return hyphenate(string).replace(msPattern, '-ms-');
+}
+
+module.exports = hyphenateStyleName;
+
+/***/ }),
+/* 46 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @typechecks
+ */
+
+var _uppercasePattern = /([A-Z])/g;
+
+/**
+ * Hyphenates a camelcased string, for example:
+ *
+ *   > hyphenate('backgroundColor')
+ *   < "background-color"
+ *
+ * For CSS style names, use `hyphenateStyleName` instead which works properly
+ * with all vendor prefixes, including `ms`.
+ *
+ * @param {string} string
+ * @return {string}
+ */
+function hyphenate(string) {
+  return string.replace(_uppercasePattern, '-$1').toLowerCase();
+}
+
+module.exports = hyphenate;
+
+/***/ }),
+/* 47 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @typechecks
+ */
+
+
+
+var camelize = __webpack_require__(48);
+
+var msPattern = /^-ms-/;
+
+/**
+ * Camelcases a hyphenated CSS property name, for example:
+ *
+ *   > camelizeStyleName('background-color')
+ *   < "backgroundColor"
+ *   > camelizeStyleName('-moz-transition')
+ *   < "MozTransition"
+ *   > camelizeStyleName('-ms-transition')
+ *   < "msTransition"
+ *
+ * As Andi Smith suggests
+ * (http://www.andismith.com/blog/2012/02/modernizr-prefixed/), an `-ms` prefix
+ * is converted to lowercase `ms`.
+ *
+ * @param {string} string
+ * @return {string}
+ */
+function camelizeStyleName(string) {
+  return camelize(string.replace(msPattern, 'ms-'));
+}
+
+module.exports = camelizeStyleName;
+
+/***/ }),
+/* 48 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @typechecks
+ */
+
+var _hyphenPattern = /-(.)/g;
+
+/**
+ * Camelcases a hyphenated string, for example:
+ *
+ *   > camelize('background-color')
+ *   < "backgroundColor"
+ *
+ * @param {string} string
+ * @return {string}
+ */
+function camelize(string) {
+  return string.replace(_hyphenPattern, function (_, character) {
+    return character.toUpperCase();
+  });
+}
+
+module.exports = camelize;
+
+/***/ }),
+/* 49 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Dashboard_Dashboard__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Timetable_Timetable__ = __webpack_require__(71);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Notes_Notes__ = __webpack_require__(72);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Notices_Notices__ = __webpack_require__(73);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Settings_Settings__ = __webpack_require__(74);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__About_About__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Feedback_Feedback__ = __webpack_require__(75);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Profile_Profile__ = __webpack_require__(79);
 
 
+
+
+
+
+
+
+
+const css = __webpack_require__(80);
+const icons = __webpack_require__(82);
+
+// Requirements for beta release
+// Daily timetable
+// Full timetable
+// User notes
+// Daily notices
+// [DONE] Student login
+
+// Global variables
+// Represents the current visible content
+
+window.STATES = {
+  DASHBOARD: 0,
+  TIMETABLE: 1,
+  NOTES: 2,
+  NOTICES: 3,
+  CALENDAR: 4,
+  SETTINGS: 5,
+  ABOUT: 6,
+  FEEDBACK: 7,
+  PROFILE: 8
+};
+
+const nameArray = ['Dashboard', 'Timetable', 'User Notes', 'Daily Notices'];
+
+let loggedIn = false;
+
+class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
+  constructor(props) {
+    super(props);
+
+    // Set default state on launch
+    this.state = {
+      visible: window.STATES.DASHBOARD
+    };
+  }
+
+  toggleLogin() {
+    // Ensure this toggles correctly between Login and Logout
+    // A user may already have a token and therefore in that case
+    // it needs to begin with 'Logout' functionality
+    console.log('Login clicked');
+
+    let url = window.location.toString();
+    if (url.substr(url.length - 11) === '/index.html') {
+      alert('Run "npm start" to use server and login functions');
+      console.log('Run "npm start" to use server and login functions');
+    } else {
+      window.location.href = '/login';
+    }
+  }
+
+  blankNavbar() {
+    //makes all navbar <li> look unselected
+    let tabCount = document.getElementById('navbar').childNodes.length;
+    for (let i = 0; i < nameArray.length; i++) {
+      console.log(i);
+      let Li = document.getElementById(nameArray[i] + 'Li');
+      let A = document.getElementById(nameArray[i] + 'A');
+      let B = document.getElementById(nameArray[i] + 'B');
+      let P = document.getElementById(nameArray[i] + 'P');
+
+      Li.className = 'uk-animation-toggle';
+      P.innerText = nameArray[i];
+      A.className = 'uk-box-shadow-hover-medium';
+      B.innerText = '';
+    }
+  }
+
+  selectedNavbar(num) {
+    //makes all navbar <li> look unselected
+    this.blankNavbar();
+
+    //makes one specific <li> look selected
+
+    let Li = document.getElementById(nameArray[num] + 'Li');
+    let A = document.getElementById(nameArray[num] + 'A');
+    let B = document.getElementById(nameArray[num] + 'B');
+    let P = document.getElementById(nameArray[num] + 'P');
+
+    Li.className = 'uk-animation-toggle uk-active';
+    P.innerText = '';
+    A.className = 'uk-box-shadow-hover-medium uk-card-primary';
+    B.innerText = nameArray[num];
+  }
+
+  showDashboard() {
+    console.log('Dashboard tab clicked');
+    let visible = this.state.visible;
+    this.setState({ visible: window.STATES.DASHBOARD });
+    this.selectedNavbar(window.STATES.DASHBOARD);
+  }
+
+  showTimetable() {
+    console.log('Timetable tab clicked');
+    let visible = this.state.visible;
+    this.setState({ visible: window.STATES.TIMETABLE });
+    this.selectedNavbar(window.STATES.TIMETABLE);
+  }
+
+  showNotes() {
+    console.log('User notes tab clicked');
+    let visible = this.state.visible;
+    this.setState({ visible: window.STATES.NOTES });
+    this.selectedNavbar(window.STATES.NOTES);
+  }
+
+  showNotices() {
+    console.log('Daily notices tab clicked');
+    let visible = this.state.visible;
+    this.setState({ visible: window.STATES.NOTICES });
+    this.selectedNavbar(window.STATES.NOTICES);
+  }
+
+  showSettings() {
+    console.log('Settings tab clicked');
+    let visible = this.state.visible;
+    this.setState({ visible: window.STATES.SETTINGS });
+  }
+
+  showAbout() {
+    console.log('About tab clicked');
+    let visible = this.state.visible;
+    this.setState({ visible: window.STATES.ABOUT });
+  }
+
+  showProfile() {
+    console.log('Settings tab clicked');
+    let visible = this.state.visible;
+    this.setState({ visible: window.STATES.PROFILE });
+  }
+
+  showFeedback() {
+    console.log('Settings tab clicked');
+    let visible = this.state.visible;
+    this.setState({ visible: window.STATES.FEEDBACK });
+  }
+
+  // Always renders navbar
+  // Renders active page
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { id: 'main', className: 'main' },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'nav',
+        { id: 'navbar', className: 'uk-navbar uk-navbar-container', 'uk-navbar': 'true', height: '70px' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'uk-navbar-left' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { id: 'logo',
+            className: 'uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom',
+            alt: 'logo', src: 'https://i.imgur.com/xxuf1ni.png', width: '60px', height: '50px' }),
+>>>>>>> b1b017b0ab30a2535a8a9b920db9aef06e8c91dd
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'ul',
+            { className: 'uk-navbar-nav' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              { id: 'DashboardLi', className: 'uk-animation-toggle uk-active', onClick: this.showDashboard.bind(this) },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'a',
+                { id: 'DashboardA', className: 'uk-box-shadow-hover-medium uk-card-primary' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'uk-icon uk-margin-small-right', 'uk-icon': 'icon: home' }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('p', { id: 'DashboardP' }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'b',
+                  { id: 'DashboardB' },
+                  'Dashboard'
+                )
+              )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              { id: 'TimetableLi', className: 'uk-animation-toggle', onClick: this.showTimetable.bind(this) },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'a',
+                { id: 'TimetableA', className: 'uk-box-shadow-hover-medium' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'uk-icon uk-margin-small-right', 'uk-icon': 'icon: star' }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'p',
+                  { id: 'TimetableP' },
+                  'Timetable'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('b', { id: 'TimetableB' })
+              )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              { id: 'User NotesLi', className: 'uk-animation-toggle', onClick: this.showNotes.bind(this) },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'a',
+                { id: 'User NotesA', className: 'uk-box-shadow-hover-medium' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'uk-icon uk-margin-small-right', 'uk-icon': 'icon: file-edit' }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'p',
+                  { id: 'User NotesP' },
+                  'User Notes'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('b', { id: 'User NotesB' })
+              )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              { id: 'Daily NoticesLi', className: 'uk-animation-toggle', onClick: this.showNotices.bind(this) },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'a',
+                { id: 'Daily NoticesA', className: 'uk-box-shadow-hover-medium' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'uk-icon uk-margin-small-right', 'uk-icon': 'icon: bell' }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'p',
+                  { id: 'Daily NoticesP' },
+                  'Daily Notices'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('b', { id: 'Daily NoticesB' })
+              )
+            )
+          )
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'uk-navbar-right' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'ul',
+            { className: 'uk-navbar-nav' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              { className: 'uk-animation-toggle' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'a',
+                { className: 'uk-box-shadow-hover-medium', 'uk-icon': 'icon: chevron-down' },
+                'Stu Studentson'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'uk-navbar-dropdown', 'uk-dropdown': 'mode: click' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'ul',
+                  { className: 'uk-nav uk-navbar-dropdown-nav' },
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'li',
+                    null,
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'a',
+                      { onClick: this.showSettings.bind(this) },
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'uk-icon uk-margin-small-right', 'uk-icon': 'icon: cog' }),
+                      'Settings'
+                    )
+                  ),
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'li',
+                    null,
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'a',
+                      { onClick: this.showAbout.bind(this) },
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'uk-icon uk-margin-small-right', 'uk-icon': 'icon: info' }),
+                      'About'
+                    )
+                  ),
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'li',
+                    null,
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'a',
+                      { onClick: this.showFeedback.bind(this) },
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'uk-icon uk-margin-small-right', 'uk-icon': 'icon: comment' }),
+                      'Feedback'
+                    )
+                  ),
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'li',
+                    null,
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'a',
+                      { onClick: this.showProfile.bind(this) },
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'uk-icon uk-margin-small-right', 'uk-icon': 'icon: user' }),
+                      'Profile'
+                    )
+                  ),
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'li',
+                    null,
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'a',
+                      { onClick: this.toggleLogin.bind(this) },
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'uk-icon uk-margin-small-right', 'uk-icon': 'icon: sign-in' }),
+                      'Log In'
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      ),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { id: 'content' },
+        this.state.visible === window.STATES.DASHBOARD && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__Dashboard_Dashboard__["default"], null),
+        this.state.visible === window.STATES.TIMETABLE && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Timetable_Timetable__["a" /* default */], null),
+        this.state.visible === window.STATES.NOTES && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Notes_Notes__["a" /* default */], null),
+        this.state.visible === window.STATES.NOTICES && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__Notices_Notices__["a" /* default */], null),
+        this.state.visible === window.STATES.SETTINGS && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__Settings_Settings__["a" /* default */], null),
+        this.state.visible === window.STATES.ABOUT && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__About_About__["default"], null),
+        this.state.visible === window.STATES.FEEDBACK && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__Feedback_Feedback__["a" /* default */], null),
+        this.state.visible === window.STATES.PROFILE && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__Profile_Profile__["a" /* default */], null)
+      )
+    );
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (App);
+
+/***/ }),
+/* 50 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {var ClientRequest = __webpack_require__(51)
+var extend = __webpack_require__(62)
+var statusCodes = __webpack_require__(63)
+var url = __webpack_require__(64)
+
+var http = exports
+
+http.request = function (opts, cb) {
+	if (typeof opts === 'string')
+		opts = url.parse(opts)
+	else
+		opts = extend(opts)
+
+	// Normally, the page is loaded from http or https, so not specifying a protocol
+	// will result in a (valid) protocol-relative url. However, this won't work if
+	// the protocol is something else, like 'file:'
+	var defaultProtocol = global.location.protocol.search(/^https?:$/) === -1 ? 'http:' : ''
+
+	var protocol = opts.protocol || defaultProtocol
+	var host = opts.hostname || opts.host
+	var port = opts.port
+	var path = opts.path || '/'
+
+	// Necessary for IPv6 addresses
+	if (host && host.indexOf(':') !== -1)
+		host = '[' + host + ']'
+
+	// This may be a relative url. The browser should always be able to interpret it correctly.
+	opts.url = (host ? (protocol + '//' + host) : '') + (port ? ':' + port : '') + path
+	opts.method = (opts.method || 'GET').toUpperCase()
+	opts.headers = opts.headers || {}
+
+	// Also valid opts.auth, opts.mode
+
+	var req = new ClientRequest(opts)
+	if (cb)
+		req.on('response', cb)
+	return req
+}
+
+http.get = function get (opts, cb) {
+	var req = http.request(opts, cb)
+	req.end()
+	return req
+}
+
+http.Agent = function () {}
+http.Agent.defaultMaxSockets = 4
+
+http.STATUS_CODES = statusCodes
+
+http.METHODS = [
+	'CHECKOUT',
+	'CONNECT',
+	'COPY',
+	'DELETE',
+	'GET',
+	'HEAD',
+	'LOCK',
+	'M-SEARCH',
+	'MERGE',
+	'MKACTIVITY',
+	'MKCOL',
+	'MOVE',
+	'NOTIFY',
+	'OPTIONS',
+	'PATCH',
+	'POST',
+	'PROPFIND',
+	'PROPPATCH',
+	'PURGE',
+	'PUT',
+	'REPORT',
+	'SEARCH',
+	'SUBSCRIBE',
+	'TRACE',
+	'UNLOCK',
+	'UNSUBSCRIBE'
+]
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+
+/***/ }),
+/* 51 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(Buffer, global, process) {var capability = __webpack_require__(24)
+var inherits = __webpack_require__(3)
+var response = __webpack_require__(54)
+var stream = __webpack_require__(25)
+var toArrayBuffer = __webpack_require__(61)
+
+var IncomingMessage = response.IncomingMessage
+var rStates = response.readyStates
+
+function decideMode (preferBinary, useFetch) {
+	if (capability.fetch && useFetch) {
+		return 'fetch'
+	} else if (capability.mozchunkedarraybuffer) {
+		return 'moz-chunked-arraybuffer'
+	} else if (capability.msstream) {
+		return 'ms-stream'
+	} else if (capability.arraybuffer && preferBinary) {
+		return 'arraybuffer'
+	} else if (capability.vbArray && preferBinary) {
+		return 'text:vbarray'
+	} else {
+		return 'text'
+	}
+}
+
+var ClientRequest = module.exports = function (opts) {
+	var self = this
+	stream.Writable.call(self)
+
+	self._opts = opts
+	self._body = []
+	self._headers = {}
+	if (opts.auth)
+		self.setHeader('Authorization', 'Basic ' + new Buffer(opts.auth).toString('base64'))
+	Object.keys(opts.headers).forEach(function (name) {
+		self.setHeader(name, opts.headers[name])
+	})
+
+	var preferBinary
+	var useFetch = true
+	if (opts.mode === 'disable-fetch' || 'timeout' in opts) {
+		// If the use of XHR should be preferred and includes preserving the 'content-type' header.
+		// Force XHR to be used since the Fetch API does not yet support timeouts.
+		useFetch = false
+		preferBinary = true
+	} else if (opts.mode === 'prefer-streaming') {
+		// If streaming is a high priority but binary compatibility and
+		// the accuracy of the 'content-type' header aren't
+		preferBinary = false
+	} else if (opts.mode === 'allow-wrong-content-type') {
+		// If streaming is more important than preserving the 'content-type' header
+		preferBinary = !capability.overrideMimeType
+	} else if (!opts.mode || opts.mode === 'default' || opts.mode === 'prefer-fast') {
+		// Use binary if text streaming may corrupt data or the content-type header, or for speed
+		preferBinary = true
+	} else {
+		throw new Error('Invalid value for opts.mode')
+	}
+	self._mode = decideMode(preferBinary, useFetch)
+
+	self.on('finish', function () {
+		self._onFinish()
+	})
+}
+
+inherits(ClientRequest, stream.Writable)
+
+ClientRequest.prototype.setHeader = function (name, value) {
+	var self = this
+	var lowerName = name.toLowerCase()
+	// This check is not necessary, but it prevents warnings from browsers about setting unsafe
+	// headers. To be honest I'm not entirely sure hiding these warnings is a good thing, but
+	// http-browserify did it, so I will too.
+	if (unsafeHeaders.indexOf(lowerName) !== -1)
+		return
+
+	self._headers[lowerName] = {
+		name: name,
+		value: value
+	}
+}
+
+ClientRequest.prototype.getHeader = function (name) {
+	var header = this._headers[name.toLowerCase()]
+	if (header)
+		return header.value
+	return null
+}
+
+ClientRequest.prototype.removeHeader = function (name) {
+	var self = this
+	delete self._headers[name.toLowerCase()]
+}
+
+ClientRequest.prototype._onFinish = function () {
+	var self = this
+
+	if (self._destroyed)
+		return
+	var opts = self._opts
+
+	var headersObj = self._headers
+	var body = null
+	if (opts.method !== 'GET' && opts.method !== 'HEAD') {
+		if (capability.blobConstructor) {
+			body = new global.Blob(self._body.map(function (buffer) {
+				return toArrayBuffer(buffer)
+			}), {
+				type: (headersObj['content-type'] || {}).value || ''
+			})
+		} else {
+			// get utf8 string
+			body = Buffer.concat(self._body).toString()
+		}
+	}
+
+	// create flattened list of headers
+	var headersList = []
+	Object.keys(headersObj).forEach(function (keyName) {
+		var name = headersObj[keyName].name
+		var value = headersObj[keyName].value
+		if (Array.isArray(value)) {
+			value.forEach(function (v) {
+				headersList.push([name, v])
+			})
+		} else {
+			headersList.push([name, value])
+		}
+	})
+
+	if (self._mode === 'fetch') {
+		global.fetch(self._opts.url, {
+			method: self._opts.method,
+			headers: headersList,
+			body: body || undefined,
+			mode: 'cors',
+			credentials: opts.withCredentials ? 'include' : 'same-origin'
+		}).then(function (response) {
+			self._fetchResponse = response
+			self._connect()
+		}, function (reason) {
+			self.emit('error', reason)
+		})
+	} else {
+		var xhr = self._xhr = new global.XMLHttpRequest()
+		try {
+			xhr.open(self._opts.method, self._opts.url, true)
+		} catch (err) {
+			process.nextTick(function () {
+				self.emit('error', err)
+			})
+			return
+		}
+
+		// Can't set responseType on really old browsers
+		if ('responseType' in xhr)
+			xhr.responseType = self._mode.split(':')[0]
+
+		if ('withCredentials' in xhr)
+			xhr.withCredentials = !!opts.withCredentials
+
+		if (self._mode === 'text' && 'overrideMimeType' in xhr)
+			xhr.overrideMimeType('text/plain; charset=x-user-defined')
+
+		if ('timeout' in opts) {
+			xhr.timeout = opts.timeout
+			xhr.ontimeout = function () {
+				self.emit('timeout')
+			}
+		}
+
+		headersList.forEach(function (header) {
+			xhr.setRequestHeader(header[0], header[1])
+		})
+
+		self._response = null
+		xhr.onreadystatechange = function () {
+			switch (xhr.readyState) {
+				case rStates.LOADING:
+				case rStates.DONE:
+					self._onXHRProgress()
+					break
+			}
+		}
+		// Necessary for streaming in Firefox, since xhr.response is ONLY defined
+		// in onprogress, not in onreadystatechange with xhr.readyState = 3
+		if (self._mode === 'moz-chunked-arraybuffer') {
+			xhr.onprogress = function () {
+				self._onXHRProgress()
+			}
+		}
+
+		xhr.onerror = function () {
+			if (self._destroyed)
+				return
+			self.emit('error', new Error('XHR error'))
+		}
+
+		try {
+			xhr.send(body)
+		} catch (err) {
+			process.nextTick(function () {
+				self.emit('error', err)
+			})
+			return
+		}
+	}
+}
+
+/**
+ * Checks if xhr.status is readable and non-zero, indicating no error.
+ * Even though the spec says it should be available in readyState 3,
+ * accessing it throws an exception in IE8
+ */
+function statusValid (xhr) {
+	try {
+		var status = xhr.status
+		return (status !== null && status !== 0)
+	} catch (e) {
+		return false
+	}
+}
+
+ClientRequest.prototype._onXHRProgress = function () {
+	var self = this
+
+	if (!statusValid(self._xhr) || self._destroyed)
+		return
+
+	if (!self._response)
+		self._connect()
+
+	self._response._onXHRProgress()
+}
+
+ClientRequest.prototype._connect = function () {
+	var self = this
+
+	if (self._destroyed)
+		return
+
+	self._response = new IncomingMessage(self._xhr, self._fetchResponse, self._mode)
+	self._response.on('error', function(err) {
+		self.emit('error', err)
+	})
+
+	self.emit('response', self._response)
+}
+
+ClientRequest.prototype._write = function (chunk, encoding, cb) {
+	var self = this
+
+	self._body.push(chunk)
+	cb()
+}
+
+ClientRequest.prototype.abort = ClientRequest.prototype.destroy = function () {
+	var self = this
+	self._destroyed = true
+	if (self._response)
+		self._response._destroyed = true
+	if (self._xhr)
+		self._xhr.abort()
+	// Currently, there isn't a way to truly abort a fetch.
+	// If you like bikeshedding, see https://github.com/whatwg/fetch/issues/27
+}
+
+ClientRequest.prototype.end = function (data, encoding, cb) {
+	var self = this
+	if (typeof data === 'function') {
+		cb = data
+		data = undefined
+	}
+
+	stream.Writable.prototype.end.call(self, data, encoding, cb)
+}
+
+ClientRequest.prototype.flushHeaders = function () {}
+ClientRequest.prototype.setTimeout = function () {}
+ClientRequest.prototype.setNoDelay = function () {}
+ClientRequest.prototype.setSocketKeepAlive = function () {}
+
+// Taken from http://www.w3.org/TR/XMLHttpRequest/#the-setrequestheader%28%29-method
+var unsafeHeaders = [
+	'accept-charset',
+	'accept-encoding',
+	'access-control-request-headers',
+	'access-control-request-method',
+	'connection',
+	'content-length',
+	'cookie',
+	'cookie2',
+	'date',
+	'dnt',
+	'expect',
+	'host',
+	'keep-alive',
+	'origin',
+	'referer',
+	'te',
+	'trailer',
+	'transfer-encoding',
+	'upgrade',
+	'user-agent',
+	'via'
+]
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6).Buffer, __webpack_require__(2), __webpack_require__(0)))
+
+/***/ }),
+/* 52 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.byteLength = byteLength
+exports.toByteArray = toByteArray
+exports.fromByteArray = fromByteArray
+
+var lookup = []
+var revLookup = []
+var Arr = typeof Uint8Array !== 'undefined' ? Uint8Array : Array
+
+var code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+for (var i = 0, len = code.length; i < len; ++i) {
+  lookup[i] = code[i]
+  revLookup[code.charCodeAt(i)] = i
+}
+
+revLookup['-'.charCodeAt(0)] = 62
+revLookup['_'.charCodeAt(0)] = 63
+
+function placeHoldersCount (b64) {
+  var len = b64.length
+  if (len % 4 > 0) {
+    throw new Error('Invalid string. Length must be a multiple of 4')
+  }
+
+  // the number of equal signs (place holders)
+  // if there are two placeholders, than the two characters before it
+  // represent one byte
+  // if there is only one, then the three characters before it represent 2 bytes
+  // this is just a cheap hack to not do indexOf twice
+  return b64[len - 2] === '=' ? 2 : b64[len - 1] === '=' ? 1 : 0
+}
+
+function byteLength (b64) {
+  // base64 is 4/3 + up to two characters of the original data
+  return (b64.length * 3 / 4) - placeHoldersCount(b64)
+}
+
+function toByteArray (b64) {
+  var i, l, tmp, placeHolders, arr
+  var len = b64.length
+  placeHolders = placeHoldersCount(b64)
+
+  arr = new Arr((len * 3 / 4) - placeHolders)
+
+  // if there are placeholders, only get up to the last complete 4 chars
+  l = placeHolders > 0 ? len - 4 : len
+
+  var L = 0
+
+  for (i = 0; i < l; i += 4) {
+    tmp = (revLookup[b64.charCodeAt(i)] << 18) | (revLookup[b64.charCodeAt(i + 1)] << 12) | (revLookup[b64.charCodeAt(i + 2)] << 6) | revLookup[b64.charCodeAt(i + 3)]
+    arr[L++] = (tmp >> 16) & 0xFF
+    arr[L++] = (tmp >> 8) & 0xFF
+    arr[L++] = tmp & 0xFF
+  }
+
+  if (placeHolders === 2) {
+    tmp = (revLookup[b64.charCodeAt(i)] << 2) | (revLookup[b64.charCodeAt(i + 1)] >> 4)
+    arr[L++] = tmp & 0xFF
+  } else if (placeHolders === 1) {
+    tmp = (revLookup[b64.charCodeAt(i)] << 10) | (revLookup[b64.charCodeAt(i + 1)] << 4) | (revLookup[b64.charCodeAt(i + 2)] >> 2)
+    arr[L++] = (tmp >> 8) & 0xFF
+    arr[L++] = tmp & 0xFF
+  }
+
+  return arr
+}
+
+function tripletToBase64 (num) {
+  return lookup[num >> 18 & 0x3F] + lookup[num >> 12 & 0x3F] + lookup[num >> 6 & 0x3F] + lookup[num & 0x3F]
+}
+
+function encodeChunk (uint8, start, end) {
+  var tmp
+  var output = []
+  for (var i = start; i < end; i += 3) {
+    tmp = (uint8[i] << 16) + (uint8[i + 1] << 8) + (uint8[i + 2])
+    output.push(tripletToBase64(tmp))
+  }
+  return output.join('')
+}
+
+function fromByteArray (uint8) {
+  var tmp
+  var len = uint8.length
+  var extraBytes = len % 3 // if we have 1 byte left, pad 2 bytes
+  var output = ''
+  var parts = []
+  var maxChunkLength = 16383 // must be multiple of 3
+
+  // go through the array every three bytes, we'll deal with trailing stuff later
+  for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
+    parts.push(encodeChunk(uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)))
+  }
+
+  // pad the end with zeros, but make sure to not forget the extra bytes
+  if (extraBytes === 1) {
+    tmp = uint8[len - 1]
+    output += lookup[tmp >> 2]
+    output += lookup[(tmp << 4) & 0x3F]
+    output += '=='
+  } else if (extraBytes === 2) {
+    tmp = (uint8[len - 2] << 8) + (uint8[len - 1])
+    output += lookup[tmp >> 10]
+    output += lookup[(tmp >> 4) & 0x3F]
+    output += lookup[(tmp << 2) & 0x3F]
+    output += '='
+  }
+
+  parts.push(output)
+
+  return parts.join('')
+}
+
+
+/***/ }),
+/* 53 */
+/***/ (function(module, exports) {
+
+exports.read = function (buffer, offset, isLE, mLen, nBytes) {
+  var e, m
+  var eLen = nBytes * 8 - mLen - 1
+  var eMax = (1 << eLen) - 1
+  var eBias = eMax >> 1
+  var nBits = -7
+  var i = isLE ? (nBytes - 1) : 0
+  var d = isLE ? -1 : 1
+  var s = buffer[offset + i]
+
+  i += d
+
+  e = s & ((1 << (-nBits)) - 1)
+  s >>= (-nBits)
+  nBits += eLen
+  for (; nBits > 0; e = e * 256 + buffer[offset + i], i += d, nBits -= 8) {}
+
+  m = e & ((1 << (-nBits)) - 1)
+  e >>= (-nBits)
+  nBits += mLen
+  for (; nBits > 0; m = m * 256 + buffer[offset + i], i += d, nBits -= 8) {}
+
+  if (e === 0) {
+    e = 1 - eBias
+  } else if (e === eMax) {
+    return m ? NaN : ((s ? -1 : 1) * Infinity)
+  } else {
+    m = m + Math.pow(2, mLen)
+    e = e - eBias
+  }
+  return (s ? -1 : 1) * m * Math.pow(2, e - mLen)
+}
+
+exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
+  var e, m, c
+  var eLen = nBytes * 8 - mLen - 1
+  var eMax = (1 << eLen) - 1
+  var eBias = eMax >> 1
+  var rt = (mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0)
+  var i = isLE ? 0 : (nBytes - 1)
+  var d = isLE ? 1 : -1
+  var s = value < 0 || (value === 0 && 1 / value < 0) ? 1 : 0
+
+  value = Math.abs(value)
+
+  if (isNaN(value) || value === Infinity) {
+    m = isNaN(value) ? 1 : 0
+    e = eMax
+  } else {
+    e = Math.floor(Math.log(value) / Math.LN2)
+    if (value * (c = Math.pow(2, -e)) < 1) {
+      e--
+      c *= 2
+    }
+    if (e + eBias >= 1) {
+      value += rt / c
+    } else {
+      value += rt * Math.pow(2, 1 - eBias)
+    }
+    if (value * c >= 2) {
+      e++
+      c /= 2
+    }
+
+    if (e + eBias >= eMax) {
+      m = 0
+      e = eMax
+    } else if (e + eBias >= 1) {
+      m = (value * c - 1) * Math.pow(2, mLen)
+      e = e + eBias
+    } else {
+      m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen)
+      e = 0
+    }
+  }
+
+  for (; mLen >= 8; buffer[offset + i] = m & 0xff, i += d, m /= 256, mLen -= 8) {}
+
+  e = (e << mLen) | m
+  eLen += mLen
+  for (; eLen > 0; buffer[offset + i] = e & 0xff, i += d, e /= 256, eLen -= 8) {}
+
+  buffer[offset + i - d] |= s * 128
+}
+
+
+/***/ }),
+/* 54 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(process, Buffer, global) {var capability = __webpack_require__(24)
+var inherits = __webpack_require__(3)
+var stream = __webpack_require__(25)
+
+var rStates = exports.readyStates = {
+	UNSENT: 0,
+	OPENED: 1,
+	HEADERS_RECEIVED: 2,
+	LOADING: 3,
+	DONE: 4
+}
+
+var IncomingMessage = exports.IncomingMessage = function (xhr, response, mode) {
+	var self = this
+	stream.Readable.call(self)
+
+	self._mode = mode
+	self.headers = {}
+	self.rawHeaders = []
+	self.trailers = {}
+	self.rawTrailers = []
+
+	// Fake the 'close' event, but only once 'end' fires
+	self.on('end', function () {
+		// The nextTick is necessary to prevent the 'request' module from causing an infinite loop
+		process.nextTick(function () {
+			self.emit('close')
+		})
+	})
+
+	if (mode === 'fetch') {
+		self._fetchResponse = response
+
+		self.url = response.url
+		self.statusCode = response.status
+		self.statusMessage = response.statusText
+		
+		response.headers.forEach(function(header, key){
+			self.headers[key.toLowerCase()] = header
+			self.rawHeaders.push(key, header)
+		})
+
+
+		// TODO: this doesn't respect backpressure. Once WritableStream is available, this can be fixed
+		var reader = response.body.getReader()
+		function read () {
+			reader.read().then(function (result) {
+				if (self._destroyed)
+					return
+				if (result.done) {
+					self.push(null)
+					return
+				}
+				self.push(new Buffer(result.value))
+				read()
+			}).catch(function(err) {
+				self.emit('error', err)
+			})
+		}
+		read()
+
+	} else {
+		self._xhr = xhr
+		self._pos = 0
+
+		self.url = xhr.responseURL
+		self.statusCode = xhr.status
+		self.statusMessage = xhr.statusText
+		var headers = xhr.getAllResponseHeaders().split(/\r?\n/)
+		headers.forEach(function (header) {
+			var matches = header.match(/^([^:]+):\s*(.*)/)
+			if (matches) {
+				var key = matches[1].toLowerCase()
+				if (key === 'set-cookie') {
+					if (self.headers[key] === undefined) {
+						self.headers[key] = []
+					}
+					self.headers[key].push(matches[2])
+				} else if (self.headers[key] !== undefined) {
+					self.headers[key] += ', ' + matches[2]
+				} else {
+					self.headers[key] = matches[2]
+				}
+				self.rawHeaders.push(matches[1], matches[2])
+			}
+		})
+
+		self._charset = 'x-user-defined'
+		if (!capability.overrideMimeType) {
+			var mimeType = self.rawHeaders['mime-type']
+			if (mimeType) {
+				var charsetMatch = mimeType.match(/;\s*charset=([^;])(;|$)/)
+				if (charsetMatch) {
+					self._charset = charsetMatch[1].toLowerCase()
+				}
+			}
+			if (!self._charset)
+				self._charset = 'utf-8' // best guess
+		}
+	}
+}
+
+inherits(IncomingMessage, stream.Readable)
+
+IncomingMessage.prototype._read = function () {}
+
+IncomingMessage.prototype._onXHRProgress = function () {
+	var self = this
+
+	var xhr = self._xhr
+
+	var response = null
+	switch (self._mode) {
+		case 'text:vbarray': // For IE9
+			if (xhr.readyState !== rStates.DONE)
+				break
+			try {
+				// This fails in IE8
+				response = new global.VBArray(xhr.responseBody).toArray()
+			} catch (e) {}
+			if (response !== null) {
+				self.push(new Buffer(response))
+				break
+			}
+			// Falls through in IE8	
+		case 'text':
+			try { // This will fail when readyState = 3 in IE9. Switch mode and wait for readyState = 4
+				response = xhr.responseText
+			} catch (e) {
+				self._mode = 'text:vbarray'
+				break
+			}
+			if (response.length > self._pos) {
+				var newData = response.substr(self._pos)
+				if (self._charset === 'x-user-defined') {
+					var buffer = new Buffer(newData.length)
+					for (var i = 0; i < newData.length; i++)
+						buffer[i] = newData.charCodeAt(i) & 0xff
+
+					self.push(buffer)
+				} else {
+					self.push(newData, self._charset)
+				}
+				self._pos = response.length
+			}
+			break
+		case 'arraybuffer':
+			if (xhr.readyState !== rStates.DONE || !xhr.response)
+				break
+			response = xhr.response
+			self.push(new Buffer(new Uint8Array(response)))
+			break
+		case 'moz-chunked-arraybuffer': // take whole
+			response = xhr.response
+			if (xhr.readyState !== rStates.LOADING || !response)
+				break
+			self.push(new Buffer(new Uint8Array(response)))
+			break
+		case 'ms-stream':
+			response = xhr.response
+			if (xhr.readyState !== rStates.LOADING)
+				break
+			var reader = new global.MSStreamReader()
+			reader.onprogress = function () {
+				if (reader.result.byteLength > self._pos) {
+					self.push(new Buffer(new Uint8Array(reader.result.slice(self._pos))))
+					self._pos = reader.result.byteLength
+				}
+			}
+			reader.onload = function () {
+				self.push(null)
+			}
+			// reader.onerror = ??? // TODO: this
+			reader.readAsArrayBuffer(response)
+			break
+	}
+
+	// The ms-stream case handles end separately in reader.onload()
+	if (self._xhr.readyState === rStates.DONE && self._mode !== 'ms-stream') {
+		self.push(null)
+	}
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(6).Buffer, __webpack_require__(2)))
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports) {
+
+/* (ignored) */
+
+/***/ }),
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/*<replacement>*/
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Buffer = __webpack_require__(10).Buffer;
+/*</replacement>*/
+
+function copyBuffer(src, target, offset) {
+  src.copy(target, offset);
+}
+
+module.exports = function () {
+  function BufferList() {
+    _classCallCheck(this, BufferList);
+
+    this.head = null;
+    this.tail = null;
+    this.length = 0;
+  }
+
+  BufferList.prototype.push = function push(v) {
+    var entry = { data: v, next: null };
+    if (this.length > 0) this.tail.next = entry;else this.head = entry;
+    this.tail = entry;
+    ++this.length;
+  };
+
+  BufferList.prototype.unshift = function unshift(v) {
+    var entry = { data: v, next: this.head };
+    if (this.length === 0) this.tail = entry;
+    this.head = entry;
+    ++this.length;
+  };
+
+  BufferList.prototype.shift = function shift() {
+    if (this.length === 0) return;
+    var ret = this.head.data;
+    if (this.length === 1) this.head = this.tail = null;else this.head = this.head.next;
+    --this.length;
+    return ret;
+  };
+
+  BufferList.prototype.clear = function clear() {
+    this.head = this.tail = null;
+    this.length = 0;
+  };
+
+  BufferList.prototype.join = function join(s) {
+    if (this.length === 0) return '';
+    var p = this.head;
+    var ret = '' + p.data;
+    while (p = p.next) {
+      ret += s + p.data;
+    }return ret;
+  };
+
+  BufferList.prototype.concat = function concat(n) {
+    if (this.length === 0) return Buffer.alloc(0);
+    if (this.length === 1) return this.head.data;
+    var ret = Buffer.allocUnsafe(n >>> 0);
+    var p = this.head;
+    var i = 0;
+    while (p) {
+      copyBuffer(p.data, ret, i);
+      i += p.data.length;
+      p = p.next;
+    }
+    return ret;
+  };
+
+  return BufferList;
+}();
+
+/***/ }),
+/* 57 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var apply = Function.prototype.apply;
+
+// DOM APIs, for completeness
+
+exports.setTimeout = function() {
+  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
+};
+exports.setInterval = function() {
+  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
+};
+exports.clearTimeout =
+exports.clearInterval = function(timeout) {
+  if (timeout) {
+    timeout.close();
+  }
+};
+
+function Timeout(id, clearFn) {
+  this._id = id;
+  this._clearFn = clearFn;
+}
+Timeout.prototype.unref = Timeout.prototype.ref = function() {};
+Timeout.prototype.close = function() {
+  this._clearFn.call(window, this._id);
+};
+
+// Does not start the time, just sets up the members needed.
+exports.enroll = function(item, msecs) {
+  clearTimeout(item._idleTimeoutId);
+  item._idleTimeout = msecs;
+};
+
+exports.unenroll = function(item) {
+  clearTimeout(item._idleTimeoutId);
+  item._idleTimeout = -1;
+};
+
+exports._unrefActive = exports.active = function(item) {
+  clearTimeout(item._idleTimeoutId);
+
+  var msecs = item._idleTimeout;
+  if (msecs >= 0) {
+    item._idleTimeoutId = setTimeout(function onTimeout() {
+      if (item._onTimeout)
+        item._onTimeout();
+    }, msecs);
+  }
+};
+
+// setimmediate attaches itself to the global object
+__webpack_require__(58);
+exports.setImmediate = setImmediate;
+exports.clearImmediate = clearImmediate;
+
+
+/***/ }),
+/* 58 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
+    "use strict";
+
+    if (global.setImmediate) {
+        return;
+    }
+
+    var nextHandle = 1; // Spec says greater than zero
+    var tasksByHandle = {};
+    var currentlyRunningATask = false;
+    var doc = global.document;
+    var registerImmediate;
+
+    function setImmediate(callback) {
+      // Callback can either be a function or a string
+      if (typeof callback !== "function") {
+        callback = new Function("" + callback);
+      }
+      // Copy function arguments
+      var args = new Array(arguments.length - 1);
+      for (var i = 0; i < args.length; i++) {
+          args[i] = arguments[i + 1];
+      }
+      // Store and register the task
+      var task = { callback: callback, args: args };
+      tasksByHandle[nextHandle] = task;
+      registerImmediate(nextHandle);
+      return nextHandle++;
+    }
+
+    function clearImmediate(handle) {
+        delete tasksByHandle[handle];
+    }
+
+    function run(task) {
+        var callback = task.callback;
+        var args = task.args;
+        switch (args.length) {
+        case 0:
+            callback();
+            break;
+        case 1:
+            callback(args[0]);
+            break;
+        case 2:
+            callback(args[0], args[1]);
+            break;
+        case 3:
+            callback(args[0], args[1], args[2]);
+            break;
+        default:
+            callback.apply(undefined, args);
+            break;
+        }
+    }
+
+    function runIfPresent(handle) {
+        // From the spec: "Wait until any invocations of this algorithm started before this one have completed."
+        // So if we're currently running a task, we'll need to delay this invocation.
+        if (currentlyRunningATask) {
+            // Delay by doing a setTimeout. setImmediate was tried instead, but in Firefox 7 it generated a
+            // "too much recursion" error.
+            setTimeout(runIfPresent, 0, handle);
+        } else {
+            var task = tasksByHandle[handle];
+            if (task) {
+                currentlyRunningATask = true;
+                try {
+                    run(task);
+                } finally {
+                    clearImmediate(handle);
+                    currentlyRunningATask = false;
+                }
+            }
+        }
+    }
+
+    function installNextTickImplementation() {
+        registerImmediate = function(handle) {
+            process.nextTick(function () { runIfPresent(handle); });
+        };
+    }
+
+    function canUsePostMessage() {
+        // The test against `importScripts` prevents this implementation from being installed inside a web worker,
+        // where `global.postMessage` means something completely different and can't be used for this purpose.
+        if (global.postMessage && !global.importScripts) {
+            var postMessageIsAsynchronous = true;
+            var oldOnMessage = global.onmessage;
+            global.onmessage = function() {
+                postMessageIsAsynchronous = false;
+            };
+            global.postMessage("", "*");
+            global.onmessage = oldOnMessage;
+            return postMessageIsAsynchronous;
+        }
+    }
+
+    function installPostMessageImplementation() {
+        // Installs an event handler on `global` for the `message` event: see
+        // * https://developer.mozilla.org/en/DOM/window.postMessage
+        // * http://www.whatwg.org/specs/web-apps/current-work/multipage/comms.html#crossDocumentMessages
+
+        var messagePrefix = "setImmediate$" + Math.random() + "$";
+        var onGlobalMessage = function(event) {
+            if (event.source === global &&
+                typeof event.data === "string" &&
+                event.data.indexOf(messagePrefix) === 0) {
+                runIfPresent(+event.data.slice(messagePrefix.length));
+            }
+        };
+
+        if (global.addEventListener) {
+            global.addEventListener("message", onGlobalMessage, false);
+        } else {
+            global.attachEvent("onmessage", onGlobalMessage);
+        }
+
+        registerImmediate = function(handle) {
+            global.postMessage(messagePrefix + handle, "*");
+        };
+    }
+
+    function installMessageChannelImplementation() {
+        var channel = new MessageChannel();
+        channel.port1.onmessage = function(event) {
+            var handle = event.data;
+            runIfPresent(handle);
+        };
+
+        registerImmediate = function(handle) {
+            channel.port2.postMessage(handle);
+        };
+    }
+
+    function installReadyStateChangeImplementation() {
+        var html = doc.documentElement;
+        registerImmediate = function(handle) {
+            // Create a <script> element; its readystatechange event will be fired asynchronously once it is inserted
+            // into the document. Do so, thus queuing up the task. Remember to clean up once it's been called.
+            var script = doc.createElement("script");
+            script.onreadystatechange = function () {
+                runIfPresent(handle);
+                script.onreadystatechange = null;
+                html.removeChild(script);
+                script = null;
+            };
+            html.appendChild(script);
+        };
+    }
+
+    function installSetTimeoutImplementation() {
+        registerImmediate = function(handle) {
+            setTimeout(runIfPresent, 0, handle);
+        };
+    }
+
+    // If supported, we should attach to the prototype of global, since that is where setTimeout et al. live.
+    var attachTo = Object.getPrototypeOf && Object.getPrototypeOf(global);
+    attachTo = attachTo && attachTo.setTimeout ? attachTo : global;
+
+    // Don't get fooled by e.g. browserify environments.
+    if ({}.toString.call(global.process) === "[object process]") {
+        // For Node.js before 0.9
+        installNextTickImplementation();
+
+    } else if (canUsePostMessage()) {
+        // For non-IE10 modern browsers
+        installPostMessageImplementation();
+
+    } else if (global.MessageChannel) {
+        // For web workers, where supported
+        installMessageChannelImplementation();
+
+    } else if (doc && "onreadystatechange" in doc.createElement("script")) {
+        // For IE 6–8
+        installReadyStateChangeImplementation();
+
+    } else {
+        // For older browsers
+        installSetTimeoutImplementation();
+    }
+
+    attachTo.setImmediate = setImmediate;
+    attachTo.clearImmediate = clearImmediate;
+}(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(0)))
+
+/***/ }),
+/* 59 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {
+/**
+ * Module exports.
+ */
+
+module.exports = deprecate;
+
+/**
+ * Mark that a method should not be used.
+ * Returns a modified function which warns once by default.
+ *
+ * If `localStorage.noDeprecation = true` is set, then it is a no-op.
+ *
+ * If `localStorage.throwDeprecation = true` is set, then deprecated functions
+ * will throw an Error when invoked.
+ *
+ * If `localStorage.traceDeprecation = true` is set, then deprecated functions
+ * will invoke `console.trace()` instead of `console.error()`.
+ *
+ * @param {Function} fn - the function to deprecate
+ * @param {String} msg - the string to print to the console when `fn` is invoked
+ * @returns {Function} a new "deprecated" version of `fn`
+ * @api public
+ */
+
+function deprecate (fn, msg) {
+  if (config('noDeprecation')) {
+    return fn;
+  }
+
+  var warned = false;
+  function deprecated() {
+    if (!warned) {
+      if (config('throwDeprecation')) {
+        throw new Error(msg);
+      } else if (config('traceDeprecation')) {
+        console.trace(msg);
+      } else {
+        console.warn(msg);
+      }
+      warned = true;
+    }
+    return fn.apply(this, arguments);
+  }
+
+  return deprecated;
+}
+
+/**
+ * Checks `localStorage` for boolean values for the given `name`.
+ *
+ * @param {String} name
+ * @returns {Boolean}
+ * @api private
+ */
+
+function config (name) {
+  // accessing global.localStorage can trigger a DOMException in sandboxed iframes
+  try {
+    if (!global.localStorage) return false;
+  } catch (_) {
+    return false;
+  }
+  var val = global.localStorage[name];
+  if (null == val) return false;
+  return String(val).toLowerCase() === 'true';
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+
+/***/ }),
+/* 60 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+// a passthrough stream.
+// basically just the most minimal sort of Transform stream.
+// Every written chunk gets output as-is.
+
+
+
+module.exports = PassThrough;
+
+var Transform = __webpack_require__(32);
+
+/*<replacement>*/
+var util = __webpack_require__(7);
+util.inherits = __webpack_require__(3);
+/*</replacement>*/
+
+util.inherits(PassThrough, Transform);
+
+function PassThrough(options) {
+  if (!(this instanceof PassThrough)) return new PassThrough(options);
+
+  Transform.call(this, options);
+}
+
+PassThrough.prototype._transform = function (chunk, encoding, cb) {
+  cb(null, chunk);
+};
+
+/***/ }),
+/* 61 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Buffer = __webpack_require__(6).Buffer
+
+module.exports = function (buf) {
+	// If the buffer is backed by a Uint8Array, a faster version will work
+	if (buf instanceof Uint8Array) {
+		// If the buffer isn't a subarray, return the underlying ArrayBuffer
+		if (buf.byteOffset === 0 && buf.byteLength === buf.buffer.byteLength) {
+			return buf.buffer
+		} else if (typeof buf.buffer.slice === 'function') {
+			// Otherwise we need to get a proper copy
+			return buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength)
+		}
+	}
+
+	if (Buffer.isBuffer(buf)) {
+		// This is the slow version that will work with any Buffer
+		// implementation (even in old browsers)
+		var arrayCopy = new Uint8Array(buf.length)
+		var len = buf.length
+		for (var i = 0; i < len; i++) {
+			arrayCopy[i] = buf[i]
+		}
+		return arrayCopy.buffer
+	} else {
+		throw new Error('Argument must be a Buffer')
+	}
+}
+
+
+/***/ }),
+/* 62 */
+/***/ (function(module, exports) {
+
+module.exports = extend
+
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+
+function extend() {
+    var target = {}
+
+    for (var i = 0; i < arguments.length; i++) {
+        var source = arguments[i]
+
+        for (var key in source) {
+            if (hasOwnProperty.call(source, key)) {
+                target[key] = source[key]
+            }
+        }
+    }
+
+    return target
+}
+
+
+/***/ }),
+/* 63 */
+/***/ (function(module, exports) {
+
+module.exports = {
+  "100": "Continue",
+  "101": "Switching Protocols",
+  "102": "Processing",
+  "200": "OK",
+  "201": "Created",
+  "202": "Accepted",
+  "203": "Non-Authoritative Information",
+  "204": "No Content",
+  "205": "Reset Content",
+  "206": "Partial Content",
+  "207": "Multi-Status",
+  "208": "Already Reported",
+  "226": "IM Used",
+  "300": "Multiple Choices",
+  "301": "Moved Permanently",
+  "302": "Found",
+  "303": "See Other",
+  "304": "Not Modified",
+  "305": "Use Proxy",
+  "307": "Temporary Redirect",
+  "308": "Permanent Redirect",
+  "400": "Bad Request",
+  "401": "Unauthorized",
+  "402": "Payment Required",
+  "403": "Forbidden",
+  "404": "Not Found",
+  "405": "Method Not Allowed",
+  "406": "Not Acceptable",
+  "407": "Proxy Authentication Required",
+  "408": "Request Timeout",
+  "409": "Conflict",
+  "410": "Gone",
+  "411": "Length Required",
+  "412": "Precondition Failed",
+  "413": "Payload Too Large",
+  "414": "URI Too Long",
+  "415": "Unsupported Media Type",
+  "416": "Range Not Satisfiable",
+  "417": "Expectation Failed",
+  "418": "I'm a teapot",
+  "421": "Misdirected Request",
+  "422": "Unprocessable Entity",
+  "423": "Locked",
+  "424": "Failed Dependency",
+  "425": "Unordered Collection",
+  "426": "Upgrade Required",
+  "428": "Precondition Required",
+  "429": "Too Many Requests",
+  "431": "Request Header Fields Too Large",
+  "451": "Unavailable For Legal Reasons",
+  "500": "Internal Server Error",
+  "501": "Not Implemented",
+  "502": "Bad Gateway",
+  "503": "Service Unavailable",
+  "504": "Gateway Timeout",
+  "505": "HTTP Version Not Supported",
+  "506": "Variant Also Negotiates",
+  "507": "Insufficient Storage",
+  "508": "Loop Detected",
+  "509": "Bandwidth Limit Exceeded",
+  "510": "Not Extended",
+  "511": "Network Authentication Required"
+}
+
+
+/***/ }),
+/* 64 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+
+var punycode = __webpack_require__(65);
+var util = __webpack_require__(67);
+
+exports.parse = urlParse;
+exports.resolve = urlResolve;
+exports.resolveObject = urlResolveObject;
+exports.format = urlFormat;
+
+exports.Url = Url;
+
+function Url() {
+  this.protocol = null;
+  this.slashes = null;
+  this.auth = null;
+  this.host = null;
+  this.port = null;
+  this.hostname = null;
+  this.hash = null;
+  this.search = null;
+  this.query = null;
+  this.pathname = null;
+  this.path = null;
+  this.href = null;
+}
+
+// Reference: RFC 3986, RFC 1808, RFC 2396
+
+// define these here so at least they only have to be
+// compiled once on the first module load.
+var protocolPattern = /^([a-z0-9.+-]+:)/i,
+    portPattern = /:[0-9]*$/,
+
+    // Special case for a simple path URL
+    simplePathPattern = /^(\/\/?(?!\/)[^\?\s]*)(\?[^\s]*)?$/,
+
+    // RFC 2396: characters reserved for delimiting URLs.
+    // We actually just auto-escape these.
+    delims = ['<', '>', '"', '`', ' ', '\r', '\n', '\t'],
+
+    // RFC 2396: characters not allowed for various reasons.
+    unwise = ['{', '}', '|', '\\', '^', '`'].concat(delims),
+
+    // Allowed by RFCs, but cause of XSS attacks.  Always escape these.
+    autoEscape = ['\''].concat(unwise),
+    // Characters that are never ever allowed in a hostname.
+    // Note that any invalid chars are also handled, but these
+    // are the ones that are *expected* to be seen, so we fast-path
+    // them.
+    nonHostChars = ['%', '/', '?', ';', '#'].concat(autoEscape),
+    hostEndingChars = ['/', '?', '#'],
+    hostnameMaxLen = 255,
+    hostnamePartPattern = /^[+a-z0-9A-Z_-]{0,63}$/,
+    hostnamePartStart = /^([+a-z0-9A-Z_-]{0,63})(.*)$/,
+    // protocols that can allow "unsafe" and "unwise" chars.
+    unsafeProtocol = {
+      'javascript': true,
+      'javascript:': true
+    },
+    // protocols that never have a hostname.
+    hostlessProtocol = {
+      'javascript': true,
+      'javascript:': true
+    },
+    // protocols that always contain a // bit.
+    slashedProtocol = {
+      'http': true,
+      'https': true,
+      'ftp': true,
+      'gopher': true,
+      'file': true,
+      'http:': true,
+      'https:': true,
+      'ftp:': true,
+      'gopher:': true,
+      'file:': true
+    },
+    querystring = __webpack_require__(68);
+
+function urlParse(url, parseQueryString, slashesDenoteHost) {
+  if (url && util.isObject(url) && url instanceof Url) return url;
+
+  var u = new Url;
+  u.parse(url, parseQueryString, slashesDenoteHost);
+  return u;
+}
+
+Url.prototype.parse = function(url, parseQueryString, slashesDenoteHost) {
+  if (!util.isString(url)) {
+    throw new TypeError("Parameter 'url' must be a string, not " + typeof url);
+  }
+
+  // Copy chrome, IE, opera backslash-handling behavior.
+  // Back slashes before the query string get converted to forward slashes
+  // See: https://code.google.com/p/chromium/issues/detail?id=25916
+  var queryIndex = url.indexOf('?'),
+      splitter =
+          (queryIndex !== -1 && queryIndex < url.indexOf('#')) ? '?' : '#',
+      uSplit = url.split(splitter),
+      slashRegex = /\\/g;
+  uSplit[0] = uSplit[0].replace(slashRegex, '/');
+  url = uSplit.join(splitter);
+
+  var rest = url;
+
+  // trim before proceeding.
+  // This is to support parse stuff like "  http://foo.com  \n"
+  rest = rest.trim();
+
+  if (!slashesDenoteHost && url.split('#').length === 1) {
+    // Try fast path regexp
+    var simplePath = simplePathPattern.exec(rest);
+    if (simplePath) {
+      this.path = rest;
+      this.href = rest;
+      this.pathname = simplePath[1];
+      if (simplePath[2]) {
+        this.search = simplePath[2];
+        if (parseQueryString) {
+          this.query = querystring.parse(this.search.substr(1));
+        } else {
+          this.query = this.search.substr(1);
+        }
+      } else if (parseQueryString) {
+        this.search = '';
+        this.query = {};
+      }
+      return this;
+    }
+  }
+
+  var proto = protocolPattern.exec(rest);
+  if (proto) {
+    proto = proto[0];
+    var lowerProto = proto.toLowerCase();
+    this.protocol = lowerProto;
+    rest = rest.substr(proto.length);
+  }
+
+  // figure out if it's got a host
+  // user@server is *always* interpreted as a hostname, and url
+  // resolution will treat //foo/bar as host=foo,path=bar because that's
+  // how the browser resolves relative URLs.
+  if (slashesDenoteHost || proto || rest.match(/^\/\/[^@\/]+@[^@\/]+/)) {
+    var slashes = rest.substr(0, 2) === '//';
+    if (slashes && !(proto && hostlessProtocol[proto])) {
+      rest = rest.substr(2);
+      this.slashes = true;
+    }
+  }
+
+  if (!hostlessProtocol[proto] &&
+      (slashes || (proto && !slashedProtocol[proto]))) {
+
+    // there's a hostname.
+    // the first instance of /, ?, ;, or # ends the host.
+    //
+    // If there is an @ in the hostname, then non-host chars *are* allowed
+    // to the left of the last @ sign, unless some host-ending character
+    // comes *before* the @-sign.
+    // URLs are obnoxious.
+    //
+    // ex:
+    // http://a@b@c/ => user:a@b host:c
+    // http://a@b?@c => user:a host:c path:/?@c
+
+    // v0.12 TODO(isaacs): This is not quite how Chrome does things.
+    // Review our test case against browsers more comprehensively.
+
+    // find the first instance of any hostEndingChars
+    var hostEnd = -1;
+    for (var i = 0; i < hostEndingChars.length; i++) {
+      var hec = rest.indexOf(hostEndingChars[i]);
+      if (hec !== -1 && (hostEnd === -1 || hec < hostEnd))
+        hostEnd = hec;
+    }
+
+    // at this point, either we have an explicit point where the
+    // auth portion cannot go past, or the last @ char is the decider.
+    var auth, atSign;
+    if (hostEnd === -1) {
+      // atSign can be anywhere.
+      atSign = rest.lastIndexOf('@');
+    } else {
+      // atSign must be in auth portion.
+      // http://a@b/c@d => host:b auth:a path:/c@d
+      atSign = rest.lastIndexOf('@', hostEnd);
+    }
+
+    // Now we have a portion which is definitely the auth.
+    // Pull that off.
+    if (atSign !== -1) {
+      auth = rest.slice(0, atSign);
+      rest = rest.slice(atSign + 1);
+      this.auth = decodeURIComponent(auth);
+    }
+
+    // the host is the remaining to the left of the first non-host char
+    hostEnd = -1;
+    for (var i = 0; i < nonHostChars.length; i++) {
+      var hec = rest.indexOf(nonHostChars[i]);
+      if (hec !== -1 && (hostEnd === -1 || hec < hostEnd))
+        hostEnd = hec;
+    }
+    // if we still have not hit it, then the entire thing is a host.
+    if (hostEnd === -1)
+      hostEnd = rest.length;
+
+    this.host = rest.slice(0, hostEnd);
+    rest = rest.slice(hostEnd);
+
+    // pull out port.
+    this.parseHost();
+
+    // we've indicated that there is a hostname,
+    // so even if it's empty, it has to be present.
+    this.hostname = this.hostname || '';
+
+    // if hostname begins with [ and ends with ]
+    // assume that it's an IPv6 address.
+    var ipv6Hostname = this.hostname[0] === '[' &&
+        this.hostname[this.hostname.length - 1] === ']';
+
+    // validate a little.
+    if (!ipv6Hostname) {
+      var hostparts = this.hostname.split(/\./);
+      for (var i = 0, l = hostparts.length; i < l; i++) {
+        var part = hostparts[i];
+        if (!part) continue;
+        if (!part.match(hostnamePartPattern)) {
+          var newpart = '';
+          for (var j = 0, k = part.length; j < k; j++) {
+            if (part.charCodeAt(j) > 127) {
+              // we replace non-ASCII char with a temporary placeholder
+              // we need this to make sure size of hostname is not
+              // broken by replacing non-ASCII by nothing
+              newpart += 'x';
+            } else {
+              newpart += part[j];
+            }
+          }
+          // we test again with ASCII char only
+          if (!newpart.match(hostnamePartPattern)) {
+            var validParts = hostparts.slice(0, i);
+            var notHost = hostparts.slice(i + 1);
+            var bit = part.match(hostnamePartStart);
+            if (bit) {
+              validParts.push(bit[1]);
+              notHost.unshift(bit[2]);
+            }
+            if (notHost.length) {
+              rest = '/' + notHost.join('.') + rest;
+            }
+            this.hostname = validParts.join('.');
+            break;
+          }
+        }
+      }
+    }
+
+    if (this.hostname.length > hostnameMaxLen) {
+      this.hostname = '';
+    } else {
+      // hostnames are always lower case.
+      this.hostname = this.hostname.toLowerCase();
+    }
+
+    if (!ipv6Hostname) {
+      // IDNA Support: Returns a punycoded representation of "domain".
+      // It only converts parts of the domain name that
+      // have non-ASCII characters, i.e. it doesn't matter if
+      // you call it with a domain that already is ASCII-only.
+      this.hostname = punycode.toASCII(this.hostname);
+    }
+
+    var p = this.port ? ':' + this.port : '';
+    var h = this.hostname || '';
+    this.host = h + p;
+    this.href += this.host;
+
+    // strip [ and ] from the hostname
+    // the host field still retains them, though
+    if (ipv6Hostname) {
+      this.hostname = this.hostname.substr(1, this.hostname.length - 2);
+      if (rest[0] !== '/') {
+        rest = '/' + rest;
+      }
+    }
+  }
+
+  // now rest is set to the post-host stuff.
+  // chop off any delim chars.
+  if (!unsafeProtocol[lowerProto]) {
+
+    // First, make 100% sure that any "autoEscape" chars get
+    // escaped, even if encodeURIComponent doesn't think they
+    // need to be.
+    for (var i = 0, l = autoEscape.length; i < l; i++) {
+      var ae = autoEscape[i];
+      if (rest.indexOf(ae) === -1)
+        continue;
+      var esc = encodeURIComponent(ae);
+      if (esc === ae) {
+        esc = escape(ae);
+      }
+      rest = rest.split(ae).join(esc);
+    }
+  }
+
+
+  // chop off from the tail first.
+  var hash = rest.indexOf('#');
+  if (hash !== -1) {
+    // got a fragment string.
+    this.hash = rest.substr(hash);
+    rest = rest.slice(0, hash);
+  }
+  var qm = rest.indexOf('?');
+  if (qm !== -1) {
+    this.search = rest.substr(qm);
+    this.query = rest.substr(qm + 1);
+    if (parseQueryString) {
+      this.query = querystring.parse(this.query);
+    }
+    rest = rest.slice(0, qm);
+  } else if (parseQueryString) {
+    // no query string, but parseQueryString still requested
+    this.search = '';
+    this.query = {};
+  }
+  if (rest) this.pathname = rest;
+  if (slashedProtocol[lowerProto] &&
+      this.hostname && !this.pathname) {
+    this.pathname = '/';
+  }
+
+  //to support http.request
+  if (this.pathname || this.search) {
+    var p = this.pathname || '';
+    var s = this.search || '';
+    this.path = p + s;
+  }
+
+  // finally, reconstruct the href based on what has been validated.
+  this.href = this.format();
+  return this;
+};
+
+// format a parsed object into a url string
+function urlFormat(obj) {
+  // ensure it's an object, and not a string url.
+  // If it's an obj, this is a no-op.
+  // this way, you can call url_format() on strings
+  // to clean up potentially wonky urls.
+  if (util.isString(obj)) obj = urlParse(obj);
+  if (!(obj instanceof Url)) return Url.prototype.format.call(obj);
+  return obj.format();
+}
+
+Url.prototype.format = function() {
+  var auth = this.auth || '';
+  if (auth) {
+    auth = encodeURIComponent(auth);
+    auth = auth.replace(/%3A/i, ':');
+    auth += '@';
+  }
+
+  var protocol = this.protocol || '',
+      pathname = this.pathname || '',
+      hash = this.hash || '',
+      host = false,
+      query = '';
+
+  if (this.host) {
+    host = auth + this.host;
+  } else if (this.hostname) {
+    host = auth + (this.hostname.indexOf(':') === -1 ?
+        this.hostname :
+        '[' + this.hostname + ']');
+    if (this.port) {
+      host += ':' + this.port;
+    }
+  }
+
+  if (this.query &&
+      util.isObject(this.query) &&
+      Object.keys(this.query).length) {
+    query = querystring.stringify(this.query);
+  }
+
+  var search = this.search || (query && ('?' + query)) || '';
+
+  if (protocol && protocol.substr(-1) !== ':') protocol += ':';
+
+  // only the slashedProtocols get the //.  Not mailto:, xmpp:, etc.
+  // unless they had them to begin with.
+  if (this.slashes ||
+      (!protocol || slashedProtocol[protocol]) && host !== false) {
+    host = '//' + (host || '');
+    if (pathname && pathname.charAt(0) !== '/') pathname = '/' + pathname;
+  } else if (!host) {
+    host = '';
+  }
+
+  if (hash && hash.charAt(0) !== '#') hash = '#' + hash;
+  if (search && search.charAt(0) !== '?') search = '?' + search;
+
+  pathname = pathname.replace(/[?#]/g, function(match) {
+    return encodeURIComponent(match);
+  });
+  search = search.replace('#', '%23');
+
+  return protocol + host + pathname + search + hash;
+};
+
+function urlResolve(source, relative) {
+  return urlParse(source, false, true).resolve(relative);
+}
+
+Url.prototype.resolve = function(relative) {
+  return this.resolveObject(urlParse(relative, false, true)).format();
+};
+
+function urlResolveObject(source, relative) {
+  if (!source) return relative;
+  return urlParse(source, false, true).resolveObject(relative);
+}
+
+Url.prototype.resolveObject = function(relative) {
+  if (util.isString(relative)) {
+    var rel = new Url();
+    rel.parse(relative, false, true);
+    relative = rel;
+  }
+
+  var result = new Url();
+  var tkeys = Object.keys(this);
+  for (var tk = 0; tk < tkeys.length; tk++) {
+    var tkey = tkeys[tk];
+    result[tkey] = this[tkey];
+  }
+
+  // hash is always overridden, no matter what.
+  // even href="" will remove it.
+  result.hash = relative.hash;
+
+  // if the relative url is empty, then there's nothing left to do here.
+  if (relative.href === '') {
+    result.href = result.format();
+    return result;
+  }
+
+  // hrefs like //foo/bar always cut to the protocol.
+  if (relative.slashes && !relative.protocol) {
+    // take everything except the protocol from relative
+    var rkeys = Object.keys(relative);
+    for (var rk = 0; rk < rkeys.length; rk++) {
+      var rkey = rkeys[rk];
+      if (rkey !== 'protocol')
+        result[rkey] = relative[rkey];
+    }
+
+    //urlParse appends trailing / to urls like http://www.example.com
+    if (slashedProtocol[result.protocol] &&
+        result.hostname && !result.pathname) {
+      result.path = result.pathname = '/';
+    }
+
+    result.href = result.format();
+    return result;
+  }
+
+  if (relative.protocol && relative.protocol !== result.protocol) {
+    // if it's a known url protocol, then changing
+    // the protocol does weird things
+    // first, if it's not file:, then we MUST have a host,
+    // and if there was a path
+    // to begin with, then we MUST have a path.
+    // if it is file:, then the host is dropped,
+    // because that's known to be hostless.
+    // anything else is assumed to be absolute.
+    if (!slashedProtocol[relative.protocol]) {
+      var keys = Object.keys(relative);
+      for (var v = 0; v < keys.length; v++) {
+        var k = keys[v];
+        result[k] = relative[k];
+      }
+      result.href = result.format();
+      return result;
+    }
+
+    result.protocol = relative.protocol;
+    if (!relative.host && !hostlessProtocol[relative.protocol]) {
+      var relPath = (relative.pathname || '').split('/');
+      while (relPath.length && !(relative.host = relPath.shift()));
+      if (!relative.host) relative.host = '';
+      if (!relative.hostname) relative.hostname = '';
+      if (relPath[0] !== '') relPath.unshift('');
+      if (relPath.length < 2) relPath.unshift('');
+      result.pathname = relPath.join('/');
+    } else {
+      result.pathname = relative.pathname;
+    }
+    result.search = relative.search;
+    result.query = relative.query;
+    result.host = relative.host || '';
+    result.auth = relative.auth;
+    result.hostname = relative.hostname || relative.host;
+    result.port = relative.port;
+    // to support http.request
+    if (result.pathname || result.search) {
+      var p = result.pathname || '';
+      var s = result.search || '';
+      result.path = p + s;
+    }
+    result.slashes = result.slashes || relative.slashes;
+    result.href = result.format();
+    return result;
+  }
+
+  var isSourceAbs = (result.pathname && result.pathname.charAt(0) === '/'),
+      isRelAbs = (
+          relative.host ||
+          relative.pathname && relative.pathname.charAt(0) === '/'
+      ),
+      mustEndAbs = (isRelAbs || isSourceAbs ||
+                    (result.host && relative.pathname)),
+      removeAllDots = mustEndAbs,
+      srcPath = result.pathname && result.pathname.split('/') || [],
+      relPath = relative.pathname && relative.pathname.split('/') || [],
+      psychotic = result.protocol && !slashedProtocol[result.protocol];
+
+  // if the url is a non-slashed url, then relative
+  // links like ../.. should be able
+  // to crawl up to the hostname, as well.  This is strange.
+  // result.protocol has already been set by now.
+  // Later on, put the first path part into the host field.
+  if (psychotic) {
+    result.hostname = '';
+    result.port = null;
+    if (result.host) {
+      if (srcPath[0] === '') srcPath[0] = result.host;
+      else srcPath.unshift(result.host);
+    }
+    result.host = '';
+    if (relative.protocol) {
+      relative.hostname = null;
+      relative.port = null;
+      if (relative.host) {
+        if (relPath[0] === '') relPath[0] = relative.host;
+        else relPath.unshift(relative.host);
+      }
+      relative.host = null;
+    }
+    mustEndAbs = mustEndAbs && (relPath[0] === '' || srcPath[0] === '');
+  }
+
+  if (isRelAbs) {
+    // it's absolute.
+    result.host = (relative.host || relative.host === '') ?
+                  relative.host : result.host;
+    result.hostname = (relative.hostname || relative.hostname === '') ?
+                      relative.hostname : result.hostname;
+    result.search = relative.search;
+    result.query = relative.query;
+    srcPath = relPath;
+    // fall through to the dot-handling below.
+  } else if (relPath.length) {
+    // it's relative
+    // throw away the existing file, and take the new path instead.
+    if (!srcPath) srcPath = [];
+    srcPath.pop();
+    srcPath = srcPath.concat(relPath);
+    result.search = relative.search;
+    result.query = relative.query;
+  } else if (!util.isNullOrUndefined(relative.search)) {
+    // just pull out the search.
+    // like href='?foo'.
+    // Put this after the other two cases because it simplifies the booleans
+    if (psychotic) {
+      result.hostname = result.host = srcPath.shift();
+      //occationaly the auth can get stuck only in host
+      //this especially happens in cases like
+      //url.resolveObject('mailto:local1@domain1', 'local2@domain2')
+      var authInHost = result.host && result.host.indexOf('@') > 0 ?
+                       result.host.split('@') : false;
+      if (authInHost) {
+        result.auth = authInHost.shift();
+        result.host = result.hostname = authInHost.shift();
+      }
+    }
+    result.search = relative.search;
+    result.query = relative.query;
+    //to support http.request
+    if (!util.isNull(result.pathname) || !util.isNull(result.search)) {
+      result.path = (result.pathname ? result.pathname : '') +
+                    (result.search ? result.search : '');
+    }
+    result.href = result.format();
+    return result;
+  }
+
+  if (!srcPath.length) {
+    // no path at all.  easy.
+    // we've already handled the other stuff above.
+    result.pathname = null;
+    //to support http.request
+    if (result.search) {
+      result.path = '/' + result.search;
+    } else {
+      result.path = null;
+    }
+    result.href = result.format();
+    return result;
+  }
+
+  // if a url ENDs in . or .., then it must get a trailing slash.
+  // however, if it ends in anything else non-slashy,
+  // then it must NOT get a trailing slash.
+  var last = srcPath.slice(-1)[0];
+  var hasTrailingSlash = (
+      (result.host || relative.host || srcPath.length > 1) &&
+      (last === '.' || last === '..') || last === '');
+
+  // strip single dots, resolve double dots to parent dir
+  // if the path tries to go above the root, `up` ends up > 0
+  var up = 0;
+  for (var i = srcPath.length; i >= 0; i--) {
+    last = srcPath[i];
+    if (last === '.') {
+      srcPath.splice(i, 1);
+    } else if (last === '..') {
+      srcPath.splice(i, 1);
+      up++;
+    } else if (up) {
+      srcPath.splice(i, 1);
+      up--;
+    }
+  }
+
+  // if the path is allowed to go above the root, restore leading ..s
+  if (!mustEndAbs && !removeAllDots) {
+    for (; up--; up) {
+      srcPath.unshift('..');
+    }
+  }
+
+  if (mustEndAbs && srcPath[0] !== '' &&
+      (!srcPath[0] || srcPath[0].charAt(0) !== '/')) {
+    srcPath.unshift('');
+  }
+
+  if (hasTrailingSlash && (srcPath.join('/').substr(-1) !== '/')) {
+    srcPath.push('');
+  }
+
+  var isAbsolute = srcPath[0] === '' ||
+      (srcPath[0] && srcPath[0].charAt(0) === '/');
+
+  // put the host back
+  if (psychotic) {
+    result.hostname = result.host = isAbsolute ? '' :
+                                    srcPath.length ? srcPath.shift() : '';
+    //occationaly the auth can get stuck only in host
+    //this especially happens in cases like
+    //url.resolveObject('mailto:local1@domain1', 'local2@domain2')
+    var authInHost = result.host && result.host.indexOf('@') > 0 ?
+                     result.host.split('@') : false;
+    if (authInHost) {
+      result.auth = authInHost.shift();
+      result.host = result.hostname = authInHost.shift();
+    }
+  }
+
+  mustEndAbs = mustEndAbs || (result.host && srcPath.length);
+
+  if (mustEndAbs && !isAbsolute) {
+    srcPath.unshift('');
+  }
+
+  if (!srcPath.length) {
+    result.pathname = null;
+    result.path = null;
+  } else {
+    result.pathname = srcPath.join('/');
+  }
+
+  //to support request.http
+  if (!util.isNull(result.pathname) || !util.isNull(result.search)) {
+    result.path = (result.pathname ? result.pathname : '') +
+                  (result.search ? result.search : '');
+  }
+  result.auth = relative.auth || result.auth;
+  result.slashes = result.slashes || relative.slashes;
+  result.href = result.format();
+  return result;
+};
+
+Url.prototype.parseHost = function() {
+  var host = this.host;
+  var port = portPattern.exec(host);
+  if (port) {
+    port = port[0];
+    if (port !== ':') {
+      this.port = port.substr(1);
+    }
+    host = host.substr(0, host.length - port.length);
+  }
+  if (host) this.hostname = host;
+};
+
+
+/***/ }),
+/* 65 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/punycode v1.4.1 by @mathias */
+;(function(root) {
+
+	/** Detect free variables */
+	var freeExports = typeof exports == 'object' && exports &&
+		!exports.nodeType && exports;
+	var freeModule = typeof module == 'object' && module &&
+		!module.nodeType && module;
+	var freeGlobal = typeof global == 'object' && global;
+	if (
+		freeGlobal.global === freeGlobal ||
+		freeGlobal.window === freeGlobal ||
+		freeGlobal.self === freeGlobal
+	) {
+		root = freeGlobal;
+	}
+
+	/**
+	 * The `punycode` object.
+	 * @name punycode
+	 * @type Object
+	 */
+	var punycode,
+
+	/** Highest positive signed 32-bit float value */
+	maxInt = 2147483647, // aka. 0x7FFFFFFF or 2^31-1
+
+	/** Bootstring parameters */
+	base = 36,
+	tMin = 1,
+	tMax = 26,
+	skew = 38,
+	damp = 700,
+	initialBias = 72,
+	initialN = 128, // 0x80
+	delimiter = '-', // '\x2D'
+
+	/** Regular expressions */
+	regexPunycode = /^xn--/,
+	regexNonASCII = /[^\x20-\x7E]/, // unprintable ASCII chars + non-ASCII chars
+	regexSeparators = /[\x2E\u3002\uFF0E\uFF61]/g, // RFC 3490 separators
+
+	/** Error messages */
+	errors = {
+		'overflow': 'Overflow: input needs wider integers to process',
+		'not-basic': 'Illegal input >= 0x80 (not a basic code point)',
+		'invalid-input': 'Invalid input'
+	},
+
+	/** Convenience shortcuts */
+	baseMinusTMin = base - tMin,
+	floor = Math.floor,
+	stringFromCharCode = String.fromCharCode,
+
+	/** Temporary variable */
+	key;
+
+	/*--------------------------------------------------------------------------*/
+
+	/**
+	 * A generic error utility function.
+	 * @private
+	 * @param {String} type The error type.
+	 * @returns {Error} Throws a `RangeError` with the applicable error message.
+	 */
+	function error(type) {
+		throw new RangeError(errors[type]);
+	}
+
+	/**
+	 * A generic `Array#map` utility function.
+	 * @private
+	 * @param {Array} array The array to iterate over.
+	 * @param {Function} callback The function that gets called for every array
+	 * item.
+	 * @returns {Array} A new array of values returned by the callback function.
+	 */
+	function map(array, fn) {
+		var length = array.length;
+		var result = [];
+		while (length--) {
+			result[length] = fn(array[length]);
+		}
+		return result;
+	}
+
+	/**
+	 * A simple `Array#map`-like wrapper to work with domain name strings or email
+	 * addresses.
+	 * @private
+	 * @param {String} domain The domain name or email address.
+	 * @param {Function} callback The function that gets called for every
+	 * character.
+	 * @returns {Array} A new string of characters returned by the callback
+	 * function.
+	 */
+	function mapDomain(string, fn) {
+		var parts = string.split('@');
+		var result = '';
+		if (parts.length > 1) {
+			// In email addresses, only the domain name should be punycoded. Leave
+			// the local part (i.e. everything up to `@`) intact.
+			result = parts[0] + '@';
+			string = parts[1];
+		}
+		// Avoid `split(regex)` for IE8 compatibility. See #17.
+		string = string.replace(regexSeparators, '\x2E');
+		var labels = string.split('.');
+		var encoded = map(labels, fn).join('.');
+		return result + encoded;
+	}
+
+	/**
+	 * Creates an array containing the numeric code points of each Unicode
+	 * character in the string. While JavaScript uses UCS-2 internally,
+	 * this function will convert a pair of surrogate halves (each of which
+	 * UCS-2 exposes as separate characters) into a single code point,
+	 * matching UTF-16.
+	 * @see `punycode.ucs2.encode`
+	 * @see <https://mathiasbynens.be/notes/javascript-encoding>
+	 * @memberOf punycode.ucs2
+	 * @name decode
+	 * @param {String} string The Unicode input string (UCS-2).
+	 * @returns {Array} The new array of code points.
+	 */
+	function ucs2decode(string) {
+		var output = [],
+		    counter = 0,
+		    length = string.length,
+		    value,
+		    extra;
+		while (counter < length) {
+			value = string.charCodeAt(counter++);
+			if (value >= 0xD800 && value <= 0xDBFF && counter < length) {
+				// high surrogate, and there is a next character
+				extra = string.charCodeAt(counter++);
+				if ((extra & 0xFC00) == 0xDC00) { // low surrogate
+					output.push(((value & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000);
+				} else {
+					// unmatched surrogate; only append this code unit, in case the next
+					// code unit is the high surrogate of a surrogate pair
+					output.push(value);
+					counter--;
+				}
+			} else {
+				output.push(value);
+			}
+		}
+		return output;
+	}
+
+	/**
+	 * Creates a string based on an array of numeric code points.
+	 * @see `punycode.ucs2.decode`
+	 * @memberOf punycode.ucs2
+	 * @name encode
+	 * @param {Array} codePoints The array of numeric code points.
+	 * @returns {String} The new Unicode string (UCS-2).
+	 */
+	function ucs2encode(array) {
+		return map(array, function(value) {
+			var output = '';
+			if (value > 0xFFFF) {
+				value -= 0x10000;
+				output += stringFromCharCode(value >>> 10 & 0x3FF | 0xD800);
+				value = 0xDC00 | value & 0x3FF;
+			}
+			output += stringFromCharCode(value);
+			return output;
+		}).join('');
+	}
+
+	/**
+	 * Converts a basic code point into a digit/integer.
+	 * @see `digitToBasic()`
+	 * @private
+	 * @param {Number} codePoint The basic numeric code point value.
+	 * @returns {Number} The numeric value of a basic code point (for use in
+	 * representing integers) in the range `0` to `base - 1`, or `base` if
+	 * the code point does not represent a value.
+	 */
+	function basicToDigit(codePoint) {
+		if (codePoint - 48 < 10) {
+			return codePoint - 22;
+		}
+		if (codePoint - 65 < 26) {
+			return codePoint - 65;
+		}
+		if (codePoint - 97 < 26) {
+			return codePoint - 97;
+		}
+		return base;
+	}
+
+	/**
+	 * Converts a digit/integer into a basic code point.
+	 * @see `basicToDigit()`
+	 * @private
+	 * @param {Number} digit The numeric value of a basic code point.
+	 * @returns {Number} The basic code point whose value (when used for
+	 * representing integers) is `digit`, which needs to be in the range
+	 * `0` to `base - 1`. If `flag` is non-zero, the uppercase form is
+	 * used; else, the lowercase form is used. The behavior is undefined
+	 * if `flag` is non-zero and `digit` has no uppercase form.
+	 */
+	function digitToBasic(digit, flag) {
+		//  0..25 map to ASCII a..z or A..Z
+		// 26..35 map to ASCII 0..9
+		return digit + 22 + 75 * (digit < 26) - ((flag != 0) << 5);
+	}
+
+	/**
+	 * Bias adaptation function as per section 3.4 of RFC 3492.
+	 * https://tools.ietf.org/html/rfc3492#section-3.4
+	 * @private
+	 */
+	function adapt(delta, numPoints, firstTime) {
+		var k = 0;
+		delta = firstTime ? floor(delta / damp) : delta >> 1;
+		delta += floor(delta / numPoints);
+		for (/* no initialization */; delta > baseMinusTMin * tMax >> 1; k += base) {
+			delta = floor(delta / baseMinusTMin);
+		}
+		return floor(k + (baseMinusTMin + 1) * delta / (delta + skew));
+	}
+
+	/**
+	 * Converts a Punycode string of ASCII-only symbols to a string of Unicode
+	 * symbols.
+	 * @memberOf punycode
+	 * @param {String} input The Punycode string of ASCII-only symbols.
+	 * @returns {String} The resulting string of Unicode symbols.
+	 */
+	function decode(input) {
+		// Don't use UCS-2
+		var output = [],
+		    inputLength = input.length,
+		    out,
+		    i = 0,
+		    n = initialN,
+		    bias = initialBias,
+		    basic,
+		    j,
+		    index,
+		    oldi,
+		    w,
+		    k,
+		    digit,
+		    t,
+		    /** Cached calculation results */
+		    baseMinusT;
+
+		// Handle the basic code points: let `basic` be the number of input code
+		// points before the last delimiter, or `0` if there is none, then copy
+		// the first basic code points to the output.
+
+		basic = input.lastIndexOf(delimiter);
+		if (basic < 0) {
+			basic = 0;
+		}
+
+		for (j = 0; j < basic; ++j) {
+			// if it's not a basic code point
+			if (input.charCodeAt(j) >= 0x80) {
+				error('not-basic');
+			}
+			output.push(input.charCodeAt(j));
+		}
+
+		// Main decoding loop: start just after the last delimiter if any basic code
+		// points were copied; start at the beginning otherwise.
+
+		for (index = basic > 0 ? basic + 1 : 0; index < inputLength; /* no final expression */) {
+
+			// `index` is the index of the next character to be consumed.
+			// Decode a generalized variable-length integer into `delta`,
+			// which gets added to `i`. The overflow checking is easier
+			// if we increase `i` as we go, then subtract off its starting
+			// value at the end to obtain `delta`.
+			for (oldi = i, w = 1, k = base; /* no condition */; k += base) {
+
+				if (index >= inputLength) {
+					error('invalid-input');
+				}
+
+				digit = basicToDigit(input.charCodeAt(index++));
+
+				if (digit >= base || digit > floor((maxInt - i) / w)) {
+					error('overflow');
+				}
+
+				i += digit * w;
+				t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
+
+				if (digit < t) {
+					break;
+				}
+
+				baseMinusT = base - t;
+				if (w > floor(maxInt / baseMinusT)) {
+					error('overflow');
+				}
+
+				w *= baseMinusT;
+
+			}
+
+			out = output.length + 1;
+			bias = adapt(i - oldi, out, oldi == 0);
+
+			// `i` was supposed to wrap around from `out` to `0`,
+			// incrementing `n` each time, so we'll fix that now:
+			if (floor(i / out) > maxInt - n) {
+				error('overflow');
+			}
+
+			n += floor(i / out);
+			i %= out;
+
+			// Insert `n` at position `i` of the output
+			output.splice(i++, 0, n);
+
+		}
+
+		return ucs2encode(output);
+	}
+
+	/**
+	 * Converts a string of Unicode symbols (e.g. a domain name label) to a
+	 * Punycode string of ASCII-only symbols.
+	 * @memberOf punycode
+	 * @param {String} input The string of Unicode symbols.
+	 * @returns {String} The resulting Punycode string of ASCII-only symbols.
+	 */
+	function encode(input) {
+		var n,
+		    delta,
+		    handledCPCount,
+		    basicLength,
+		    bias,
+		    j,
+		    m,
+		    q,
+		    k,
+		    t,
+		    currentValue,
+		    output = [],
+		    /** `inputLength` will hold the number of code points in `input`. */
+		    inputLength,
+		    /** Cached calculation results */
+		    handledCPCountPlusOne,
+		    baseMinusT,
+		    qMinusT;
+
+		// Convert the input in UCS-2 to Unicode
+		input = ucs2decode(input);
+
+		// Cache the length
+		inputLength = input.length;
+
+		// Initialize the state
+		n = initialN;
+		delta = 0;
+		bias = initialBias;
+
+		// Handle the basic code points
+		for (j = 0; j < inputLength; ++j) {
+			currentValue = input[j];
+			if (currentValue < 0x80) {
+				output.push(stringFromCharCode(currentValue));
+			}
+		}
+
+		handledCPCount = basicLength = output.length;
+
+		// `handledCPCount` is the number of code points that have been handled;
+		// `basicLength` is the number of basic code points.
+
+		// Finish the basic string - if it is not empty - with a delimiter
+		if (basicLength) {
+			output.push(delimiter);
+		}
+
+		// Main encoding loop:
+		while (handledCPCount < inputLength) {
+
+			// All non-basic code points < n have been handled already. Find the next
+			// larger one:
+			for (m = maxInt, j = 0; j < inputLength; ++j) {
+				currentValue = input[j];
+				if (currentValue >= n && currentValue < m) {
+					m = currentValue;
+				}
+			}
+
+			// Increase `delta` enough to advance the decoder's <n,i> state to <m,0>,
+			// but guard against overflow
+			handledCPCountPlusOne = handledCPCount + 1;
+			if (m - n > floor((maxInt - delta) / handledCPCountPlusOne)) {
+				error('overflow');
+			}
+
+			delta += (m - n) * handledCPCountPlusOne;
+			n = m;
+
+			for (j = 0; j < inputLength; ++j) {
+				currentValue = input[j];
+
+				if (currentValue < n && ++delta > maxInt) {
+					error('overflow');
+				}
+
+				if (currentValue == n) {
+					// Represent delta as a generalized variable-length integer
+					for (q = delta, k = base; /* no condition */; k += base) {
+						t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
+						if (q < t) {
+							break;
+						}
+						qMinusT = q - t;
+						baseMinusT = base - t;
+						output.push(
+							stringFromCharCode(digitToBasic(t + qMinusT % baseMinusT, 0))
+						);
+						q = floor(qMinusT / baseMinusT);
+					}
+
+					output.push(stringFromCharCode(digitToBasic(q, 0)));
+					bias = adapt(delta, handledCPCountPlusOne, handledCPCount == basicLength);
+					delta = 0;
+					++handledCPCount;
+				}
+			}
+
+			++delta;
+			++n;
+
+		}
+		return output.join('');
+	}
+
+	/**
+	 * Converts a Punycode string representing a domain name or an email address
+	 * to Unicode. Only the Punycoded parts of the input will be converted, i.e.
+	 * it doesn't matter if you call it on a string that has already been
+	 * converted to Unicode.
+	 * @memberOf punycode
+	 * @param {String} input The Punycoded domain name or email address to
+	 * convert to Unicode.
+	 * @returns {String} The Unicode representation of the given Punycode
+	 * string.
+	 */
+	function toUnicode(input) {
+		return mapDomain(input, function(string) {
+			return regexPunycode.test(string)
+				? decode(string.slice(4).toLowerCase())
+				: string;
+		});
+	}
+
+	/**
+	 * Converts a Unicode string representing a domain name or an email address to
+	 * Punycode. Only the non-ASCII parts of the domain name will be converted,
+	 * i.e. it doesn't matter if you call it with a domain that's already in
+	 * ASCII.
+	 * @memberOf punycode
+	 * @param {String} input The domain name or email address to convert, as a
+	 * Unicode string.
+	 * @returns {String} The Punycode representation of the given domain name or
+	 * email address.
+	 */
+	function toASCII(input) {
+		return mapDomain(input, function(string) {
+			return regexNonASCII.test(string)
+				? 'xn--' + encode(string)
+				: string;
+		});
+	}
+
+	/*--------------------------------------------------------------------------*/
+
+	/** Define the public API */
+	punycode = {
+		/**
+		 * A string representing the current Punycode.js version number.
+		 * @memberOf punycode
+		 * @type String
+		 */
+		'version': '1.4.1',
+		/**
+		 * An object of methods to convert from JavaScript's internal character
+		 * representation (UCS-2) to Unicode code points, and back.
+		 * @see <https://mathiasbynens.be/notes/javascript-encoding>
+		 * @memberOf punycode
+		 * @type Object
+		 */
+		'ucs2': {
+			'decode': ucs2decode,
+			'encode': ucs2encode
+		},
+		'decode': decode,
+		'encode': encode,
+		'toASCII': toASCII,
+		'toUnicode': toUnicode
+	};
+
+	/** Expose `punycode` */
+	// Some AMD build optimizers, like r.js, check for specific condition patterns
+	// like the following:
+	if (
+		true
+	) {
+		!(__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
+			return punycode;
+		}).call(exports, __webpack_require__, exports, module),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else if (freeExports && freeModule) {
+		if (module.exports == freeExports) {
+			// in Node.js, io.js, or RingoJS v0.8.0+
+			freeModule.exports = punycode;
+		} else {
+			// in Narwhal or RingoJS v0.7.0-
+			for (key in punycode) {
+				punycode.hasOwnProperty(key) && (freeExports[key] = punycode[key]);
+			}
+		}
+	} else {
+		// in Rhino or a web browser
+		root.punycode = punycode;
+	}
+
+}(this));
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(66)(module), __webpack_require__(2)))
+
+/***/ }),
+/* 66 */
+/***/ (function(module, exports) {
+
+module.exports = function(module) {
+	if(!module.webpackPolyfill) {
+		module.deprecate = function() {};
+		module.paths = [];
+		// module.parent = undefined by default
+		if(!module.children) module.children = [];
+		Object.defineProperty(module, "loaded", {
+			enumerable: true,
+			get: function() {
+				return module.l;
+			}
+		});
+		Object.defineProperty(module, "id", {
+			enumerable: true,
+			get: function() {
+				return module.i;
+			}
+		});
+		module.webpackPolyfill = 1;
+	}
+	return module;
+};
+
+
+/***/ }),
+/* 67 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = {
+  isString: function(arg) {
+    return typeof(arg) === 'string';
+  },
+  isObject: function(arg) {
+    return typeof(arg) === 'object' && arg !== null;
+  },
+  isNull: function(arg) {
+    return arg === null;
+  },
+  isNullOrUndefined: function(arg) {
+    return arg == null;
+  }
+};
+
+
+/***/ }),
+/* 68 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+<<<<<<< HEAD
 /*let notes = {
   title: [],
   content: []
@@ -27472,21 +30996,57 @@ let notes = [{
 }];
 
 let selectedNote = 1;
+=======
+exports.decode = exports.parse = __webpack_require__(69);
+exports.encode = exports.stringify = __webpack_require__(70);
 
-class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
-  constructor(props) {
-    super(props);
 
-    // Prints note content to the console every 5000ms (5 seconds)
-    /*setInterval(() => {
-      console.log(document.getElementById('note').value)
-    }, 5000)*/
+/***/ }),
+/* 69 */
+/***/ (function(module, exports, __webpack_require__) {
 
-    this.state = {
-      rows: []
-    };
+"use strict";
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+>>>>>>> b1b017b0ab30a2535a8a9b920db9aef06e8c91dd
+
+// If obj.hasOwnProperty has been overridden, then calling
+// obj.hasOwnProperty(prop) will break.
+// See: https://github.com/joyent/node/issues/1707
+function hasOwnProperty(obj, prop) {
+  return Object.prototype.hasOwnProperty.call(obj, prop);
+}
+
+module.exports = function(qs, sep, eq, options) {
+  sep = sep || '&';
+  eq = eq || '=';
+  var obj = {};
+
+  if (typeof qs !== 'string' || qs.length === 0) {
+    return obj;
   }
 
+<<<<<<< HEAD
   addNote() {
     let nextState = this.state;
     nextState.rows.push(this.state.rows.length);
@@ -27676,10 +31236,146 @@ class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         )
       )
     );
+=======
+  var regexp = /\+/g;
+  qs = qs.split(sep);
+
+  var maxKeys = 1000;
+  if (options && typeof options.maxKeys === 'number') {
+    maxKeys = options.maxKeys;
   }
+
+  var len = qs.length;
+  // maxKeys <= 0 means that we should not limit keys count
+  if (maxKeys > 0 && len > maxKeys) {
+    len = maxKeys;
+>>>>>>> b1b017b0ab30a2535a8a9b920db9aef06e8c91dd
+  }
+
+  for (var i = 0; i < len; ++i) {
+    var x = qs[i].replace(regexp, '%20'),
+        idx = x.indexOf(eq),
+        kstr, vstr, k, v;
+
+    if (idx >= 0) {
+      kstr = x.substr(0, idx);
+      vstr = x.substr(idx + 1);
+    } else {
+      kstr = x;
+      vstr = '';
+    }
+
+    k = decodeURIComponent(kstr);
+    v = decodeURIComponent(vstr);
+
+    if (!hasOwnProperty(obj, k)) {
+      obj[k] = v;
+    } else if (isArray(obj[k])) {
+      obj[k].push(v);
+    } else {
+      obj[k] = [obj[k], v];
+    }
+  }
+
+  return obj;
+};
+
+var isArray = Array.isArray || function (xs) {
+  return Object.prototype.toString.call(xs) === '[object Array]';
+};
+
+
+/***/ }),
+/* 70 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+
+var stringifyPrimitive = function(v) {
+  switch (typeof v) {
+    case 'string':
+      return v;
+
+    case 'boolean':
+      return v ? 'true' : 'false';
+
+    case 'number':
+      return isFinite(v) ? v : '';
+
+    default:
+      return '';
+  }
+};
+
+module.exports = function(obj, sep, eq, name) {
+  sep = sep || '&';
+  eq = eq || '=';
+  if (obj === null) {
+    obj = undefined;
+  }
+
+  if (typeof obj === 'object') {
+    return map(objectKeys(obj), function(k) {
+      var ks = encodeURIComponent(stringifyPrimitive(k)) + eq;
+      if (isArray(obj[k])) {
+        return map(obj[k], function(v) {
+          return ks + encodeURIComponent(stringifyPrimitive(v));
+        }).join(sep);
+      } else {
+        return ks + encodeURIComponent(stringifyPrimitive(obj[k]));
+      }
+    }).join(sep);
+
+  }
+
+  if (!name) return '';
+  return encodeURIComponent(stringifyPrimitive(name)) + eq +
+         encodeURIComponent(stringifyPrimitive(obj));
+};
+
+var isArray = Array.isArray || function (xs) {
+  return Object.prototype.toString.call(xs) === '[object Array]';
+};
+
+function map (xs, f) {
+  if (xs.map) return xs.map(f);
+  var res = [];
+  for (var i = 0; i < xs.length; i++) {
+    res.push(f(xs[i], i));
+  }
+  return res;
 }
 
-/* harmony default export */ __webpack_exports__["a"] = (Notes);
+var objectKeys = Object.keys || function (obj) {
+  var res = [];
+  for (var key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) res.push(key);
+  }
+  return res;
+};
+
 
 /*
 <div className='uk-flex uk-flex-center'>
@@ -27784,7 +31480,972 @@ console.log(noteIndex)
 */
 
 /***/ }),
+/* 71 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+
+
+class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
+  constructor(props) {
+    super(props);
+    console.log(data.timetable);
+  }
+
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { className: 'uk-flex-center uk-flex' },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { className: 'uk-card uk-card-default uk-card-body uk-card-large' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'ul',
+          { className: 'uk-subnav uk-subnav-pill uk-flex-center uk-text-large', 'uk-switcher': 'animation: uk-animation-fade' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'li',
+            null,
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'a',
+              { href: '#' },
+              'A'
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'li',
+            null,
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'a',
+              { href: '#' },
+              'B'
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'li',
+            null,
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'a',
+              { href: '#' },
+              'C'
+            )
+          )
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'ul',
+          { className: 'uk-switcher uk-margin' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'li',
+            null,
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'uk-column-1-5 uk-text-center uk-text-muted' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'MON A'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'TUE A'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'WED A'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'THU A'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'FRI A'
+              )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'uk-column-1-5 uk-column-divider uk-width-auto' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '1: \u2003 ENG \u2003 \u2003 201'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '2: \u2003 MAT \u2003 \u2003 101'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '3: \u2003 ENG \u2003 \u2003 201'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '4: \u2003 MAT \u2003 \u2003 101'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '5: \u2003'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '1: \u2003 MAT \u2003 \u2003 101'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '2: \u2003 '
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '3: \u2003 ENG \u2003 \u2003 201'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '4: \u2003 MAT \u2003 \u2003 101'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '5: \u2003 ENG \u2003 \u2003 201'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '1: \u2003 ENG \u2003 \u2003 201'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '2: \u2003 MAT \u2003 \u2003 101'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '3: \u2003 ENG \u2003 \u2003 201'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '4: \u2003 '
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '5: \u2003 '
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '1: \u2003 MAT \u2003 \u2003 101'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '2: \u2003 ENG \u2003 \u2003 201'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '3: \u2003 ENG \u2003 \u2003 201'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '4: \u2003 ENG \u2003 \u2003 201'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '5: \u2003'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '1: \u2003 '
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '2: \u2003 ENG \u2003 \u2003 201'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '3: \u2003 ENG \u2003 \u2003 201'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '4: \u2003 MAT \u2003 \u2003 101'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '5: \u2003 MAT \u2003 \u2003 101'
+              )
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'li',
+            null,
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'uk-column-1-5 uk-text-center uk-text-muted' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'MON B'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'TUE B'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'WED B'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'THU B'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'FRI B'
+              )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'uk-column-1-5 uk-column-divider uk-width-auto' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '1: \u2003 ENG \u2003 \u2003 201'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '2: \u2003 MAT \u2003 \u2003 101'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '3: \u2003 ENG \u2003 \u2003 201'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '4: \u2003 MAT \u2003 \u2003 101'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '5: \u2003'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '1: \u2003 MAT \u2003 \u2003 101'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '2: \u2003 '
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '3: \u2003 ENG \u2003 \u2003 201'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '4: \u2003 MAT \u2003 \u2003 101'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '5: \u2003 ENG \u2003 \u2003 201'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '1: \u2003 ENG \u2003 \u2003 201'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '2: \u2003 MAT \u2003 \u2003 101'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '3: \u2003 ENG \u2003 \u2003 201'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '4: \u2003 '
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '5: \u2003 '
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '1: \u2003 MAT \u2003 \u2003 101'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '2: \u2003 ENG \u2003 \u2003 201'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '3: \u2003 ENG \u2003 \u2003 201'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '4: \u2003 ENG \u2003 \u2003 201'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '5: \u2003'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '1: \u2003 '
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '2: \u2003 ENG \u2003 \u2003 201'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '3: \u2003 ENG \u2003 \u2003 201'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '4: \u2003 MAT \u2003 \u2003 101'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '5: \u2003 MAT \u2003 \u2003 101'
+              )
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'li',
+            null,
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'uk-column-1-5 uk-text-center uk-text-muted' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'MON C'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'TUE C'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'WED C'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'THU C'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'FRI C'
+              )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+<<<<<<< HEAD
+              null,
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { 'uk-icon': 'icon: bold' }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { 'uk-icon': 'icon: italic' }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { 'uk-icon': 'icon: strikethrough' })
+            )
+          )
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'uk-margin' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'uk-input uk-form-blank uk-form-large', type: 'Title', placeholder: 'Title' })
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'uk-margin' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('textarea', { className: 'uk-textarea uk-form-blank', rows: '5', placeholder: 'Body' })
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('h3', null),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'button',
+          { className: 'uk-button uk-button-primary' },
+          'Submit'
+=======
+              { className: 'uk-column-1-5 uk-column-divider uk-width-auto' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '1: \u2003 ENG \u2003 \u2003 201'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '2: \u2003 MAT \u2003 \u2003 101'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '3: \u2003 ENG \u2003 \u2003 201'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '4: \u2003 MAT \u2003 \u2003 101'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '5: \u2003'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '1: \u2003 MAT \u2003 \u2003 101'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '2: \u2003 '
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '3: \u2003 ENG \u2003 \u2003 201'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '4: \u2003 MAT \u2003 \u2003 101'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '5: \u2003 ENG \u2003 \u2003 201'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '1: \u2003 ENG \u2003 \u2003 201'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '2: \u2003 MAT \u2003 \u2003 101'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '3: \u2003 ENG \u2003 \u2003 201'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '4: \u2003 '
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '5: \u2003 '
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '1: \u2003 MAT \u2003 \u2003 101'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '2: \u2003 ENG \u2003 \u2003 201'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '3: \u2003 ENG \u2003 \u2003 201'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '4: \u2003 ENG \u2003 \u2003 201'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '5: \u2003'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '1: \u2003 '
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '2: \u2003 ENG \u2003 \u2003 201'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '3: \u2003 ENG \u2003 \u2003 201'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '4: \u2003 MAT \u2003 \u2003 101'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                '5: \u2003 MAT \u2003 \u2003 101'
+              )
+            )
+          )
+>>>>>>> b1b017b0ab30a2535a8a9b920db9aef06e8c91dd
+        )
+      )
+    );
+  }
+<<<<<<< HEAD
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Feedback);
+
+/***/ }),
+/* 75 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+
+
+class Profile extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      null,
+      'Profile'
+    );
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Profile);
+
+/***/ }),
+/* 76 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(77);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {"hmr":true}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(79)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../node_modules/css-loader/index.js!./App.css", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!./App.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 77 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(78)(false);
+// imports
+
+
+// module
+exports.push([module.i, "body {\r\n  margin: 0;\r\n  padding: 0;\r\n  font-family: 'Lato', sans-serif;\r\n}\r\n\r\n.main {\r\n  transition: 150ms linear;\r\n}\r\n\r\n.content {\r\n  align-content: center;\r\n  margin-left: 10px;\r\n  background: white;\r\n  transition: 150ms linear;\r\n}\r\n\r\n.background {\r\n  background-color: #2a2c31;\r\n}\r\n\r\n.logo {\r\n  width: 38px;\r\n  height: 38px;\r\n  margin-top: 0.5px;\r\n  margin-left: 5px;\r\n  margin-right: 5px;\r\n  content: url('data:image/png;base64,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')\r\n}\r\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 78 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function(useSourceMap) {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		return this.map(function (item) {
+			var content = cssWithMappingToString(item, useSourceMap);
+			if(item[2]) {
+				return "@media " + item[2] + "{" + content + "}";
+			} else {
+				return content;
+			}
+		}).join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+	var content = item[1] || '';
+	var cssMapping = item[3];
+	if (!cssMapping) {
+		return content;
+	}
+
+	if (useSourceMap && typeof btoa === 'function') {
+		var sourceMapping = toComment(cssMapping);
+		var sourceURLs = cssMapping.sources.map(function (source) {
+			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
+		});
+
+		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+	}
+
+	return [content].join('\n');
+}
+
+// Adapted from convert-source-map (MIT)
+function toComment(sourceMap) {
+	// eslint-disable-next-line no-undef
+	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+
+	return '/*# ' + data + ' */';
+=======
+>>>>>>> b1b017b0ab30a2535a8a9b920db9aef06e8c91dd
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Timetable);
+
+/***/ }),
 /* 72 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+
+
+let notes = {
+  title: [],
+  content: []
+};
+let noteCount = 1;
+let selectedNote = 1;
+
+const NEW_NOTE_LIST = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+  'tr',
+  null,
+  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+    'td',
+    null,
+    'Lorem ipsum'
+  )
+);
+
+class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
+  constructor(props) {
+    super(props);
+
+    // Prints note content to the console every 5000ms (5 seconds)
+    /*setInterval(() => {
+      console.log(document.getElementById('note').value)
+    }, 5000)*/
+
+    this.state = {
+      rows: []
+    };
+  }
+
+  addNote() {
+    /*console.log('Adding note')
+    let noteList = document.getElementById('noteList')
+    noteList.value += NEW_NOTE_LIST*/
+
+    let nextState = this.state;
+    nextState.rows.push(noteCount);
+    this.setState(nextState);
+
+    noteCount++;
+
+    console.log(document.getElementById('noteList').innerHTML);
+    console.log(this.state.rows);
+  }
+
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { className: 'uk-flex uk-flex-center' },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { className: 'uk-text-center uk-margin-large-left uk-margin-top uk-margin-large-right uk-grid-collapse uk-width-3-5@xl', 'uk-grid': 'true', 'uk-sortable': 'handle: .uk-sortable-handle', 'uk-height-match': 'target: > div > .uk-card' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'uk-width-1-5@m uk-height-large@m' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'uk-card uk-card-default uk-card-body' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'uk-sortable-handle uk-float-left', 'uk-icon': 'icon: table' }),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { className: 'uk-icon-link uk-float-right', 'uk-icon': 'icon: plus-circle', onClick: this.addNote.bind(this) }),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('h2', null),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'uk-overflow-auto' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'table',
+                { className: 'uk-table uk-table-small uk-table-hover' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'tbody',
+                  { id: 'noteList' },
+                  this.state.rows.map(row => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'tr',
+                    null,
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'td',
+                      null,
+                      'Lorem ipsum'
+                    )
+                  ))
+                )
+              )
+            )
+          )
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'uk-width-expand' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'uk-card uk-card-default uk-card-body' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'uk-sortable-handle uk-float-left', 'uk-icon': 'icon: table' }),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'uk-flex uk-flex-center' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'uk-grid-divider uk-grid-small', 'uk-grid': 'true' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'div',
+                  { className: '' },
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { href: '', 'uk-icon': 'icon: plus-circle' }),
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { href: '', 'uk-icon': 'icon: copy' }),
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { href: '', 'uk-icon': 'icon: trash' })
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'div',
+                  null,
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'select',
+                    { className: 'uk-select uk-form-small uk-form-width-small' },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'option',
+                      null,
+                      'Arial'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'option',
+                      null,
+                      'Comic Sans MS'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'option',
+                      null,
+                      'Calibri'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'option',
+                      null,
+                      'Cambria'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'option',
+                      null,
+                      'Courier'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'option',
+                      null,
+                      'Impact'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'option',
+                      null,
+                      'Roboto'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'option',
+                      null,
+                      'Source Sans'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'option',
+                      null,
+                      'Times New Roman'
+                    )
+                  )
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'div',
+                  null,
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'select',
+                    { className: 'uk-select uk-form-small uk-form-width-xsmall' },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'option',
+                      null,
+                      '8'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'option',
+                      null,
+                      '10'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'option',
+                      null,
+                      '12'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'option',
+                      null,
+                      '14'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'option',
+                      null,
+                      '18'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'option',
+                      null,
+                      '24'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'option',
+                      null,
+                      '36'
+                    )
+                  )
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'div',
+                  { className: '' },
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { href: '', 'uk-icon': 'icon: bold' }),
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { href: '', 'uk-icon': 'icon: italic' }),
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { href: '', 'uk-icon': 'icon: strikethrough' })
+                )
+              )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'uk-margin' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'uk-input uk-form-blank uk-form-large', type: 'Title', placeholder: 'Title' })
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'uk-margin' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('textarea', { className: 'uk-textarea uk-form-blank', rows: '10', placeholder: 'Body' })
+            )
+          )
+        )
+      )
+    );
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Notes);
+
+/***/ }),
+/* 73 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -27799,7 +32460,7 @@ class Notices extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       { className: 'uk-flex uk-flex-center' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
-        { className: 'uk-margin-left uk-margin-right uk-card uk-card-default uk-card-body uk-width-1-3@xl uk-width-1-2@m uk-width-2-3@s' },
+        { className: 'uk-margin-top uk-margin-left uk-margin-right uk-card uk-card-default uk-card-body uk-width-1-3@xl uk-width-1-2@m uk-width-2-3@s' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'table',
           { className: 'uk-table uk-table-small uk-table-hover' },
@@ -28577,7 +33238,7 @@ class Notices extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Notices);
 
 /***/ }),
-/* 73 */
+/* 74 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -28633,174 +33294,6 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Settings);
 
 /***/ }),
-/* 74 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-
-
-class Feedback extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
-  render() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'div',
-      { className: 'uk-flex uk-flex-center uk-margin-left uk-margin-right' },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { className: 'uk-card uk-card-default uk-card-body uk-width-2-5@l uk-width-1-2@m uk-width-4-5@s' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'h2',
-          { className: 'uk-text-center' },
-          'Send us some feedback!'
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'p',
-          { className: 'uk-text-center' },
-          'Found a bug? Have an idea? Fill out the form below and we\'ll take a look!'
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'div',
-          { className: 'uk-flex uk-flex-center uk-margin-top uk-margin-bottom' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'uk-grid uk-grid-small uk-grid-divider', 'uk-grid': true },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'uk-first-column' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { 'uk-icon': 'icon: plus' }),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { 'uk-icon': 'icon: copy' }),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { 'uk-icon': 'icon: trash' })
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              null,
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'select',
-                { className: 'uk-select uk-form-small uk-form-width-small' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'option',
-                  null,
-                  'Arial'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'option',
-                  null,
-                  'Comic Sans MS'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'option',
-                  null,
-                  'Calibri'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'option',
-                  null,
-                  'Cambria'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'option',
-                  null,
-                  'Courier'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'option',
-                  null,
-                  'Impact'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'option',
-                  null,
-                  'Roboto'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'option',
-                  null,
-                  'Source Sans'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'option',
-                  null,
-                  'Times New Roman'
-                )
-              )
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              null,
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'select',
-                { className: 'uk-select uk-form-small uk-form-width-xsmall' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'option',
-                  null,
-                  '8'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'option',
-                  null,
-                  '10'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'option',
-                  null,
-                  '12'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'option',
-                  null,
-                  '14'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'option',
-                  null,
-                  '18'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'option',
-                  null,
-                  '24'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'option',
-                  null,
-                  '36'
-                )
-              )
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              null,
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { 'uk-icon': 'icon: bold' }),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { 'uk-icon': 'icon: italic' }),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { 'uk-icon': 'icon: strikethrough' })
-            )
-          )
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'div',
-          { className: 'uk-margin' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'uk-input uk-form-blank uk-form-large', type: 'Title', placeholder: 'Title' })
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'div',
-          { className: 'uk-margin' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('textarea', { className: 'uk-textarea uk-form-blank', rows: '5', placeholder: 'Body' })
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('h3', null),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'button',
-          { className: 'uk-button uk-button-primary' },
-          'Submit'
-        )
-      )
-    );
-  }
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (Feedback);
-
-/***/ }),
 /* 75 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -28808,18 +33301,23 @@ class Feedback extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
+const css = __webpack_require__(76);
 
-class Profile extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
+class Feedback extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      null,
-      'Profile'
+      { className: 'container' },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'iframe',
+        { className: 'embed', src: 'https://docs.google.com/forms/d/e/1FAIpQLSds9ueVdjY4UvMM27KrdBoV8JW4cDeJa0vwLrlhviGBEndQDA/viewform?embedded=true' },
+        'Loading...'
+      )
     );
   }
 }
 
-/* harmony default export */ __webpack_exports__["a"] = (Profile);
+/* harmony default export */ __webpack_exports__["a"] = (Feedback);
 
 /***/ }),
 /* 76 */
@@ -28836,14 +33334,14 @@ var transform;
 var options = {"hmr":true}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(79)(content, options);
+var update = __webpack_require__(35)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!./App.css", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!./App.css");
+		module.hot.accept("!!../../../node_modules/css-loader/index.js!./Feedback.css", function() {
+			var newContent = require("!!../../../node_modules/css-loader/index.js!./Feedback.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -28856,472 +33354,18 @@ if(false) {
 /* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(78)(false);
+exports = module.exports = __webpack_require__(34)(false);
 // imports
 
 
 // module
-exports.push([module.i, "body {\r\n  margin: 0;\r\n  padding: 0;\r\n  font-family: 'Lato', sans-serif;\r\n}\r\n\r\n.main {\r\n  transition: 150ms linear;\r\n}\r\n\r\n.content {\r\n  align-content: center;\r\n  margin-left: 10px;\r\n  background: white;\r\n  transition: 150ms linear;\r\n}\r\n\r\n.background {\r\n  background-color: #2a2c31;\r\n}\r\n\r\n.logo {\r\n  width: 38px;\r\n  height: 38px;\r\n  margin-top: 0.5px;\r\n  margin-left: 5px;\r\n  margin-right: 5px;\r\n  content: url('data:image/png;base64,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')\r\n}\r\n", ""]);
+exports.push([module.i, ".container {\n  position: relative;\n\tpadding-bottom: 100%;\n\tpadding-top: 60px;\n\theight: 0;\n}\n\n.embed {\n  position: absolute;\n  border: none;\n  top: 0; right: 0;\n  bottom: 0; left: 0;\n  width: 100%;\n  height: 100%;\n}", ""]);
 
 // exports
 
 
 /***/ }),
 /* 78 */
-/***/ (function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-module.exports = function(useSourceMap) {
-	var list = [];
-
-	// return the list of modules as css string
-	list.toString = function toString() {
-		return this.map(function (item) {
-			var content = cssWithMappingToString(item, useSourceMap);
-			if(item[2]) {
-				return "@media " + item[2] + "{" + content + "}";
-			} else {
-				return content;
-			}
-		}).join("");
-	};
-
-	// import a list of modules into the list
-	list.i = function(modules, mediaQuery) {
-		if(typeof modules === "string")
-			modules = [[null, modules, ""]];
-		var alreadyImportedModules = {};
-		for(var i = 0; i < this.length; i++) {
-			var id = this[i][0];
-			if(typeof id === "number")
-				alreadyImportedModules[id] = true;
-		}
-		for(i = 0; i < modules.length; i++) {
-			var item = modules[i];
-			// skip already imported module
-			// this implementation is not 100% perfect for weird media query combinations
-			//  when a module is imported multiple times with different media queries.
-			//  I hope this will never occur (Hey this way we have smaller bundles)
-			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-				if(mediaQuery && !item[2]) {
-					item[2] = mediaQuery;
-				} else if(mediaQuery) {
-					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-				}
-				list.push(item);
-			}
-		}
-	};
-	return list;
-};
-
-function cssWithMappingToString(item, useSourceMap) {
-	var content = item[1] || '';
-	var cssMapping = item[3];
-	if (!cssMapping) {
-		return content;
-	}
-
-	if (useSourceMap && typeof btoa === 'function') {
-		var sourceMapping = toComment(cssMapping);
-		var sourceURLs = cssMapping.sources.map(function (source) {
-			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
-		});
-
-		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
-	}
-
-	return [content].join('\n');
-}
-
-// Adapted from convert-source-map (MIT)
-function toComment(sourceMap) {
-	// eslint-disable-next-line no-undef
-	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
-	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
-
-	return '/*# ' + data + ' */';
-}
-
-
-/***/ }),
-/* 79 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-
-var stylesInDom = {};
-
-var	memoize = function (fn) {
-	var memo;
-
-	return function () {
-		if (typeof memo === "undefined") memo = fn.apply(this, arguments);
-		return memo;
-	};
-};
-
-var isOldIE = memoize(function () {
-	// Test for IE <= 9 as proposed by Browserhacks
-	// @see http://browserhacks.com/#hack-e71d8692f65334173fee715c222cb805
-	// Tests for existence of standard globals is to allow style-loader
-	// to operate correctly into non-standard environments
-	// @see https://github.com/webpack-contrib/style-loader/issues/177
-	return window && document && document.all && !window.atob;
-});
-
-var getElement = (function (fn) {
-	var memo = {};
-
-	return function(selector) {
-		if (typeof memo[selector] === "undefined") {
-			var styleTarget = fn.call(this, selector);
-			// Special case to return head of iframe instead of iframe itself
-			if (styleTarget instanceof window.HTMLIFrameElement) {
-				try {
-					// This will throw an exception if access to iframe is blocked
-					// due to cross-origin restrictions
-					styleTarget = styleTarget.contentDocument.head;
-				} catch(e) {
-					styleTarget = null;
-				}
-			}
-			memo[selector] = styleTarget;
-		}
-		return memo[selector]
-	};
-})(function (target) {
-	return document.querySelector(target)
-});
-
-var singleton = null;
-var	singletonCounter = 0;
-var	stylesInsertedAtTop = [];
-
-var	fixUrls = __webpack_require__(80);
-
-module.exports = function(list, options) {
-	if (typeof DEBUG !== "undefined" && DEBUG) {
-		if (typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
-	}
-
-	options = options || {};
-
-	options.attrs = typeof options.attrs === "object" ? options.attrs : {};
-
-	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
-	// tags it will allow on a page
-	if (!options.singleton && typeof options.singleton !== "boolean") options.singleton = isOldIE();
-
-	// By default, add <style> tags to the <head> element
-	if (!options.insertInto) options.insertInto = "head";
-
-	// By default, add <style> tags to the bottom of the target
-	if (!options.insertAt) options.insertAt = "bottom";
-
-	var styles = listToStyles(list, options);
-
-	addStylesToDom(styles, options);
-
-	return function update (newList) {
-		var mayRemove = [];
-
-		for (var i = 0; i < styles.length; i++) {
-			var item = styles[i];
-			var domStyle = stylesInDom[item.id];
-
-			domStyle.refs--;
-			mayRemove.push(domStyle);
-		}
-
-		if(newList) {
-			var newStyles = listToStyles(newList, options);
-			addStylesToDom(newStyles, options);
-		}
-
-		for (var i = 0; i < mayRemove.length; i++) {
-			var domStyle = mayRemove[i];
-
-			if(domStyle.refs === 0) {
-				for (var j = 0; j < domStyle.parts.length; j++) domStyle.parts[j]();
-
-				delete stylesInDom[domStyle.id];
-			}
-		}
-	};
-};
-
-function addStylesToDom (styles, options) {
-	for (var i = 0; i < styles.length; i++) {
-		var item = styles[i];
-		var domStyle = stylesInDom[item.id];
-
-		if(domStyle) {
-			domStyle.refs++;
-
-			for(var j = 0; j < domStyle.parts.length; j++) {
-				domStyle.parts[j](item.parts[j]);
-			}
-
-			for(; j < item.parts.length; j++) {
-				domStyle.parts.push(addStyle(item.parts[j], options));
-			}
-		} else {
-			var parts = [];
-
-			for(var j = 0; j < item.parts.length; j++) {
-				parts.push(addStyle(item.parts[j], options));
-			}
-
-			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
-		}
-	}
-}
-
-function listToStyles (list, options) {
-	var styles = [];
-	var newStyles = {};
-
-	for (var i = 0; i < list.length; i++) {
-		var item = list[i];
-		var id = options.base ? item[0] + options.base : item[0];
-		var css = item[1];
-		var media = item[2];
-		var sourceMap = item[3];
-		var part = {css: css, media: media, sourceMap: sourceMap};
-
-		if(!newStyles[id]) styles.push(newStyles[id] = {id: id, parts: [part]});
-		else newStyles[id].parts.push(part);
-	}
-
-	return styles;
-}
-
-function insertStyleElement (options, style) {
-	var target = getElement(options.insertInto)
-
-	if (!target) {
-		throw new Error("Couldn't find a style target. This probably means that the value for the 'insertInto' parameter is invalid.");
-	}
-
-	var lastStyleElementInsertedAtTop = stylesInsertedAtTop[stylesInsertedAtTop.length - 1];
-
-	if (options.insertAt === "top") {
-		if (!lastStyleElementInsertedAtTop) {
-			target.insertBefore(style, target.firstChild);
-		} else if (lastStyleElementInsertedAtTop.nextSibling) {
-			target.insertBefore(style, lastStyleElementInsertedAtTop.nextSibling);
-		} else {
-			target.appendChild(style);
-		}
-		stylesInsertedAtTop.push(style);
-	} else if (options.insertAt === "bottom") {
-		target.appendChild(style);
-	} else if (typeof options.insertAt === "object" && options.insertAt.before) {
-		var nextSibling = getElement(options.insertInto + " " + options.insertAt.before);
-		target.insertBefore(style, nextSibling);
-	} else {
-		throw new Error("[Style Loader]\n\n Invalid value for parameter 'insertAt' ('options.insertAt') found.\n Must be 'top', 'bottom', or Object.\n (https://github.com/webpack-contrib/style-loader#insertat)\n");
-	}
-}
-
-function removeStyleElement (style) {
-	if (style.parentNode === null) return false;
-	style.parentNode.removeChild(style);
-
-	var idx = stylesInsertedAtTop.indexOf(style);
-	if(idx >= 0) {
-		stylesInsertedAtTop.splice(idx, 1);
-	}
-}
-
-function createStyleElement (options) {
-	var style = document.createElement("style");
-
-	options.attrs.type = "text/css";
-
-	addAttrs(style, options.attrs);
-	insertStyleElement(options, style);
-
-	return style;
-}
-
-function createLinkElement (options) {
-	var link = document.createElement("link");
-
-	options.attrs.type = "text/css";
-	options.attrs.rel = "stylesheet";
-
-	addAttrs(link, options.attrs);
-	insertStyleElement(options, link);
-
-	return link;
-}
-
-function addAttrs (el, attrs) {
-	Object.keys(attrs).forEach(function (key) {
-		el.setAttribute(key, attrs[key]);
-	});
-}
-
-function addStyle (obj, options) {
-	var style, update, remove, result;
-
-	// If a transform function was defined, run it on the css
-	if (options.transform && obj.css) {
-	    result = options.transform(obj.css);
-
-	    if (result) {
-	    	// If transform returns a value, use that instead of the original css.
-	    	// This allows running runtime transformations on the css.
-	    	obj.css = result;
-	    } else {
-	    	// If the transform function returns a falsy value, don't add this css.
-	    	// This allows conditional loading of css
-	    	return function() {
-	    		// noop
-	    	};
-	    }
-	}
-
-	if (options.singleton) {
-		var styleIndex = singletonCounter++;
-
-		style = singleton || (singleton = createStyleElement(options));
-
-		update = applyToSingletonTag.bind(null, style, styleIndex, false);
-		remove = applyToSingletonTag.bind(null, style, styleIndex, true);
-
-	} else if (
-		obj.sourceMap &&
-		typeof URL === "function" &&
-		typeof URL.createObjectURL === "function" &&
-		typeof URL.revokeObjectURL === "function" &&
-		typeof Blob === "function" &&
-		typeof btoa === "function"
-	) {
-		style = createLinkElement(options);
-		update = updateLink.bind(null, style, options);
-		remove = function () {
-			removeStyleElement(style);
-
-			if(style.href) URL.revokeObjectURL(style.href);
-		};
-	} else {
-		style = createStyleElement(options);
-		update = applyToTag.bind(null, style);
-		remove = function () {
-			removeStyleElement(style);
-		};
-	}
-
-	update(obj);
-
-	return function updateStyle (newObj) {
-		if (newObj) {
-			if (
-				newObj.css === obj.css &&
-				newObj.media === obj.media &&
-				newObj.sourceMap === obj.sourceMap
-			) {
-				return;
-			}
-
-			update(obj = newObj);
-		} else {
-			remove();
-		}
-	};
-}
-
-var replaceText = (function () {
-	var textStore = [];
-
-	return function (index, replacement) {
-		textStore[index] = replacement;
-
-		return textStore.filter(Boolean).join('\n');
-	};
-})();
-
-function applyToSingletonTag (style, index, remove, obj) {
-	var css = remove ? "" : obj.css;
-
-	if (style.styleSheet) {
-		style.styleSheet.cssText = replaceText(index, css);
-	} else {
-		var cssNode = document.createTextNode(css);
-		var childNodes = style.childNodes;
-
-		if (childNodes[index]) style.removeChild(childNodes[index]);
-
-		if (childNodes.length) {
-			style.insertBefore(cssNode, childNodes[index]);
-		} else {
-			style.appendChild(cssNode);
-		}
-	}
-}
-
-function applyToTag (style, obj) {
-	var css = obj.css;
-	var media = obj.media;
-
-	if(media) {
-		style.setAttribute("media", media)
-	}
-
-	if(style.styleSheet) {
-		style.styleSheet.cssText = css;
-	} else {
-		while(style.firstChild) {
-			style.removeChild(style.firstChild);
-		}
-
-		style.appendChild(document.createTextNode(css));
-	}
-}
-
-function updateLink (link, options, obj) {
-	var css = obj.css;
-	var sourceMap = obj.sourceMap;
-
-	/*
-		If convertToAbsoluteUrls isn't defined, but sourcemaps are enabled
-		and there is no publicPath defined then lets turn convertToAbsoluteUrls
-		on by default.  Otherwise default to the convertToAbsoluteUrls option
-		directly
-	*/
-	var autoFixUrls = options.convertToAbsoluteUrls === undefined && sourceMap;
-
-	if (options.convertToAbsoluteUrls || autoFixUrls) {
-		css = fixUrls(css);
-	}
-
-	if (sourceMap) {
-		// http://stackoverflow.com/a/26603875
-		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
-	}
-
-	var blob = new Blob([css], { type: "text/css" });
-
-	var oldSrc = link.href;
-
-	link.href = URL.createObjectURL(blob);
-
-	if(oldSrc) URL.revokeObjectURL(oldSrc);
-}
-
-
-/***/ }),
-/* 80 */
 /***/ (function(module, exports) {
 
 
@@ -29416,7 +33460,73 @@ module.exports = function (css) {
 
 
 /***/ }),
+/* 79 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+
+
+class Profile extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      null,
+      'Profile'
+    );
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Profile);
+
+/***/ }),
+/* 80 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(81);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {"hmr":true}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(35)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../node_modules/css-loader/index.js!./App.css", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!./App.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
 /* 81 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(34)(false);
+// imports
+
+
+// module
+exports.push([module.i, "body {\n  margin: 0;\n  padding: 0;\n  font-family: 'Lato', sans-serif;\n}\n\n.main {\n  transition: 150ms linear;\n}\n\n.content {\n  align-content: center;\n  margin-left: 10px;\n  background: white;\n  transition: 150ms linear;\n}\n\n.background {\n  background-color: #2a2c31;\n}\n\n.logo {\n  width: 38px;\n  height: 38px;\n  margin-top: 0.5px;\n  margin-left: 5px;\n  margin-right: 5px;\n  content: url('data:image/png;base64,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')\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*! UIkit 3.0.0-beta.37 | http://www.getuikit.com | (c) 2014 - 2017 YOOtheme | MIT License */

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-const data = require('../../../server/data.js')
 const css = require('./Dashboard')
 const http = require('http')
 let timetable = ''
@@ -11,9 +10,11 @@ class Dashboard extends Component {
   }
   
   dataTest() {
-    http.get('/getdata', (res) => {
+    // returns daily notices, see auth.js for usage info
+    http.get('/getdata?url=dailynews/list.json', (res) => {
       res.setEncoding('utf8')
       res.on('data', function (body) {
+        // prints daily notices
         console.log(body)
       })
     })
