@@ -11,11 +11,12 @@ class Dashboard extends Component {
   
   dataTest() {
     // returns daily notices, see auth.js for usage info
-    http.get('/getdata?url=dailynews/list.json', (res) => {
+    http.get('/getdata?url=timetable/timetable.json', (res) => {
       res.setEncoding('utf8')
       res.on('data', function (body) {
         // prints daily notices
         console.log(body)
+        console.log(Buffer.byteLength(body, 'utf8') + 'bytes long')
       })
     })
   }

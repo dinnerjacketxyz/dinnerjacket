@@ -123,8 +123,12 @@ module.exports = (app) => {
       https.get(httpsOptions, (res2) => {
         res2.setEncoding('utf8')
         // resolve the promise when data received
+        let data
         res2.on('data', function (body) {
-          resolve(body)
+          data += body
+        })
+        res2.on('end', function(body) {
+          resolve(data)
         })
       })
     })
