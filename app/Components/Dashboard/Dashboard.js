@@ -8,7 +8,7 @@ class Dashboard extends Component {
     super(props)
 
   }
-  
+
   dataTest() {
     // returns daily notices, see auth.js for usage info
     http.get('/getdata?url=dailynews/list.json', (res) => {

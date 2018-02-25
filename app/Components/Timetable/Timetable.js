@@ -1,14 +1,34 @@
 import React, { Component } from 'react'
+const http = require('http')
+
+let timetableData = ''
 
 class Timetable extends Component {
+
   constructor(props) {
     super(props)
-    console.log(data.timetable)
+
+
+    // Get timetable data from SBHS API
+    http.get('/getdata?url=timetable/timetable.json', (res) => {
+      res.setEncoding('utf8')
+      res.on('data', (body) => {
+        // Prints all timetable data to the console
+        console.log(body)
+        timetableData = JSON.parse(body)
+      })
+    })
   }
-  
+
+  // (Test) sub which prints data upon test button press
+  showData() {
+    console.log(timetableData)
+  }
+
   render() {
     return (
       <div className='uk-flex-center uk-flex'>
+        <button onClick={this.showData.bind(this)}>Test</button>
         <div className='uk-card uk-card-default uk-card-body uk-card-large'>
           <ul className='uk-subnav uk-subnav-pill uk-flex-center uk-text-large' uk-switcher='animation: uk-animation-fade'>
             <li>
