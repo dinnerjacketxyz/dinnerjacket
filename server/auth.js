@@ -105,39 +105,51 @@ module.exports = (app) => {
   
   app.get('/getdata', (req1, res1) => {
   
-    if (req1.session.token === undefined) { res1.send(undefined) }
-  
-    const token = req1.session.token.token.access_token
-    
-    const httpsOptions = {
-      hostname: 'student.sbhs.net.au',
-      path: '/api/' + req1.query.url,
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + token
-      }
-    }
-  
-    let promise = new Promise( function (resolve, reject) {
+    if (req1.session.token == undefined) {
+      res1.status(401) // 401 unauthorized
+      res1.send(undefined)
       
-      https.get(httpsOptions, (res2) => {
-        res2.setEncoding('utf8')
-        // resolve the promise when data received
-        let data
-        res2.on('data', function (body) {
-          data += body
-        })
-        res2.on('end', function(body) {
-          resolve(data)
+    } else {
+      
+      const token = req1.session.token.token.access_token
+      
+      const httpsOptions = {
+        hostname: 'student.sbhs.net.au',
+        path: '/api/' + req1.query.url,
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
+      }
+    
+      let promise = new Promise( function (resolve, reject) {
+        
+        https.get(httpsOptions, (res2) => {
+          res2.setEncoding('utf8')
+          // resolve the promise when data received
+          let data = ''
+          res2.on('data', function (body) {
+            data += body
+            console.log('Data incoming: ' + data)
+          })
+          res2.on('end', function(body) {
+            resolve(data)
+          })
         })
       })
-    })
-    
-    promise.then(function(result){
-      // send resources
-      res1.send(result)
-    })
-
+      
+      promise.then(function(result){
+        /*
+        const fs = require('fs')
+        let jason = JSON.parse(result)
+        fs.writeFile("test.txt", JSON.stringify(jason, null, 2), function(err) {
+          console.log('saved, ' + err)
+        });*/
+        
+        // send resources
+        res1.send(result)
+      })
+    }
   })
 
   // TO DO: implement logout
