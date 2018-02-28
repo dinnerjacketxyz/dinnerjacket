@@ -444,10 +444,10 @@ class Dashboard extends Component {
     }
 
     return (
-      <div className='uk-flex uk-flex-center uk-text-center uk-margin-left uk-margin-right'>
-        <div className='uk-card uk-card-default uk-card-body uk-card large uk-width-1-3@l uk-width-2-5@m uk-width-2-3@s uk-width-4-5@xs '>
+      <div className='uk-flex uk-flex-center uk-text-center uk-margin-left uk-margin-right uk-margin-top'>
+        <div className='uk-card uk-card-default uk-card-body uk-card large uk-width-1-4@xxl uk-width-1-3@xl uk-width-2-5@l uk-width-1-2@m uk-width-2-3@s uk-width-3-5@xs '>
           <p className='uk-text-large'>{nextClass} in</p>
-          <h1 className='uk-text-center uk-heading-primary uk-margin-small-top uk-margin-medium-bottom'>
+          <h1 className='uk-text-center uk-h1 uk-margin-small-top uk-margin-medium-bottom'>
             {timeLeft}
           </h1>
           {this.state.htmlClasses}
