@@ -4,11 +4,10 @@ const http = require('http')
 let timetableData = ''
 
 class Timetable extends Component {
-
+  
   constructor(props) {
     super(props)
-
-
+    
     // Get timetable data from SBHS API
     http.get('/getdata?url=timetable/timetable.json', (res) => {
       res.setEncoding('utf8')
@@ -20,7 +19,6 @@ class Timetable extends Component {
     })
   }
 
-  // (Test) sub which prints data upon test button press
   showData() {
     console.log(timetableData)
   }

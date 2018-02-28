@@ -6,24 +6,37 @@ let timetable = ''
 class Dashboard extends Component {
   constructor(props) {
     super(props)
-
+    this.changeTestVar = this.changeTestVar.bind(this)
+    this.state = { testVar: '999' }
   }
 
   dataTest() {
     // returns daily notices, see auth.js for usage info
-    http.get('/getdata?url=dailynews/list.json', (res) => {
+    http.get('/getdata?url=timetable/daytimetable.json', (res) => {
       res.setEncoding('utf8')
+      
+      let returnData = ''
+      
       res.on('data', function (body) {
-        // prints daily notices
-        console.log(body)
+        returnData += body
+      })
+      
+      res.on('end', function(){
+        console.log(returnData)
       })
     })
+  }
+  
+  changeTestVar() {
+    this.setState({ testVar: '998' })
+    console.log('Changed test variable')
   }
 
   render() {
     return (
       <div className='uk-flex uk-flex-center uk-text-center uk-margin-left uk-margin-right'>
         <button onClick={this.dataTest.bind(this)}>Data Test</button>
+        <button onClick={this.changeTestVar}>Timetable Test</button>
         <div className='uk-card uk-card-default uk-card-body uk-card large uk-width-1-3@l uk-width-2-5@m uk-width-2-3@s uk-width-4-5@xs '>
           <p className='uk-text-large'>Roll Call in</p>
           <h1 className='uk-text-center uk-heading-primary uk-margin-small-top uk-margin-medium-bottom'>
@@ -39,7 +52,7 @@ class Dashboard extends Component {
                       at 09:05 with Ms English
                     </dd>
                   </td>
-                  <td className='uk-text-middle uk-table-shrink uk-text-lead'>201</td>
+                  <td className='uk-text-middle uk-table-shrink uk-text-lead'>{this.state.testVar}</td>
                 </tr>
                 <tr>
                   <td className='uk-text-lead uk-text-left uk-text-muted'>
