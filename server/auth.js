@@ -17,7 +17,7 @@ module.exports = (app) => {
           |   REPLACE THIS WITH CLIENT SECRET WHEN RUNNING   |
           *==================================================*
                                                                 */
-      secret: 'Ev2mcT3Ek5s8xxY46G7RKt74dEE'
+      secret: REDACTED
       /*
           *==================================================*
           |   REMEMBER TO REMOVE IT AGAIN BEFORE YOU PUSH    |
@@ -44,9 +44,9 @@ module.exports = (app) => {
   app.get('/login', (req, res) => {
     res.redirect(authorizationURI)
   })
-  
+
   /* TOKEN FORMAT
-  
+
     { token:
      { access_token: '________________________________________',  (40 char alphanum.)
        expires_in: 3600,
@@ -56,9 +56,9 @@ module.exports = (app) => {
        expires_at: '2018-02-24T02:54:54.925Z'
      }
     }
-   
+
   */
-  
+
   // SBHS API will redirect to this URL with code
   app.get('/callback', (req, res) => {
     const code = req.query.code;
@@ -68,20 +68,20 @@ module.exports = (app) => {
     }
 
     let promise = new Promise( function (resolve, reject) {
-      
+
         // exchange code for token
       oauth2.authorizationCode.getToken(options, (error, result) => {
-        
+
         // handle error
         if (error) {
           return res.json('Access Token Error: ' + error.message)
         }
-        
+
         // use token
         resolve(oauth2.accessToken.create(result))
       })
     })
-    
+
     promise.then(function(result) {
       // store token in user's session
       req.session.token = result
@@ -102,17 +102,17 @@ module.exports = (app) => {
    |  timetable/bells.json        |  calendar/days.json         |
    |  calendar/terms.json         |                             |
    *==============================*============================*/
-  
+
   app.get('/getdata', (req1, res1) => {
-  
+
     if (req1.session.token == undefined) {
       res1.status(401) // 401 unauthorized
       res1.send(undefined)
-      
+
     } else {
-      
+
       const token = req1.session.token.token.access_token
-      
+
       const httpsOptions = {
         hostname: 'student.sbhs.net.au',
         path: '/api/' + req1.query.url,
@@ -121,9 +121,9 @@ module.exports = (app) => {
           'Authorization': 'Bearer ' + token
         }
       }
-    
+
       let promise = new Promise( function (resolve, reject) {
-        
+
         https.get(httpsOptions, (res2) => {
           res2.setEncoding('utf8')
           // resolve the promise when data received
@@ -137,7 +137,7 @@ module.exports = (app) => {
           })
         })
       })
-      
+
       promise.then(function(result){
         /*
         const fs = require('fs')
@@ -145,7 +145,7 @@ module.exports = (app) => {
         fs.writeFile("test.txt", JSON.stringify(jason, null, 2), function(err) {
           console.log('saved, ' + err)
         });*/
-        
+
         // send resources
         res1.send(result)
       })
@@ -156,10 +156,10 @@ module.exports = (app) => {
   app.get('/logout', (req, res) => {
     req.session.destroy()
   })
-  
+
   var session = require('express-session')
   app.use(session({secret: 'a'}))
-  
+
   // for testing
   app.get('/test', (req, res) => {
     console.log(req.session.token)
