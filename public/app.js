@@ -6317,7 +6317,7 @@ class About extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
           ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'span',
-            { clasName: 'uk-article-meta' },
+            { className: 'uk-article-meta' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'i',
               null,
@@ -27594,6 +27594,10 @@ var objectKeys = Object.keys || function (obj) {
 const http = __webpack_require__(23);
 
 let timetableData = '';
+let outputA = '';
+let outputB = '';
+let outputC = '';
+let dayOutput = '';
 
 class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
@@ -27604,548 +27608,241 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     http.get('/getdata?url=timetable/timetable.json', res => {
       res.setEncoding('utf8');
       res.on('data', body => {
-        // Prints all timetable data to the console
-        console.log(body);
         timetableData = JSON.parse(body);
       });
     });
   }
 
-  showData() {
-    console.log(timetableData);
+  displayWeek(outputA, outputB, outputC) {
+    let A = document.getElementById('weekA');
+    A.innerHTML = outputA;
+    let B = document.getElementById('weekB');
+    B.innerHTML = outputB;
+    let C = document.getElementById('weekC');
+    C.innerHTML = outputC;
+  }
+
+  generateWeek() {
+    //generates the first week
+    for (let i = 1; i <= 5; i++) {
+      let day = timetableData.days[`${i}`].periods;
+      outputA += this.generatePeriod(day);
+    }
+    //generates the second week
+    for (let i = 6; i <= 10; i++) {
+      let day = timetableData.days[`${i}`].periods;
+      outputB += this.generatePeriod(day);
+    }
+    //generates the third week
+    for (let i = 11; i <= 15; i++) {
+      let day = timetableData.days[`${i}`].periods;
+      outputC += this.generatePeriod(day);
+    }
+    this.displayWeek(outputA, outputB, outputC);
+  }
+
+  generatePeriod(day) {
+    dayOutput = '';
+    for (let u = 1; u <= 5; u++) {
+      if (day[`${u}`] == undefined) {
+        dayOutput += `<p>${u}:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>`;
+      } else {
+        dayOutput += `<p>${u}: ${day[`${u}`].title}&nbsp;&nbsp;${day[`${u}`].room}</p>`;
+      }
+    }
+    return dayOutput;
+  }
+
+  initialise() {
+    //clears variables so you can initialise multiple times
+    outputA = '';
+    outputB = '';
+    outputC = '';
+    //generates the timetable
+    this.generateWeek();
+    //Puts your name at the top
+    let name = document.getElementById('name');
+    name.innerHTML = `${timetableData.student.givenname}&nbsp;${timetableData.student.surname}`;
+    console.log(timetableData.subjects);
+    this.generateClassList();
+    this.generateStudentInfo();
+  }
+
+  generateClassList() {
+    let classList = '';
+    let z = 1;
+    while (timetableData.subjects[z] != -1) {
+      console.log(timetableData.subjects[z]);
+      if (timetableData.subjects[z] != -1) {
+        classList += `<tr><td>${timetableData.subjects[z].title}</td><td>${timetableData.subjects[z].fullTeacher}</td></tr>`;
+      } else {
+        stopCounter++;
+      }
+      z++;
+    }
+    let list = document.getElementById('classList');
+    list.innerHTML = classList;
+  }
+
+  generateStudentInfo() {
+    let adviser = timetableData.subjects[17];
+    let info = '';
+    info = `<p>${timetableData.subjects[15].title}</p>
+     <p>Student Adviser: ${timetableData.subjects[17].fullTeacher}</p>
+     <p>ID: ${timetableData.student.studentId}</p>`;
+    if (timetableData.student.BoSNumber != 0) {
+      info += `<p>BOS: ${timetableData.student.BoSNumber}</p>`;
+    }
+    let studentInfo = document.getElementById('studentInfo');
+    studentInfo.innerHTML = info;
   }
 
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { className: 'uk-flex-center uk-flex' },
+      { className: 'uk-flex-center uk-flex uk-margin-top' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'button',
-        { onClick: this.showData.bind(this) },
+        { onClick: this.initialise.bind(this) },
         'Test'
       ),
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
-        { className: 'uk-card uk-card-default uk-card-body uk-card-large' },
+        { className: 'uk-grid uk-grid-small uk-grid-collapse' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('ul', { className: 'uk-grid uk-grid-small' }),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'ul',
-          { className: 'uk-subnav uk-subnav-pill uk-flex-center uk-text-large', 'uk-switcher': 'animation: uk-animation-fade' },
+          'li',
+          null,
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
+            'div',
+            { className: 'uk-card uk-card-default uk-card-body' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('h2', { id: 'name', className: 'uk-text-center uk-h2 uk-margin-small-bottom' }),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'a',
-              { href: '#' },
-              'A'
-            )
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
+              'div',
+              { className: 'uk-box-shadow-hover-small uk-padding-small uk-text-center' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'uk-column-1-5 uk-text-center uk-text-muted' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'p',
+                  null,
+                  'MON A'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'p',
+                  null,
+                  'TUE A'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'p',
+                  null,
+                  'WED A'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'p',
+                  null,
+                  'THU A'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'p',
+                  null,
+                  'FRI A'
+                )
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { id: 'weekA', className: 'uk-column-1-5 uk-column-divider uk-width-shrink uk-text-center' })
+            ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'a',
-              { href: '#' },
-              'B'
-            )
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
+              'div',
+              { className: 'uk-box-shadow-hover-small uk-padding-small uk-width-shrink uk-text-center' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'uk-column-1-5 uk-text-center uk-text-muted' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'p',
+                  null,
+                  'MON B'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'p',
+                  null,
+                  'TUE B'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'p',
+                  null,
+                  'WED B'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'p',
+                  null,
+                  'THU B'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'p',
+                  null,
+                  'FRI B'
+                )
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { id: 'weekB', className: 'uk-column-1-5 uk-column-divider uk-width-auto' })
+            ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'a',
-              { href: '#' },
-              'C'
+              'div',
+              { className: 'uk-box-shadow-hover-small uk-padding-small uk-width-shrink uk-text-center' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'uk-column-1-5 uk-text-center uk-text-muted' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'p',
+                  null,
+                  'MON C'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'p',
+                  null,
+                  'TUE C'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'p',
+                  null,
+                  'WED C'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'p',
+                  null,
+                  'THU C'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'p',
+                  null,
+                  'FRI C'
+                )
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { id: 'weekC', className: 'uk-column-1-5 uk-column-divider uk-width-auto' })
             )
           )
         ),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'ul',
-          { className: 'uk-switcher uk-margin' },
+          'li',
+          null,
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
+            'div',
+            { className: 'uk-card uk-card-default uk-card-body uk-card-small' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'uk-column-1-5 uk-text-center uk-text-muted' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'MON A'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'TUE A'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'WED A'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'THU A'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'FRI A'
-              )
+              'h3',
+              { className: 'uk-card-title uk-text-center uk-padding-top' },
+              'Classes'
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'uk-column-1-5 uk-column-divider uk-width-auto' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 '
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 '
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003 '
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 '
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003 MAT \u2003 \u2003 101'
-              )
-            )
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'uk-column-1-5 uk-text-center uk-text-muted' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'MON B'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'TUE B'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'WED B'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'THU B'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'FRI B'
-              )
+              'table',
+              { className: 'uk-table uk-table-small uk-table-hover uk-width-medium uk-margin-small-top uk-margin-small-left uk-margin-small-right' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tbody', { id: 'classList' })
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'uk-column-1-5 uk-column-divider uk-width-auto' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 '
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 '
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003 '
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 '
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003 MAT \u2003 \u2003 101'
-              )
-            )
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'uk-column-1-5 uk-text-center uk-text-muted' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'MON C'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'TUE C'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'WED C'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'THU C'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'FRI C'
-              )
+              'h3',
+              { className: 'uk-card-title uk-text-center' },
+              'Student Information'
             ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'uk-column-1-5 uk-column-divider uk-width-auto' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 '
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 '
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003 '
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 '
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003 MAT \u2003 \u2003 101'
-              )
-            )
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { id: 'studentInfo', className: 'uk-margin-small-top uk-margin-small-left uk-margin-small-right uk-padding-large-bottom uk-margin-bottom' })
           )
         )
       )
