@@ -130,7 +130,7 @@ module.exports = (app) => {
           let data = ''
           res2.on('data', function (body) {
             data += body
-            console.log('Data incoming: ' + data)
+            //console.log('Data incoming: ' + data)
           })
           res2.on('end', function(body) {
             resolve(data)
