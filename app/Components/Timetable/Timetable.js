@@ -8,10 +8,10 @@ let outputC = ''
 let dayOutput = ''
 
 class Timetable extends Component {
-  
+
   constructor(props) {
     super(props)
-    
+
     // Get timetable data from SBHS API
     http.get('/getdata?url=timetable/timetable.json', (res) => {
       res.setEncoding('utf8')
@@ -23,11 +23,11 @@ class Timetable extends Component {
 
   displayWeek(outputA, outputB, outputC) {
     let A = document.getElementById('weekA')
-    A.innerHTML = outputA 
+    A.innerHTML = outputA
     let B = document.getElementById('weekB')
-    B.innerHTML = outputB 
+    B.innerHTML = outputB
     let C = document.getElementById('weekC')
-    C.innerHTML = outputC 
+    C.innerHTML = outputC
   }
 
   generateWeek() {
@@ -95,7 +95,7 @@ class Timetable extends Component {
   generateStudentInfo() {
     let adviser = timetableData.subjects[17]
     let info = ''
-    info = 
+    info =
     `<p>${timetableData.subjects[15].title}</p>
      <p>Student Adviser: ${timetableData.subjects[17].fullTeacher}</p>
      <p>ID: ${timetableData.student.studentId}</p>`
@@ -115,7 +115,7 @@ class Timetable extends Component {
             <li>
               <div className='uk-card uk-card-default uk-card-body'>
                 <h2 id='name' className='uk-text-center uk-h2 uk-margin-small-bottom'></h2>
-                
+
                 <div className='uk-box-shadow-hover-small uk-padding-small uk-text-center'>
                   <div className='uk-column-1-5 uk-text-center uk-text-muted'>
                     <p>MON A</p>
@@ -137,7 +137,7 @@ class Timetable extends Component {
                       <p>FRI B</p>
                   </div>
                   <div id='weekB' className='uk-column-1-5 uk-column-divider uk-width-auto'>
-                    
+
                   </div>
                 </div>
 
@@ -150,7 +150,7 @@ class Timetable extends Component {
                     <p>FRI C</p>
                   </div>
                   <div id='weekC' className='uk-column-1-5 uk-column-divider uk-width-auto'>
-                    
+
                   </div>
                 </div>
               </div>

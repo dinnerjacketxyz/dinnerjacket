@@ -3828,10 +3828,10 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { className: 'uk-flex uk-flex-center uk-text-center uk-margin-left uk-margin-right' },
+      { className: 'uk-flex uk-flex-center uk-text-center uk-margin-left uk-margin-right uk-margin-top' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
-        { className: 'uk-card uk-card-default uk-card-body uk-card large uk-width-1-3@l uk-width-2-5@m uk-width-2-3@s uk-width-4-5@xs ' },
+        { className: 'uk-card uk-card-default uk-card-body uk-card large uk-width-1-4@xxl uk-width-1-3@xl uk-width-2-5@l uk-width-1-2@m uk-width-2-3@s uk-width-3-5@xs ' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'p',
           { className: 'uk-text-large' },
@@ -3840,7 +3840,7 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         ),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'h1',
-          { className: 'uk-text-center uk-heading-primary uk-margin-small-top uk-margin-medium-bottom' },
+          { className: 'uk-text-center uk-h1 uk-margin-small-top uk-margin-medium-bottom' },
           timeLeft
         ),
         this.state.htmlClasses
@@ -6595,7 +6595,7 @@ class About extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'span',
           { className: 'uk-text-small' },
-          'beta v0.1.0'
+          'alpha v0.1.0'
         ),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -29355,6 +29355,14 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
 const css = __webpack_require__(77);
+
+// TODO
+// google forms iframe takes a few secs to Load
+// can we dump a lil spinny wheel underneath the iframe that shows its loading
+// and then the iframe loads on top and hides it innit
+// because if you've read the textbook you'll find that if the ui takes
+// more than one second to load, the user feels as if the computer has taken control
+// and we dont want that
 
 class Feedback extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   render() {
