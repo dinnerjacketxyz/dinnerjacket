@@ -28,11 +28,8 @@ window.STATES = {
   TIMETABLE: 1,
   NOTES: 2,
   NOTICES: 3,
-  CALENDAR: 4,
-  SETTINGS: 5,
-  ABOUT: 6,
-  FEEDBACK: 7,
-  PROFILE: 8
+  ABOUT: 4,
+  FEEDBACK: 5
 }
 
 const nameArray = [
@@ -48,32 +45,32 @@ class App extends Component {
   constructor(props) {
     super(props)
 
-    // Set default state on launch
-    //console.log(window.authSuccess)
-    //if (window.authSuccess) {
-    //  this.state = { visible: window.STATES.DASHBOARD }
-    //} else {
-    //  this.state = { visible: window.STATES.WELCOME }
-    //}
-
+    // Set default state on open to Welcome page
+    // TODO the welcome page currently does not take the full page and
+    // can show the navbar if the page is long enough
     this.state = { visible: window.STATES.WELCOME }
 
+    //let visible = this.state.visible
+    /*let url = window.location.toString()
+    if (url.substr(url.length - 11) === '/index.html') {
+      this.setState({ visible: window.STATES.DASHBOARD })
+    } else {*/
+
+    // Sample data request
+    // If data is undefined, user is not logged in and therefore welcome page is shown
+    // Otherwise it sets the state directly to Dashboard, the default homepage for logged in users
+    // TODO there is a slight delay between it switching to the dashboard page (a lil flicker here and there innit)
     http.get('/getdata?url=timetable/timetable.json', (res) => {
       res.setEncoding('utf8')
       res.on('data', (body) => {
         console.log(body)
         if (body != undefined) {
-          this.state.visible = window.STATES.DASHBOARD
+          let visible = this.state.visible
+          this.setState({ visible: window.STATES.DASHBOARD })
         }
       })
     })
-
-    /*if (authSuccess) {
-      this.state = { visible: window.STATES.DASHBOARD }
-    } else {
-      this.state = { visible: window.STATES.WELCOME }
-    }*/
-
+    //}
   }
 
   blankNavbar() {
@@ -139,22 +136,10 @@ class App extends Component {
     this.selectedNavbar(window.STATES.NOTICES)
   }
 
-  showSettings() {
-    console.log('Settings tab clicked')
-    let visible = this.state.visible
-    this.setState({ visible: window.STATES.SETTINGS })
-  }
-
   showAbout() {
     console.log('About tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.ABOUT })
-  }
-
-  showProfile() {
-    console.log('Settings tab clicked')
-    let visible = this.state.visible
-    this.setState({ visible: window.STATES.PROFILE })
   }
 
   showFeedback() {
@@ -222,12 +207,6 @@ class App extends Component {
 
                 <div className='uk-navbar-dropdown' uk-dropdown='mode: click'>
                   <ul className='uk-nav uk-navbar-dropdown-nav'>
-                    <li>
-                      <a onClick={this.showSettings.bind(this)}>
-                        <span className='uk-icon uk-margin-small-right' uk-icon='icon: cog' />
-                        Settings
-                      </a>
-                    </li>
 
                     <li>
                       <a onClick={this.showAbout.bind(this)}>
@@ -244,16 +223,9 @@ class App extends Component {
                     </li>
 
                     <li>
-                      <a onClick={this.showProfile.bind(this)}>
-                        <span className='uk-icon uk-margin-small-right' uk-icon='icon: user' />
-                        Profile
-                      </a>
-                    </li>
-
-                    <li>
-                      <a>
-                        <span className='uk-icon uk-margin-small-right' uk-icon='icon: sign-in' />
-                        Log In
+                      <a className='uk-text-danger'>
+                        <span className='uk-icon uk-margin-small-right' uk-icon='icon: sign-out' />
+                        Log Out
                       </a>
                     </li>
                   </ul>
@@ -262,16 +234,15 @@ class App extends Component {
             </ul>
           </div>
         </nav>
+        }
 
         <div id='content'>
           {this.state.visible === window.STATES.DASHBOARD && <Dashboard />}
           {this.state.visible === window.STATES.TIMETABLE && <Timetable />}
           {this.state.visible === window.STATES.NOTES && <Notes />}
           {this.state.visible === window.STATES.NOTICES && <Notices />}
-          {this.state.visible === window.STATES.SETTINGS && <Settings />}
           {this.state.visible === window.STATES.ABOUT && <About />}
           {this.state.visible === window.STATES.FEEDBACK && <Feedback />}
-          {this.state.visible === window.STATES.PROFILE && <Profile />}
         </div>
 
       </div>

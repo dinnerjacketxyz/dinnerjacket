@@ -14,7 +14,7 @@ class About extends Component {
           <br/>
           <span className='uk-text-center uk-h1'>DinnerJacket</span>
           <br/>
-          <span className='uk-text-small'>beta v0.1.0</span>
+          <span className='uk-text-small'>alpha v0.1.0</span>
           <br/>
           <span className='uk-text-small'>licensed under GNU GPL v3</span>
 
