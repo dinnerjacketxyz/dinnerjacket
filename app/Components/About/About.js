@@ -32,7 +32,7 @@ class About extends Component {
           <article className='uk-article' >
             <h2 className='uk-h2 small-margin'>spiff</h2>
             <p className='uk-article-meta'>/spɪf/</p>
-            <span clasName='uk-article-meta'>
+            <span className='uk-article-meta'>
               <i>verb </i>
               <span className="uk-label"><i>N. AMER.</i></span>
               <i> informal</i>
