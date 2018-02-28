@@ -20,7 +20,7 @@ class Dashboard extends Component {
     
     
   }
-  
+
   // get timetable data from API
   getAPIData() {
   

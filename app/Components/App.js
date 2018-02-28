@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Welcome from './Welcome/Welcome'
 import Dashboard from './Dashboard/Dashboard'
 import Timetable from './Timetable/Timetable'
 import Notes from './Notes/Notes'
@@ -21,6 +22,7 @@ const icons = require('../uikit-icons.min')
 // Represents the current visible content
 
 window.STATES = {
+  WELCOME: -1,
   DASHBOARD: 0,
   TIMETABLE: 1,
   NOTES: 2,
@@ -39,31 +41,21 @@ const nameArray = [
   'Daily Notices'
 ]
 
-let loggedIn = false
+//window.authSuccess = false
 
 class App extends Component {
   constructor(props) {
     super(props)
 
     // Set default state on launch
-    this.state = {
-      visible: window.STATES.DASHBOARD
-    }
-  }
+    //console.log(window.authSuccess)
+    //if (window.authSuccess) {
+    //  this.state = { visible: window.STATES.DASHBOARD }
+    //} else {
+    //  this.state = { visible: window.STATES.WELCOME }
+    //}
 
-  toggleLogin() {
-    // Ensure this toggles correctly between Login and Logout
-    // A user may already have a token and therefore in that case
-    // it needs to begin with 'Logout' functionality
-    console.log('Login clicked')
-
-    let url = window.location.toString()
-    if (url.substr(url.length - 11) === '/index.html') {
-      alert('Run "npm start" to use server and login functions')
-      console.log('Run "npm start" to use server and login functions')
-    } else {
-      window.location.href = '/login'
-    }
+    this.state = { visible: window.STATES.DASHBOARD }
   }
 
   blankNavbar() {
@@ -158,6 +150,8 @@ class App extends Component {
   render() {
     return (
       <div id='main' className='main'>
+        {this.state.visible === window.STATES.WELCOME && <Welcome />}
+
         <nav id='navbar' className='uk-navbar uk-navbar-container' uk-navbar='true' height='70px'>
           <div className='uk-navbar-left'>
             <img id='logo'
@@ -239,7 +233,7 @@ class App extends Component {
                     </li>
 
                     <li>
-                      <a onClick={this.toggleLogin.bind(this)}>
+                      <a>
                         <span className='uk-icon uk-margin-small-right' uk-icon='icon: sign-in' />
                         Log In
                       </a>

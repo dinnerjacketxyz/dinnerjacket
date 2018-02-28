@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 36);
+/******/ 	return __webpack_require__(__webpack_require__.s = 37);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -261,9 +261,9 @@ process.umask = function() { return 0; };
 /* WEBPACK VAR INJECTION */(function(process) {
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(37);
-} else {
   module.exports = __webpack_require__(38);
+} else {
+  module.exports = __webpack_require__(39);
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
@@ -420,8 +420,8 @@ var util = __webpack_require__(7);
 util.inherits = __webpack_require__(3);
 /*</replacement>*/
 
-var Readable = __webpack_require__(26);
-var Writable = __webpack_require__(30);
+var Readable = __webpack_require__(27);
+var Writable = __webpack_require__(31);
 
 util.inherits(Duplex, Readable);
 
@@ -511,9 +511,9 @@ function forEach(xs, f) {
 
 
 
-var base64 = __webpack_require__(52)
-var ieee754 = __webpack_require__(53)
-var isArray = __webpack_require__(23)
+var base64 = __webpack_require__(53)
+var ieee754 = __webpack_require__(54)
+var isArray = __webpack_require__(24)
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -2793,7 +2793,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 if (process.env.NODE_ENV !== 'production') {
   var invariant = __webpack_require__(11);
   var warning = __webpack_require__(12);
-  var ReactPropTypesSecret = __webpack_require__(39);
+  var ReactPropTypesSecret = __webpack_require__(40);
   var loggedTypeFailures = {};
 }
 
@@ -3189,7 +3189,7 @@ module.exports = shallowEqual;
  * 
  */
 
-var isTextNode = __webpack_require__(42);
+var isTextNode = __webpack_require__(43);
 
 /*eslint-disable no-bitwise */
 
@@ -3256,7 +3256,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
 const css = __webpack_require__(22);
-const http = __webpack_require__(50);
+const http = __webpack_require__(23);
 
 class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   constructor(props) {
@@ -3803,6 +3803,91 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
 /***/ }),
 /* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {var ClientRequest = __webpack_require__(52)
+var extend = __webpack_require__(63)
+var statusCodes = __webpack_require__(64)
+var url = __webpack_require__(65)
+
+var http = exports
+
+http.request = function (opts, cb) {
+	if (typeof opts === 'string')
+		opts = url.parse(opts)
+	else
+		opts = extend(opts)
+
+	// Normally, the page is loaded from http or https, so not specifying a protocol
+	// will result in a (valid) protocol-relative url. However, this won't work if
+	// the protocol is something else, like 'file:'
+	var defaultProtocol = global.location.protocol.search(/^https?:$/) === -1 ? 'http:' : ''
+
+	var protocol = opts.protocol || defaultProtocol
+	var host = opts.hostname || opts.host
+	var port = opts.port
+	var path = opts.path || '/'
+
+	// Necessary for IPv6 addresses
+	if (host && host.indexOf(':') !== -1)
+		host = '[' + host + ']'
+
+	// This may be a relative url. The browser should always be able to interpret it correctly.
+	opts.url = (host ? (protocol + '//' + host) : '') + (port ? ':' + port : '') + path
+	opts.method = (opts.method || 'GET').toUpperCase()
+	opts.headers = opts.headers || {}
+
+	// Also valid opts.auth, opts.mode
+
+	var req = new ClientRequest(opts)
+	if (cb)
+		req.on('response', cb)
+	return req
+}
+
+http.get = function get (opts, cb) {
+	var req = http.request(opts, cb)
+	req.end()
+	return req
+}
+
+http.Agent = function () {}
+http.Agent.defaultMaxSockets = 4
+
+http.STATUS_CODES = statusCodes
+
+http.METHODS = [
+	'CHECKOUT',
+	'CONNECT',
+	'COPY',
+	'DELETE',
+	'GET',
+	'HEAD',
+	'LOCK',
+	'M-SEARCH',
+	'MERGE',
+	'MKACTIVITY',
+	'MKCOL',
+	'MOVE',
+	'NOTIFY',
+	'OPTIONS',
+	'PATCH',
+	'POST',
+	'PROPFIND',
+	'PROPPATCH',
+	'PURGE',
+	'PUT',
+	'REPORT',
+	'SEARCH',
+	'SUBSCRIBE',
+	'TRACE',
+	'UNLOCK',
+	'UNSUBSCRIBE'
+]
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+
+/***/ }),
+/* 24 */
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -3813,7 +3898,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {exports.fetch = isFunction(global.fetch) && isFunction(global.ReadableStream)
@@ -3889,20 +3974,20 @@ xhr = null // Help gc
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(26);
+exports = module.exports = __webpack_require__(27);
 exports.Stream = exports;
 exports.Readable = exports;
-exports.Writable = __webpack_require__(30);
+exports.Writable = __webpack_require__(31);
 exports.Duplex = __webpack_require__(5);
-exports.Transform = __webpack_require__(32);
-exports.PassThrough = __webpack_require__(60);
+exports.Transform = __webpack_require__(33);
+exports.PassThrough = __webpack_require__(61);
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3937,7 +4022,7 @@ var processNextTick = __webpack_require__(9);
 module.exports = Readable;
 
 /*<replacement>*/
-var isArray = __webpack_require__(23);
+var isArray = __webpack_require__(24);
 /*</replacement>*/
 
 /*<replacement>*/
@@ -3947,7 +4032,7 @@ var Duplex;
 Readable.ReadableState = ReadableState;
 
 /*<replacement>*/
-var EE = __webpack_require__(27).EventEmitter;
+var EE = __webpack_require__(28).EventEmitter;
 
 var EElistenerCount = function (emitter, type) {
   return emitter.listeners(type).length;
@@ -3955,7 +4040,7 @@ var EElistenerCount = function (emitter, type) {
 /*</replacement>*/
 
 /*<replacement>*/
-var Stream = __webpack_require__(28);
+var Stream = __webpack_require__(29);
 /*</replacement>*/
 
 // TODO(bmeurer): Change this back to const once hole checks are
@@ -3977,7 +4062,7 @@ util.inherits = __webpack_require__(3);
 /*</replacement>*/
 
 /*<replacement>*/
-var debugUtil = __webpack_require__(55);
+var debugUtil = __webpack_require__(56);
 var debug = void 0;
 if (debugUtil && debugUtil.debuglog) {
   debug = debugUtil.debuglog('stream');
@@ -3986,8 +4071,8 @@ if (debugUtil && debugUtil.debuglog) {
 }
 /*</replacement>*/
 
-var BufferList = __webpack_require__(56);
-var destroyImpl = __webpack_require__(29);
+var BufferList = __webpack_require__(57);
+var destroyImpl = __webpack_require__(30);
 var StringDecoder;
 
 util.inherits(Readable, Stream);
@@ -4070,7 +4155,7 @@ function ReadableState(options, stream) {
   this.decoder = null;
   this.encoding = null;
   if (options.encoding) {
-    if (!StringDecoder) StringDecoder = __webpack_require__(31).StringDecoder;
+    if (!StringDecoder) StringDecoder = __webpack_require__(32).StringDecoder;
     this.decoder = new StringDecoder(options.encoding);
     this.encoding = options.encoding;
   }
@@ -4226,7 +4311,7 @@ Readable.prototype.isPaused = function () {
 
 // backwards compatibility.
 Readable.prototype.setEncoding = function (enc) {
-  if (!StringDecoder) StringDecoder = __webpack_require__(31).StringDecoder;
+  if (!StringDecoder) StringDecoder = __webpack_require__(32).StringDecoder;
   this._readableState.decoder = new StringDecoder(enc);
   this._readableState.encoding = enc;
   return this;
@@ -4916,7 +5001,7 @@ function indexOf(xs, x) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(0)))
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports) {
 
 // Copyright Joyent, Inc. and other Node contributors.
@@ -5224,14 +5309,14 @@ function isUndefined(arg) {
 
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(27).EventEmitter;
+module.exports = __webpack_require__(28).EventEmitter;
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5309,7 +5394,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5385,12 +5470,12 @@ util.inherits = __webpack_require__(3);
 
 /*<replacement>*/
 var internalUtil = {
-  deprecate: __webpack_require__(59)
+  deprecate: __webpack_require__(60)
 };
 /*</replacement>*/
 
 /*<replacement>*/
-var Stream = __webpack_require__(28);
+var Stream = __webpack_require__(29);
 /*</replacement>*/
 
 /*<replacement>*/
@@ -5404,7 +5489,7 @@ function _isUint8Array(obj) {
 }
 /*</replacement>*/
 
-var destroyImpl = __webpack_require__(29);
+var destroyImpl = __webpack_require__(30);
 
 util.inherits(Writable, Stream);
 
@@ -5977,10 +6062,10 @@ Writable.prototype._destroy = function (err, cb) {
   this.end();
   cb(err);
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(57).setImmediate, __webpack_require__(2)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(58).setImmediate, __webpack_require__(2)))
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6258,7 +6343,7 @@ function simpleEnd(buf) {
 }
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6478,7 +6563,7 @@ function done(stream, er, data) {
 }
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6486,7 +6571,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
-const css = __webpack_require__(33);
+const css = __webpack_require__(34);
 
 class About extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   render() {
@@ -6602,7 +6687,7 @@ class About extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["default"] = (About);
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports) {
 
 /*
@@ -6684,7 +6769,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -6740,7 +6825,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(78);
+var	fixUrls = __webpack_require__(79);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -7056,16 +7141,16 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Components_App__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Components_App__ = __webpack_require__(50);
 
 
 
@@ -7073,7 +7158,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Components_App__["a" /* default */], null), document.getElementById('app'));
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7101,7 +7186,7 @@ isValidElement:K,version:"16.2.0",__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_F
 
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8466,7 +8551,7 @@ module.exports = react;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8485,7 +8570,7 @@ module.exports = ReactPropTypesSecret;
 
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8523,15 +8608,15 @@ if (process.env.NODE_ENV === 'production') {
   // DCE check should happen before ReactDOM bundle executes so that
   // DevTools can report bad minification during injection.
   checkDCE();
-  module.exports = __webpack_require__(41);
+  module.exports = __webpack_require__(42);
 } else {
-  module.exports = __webpack_require__(44);
+  module.exports = __webpack_require__(45);
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8767,7 +8852,7 @@ Z.injectIntoDevTools({findFiberByHostInstance:pb,bundleType:0,version:"16.2.0",r
 
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8782,7 +8867,7 @@ Z.injectIntoDevTools({findFiberByHostInstance:pb,bundleType:0,version:"16.2.0",r
  * @typechecks
  */
 
-var isNode = __webpack_require__(43);
+var isNode = __webpack_require__(44);
 
 /**
  * @param {*} object The object to check.
@@ -8795,7 +8880,7 @@ function isTextNode(object) {
 module.exports = isTextNode;
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8823,7 +8908,7 @@ function isNode(object) {
 module.exports = isNode;
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8857,8 +8942,8 @@ var containsNode = __webpack_require__(20);
 var focusNode = __webpack_require__(21);
 var emptyObject = __webpack_require__(8);
 var checkPropTypes = __webpack_require__(14);
-var hyphenateStyleName = __webpack_require__(45);
-var camelizeStyleName = __webpack_require__(47);
+var hyphenateStyleName = __webpack_require__(46);
+var camelizeStyleName = __webpack_require__(48);
 
 /**
  * WARNING: DO NOT manually require this module.
@@ -24225,7 +24310,7 @@ module.exports = reactDom;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24240,7 +24325,7 @@ module.exports = reactDom;
 
 
 
-var hyphenate = __webpack_require__(46);
+var hyphenate = __webpack_require__(47);
 
 var msPattern = /^ms-/;
 
@@ -24267,7 +24352,7 @@ function hyphenateStyleName(string) {
 module.exports = hyphenateStyleName;
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24303,7 +24388,7 @@ function hyphenate(string) {
 module.exports = hyphenate;
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24318,7 +24403,7 @@ module.exports = hyphenate;
 
 
 
-var camelize = __webpack_require__(48);
+var camelize = __webpack_require__(49);
 
 var msPattern = /^-ms-/;
 
@@ -24346,7 +24431,7 @@ function camelizeStyleName(string) {
 module.exports = camelizeStyleName;
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24381,20 +24466,21 @@ function camelize(string) {
 module.exports = camelize;
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Dashboard_Dashboard__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Timetable_Timetable__ = __webpack_require__(71);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Notes_Notes__ = __webpack_require__(72);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Notices_Notices__ = __webpack_require__(73);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Settings_Settings__ = __webpack_require__(74);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__About_About__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Feedback_Feedback__ = __webpack_require__(75);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Profile_Profile__ = __webpack_require__(79);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Welcome_Welcome__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Dashboard_Dashboard__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Timetable_Timetable__ = __webpack_require__(72);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Notes_Notes__ = __webpack_require__(73);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Notices_Notices__ = __webpack_require__(74);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Settings_Settings__ = __webpack_require__(75);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__About_About__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Feedback_Feedback__ = __webpack_require__(76);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Profile_Profile__ = __webpack_require__(80);
 
 
 
@@ -24404,8 +24490,9 @@ module.exports = camelize;
 
 
 
-const css = __webpack_require__(80);
-const icons = __webpack_require__(82);
+
+const css = __webpack_require__(81);
+const icons = __webpack_require__(83);
 
 // Requirements for beta release
 // Daily timetable
@@ -24418,6 +24505,7 @@ const icons = __webpack_require__(82);
 // Represents the current visible content
 
 window.STATES = {
+  WELCOME: -1,
   DASHBOARD: 0,
   TIMETABLE: 1,
   NOTES: 2,
@@ -24431,31 +24519,21 @@ window.STATES = {
 
 const nameArray = ['Dashboard', 'Timetable', 'User Notes', 'Daily Notices'];
 
-let loggedIn = false;
+//window.authSuccess = false
 
 class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   constructor(props) {
     super(props);
 
     // Set default state on launch
-    this.state = {
-      visible: window.STATES.DASHBOARD
-    };
-  }
+    //console.log(window.authSuccess)
+    //if (window.authSuccess) {
+    //  this.state = { visible: window.STATES.DASHBOARD }
+    //} else {
+    //  this.state = { visible: window.STATES.WELCOME }
+    //}
 
-  toggleLogin() {
-    // Ensure this toggles correctly between Login and Logout
-    // A user may already have a token and therefore in that case
-    // it needs to begin with 'Logout' functionality
-    console.log('Login clicked');
-
-    let url = window.location.toString();
-    if (url.substr(url.length - 11) === '/index.html') {
-      alert('Run "npm start" to use server and login functions');
-      console.log('Run "npm start" to use server and login functions');
-    } else {
-      window.location.href = '/login';
-    }
+    this.state = { visible: window.STATES.DASHBOARD };
   }
 
   blankNavbar() {
@@ -24550,6 +24628,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
       { id: 'main', className: 'main' },
+      this.state.visible === window.STATES.WELCOME && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__Welcome_Welcome__["a" /* default */], null),
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'nav',
         { id: 'navbar', className: 'uk-navbar uk-navbar-container', 'uk-navbar': 'true', height: '70px' },
@@ -24689,7 +24768,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                     null,
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                       'a',
-                      { onClick: this.toggleLogin.bind(this) },
+                      null,
                       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'uk-icon uk-margin-small-right', 'uk-icon': 'icon: sign-in' }),
                       'Log In'
                     )
@@ -24703,14 +24782,14 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
         { id: 'content' },
-        this.state.visible === window.STATES.DASHBOARD && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__Dashboard_Dashboard__["default"], null),
-        this.state.visible === window.STATES.TIMETABLE && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Timetable_Timetable__["a" /* default */], null),
-        this.state.visible === window.STATES.NOTES && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Notes_Notes__["a" /* default */], null),
-        this.state.visible === window.STATES.NOTICES && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__Notices_Notices__["a" /* default */], null),
-        this.state.visible === window.STATES.SETTINGS && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__Settings_Settings__["a" /* default */], null),
-        this.state.visible === window.STATES.ABOUT && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__About_About__["default"], null),
-        this.state.visible === window.STATES.FEEDBACK && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__Feedback_Feedback__["a" /* default */], null),
-        this.state.visible === window.STATES.PROFILE && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__Profile_Profile__["a" /* default */], null)
+        this.state.visible === window.STATES.DASHBOARD && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Dashboard_Dashboard__["default"], null),
+        this.state.visible === window.STATES.TIMETABLE && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Timetable_Timetable__["a" /* default */], null),
+        this.state.visible === window.STATES.NOTES && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__Notes_Notes__["a" /* default */], null),
+        this.state.visible === window.STATES.NOTICES && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__Notices_Notices__["a" /* default */], null),
+        this.state.visible === window.STATES.SETTINGS && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__Settings_Settings__["a" /* default */], null),
+        this.state.visible === window.STATES.ABOUT && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__About_About__["default"], null),
+        this.state.visible === window.STATES.FEEDBACK && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__Feedback_Feedback__["a" /* default */], null),
+        this.state.visible === window.STATES.PROFILE && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9__Profile_Profile__["a" /* default */], null)
       )
     );
   }
@@ -24719,99 +24798,300 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (App);
 
 /***/ }),
-/* 50 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 51 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {var ClientRequest = __webpack_require__(51)
-var extend = __webpack_require__(62)
-var statusCodes = __webpack_require__(63)
-var url = __webpack_require__(64)
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
-var http = exports
 
-http.request = function (opts, cb) {
-	if (typeof opts === 'string')
-		opts = url.parse(opts)
-	else
-		opts = extend(opts)
+class Welcome extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
+  toggleLogin() {
+    // Ensure this toggles correctly between Login and Logout
+    // A user may already have a token and therefore in that case
+    // it needs to begin with 'Logout' functionality
+    console.log('Login clicked');
 
-	// Normally, the page is loaded from http or https, so not specifying a protocol
-	// will result in a (valid) protocol-relative url. However, this won't work if
-	// the protocol is something else, like 'file:'
-	var defaultProtocol = global.location.protocol.search(/^https?:$/) === -1 ? 'http:' : ''
+    let url = window.location.toString();
+    if (url.substr(url.length - 11) === '/index.html') {
+      alert('Run "npm start" to use server and login functions');
+      console.log('Run "npm start" to use server and login functions');
+    } else {
+      // also busted cause the entire page reloads on Login
+      // therefore it gets initialised again and set to false
+      //window.authSuccess = true
+      //document.getElementById('DashboardLi').click()
+      window.location.href = '/login';
 
-	var protocol = opts.protocol || defaultProtocol
-	var host = opts.hostname || opts.host
-	var port = opts.port
-	var path = opts.path || '/'
+      // this is busted
+      //window.states.visible = window.STATES.DASHBOARD
+    }
+  }
 
-	// Necessary for IPv6 addresses
-	if (host && host.indexOf(':') !== -1)
-		host = '[' + host + ']'
-
-	// This may be a relative url. The browser should always be able to interpret it correctly.
-	opts.url = (host ? (protocol + '//' + host) : '') + (port ? ':' + port : '') + path
-	opts.method = (opts.method || 'GET').toUpperCase()
-	opts.headers = opts.headers || {}
-
-	// Also valid opts.auth, opts.mode
-
-	var req = new ClientRequest(opts)
-	if (cb)
-		req.on('response', cb)
-	return req
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { id: 'main', className: 'main' },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'nav',
+        { className: 'uk-navbar uk-navbar-container uk-margin' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'uk-navbar-left' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { id: 'logo',
+            className: 'uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom',
+            alt: 'logo', src: '64.png', width: '60px', height: '50px' })
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'uk-navbar-right' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'ul',
+            { className: 'uk-navbar-nav' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              { className: 'uk-animation-toggle' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'a',
+                { className: 'uk-box-shadow-hover-medium', onClick: this.toggleLogin.bind(this) },
+                'Login'
+              )
+            )
+          )
+        )
+      ),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { className: 'uk-flex uk-flex-center' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'uk-grid uk-grid-collapse uk-child-width-1-2 uk-width-1-2@xl uk-width-4-5@m uk-text-center uk-margin-right uk-margin-left' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            null,
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'uk-card uk-card-default uk-card-body uk-animation-slide-top-small' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { id: 'logo',
+                className: 'uk-disabled',
+                alt: 'logo', src: '256.png', width: '150px', height: '150px' }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'span',
+                { className: 'uk-text-center uk-margin-top uk-h1' },
+                'DinnerJacket'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'span',
+                { className: 'uk-label uk-label-danger' },
+                'alpha'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                { className: 'uk-text-small uk-margin-small-top uk-margin-small-bottom' },
+                'alpha v0.1.0'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                { className: '' },
+                'This is an alpha. That means that you might try out new features that are still in development, or even run into technical issues from time to time.'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'h2',
+                { className: 'uk-h2 uk-margin-bottom' },
+                'Welcome!'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'button',
+                { className: 'uk-button uk-button-primary', onClick: this.toggleLogin.bind(this) },
+                'Login'
+              )
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            null,
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'uk-card uk-card-default uk-card-body' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                { className: 'uk-text-large' },
+                'Roll Call in'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'h1',
+                { className: 'time uk-text-center uk-heading-primary uk-margin-small-top uk-margin-medium-bottom' },
+                '10:00:00'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: '' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'table',
+                  { className: 'uk-table uk-table-hover uk-table-small' },
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'tbody',
+                    null,
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'tr',
+                      null,
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        { className: 'uk-text-lead uk-text-left' },
+                        'English',
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                          'dd',
+                          { className: 'uk-text-meta uk-text-muted uk-text-top uk-text-left' },
+                          'at 09:05 with Ms English'
+                        )
+                      ),
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        { className: 'uk-text-middle uk-table-shrink uk-text-lead' },
+                        '201'
+                      )
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'tr',
+                      null,
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        { className: 'uk-text-lead uk-text-left uk-text-muted' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                          'small',
+                          null,
+                          'Study Period'
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('dd', { className: 'uk-text-meta uk-text-muted uk-text-top uk-text-left' })
+                      ),
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        { className: 'uk-text-middle uk-table-shrink uk-text-lead uk-text-muted' },
+                        '10:10'
+                      )
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'tr',
+                      null,
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        { className: 'uk-text-lead uk-text-left uk-text-muted' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                          'small',
+                          null,
+                          'Lunch'
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('dd', { className: 'uk-text-meta uk-text-muted uk-text-top uk-text-left' })
+                      ),
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        { className: 'uk-text-middle uk-table-shrink uk-text-lead uk-text-muted' },
+                        '11:10'
+                      )
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'tr',
+                      null,
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        { className: 'uk-text-lead uk-text-left' },
+                        'Maths',
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                          'dd',
+                          { className: 'uk-text-meta uk-text-muted uk-text-top uk-text-left' },
+                          'at 11:50 with Ms Maths'
+                        )
+                      ),
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        { className: 'uk-text-middle uk-table-shrink uk-text-lead' },
+                        '101'
+                      )
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'tr',
+                      null,
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        { className: 'uk-text-lead uk-text-left' },
+                        'English',
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                          'dd',
+                          { className: 'uk-text-meta uk-text-muted uk-text-top uk-text-left' },
+                          'at 12:55 with Ms English'
+                        )
+                      ),
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        { className: 'uk-text-middle uk-table-shrink uk-text-lead' },
+                        '202'
+                      )
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'tr',
+                      null,
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        { className: 'uk-text-lead uk-text-left uk-text-muted' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                          'small',
+                          null,
+                          'Recess'
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('dd', { className: 'uk-text-meta uk-text-muted uk-text-top uk-text-left' })
+                      ),
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        { className: 'uk-text-middle uk-table-shrink uk-text-lead uk-text-muted' },
+                        '13:55'
+                      )
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'tr',
+                      null,
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        { className: 'uk-text-lead uk-text-left' },
+                        'Maths',
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                          'dd',
+                          { className: 'uk-text-meta uk-text-muted uk-text-top uk-text-left' },
+                          'at 14:15 with Ms English'
+                        )
+                      ),
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'td',
+                        { className: 'uk-text-middle uk-table-shrink uk-text-lead' },
+                        '101'
+                      )
+                    )
+                  )
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('h1', null)
+              )
+            )
+          )
+        )
+      )
+    );
+  }
 }
 
-http.get = function get (opts, cb) {
-	var req = http.request(opts, cb)
-	req.end()
-	return req
-}
-
-http.Agent = function () {}
-http.Agent.defaultMaxSockets = 4
-
-http.STATUS_CODES = statusCodes
-
-http.METHODS = [
-	'CHECKOUT',
-	'CONNECT',
-	'COPY',
-	'DELETE',
-	'GET',
-	'HEAD',
-	'LOCK',
-	'M-SEARCH',
-	'MERGE',
-	'MKACTIVITY',
-	'MKCOL',
-	'MOVE',
-	'NOTIFY',
-	'OPTIONS',
-	'PATCH',
-	'POST',
-	'PROPFIND',
-	'PROPPATCH',
-	'PURGE',
-	'PUT',
-	'REPORT',
-	'SEARCH',
-	'SUBSCRIBE',
-	'TRACE',
-	'UNLOCK',
-	'UNSUBSCRIBE'
-]
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+/* harmony default export */ __webpack_exports__["a"] = (Welcome);
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(Buffer, global, process) {var capability = __webpack_require__(24)
+/* WEBPACK VAR INJECTION */(function(Buffer, global, process) {var capability = __webpack_require__(25)
 var inherits = __webpack_require__(3)
-var response = __webpack_require__(54)
-var stream = __webpack_require__(25)
-var toArrayBuffer = __webpack_require__(61)
+var response = __webpack_require__(55)
+var stream = __webpack_require__(26)
+var toArrayBuffer = __webpack_require__(62)
 
 var IncomingMessage = response.IncomingMessage
 var rStates = response.readyStates
@@ -25117,7 +25397,7 @@ var unsafeHeaders = [
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6).Buffer, __webpack_require__(2), __webpack_require__(0)))
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25238,7 +25518,7 @@ function fromByteArray (uint8) {
 
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports) {
 
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -25328,12 +25608,12 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(process, Buffer, global) {var capability = __webpack_require__(24)
+/* WEBPACK VAR INJECTION */(function(process, Buffer, global) {var capability = __webpack_require__(25)
 var inherits = __webpack_require__(3)
-var stream = __webpack_require__(25)
+var stream = __webpack_require__(26)
 
 var rStates = exports.readyStates = {
 	UNSENT: 0,
@@ -25517,13 +25797,13 @@ IncomingMessage.prototype._onXHRProgress = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(6).Buffer, __webpack_require__(2)))
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25603,7 +25883,7 @@ module.exports = function () {
 }();
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var apply = Function.prototype.apply;
@@ -25656,13 +25936,13 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(58);
+__webpack_require__(59);
 exports.setImmediate = setImmediate;
 exports.clearImmediate = clearImmediate;
 
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -25855,7 +26135,7 @@ exports.clearImmediate = clearImmediate;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(0)))
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -25929,7 +26209,7 @@ function config (name) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25962,7 +26242,7 @@ function config (name) {
 
 module.exports = PassThrough;
 
-var Transform = __webpack_require__(32);
+var Transform = __webpack_require__(33);
 
 /*<replacement>*/
 var util = __webpack_require__(7);
@@ -25982,7 +26262,7 @@ PassThrough.prototype._transform = function (chunk, encoding, cb) {
 };
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Buffer = __webpack_require__(6).Buffer
@@ -26015,7 +26295,7 @@ module.exports = function (buf) {
 
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports) {
 
 module.exports = extend
@@ -26040,7 +26320,7 @@ function extend() {
 
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -26110,7 +26390,7 @@ module.exports = {
 
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26137,8 +26417,8 @@ module.exports = {
 
 
 
-var punycode = __webpack_require__(65);
-var util = __webpack_require__(67);
+var punycode = __webpack_require__(66);
+var util = __webpack_require__(68);
 
 exports.parse = urlParse;
 exports.resolve = urlResolve;
@@ -26213,7 +26493,7 @@ var protocolPattern = /^([a-z0-9.+-]+:)/i,
       'gopher:': true,
       'file:': true
     },
-    querystring = __webpack_require__(68);
+    querystring = __webpack_require__(69);
 
 function urlParse(url, parseQueryString, slashesDenoteHost) {
   if (url && util.isObject(url) && url instanceof Url) return url;
@@ -26849,7 +27129,7 @@ Url.prototype.parseHost = function() {
 
 
 /***/ }),
-/* 65 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/punycode v1.4.1 by @mathias */
@@ -27385,10 +27665,10 @@ Url.prototype.parseHost = function() {
 
 }(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(66)(module), __webpack_require__(2)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(67)(module), __webpack_require__(2)))
 
 /***/ }),
-/* 66 */
+/* 67 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -27416,7 +27696,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 67 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27439,18 +27719,18 @@ module.exports = {
 
 
 /***/ }),
-/* 68 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports.decode = exports.parse = __webpack_require__(69);
-exports.encode = exports.stringify = __webpack_require__(70);
+exports.decode = exports.parse = __webpack_require__(70);
+exports.encode = exports.stringify = __webpack_require__(71);
 
 
 /***/ }),
-/* 69 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27541,7 +27821,7 @@ var isArray = Array.isArray || function (xs) {
 
 
 /***/ }),
-/* 70 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27633,545 +27913,583 @@ var objectKeys = Object.keys || function (obj) {
 
 
 /***/ }),
-/* 71 */
+/* 72 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
+const http = __webpack_require__(23);
+
+let timetableData = '';
+let outputA = '';
+let outputB = '';
+let outputC = '';
+let dayOutput = '';
 
 class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
+
   constructor(props) {
     super(props);
-    console.log(data.timetable);
+
+    // Get timetable data from SBHS API
+    http.get('/getdata?url=timetable/timetable.json', res => {
+      res.setEncoding('utf8');
+      res.on('data', body => {
+        timetableData = JSON.parse(body);
+      });
+    });
+  }
+
+  displayWeek(outputA, outputB, outputC) {
+    let A = document.getElementById('weekA');
+    A.innerHTML = outputA;
+    let B = document.getElementById('weekB');
+    B.innerHTML = outputB;
+    let C = document.getElementById('weekC');
+    C.innerHTML = outputC;
+  }
+
+  generateWeek() {
+    //generates the first week
+    for (let i = 1; i <= 5; i++) {
+      let day = timetableData.days[`${i}`].periods;
+      outputA += this.generatePeriod(day);
+    }
+    //generates the second week
+    for (let i = 6; i <= 10; i++) {
+      let day = timetableData.days[`${i}`].periods;
+      outputB += this.generatePeriod(day);
+    }
+    //generates the third week
+    for (let i = 11; i <= 15; i++) {
+      let day = timetableData.days[`${i}`].periods;
+      outputC += this.generatePeriod(day);
+    }
+    this.displayWeek(outputA, outputB, outputC);
+  }
+
+  generatePeriod(day) {
+    dayOutput = '';
+    for (let u = 1; u <= 5; u++) {
+      if (day[`${u}`] == undefined) {
+        dayOutput += `<p>${u}:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>`;
+      } else {
+        dayOutput += `<p>${u}: ${day[`${u}`].title}&nbsp;&nbsp;${day[`${u}`].room}</p>`;
+      }
+    }
+    return dayOutput;
+  }
+
+  initialise() {
+    //clears variables so you can initialise multiple times
+    outputA = '';
+    outputB = '';
+    outputC = '';
+    //generates the timetable
+    this.generateWeek();
+    //Puts your name at the top
+    let name = document.getElementById('name');
+    name.innerHTML = `${timetableData.student.givenname}&nbsp;${timetableData.student.surname}`;
   }
 
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { className: 'uk-flex-center uk-flex' },
+      { className: 'uk-flex-center uk-flex uk-margin-top' },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'button',
+        { onClick: this.initialise.bind(this) },
+        'Test'
+      ),
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
-        { className: 'uk-card uk-card-default uk-card-body uk-card-large' },
+        { className: 'uk-card uk-card-default uk-card-body uk-card-small uk-width-3-5' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('h2', { id: 'name', className: 'uk-text-center uk-h2 uk-margin-small-bottom' }),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'ul',
-          { className: 'uk-subnav uk-subnav-pill uk-flex-center uk-text-large', 'uk-switcher': 'animation: uk-animation-fade' },
+          'div',
+          { className: 'uk-box-shadow-hover-small uk-padding-small uk-text-center' },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
+            'div',
+            { className: 'uk-column-1-5 uk-text-center uk-text-muted' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'a',
-              { href: '#' },
-              'A'
+              'p',
+              null,
+              'MON A'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              'TUE A'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              'WED A'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              'THU A'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              'FRI A'
             )
           ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
+            'div',
+            { id: 'weekA', className: 'uk-column-1-5 uk-column-divider uk-width-shrink uk-text-center' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'a',
-              { href: '#' },
-              'B'
-            )
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
+              'p',
+              null,
+              '1: ENG \xA0\xA0 201'
+            ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'a',
-              { href: '#' },
-              'C'
+              'p',
+              null,
+              '2: MAT \xA0\xA0 101'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '3: ENG \xA0\xA0 201'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '4: MAT \xA0\xA0 101'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '5: '
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '1: ENG \xA0\xA0 201'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '2: MAT \xA0\xA0 101'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '3: ENG \xA0\xA0 201'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '4: MAT \xA0\xA0 101'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '5: '
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '1: ENG \xA0\xA0 201'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '2: MAT \xA0\xA0 101'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '3: ENG \xA0\xA0 201'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '4: MAT \xA0\xA0 101'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '5: '
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '1: ENG \xA0\xA0 201'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '2: MAT \xA0\xA0 101'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '3: ENG \xA0\xA0 201'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '4: MAT \xA0\xA0 101'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '5: '
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '1: ENG \xA0\xA0 201'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '2: MAT \xA0\xA0 101'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '3: ENG \xA0\xA0 201'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '4: MAT \xA0\xA0 101'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '5: '
             )
           )
         ),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'ul',
-          { className: 'uk-switcher uk-margin' },
+          'div',
+          { className: 'uk-box-shadow-hover-small uk-padding-small uk-width-shrink uk-text-center' },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
+            'div',
+            { className: 'uk-column-1-5 uk-text-center uk-text-muted' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'uk-column-1-5 uk-text-center uk-text-muted' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'MON A'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'TUE A'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'WED A'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'THU A'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'FRI A'
-              )
+              'p',
+              null,
+              'MON B'
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'uk-column-1-5 uk-column-divider uk-width-auto' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 '
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 '
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003 '
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 '
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003 MAT \u2003 \u2003 101'
-              )
+              'p',
+              null,
+              'TUE B'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              'WED B'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              'THU B'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              'FRI B'
             )
           ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
+            'div',
+            { id: 'weekB', className: 'uk-column-1-5 uk-column-divider uk-width-auto' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'uk-column-1-5 uk-text-center uk-text-muted' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'MON B'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'TUE B'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'WED B'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'THU B'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'FRI B'
-              )
+              'p',
+              null,
+              '1: \u2003 ENG \u2003 \u2003 201'
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'uk-column-1-5 uk-column-divider uk-width-auto' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 '
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 '
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003 '
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 '
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003 MAT \u2003 \u2003 101'
-              )
+              'p',
+              null,
+              '2: \u2003 MAT \u2003 \u2003 101'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '3: \u2003 ENG \u2003 \u2003 201'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '4: \u2003 MAT \u2003 \u2003 101'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '5: \u2003'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '1: \u2003 MAT \u2003 \u2003 101'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '2: \u2003 '
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '3: \u2003 ENG \u2003 \u2003 201'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '4: \u2003 MAT \u2003 \u2003 101'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '5: \u2003 ENG \u2003 \u2003 201'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '1: \u2003 ENG \u2003 \u2003 201'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '2: \u2003 MAT \u2003 \u2003 101'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '3: \u2003 ENG \u2003 \u2003 201'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '4: \u2003 '
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '5: \u2003 '
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '1: \u2003 MAT \u2003 \u2003 101'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '2: \u2003 ENG \u2003 \u2003 201'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '3: \u2003 ENG \u2003 \u2003 201'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '4: \u2003 ENG \u2003 \u2003 201'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '5: \u2003'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '1: \u2003 '
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '2: \u2003 ENG \u2003 \u2003 201'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '3: \u2003 ENG \u2003 \u2003 201'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '4: \u2003 MAT \u2003 \u2003 101'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '5: \u2003 MAT \u2003 \u2003 101'
+            )
+          )
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'uk-box-shadow-hover-small uk-padding-small uk-width-shrink uk-text-center' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'uk-column-1-5 uk-text-center uk-text-muted' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              'MON C'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              'TUE C'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              'WED C'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              'THU C'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              'FRI C'
             )
           ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
+            'div',
+            { id: 'weekC', className: 'uk-column-1-5 uk-column-divider uk-width-auto' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'uk-column-1-5 uk-text-center uk-text-muted' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'MON C'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'TUE C'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'WED C'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'THU C'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                'FRI C'
-              )
+              'p',
+              null,
+              '1: \u2003 ENG \u2003 \u2003 201'
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'uk-column-1-5 uk-column-divider uk-width-auto' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 '
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 '
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003 '
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '1: \u2003 '
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '2: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '3: \u2003 ENG \u2003 \u2003 201'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '4: \u2003 MAT \u2003 \u2003 101'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'p',
-                null,
-                '5: \u2003 MAT \u2003 \u2003 101'
-              )
+              'p',
+              null,
+              '2: \u2003 MAT \u2003 \u2003 101'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '3: \u2003 ENG \u2003 \u2003 201'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '4: \u2003 MAT \u2003 \u2003 101'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '5: \u2003'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '1: \u2003 MAT \u2003 \u2003 101'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '2: \u2003 '
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '3: \u2003 ENG \u2003 \u2003 201'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '4: \u2003 MAT \u2003 \u2003 101'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '5: \u2003 ENG \u2003 \u2003 201'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '1: \u2003 ENG \u2003 \u2003 201'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '2: \u2003 MAT \u2003 \u2003 101'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '3: \u2003 ENG \u2003 \u2003 201'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '4: \u2003 '
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '5: \u2003 '
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '1: \u2003 MAT \u2003 \u2003 101'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '2: \u2003 ENG \u2003 \u2003 201'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '3: \u2003 ENG \u2003 \u2003 201'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '4: \u2003 ENG \u2003 \u2003 201'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '5: \u2003'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '1: \u2003 '
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '2: \u2003 ENG \u2003 \u2003 201'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '3: \u2003 ENG \u2003 \u2003 201'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '4: \u2003 MAT \u2003 \u2003 101'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'p',
+              null,
+              '5: \u2003 MAT \u2003 \u2003 101'
             )
           )
         )
@@ -28183,7 +28501,7 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Timetable);
 
 /***/ }),
-/* 72 */
+/* 73 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -28517,7 +28835,7 @@ console.log(noteIndex)
 */
 
 /***/ }),
-/* 73 */
+/* 74 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -29310,7 +29628,7 @@ class Notices extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Notices);
 
 /***/ }),
-/* 74 */
+/* 75 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -29366,14 +29684,14 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Settings);
 
 /***/ }),
-/* 75 */
+/* 76 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
-const css = __webpack_require__(76);
+const css = __webpack_require__(77);
 
 class Feedback extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   render() {
@@ -29392,13 +29710,13 @@ class Feedback extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Feedback);
 
 /***/ }),
-/* 76 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(77);
+var content = __webpack_require__(78);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -29406,7 +29724,7 @@ var transform;
 var options = {"hmr":true}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(35)(content, options);
+var update = __webpack_require__(36)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -29423,10 +29741,10 @@ if(false) {
 }
 
 /***/ }),
-/* 77 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(34)(false);
+exports = module.exports = __webpack_require__(35)(false);
 // imports
 
 
@@ -29437,7 +29755,7 @@ exports.push([module.i, ".container {\n  position: relative;\n\tpadding-bottom: 
 
 
 /***/ }),
-/* 78 */
+/* 79 */
 /***/ (function(module, exports) {
 
 
@@ -29532,7 +29850,7 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 79 */
+/* 80 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -29553,13 +29871,13 @@ class Profile extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Profile);
 
 /***/ }),
-/* 80 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(81);
+var content = __webpack_require__(82);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -29567,7 +29885,7 @@ var transform;
 var options = {"hmr":true}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(35)(content, options);
+var update = __webpack_require__(36)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -29584,10 +29902,10 @@ if(false) {
 }
 
 /***/ }),
-/* 81 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(34)(false);
+exports = module.exports = __webpack_require__(35)(false);
 // imports
 
 
@@ -29598,7 +29916,7 @@ exports.push([module.i, "body {\n  margin: 0;\n  padding: 0;\n  font-family: 'La
 
 
 /***/ }),
-/* 82 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*! UIkit 3.0.0-beta.37 | http://www.getuikit.com | (c) 2014 - 2017 YOOtheme | MIT License */
