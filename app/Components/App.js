@@ -10,6 +10,7 @@ import Feedback from './Feedback/Feedback'
 import Profile from './Profile/Profile'
 const css = require('./App.css')
 const icons = require('../uikit-icons.min')
+const http = require('http')
 
 // Requirements for beta release
 // Daily timetable
@@ -55,7 +56,24 @@ class App extends Component {
     //  this.state = { visible: window.STATES.WELCOME }
     //}
 
-    this.state = { visible: window.STATES.DASHBOARD }
+    this.state = { visible: window.STATES.WELCOME }
+
+    http.get('/getdata?url=timetable/timetable.json', (res) => {
+      res.setEncoding('utf8')
+      res.on('data', (body) => {
+        console.log(body)
+        if (body != undefined) {
+          this.state.visible = window.STATES.DASHBOARD
+        }
+      })
+    })
+
+    /*if (authSuccess) {
+      this.state = { visible: window.STATES.DASHBOARD }
+    } else {
+      this.state = { visible: window.STATES.WELCOME }
+    }*/
+
   }
 
   blankNavbar() {
