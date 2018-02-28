@@ -24190,16 +24190,21 @@ window.STATES = {
 
 const nameArray = ['Dashboard', 'Timetable', 'User Notes', 'Daily Notices'];
 
-let loggedIn = false;
+//window.authSuccess = false
 
 class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   constructor(props) {
     super(props);
 
     // Set default state on launch
-    this.state = {
-      visible: window.STATES.WELCOME
-    };
+    //console.log(window.authSuccess)
+    //if (window.authSuccess) {
+    //  this.state = { visible: window.STATES.DASHBOARD }
+    //} else {
+    //  this.state = { visible: window.STATES.WELCOME }
+    //}
+
+    this.state = { visible: window.STATES.DASHBOARD };
   }
 
   blankNavbar() {
@@ -24484,8 +24489,14 @@ class Welcome extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       alert('Run "npm start" to use server and login functions');
       console.log('Run "npm start" to use server and login functions');
     } else {
+      // also busted cause the entire page reloads on Login
+      // therefore it gets initialised again and set to false
+      //window.authSuccess = true
+      //document.getElementById('DashboardLi').click()
       window.location.href = '/login';
-      window.states.visible = window.STATES.DASHBOARD;
+
+      // this is busted
+      //window.states.visible = window.STATES.DASHBOARD
     }
   }
 

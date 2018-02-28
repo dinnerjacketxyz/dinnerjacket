@@ -12,8 +12,14 @@ class Welcome extends Component {
       alert('Run "npm start" to use server and login functions')
       console.log('Run "npm start" to use server and login functions')
     } else {
+      // also busted cause the entire page reloads on Login
+      // therefore it gets initialised again and set to false
+      //window.authSuccess = true
+      //document.getElementById('DashboardLi').click()
       window.location.href = '/login'
-      window.states.visible = window.STATES.DASHBOARD
+
+      // this is busted
+      //window.states.visible = window.STATES.DASHBOARD
     }
   }
 

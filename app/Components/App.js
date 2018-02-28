@@ -41,18 +41,21 @@ const nameArray = [
   'Daily Notices'
 ]
 
-let loggedIn = false
+//window.authSuccess = false
 
 class App extends Component {
   constructor(props) {
     super(props)
 
     // Set default state on launch
-    this.state = {
-      // set state to WELCOME to test welcome page
-      // currently the welcome page doesnt go away after login
-      visible: window.STATES.DASHBOARD
-    }
+    //console.log(window.authSuccess)
+    //if (window.authSuccess) {
+    //  this.state = { visible: window.STATES.DASHBOARD }
+    //} else {
+    //  this.state = { visible: window.STATES.WELCOME }
+    //}
+
+    this.state = { visible: window.STATES.DASHBOARD }
   }
 
   blankNavbar() {
