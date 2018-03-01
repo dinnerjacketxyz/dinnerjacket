@@ -6619,7 +6619,6 @@ StringDecoder.prototype.write = function (buf) {
   }
   if (i < buf.length) return r ? r + this.text(buf, i) : this.text(buf, i);
   return r || '';
-<<<<<<< HEAD
 };
 
 StringDecoder.prototype.end = utf8End;
@@ -6964,352 +6963,6 @@ Transform.prototype._transform = function (chunk, encoding, cb) {
   throw new Error('_transform() is not implemented');
 };
 
-=======
-};
-
-StringDecoder.prototype.end = utf8End;
-
-// Returns only complete characters in a Buffer
-StringDecoder.prototype.text = utf8Text;
-
-// Attempts to complete a partial non-UTF-8 character using bytes from a Buffer
-StringDecoder.prototype.fillLast = function (buf) {
-  if (this.lastNeed <= buf.length) {
-    buf.copy(this.lastChar, this.lastTotal - this.lastNeed, 0, this.lastNeed);
-    return this.lastChar.toString(this.encoding, 0, this.lastTotal);
-  }
-  buf.copy(this.lastChar, this.lastTotal - this.lastNeed, 0, buf.length);
-  this.lastNeed -= buf.length;
-};
-
-// Checks the type of a UTF-8 byte, whether it's ASCII, a leading byte, or a
-// continuation byte.
-function utf8CheckByte(byte) {
-  if (byte <= 0x7F) return 0;else if (byte >> 5 === 0x06) return 2;else if (byte >> 4 === 0x0E) return 3;else if (byte >> 3 === 0x1E) return 4;
-  return -1;
-}
-
-// Checks at most 3 bytes at the end of a Buffer in order to detect an
-// incomplete multi-byte UTF-8 character. The total number of bytes (2, 3, or 4)
-// needed to complete the UTF-8 character (if applicable) are returned.
-function utf8CheckIncomplete(self, buf, i) {
-  var j = buf.length - 1;
-  if (j < i) return 0;
-  var nb = utf8CheckByte(buf[j]);
-  if (nb >= 0) {
-    if (nb > 0) self.lastNeed = nb - 1;
-    return nb;
-  }
-  if (--j < i) return 0;
-  nb = utf8CheckByte(buf[j]);
-  if (nb >= 0) {
-    if (nb > 0) self.lastNeed = nb - 2;
-    return nb;
-  }
-  if (--j < i) return 0;
-  nb = utf8CheckByte(buf[j]);
-  if (nb >= 0) {
-    if (nb > 0) {
-      if (nb === 2) nb = 0;else self.lastNeed = nb - 3;
-    }
-    return nb;
-  }
-  return 0;
-}
-
-// Validates as many continuation bytes for a multi-byte UTF-8 character as
-// needed or are available. If we see a non-continuation byte where we expect
-// one, we "replace" the validated continuation bytes we've seen so far with
-// UTF-8 replacement characters ('\ufffd'), to match v8's UTF-8 decoding
-// behavior. The continuation byte check is included three times in the case
-// where all of the continuation bytes for a character exist in the same buffer.
-// It is also done this way as a slight performance increase instead of using a
-// loop.
-function utf8CheckExtraBytes(self, buf, p) {
-  if ((buf[0] & 0xC0) !== 0x80) {
-    self.lastNeed = 0;
-    return '\ufffd'.repeat(p);
-  }
-  if (self.lastNeed > 1 && buf.length > 1) {
-    if ((buf[1] & 0xC0) !== 0x80) {
-      self.lastNeed = 1;
-      return '\ufffd'.repeat(p + 1);
-    }
-    if (self.lastNeed > 2 && buf.length > 2) {
-      if ((buf[2] & 0xC0) !== 0x80) {
-        self.lastNeed = 2;
-        return '\ufffd'.repeat(p + 2);
-      }
-    }
-  }
-}
-
-// Attempts to complete a multi-byte UTF-8 character using bytes from a Buffer.
-function utf8FillLast(buf) {
-  var p = this.lastTotal - this.lastNeed;
-  var r = utf8CheckExtraBytes(this, buf, p);
-  if (r !== undefined) return r;
-  if (this.lastNeed <= buf.length) {
-    buf.copy(this.lastChar, p, 0, this.lastNeed);
-    return this.lastChar.toString(this.encoding, 0, this.lastTotal);
-  }
-  buf.copy(this.lastChar, p, 0, buf.length);
-  this.lastNeed -= buf.length;
-}
-
-// Returns all complete UTF-8 characters in a Buffer. If the Buffer ended on a
-// partial character, the character's bytes are buffered until the required
-// number of bytes are available.
-function utf8Text(buf, i) {
-  var total = utf8CheckIncomplete(this, buf, i);
-  if (!this.lastNeed) return buf.toString('utf8', i);
-  this.lastTotal = total;
-  var end = buf.length - (total - this.lastNeed);
-  buf.copy(this.lastChar, 0, end);
-  return buf.toString('utf8', i, end);
-}
-
-// For UTF-8, a replacement character for each buffered byte of a (partial)
-// character needs to be added to the output.
-function utf8End(buf) {
-  var r = buf && buf.length ? this.write(buf) : '';
-  if (this.lastNeed) return r + '\ufffd'.repeat(this.lastTotal - this.lastNeed);
-  return r;
-}
-
-// UTF-16LE typically needs two bytes per character, but even if we have an even
-// number of bytes available, we need to check if we end on a leading/high
-// surrogate. In that case, we need to wait for the next two bytes in order to
-// decode the last character properly.
-function utf16Text(buf, i) {
-  if ((buf.length - i) % 2 === 0) {
-    var r = buf.toString('utf16le', i);
-    if (r) {
-      var c = r.charCodeAt(r.length - 1);
-      if (c >= 0xD800 && c <= 0xDBFF) {
-        this.lastNeed = 2;
-        this.lastTotal = 4;
-        this.lastChar[0] = buf[buf.length - 2];
-        this.lastChar[1] = buf[buf.length - 1];
-        return r.slice(0, -1);
-      }
-    }
-    return r;
-  }
-  this.lastNeed = 1;
-  this.lastTotal = 2;
-  this.lastChar[0] = buf[buf.length - 1];
-  return buf.toString('utf16le', i, buf.length - 1);
-}
-
-// For UTF-16LE we do not explicitly append special replacement characters if we
-// end on a partial character, we simply let v8 handle that.
-function utf16End(buf) {
-  var r = buf && buf.length ? this.write(buf) : '';
-  if (this.lastNeed) {
-    var end = this.lastTotal - this.lastNeed;
-    return r + this.lastChar.toString('utf16le', 0, end);
-  }
-  return r;
-}
-
-function base64Text(buf, i) {
-  var n = (buf.length - i) % 3;
-  if (n === 0) return buf.toString('base64', i);
-  this.lastNeed = 3 - n;
-  this.lastTotal = 3;
-  if (n === 1) {
-    this.lastChar[0] = buf[buf.length - 1];
-  } else {
-    this.lastChar[0] = buf[buf.length - 2];
-    this.lastChar[1] = buf[buf.length - 1];
-  }
-  return buf.toString('base64', i, buf.length - n);
-}
-
-function base64End(buf) {
-  var r = buf && buf.length ? this.write(buf) : '';
-  if (this.lastNeed) return r + this.lastChar.toString('base64', 0, 3 - this.lastNeed);
-  return r;
-}
-
-// Pass bytes on through for single-byte encodings (e.g. ascii, latin1, hex)
-function simpleWrite(buf) {
-  return buf.toString(this.encoding);
-}
-
-function simpleEnd(buf) {
-  return buf && buf.length ? this.write(buf) : '';
-}
-
-/***/ }),
-/* 35 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-// a transform stream is a readable/writable stream where you do
-// something with the data.  Sometimes it's called a "filter",
-// but that's not a great name for it, since that implies a thing where
-// some bits pass through, and others are simply ignored.  (That would
-// be a valid example of a transform, of course.)
-//
-// While the output is causally related to the input, it's not a
-// necessarily symmetric or synchronous transformation.  For example,
-// a zlib stream might take multiple plain-text writes(), and then
-// emit a single compressed chunk some time in the future.
-//
-// Here's how this works:
-//
-// The Transform stream has all the aspects of the readable and writable
-// stream classes.  When you write(chunk), that calls _write(chunk,cb)
-// internally, and returns false if there's a lot of pending writes
-// buffered up.  When you call read(), that calls _read(n) until
-// there's enough pending readable data buffered up.
-//
-// In a transform stream, the written data is placed in a buffer.  When
-// _read(n) is called, it transforms the queued up data, calling the
-// buffered _write cb's as it consumes chunks.  If consuming a single
-// written chunk would result in multiple output chunks, then the first
-// outputted bit calls the readcb, and subsequent chunks just go into
-// the read buffer, and will cause it to emit 'readable' if necessary.
-//
-// This way, back-pressure is actually determined by the reading side,
-// since _read has to be called to start processing a new chunk.  However,
-// a pathological inflate type of transform can cause excessive buffering
-// here.  For example, imagine a stream where every byte of input is
-// interpreted as an integer from 0-255, and then results in that many
-// bytes of output.  Writing the 4 bytes {ff,ff,ff,ff} would result in
-// 1kb of data being output.  In this case, you could write a very small
-// amount of input, and end up with a very large amount of output.  In
-// such a pathological inflating mechanism, there'd be no way to tell
-// the system to stop doing the transform.  A single 4MB write could
-// cause the system to run out of memory.
-//
-// However, even in such a pathological case, only a single written chunk
-// would be consumed, and then the rest would wait (un-transformed) until
-// the results of the previous transformed chunk were consumed.
-
-
-
-module.exports = Transform;
-
-var Duplex = __webpack_require__(5);
-
-/*<replacement>*/
-var util = __webpack_require__(7);
-util.inherits = __webpack_require__(3);
-/*</replacement>*/
-
-util.inherits(Transform, Duplex);
-
-function TransformState(stream) {
-  this.afterTransform = function (er, data) {
-    return afterTransform(stream, er, data);
-  };
-
-  this.needTransform = false;
-  this.transforming = false;
-  this.writecb = null;
-  this.writechunk = null;
-  this.writeencoding = null;
-}
-
-function afterTransform(stream, er, data) {
-  var ts = stream._transformState;
-  ts.transforming = false;
-
-  var cb = ts.writecb;
-
-  if (!cb) {
-    return stream.emit('error', new Error('write callback called multiple times'));
-  }
-
-  ts.writechunk = null;
-  ts.writecb = null;
-
-  if (data !== null && data !== undefined) stream.push(data);
-
-  cb(er);
-
-  var rs = stream._readableState;
-  rs.reading = false;
-  if (rs.needReadable || rs.length < rs.highWaterMark) {
-    stream._read(rs.highWaterMark);
-  }
-}
-
-function Transform(options) {
-  if (!(this instanceof Transform)) return new Transform(options);
-
-  Duplex.call(this, options);
-
-  this._transformState = new TransformState(this);
-
-  var stream = this;
-
-  // start out asking for a readable event once data is transformed.
-  this._readableState.needReadable = true;
-
-  // we have implemented the _read method, and done the other things
-  // that Readable wants before the first _read call, so unset the
-  // sync guard flag.
-  this._readableState.sync = false;
-
-  if (options) {
-    if (typeof options.transform === 'function') this._transform = options.transform;
-
-    if (typeof options.flush === 'function') this._flush = options.flush;
-  }
-
-  // When the writable side finishes, then flush out anything remaining.
-  this.once('prefinish', function () {
-    if (typeof this._flush === 'function') this._flush(function (er, data) {
-      done(stream, er, data);
-    });else done(stream);
-  });
-}
-
-Transform.prototype.push = function (chunk, encoding) {
-  this._transformState.needTransform = false;
-  return Duplex.prototype.push.call(this, chunk, encoding);
-};
-
-// This is the part where you do stuff!
-// override this function in implementation classes.
-// 'chunk' is an input chunk.
-//
-// Call `push(newChunk)` to pass along transformed output
-// to the readable side.  You may call 'push' zero or more times.
-//
-// Call `cb(err)` when you are done with this chunk.  If you pass
-// an error, then that'll put the hurt on the whole operation.  If you
-// never call cb(), then you'll never get another chunk.
-Transform.prototype._transform = function (chunk, encoding, cb) {
-  throw new Error('_transform() is not implemented');
-};
-
->>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 Transform.prototype._write = function (chunk, encoding, cb) {
   var ts = this._transformState;
   ts.writecb = cb;
@@ -7383,13 +7036,8 @@ class About extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         'div',
         { className: 'uk-card uk-card-default uk-card-body uk-card large uk-width-1-3@xl uk-width-2-5@m uk-width-3-5@s' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { id: 'logo',
-<<<<<<< HEAD
-          className: 'uk-disabled',
-          alt: 'logo', src: 'https://i.imgur.com/xxuf1ni.png', width: '75px', height: '75px' }),
-=======
           className: 'uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom',
           alt: 'logo', src: '256.png', width: '150px', height: '150px' }),
->>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -24828,19 +24476,11 @@ module.exports = camelize;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Dashboard_Dashboard__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Timetable_Timetable__ = __webpack_require__(72);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Notes_Notes__ = __webpack_require__(73);
-<<<<<<< HEAD
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Notices_Notices__ = __webpack_require__(78);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Settings_Settings__ = __webpack_require__(79);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__About_About__ = __webpack_require__(36);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Feedback_Feedback__ = __webpack_require__(80);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Profile_Profile__ = __webpack_require__(83);
-=======
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Notices_Notices__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Settings_Settings__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__About_About__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Feedback_Feedback__ = __webpack_require__(79);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Profile_Profile__ = __webpack_require__(82);
->>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 
 
 
@@ -24851,13 +24491,8 @@ module.exports = camelize;
 
 
 
-<<<<<<< HEAD
 const css = __webpack_require__(84);
 const icons = __webpack_require__(86);
-=======
-const css = __webpack_require__(83);
-const icons = __webpack_require__(85);
->>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 const http = __webpack_require__(13);
 
 // Requirements for beta release
@@ -28533,10 +28168,7 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
 const css = __webpack_require__(74);
-<<<<<<< HEAD
 const SimpleMDE = __webpack_require__(77);
-=======
->>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 
 let note = {
   headings: ['# Welcome'],
@@ -28630,7 +28262,7 @@ class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('h2', null),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'div',
-              { className: 'uk-text-truncate uk-panel uk-panel-scrollable area listDisplay' },
+              { className: 'uk-overflow-auto' },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'table',
                 { className: 'uk-table uk-table-small uk-table-hover uk-margin-top', onClick: this.updateEditor },
@@ -28673,11 +28305,7 @@ class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'div',
               { className: 'uk-margin' },
-<<<<<<< HEAD
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(SimpleMDE, { id: 'inputContent', value: note.content, onChange: this.syncContent.bind(this) })
-=======
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('textarea', { id: 'inputContent', className: 'area uk-textarea uk-form-blank', rows: '10', placeholder: 'Body', onInput: this.syncContent.bind(this) })
->>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
             )
           )
         )
@@ -28709,13 +28337,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-<<<<<<< HEAD
-		module.hot.accept("!!../../../node_modules/css-loader/index.js!./styles.css", function() {
-			var newContent = require("!!../../../node_modules/css-loader/index.js!./styles.css");
-=======
 		module.hot.accept("!!../../../node_modules/css-loader/index.js!./Notes.css", function() {
 			var newContent = require("!!../../../node_modules/css-loader/index.js!./Notes.css");
->>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -28733,11 +28356,7 @@ exports = module.exports = __webpack_require__(14)(false);
 
 
 // module
-<<<<<<< HEAD
-exports.push([module.i, ".CodeMirror {\n  color: #000\n}\n\n.CodeMirror-lines {\n  padding: 4px 0\n}\n\n.CodeMirror pre {\n  padding: 0 4px\n}\n\n.CodeMirror-gutter-filler, .CodeMirror-scrollbar-filler {\n  background-color: #fff\n}\n\n.CodeMirror-gutters {\n  border-right: 1px solid #ddd;\n  background-color: #f7f7f7;\n  white-space: nowrap\n}\n\n.CodeMirror-linenumber {\n  padding: 0 3px 0 5px;\n  min-width: 20px;\n  text-align: right;\n  color: #999;\n  white-space: nowrap\n}\n\n.CodeMirror-guttermarker {\n  color: #000\n}\n\n.CodeMirror-guttermarker-subtle {\n  color: #999\n}\n\n.CodeMirror-cursor {\n  border-left: 1px solid #000;\n  border-right: none;\n  width: 0\n}\n\n.CodeMirror div.CodeMirror-secondarycursor {\n  border-left: 1px solid silver\n}\n\n.cm-fat-cursor .CodeMirror-cursor {\n  width: auto;\n  border: 0!important;\n  background: #7e7\n}\n\n.cm-fat-cursor div.CodeMirror-cursors {\n  z-index: 1\n}\n\n.cm-animate-fat-cursor {\n  width: auto;\n  border: 0;\n  -webkit-animation: blink 1.06s steps(1) infinite;\n  -moz-animation: blink 1.06s steps(1) infinite;\n  animation: blink 1.06s steps(1) infinite;\n  background-color: #7e7\n}\n\n@-moz-keyframes blink {\n  50% {\n    background-color: transparent\n  }\n}\n\n@-webkit-keyframes blink {\n  50% {\n    background-color: transparent\n  }\n}\n\n@keyframes blink {\n  50% {\n    background-color: transparent\n  }\n}\n\n.cm-tab {\n  display: inline-block;\n  text-decoration: inherit\n}\n\n.CodeMirror-ruler {\n  border-left: 1px solid #ccc;\n  position: absolute\n}\n\n.cm-s-default .cm-header {\n  color: #00f\n}\n\n.cm-s-default .cm-quote {\n  color: #090\n}\n\n.cm-negative {\n  color: #d44\n}\n\n.cm-positive {\n  color: #292\n}\n\n.cm-header, .cm-strong {\n  font-weight: 700\n}\n\n.cm-em {\n  font-style: italic\n}\n\n.cm-link {\n  text-decoration: underline\n}\n\n.cm-strikethrough {\n  text-decoration: line-through\n}\n\n.cm-s-default .cm-keyword {\n  color: #708\n}\n\n.cm-s-default .cm-atom {\n  color: #219\n}\n\n.cm-s-default .cm-number {\n  color: #164\n}\n\n.cm-s-default .cm-def {\n  color: #00f\n}\n\n.cm-s-default .cm-variable-2 {\n  color: #05a\n}\n\n.cm-s-default .cm-variable-3 {\n  color: #085\n}\n\n.cm-s-default .cm-comment {\n  color: #a50\n}\n\n.cm-s-default .cm-string {\n  color: #a11\n}\n\n.cm-s-default .cm-string-2 {\n  color: #f50\n}\n\n.cm-s-default .cm-meta, .cm-s-default .cm-qualifier {\n  color: #555\n}\n\n.cm-s-default .cm-builtin {\n  color: #30a\n}\n\n.cm-s-default .cm-bracket {\n  color: #997\n}\n\n.cm-s-default .cm-tag {\n  color: #170\n}\n\n.cm-s-default .cm-attribute {\n  color: #00c\n}\n\n.cm-s-default .cm-hr {\n  color: #999\n}\n\n.cm-s-default .cm-link {\n  color: #00c\n}\n\n.cm-invalidchar, .cm-s-default .cm-error {\n  color: red\n}\n\n.CodeMirror-composing {\n  border-bottom: 2px solid\n}\n\ndiv.CodeMirror span.CodeMirror-matchingbracket {\n  color: #0f0\n}\n\ndiv.CodeMirror span.CodeMirror-nonmatchingbracket {\n  color: #f22\n}\n\n.CodeMirror-matchingtag {\n  background: rgba(255, 150, 0, .3)\n}\n\n.CodeMirror-activeline-background {\n  background: #e8f2ff\n}\n\n.CodeMirror {\n  position: relative;\n  overflow: hidden;\n  background: #fff\n}\n\n.CodeMirror-scroll {\n  overflow: scroll!important;\n  margin-bottom: -30px;\n  margin-right: -30px;\n  padding-bottom: 30px;\n  height: 100%;\n  outline: 0;\n  position: relative\n}\n\n.CodeMirror-sizer {\n  position: relative;\n  border-right: 30px solid transparent\n}\n\n.CodeMirror-gutter-filler, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler, .CodeMirror-vscrollbar {\n  position: absolute;\n  z-index: 6;\n  display: none\n}\n\n.CodeMirror-vscrollbar {\n  right: 0;\n  top: 0;\n  overflow-x: hidden;\n  overflow-y: scroll\n}\n\n.CodeMirror-hscrollbar {\n  bottom: 0;\n  left: 0;\n  overflow-y: hidden;\n  overflow-x: scroll\n}\n\n.CodeMirror-scrollbar-filler {\n  right: 0;\n  bottom: 0\n}\n\n.CodeMirror-gutter-filler {\n  left: 0;\n  bottom: 0\n}\n\n.CodeMirror-gutters {\n  position: absolute;\n  left: 0;\n  top: 0;\n  min-height: 100%;\n  z-index: 3\n}\n\n.CodeMirror-gutter {\n  white-space: normal;\n  height: 100%;\n  display: inline-block;\n  vertical-align: top;\n  margin-bottom: -30px\n}\n\n.CodeMirror-gutter-wrapper {\n  position: absolute;\n  z-index: 4;\n  background: 0 0!important;\n  border: none!important;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  user-select: none\n}\n\n.CodeMirror-gutter-background {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  z-index: 4\n}\n\n.CodeMirror-gutter-elt {\n  position: absolute;\n  cursor: default;\n  z-index: 4\n}\n\n.CodeMirror-lines {\n  cursor: text;\n  min-height: 1px\n}\n\n.CodeMirror pre {\n  -moz-border-radius: 0;\n  -webkit-border-radius: 0;\n  border-radius: 0;\n  border-width: 0;\n  background: 0 0;\n  font-family: inherit;\n  font-size: 16px;\n  margin: 0;\n  white-space: pre;\n  word-wrap: normal;\n  line-height: inherit;\n  color: inherit;\n  z-index: 2;\n  position: relative;\n  overflow: visible;\n  -webkit-tap-highlight-color: transparent;\n  -webkit-font-variant-ligatures: none;\n  font-variant-ligatures: none\n}\n\n.CodeMirror-wrap pre {\n  word-wrap: break-word;\n  white-space: pre-wrap;\n  word-break: normal\n}\n\n.CodeMirror-linebackground {\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  z-index: 0\n}\n\n.CodeMirror-linewidget {\n  position: relative;\n  z-index: 2;\n  overflow: auto\n}\n\n.CodeMirror-code {\n  outline: 0\n}\n\n.CodeMirror-gutter, .CodeMirror-gutters, .CodeMirror-linenumber, .CodeMirror-scroll, .CodeMirror-sizer {\n  -moz-box-sizing: content-box;\n  box-sizing: content-box\n}\n\n.CodeMirror-measure {\n  position: absolute;\n  width: 100%;\n  height: 0;\n  overflow: hidden;\n  visibility: hidden\n}\n\n.CodeMirror-cursor {\n  position: absolute\n}\n\n.CodeMirror-measure pre {\n  position: static\n}\n\ndiv.CodeMirror-cursors {\n  visibility: hidden;\n  position: relative;\n  z-index: 3\n}\n\n.CodeMirror-focused div.CodeMirror-cursors, div.CodeMirror-dragcursors {\n  visibility: visible\n}\n\n.CodeMirror-selected {\n  background: #d9d9d9\n}\n\n.CodeMirror-focused .CodeMirror-selected, .CodeMirror-line::selection, .CodeMirror-line>span::selection, .CodeMirror-line>span>span::selection {\n  background: #d7d4f0\n}\n\n.CodeMirror-crosshair {\n  cursor: crosshair\n}\n\n.CodeMirror-line::-moz-selection, .CodeMirror-line>span::-moz-selection, .CodeMirror-line>span>span::-moz-selection {\n  background: #d7d4f0\n}\n\n.cm-searching {\n  background: #ffa;\n  background: rgba(255, 255, 0, .4)\n}\n\n.cm-force-border {\n  padding-right: .1px\n}\n\n@media print {\n  .CodeMirror div.CodeMirror-cursors {\n    visibility: hidden\n  }\n}\n\n.cm-tab-wrap-hack:after {\n  content: ''\n}\n\nspan.CodeMirror-selectedtext {\n  background: 0 0\n}\n\n.CodeMirror {\n  height: auto;\n  min-height: 300px;\n  border: 1px solid #ddd;\n  border-bottom-left-radius: 4px;\n  border-bottom-right-radius: 4px;\n  padding: 10px;\n  font: inherit;\n  z-index: 1\n}\n\n.CodeMirror-scroll {\n  min-height: 300px\n}\n\n.CodeMirror-fullscreen {\n  background: #fff;\n  position: fixed!important;\n  top: 50px;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  height: auto;\n  z-index: 9\n}\n\n.CodeMirror-sided {\n  width: 50%!important\n}\n\n.editor-toolbar {\n  position: relative;\n  opacity: .6;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  -o-user-select: none;\n  user-select: none;\n  padding: 0 10px;\n  border-top: 1px solid #bbb;\n  border-left: 1px solid #bbb;\n  border-right: 1px solid #bbb;\n  border-top-left-radius: 4px;\n  border-top-right-radius: 4px\n}\n\n.editor-toolbar:after, .editor-toolbar:before {\n  display: block;\n  content: ' ';\n  height: 1px\n}\n\n.editor-toolbar:before {\n  margin-bottom: 8px\n}\n\n.editor-toolbar:after {\n  margin-top: 8px\n}\n\n.editor-toolbar:hover, .editor-wrapper input.title:focus, .editor-wrapper input.title:hover {\n  opacity: .8\n}\n\n.editor-toolbar.fullscreen {\n  width: 100%;\n  height: 50px;\n  overflow-x: auto;\n  overflow-y: hidden;\n  white-space: nowrap;\n  padding-top: 10px;\n  padding-bottom: 10px;\n  box-sizing: border-box;\n  background: #fff;\n  border: 0;\n  position: fixed;\n  top: 0;\n  left: 0;\n  opacity: 1;\n  z-index: 9\n}\n\n.editor-toolbar.fullscreen::before {\n  width: 20px;\n  height: 50px;\n  background: -moz-linear-gradient(left, rgba(255, 255, 255, 1) 0, rgba(255, 255, 255, 0) 100%);\n  background: -webkit-gradient(linear, left top, right top, color-stop(0, rgba(255, 255, 255, 1)), color-stop(100%, rgba(255, 255, 255, 0)));\n  background: -webkit-linear-gradient(left, rgba(255, 255, 255, 1) 0, rgba(255, 255, 255, 0) 100%);\n  background: -o-linear-gradient(left, rgba(255, 255, 255, 1) 0, rgba(255, 255, 255, 0) 100%);\n  background: -ms-linear-gradient(left, rgba(255, 255, 255, 1) 0, rgba(255, 255, 255, 0) 100%);\n  background: linear-gradient(to right, rgba(255, 255, 255, 1) 0, rgba(255, 255, 255, 0) 100%);\n  position: fixed;\n  top: 0;\n  left: 0;\n  margin: 0;\n  padding: 0\n}\n\n.editor-toolbar.fullscreen::after {\n  width: 20px;\n  height: 50px;\n  background: -moz-linear-gradient(left, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 1) 100%);\n  background: -webkit-gradient(linear, left top, right top, color-stop(0, rgba(255, 255, 255, 0)), color-stop(100%, rgba(255, 255, 255, 1)));\n  background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 1) 100%);\n  background: -o-linear-gradient(left, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 1) 100%);\n  background: -ms-linear-gradient(left, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 1) 100%);\n  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 1) 100%);\n  position: fixed;\n  top: 0;\n  right: 0;\n  margin: 0;\n  padding: 0\n}\n\n.editor-toolbar a {\n  display: inline-block;\n  text-align: center;\n  text-decoration: none!important;\n  color: #2c3e50!important;\n  width: 30px;\n  height: 30px;\n  margin: 0;\n  border: 1px solid transparent;\n  border-radius: 3px;\n  cursor: pointer\n}\n\n.editor-toolbar a.active, .editor-toolbar a:hover {\n  background: #fcfcfc;\n  border-color: #95a5a6\n}\n\n.editor-toolbar a:before {\n  line-height: 30px\n}\n\n.editor-toolbar i.separator {\n  display: inline-block;\n  width: 0;\n  border-left: 1px solid #d9d9d9;\n  border-right: 1px solid #fff;\n  color: transparent;\n  text-indent: -10px;\n  margin: 0 6px\n}\n\n.editor-toolbar a.fa-header-x:after {\n  font-family: Arial, \"Helvetica Neue\", Helvetica, sans-serif;\n  font-size: 65%;\n  vertical-align: text-bottom;\n  position: relative;\n  top: 2px\n}\n\n.editor-toolbar a.fa-header-1:after {\n  content: \"1\"\n}\n\n.editor-toolbar a.fa-header-2:after {\n  content: \"2\"\n}\n\n.editor-toolbar a.fa-header-3:after {\n  content: \"3\"\n}\n\n.editor-toolbar a.fa-header-bigger:after {\n  content: \"\\25B2\"\n}\n\n.editor-toolbar a.fa-header-smaller:after {\n  content: \"\\25BC\"\n}\n\n.editor-toolbar.disabled-for-preview a:not(.no-disable) {\n  pointer-events: none;\n  background: #fff;\n  border-color: transparent;\n  text-shadow: inherit\n}\n\n@media only screen and (max-width:700px) {\n  .editor-toolbar a.no-mobile {\n    display: none\n  }\n}\n\n.editor-statusbar {\n  padding: 8px 10px;\n  font-size: 12px;\n  color: #959694;\n  text-align: right\n}\n\n.editor-statusbar span {\n  display: inline-block;\n  min-width: 4em;\n  margin-left: 1em\n}\n\n.editor-preview, .editor-preview-side {\n  padding: 10px;\n  background: #fafafa;\n  overflow: auto;\n  display: none;\n  box-sizing: border-box\n}\n\n.editor-statusbar .lines:before {\n  content: 'lines: '\n}\n\n.editor-statusbar .words:before {\n  content: 'words: '\n}\n\n.editor-statusbar .characters:before {\n  content: 'characters: '\n}\n\n.editor-preview {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  z-index: 7\n}\n\n.editor-preview-side {\n  position: fixed;\n  bottom: 0;\n  width: 50%;\n  top: 50px;\n  right: 0;\n  z-index: 9;\n  border: 1px solid #ddd\n}\n\n.editor-preview-active, .editor-preview-active-side {\n  display: block\n}\n\n.editor-preview-side>p, .editor-preview>p {\n  margin-top: 0\n}\n\n.editor-preview pre, .editor-preview-side pre {\n  background: #eee;\n  margin-bottom: 10px\n}\n\n.editor-preview table td, .editor-preview table th, .editor-preview-side table td, .editor-preview-side table th {\n  border: 1px solid #ddd;\n  padding: 5px\n}\n\n.CodeMirror .CodeMirror-code .cm-tag {\n  color: #63a35c\n}\n\n.CodeMirror .CodeMirror-code .cm-attribute {\n  color: #795da3\n}\n\n.CodeMirror .CodeMirror-code .cm-string {\n  color: #183691\n}\n\n.CodeMirror .CodeMirror-selected {\n  background: #d9d9d9\n}\n\n.CodeMirror .CodeMirror-code .cm-header-1 {\n  font-size: 200%;\n  line-height: 200%\n}\n\n.CodeMirror .CodeMirror-code .cm-header-2 {\n  font-size: 160%;\n  line-height: 160%\n}\n\n.CodeMirror .CodeMirror-code .cm-header-3 {\n  font-size: 125%;\n  line-height: 125%\n}\n\n.CodeMirror .CodeMirror-code .cm-header-4 {\n  font-size: 110%;\n  line-height: 110%\n}\n\n.CodeMirror .CodeMirror-code .cm-comment {\n  background: rgba(0, 0, 0, .05);\n  border-radius: 2px\n}\n\n.CodeMirror .CodeMirror-code .cm-link {\n  color: #7f8c8d\n}\n\n.CodeMirror .CodeMirror-code .cm-url {\n  color: #aab2b3\n}\n\n.CodeMirror .CodeMirror-code .cm-strikethrough {\n  text-decoration: line-through\n}\n\n.CodeMirror .CodeMirror-placeholder {\n  opacity: .5\n}\n\n.CodeMirror .cm-spell-error:not(.cm-url):not(.cm-comment):not(.cm-tag):not(.cm-word) {\n  background: rgba(255, 0, 0, .15)\n}", ""]);
-=======
-exports.push([module.i, ".area {\r\n  resize: none;\r\n  width: 100%;\r\n  height: 100% \r\n}\r\n\r\n.listDisplay {\r\n  border: none\r\n}\r\n", ""]);
->>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
+exports.push([module.i, ".area {\r\n  resize: none;\r\n  width: 100%;\r\n  height: 100%\r\n}\r\n\r\n.listDisplay {\r\n  border: none\r\n}\r\n\r\n.CodeMirror {\r\n  color: #000\r\n}\r\n\r\n.CodeMirror-lines {\r\n  padding: 4px 0\r\n}\r\n\r\n.CodeMirror pre {\r\n  padding: 0 4px\r\n}\r\n\r\n.CodeMirror-gutter-filler, .CodeMirror-scrollbar-filler {\r\n  background-color: #fff\r\n}\r\n\r\n.CodeMirror-gutters {\r\n  border-right: 1px solid #ddd;\r\n  background-color: #f7f7f7;\r\n  white-space: nowrap\r\n}\r\n\r\n.CodeMirror-linenumber {\r\n  padding: 0 3px 0 5px;\r\n  min-width: 20px;\r\n  text-align: right;\r\n  color: #999;\r\n  white-space: nowrap\r\n}\r\n\r\n.CodeMirror-guttermarker {\r\n  color: #000\r\n}\r\n\r\n.CodeMirror-guttermarker-subtle {\r\n  color: #999\r\n}\r\n\r\n.CodeMirror-cursor {\r\n  border-left: 1px solid #000;\r\n  border-right: none;\r\n  width: 0\r\n}\r\n\r\n.CodeMirror div.CodeMirror-secondarycursor {\r\n  border-left: 1px solid silver\r\n}\r\n\r\n.cm-fat-cursor .CodeMirror-cursor {\r\n  width: auto;\r\n  border: 0!important;\r\n  background: #7e7\r\n}\r\n\r\n.cm-fat-cursor div.CodeMirror-cursors {\r\n  z-index: 1\r\n}\r\n\r\n.cm-animate-fat-cursor {\r\n  width: auto;\r\n  border: 0;\r\n  -webkit-animation: blink 1.06s steps(1) infinite;\r\n  -moz-animation: blink 1.06s steps(1) infinite;\r\n  animation: blink 1.06s steps(1) infinite;\r\n  background-color: #7e7\r\n}\r\n\r\n@-moz-keyframes blink {\r\n  50% {\r\n    background-color: transparent\r\n  }\r\n}\r\n\r\n@-webkit-keyframes blink {\r\n  50% {\r\n    background-color: transparent\r\n  }\r\n}\r\n\r\n@keyframes blink {\r\n  50% {\r\n    background-color: transparent\r\n  }\r\n}\r\n\r\n.cm-tab {\r\n  display: inline-block;\r\n  text-decoration: inherit\r\n}\r\n\r\n.CodeMirror-ruler {\r\n  border-left: 1px solid #ccc;\r\n  position: absolute\r\n}\r\n\r\n.cm-s-default .cm-header {\r\n  color: #00f\r\n}\r\n\r\n.cm-s-default .cm-quote {\r\n  color: #090\r\n}\r\n\r\n.cm-negative {\r\n  color: #d44\r\n}\r\n\r\n.cm-positive {\r\n  color: #292\r\n}\r\n\r\n.cm-header, .cm-strong {\r\n  font-weight: 700\r\n}\r\n\r\n.cm-em {\r\n  font-style: italic\r\n}\r\n\r\n.cm-link {\r\n  text-decoration: underline\r\n}\r\n\r\n.cm-strikethrough {\r\n  text-decoration: line-through\r\n}\r\n\r\n.cm-s-default .cm-keyword {\r\n  color: #708\r\n}\r\n\r\n.cm-s-default .cm-atom {\r\n  color: #219\r\n}\r\n\r\n.cm-s-default .cm-number {\r\n  color: #164\r\n}\r\n\r\n.cm-s-default .cm-def {\r\n  color: #00f\r\n}\r\n\r\n.cm-s-default .cm-variable-2 {\r\n  color: #05a\r\n}\r\n\r\n.cm-s-default .cm-variable-3 {\r\n  color: #085\r\n}\r\n\r\n.cm-s-default .cm-comment {\r\n  color: #a50\r\n}\r\n\r\n.cm-s-default .cm-string {\r\n  color: #a11\r\n}\r\n\r\n.cm-s-default .cm-string-2 {\r\n  color: #f50\r\n}\r\n\r\n.cm-s-default .cm-meta, .cm-s-default .cm-qualifier {\r\n  color: #555\r\n}\r\n\r\n.cm-s-default .cm-builtin {\r\n  color: #30a\r\n}\r\n\r\n.cm-s-default .cm-bracket {\r\n  color: #997\r\n}\r\n\r\n.cm-s-default .cm-tag {\r\n  color: #170\r\n}\r\n\r\n.cm-s-default .cm-attribute {\r\n  color: #00c\r\n}\r\n\r\n.cm-s-default .cm-hr {\r\n  color: #999\r\n}\r\n\r\n.cm-s-default .cm-link {\r\n  color: #00c\r\n}\r\n\r\n.cm-invalidchar, .cm-s-default .cm-error {\r\n  color: red\r\n}\r\n\r\n.CodeMirror-composing {\r\n  border-bottom: 2px solid\r\n}\r\n\r\ndiv.CodeMirror span.CodeMirror-matchingbracket {\r\n  color: #0f0\r\n}\r\n\r\ndiv.CodeMirror span.CodeMirror-nonmatchingbracket {\r\n  color: #f22\r\n}\r\n\r\n.CodeMirror-matchingtag {\r\n  background: rgba(255, 150, 0, .3)\r\n}\r\n\r\n.CodeMirror-activeline-background {\r\n  background: #e8f2ff\r\n}\r\n\r\n.CodeMirror {\r\n  position: relative;\r\n  overflow: hidden;\r\n  background: #fff\r\n}\r\n\r\n.CodeMirror-scroll {\r\n  overflow: scroll!important;\r\n  margin-bottom: -30px;\r\n  margin-right: -30px;\r\n  padding-bottom: 30px;\r\n  height: 100%;\r\n  outline: 0;\r\n  position: relative\r\n}\r\n\r\n.CodeMirror-sizer {\r\n  position: relative;\r\n  border-right: 30px solid transparent\r\n}\r\n\r\n.CodeMirror-gutter-filler, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler, .CodeMirror-vscrollbar {\r\n  position: absolute;\r\n  z-index: 6;\r\n  display: none\r\n}\r\n\r\n.CodeMirror-vscrollbar {\r\n  right: 0;\r\n  top: 0;\r\n  overflow-x: hidden;\r\n  overflow-y: scroll\r\n}\r\n\r\n.CodeMirror-hscrollbar {\r\n  bottom: 0;\r\n  left: 0;\r\n  overflow-y: hidden;\r\n  overflow-x: scroll\r\n}\r\n\r\n.CodeMirror-scrollbar-filler {\r\n  right: 0;\r\n  bottom: 0\r\n}\r\n\r\n.CodeMirror-gutter-filler {\r\n  left: 0;\r\n  bottom: 0\r\n}\r\n\r\n.CodeMirror-gutters {\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n  min-height: 100%;\r\n  z-index: 3\r\n}\r\n\r\n.CodeMirror-gutter {\r\n  white-space: normal;\r\n  height: 100%;\r\n  display: inline-block;\r\n  vertical-align: top;\r\n  margin-bottom: -30px\r\n}\r\n\r\n.CodeMirror-gutter-wrapper {\r\n  position: absolute;\r\n  z-index: 4;\r\n  background: 0 0!important;\r\n  border: none!important;\r\n  -webkit-user-select: none;\r\n  -moz-user-select: none;\r\n  user-select: none\r\n}\r\n\r\n.CodeMirror-gutter-background {\r\n  position: absolute;\r\n  top: 0;\r\n  bottom: 0;\r\n  z-index: 4\r\n}\r\n\r\n.CodeMirror-gutter-elt {\r\n  position: absolute;\r\n  cursor: default;\r\n  z-index: 4\r\n}\r\n\r\n.CodeMirror-lines {\r\n  cursor: text;\r\n  min-height: 1px\r\n}\r\n\r\n.CodeMirror pre {\r\n  -moz-border-radius: 0;\r\n  -webkit-border-radius: 0;\r\n  border-radius: 0;\r\n  border-width: 0;\r\n  background: 0 0;\r\n  font-family: inherit;\r\n  font-size: 16px;\r\n  margin: 0;\r\n  white-space: pre;\r\n  word-wrap: normal;\r\n  line-height: inherit;\r\n  color: inherit;\r\n  z-index: 2;\r\n  position: relative;\r\n  overflow: visible;\r\n  -webkit-tap-highlight-color: transparent;\r\n  -webkit-font-variant-ligatures: none;\r\n  font-variant-ligatures: none\r\n}\r\n\r\n.CodeMirror-wrap pre {\r\n  word-wrap: break-word;\r\n  white-space: pre-wrap;\r\n  word-break: normal\r\n}\r\n\r\n.CodeMirror-linebackground {\r\n  position: absolute;\r\n  left: 0;\r\n  right: 0;\r\n  top: 0;\r\n  bottom: 0;\r\n  z-index: 0\r\n}\r\n\r\n.CodeMirror-linewidget {\r\n  position: relative;\r\n  z-index: 2;\r\n  overflow: auto\r\n}\r\n\r\n.CodeMirror-code {\r\n  outline: 0\r\n}\r\n\r\n.CodeMirror-gutter, .CodeMirror-gutters, .CodeMirror-linenumber, .CodeMirror-scroll, .CodeMirror-sizer {\r\n  -moz-box-sizing: content-box;\r\n  box-sizing: content-box\r\n}\r\n\r\n.CodeMirror-measure {\r\n  position: absolute;\r\n  width: 100%;\r\n  height: 0;\r\n  overflow: hidden;\r\n  visibility: hidden\r\n}\r\n\r\n.CodeMirror-cursor {\r\n  position: absolute\r\n}\r\n\r\n.CodeMirror-measure pre {\r\n  position: static\r\n}\r\n\r\ndiv.CodeMirror-cursors {\r\n  visibility: hidden;\r\n  position: relative;\r\n  z-index: 3\r\n}\r\n\r\n.CodeMirror-focused div.CodeMirror-cursors, div.CodeMirror-dragcursors {\r\n  visibility: visible\r\n}\r\n\r\n.CodeMirror-selected {\r\n  background: #d9d9d9\r\n}\r\n\r\n.CodeMirror-focused .CodeMirror-selected, .CodeMirror-line::selection, .CodeMirror-line>span::selection, .CodeMirror-line>span>span::selection {\r\n  background: #d7d4f0\r\n}\r\n\r\n.CodeMirror-crosshair {\r\n  cursor: crosshair\r\n}\r\n\r\n.CodeMirror-line::-moz-selection, .CodeMirror-line>span::-moz-selection, .CodeMirror-line>span>span::-moz-selection {\r\n  background: #d7d4f0\r\n}\r\n\r\n.cm-searching {\r\n  background: #ffa;\r\n  background: rgba(255, 255, 0, .4)\r\n}\r\n\r\n.cm-force-border {\r\n  padding-right: .1px\r\n}\r\n\r\n@media print {\r\n  .CodeMirror div.CodeMirror-cursors {\r\n    visibility: hidden\r\n  }\r\n}\r\n\r\n.cm-tab-wrap-hack:after {\r\n  content: ''\r\n}\r\n\r\nspan.CodeMirror-selectedtext {\r\n  background: 0 0\r\n}\r\n\r\n.CodeMirror {\r\n  height: auto;\r\n  min-height: 300px;\r\n  border: 1px solid #ddd;\r\n  border-bottom-left-radius: 4px;\r\n  border-bottom-right-radius: 4px;\r\n  padding: 10px;\r\n  font: inherit;\r\n  z-index: 1\r\n}\r\n\r\n.CodeMirror-scroll {\r\n  min-height: 300px\r\n}\r\n\r\n.CodeMirror-fullscreen {\r\n  background: #fff;\r\n  position: fixed!important;\r\n  top: 50px;\r\n  left: 0;\r\n  right: 0;\r\n  bottom: 0;\r\n  height: auto;\r\n  z-index: 9\r\n}\r\n\r\n.CodeMirror-sided {\r\n  width: 50%!important\r\n}\r\n\r\n.editor-toolbar {\r\n  position: relative;\r\n  opacity: .6;\r\n  -webkit-user-select: none;\r\n  -moz-user-select: none;\r\n  -ms-user-select: none;\r\n  -o-user-select: none;\r\n  user-select: none;\r\n  padding: 0 10px;\r\n  border-top: 1px solid #bbb;\r\n  border-left: 1px solid #bbb;\r\n  border-right: 1px solid #bbb;\r\n  border-top-left-radius: 4px;\r\n  border-top-right-radius: 4px\r\n}\r\n\r\n.editor-toolbar:after, .editor-toolbar:before {\r\n  display: block;\r\n  content: ' ';\r\n  height: 1px\r\n}\r\n\r\n.editor-toolbar:before {\r\n  margin-bottom: 8px\r\n}\r\n\r\n.editor-toolbar:after {\r\n  margin-top: 8px\r\n}\r\n\r\n.editor-toolbar:hover, .editor-wrapper input.title:focus, .editor-wrapper input.title:hover {\r\n  opacity: .8\r\n}\r\n\r\n.editor-toolbar.fullscreen {\r\n  width: 100%;\r\n  height: 50px;\r\n  overflow-x: auto;\r\n  overflow-y: hidden;\r\n  white-space: nowrap;\r\n  padding-top: 10px;\r\n  padding-bottom: 10px;\r\n  box-sizing: border-box;\r\n  background: #fff;\r\n  border: 0;\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  opacity: 1;\r\n  z-index: 9\r\n}\r\n\r\n.editor-toolbar.fullscreen::before {\r\n  width: 20px;\r\n  height: 50px;\r\n  background: -moz-linear-gradient(left, rgba(255, 255, 255, 1) 0, rgba(255, 255, 255, 0) 100%);\r\n  background: -webkit-gradient(linear, left top, right top, color-stop(0, rgba(255, 255, 255, 1)), color-stop(100%, rgba(255, 255, 255, 0)));\r\n  background: -webkit-linear-gradient(left, rgba(255, 255, 255, 1) 0, rgba(255, 255, 255, 0) 100%);\r\n  background: -o-linear-gradient(left, rgba(255, 255, 255, 1) 0, rgba(255, 255, 255, 0) 100%);\r\n  background: -ms-linear-gradient(left, rgba(255, 255, 255, 1) 0, rgba(255, 255, 255, 0) 100%);\r\n  background: linear-gradient(to right, rgba(255, 255, 255, 1) 0, rgba(255, 255, 255, 0) 100%);\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  margin: 0;\r\n  padding: 0\r\n}\r\n\r\n.editor-toolbar.fullscreen::after {\r\n  width: 20px;\r\n  height: 50px;\r\n  background: -moz-linear-gradient(left, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 1) 100%);\r\n  background: -webkit-gradient(linear, left top, right top, color-stop(0, rgba(255, 255, 255, 0)), color-stop(100%, rgba(255, 255, 255, 1)));\r\n  background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 1) 100%);\r\n  background: -o-linear-gradient(left, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 1) 100%);\r\n  background: -ms-linear-gradient(left, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 1) 100%);\r\n  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 1) 100%);\r\n  position: fixed;\r\n  top: 0;\r\n  right: 0;\r\n  margin: 0;\r\n  padding: 0\r\n}\r\n\r\n.editor-toolbar a {\r\n  display: inline-block;\r\n  text-align: center;\r\n  text-decoration: none!important;\r\n  color: #2c3e50!important;\r\n  width: 30px;\r\n  height: 30px;\r\n  margin: 0;\r\n  border: 1px solid transparent;\r\n  border-radius: 3px;\r\n  cursor: pointer\r\n}\r\n\r\n.editor-toolbar a.active, .editor-toolbar a:hover {\r\n  background: #fcfcfc;\r\n  border-color: #95a5a6\r\n}\r\n\r\n.editor-toolbar a:before {\r\n  line-height: 30px\r\n}\r\n\r\n.editor-toolbar i.separator {\r\n  display: inline-block;\r\n  width: 0;\r\n  border-left: 1px solid #d9d9d9;\r\n  border-right: 1px solid #fff;\r\n  color: transparent;\r\n  text-indent: -10px;\r\n  margin: 0 6px\r\n}\r\n\r\n.editor-toolbar a.fa-header-x:after {\r\n  font-family: Arial, \"Helvetica Neue\", Helvetica, sans-serif;\r\n  font-size: 65%;\r\n  vertical-align: text-bottom;\r\n  position: relative;\r\n  top: 2px\r\n}\r\n\r\n.editor-toolbar a.fa-header-1:after {\r\n  content: \"1\"\r\n}\r\n\r\n.editor-toolbar a.fa-header-2:after {\r\n  content: \"2\"\r\n}\r\n\r\n.editor-toolbar a.fa-header-3:after {\r\n  content: \"3\"\r\n}\r\n\r\n.editor-toolbar a.fa-header-bigger:after {\r\n  content: \"\\25B2\"\r\n}\r\n\r\n.editor-toolbar a.fa-header-smaller:after {\r\n  content: \"\\25BC\"\r\n}\r\n\r\n.editor-toolbar.disabled-for-preview a:not(.no-disable) {\r\n  pointer-events: none;\r\n  background: #fff;\r\n  border-color: transparent;\r\n  text-shadow: inherit\r\n}\r\n\r\n@media only screen and (max-width:700px) {\r\n  .editor-toolbar a.no-mobile {\r\n    display: none\r\n  }\r\n}\r\n\r\n.editor-statusbar {\r\n  padding: 8px 10px;\r\n  font-size: 12px;\r\n  color: #959694;\r\n  text-align: right\r\n}\r\n\r\n.editor-statusbar span {\r\n  display: inline-block;\r\n  min-width: 4em;\r\n  margin-left: 1em\r\n}\r\n\r\n.editor-preview, .editor-preview-side {\r\n  padding: 10px;\r\n  background: #fafafa;\r\n  overflow: auto;\r\n  display: none;\r\n  box-sizing: border-box\r\n}\r\n\r\n.editor-statusbar .lines:before {\r\n  content: 'lines: '\r\n}\r\n\r\n.editor-statusbar .words:before {\r\n  content: 'words: '\r\n}\r\n\r\n.editor-statusbar .characters:before {\r\n  content: 'characters: '\r\n}\r\n\r\n.editor-preview {\r\n  position: absolute;\r\n  width: 100%;\r\n  height: 100%;\r\n  top: 0;\r\n  left: 0;\r\n  z-index: 7\r\n}\r\n\r\n.editor-preview-side {\r\n  position: fixed;\r\n  bottom: 0;\r\n  width: 50%;\r\n  top: 50px;\r\n  right: 0;\r\n  z-index: 9;\r\n  border: 1px solid #ddd\r\n}\r\n\r\n.editor-preview-active, .editor-preview-active-side {\r\n  display: block\r\n}\r\n\r\n.editor-preview-side>p, .editor-preview>p {\r\n  margin-top: 0\r\n}\r\n\r\n.editor-preview pre, .editor-preview-side pre {\r\n  background: #eee;\r\n  margin-bottom: 10px\r\n}\r\n\r\n.editor-preview table td, .editor-preview table th, .editor-preview-side table td, .editor-preview-side table th {\r\n  border: 1px solid #ddd;\r\n  padding: 5px\r\n}\r\n\r\n.CodeMirror .CodeMirror-code .cm-tag {\r\n  color: #63a35c\r\n}\r\n\r\n.CodeMirror .CodeMirror-code .cm-attribute {\r\n  color: #795da3\r\n}\r\n\r\n.CodeMirror .CodeMirror-code .cm-string {\r\n  color: #183691\r\n}\r\n\r\n.CodeMirror .CodeMirror-selected {\r\n  background: #d9d9d9\r\n}\r\n\r\n.CodeMirror .CodeMirror-code .cm-header-1 {\r\n  font-size: 200%;\r\n  line-height: 200%\r\n}\r\n\r\n.CodeMirror .CodeMirror-code .cm-header-2 {\r\n  font-size: 160%;\r\n  line-height: 160%\r\n}\r\n\r\n.CodeMirror .CodeMirror-code .cm-header-3 {\r\n  font-size: 125%;\r\n  line-height: 125%\r\n}\r\n\r\n.CodeMirror .CodeMirror-code .cm-header-4 {\r\n  font-size: 110%;\r\n  line-height: 110%\r\n}\r\n\r\n.CodeMirror .CodeMirror-code .cm-comment {\r\n  background: rgba(0, 0, 0, .05);\r\n  border-radius: 2px\r\n}\r\n\r\n.CodeMirror .CodeMirror-code .cm-link {\r\n  color: #7f8c8d\r\n}\r\n\r\n.CodeMirror .CodeMirror-code .cm-url {\r\n  color: #aab2b3\r\n}\r\n\r\n.CodeMirror .CodeMirror-code .cm-strikethrough {\r\n  text-decoration: line-through\r\n}\r\n\r\n.CodeMirror .CodeMirror-placeholder {\r\n  opacity: .5\r\n}\r\n\r\n.CodeMirror .cm-spell-error:not(.cm-url):not(.cm-comment):not(.cm-tag):not(.cm-word) {\r\n  background: rgba(255, 0, 0, .15)\r\n}\r\n", ""]);
 
 // exports
 
@@ -28839,7 +28458,6 @@ module.exports = function (css) {
 
 /***/ }),
 /* 77 */
-<<<<<<< HEAD
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -66444,8 +66062,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ }),
 /* 78 */
-=======
->>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -67238,11 +66854,7 @@ class Notices extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Notices);
 
 /***/ }),
-<<<<<<< HEAD
 /* 79 */
-=======
-/* 78 */
->>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -67298,22 +66910,14 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* unused harmony default export */ var _unused_webpack_default_export = (Settings);
 
 /***/ }),
-<<<<<<< HEAD
 /* 80 */
-=======
-/* 79 */
->>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
-<<<<<<< HEAD
 const css = __webpack_require__(81);
-=======
-const css = __webpack_require__(80);
->>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 
 // TODO
 // google forms iframe takes a few secs to Load
@@ -67340,21 +66944,13 @@ class Feedback extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Feedback);
 
 /***/ }),
-<<<<<<< HEAD
 /* 81 */
-=======
-/* 80 */
->>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-<<<<<<< HEAD
 var content = __webpack_require__(82);
-=======
-var content = __webpack_require__(81);
->>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -67379,11 +66975,7 @@ if(false) {
 }
 
 /***/ }),
-<<<<<<< HEAD
 /* 82 */
-=======
-/* 81 */
->>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(14)(false);
@@ -67397,11 +66989,7 @@ exports.push([module.i, ".container {\r\n  position: relative;\r\n\tpadding-bott
 
 
 /***/ }),
-<<<<<<< HEAD
 /* 83 */
-=======
-/* 82 */
->>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -67422,21 +67010,13 @@ class Profile extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* unused harmony default export */ var _unused_webpack_default_export = (Profile);
 
 /***/ }),
-<<<<<<< HEAD
 /* 84 */
-=======
-/* 83 */
->>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-<<<<<<< HEAD
 var content = __webpack_require__(85);
-=======
-var content = __webpack_require__(84);
->>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -67461,11 +67041,7 @@ if(false) {
 }
 
 /***/ }),
-<<<<<<< HEAD
 /* 85 */
-=======
-/* 84 */
->>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(14)(false);
@@ -67479,11 +67055,7 @@ exports.push([module.i, "body {\r\n  margin: 0;\r\n  padding: 0;\r\n  font-famil
 
 
 /***/ }),
-<<<<<<< HEAD
 /* 86 */
-=======
-/* 85 */
->>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 /***/ (function(module, exports, __webpack_require__) {
 
 /*! UIkit 3.0.0-beta.37 | http://www.getuikit.com | (c) 2014 - 2017 YOOtheme | MIT License */

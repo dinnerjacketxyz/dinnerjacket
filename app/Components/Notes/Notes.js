@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-const css = require('./styles.css')
+const css = require('./Notes.css')
 const SimpleMDE = require('react-simplemde-editor')
 
 let note = {
