@@ -25,7 +25,7 @@ class Welcome extends Component {
 
   render() {
     return (
-      <div id='main' className='main'>
+      <div id='main' className='main uk-height-viewport'>
         <nav className='uk-navbar uk-navbar-container uk-margin'>
           <div className='uk-navbar-left'>
             <img id='logo'

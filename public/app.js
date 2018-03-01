@@ -6619,6 +6619,7 @@ StringDecoder.prototype.write = function (buf) {
   }
   if (i < buf.length) return r ? r + this.text(buf, i) : this.text(buf, i);
   return r || '';
+<<<<<<< HEAD
 };
 
 StringDecoder.prototype.end = utf8End;
@@ -6963,6 +6964,352 @@ Transform.prototype._transform = function (chunk, encoding, cb) {
   throw new Error('_transform() is not implemented');
 };
 
+=======
+};
+
+StringDecoder.prototype.end = utf8End;
+
+// Returns only complete characters in a Buffer
+StringDecoder.prototype.text = utf8Text;
+
+// Attempts to complete a partial non-UTF-8 character using bytes from a Buffer
+StringDecoder.prototype.fillLast = function (buf) {
+  if (this.lastNeed <= buf.length) {
+    buf.copy(this.lastChar, this.lastTotal - this.lastNeed, 0, this.lastNeed);
+    return this.lastChar.toString(this.encoding, 0, this.lastTotal);
+  }
+  buf.copy(this.lastChar, this.lastTotal - this.lastNeed, 0, buf.length);
+  this.lastNeed -= buf.length;
+};
+
+// Checks the type of a UTF-8 byte, whether it's ASCII, a leading byte, or a
+// continuation byte.
+function utf8CheckByte(byte) {
+  if (byte <= 0x7F) return 0;else if (byte >> 5 === 0x06) return 2;else if (byte >> 4 === 0x0E) return 3;else if (byte >> 3 === 0x1E) return 4;
+  return -1;
+}
+
+// Checks at most 3 bytes at the end of a Buffer in order to detect an
+// incomplete multi-byte UTF-8 character. The total number of bytes (2, 3, or 4)
+// needed to complete the UTF-8 character (if applicable) are returned.
+function utf8CheckIncomplete(self, buf, i) {
+  var j = buf.length - 1;
+  if (j < i) return 0;
+  var nb = utf8CheckByte(buf[j]);
+  if (nb >= 0) {
+    if (nb > 0) self.lastNeed = nb - 1;
+    return nb;
+  }
+  if (--j < i) return 0;
+  nb = utf8CheckByte(buf[j]);
+  if (nb >= 0) {
+    if (nb > 0) self.lastNeed = nb - 2;
+    return nb;
+  }
+  if (--j < i) return 0;
+  nb = utf8CheckByte(buf[j]);
+  if (nb >= 0) {
+    if (nb > 0) {
+      if (nb === 2) nb = 0;else self.lastNeed = nb - 3;
+    }
+    return nb;
+  }
+  return 0;
+}
+
+// Validates as many continuation bytes for a multi-byte UTF-8 character as
+// needed or are available. If we see a non-continuation byte where we expect
+// one, we "replace" the validated continuation bytes we've seen so far with
+// UTF-8 replacement characters ('\ufffd'), to match v8's UTF-8 decoding
+// behavior. The continuation byte check is included three times in the case
+// where all of the continuation bytes for a character exist in the same buffer.
+// It is also done this way as a slight performance increase instead of using a
+// loop.
+function utf8CheckExtraBytes(self, buf, p) {
+  if ((buf[0] & 0xC0) !== 0x80) {
+    self.lastNeed = 0;
+    return '\ufffd'.repeat(p);
+  }
+  if (self.lastNeed > 1 && buf.length > 1) {
+    if ((buf[1] & 0xC0) !== 0x80) {
+      self.lastNeed = 1;
+      return '\ufffd'.repeat(p + 1);
+    }
+    if (self.lastNeed > 2 && buf.length > 2) {
+      if ((buf[2] & 0xC0) !== 0x80) {
+        self.lastNeed = 2;
+        return '\ufffd'.repeat(p + 2);
+      }
+    }
+  }
+}
+
+// Attempts to complete a multi-byte UTF-8 character using bytes from a Buffer.
+function utf8FillLast(buf) {
+  var p = this.lastTotal - this.lastNeed;
+  var r = utf8CheckExtraBytes(this, buf, p);
+  if (r !== undefined) return r;
+  if (this.lastNeed <= buf.length) {
+    buf.copy(this.lastChar, p, 0, this.lastNeed);
+    return this.lastChar.toString(this.encoding, 0, this.lastTotal);
+  }
+  buf.copy(this.lastChar, p, 0, buf.length);
+  this.lastNeed -= buf.length;
+}
+
+// Returns all complete UTF-8 characters in a Buffer. If the Buffer ended on a
+// partial character, the character's bytes are buffered until the required
+// number of bytes are available.
+function utf8Text(buf, i) {
+  var total = utf8CheckIncomplete(this, buf, i);
+  if (!this.lastNeed) return buf.toString('utf8', i);
+  this.lastTotal = total;
+  var end = buf.length - (total - this.lastNeed);
+  buf.copy(this.lastChar, 0, end);
+  return buf.toString('utf8', i, end);
+}
+
+// For UTF-8, a replacement character for each buffered byte of a (partial)
+// character needs to be added to the output.
+function utf8End(buf) {
+  var r = buf && buf.length ? this.write(buf) : '';
+  if (this.lastNeed) return r + '\ufffd'.repeat(this.lastTotal - this.lastNeed);
+  return r;
+}
+
+// UTF-16LE typically needs two bytes per character, but even if we have an even
+// number of bytes available, we need to check if we end on a leading/high
+// surrogate. In that case, we need to wait for the next two bytes in order to
+// decode the last character properly.
+function utf16Text(buf, i) {
+  if ((buf.length - i) % 2 === 0) {
+    var r = buf.toString('utf16le', i);
+    if (r) {
+      var c = r.charCodeAt(r.length - 1);
+      if (c >= 0xD800 && c <= 0xDBFF) {
+        this.lastNeed = 2;
+        this.lastTotal = 4;
+        this.lastChar[0] = buf[buf.length - 2];
+        this.lastChar[1] = buf[buf.length - 1];
+        return r.slice(0, -1);
+      }
+    }
+    return r;
+  }
+  this.lastNeed = 1;
+  this.lastTotal = 2;
+  this.lastChar[0] = buf[buf.length - 1];
+  return buf.toString('utf16le', i, buf.length - 1);
+}
+
+// For UTF-16LE we do not explicitly append special replacement characters if we
+// end on a partial character, we simply let v8 handle that.
+function utf16End(buf) {
+  var r = buf && buf.length ? this.write(buf) : '';
+  if (this.lastNeed) {
+    var end = this.lastTotal - this.lastNeed;
+    return r + this.lastChar.toString('utf16le', 0, end);
+  }
+  return r;
+}
+
+function base64Text(buf, i) {
+  var n = (buf.length - i) % 3;
+  if (n === 0) return buf.toString('base64', i);
+  this.lastNeed = 3 - n;
+  this.lastTotal = 3;
+  if (n === 1) {
+    this.lastChar[0] = buf[buf.length - 1];
+  } else {
+    this.lastChar[0] = buf[buf.length - 2];
+    this.lastChar[1] = buf[buf.length - 1];
+  }
+  return buf.toString('base64', i, buf.length - n);
+}
+
+function base64End(buf) {
+  var r = buf && buf.length ? this.write(buf) : '';
+  if (this.lastNeed) return r + this.lastChar.toString('base64', 0, 3 - this.lastNeed);
+  return r;
+}
+
+// Pass bytes on through for single-byte encodings (e.g. ascii, latin1, hex)
+function simpleWrite(buf) {
+  return buf.toString(this.encoding);
+}
+
+function simpleEnd(buf) {
+  return buf && buf.length ? this.write(buf) : '';
+}
+
+/***/ }),
+/* 35 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+// a transform stream is a readable/writable stream where you do
+// something with the data.  Sometimes it's called a "filter",
+// but that's not a great name for it, since that implies a thing where
+// some bits pass through, and others are simply ignored.  (That would
+// be a valid example of a transform, of course.)
+//
+// While the output is causally related to the input, it's not a
+// necessarily symmetric or synchronous transformation.  For example,
+// a zlib stream might take multiple plain-text writes(), and then
+// emit a single compressed chunk some time in the future.
+//
+// Here's how this works:
+//
+// The Transform stream has all the aspects of the readable and writable
+// stream classes.  When you write(chunk), that calls _write(chunk,cb)
+// internally, and returns false if there's a lot of pending writes
+// buffered up.  When you call read(), that calls _read(n) until
+// there's enough pending readable data buffered up.
+//
+// In a transform stream, the written data is placed in a buffer.  When
+// _read(n) is called, it transforms the queued up data, calling the
+// buffered _write cb's as it consumes chunks.  If consuming a single
+// written chunk would result in multiple output chunks, then the first
+// outputted bit calls the readcb, and subsequent chunks just go into
+// the read buffer, and will cause it to emit 'readable' if necessary.
+//
+// This way, back-pressure is actually determined by the reading side,
+// since _read has to be called to start processing a new chunk.  However,
+// a pathological inflate type of transform can cause excessive buffering
+// here.  For example, imagine a stream where every byte of input is
+// interpreted as an integer from 0-255, and then results in that many
+// bytes of output.  Writing the 4 bytes {ff,ff,ff,ff} would result in
+// 1kb of data being output.  In this case, you could write a very small
+// amount of input, and end up with a very large amount of output.  In
+// such a pathological inflating mechanism, there'd be no way to tell
+// the system to stop doing the transform.  A single 4MB write could
+// cause the system to run out of memory.
+//
+// However, even in such a pathological case, only a single written chunk
+// would be consumed, and then the rest would wait (un-transformed) until
+// the results of the previous transformed chunk were consumed.
+
+
+
+module.exports = Transform;
+
+var Duplex = __webpack_require__(5);
+
+/*<replacement>*/
+var util = __webpack_require__(7);
+util.inherits = __webpack_require__(3);
+/*</replacement>*/
+
+util.inherits(Transform, Duplex);
+
+function TransformState(stream) {
+  this.afterTransform = function (er, data) {
+    return afterTransform(stream, er, data);
+  };
+
+  this.needTransform = false;
+  this.transforming = false;
+  this.writecb = null;
+  this.writechunk = null;
+  this.writeencoding = null;
+}
+
+function afterTransform(stream, er, data) {
+  var ts = stream._transformState;
+  ts.transforming = false;
+
+  var cb = ts.writecb;
+
+  if (!cb) {
+    return stream.emit('error', new Error('write callback called multiple times'));
+  }
+
+  ts.writechunk = null;
+  ts.writecb = null;
+
+  if (data !== null && data !== undefined) stream.push(data);
+
+  cb(er);
+
+  var rs = stream._readableState;
+  rs.reading = false;
+  if (rs.needReadable || rs.length < rs.highWaterMark) {
+    stream._read(rs.highWaterMark);
+  }
+}
+
+function Transform(options) {
+  if (!(this instanceof Transform)) return new Transform(options);
+
+  Duplex.call(this, options);
+
+  this._transformState = new TransformState(this);
+
+  var stream = this;
+
+  // start out asking for a readable event once data is transformed.
+  this._readableState.needReadable = true;
+
+  // we have implemented the _read method, and done the other things
+  // that Readable wants before the first _read call, so unset the
+  // sync guard flag.
+  this._readableState.sync = false;
+
+  if (options) {
+    if (typeof options.transform === 'function') this._transform = options.transform;
+
+    if (typeof options.flush === 'function') this._flush = options.flush;
+  }
+
+  // When the writable side finishes, then flush out anything remaining.
+  this.once('prefinish', function () {
+    if (typeof this._flush === 'function') this._flush(function (er, data) {
+      done(stream, er, data);
+    });else done(stream);
+  });
+}
+
+Transform.prototype.push = function (chunk, encoding) {
+  this._transformState.needTransform = false;
+  return Duplex.prototype.push.call(this, chunk, encoding);
+};
+
+// This is the part where you do stuff!
+// override this function in implementation classes.
+// 'chunk' is an input chunk.
+//
+// Call `push(newChunk)` to pass along transformed output
+// to the readable side.  You may call 'push' zero or more times.
+//
+// Call `cb(err)` when you are done with this chunk.  If you pass
+// an error, then that'll put the hurt on the whole operation.  If you
+// never call cb(), then you'll never get another chunk.
+Transform.prototype._transform = function (chunk, encoding, cb) {
+  throw new Error('_transform() is not implemented');
+};
+
+>>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 Transform.prototype._write = function (chunk, encoding, cb) {
   var ts = this._transformState;
   ts.writecb = cb;
@@ -7036,8 +7383,13 @@ class About extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         'div',
         { className: 'uk-card uk-card-default uk-card-body uk-card large uk-width-1-3@xl uk-width-2-5@m uk-width-3-5@s' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { id: 'logo',
+<<<<<<< HEAD
           className: 'uk-disabled',
           alt: 'logo', src: 'https://i.imgur.com/xxuf1ni.png', width: '75px', height: '75px' }),
+=======
+          className: 'uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom',
+          alt: 'logo', src: '256.png', width: '150px', height: '150px' }),
+>>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -24476,11 +24828,19 @@ module.exports = camelize;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Dashboard_Dashboard__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Timetable_Timetable__ = __webpack_require__(72);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Notes_Notes__ = __webpack_require__(73);
+<<<<<<< HEAD
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Notices_Notices__ = __webpack_require__(78);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Settings_Settings__ = __webpack_require__(79);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__About_About__ = __webpack_require__(36);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Feedback_Feedback__ = __webpack_require__(80);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Profile_Profile__ = __webpack_require__(83);
+=======
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Notices_Notices__ = __webpack_require__(77);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Settings_Settings__ = __webpack_require__(78);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__About_About__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Feedback_Feedback__ = __webpack_require__(79);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Profile_Profile__ = __webpack_require__(82);
+>>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 
 
 
@@ -24491,8 +24851,13 @@ module.exports = camelize;
 
 
 
+<<<<<<< HEAD
 const css = __webpack_require__(84);
 const icons = __webpack_require__(86);
+=======
+const css = __webpack_require__(83);
+const icons = __webpack_require__(85);
+>>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 const http = __webpack_require__(13);
 
 // Requirements for beta release
@@ -24640,7 +25005,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
           { className: 'uk-navbar-left' },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { id: 'logo',
             className: 'uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom',
-            alt: 'logo', src: 'https://i.imgur.com/xxuf1ni.png', width: '60px', height: '50px' }),
+            alt: 'logo', src: '64.png', width: '60px', height: '50px' }),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'ul',
             { className: 'uk-navbar-nav' },
@@ -24762,7 +25127,6 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
           )
         )
       ),
-      '}',
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
         { id: 'content' },
@@ -24814,7 +25178,7 @@ class Welcome extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { id: 'main', className: 'main' },
+      { id: 'main', className: 'main uk-height-viewport' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'nav',
         { className: 'uk-navbar uk-navbar-container uk-margin' },
@@ -27991,8 +28355,6 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       console.log(timetableData.subjects[z]);
       if (timetableData.subjects[z] != -1) {
         classList += `<tr><td>${timetableData.subjects[z].title}</td><td>${timetableData.subjects[z].fullTeacher}</td></tr>`;
-      } else {
-        stopCounter++;
       }
       z++;
     }
@@ -28019,145 +28381,136 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     //this.initialise()
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { className: 'uk-flex-center uk-flex uk-margin-top' },
+      { className: 'uk-flex uk-flex-center uk-margin-top' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
-        { className: 'uk-grid uk-grid-small uk-grid-collapse' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('ul', { className: 'uk-grid uk-grid-small' }),
+        { className: 'uk-grid uk-grid-small uk-grid-collapse uk-grid-match' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'li',
-          null,
+          'div',
+          { className: 'uk-card uk-card-default uk-card-body uk-width-3-5' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('h2', { id: 'name', className: 'uk-text-center uk-h2 uk-margin-small-bottom' }),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'div',
-            { className: 'uk-card uk-card-default uk-card-body' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('h2', { id: 'name', className: 'uk-text-center uk-h2 uk-margin-small-bottom' }),
+            { className: 'uk-box-shadow-hover-small uk-padding-small' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'div',
-              { className: 'uk-box-shadow-hover-small uk-padding-small uk-text-center' },
+              { className: 'uk-column-1-5 uk-column-divider uk-text-center uk-text-muted uk-margin-small-left uk-margin-small-right' },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'div',
-                { className: 'uk-column-1-5 uk-text-center uk-text-muted' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  null,
-                  'MON A'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  null,
-                  'TUE A'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  null,
-                  'WED A'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  null,
-                  'THU A'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  null,
-                  'FRI A'
-                )
+                'p',
+                null,
+                'MON A'
               ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { id: 'weekA', className: 'uk-column-1-5 uk-column-divider uk-width-shrink uk-text-center' })
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'TUE A'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'WED A'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'THU A'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'FRI A'
+              )
             ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { id: 'weekA', className: 'uk-column-1-5 uk-column-divider uk-margin-small-left uk-margin-small-right' })
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'uk-box-shadow-hover-small uk-padding-small' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'div',
-              { className: 'uk-box-shadow-hover-small uk-padding-small uk-width-shrink uk-text-center' },
+              { className: 'uk-column-1-5 uk-column-divider uk-text-center uk-text-muted uk-margin-small-left uk-margin-small-right' },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'div',
-                { className: 'uk-column-1-5 uk-text-center uk-text-muted' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  null,
-                  'MON B'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  null,
-                  'TUE B'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  null,
-                  'WED B'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  null,
-                  'THU B'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  null,
-                  'FRI B'
-                )
+                'p',
+                null,
+                'MON B'
               ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { id: 'weekB', className: 'uk-column-1-5 uk-column-divider uk-width-auto' })
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'TUE B'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'WED B'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'THU B'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'FRI B'
+              )
             ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { id: 'weekB', className: 'uk-column-1-5 uk-column-divider uk-margin-small-left uk-margin-small-right' })
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'uk-box-shadow-hover-small uk-padding-small' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'div',
-              { className: 'uk-box-shadow-hover-small uk-padding-small uk-width-shrink uk-text-center' },
+              { className: 'uk-column-1-5 uk-column-divider uk-text-center uk-text-muted uk-margin-small-left uk-margin-small-right' },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'div',
-                { className: 'uk-column-1-5 uk-text-center uk-text-muted' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  null,
-                  'MON C'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  null,
-                  'TUE C'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  null,
-                  'WED C'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  null,
-                  'THU C'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  null,
-                  'FRI C'
-                )
+                'p',
+                null,
+                'MON C'
               ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { id: 'weekC', className: 'uk-column-1-5 uk-column-divider uk-width-auto' })
-            )
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'TUE C'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'WED C'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'THU C'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'FRI C'
+              )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { id: 'weekC', className: 'uk-column-1-5 uk-column-divider uk-margin-small-left uk-margin-small-right' })
           )
         ),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'li',
-          null,
+          'div',
+          { className: 'uk-card uk-card-default uk-card-body uk-width-1-5' },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'uk-card uk-card-default uk-card-body uk-card-small' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'h3',
-              { className: 'uk-card-title uk-text-center uk-padding-top' },
-              'Classes'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'table',
-              { className: 'uk-table uk-table-small uk-table-hover uk-width-medium uk-margin-small-top uk-margin-small-left uk-margin-small-right' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tbody', { id: 'classList' })
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'h3',
-              { className: 'uk-card-title uk-text-center' },
-              'Student Information'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { id: 'studentInfo', className: 'uk-margin-small-top uk-margin-small-left uk-margin-small-right uk-padding-large-bottom uk-margin-bottom' })
-          )
+            'h3',
+            { className: 'uk-card-title uk-text-center uk-padding-top' },
+            'Classes'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'table',
+            { className: 'uk-table uk-table-small uk-table-hover uk-width-medium uk-margin-small-top uk-margin-small-left uk-margin-small-right' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tbody', { id: 'classList' })
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'h3',
+            { className: 'uk-card-title uk-text-center' },
+            'Student Information'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { id: 'studentInfo', className: 'uk-margin-small-top uk-margin-small-left uk-margin-small-right uk-padding-large-bottom uk-margin-bottom' })
         )
       ),
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -28180,7 +28533,10 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
 const css = __webpack_require__(74);
+<<<<<<< HEAD
 const SimpleMDE = __webpack_require__(77);
+=======
+>>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 
 let note = {
   headings: ['# Welcome'],
@@ -28262,7 +28618,7 @@ class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       { className: 'uk-flex uk-flex-center' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
-        { className: 'uk-text-center uk-margin-large-left uk-margin-top uk-margin-large-right uk-grid-collapse uk-width-3-5@xl', 'uk-grid': 'true', 'uk-sortable': 'handle: .uk-sortable-handle', 'uk-height-match': 'target: > div > .uk-card' },
+        { className: 'uk-text-center uk-margin-large-left uk-margin-top uk-margin-large-right uk-grid-collapse uk-width-3-5@xl', 'uk-grid': 'true', 'uk-sortable': 'handle: .uk-sortable-handle' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
           { className: 'uk-width-1-5@m uk-height-large@m' },
@@ -28274,7 +28630,7 @@ class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('h2', null),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'div',
-              { className: 'uk-overflow-auto' },
+              { className: 'uk-text-truncate uk-panel uk-panel-scrollable area listDisplay' },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'table',
                 { className: 'uk-table uk-table-small uk-table-hover uk-margin-top', onClick: this.updateEditor },
@@ -28317,7 +28673,11 @@ class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'div',
               { className: 'uk-margin' },
+<<<<<<< HEAD
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(SimpleMDE, { id: 'inputContent', value: note.content, onChange: this.syncContent.bind(this) })
+=======
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('textarea', { id: 'inputContent', className: 'area uk-textarea uk-form-blank', rows: '10', placeholder: 'Body', onInput: this.syncContent.bind(this) })
+>>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
             )
           )
         )
@@ -28349,8 +28709,13 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
+<<<<<<< HEAD
 		module.hot.accept("!!../../../node_modules/css-loader/index.js!./styles.css", function() {
 			var newContent = require("!!../../../node_modules/css-loader/index.js!./styles.css");
+=======
+		module.hot.accept("!!../../../node_modules/css-loader/index.js!./Notes.css", function() {
+			var newContent = require("!!../../../node_modules/css-loader/index.js!./Notes.css");
+>>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -28368,7 +28733,11 @@ exports = module.exports = __webpack_require__(14)(false);
 
 
 // module
+<<<<<<< HEAD
 exports.push([module.i, ".CodeMirror {\n  color: #000\n}\n\n.CodeMirror-lines {\n  padding: 4px 0\n}\n\n.CodeMirror pre {\n  padding: 0 4px\n}\n\n.CodeMirror-gutter-filler, .CodeMirror-scrollbar-filler {\n  background-color: #fff\n}\n\n.CodeMirror-gutters {\n  border-right: 1px solid #ddd;\n  background-color: #f7f7f7;\n  white-space: nowrap\n}\n\n.CodeMirror-linenumber {\n  padding: 0 3px 0 5px;\n  min-width: 20px;\n  text-align: right;\n  color: #999;\n  white-space: nowrap\n}\n\n.CodeMirror-guttermarker {\n  color: #000\n}\n\n.CodeMirror-guttermarker-subtle {\n  color: #999\n}\n\n.CodeMirror-cursor {\n  border-left: 1px solid #000;\n  border-right: none;\n  width: 0\n}\n\n.CodeMirror div.CodeMirror-secondarycursor {\n  border-left: 1px solid silver\n}\n\n.cm-fat-cursor .CodeMirror-cursor {\n  width: auto;\n  border: 0!important;\n  background: #7e7\n}\n\n.cm-fat-cursor div.CodeMirror-cursors {\n  z-index: 1\n}\n\n.cm-animate-fat-cursor {\n  width: auto;\n  border: 0;\n  -webkit-animation: blink 1.06s steps(1) infinite;\n  -moz-animation: blink 1.06s steps(1) infinite;\n  animation: blink 1.06s steps(1) infinite;\n  background-color: #7e7\n}\n\n@-moz-keyframes blink {\n  50% {\n    background-color: transparent\n  }\n}\n\n@-webkit-keyframes blink {\n  50% {\n    background-color: transparent\n  }\n}\n\n@keyframes blink {\n  50% {\n    background-color: transparent\n  }\n}\n\n.cm-tab {\n  display: inline-block;\n  text-decoration: inherit\n}\n\n.CodeMirror-ruler {\n  border-left: 1px solid #ccc;\n  position: absolute\n}\n\n.cm-s-default .cm-header {\n  color: #00f\n}\n\n.cm-s-default .cm-quote {\n  color: #090\n}\n\n.cm-negative {\n  color: #d44\n}\n\n.cm-positive {\n  color: #292\n}\n\n.cm-header, .cm-strong {\n  font-weight: 700\n}\n\n.cm-em {\n  font-style: italic\n}\n\n.cm-link {\n  text-decoration: underline\n}\n\n.cm-strikethrough {\n  text-decoration: line-through\n}\n\n.cm-s-default .cm-keyword {\n  color: #708\n}\n\n.cm-s-default .cm-atom {\n  color: #219\n}\n\n.cm-s-default .cm-number {\n  color: #164\n}\n\n.cm-s-default .cm-def {\n  color: #00f\n}\n\n.cm-s-default .cm-variable-2 {\n  color: #05a\n}\n\n.cm-s-default .cm-variable-3 {\n  color: #085\n}\n\n.cm-s-default .cm-comment {\n  color: #a50\n}\n\n.cm-s-default .cm-string {\n  color: #a11\n}\n\n.cm-s-default .cm-string-2 {\n  color: #f50\n}\n\n.cm-s-default .cm-meta, .cm-s-default .cm-qualifier {\n  color: #555\n}\n\n.cm-s-default .cm-builtin {\n  color: #30a\n}\n\n.cm-s-default .cm-bracket {\n  color: #997\n}\n\n.cm-s-default .cm-tag {\n  color: #170\n}\n\n.cm-s-default .cm-attribute {\n  color: #00c\n}\n\n.cm-s-default .cm-hr {\n  color: #999\n}\n\n.cm-s-default .cm-link {\n  color: #00c\n}\n\n.cm-invalidchar, .cm-s-default .cm-error {\n  color: red\n}\n\n.CodeMirror-composing {\n  border-bottom: 2px solid\n}\n\ndiv.CodeMirror span.CodeMirror-matchingbracket {\n  color: #0f0\n}\n\ndiv.CodeMirror span.CodeMirror-nonmatchingbracket {\n  color: #f22\n}\n\n.CodeMirror-matchingtag {\n  background: rgba(255, 150, 0, .3)\n}\n\n.CodeMirror-activeline-background {\n  background: #e8f2ff\n}\n\n.CodeMirror {\n  position: relative;\n  overflow: hidden;\n  background: #fff\n}\n\n.CodeMirror-scroll {\n  overflow: scroll!important;\n  margin-bottom: -30px;\n  margin-right: -30px;\n  padding-bottom: 30px;\n  height: 100%;\n  outline: 0;\n  position: relative\n}\n\n.CodeMirror-sizer {\n  position: relative;\n  border-right: 30px solid transparent\n}\n\n.CodeMirror-gutter-filler, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler, .CodeMirror-vscrollbar {\n  position: absolute;\n  z-index: 6;\n  display: none\n}\n\n.CodeMirror-vscrollbar {\n  right: 0;\n  top: 0;\n  overflow-x: hidden;\n  overflow-y: scroll\n}\n\n.CodeMirror-hscrollbar {\n  bottom: 0;\n  left: 0;\n  overflow-y: hidden;\n  overflow-x: scroll\n}\n\n.CodeMirror-scrollbar-filler {\n  right: 0;\n  bottom: 0\n}\n\n.CodeMirror-gutter-filler {\n  left: 0;\n  bottom: 0\n}\n\n.CodeMirror-gutters {\n  position: absolute;\n  left: 0;\n  top: 0;\n  min-height: 100%;\n  z-index: 3\n}\n\n.CodeMirror-gutter {\n  white-space: normal;\n  height: 100%;\n  display: inline-block;\n  vertical-align: top;\n  margin-bottom: -30px\n}\n\n.CodeMirror-gutter-wrapper {\n  position: absolute;\n  z-index: 4;\n  background: 0 0!important;\n  border: none!important;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  user-select: none\n}\n\n.CodeMirror-gutter-background {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  z-index: 4\n}\n\n.CodeMirror-gutter-elt {\n  position: absolute;\n  cursor: default;\n  z-index: 4\n}\n\n.CodeMirror-lines {\n  cursor: text;\n  min-height: 1px\n}\n\n.CodeMirror pre {\n  -moz-border-radius: 0;\n  -webkit-border-radius: 0;\n  border-radius: 0;\n  border-width: 0;\n  background: 0 0;\n  font-family: inherit;\n  font-size: 16px;\n  margin: 0;\n  white-space: pre;\n  word-wrap: normal;\n  line-height: inherit;\n  color: inherit;\n  z-index: 2;\n  position: relative;\n  overflow: visible;\n  -webkit-tap-highlight-color: transparent;\n  -webkit-font-variant-ligatures: none;\n  font-variant-ligatures: none\n}\n\n.CodeMirror-wrap pre {\n  word-wrap: break-word;\n  white-space: pre-wrap;\n  word-break: normal\n}\n\n.CodeMirror-linebackground {\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  z-index: 0\n}\n\n.CodeMirror-linewidget {\n  position: relative;\n  z-index: 2;\n  overflow: auto\n}\n\n.CodeMirror-code {\n  outline: 0\n}\n\n.CodeMirror-gutter, .CodeMirror-gutters, .CodeMirror-linenumber, .CodeMirror-scroll, .CodeMirror-sizer {\n  -moz-box-sizing: content-box;\n  box-sizing: content-box\n}\n\n.CodeMirror-measure {\n  position: absolute;\n  width: 100%;\n  height: 0;\n  overflow: hidden;\n  visibility: hidden\n}\n\n.CodeMirror-cursor {\n  position: absolute\n}\n\n.CodeMirror-measure pre {\n  position: static\n}\n\ndiv.CodeMirror-cursors {\n  visibility: hidden;\n  position: relative;\n  z-index: 3\n}\n\n.CodeMirror-focused div.CodeMirror-cursors, div.CodeMirror-dragcursors {\n  visibility: visible\n}\n\n.CodeMirror-selected {\n  background: #d9d9d9\n}\n\n.CodeMirror-focused .CodeMirror-selected, .CodeMirror-line::selection, .CodeMirror-line>span::selection, .CodeMirror-line>span>span::selection {\n  background: #d7d4f0\n}\n\n.CodeMirror-crosshair {\n  cursor: crosshair\n}\n\n.CodeMirror-line::-moz-selection, .CodeMirror-line>span::-moz-selection, .CodeMirror-line>span>span::-moz-selection {\n  background: #d7d4f0\n}\n\n.cm-searching {\n  background: #ffa;\n  background: rgba(255, 255, 0, .4)\n}\n\n.cm-force-border {\n  padding-right: .1px\n}\n\n@media print {\n  .CodeMirror div.CodeMirror-cursors {\n    visibility: hidden\n  }\n}\n\n.cm-tab-wrap-hack:after {\n  content: ''\n}\n\nspan.CodeMirror-selectedtext {\n  background: 0 0\n}\n\n.CodeMirror {\n  height: auto;\n  min-height: 300px;\n  border: 1px solid #ddd;\n  border-bottom-left-radius: 4px;\n  border-bottom-right-radius: 4px;\n  padding: 10px;\n  font: inherit;\n  z-index: 1\n}\n\n.CodeMirror-scroll {\n  min-height: 300px\n}\n\n.CodeMirror-fullscreen {\n  background: #fff;\n  position: fixed!important;\n  top: 50px;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  height: auto;\n  z-index: 9\n}\n\n.CodeMirror-sided {\n  width: 50%!important\n}\n\n.editor-toolbar {\n  position: relative;\n  opacity: .6;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  -o-user-select: none;\n  user-select: none;\n  padding: 0 10px;\n  border-top: 1px solid #bbb;\n  border-left: 1px solid #bbb;\n  border-right: 1px solid #bbb;\n  border-top-left-radius: 4px;\n  border-top-right-radius: 4px\n}\n\n.editor-toolbar:after, .editor-toolbar:before {\n  display: block;\n  content: ' ';\n  height: 1px\n}\n\n.editor-toolbar:before {\n  margin-bottom: 8px\n}\n\n.editor-toolbar:after {\n  margin-top: 8px\n}\n\n.editor-toolbar:hover, .editor-wrapper input.title:focus, .editor-wrapper input.title:hover {\n  opacity: .8\n}\n\n.editor-toolbar.fullscreen {\n  width: 100%;\n  height: 50px;\n  overflow-x: auto;\n  overflow-y: hidden;\n  white-space: nowrap;\n  padding-top: 10px;\n  padding-bottom: 10px;\n  box-sizing: border-box;\n  background: #fff;\n  border: 0;\n  position: fixed;\n  top: 0;\n  left: 0;\n  opacity: 1;\n  z-index: 9\n}\n\n.editor-toolbar.fullscreen::before {\n  width: 20px;\n  height: 50px;\n  background: -moz-linear-gradient(left, rgba(255, 255, 255, 1) 0, rgba(255, 255, 255, 0) 100%);\n  background: -webkit-gradient(linear, left top, right top, color-stop(0, rgba(255, 255, 255, 1)), color-stop(100%, rgba(255, 255, 255, 0)));\n  background: -webkit-linear-gradient(left, rgba(255, 255, 255, 1) 0, rgba(255, 255, 255, 0) 100%);\n  background: -o-linear-gradient(left, rgba(255, 255, 255, 1) 0, rgba(255, 255, 255, 0) 100%);\n  background: -ms-linear-gradient(left, rgba(255, 255, 255, 1) 0, rgba(255, 255, 255, 0) 100%);\n  background: linear-gradient(to right, rgba(255, 255, 255, 1) 0, rgba(255, 255, 255, 0) 100%);\n  position: fixed;\n  top: 0;\n  left: 0;\n  margin: 0;\n  padding: 0\n}\n\n.editor-toolbar.fullscreen::after {\n  width: 20px;\n  height: 50px;\n  background: -moz-linear-gradient(left, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 1) 100%);\n  background: -webkit-gradient(linear, left top, right top, color-stop(0, rgba(255, 255, 255, 0)), color-stop(100%, rgba(255, 255, 255, 1)));\n  background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 1) 100%);\n  background: -o-linear-gradient(left, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 1) 100%);\n  background: -ms-linear-gradient(left, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 1) 100%);\n  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 1) 100%);\n  position: fixed;\n  top: 0;\n  right: 0;\n  margin: 0;\n  padding: 0\n}\n\n.editor-toolbar a {\n  display: inline-block;\n  text-align: center;\n  text-decoration: none!important;\n  color: #2c3e50!important;\n  width: 30px;\n  height: 30px;\n  margin: 0;\n  border: 1px solid transparent;\n  border-radius: 3px;\n  cursor: pointer\n}\n\n.editor-toolbar a.active, .editor-toolbar a:hover {\n  background: #fcfcfc;\n  border-color: #95a5a6\n}\n\n.editor-toolbar a:before {\n  line-height: 30px\n}\n\n.editor-toolbar i.separator {\n  display: inline-block;\n  width: 0;\n  border-left: 1px solid #d9d9d9;\n  border-right: 1px solid #fff;\n  color: transparent;\n  text-indent: -10px;\n  margin: 0 6px\n}\n\n.editor-toolbar a.fa-header-x:after {\n  font-family: Arial, \"Helvetica Neue\", Helvetica, sans-serif;\n  font-size: 65%;\n  vertical-align: text-bottom;\n  position: relative;\n  top: 2px\n}\n\n.editor-toolbar a.fa-header-1:after {\n  content: \"1\"\n}\n\n.editor-toolbar a.fa-header-2:after {\n  content: \"2\"\n}\n\n.editor-toolbar a.fa-header-3:after {\n  content: \"3\"\n}\n\n.editor-toolbar a.fa-header-bigger:after {\n  content: \"\\25B2\"\n}\n\n.editor-toolbar a.fa-header-smaller:after {\n  content: \"\\25BC\"\n}\n\n.editor-toolbar.disabled-for-preview a:not(.no-disable) {\n  pointer-events: none;\n  background: #fff;\n  border-color: transparent;\n  text-shadow: inherit\n}\n\n@media only screen and (max-width:700px) {\n  .editor-toolbar a.no-mobile {\n    display: none\n  }\n}\n\n.editor-statusbar {\n  padding: 8px 10px;\n  font-size: 12px;\n  color: #959694;\n  text-align: right\n}\n\n.editor-statusbar span {\n  display: inline-block;\n  min-width: 4em;\n  margin-left: 1em\n}\n\n.editor-preview, .editor-preview-side {\n  padding: 10px;\n  background: #fafafa;\n  overflow: auto;\n  display: none;\n  box-sizing: border-box\n}\n\n.editor-statusbar .lines:before {\n  content: 'lines: '\n}\n\n.editor-statusbar .words:before {\n  content: 'words: '\n}\n\n.editor-statusbar .characters:before {\n  content: 'characters: '\n}\n\n.editor-preview {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  z-index: 7\n}\n\n.editor-preview-side {\n  position: fixed;\n  bottom: 0;\n  width: 50%;\n  top: 50px;\n  right: 0;\n  z-index: 9;\n  border: 1px solid #ddd\n}\n\n.editor-preview-active, .editor-preview-active-side {\n  display: block\n}\n\n.editor-preview-side>p, .editor-preview>p {\n  margin-top: 0\n}\n\n.editor-preview pre, .editor-preview-side pre {\n  background: #eee;\n  margin-bottom: 10px\n}\n\n.editor-preview table td, .editor-preview table th, .editor-preview-side table td, .editor-preview-side table th {\n  border: 1px solid #ddd;\n  padding: 5px\n}\n\n.CodeMirror .CodeMirror-code .cm-tag {\n  color: #63a35c\n}\n\n.CodeMirror .CodeMirror-code .cm-attribute {\n  color: #795da3\n}\n\n.CodeMirror .CodeMirror-code .cm-string {\n  color: #183691\n}\n\n.CodeMirror .CodeMirror-selected {\n  background: #d9d9d9\n}\n\n.CodeMirror .CodeMirror-code .cm-header-1 {\n  font-size: 200%;\n  line-height: 200%\n}\n\n.CodeMirror .CodeMirror-code .cm-header-2 {\n  font-size: 160%;\n  line-height: 160%\n}\n\n.CodeMirror .CodeMirror-code .cm-header-3 {\n  font-size: 125%;\n  line-height: 125%\n}\n\n.CodeMirror .CodeMirror-code .cm-header-4 {\n  font-size: 110%;\n  line-height: 110%\n}\n\n.CodeMirror .CodeMirror-code .cm-comment {\n  background: rgba(0, 0, 0, .05);\n  border-radius: 2px\n}\n\n.CodeMirror .CodeMirror-code .cm-link {\n  color: #7f8c8d\n}\n\n.CodeMirror .CodeMirror-code .cm-url {\n  color: #aab2b3\n}\n\n.CodeMirror .CodeMirror-code .cm-strikethrough {\n  text-decoration: line-through\n}\n\n.CodeMirror .CodeMirror-placeholder {\n  opacity: .5\n}\n\n.CodeMirror .cm-spell-error:not(.cm-url):not(.cm-comment):not(.cm-tag):not(.cm-word) {\n  background: rgba(255, 0, 0, .15)\n}", ""]);
+=======
+exports.push([module.i, ".area {\r\n  resize: none;\r\n  width: 100%;\r\n  height: 100% \r\n}\r\n\r\n.listDisplay {\r\n  border: none\r\n}\r\n", ""]);
+>>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 
 // exports
 
@@ -28470,6 +28839,7 @@ module.exports = function (css) {
 
 /***/ }),
 /* 77 */
+<<<<<<< HEAD
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -66074,6 +66444,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ }),
 /* 78 */
+=======
+>>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -66866,7 +67238,11 @@ class Notices extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Notices);
 
 /***/ }),
+<<<<<<< HEAD
 /* 79 */
+=======
+/* 78 */
+>>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -66922,14 +67298,22 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* unused harmony default export */ var _unused_webpack_default_export = (Settings);
 
 /***/ }),
+<<<<<<< HEAD
 /* 80 */
+=======
+/* 79 */
+>>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
+<<<<<<< HEAD
 const css = __webpack_require__(81);
+=======
+const css = __webpack_require__(80);
+>>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 
 // TODO
 // google forms iframe takes a few secs to Load
@@ -66956,13 +67340,21 @@ class Feedback extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Feedback);
 
 /***/ }),
+<<<<<<< HEAD
 /* 81 */
+=======
+/* 80 */
+>>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
+<<<<<<< HEAD
 var content = __webpack_require__(82);
+=======
+var content = __webpack_require__(81);
+>>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -66987,7 +67379,11 @@ if(false) {
 }
 
 /***/ }),
+<<<<<<< HEAD
 /* 82 */
+=======
+/* 81 */
+>>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(14)(false);
@@ -67001,7 +67397,11 @@ exports.push([module.i, ".container {\r\n  position: relative;\r\n\tpadding-bott
 
 
 /***/ }),
+<<<<<<< HEAD
 /* 83 */
+=======
+/* 82 */
+>>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -67022,13 +67422,21 @@ class Profile extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* unused harmony default export */ var _unused_webpack_default_export = (Profile);
 
 /***/ }),
+<<<<<<< HEAD
 /* 84 */
+=======
+/* 83 */
+>>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
+<<<<<<< HEAD
 var content = __webpack_require__(85);
+=======
+var content = __webpack_require__(84);
+>>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -67053,7 +67461,11 @@ if(false) {
 }
 
 /***/ }),
+<<<<<<< HEAD
 /* 85 */
+=======
+/* 84 */
+>>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(14)(false);
@@ -67061,13 +67473,17 @@ exports = module.exports = __webpack_require__(14)(false);
 
 
 // module
-exports.push([module.i, "body {\r\n  margin: 0;\r\n  padding: 0;\r\n  font-family: 'Lato', sans-serif;\r\n}\r\n\r\n.main {\r\n  transition: 150ms linear;\r\n}\r\n\r\n.content {\r\n  align-content: center;\r\n  margin-left: 10px;\r\n  background: white;\r\n  transition: 150ms linear;\r\n}\r\n\r\n.background {\r\n  background-color: #2a2c31;\r\n}\r\n\r\n.logo {\r\n  width: 38px;\r\n  height: 38px;\r\n  margin-top: 0.5px;\r\n  margin-left: 5px;\r\n  margin-right: 5px;\r\n  content: url('data:image/png;base64,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')\r\n}\r\n", ""]);
+exports.push([module.i, "body {\r\n  margin: 0;\r\n  padding: 0;\r\n  font-family: 'Lato', sans-serif;\r\n}\r\n\r\n.main {\r\n  transition: 150ms linear;\r\n}\r\n\r\n.content {\r\n  align-content: center;\r\n  margin-left: 10px;\r\n  background: white;\r\n  transition: 150ms linear;\r\n}\r\n\r\n.background {\r\n  background-color: #2a2c31;\r\n}\r\n\r\n\r\n\r\n", ""]);
 
 // exports
 
 
 /***/ }),
+<<<<<<< HEAD
 /* 86 */
+=======
+/* 85 */
+>>>>>>> 87b0bd1bfa519c9ba9c9b0cd166dd7609e03b441
 /***/ (function(module, exports, __webpack_require__) {
 
 /*! UIkit 3.0.0-beta.37 | http://www.getuikit.com | (c) 2014 - 2017 YOOtheme | MIT License */

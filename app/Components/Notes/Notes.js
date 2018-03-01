@@ -79,7 +79,7 @@ class Notes extends Component {
   render() {
     return (
       <div className='uk-flex uk-flex-center'>
-        <div className='uk-text-center uk-margin-large-left uk-margin-top uk-margin-large-right uk-grid-collapse uk-width-3-5@xl' uk-grid='true' uk-sortable = 'handle: .uk-sortable-handle' uk-height-match='target: > div > .uk-card'>
+        <div className='uk-text-center uk-margin-large-left uk-margin-top uk-margin-large-right uk-grid-collapse uk-width-3-5@xl' uk-grid='true' uk-sortable = 'handle: .uk-sortable-handle'>
           <div className='uk-width-1-5@m uk-height-large@m'>
             <div className='uk-card uk-card-default uk-card-body'>
               <span className='uk-sortable-handle uk-float-left' uk-icon='icon: table' />
