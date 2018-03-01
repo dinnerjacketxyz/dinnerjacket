@@ -7,18 +7,25 @@ let outputB = ''
 let outputC = ''
 let dayOutput = ''
 
-class Timetable extends Component {
 
+class Timetable extends Component {
   constructor(props) {
     super(props)
 
     // Get timetable data from SBHS API
     http.get('/getdata?url=timetable/timetable.json', (res) => {
       res.setEncoding('utf8')
+      let a = ''
       res.on('data', (body) => {
-        timetableData = JSON.parse(body)
+        a += body
+      })
+
+      res.on('end', (body) => {
+        timetableData = JSON.parse(a)
+        this.initialise()
       })
     })
+
   }
 
   displayWeek(outputA, outputB, outputC) {
@@ -106,10 +113,12 @@ class Timetable extends Component {
     studentInfo.innerHTML = info
   }
 
+  // <button onClick={this.initialise.bind(this)}>Test</button>
+
   render() {
+    //this.initialise()
     return (
       <div className='uk-flex-center uk-flex uk-margin-top'>
-        <button onClick={this.initialise.bind(this)}>Test</button>
         <div className='uk-grid uk-grid-small uk-grid-collapse'>
           <ul className='uk-grid uk-grid-small'></ul>
             <li>
@@ -166,6 +175,7 @@ class Timetable extends Component {
             </div>
           </li>
         </div>
+        <script type='text/javascript'>this.initialise()</script>
       </div>
     )
   }
