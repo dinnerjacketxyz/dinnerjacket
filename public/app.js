@@ -3302,8 +3302,9 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   }
 
   // get default periods if not authenticated
-  getDefaultPeriods() {
+  getDefaultPeriods(getTransitions) {
     let date = new Date();
+    let returnData = [];
 
     // 0 - Sun // 1 - Mon // 2 - Tue // 3 - Wed // 4 - Thu // 5 - Fri // 6 - Sat
     let day = date.getDay();
@@ -3320,18 +3321,53 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       case 0:
       case 1:
       case 2:
-        return [{ name: 'Period 1', teacher: '', room: '', time: '09:05' }, { name: 'Period 2', teacher: '', room: '', time: '10:10' }, { name: 'Lunch', teacher: '', room: '', time: '11:10' }, { name: 'Period 3', teacher: '', room: '', time: '11:50' }, { name: 'Period 4', teacher: '', room: '', time: '12:55' }, { name: 'Recess', teacher: '', room: '', time: '13:55' }, { name: 'Period 5', teacher: '', room: '', time: '14:15' }, { name: 'End of Day', teacher: '', room: '', time: '15:15' }];
+        returnData = [{ name: 'Period 1', teacher: '', room: '', time: '09:05' }, { name: 'Period 2', teacher: '', room: '', time: '10:10' }, { name: 'Lunch', teacher: '', room: '', time: '11:10' }, { name: 'Period 3', teacher: '', room: '', time: '11:50' }, { name: 'Period 4', teacher: '', room: '', time: '12:55' }, { name: 'Recess', teacher: '', room: '', time: '13:55' }, { name: 'Period 5', teacher: '', room: '', time: '14:15' }];
 
       // return wed/thu
       case 3:
       case 4:
-        return [{ name: 'Period 1', teacher: '', room: '', time: '09:05' }, { name: 'Period 2', teacher: '', room: '', time: '10:10' }, { name: 'Recess', teacher: '', room: '', time: '11:10' }, { name: 'Period 3', teacher: '', room: '', time: '11:30' }, { name: 'Lunch', teacher: '', room: '', time: '12:30' }, { name: 'Period 4', teacher: '', room: '', time: '13:10' }, { name: 'Period 5', teacher: '', room: '', time: '14:15' }, { name: 'End of Day', teacher: '', room: '', time: '15:15' }];
+        returnData = [{ name: 'Period 1', teacher: '', room: '', time: '09:05' }, { name: 'Period 2', teacher: '', room: '', time: '10:10' }, { name: 'Recess', teacher: '', room: '', time: '11:10' }, { name: 'Period 3', teacher: '', room: '', time: '11:30' }, { name: 'Lunch', teacher: '', room: '', time: '12:30' }, { name: 'Period 4', teacher: '', room: '', time: '13:10' }, { name: 'Period 5', teacher: '', room: '', time: '14:15' }];
 
       // return friday
       case 5:
-        return [{ name: 'Period 1', teacher: '', room: '', time: '09:30' }, { name: 'Period 2', teacher: '', room: '', time: '10:30' }, { name: 'Recess', teacher: '', room: '', time: '11:25' }, { name: 'Period 3', teacher: '', room: '', time: '11:45' }, { name: 'Lunch', teacher: '', room: '', time: '12:40' }, { name: 'Period 4', teacher: '', room: '', time: '13:20' }, { name: 'Period 5', teacher: '', room: '', time: '14:20' }, { name: 'End of Day', teacher: '', room: '', time: '15:15' }];
+        returnData = [{ name: 'Period 1', teacher: '', room: '', time: '09:30' }, { name: 'Period 2', teacher: '', room: '', time: '10:30' }, { name: 'Recess', teacher: '', room: '', time: '11:25' }, { name: 'Period 3', teacher: '', room: '', time: '11:45' }, { name: 'Lunch', teacher: '', room: '', time: '12:40' }, { name: 'Period 4', teacher: '', room: '', time: '13:20' }, { name: 'Period 5', teacher: '', room: '', time: '14:20' }];
 
     }
+    return returnData;
+  }
+
+  getDefaultBells() {
+    let date = new Date();
+    let returnData = [];
+
+    // 0 - Sun // 1 - Mon // 2 - Tue // 3 - Wed // 4 - Thu // 5 - Fri // 6 - Sat
+    let day = date.getDay();
+
+    // use next day if school day is over
+    if (date.getHours() > 15 || date.getHours() == 15 && date.getMinutes() >= 15) {
+      day += 1;
+    }
+
+    switch (day) {
+
+      // return monday/tuesday
+      case 6:
+      case 0:
+      case 1:
+      case 2:
+        returnData = [{ bell: 'Roll Call', time: '09:00' }, { bell: 'Period 1', time: '09:05' }, { bell: 'Transition', time: '10:05' }, { bell: 'Period 2', time: '10:10' }, { bell: 'Lunch 1', time: '11:10' }, { bell: 'Lunch 2', time: '11:30' }, { bell: 'Period 3', time: '11:50' }, { bell: 'Transition', time: '12:50' }, { bell: 'Period 4', time: '12:55' }, { bell: 'Recess', time: '13:55' }, { bell: 'Period 5', time: '14:15' }, { bell: 'End of Day', time: '15:15' }];
+
+      // return wed/thu
+      case 3:
+      case 4:
+        returnData = [{ bell: 'Roll Call', time: '09:00' }, { bell: 'Period 1', time: '09:05' }, { bell: 'Transition', time: '10:05' }, { bell: 'Period 2', time: '10:10' }, { bell: 'Recess', time: '11:10' }, { bell: 'Period 3', time: '11:30' }, { bell: 'Lunch 1', time: '12:30' }, { bell: 'Lunch 2', time: '12:50' }, { bell: 'Period 4', time: '13:10' }, { bell: 'Transition', time: '14:10' }, { bell: 'Period 5', time: '14:15' }, { bell: 'End of Day', time: '15:15' }];
+
+      // return friday
+      case 5:
+        returnData = [{ bell: 'Roll Call', time: '09:25' }, { bell: 'Period 1', time: '09:30' }, { bell: 'Transition', time: '10:25' }, { bell: 'Period 2', time: '10:30' }, { bell: 'Recess', time: '11:25' }, { bell: 'Period 3', time: '11:45' }, { bell: 'Lunch 1', time: '12:40' }, { bell: 'Lunch 2', time: '13:00' }, { bell: 'Period 4', time: '13:20' }, { bell: 'Transition', time: '14:15' }, { bell: 'Period 5', time: '14:20' }, { bell: 'End of Day', time: '15:15' }];
+
+    }
+    return returnData;
   }
 
   // get the timetable for today
@@ -3358,11 +3394,6 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       room: '',
       time: bells[6] };
 
-    const endDay = { name: 'End of Day',
-      teacher: '',
-      room: '',
-      time: bells[7] };
-
     switch (routine) {
       // Monday, Tuesday, Friday
       case 'R1T2=3T4=5':
@@ -3373,8 +3404,6 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       default:
         break;
     }
-
-    periods[7] = endDay;
 
     return periods;
   }
@@ -3469,12 +3498,12 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
   // create the HTML for displaying classes
   processHTML(periods) {
-    let displayBlocks = periods;
-    const numPeriods = Object.keys(displayBlocks).length;
+
+    const numPeriods = Object.keys(periods).length;
 
     for (var i = 0; i < numPeriods; i++) {
 
-      let thisPeriod = displayBlocks[i];
+      let thisPeriod = periods[i];
 
       // Lunch, recess or study periods
       if (thisPeriod.teacher === '') {
@@ -3512,6 +3541,8 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         );
       }
     }
+
+    console.log(periods);
 
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
@@ -3598,17 +3629,6 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
               periods[6].teacher
             ),
             periods[6].room
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'tr',
-            null,
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'td',
-              { className: 'uk-text-lead uk-text-left' },
-              periods[7].name,
-              periods[7].teacher
-            ),
-            periods[7].room
           )
         )
       ),
@@ -3623,24 +3643,21 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   // process the HTML to render timetable to screen
   // also process the timer display
   updateTimetableDisplay(timetable) {
-    let periodsToUse = [];
-    let dateOfPeriods;
+    let schedule;
+    let periods;
     let date = new Date();
 
-    let timetableDate = new Date(JSON.parse(timetable)['date']).getDay();
-
     // if timetable exists and is current (i.e. it is not past 3:15pm), use the timetable periods
-    if (timetable !== '' && (date.getDay() === timetableDate && (date.getHours() < 15 || date.getHours() === 15 && date.getMinutes() < 15) || date.getDay() < timetableDate)) {
-      periodsToUse = this.getDailyTimetable(JSON.parse(timetable));
-      dateOfPeriods = new Date(JSON.parse(timetable)['date']);
-      dateOfPeriods.setHours(15);
-      dateOfPeriods.setMinutes(15);
+    if (timetable !== '' && (date.getDay() === new Date(JSON.parse(timetable)['date']).getDay() && (date.getHours() < 15 || date.getHours() === 15 && date.getMinutes() < 15) || date.getDay() < new Date(JSON.parse(timetable)['date']).getDay())) {
+      periods = this.getDailyTimetable(JSON.parse(timetable));
+      let dateOfPeriods = new Date(JSON.parse(timetable)['date']);
+      let bells = JSON.parse(timetable)['bells'];
+      schedule = this.getSchedule(periods, dateOfPeriods, bells);
 
       // otherwise, use default periods
     } else {
-      console.log(this.getDefaultPeriods());
-      periodsToUse = this.getDefaultPeriods();
-      console.log(periodsToUse);
+
+      periods = this.getDefaultPeriods();
 
       // the next school date
       let nextDate = new Date();
@@ -3657,12 +3674,13 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       } else if (nextDate.getDay === 0) {
         nextDate = new Date(nextDate.getTime() + 1000 * 60 * 60 * 24);
       }
-      dateOfPeriods = nextDate;
+
+      schedule = this.getSchedule(this.getDefaultPeriods(), nextDate, this.getDefaultBells());
     }
 
     this.setState(() => ({
-      htmlClasses: this.processHTML(periodsToUse),
-      schedule: this.getSchedule(periodsToUse, dateOfPeriods)
+      htmlClasses: this.processHTML(periods),
+      schedule: schedule
     }));
 
     this.render();
@@ -3681,27 +3699,47 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     }
   }
 
-  // gets schedule of periods for timer
-  getSchedule(periods, dateOfPeriods) {
+  // gets schedule of periods for timer, including class names (assumes timetable is valid)
+  getSchedule(periods, dateOfPeriods, bells) {
     let returnVar = [];
+    let periodsCopy = periods.slice(0);
 
-    let periodsToUse = periods;
+    // remove any non-period classes
+    for (var i = 0; i < periodsCopy.length; i++) {
 
-    for (var i = 0; i < periods.length; i++) {
-      // this is the date the classes are for
-      let date = new Date(dateOfPeriods);
-      date.setHours(periods[i].time.substring(0, 2));
-      date.setMinutes(periods[i].time.substring(3, 5));
-
-      let name = '';
-      if (periods[i].fullName !== undefined) {
-        name = periods[i].fullName;
-      } else {
-        name = periods[i].name;
+      if (periodsCopy[i].name.startsWith('Recess') || periodsCopy[i].name.startsWith('Lunch')) {
+        periodsCopy.splice(i, 1);
       }
-      returnVar[i] = { time: date, subject: name };
     }
 
+    // create array of {name: (full name), time: (date)} of all bells
+    for (var i = 0; i < bells.length; i++) {
+
+      let name = bells[i]['bell'];
+      let time = new Date(dateOfPeriods);
+      time.setHours(bells[i]['time'].substring(0, 2));
+      time.setMinutes(bells[i]['time'].substring(3, 5));
+
+      // if number, i.e. period 1, 2, 3...
+      if (!isNaN(name)) {
+
+        let nameToUse = periodsCopy[name - 1].name;
+        if (periodsCopy[name - 1].fullName !== undefined) {
+          nameToUse = periodsCopy[name - 1].fullName;
+        }
+        returnVar[i] = { name: nameToUse, time: time
+
+          // if rollcall
+        };
+      } else if (name === 'R') {
+        returnVar[i] = { name: 'Roll Call', time: time
+
+          // Recess, Lunch 1/2, Transition
+        };
+      } else {
+        returnVar[i] = { name: name, time: time };
+      }
+    }
     return returnVar;
   }
 
@@ -3736,8 +3774,8 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     const timeLeft = this.formatTime(this.state.timer);
 
     // for whatever reason React keeps changing JSON fields from 'string' to 'object', so this changes them back
-    let nextClass = this.state.nextClass;
-    if (typeof this.state.nextClass === 'object') {
+    let nextClass = this.state.nextClass.name;
+    if (typeof nextClass === 'object') {
       nextClass = nextClass.props.children;
     }
 
@@ -3756,7 +3794,11 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'h1',
           { className: 'uk-text-center uk-heading-primary uk-margin-small-top uk-margin-medium-bottom' },
-          timeLeft
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'b',
+            null,
+            timeLeft
+          )
         ),
         this.state.htmlClasses
       )
@@ -3766,21 +3808,35 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   componentDidMount() {
     // set up timer
     let ID = setInterval(function () {
-      if (this.state.timer === 0) {
-        let nextClass = this.getNextClass();
 
-        // setup countdown for next class
-        const date = new Date();
-        const secDifference = Math.floor((nextClass.time.getTime() - date.getTime()) / 1000);
+      if (this.state.timer === 0) {
         this.setState(() => ({
-          timer: secDifference,
-          nextClass: nextClass.subject
-        }));
-      } else {
-        this.setState(() => ({
-          timer: this.state.timer - 1
+          nextClass: this.getNextClass()
         }));
       }
+
+      const date = new Date();
+      const secDifference = Math.floor((this.state.nextClass.time.getTime() - date.getTime()) / 1000);
+      this.setState(() => ({
+        timer: secDifference
+      }));
+
+      // Old code that relies on Javascript timers (inaccurate)
+      /*if (this.state.timer === 0) {
+        let nextClass = this.getNextClass()
+        
+        // setup countdown for next class
+        const date = new Date()
+        const secDifference = Math.floor((nextClass.time.getTime() - date.getTime())/1000)
+        this.setState( ()=> ({
+          timer: secDifference,
+          nextClass: nextClass.name
+        }))
+      } else {
+        this.setState( ()=> ({
+          timer: this.state.timer - 1
+        }))
+      }*/
       this.render();
     }.bind(this), 1000);
 
