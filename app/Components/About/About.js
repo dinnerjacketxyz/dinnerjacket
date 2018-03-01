@@ -7,8 +7,8 @@ class About extends Component {
       <div className='uk-flex uk-flex-center uk-text-center uk-margin-top uk-margin-left uk-margin-right'>
         <div className='uk-card uk-card-default uk-card-body uk-card large uk-width-1-3@xl uk-width-2-5@m uk-width-3-5@s'>
           <img id='logo'
-            className='uk-disabled'
-            alt='logo' src='https://i.imgur.com/xxuf1ni.png' width='75px' height='75px'>
+            className='uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom'
+            alt='logo' src='64.png' width='75px' height='7ew5px'>
           </img>
           <br/>
           <br/>

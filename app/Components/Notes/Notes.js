@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+const css = require('./Notes.css')
 
 let notes = [
   {
@@ -69,13 +70,13 @@ class Notes extends Component {
   render() {
     return (
       <div className='uk-flex uk-flex-center'>
-        <div className='uk-text-center uk-margin-large-left uk-margin-top uk-margin-large-right uk-grid-collapse uk-width-3-5@xl' uk-grid='true' uk-sortable = 'handle: .uk-sortable-handle' uk-height-match='target: > div > .uk-card'>
+        <div className='uk-text-center uk-margin-large-left uk-margin-top uk-margin-large-right uk-grid-collapse uk-width-3-5@xl' uk-grid='true' uk-sortable = 'handle: .uk-sortable-handle'>
           <div className='uk-width-1-5@m uk-height-large@m'>
             <div className='uk-card uk-card-default uk-card-body'>
               <span className='uk-sortable-handle uk-float-left' uk-icon='icon: table' onClick={this.displayList.bind(this)}></span>
               <a className='uk-icon-link uk-float-right' uk-icon='icon: plus-circle' onClick={this.addNote.bind(this)}/>
               <h2></h2>
-              <div className='uk-overflow-auto'>
+              <div className='uk-text-truncate uk-panel uk-panel-scrollable area listDisplay'>
                 <table className='uk-table uk-table-small uk-table-hover uk-margin-top' onClick={this.updateEditor}>
                   <tbody id='noteList'>
                   </tbody>
@@ -128,7 +129,7 @@ class Notes extends Component {
                 <input id='inputTitle' className='uk-input uk-form-blank uk-form-large' type='Title' placeholder='Title' onInput={this.syncTitle.bind(this)}></input>
               </div>
               <div className='uk-margin'>
-                <textarea id='inputContent' className='uk-textarea uk-form-blank' rows='10' placeholder='Body' onInput={this.syncContent.bind(this) }></textarea>
+                <textarea id='inputContent' className='area uk-textarea uk-form-blank' rows='10' placeholder='Body' onInput={this.syncContent.bind(this) }></textarea>
               </div>
             </div>
           </div>

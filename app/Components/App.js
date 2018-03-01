@@ -159,7 +159,7 @@ class App extends Component {
           <div className='uk-navbar-left'>
             <img id='logo'
               className='uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom'
-              alt='logo' src='https://i.imgur.com/xxuf1ni.png' width='60px' height='50px'>
+              alt='logo' src='64.png' width='60px' height='50px'>
             </img>
             <ul className='uk-navbar-nav'>
 
@@ -234,7 +234,6 @@ class App extends Component {
             </ul>
           </div>
         </nav>
-        }
 
         <div id='content'>
           {this.state.visible === window.STATES.DASHBOARD && <Dashboard />}
