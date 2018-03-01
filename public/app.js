@@ -28195,7 +28195,9 @@ class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   }
 
   componentDidMount() {
+    selection = 0;
     this.displayList();
+    this.updateEditor(selection);
   }
 
   addNote() {

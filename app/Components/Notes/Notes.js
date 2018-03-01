@@ -17,7 +17,9 @@ class Notes extends Component {
   }
 
   componentDidMount() {
+    selection = 0
     this.displayList()
+    this.updateEditor(selection)
   }
 
   addNote() {
