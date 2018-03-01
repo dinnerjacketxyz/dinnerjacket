@@ -8,7 +8,7 @@ class About extends Component {
         <div className='uk-card uk-card-default uk-card-body uk-card large uk-width-1-3@xl uk-width-2-5@m uk-width-3-5@s'>
           <img id='logo'
             className='uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom'
-            alt='logo' src='64.png' width='75px' height='7ew5px'>
+            alt='logo' src='256.png' width='150px' height='150px'>
           </img>
           <br/>
           <br/>

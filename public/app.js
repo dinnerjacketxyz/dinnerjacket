@@ -7037,7 +7037,7 @@ class About extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         { className: 'uk-card uk-card-default uk-card-body uk-card large uk-width-1-3@xl uk-width-2-5@m uk-width-3-5@s' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { id: 'logo',
           className: 'uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom',
-          alt: 'logo', src: '64.png', width: '75px', height: '75px' }),
+          alt: 'logo', src: '256.png', width: '150px', height: '150px' }),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -27990,8 +27990,6 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       console.log(timetableData.subjects[z]);
       if (timetableData.subjects[z] != -1) {
         classList += `<tr><td>${timetableData.subjects[z].title}</td><td>${timetableData.subjects[z].fullTeacher}</td></tr>`;
-      } else {
-        stopCounter++;
       }
       z++;
     }
@@ -28018,145 +28016,136 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     //this.initialise()
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { className: 'uk-flex-center uk-flex uk-margin-top' },
+      { className: 'uk-flex uk-flex-center uk-margin-top' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
-        { className: 'uk-grid uk-grid-small uk-grid-collapse' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('ul', { className: 'uk-grid uk-grid-small' }),
+        { className: 'uk-grid uk-grid-small uk-grid-collapse uk-grid-match' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'li',
-          null,
+          'div',
+          { className: 'uk-card uk-card-default uk-card-body uk-width-3-5' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('h2', { id: 'name', className: 'uk-text-center uk-h2 uk-margin-small-bottom' }),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'div',
-            { className: 'uk-card uk-card-default uk-card-body' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('h2', { id: 'name', className: 'uk-text-center uk-h2 uk-margin-small-bottom' }),
+            { className: 'uk-box-shadow-hover-small uk-padding-small' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'div',
-              { className: 'uk-box-shadow-hover-small uk-padding-small uk-text-center' },
+              { className: 'uk-column-1-5 uk-column-divider uk-text-center uk-text-muted uk-margin-small-left uk-margin-small-right' },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'div',
-                { className: 'uk-column-1-5 uk-text-center uk-text-muted' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  null,
-                  'MON A'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  null,
-                  'TUE A'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  null,
-                  'WED A'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  null,
-                  'THU A'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  null,
-                  'FRI A'
-                )
+                'p',
+                null,
+                'MON A'
               ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { id: 'weekA', className: 'uk-column-1-5 uk-column-divider uk-width-shrink uk-text-center' })
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'TUE A'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'WED A'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'THU A'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'FRI A'
+              )
             ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { id: 'weekA', className: 'uk-column-1-5 uk-column-divider uk-margin-small-left uk-margin-small-right' })
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'uk-box-shadow-hover-small uk-padding-small' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'div',
-              { className: 'uk-box-shadow-hover-small uk-padding-small uk-width-shrink uk-text-center' },
+              { className: 'uk-column-1-5 uk-column-divider uk-text-center uk-text-muted uk-margin-small-left uk-margin-small-right' },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'div',
-                { className: 'uk-column-1-5 uk-text-center uk-text-muted' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  null,
-                  'MON B'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  null,
-                  'TUE B'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  null,
-                  'WED B'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  null,
-                  'THU B'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  null,
-                  'FRI B'
-                )
+                'p',
+                null,
+                'MON B'
               ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { id: 'weekB', className: 'uk-column-1-5 uk-column-divider uk-width-auto' })
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'TUE B'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'WED B'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'THU B'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'FRI B'
+              )
             ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { id: 'weekB', className: 'uk-column-1-5 uk-column-divider uk-margin-small-left uk-margin-small-right' })
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'uk-box-shadow-hover-small uk-padding-small' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'div',
-              { className: 'uk-box-shadow-hover-small uk-padding-small uk-width-shrink uk-text-center' },
+              { className: 'uk-column-1-5 uk-column-divider uk-text-center uk-text-muted uk-margin-small-left uk-margin-small-right' },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'div',
-                { className: 'uk-column-1-5 uk-text-center uk-text-muted' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  null,
-                  'MON C'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  null,
-                  'TUE C'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  null,
-                  'WED C'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  null,
-                  'THU C'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'p',
-                  null,
-                  'FRI C'
-                )
+                'p',
+                null,
+                'MON C'
               ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { id: 'weekC', className: 'uk-column-1-5 uk-column-divider uk-width-auto' })
-            )
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'TUE C'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'WED C'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'THU C'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'p',
+                null,
+                'FRI C'
+              )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { id: 'weekC', className: 'uk-column-1-5 uk-column-divider uk-margin-small-left uk-margin-small-right' })
           )
         ),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'li',
-          null,
+          'div',
+          { className: 'uk-card uk-card-default uk-card-body uk-width-1-5' },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'uk-card uk-card-default uk-card-body uk-card-small' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'h3',
-              { className: 'uk-card-title uk-text-center uk-padding-top' },
-              'Classes'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'table',
-              { className: 'uk-table uk-table-small uk-table-hover uk-width-medium uk-margin-small-top uk-margin-small-left uk-margin-small-right' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tbody', { id: 'classList' })
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'h3',
-              { className: 'uk-card-title uk-text-center' },
-              'Student Information'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { id: 'studentInfo', className: 'uk-margin-small-top uk-margin-small-left uk-margin-small-right uk-padding-large-bottom uk-margin-bottom' })
-          )
+            'h3',
+            { className: 'uk-card-title uk-text-center uk-padding-top' },
+            'Classes'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'table',
+            { className: 'uk-table uk-table-small uk-table-hover uk-width-medium uk-margin-small-top uk-margin-small-left uk-margin-small-right' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tbody', { id: 'classList' })
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'h3',
+            { className: 'uk-card-title uk-text-center' },
+            'Student Information'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { id: 'studentInfo', className: 'uk-margin-small-top uk-margin-small-left uk-margin-small-right uk-padding-large-bottom uk-margin-bottom' })
         )
       ),
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -28250,7 +28239,7 @@ class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       { className: 'uk-flex uk-flex-center' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
-        { className: 'uk-text-center uk-margin-large-left uk-margin-top uk-margin-large-right uk-grid-collapse uk-width-3-5@xl', 'uk-grid': 'true', 'uk-sortable': 'handle: .uk-sortable-handle', 'uk-height-match': 'target: > div > .uk-card' },
+        { className: 'uk-text-center uk-margin-large-left uk-margin-top uk-margin-large-right uk-grid-collapse uk-width-3-5@xl', 'uk-grid': 'true', 'uk-sortable': 'handle: .uk-sortable-handle' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
           { className: 'uk-width-1-5@m uk-height-large@m' },
@@ -28455,7 +28444,7 @@ exports = module.exports = __webpack_require__(14)(false);
 
 
 // module
-exports.push([module.i, ".area {\n  resize: none;\n  width: 100%;\n  height: 100% \n}\n\n.listDisplay {\n  border: none\n}\n", ""]);
+exports.push([module.i, ".area {\r\n  resize: none;\r\n  width: 100%;\r\n  height: 100% \r\n}\r\n\r\n.listDisplay {\r\n  border: none\r\n}\r\n", ""]);
 
 // exports
 
@@ -29478,7 +29467,7 @@ exports = module.exports = __webpack_require__(14)(false);
 
 
 // module
-exports.push([module.i, ".container {\n  position: relative;\n\tpadding-bottom: 100%;\n\tpadding-top: 60px;\n\theight: 0;\n}\n\n.embed {\n  position: absolute;\n  border: none;\n  top: 0; right: 0;\n  bottom: 0; left: 0;\n  width: 100%;\n  height: 100%;\n}", ""]);
+exports.push([module.i, ".container {\r\n  position: relative;\r\n\tpadding-bottom: 100%;\r\n\tpadding-top: 60px;\r\n\theight: 0;\r\n}\r\n\r\n.embed {\r\n  position: absolute;\r\n  border: none;\r\n  top: 0; right: 0;\r\n  bottom: 0; left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n}", ""]);
 
 // exports
 
@@ -29544,7 +29533,7 @@ exports = module.exports = __webpack_require__(14)(false);
 
 
 // module
-exports.push([module.i, "body {\n  margin: 0;\n  padding: 0;\n  font-family: 'Lato', sans-serif;\n}\n\n.main {\n  transition: 150ms linear;\n}\n\n.content {\n  align-content: center;\n  margin-left: 10px;\n  background: white;\n  transition: 150ms linear;\n}\n\n.background {\n  background-color: #2a2c31;\n}\n\n\n\n", ""]);
+exports.push([module.i, "body {\r\n  margin: 0;\r\n  padding: 0;\r\n  font-family: 'Lato', sans-serif;\r\n}\r\n\r\n.main {\r\n  transition: 150ms linear;\r\n}\r\n\r\n.content {\r\n  align-content: center;\r\n  margin-left: 10px;\r\n  background: white;\r\n  transition: 150ms linear;\r\n}\r\n\r\n.background {\r\n  background-color: #2a2c31;\r\n}\r\n\r\n\r\n\r\n", ""]);
 
 // exports
 
