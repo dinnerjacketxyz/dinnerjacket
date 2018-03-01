@@ -1,21 +1,20 @@
 import React, { Component } from 'react'
+const css = require('./styles.css')
+const SimpleMDE = require('react-simplemde-editor')
 
-let notes = [
-  {
-    title: 'Untitled',
-    content: 'Content'
-  }
-]
+let note = {
+  headings: ['# Welcome'],
+  content: '# Welcome'
+}
 
-let selection
+let selection = -1
+
+// testing
+let headingIndex = -1
+let concatHeading = true
+let allowHeading = true
 
 class Notes extends Component {
-  constructor(props) {
-    super(props)
-
-    //this.displayList()
-  }
-
   componentDidMount() {
     selection = 0
     this.displayList()
@@ -23,46 +22,57 @@ class Notes extends Component {
   }
 
   addNote() {
-    let temp = {title:"Untitled", content:"Content"}
-    notes.unshift(temp)
-
-    // GO TO NEW NOTE WHEN ADDED
-    selection = 0
+    note.headings.push('#')
+    console.log(note.headings)
     this.displayList()
-    this.updateEditor(selection)
+    //this.updateEditor()
   }
 
   displayList() {
+    console.log('display list is being called')
+
     let titleList = ''
-    for (let i = 0; i < notes.length; i++) {
-      titleList += `<tr><td id='${i}'>${notes[i].title}</td></tr>`
+    for (let i = 0; i < note.headings.length; i++) {
+      titleList += `<tr><td id='${i}'>${note.headings[i]}</td></tr>`
     }
     let list = document.getElementById('noteList')
     list.innerHTML = titleList
   }
 
   updateEditor(e) {
-    if (e != 0) {
-      selection = e.target.id
-    }
+    // Scroll to appropriate heading when title in noteList is clicked innit
 
-    let editorTitle = document.getElementById('inputTitle')
-    let editorContent = document.getElementById('inputContent')
-    editorTitle.value = notes[selection].title
-    editorContent.value = notes[selection].content
-  }
-
-  syncTitle() {
-    let editorTitle = document.getElementById('inputTitle')
-    console.log(editorTitle.value)
-    notes[selection].title = editorTitle.value
-    this.displayList()
+    let editor = document.getElementById('inputContent')
+    editor.value = note.content
   }
 
   syncContent() {
-    let editorContent = document.getElementById('inputContent')
-    console.log(editorContent.value)
-    notes[selection].content = editorContent.value
+    //let editor = document.getElementById('inputContent')
+    console.log(simplemde.value)
+    note.content = simplemde.value
+
+    headingIndex = -1
+    note.headings = []
+    concatHeading = true
+    allowHeading = true
+
+    for (let i = 0; i < note.content.length; i++) {
+      if (note.content[i] === '#' /*headingchar*/ && allowHeading) {
+        headingIndex++
+        concatHeading = true
+        allowHeading = false
+        this.addNote()
+      } else if (note.content[i] == '\n') {
+        concatHeading = false
+        allowHeading = true
+      } else {
+        if (concatHeading && note.headings[headingIndex].length <= 50) {
+          note.headings[headingIndex] += note.content[i]
+        }
+      }
+    }
+    console.log(headingIndex)
+
     this.displayList()
   }
 
@@ -72,9 +82,9 @@ class Notes extends Component {
         <div className='uk-text-center uk-margin-large-left uk-margin-top uk-margin-large-right uk-grid-collapse uk-width-3-5@xl' uk-grid='true' uk-sortable = 'handle: .uk-sortable-handle' uk-height-match='target: > div > .uk-card'>
           <div className='uk-width-1-5@m uk-height-large@m'>
             <div className='uk-card uk-card-default uk-card-body'>
-              <span className='uk-sortable-handle uk-float-left' uk-icon='icon: table' onClick={this.displayList.bind(this)}></span>
-              <a className='uk-icon-link uk-float-right' uk-icon='icon: plus-circle' onClick={this.addNote.bind(this)}/>
-              <h2></h2>
+              <span className='uk-sortable-handle uk-float-left' uk-icon='icon: table' />
+              <a className='uk-icon-link uk-float-right' uk-icon='icon: plus-circle' />
+              <h2 />
               <div className='uk-overflow-auto'>
                 <table className='uk-table uk-table-small uk-table-hover uk-margin-top' onClick={this.updateEditor}>
                   <tbody id='noteList'>
@@ -89,46 +99,17 @@ class Notes extends Component {
               <div className='uk-flex uk-flex-center'>
                 <div className='uk-grid-divider uk-grid-small' uk-grid='true'>
                   <div className=''>
-                    <a href='' uk-icon='icon: plus-circle'></a>
-                    <a href='' uk-icon='icon: copy'></a>
-                    <a href='' uk-icon='icon: trash'></a>
-                  </div>
-                  <div>
-                    <select className='uk-select uk-form-small uk-form-width-small'>
-                      <option>Arial</option>
-                      <option>Comic Sans MS</option>
-                      <option>Calibri</option>
-                      <option>Cambria</option>
-                      <option>Courier</option>
-                      <option>Impact</option>
-                      <option>Roboto</option>
-                      <option>Source Sans</option>
-                      <option>Times New Roman</option>
-                    </select>
-                  </div>
-                  <div>
-                    <select className='uk-select uk-form-small uk-form-width-xsmall'>
-                      <option>8</option>
-                      <option>10</option>
-                      <option>12</option>
-                      <option>14</option>
-                      <option>18</option>
-                      <option>24</option>
-                      <option>36</option>
-                    </select>
-                  </div>
-                  <div className=''>
-                    <a href='' uk-icon='icon: bold'></a>
-                    <a href='' uk-icon='icon: italic'></a>
-                    <a href='' uk-icon='icon: strikethrough'></a>
+                    <a uk-icon='icon: plus-circle' />
+                    <a uk-icon='icon: copy' />
+                    <a uk-icon='icon: trash' />
                   </div>
                 </div>
               </div>
               <div className='uk-margin'>
-                <input id='inputTitle' className='uk-input uk-form-blank uk-form-large' type='Title' placeholder='Title' onInput={this.syncTitle.bind(this)}></input>
+                <h1 id='noteTitle'>Notes</h1>
               </div>
               <div className='uk-margin'>
-                <textarea id='inputContent' className='uk-textarea uk-form-blank' rows='10' placeholder='Body' onInput={this.syncContent.bind(this) }></textarea>
+                <SimpleMDE id='inputContent' value={note.content} onChange={this.syncContent.bind(this)}></SimpleMDE>
               </div>
             </div>
           </div>
