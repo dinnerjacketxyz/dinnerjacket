@@ -7,27 +7,34 @@ let outputB = ''
 let outputC = ''
 let dayOutput = ''
 
+
 class Timetable extends Component {
-  
   constructor(props) {
     super(props)
-    
+
     // Get timetable data from SBHS API
     http.get('/getdata?url=timetable/timetable.json', (res) => {
       res.setEncoding('utf8')
+      let a = ''
       res.on('data', (body) => {
-        timetableData = JSON.parse(body)
+        a += body
+      })
+
+      res.on('end', (body) => {
+        timetableData = JSON.parse(a)
+        this.initialise()
       })
     })
+
   }
 
   displayWeek(outputA, outputB, outputC) {
     let A = document.getElementById('weekA')
-    A.innerHTML = outputA 
+    A.innerHTML = outputA
     let B = document.getElementById('weekB')
-    B.innerHTML = outputB 
+    B.innerHTML = outputB
     let C = document.getElementById('weekC')
-    C.innerHTML = outputC 
+    C.innerHTML = outputC
   }
 
   generateWeek() {
@@ -71,138 +78,95 @@ class Timetable extends Component {
     //Puts your name at the top
     let name = document.getElementById('name')
     name.innerHTML = `${timetableData.student.givenname}&nbsp;${timetableData.student.surname}`
+    console.log(timetableData.subjects)
+    this.generateClassList()
+    this.generateStudentInfo()
   }
 
+  generateClassList() {
+    let classList = ''
+    let z = 1
+    while (timetableData.subjects[z] != -1) {
+      console.log(timetableData.subjects[z])
+      if (timetableData.subjects[z]!=-1) {
+        classList += `<tr><td>${timetableData.subjects[z].title}</td><td>${timetableData.subjects[z].fullTeacher}</td></tr>`
+      }
+      z++
+    }
+    let list = document.getElementById('classList')
+    list.innerHTML = classList
+  }
+
+  generateStudentInfo() {
+    let adviser = timetableData.subjects[17]
+    let info = ''
+    info =
+    `<p>${timetableData.subjects[15].title}</p>
+     <p>Student Adviser: ${timetableData.subjects[17].fullTeacher}</p>
+     <p>ID: ${timetableData.student.studentId}</p>`
+    if (timetableData.student.BoSNumber != 0) {
+      info += `<p>BOS: ${timetableData.student.BoSNumber}</p>`
+    }
+    let studentInfo = document.getElementById('studentInfo')
+    studentInfo.innerHTML = info
+  }
+
+  // <button onClick={this.initialise.bind(this)}>Test</button>
+
   render() {
+    //this.initialise()
     return (
-      <div className='uk-flex-center uk-flex uk-margin-top'>
-        <button onClick={this.initialise.bind(this)}>Test</button>
-        <div className='uk-card uk-card-default uk-card-body uk-card-small uk-width-3-5'>
-          <h2 id='name' className="uk-text-center uk-h2 uk-margin-small-bottom"></h2>
-          
-          <div className="uk-box-shadow-hover-small uk-padding-small uk-text-center">
-            <div className='uk-column-1-5 uk-text-center uk-text-muted'>
-              <p>MON A</p>
-              <p>TUE A</p>
-              <p>WED A</p>
-              <p>THU A</p>
-              <p>FRI A</p>
+      <div className='uk-flex uk-flex-center uk-margin-top'>
+        <div className='uk-grid uk-grid-small uk-grid-collapse uk-grid-match'>
+          <div className='uk-card uk-card-default uk-card-body uk-width-3-5'>
+            <h2 id='name' className='uk-text-center uk-h2 uk-margin-small-bottom'></h2>
+
+            <div className='uk-box-shadow-hover-small uk-padding-small'>
+              <div className='uk-column-1-5 uk-column-divider uk-text-center uk-text-muted uk-margin-small-left uk-margin-small-right'>
+                <p>MON A</p>
+                <p>TUE A</p>
+                <p>WED A</p>
+                <p>THU A</p>
+                <p>FRI A</p>
+              </div>
+              <div id='weekA' className='uk-column-1-5 uk-column-divider uk-margin-small-left uk-margin-small-right'>
+              </div>
             </div>
-            <div id='weekA' className='uk-column-1-5 uk-column-divider uk-width-shrink uk-text-center'>
-              <p>1: ENG &nbsp;&nbsp; 201</p>
-              <p>2: MAT &nbsp;&nbsp; 101</p>
-              <p>3: ENG &nbsp;&nbsp; 201</p>
-              <p>4: MAT &nbsp;&nbsp; 101</p>
-              <p>5: </p>
 
-              <p>1: ENG &nbsp;&nbsp; 201</p>
-              <p>2: MAT &nbsp;&nbsp; 101</p>
-              <p>3: ENG &nbsp;&nbsp; 201</p>
-              <p>4: MAT &nbsp;&nbsp; 101</p>
-              <p>5: </p>
+            <div className='uk-box-shadow-hover-small uk-padding-small'>
+              <div className='uk-column-1-5 uk-column-divider uk-text-center uk-text-muted uk-margin-small-left uk-margin-small-right'>
+                  <p>MON B</p>
+                  <p>TUE B</p>
+                  <p>WED B</p>
+                  <p>THU B</p>
+                  <p>FRI B</p>
+              </div>
+              <div id='weekB' className='uk-column-1-5 uk-column-divider uk-margin-small-left uk-margin-small-right'>
+              </div>
+            </div>
 
-              <p>1: ENG &nbsp;&nbsp; 201</p>
-              <p>2: MAT &nbsp;&nbsp; 101</p>
-              <p>3: ENG &nbsp;&nbsp; 201</p>
-              <p>4: MAT &nbsp;&nbsp; 101</p>
-              <p>5: </p>
-
-              <p>1: ENG &nbsp;&nbsp; 201</p>
-              <p>2: MAT &nbsp;&nbsp; 101</p>
-              <p>3: ENG &nbsp;&nbsp; 201</p>
-              <p>4: MAT &nbsp;&nbsp; 101</p>
-              <p>5: </p>
-
-              <p>1: ENG &nbsp;&nbsp; 201</p>
-              <p>2: MAT &nbsp;&nbsp; 101</p>
-              <p>3: ENG &nbsp;&nbsp; 201</p>
-              <p>4: MAT &nbsp;&nbsp; 101</p>
-              <p>5: </p>
+            <div className='uk-box-shadow-hover-small uk-padding-small'>
+              <div className='uk-column-1-5 uk-column-divider uk-text-center uk-text-muted uk-margin-small-left uk-margin-small-right'>
+                <p>MON C</p>
+                <p>TUE C</p>
+                <p>WED C</p>
+                <p>THU C</p>
+                <p>FRI C</p>
+              </div>
+              <div id='weekC' className='uk-column-1-5 uk-column-divider uk-margin-small-left uk-margin-small-right'>
+              </div>
             </div>
           </div>
-
-          <div className="uk-box-shadow-hover-small uk-padding-small uk-width-shrink uk-text-center">
-            <div className='uk-column-1-5 uk-text-center uk-text-muted'>
-                <p>MON B</p>
-                <p>TUE B</p>
-                <p>WED B</p>
-                <p>THU B</p>
-                <p>FRI B</p>
-            </div>
-            <div id='weekB' className='uk-column-1-5 uk-column-divider uk-width-auto'>
-              <p>1: &emsp; ENG &emsp; &emsp; 201</p>
-              <p>2: &emsp; MAT &emsp; &emsp; 101</p>
-              <p>3: &emsp; ENG &emsp; &emsp; 201</p>
-              <p>4: &emsp; MAT &emsp; &emsp; 101</p>
-              <p>5: &emsp;</p>
-
-              <p>1: &emsp; MAT &emsp; &emsp; 101</p>
-              <p>2: &emsp; </p>
-              <p>3: &emsp; ENG &emsp; &emsp; 201</p>
-              <p>4: &emsp; MAT &emsp; &emsp; 101</p>
-              <p>5: &emsp; ENG &emsp; &emsp; 201</p>
-
-              <p>1: &emsp; ENG &emsp; &emsp; 201</p>
-              <p>2: &emsp; MAT &emsp; &emsp; 101</p>
-              <p>3: &emsp; ENG &emsp; &emsp; 201</p>
-              <p>4: &emsp; </p>
-              <p>5: &emsp; </p>
-
-              <p>1: &emsp; MAT &emsp; &emsp; 101</p>
-              <p>2: &emsp; ENG &emsp; &emsp; 201</p>
-              <p>3: &emsp; ENG &emsp; &emsp; 201</p>
-              <p>4: &emsp; ENG &emsp; &emsp; 201</p>
-              <p>5: &emsp;</p>
-
-              <p>1: &emsp; </p>
-              <p>2: &emsp; ENG &emsp; &emsp; 201</p>
-              <p>3: &emsp; ENG &emsp; &emsp; 201</p>
-              <p>4: &emsp; MAT &emsp; &emsp; 101</p>
-              <p>5: &emsp; MAT &emsp; &emsp; 101</p>
-            </div>
-          </div>
-
-          <div className="uk-box-shadow-hover-small uk-padding-small uk-width-shrink uk-text-center">
-            <div className='uk-column-1-5 uk-text-center uk-text-muted'>
-              <p>MON C</p>
-              <p>TUE C</p>
-              <p>WED C</p>
-              <p>THU C</p>
-              <p>FRI C</p>
-            </div>
-            <div id='weekC' className='uk-column-1-5 uk-column-divider uk-width-auto'>
-              <p>1: &emsp; ENG &emsp; &emsp; 201</p>
-              <p>2: &emsp; MAT &emsp; &emsp; 101</p>
-              <p>3: &emsp; ENG &emsp; &emsp; 201</p>
-              <p>4: &emsp; MAT &emsp; &emsp; 101</p>
-              <p>5: &emsp;</p>
-
-              <p>1: &emsp; MAT &emsp; &emsp; 101</p>
-              <p>2: &emsp; </p>
-              <p>3: &emsp; ENG &emsp; &emsp; 201</p>
-              <p>4: &emsp; MAT &emsp; &emsp; 101</p>
-              <p>5: &emsp; ENG &emsp; &emsp; 201</p>
-
-              <p>1: &emsp; ENG &emsp; &emsp; 201</p>
-              <p>2: &emsp; MAT &emsp; &emsp; 101</p>
-              <p>3: &emsp; ENG &emsp; &emsp; 201</p>
-              <p>4: &emsp; </p>
-              <p>5: &emsp; </p>
-
-              <p>1: &emsp; MAT &emsp; &emsp; 101</p>
-              <p>2: &emsp; ENG &emsp; &emsp; 201</p>
-              <p>3: &emsp; ENG &emsp; &emsp; 201</p>
-              <p>4: &emsp; ENG &emsp; &emsp; 201</p>
-              <p>5: &emsp;</p>
-
-              <p>1: &emsp; </p>
-              <p>2: &emsp; ENG &emsp; &emsp; 201</p>
-              <p>3: &emsp; ENG &emsp; &emsp; 201</p>
-              <p>4: &emsp; MAT &emsp; &emsp; 101</p>
-              <p>5: &emsp; MAT &emsp; &emsp; 101</p>
-            </div>
+          <div className='uk-card uk-card-default uk-card-body uk-width-1-5'>
+              <h3 className='uk-card-title uk-text-center uk-padding-top'>Classes</h3>
+                <table className='uk-table uk-table-small uk-table-hover uk-width-medium uk-margin-small-top uk-margin-small-left uk-margin-small-right'>
+                  <tbody id='classList'></tbody>
+                </table>
+              <h3 className='uk-card-title uk-text-center'>Student Information</h3>
+              <div id='studentInfo' className='uk-margin-small-top uk-margin-small-left uk-margin-small-right uk-padding-large-bottom uk-margin-bottom'></div>
           </div>
         </div>
+        <script type='text/javascript'>this.initialise()</script>
       </div>
     )
   }
