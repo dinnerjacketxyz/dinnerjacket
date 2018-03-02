@@ -539,7 +539,7 @@ class Dashboard extends Component {
         <div className='uk-card uk-card-default uk-card-body uk-card large uk-width-1-4@xxl uk-width-1-3@xl uk-width-2-5@l uk-width-1-2@m uk-width-2-3@s uk-width-3-5@xs '>
           <p className='uk-text-large'>{nextClass} in</p>
           <h1 className='uk-text-center uk-heading-primary uk-margin-small-top uk-margin-medium-bottom'>
-            <b>{timeLeft}</b>
+            {timeLeft}
           </h1>
           {this.state.htmlClasses}
         </div>
