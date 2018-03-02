@@ -3857,22 +3857,21 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
       // return monday/tuesday
       case 6:
-      case 0:
+      case 7:
       case 1:
       case 2:
-        returnData = [{ name: 'Period 1', teacher: '', room: '', time: '09:05' }, { name: 'Period 2', teacher: '', room: '', time: '10:10' }, { name: 'Lunch', teacher: '', room: '', time: '11:10' }, { name: 'Period 3', teacher: '', room: '', time: '11:50' }, { name: 'Period 4', teacher: '', room: '', time: '12:55' }, { name: 'Recess', teacher: '', room: '', time: '13:55' }, { name: 'Period 5', teacher: '', room: '', time: '14:15' }];
+        return [{ name: 'Period 1', teacher: '', room: '', time: '09:05' }, { name: 'Period 2', teacher: '', room: '', time: '10:10' }, { name: 'Lunch', teacher: '', room: '', time: '11:10' }, { name: 'Period 3', teacher: '', room: '', time: '11:50' }, { name: 'Period 4', teacher: '', room: '', time: '12:55' }, { name: 'Recess', teacher: '', room: '', time: '13:55' }, { name: 'Period 5', teacher: '', room: '', time: '14:15' }];
 
       // return wed/thu
       case 3:
       case 4:
-        returnData = [{ name: 'Period 1', teacher: '', room: '', time: '09:05' }, { name: 'Period 2', teacher: '', room: '', time: '10:10' }, { name: 'Recess', teacher: '', room: '', time: '11:10' }, { name: 'Period 3', teacher: '', room: '', time: '11:30' }, { name: 'Lunch', teacher: '', room: '', time: '12:30' }, { name: 'Period 4', teacher: '', room: '', time: '13:10' }, { name: 'Period 5', teacher: '', room: '', time: '14:15' }];
+        return [{ name: 'Period 1', teacher: '', room: '', time: '09:05' }, { name: 'Period 2', teacher: '', room: '', time: '10:10' }, { name: 'Recess', teacher: '', room: '', time: '11:10' }, { name: 'Period 3', teacher: '', room: '', time: '11:30' }, { name: 'Lunch', teacher: '', room: '', time: '12:30' }, { name: 'Period 4', teacher: '', room: '', time: '13:10' }, { name: 'Period 5', teacher: '', room: '', time: '14:15' }];
 
       // return friday
       case 5:
-        returnData = [{ name: 'Period 1', teacher: '', room: '', time: '09:30' }, { name: 'Period 2', teacher: '', room: '', time: '10:30' }, { name: 'Recess', teacher: '', room: '', time: '11:25' }, { name: 'Period 3', teacher: '', room: '', time: '11:45' }, { name: 'Lunch', teacher: '', room: '', time: '12:40' }, { name: 'Period 4', teacher: '', room: '', time: '13:20' }, { name: 'Period 5', teacher: '', room: '', time: '14:20' }];
+        return [{ name: 'Period 1', teacher: '', room: '', time: '09:30' }, { name: 'Period 2', teacher: '', room: '', time: '10:30' }, { name: 'Recess', teacher: '', room: '', time: '11:25' }, { name: 'Period 3', teacher: '', room: '', time: '11:45' }, { name: 'Lunch', teacher: '', room: '', time: '12:40' }, { name: 'Period 4', teacher: '', room: '', time: '13:20' }, { name: 'Period 5', teacher: '', room: '', time: '14:20' }];
 
     }
-    return returnData;
   }
 
   getDefaultBells() {
@@ -4029,7 +4028,7 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             room: '',
             time: periods[periodNo - 1].time };
         } else {
-          periods[periodNo - 1].teacher = variations[periodNo - 1]['casualSurname'];
+          periods[periodNo - 1].teacher = variations[periodNo]['casualSurname'];
         }
       }
     }
@@ -4187,12 +4186,22 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     let date = new Date();
 
     // if timetable exists and is current (i.e. it is not past 3:15pm), use the timetable periods
-    if (timetable !== '' && (date.getDay() === new Date(JSON.parse(timetable)['date']).getDay() && (date.getHours() < 15 || date.getHours() === 15 && date.getMinutes() < 15) || date.getDay() < new Date(JSON.parse(timetable)['date']).getDay())) {
-      periods = this.getDailyTimetable(JSON.parse(timetable));
-      let dateOfPeriods = new Date(JSON.parse(timetable)['date']);
-      let bells = JSON.parse(timetable)['bells'];
-      schedule = this.getSchedule(periods, dateOfPeriods, bells);
+    // nested if's are used for readability
+    if (timetable !== '') {
 
+      let timetableDate = new Date(JSON.parse(timetable)['date']);
+
+      let timetableIsTodayBefore315 = date.getDay() === timetableDate.getDay() && (date.getHours() < 15 || date.getHours() === 15 && date.getMinutes() < 15);
+
+      let timetableIsForTheFuture = date < timetableDate && !(date.getDay() === timetableDate.getDay);
+
+      if (timetableIsTodayBefore315 || timetableIsForTheFuture) {
+
+        periods = this.getDailyTimetable(JSON.parse(timetable));
+        let dateOfPeriods = new Date(JSON.parse(timetable)['date']);
+        let bells = JSON.parse(timetable)['bells'];
+        schedule = this.getSchedule(periods, dateOfPeriods, bells);
+      }
       // otherwise, use default periods
     } else {
 
@@ -4308,6 +4317,22 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     return formattedString;
   }
 
+  // checks if there is school tomorrow
+  isWeekend() {
+    // 0 - Sun // 1 - Mon // 2 - Tue // 3 - Wed // 4 - Thu // 5 - Fri // 6 - Sat
+    let date = new Date();
+    let day = date.getDay();
+    // Sat, Sun
+    if (day === 6 || day === 0) {
+      return true;
+    }
+    // friday afternoon
+    if (day === 5 && (date.getHours() > 15 || date.getHours() == 15 && date.getMinutes() >= 15)) {
+      return true;
+    }
+    return false;
+  }
+
   render() {
     // get timer
     const timeLeft = this.formatTime(this.state.timer);
@@ -4348,13 +4373,20 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     // set up timer
     let ID = setInterval(function () {
 
+      const date = new Date();
+
       if (this.state.timer === 0) {
+        let nextClass = this.getNextClass();
+
+        if (this.isWeekend()) {
+          console.log(nextClass);
+        }
+
         this.setState(() => ({
-          nextClass: this.getNextClass()
+          nextClass: nextClass
         }));
       }
 
-      const date = new Date();
       const secDifference = Math.floor((this.state.nextClass.time.getTime() - date.getTime()) / 1000);
       this.setState(() => ({
         timer: secDifference
