@@ -513,13 +513,8 @@ class Dashboard extends Component {
       <div className='uk-flex uk-flex-center uk-text-center uk-margin-left uk-margin-right uk-margin-top'>
         <div className='uk-card uk-card-default uk-card-body uk-card large uk-width-1-4@xxl uk-width-1-3@xl uk-width-2-5@l uk-width-1-2@m uk-width-2-3@s uk-width-3-5@xs '>
           <p className='uk-text-large'>{nextClass} in</p>
-<<<<<<< HEAD
           <h1 className='uk-text-center uk-heading-primary uk-margin-small-top uk-margin-medium-bottom'>
             <b>{timeLeft}</b>
-=======
-          <h1 className='uk-text-center uk-h1 uk-margin-small-top uk-margin-medium-bottom'>
-            {timeLeft}
->>>>>>> 0a511b37003d3e07b5b33a665eb8bc17e82c2bea
           </h1>
           {this.state.htmlClasses}
         </div>
