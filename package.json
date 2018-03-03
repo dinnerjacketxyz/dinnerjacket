@@ -1,6 +1,6 @@
 {
   "name": "dinnerjacket",
-  "version": "0.0.1",
+  "version": "0.1.",
   "description": "SBHS organiser",
   "main": "server/server.js",
   "scripts": {
@@ -13,11 +13,11 @@
     "connect-pg-simple": "^4.2.1",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
+    "npm": "^5.7.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-simplemde-editor": "^3.6.11",
-    "simple-oauth2": "^1.5.0",
-    "simplemde": "^1.11.2"
+    "simple-oauth2": "^1.5.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

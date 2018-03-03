@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-//const css = require('./Notes.css')
 const css = require('!style-loader!css-loader!react-simplemde-editor/dist/simplemde.min.css')
 const SimpleMDE = require('react-simplemde-editor')
 
