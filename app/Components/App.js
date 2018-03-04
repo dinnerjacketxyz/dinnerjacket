@@ -63,7 +63,7 @@ class App extends Component {
     http.get('/getdata?url=timetable/timetable.json', (res) => {
       res.setEncoding('utf8')
       res.on('data', (body) => {
-        console.log(body)
+        //console.log(body)
         if (body != undefined) {
           let visible = this.state.visible
           this.setState({ visible: window.STATES.DASHBOARD })
