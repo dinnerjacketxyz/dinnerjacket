@@ -3837,6 +3837,7 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
     promise.then(function (result) {
       this.updateTimetableDisplay(result);
+      this.timerTick();
     }.bind(this));
   }
 
@@ -3925,12 +3926,14 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     const lunch = { name: 'Lunch',
       teacher: '',
       room: '',
-      time: bells[5] };
+      time: bells[5],
+      changed: [] };
 
     const recess = { name: 'Recess',
       teacher: '',
       room: '',
-      time: bells[6] };
+      time: bells[6],
+      changed: [] };
 
     switch (routine) {
       // Monday, Tuesday, Friday
@@ -3959,23 +3962,35 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       if (thisPeriod !== undefined) {
         const name = thisPeriod['year'] + thisPeriod['title'];
 
+        // handle any bugs with the API
+        let teacherName = thisPeriod['fullTeacher'];
+        if (teacherName === '') {
+          teacherName = thisPeriod['teacher'];
+        }
+
         returnData[i] = { name: subjects[name]['title'],
-          teacher: thisPeriod['fullTeacher'],
+          teacher: teacherName,
           room: thisPeriod['room'],
-          time: bells[i],
-          fullName: subjects[name]['subject'] };
+          time: bells[i][0],
+          fullName: subjects[name]['subject'],
+          changed: [] };
       } else {
-        returnData[i] = { name: 'No class',
+        returnData[i] = { name: 'Period ' + (i + 1),
           teacher: '',
           room: '',
-          time: bells[i] };
+          time: bells[i][0],
+          changed: [] };
+      }
+
+      if (bells[i][1]) {
+        returnData[i].changed.push('bells');
       }
     }
     return returnData;
   }
 
   // get belltimes for today
-  // the return value is an ARRAY of String - indexed from 0
+  // the return value is an ARRAY of Array of [String, Boolean] - indexed from 0
   getBelltimes(daytimetable) {
     let bells = daytimetable['bells'];
     let returnVar = [];
@@ -3991,13 +4006,11 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         case '3':
         case '4':
         case '5':
-          returnVar[thisBell['bell'] - 1] = thisBell['time'];break;
+          returnVar[thisBell['bell'] - 1] = [thisBell['time'], thisBell['reasonShort'] === ''];break;
         case 'Lunch 1':
-          returnVar[5] = thisBell['time'];break;
+          returnVar[5] = [thisBell['time'], thisBell['reasonShort'] === ''];break;
         case 'Recess':
-          returnVar[6] = thisBell['time'];break;
-        case 'End of Day':
-          returnVar[7] = thisBell['time'];break;
+          returnVar[6] = [thisBell['time'], thisBell['reasonShort'] === ''];break;
       }
     }
     return returnVar;
@@ -4007,28 +4020,38 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   getChanges(periods, timetable) {
 
     // Get room variations - change in rooms
-    if (timetable['roomVariations'] !== undefined) {}
-    // TODO: add this in
+    const roomVariations = timetable['classVariations'];
 
+    // TODO: Needs testing
+    if (timetable['roomVariations'] !== undefined) {
+      const numVariations = Object.keys(roomVariations).length;
+      for (var i = 0; i < numVariations; i++) {
+        const periodNo = Object.keys(roomVariations)[i];
+        periods[periodNo - 1].room = roomVariations[i]['roomTo'];
+        periods[periodNo - 1].changed.push('room');
+      }
+    }
 
     // Get class variations - change in teachers
-    const variations = timetable['classVariations'];
+    const classVariations = timetable['classVariations'];
     if (timetable['classVariations'] !== undefined) {
 
       // get number of variations (changed periods)
-      const numVariations = Object.keys(variations).length;
+      const numVariations = Object.keys(classVariations).length;
 
       // iterate through all variations
       for (var i = 0; i < numVariations; i++) {
-        const periodNo = Object.keys(variations)[i];
+        const periodNo = Object.keys(classVariations)[i];
         // nocover = study period
-        if (variations[periodNo]['type'] === 'nocover') {
-          periods[periodNo - 1] = { name: 'No class',
+        if (classVariations[periodNo]['type'] === 'nocover') {
+          periods[periodNo - 1] = { name: periods[periodNo - 1].name,
             teacher: '',
             room: '',
             time: periods[periodNo - 1].time };
+          periods[periodNo - 1].changed.push('noclass');
         } else {
-          periods[periodNo - 1].teacher = variations[periodNo]['casualSurname'];
+          periods[periodNo - 1].teacher = classVariations[periodNo]['casualSurname'];
+          periods[periodNo - 1].changed.push('teacher');
         }
       }
     }
@@ -4039,34 +4062,49 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
     const numPeriods = Object.keys(periods).length;
 
+    const nameTextClass = 'uk-text-middle uk-text-lead ';
+    const teacherTextClass = 'uk-text-meta uk-text-top uk-text-left ';
+    const roomTextClass = 'uk-text-middle uk-table-shrink uk-text-lead ';
+
     for (var i = 0; i < numPeriods; i++) {
 
       let thisPeriod = periods[i];
 
+      const noClass = thisPeriod.changed.includes('noclass');
+      const roomChange = thisPeriod.changed.includes('room');
+      const teacherChange = thisPeriod.changed.includes('teacher');
+      const bellChange = thisPeriod.changed.includes('bells');
+
       // Lunch, recess or study periods
-      if (thisPeriod.teacher === '') {
+      if (thisPeriod.room === '') {
+
         thisPeriod.name = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'dd',
-          { className: 'uk-text-middle uk-text-lead uk-text-muted' },
+          { className: nameTextClass + 'uk-text-muted ' + (noClass ? 'uk-text-primary' : '') },
           thisPeriod.name
         );
-        thisPeriod.teacher = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('dd', { className: 'uk-text-meta uk-text-muted uk-text-top uk-text-left' });
+        thisPeriod.teacher = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'dd',
+          null,
+          ' '
+        );
         thisPeriod.room = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'td',
-          { className: 'uk-text-middle uk-table-shrink uk-text-lead uk-text-muted' },
+          { className: roomTextClass + 'uk-text-muted ' + (bellChange ? 'uk-text-primary' : '') },
           thisPeriod.time
         );
 
         // normal periods
       } else {
+
         thisPeriod.name = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'dd',
-          { className: 'uk-text-middle uk-text-lead' },
+          { className: nameTextClass + (noClass ? 'uk-text-primary' : '') },
           thisPeriod.name
         );
         thisPeriod.teacher = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'dd',
-          { className: 'uk-text-meta uk-text-muted uk-text-top uk-text-left' },
+          { className: teacherTextClass + (teacherChange || bellChange ? 'uk-text-primary' : '') },
           'at ',
           thisPeriod.time,
           ' with ',
@@ -4074,13 +4112,11 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         );
         thisPeriod.room = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'td',
-          { className: 'uk-text-middle uk-table-shrink uk-text-lead' },
+          { className: roomTextClass + (roomChange ? 'uk-text-primary' : '') },
           thisPeriod.room
         );
       }
     }
-
-    console.log(periods);
 
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
@@ -4339,7 +4375,7 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
     // for whatever reason React keeps changing JSON fields from 'string' to 'object', so this changes them back
     let nextClass = this.state.nextClass.name;
-    if (typeof nextClass === 'object') {
+    if (typeof this.state.nextClass.name === 'object') {
       nextClass = nextClass.props.children;
     }
 
@@ -4350,72 +4386,69 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         'div',
         { className: 'uk-card uk-card-default uk-card-body uk-card large uk-width-1-4@xxl uk-width-1-3@xl uk-width-2-5@l uk-width-1-2@m uk-width-2-3@s uk-width-3-5@xs ' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'p',
-          { className: 'uk-text-large' },
-          nextClass,
-          ' in'
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'h1',
-          { className: 'uk-text-center uk-heading-primary uk-margin-small-top uk-margin-medium-bottom' },
+          'h2',
+          { className: 'uk-h2' },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'b',
             null,
+            nextClass
+          )
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'p',
+          { className: 'uk-text-large' },
+          ' in '
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'h1',
+          { className: 'uk-heading-line' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'span',
+            null,
             timeLeft
           )
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'p',
+          null,
+          ' ',
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
+          ' '
         ),
         this.state.htmlClasses
       )
     );
   }
 
+  // this is called each time the timer executes
+  timerTick() {
+    const date = new Date();
+
+    if (this.state.timer <= 0) {
+      let nextClass = this.getNextClass();
+
+      this.setState(() => ({
+        nextClass: nextClass
+      }));
+    }
+
+    const secDifference = Math.floor((this.state.nextClass.time.getTime() - date.getTime()) / 1000);
+    this.setState(() => ({
+      timer: secDifference
+    }));
+
+    this.render();
+  }
+
   componentDidMount() {
     // set up timer
-    let ID = setInterval(function () {
 
-      const date = new Date();
-
-      if (this.state.timer === 0) {
-        let nextClass = this.getNextClass();
-
-        if (this.isWeekend()) {
-          console.log(nextClass);
-        }
-
-        this.setState(() => ({
-          nextClass: nextClass
-        }));
-      }
-
-      const secDifference = Math.floor((this.state.nextClass.time.getTime() - date.getTime()) / 1000);
-      this.setState(() => ({
-        timer: secDifference
-      }));
-
-      // Old code that relies on Javascript timers (inaccurate)
-      /*if (this.state.timer === 0) {
-        let nextClass = this.getNextClass()
-        
-        // setup countdown for next class
-        const date = new Date()
-        const secDifference = Math.floor((nextClass.time.getTime() - date.getTime())/1000)
-        this.setState( ()=> ({
-          timer: secDifference,
-          nextClass: nextClass.name
-        }))
-      } else {
-        this.setState( ()=> ({
-          timer: this.state.timer - 1
-        }))
-      }*/
-      this.render();
-    }.bind(this), 1000);
+    let ID = setInterval(this.timerTick.bind(this), 1000);
 
     // save timer ID so we can remove the timer later
     this.setState({ timerID: ID });
 
     // get API data here
-
     this.getAPIData = this.getAPIData.bind(this);
     this.getAPIData();
   }
@@ -4427,6 +4460,23 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (Dashboard);
+
+// Old timer code that relies on Javascript timers (inaccurate)
+/*if (this.state.timer === 0) {
+  let nextClass = this.getNextClass()
+ 
+  // setup countdown for next class
+  const date = new Date()
+  const secDifference = Math.floor((nextClass.time.getTime() - date.getTime())/1000)
+  this.setState( ()=> ({
+    timer: secDifference,
+    nextClass: nextClass.name
+  }))
+} else {
+  this.setState( ()=> ({
+    timer: this.state.timer - 1
+  }))
+}*/
 
 /***/ }),
 /* 26 */
