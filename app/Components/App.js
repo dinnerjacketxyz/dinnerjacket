@@ -46,10 +46,14 @@ class App extends Component {
     super(props)
 
     // Set default state on open to Welcome page
-    // TODO the welcome page currently does not take the full page and
-    // can show the navbar if the page is long enough
-    this.state = { visible: window.STATES.WELCOME }
-
+    this.state = { visible: window.STATES.WELCOME, 
+                   width: 0, 
+                   height:0,
+                   renderedSmall: false,
+                   renderedBig: false,
+                   mounted: false }
+    
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
     //let visible = this.state.visible
     /*let url = window.location.toString()
     if (url.substr(url.length - 11) === '/index.html') {
@@ -63,10 +67,10 @@ class App extends Component {
     http.get('/getdata?url=timetable/timetable.json', (res) => {
       res.setEncoding('utf8')
       res.on('data', (body) => {
-        console.log(body)
+        //console.log(body)
         if (body != undefined) {
           let visible = this.state.visible
-          this.setState({ visible: window.STATES.DASHBOARD })
+          this.setState({ visible: window.STATES.DASHBOARD})
         }
       })
     })
@@ -75,37 +79,39 @@ class App extends Component {
 
   blankNavbar() {
     //makes all navbar <li> look unselected
-    let tabCount = document.getElementById('navbar').childNodes.length
+    //let tabCount = document.getElementById('navbar').childNodes.length
     for (let i = 0; i < nameArray.length; i++) {
-      //console.log(i)
       let Li = document.getElementById(nameArray[i] + 'Li')
       let A = document.getElementById(nameArray[i] + 'A')
       let B = document.getElementById(nameArray[i] + 'B')
       let P = document.getElementById(nameArray[i] + 'P')
+      let S = document.getElementById(nameArray[i] + 'S')
 
       Li.className = 'uk-animation-toggle'
       P.innerText = nameArray[i]
       A.className = 'uk-box-shadow-hover-medium'
       B.innerText = ''
+      S.className = 'uk-icon uk-margin-small-right'
     }
   }
 
-  selectedNavbar(num) {
+  selectedNavbar() {
     //makes all navbar <li> look unselected
     this.blankNavbar()
 
     //makes one specific <li> look selected
-
-    let Li = document.getElementById(nameArray[num] + 'Li')
-    let A = document.getElementById(nameArray[num] + 'A')
-    let B = document.getElementById(nameArray[num] + 'B')
-    let P = document.getElementById(nameArray[num] + 'P')
+    console.log(this.state.visible)
+    let Li = document.getElementById(nameArray[this.state.visible] + 'Li')
+    let A = document.getElementById(nameArray[this.state.visible] + 'A')
+    let B = document.getElementById(nameArray[this.state.visible] + 'B')
+    let P = document.getElementById(nameArray[this.state.visible] + 'P')
+    let S = document.getElementById(nameArray[this.state.visible] + 'S')
 
     Li.className = 'uk-animation-toggle uk-active'
     P.innerText = ''
     A.className = 'uk-box-shadow-hover-medium uk-card-primary'
-    B.innerText = nameArray[num]
-
+    B.innerText = nameArray[this.state.visible]
+    S.className = 'uk-icon uk-margin-small-right'
   }
 
   showDashboard() {
@@ -119,21 +125,21 @@ class App extends Component {
     console.log('Timetable tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.TIMETABLE })
-    this.selectedNavbar(window.STATES.TIMETABLE)
+    this.selectedNavbar()
   }
 
   showNotes() {
     console.log('User notes tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.NOTES })
-    this.selectedNavbar(window.STATES.NOTES)
+    this.selectedNavbar()
   }
 
   showNotices() {
     console.log('Daily notices tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.NOTICES })
-    this.selectedNavbar(window.STATES.NOTICES)
+    this.selectedNavbar()
   }
 
   showAbout() {
@@ -146,6 +152,37 @@ class App extends Component {
     console.log('Settings tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.FEEDBACK })
+  }
+
+  componentDidMount() {
+    this.updateWindowDimensions()
+    window.addEventListener('resize', this.updateWindowDimensions)
+    this.setState({mounted: true})
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions)
+  }
+
+  updateWindowDimensions() {
+    this.setState({ width: window.innerWidth, height: window.innerHeight})
+    if (this.state.width <= 820 && this.state.renderedSmall == false && this.state.mounted == true) {
+      for (let i = 0; i < nameArray.length; i++) {
+        //console.log(i)
+        let B = document.getElementById(nameArray[i] + 'B')
+        let P = document.getElementById(nameArray[i] + 'P')
+        let S = document.getElementById(nameArray[i] + 'S')
+        P.innerText = ''
+        B.innerText = ''
+        S.className = 'uk-icon'
+      }
+      this.setState({renderedSmall:true})
+      this.setState({renderedBig:false})
+    } else if (this.state.width > 820 && this.state.renderedBig == false && this.state.mounted == true) {
+      this.selectedNavbar()
+      this.setState({renderedBig:true})
+      this.setState({renderedSmall:false})
+    }
   }
 
   // Always renders navbar
@@ -165,7 +202,7 @@ class App extends Component {
 
               <li id='DashboardLi' className='uk-animation-toggle uk-active' onClick={this.showDashboard.bind(this)}>
                 <a id='DashboardA' className='uk-box-shadow-hover-medium uk-card-primary'>
-                  <span className='uk-icon uk-margin-small-right' uk-icon='icon: home'/>
+                  <span id='DashboardS' className='uk-icon uk-margin-small-right' uk-icon='icon: home'/>
                   <p id='DashboardP'></p>
                   <b id='DashboardB'>Dashboard</b>
                 </a>
@@ -173,7 +210,7 @@ class App extends Component {
 
               <li id='TimetableLi' className='uk-animation-toggle' onClick={this.showTimetable.bind(this)}>
                 <a id='TimetableA' className='uk-box-shadow-hover-medium'>
-                  <span className='uk-icon uk-margin-small-right' uk-icon='icon: star' />
+                  <span id='TimetableS' className='uk-icon uk-margin-small-right' uk-icon='icon: star' />
                   <p id='TimetableP'>Timetable</p>
                   <b id='TimetableB'></b>
                 </a>
@@ -181,7 +218,7 @@ class App extends Component {
 
               <li id='User NotesLi' className='uk-animation-toggle' onClick={this.showNotes.bind(this)}>
                 <a id='User NotesA' className='uk-box-shadow-hover-medium'>
-                  <span className='uk-icon uk-margin-small-right' uk-icon='icon: file-edit' />
+                  <span id='User NotesS' className='uk-icon uk-margin-small-right' uk-icon='icon: file-edit' />
                   <p id='User NotesP'>User Notes</p>
                   <b id='User NotesB'></b>
                 </a>
@@ -189,7 +226,7 @@ class App extends Component {
 
               <li id='Daily NoticesLi' className='uk-animation-toggle' onClick={this.showNotices.bind(this)}>
                 <a id='Daily NoticesA' className='uk-box-shadow-hover-medium'>
-                  <span className='uk-icon uk-margin-small-right' uk-icon='icon: bell' />
+                  <span id='Daily NoticesS' className='uk-icon uk-margin-small-right' uk-icon='icon: bell' />
                   <p id='Daily NoticesP'>Daily Notices</p>
                   <b id='Daily NoticesB'></b>
                 </a>

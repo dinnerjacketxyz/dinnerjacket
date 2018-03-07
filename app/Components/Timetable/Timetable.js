@@ -25,7 +25,6 @@ class Timetable extends Component {
         this.initialise()
       })
     })
-
   }
 
   displayWeek(outputA, outputB, outputC) {
@@ -78,7 +77,7 @@ class Timetable extends Component {
     //Puts your name at the top
     let name = document.getElementById('name')
     name.innerHTML = `${timetableData.student.givenname}&nbsp;${timetableData.student.surname}`
-    console.log(timetableData.subjects)
+    //console.log(timetableData.subjects)
     this.generateClassList()
     this.generateStudentInfo()
   }
@@ -87,7 +86,7 @@ class Timetable extends Component {
     let classList = ''
     let z = 1
     while (timetableData.subjects[z] != -1) {
-      console.log(timetableData.subjects[z])
+      //console.log(timetableData.subjects[z])
       if (timetableData.subjects[z]!=-1) {
         classList += `<tr><td>${timetableData.subjects[z].title}</td><td>${timetableData.subjects[z].fullTeacher}</td></tr>`
       }

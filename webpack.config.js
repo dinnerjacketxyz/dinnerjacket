@@ -9,15 +9,8 @@ module.exports = {
     filename: 'app.js'
   },
 
-  plugins: [
-    new webpack.ProvidePlugin({
-      $: 'jquery',
-      jQuery: 'jquery'
-    })
-  ],
-  
   module: {
-    loaders: [
+    rules: [
       {
         test: /.jsx?$/,
         loader: 'babel-loader',
