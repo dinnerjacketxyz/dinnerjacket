@@ -17,8 +17,6 @@ class Dashboard extends Component {
     
     this.updateTimetableDisplay = this.updateTimetableDisplay.bind(this)
     this.getNextClass = this.getNextClass.bind(this)
-    
-    
   }
 
   // get timetable data from API
@@ -44,6 +42,7 @@ class Dashboard extends Component {
     
     promise.then(function(result) {
       this.updateTimetableDisplay(result)
+      this.timerTick()
     }.bind(this))
     
   }
@@ -178,12 +177,14 @@ class Dashboard extends Component {
     const lunch = { name: 'Lunch',
                     teacher: '',
                     room: '',
-                    time: bells[5] }
+                    time: bells[5],
+                    changed: [] }
 
     const recess = { name: 'Recess',
                      teacher: '',
                      room: '',
-                     time: bells[6] }
+                     time: bells[6],
+                     changed: [] }
     
     switch (routine) {
       // Monday, Tuesday, Friday
@@ -209,24 +210,36 @@ class Dashboard extends Component {
       if (thisPeriod !== undefined) {
         const name = thisPeriod['year'] + thisPeriod['title']
         
+        // handle any bugs with the API
+        let teacherName = thisPeriod['fullTeacher']
+        if (teacherName === '') {
+          teacherName = thisPeriod['teacher']
+        }
+        
         returnData[i] = { name: subjects[name]['title'],
-                          teacher: thisPeriod['fullTeacher'],
+                          teacher: teacherName,
                           room: thisPeriod['room'],
-                          time: bells[i],
-                          fullName: subjects[name]['subject'] }
+                          time: bells[i][0],
+                          fullName: subjects[name]['subject'],
+                          changed: [] }
         
       } else {
-        returnData[i] = { name: 'No class',
+        returnData[i] = { name: 'Period ' + (i+1),
                           teacher: '',
                           room: '' ,
-                          time: bells[i] }
+                          time: bells[i][0],
+                          changed: [] }
+      }
+      
+      if (bells[i][1]) {
+        returnData[i].changed.push('bells')
       }
     }
     return returnData
   }
   
   // get belltimes for today
-  // the return value is an ARRAY of String - indexed from 0
+  // the return value is an ARRAY of Array of [String, Boolean] - indexed from 0
   getBelltimes(daytimetable) {
     let bells = daytimetable['bells']
     let returnVar = []
@@ -241,10 +254,9 @@ class Dashboard extends Component {
       case '2':
       case '3':
       case '4':
-      case '5': returnVar[(thisBell['bell'] - 1)] = thisBell['time']; break
-      case 'Lunch 1': returnVar[5] = thisBell['time']; break;
-      case 'Recess': returnVar[6] = thisBell['time']; break;
-      case 'End of Day': returnVar[7] = thisBell['time']; break;
+      case '5': returnVar[(thisBell['bell'] - 1)] = [thisBell['time'], (thisBell['reasonShort'] === '')]; break
+      case 'Lunch 1': returnVar[5] = [thisBell['time'], (thisBell['reasonShort'] === '')]; break;
+      case 'Recess': returnVar[6] = [thisBell['time'], (thisBell['reasonShort'] === '')]; break;
       }
     }
     return returnVar
@@ -254,29 +266,40 @@ class Dashboard extends Component {
   getChanges(periods, timetable) {
   
     // Get room variations - change in rooms
+    const roomVariations = timetable['classVariations']
+    
+    // TODO: Needs testing
     if (timetable['roomVariations'] !== undefined) {
-      // TODO: add this in
+      const numVariations = Object.keys(roomVariations).length
+      for (var i=0; i<numVariations; i++) {
+        const periodNo = Object.keys(roomVariations)[i]
+        periods[periodNo-1].room = roomVariations[i]['roomTo']
+        periods[periodNo-1].changed.push('room')
+      }
     }
     
     // Get class variations - change in teachers
-    const variations = timetable['classVariations']
+    const classVariations = timetable['classVariations']
     if (timetable['classVariations'] !== undefined) {
     
       // get number of variations (changed periods)
-      const numVariations = Object.keys(variations).length
+      const numVariations = Object.keys(classVariations).length
       
       // iterate through all variations
       for (var i=0; i<numVariations; i++) {
-        const periodNo = Object.keys(variations)[i]
+        const periodNo = Object.keys(classVariations)[i]
         // nocover = study period
-        if (variations[periodNo]['type'] === 'nocover') {
-          periods[periodNo-1] = { name: 'No class',
+        if (classVariations[periodNo]['type'] === 'nocover') {
+          periods[periodNo-1] = { name: periods[periodNo-1].name,
                                 teacher: '',
                                 room: '',
-                                time: periods[periodNo-1].time }
+                                time: periods[periodNo-1].time}
+          periods[periodNo-1].changed.push('noclass')
         } else {
-          periods[periodNo-1].teacher = variations[periodNo]['casualSurname']
+          periods[periodNo-1].teacher = classVariations[periodNo]['casualSurname']
+          periods[periodNo-1].changed.push('teacher')
         }
+        
       }
     }
   }
@@ -285,23 +308,36 @@ class Dashboard extends Component {
   processHTML(periods) {
 
     const numPeriods = Object.keys(periods).length
-
+    
+    const nameTextClass = 'uk-text-middle uk-text-lead '
+    const teacherTextClass = 'uk-text-meta uk-text-top uk-text-left '
+    const roomTextClass = 'uk-text-middle uk-table-shrink uk-text-lead '
+    
     for (var i=0; i<numPeriods; i++) {
       
       let thisPeriod = periods[i]
       
+      const noClass = thisPeriod.changed.includes('noclass')
+      const roomChange = thisPeriod.changed.includes('room')
+      const teacherChange = thisPeriod.changed.includes('teacher')
+      const bellChange = thisPeriod.changed.includes('bells')
+  
+      
       // Lunch, recess or study periods
-      if (thisPeriod.teacher === '') {
-        thisPeriod.name = (<dd className='uk-text-middle uk-text-lead uk-text-muted'>{thisPeriod.name}</dd>)
-        thisPeriod.teacher = (<dd className='uk-text-meta uk-text-muted uk-text-top uk-text-left'></dd>)
-        thisPeriod.room = (<td className='uk-text-middle uk-table-shrink uk-text-lead uk-text-muted'>{thisPeriod.time}</td>)
+      if (thisPeriod.room === '') {
+
+        thisPeriod.name = (<dd className={nameTextClass + 'uk-text-muted ' + (noClass ? 'uk-text-primary' : '')}>{thisPeriod.name}</dd>)
+        thisPeriod.teacher = (<dd> </dd>)
+        thisPeriod.room = (<td className={roomTextClass + 'uk-text-muted ' + (bellChange ? 'uk-text-primary' : '')}>{thisPeriod.time}</td>)
         
       // normal periods
       } else {
-        thisPeriod.name = (<dd className='uk-text-middle uk-text-lead'>{thisPeriod.name}</dd>)
-        thisPeriod.teacher = (<dd className='uk-text-meta uk-text-muted uk-text-top uk-text-left'>at {thisPeriod.time} with {thisPeriod.teacher}</dd>)
-        thisPeriod.room = (<td className='uk-text-middle uk-table-shrink uk-text-lead'>{thisPeriod.room}</td>)
+        
+        thisPeriod.name = (<dd className={nameTextClass + (noClass ? 'uk-text-primary' : '')}>{thisPeriod.name}</dd>)
+        thisPeriod.teacher = (<dd className={teacherTextClass + ((teacherChange || bellChange) ? 'uk-text-primary' : '')}>at {thisPeriod.time} with {thisPeriod.teacher}</dd>)
+        thisPeriod.room = (<td className={roomTextClass + (roomChange ? 'uk-text-primary' : '')}>{thisPeriod.room}</td>)
       }
+      
     }
     
     return (<div className='uk-flex uk-flex-center'>
@@ -530,46 +566,70 @@ class Dashboard extends Component {
    
     // for whatever reason React keeps changing JSON fields from 'string' to 'object', so this changes them back
     let nextClass = this.state.nextClass.name
-    if (typeof(nextClass) === 'object') {
+    if (typeof(this.state.nextClass.name) === 'object') {
       nextClass = nextClass.props.children
     }
 
     return (
       <div className='uk-flex uk-flex-center uk-text-center uk-margin-left uk-margin-right uk-margin-top'>
         <div className='uk-card uk-card-default uk-card-body uk-card large uk-width-1-4@xxl uk-width-1-3@xl uk-width-2-5@l uk-width-1-2@m uk-width-2-3@s uk-width-3-5@xs '>
-          <p className='uk-text-large'>{nextClass} in</p>
-          <h1 className='uk-text-center uk-heading-primary uk-margin-small-top uk-margin-medium-bottom'>
-            {timeLeft}
-          </h1>
+        
+          <h2 className='uk-h2'><b>{nextClass}</b></h2>
+          <p className='uk-text-large'> in </p>
+          <h1 className='uk-heading-line'><span>{timeLeft}</span></h1>
+          <p> <br/> </p>
           {this.state.htmlClasses}
         </div>
       </div>
     )
   }
   
+  // this is called each time the timer executes
+  timerTick() {
+    const date = new Date()
+
+    if (this.state.timer <= 0) {
+      let nextClass = this.getNextClass()
+
+      this.setState( ()=> ({
+        nextClass: nextClass
+      }))
+    }
+    
+    const secDifference = Math.floor((this.state.nextClass.time.getTime() - date.getTime())/1000)
+    this.setState( ()=> ({
+      timer: secDifference
+    }))
+    
+    this.render()
+  }
+  
   componentDidMount() {
     // set up timer
-    let ID = setInterval(function() {
-        
-        const date = new Date()
-        
-        if (this.state.timer === 0) {
-          let nextClass = this.getNextClass()
-          
-          this.setState( ()=> ({
-            nextClass: nextClass
-          }))
-        }
-        
-        const secDifference = Math.floor((this.state.nextClass.time.getTime() - date.getTime())/1000)
-        this.setState( ()=> ({
-          timer: secDifference
-        }))
+
+    let ID = setInterval(this.timerTick.bind(this), 1000)
+
+    // save timer ID so we can remove the timer later
+    this.setState({timerID: ID})
     
-      // Old code that relies on Javascript timers (inaccurate)
+    // get API data here
+    this.getAPIData = this.getAPIData.bind(this)
+    this.getAPIData()
+
+  }
+  
+  componentWillUnmount() {
+    // remove timer after unmount
+    clearInterval(this.state.timerID)
+  }
+}
+
+export default Dashboard
+
+// Old timer code that relies on Javascript timers (inaccurate)
       /*if (this.state.timer === 0) {
         let nextClass = this.getNextClass()
-        
+       
         // setup countdown for next class
         const date = new Date()
         const secDifference = Math.floor((nextClass.time.getTime() - date.getTime())/1000)
@@ -582,22 +642,3 @@ class Dashboard extends Component {
           timer: this.state.timer - 1
         }))
       }*/
-      this.render()
-    }.bind(this), 1000)
-    
-    // save timer ID so we can remove the timer later
-    this.setState({timerID: ID})
-    
-    // get API data here
-    
-    this.getAPIData = this.getAPIData.bind(this)
-    this.getAPIData()
-  }
-  
-  componentWillUnmount() {
-    // remove timer after unmount
-    clearInterval(this.state.timerID)
-  }
-}
-
-export default Dashboard
