@@ -15,8 +15,23 @@ body {
   transition: 150ms linear;
 }
 
+.djLogo {
+  width: 60px;
+  height: 60px
+}
+
 .background {
   background-color: #2a2c31;
+}
+
+@media screen and (max-width: 820px) {
+  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {
+    height:60px
+  }
+  .djLogo {
+    width: 40px;
+    height: 40px
+  }
 }
 
 
