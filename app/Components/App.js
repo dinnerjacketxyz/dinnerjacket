@@ -41,6 +41,8 @@ const nameArray = [
 
 //window.authSuccess = false
 
+window.dailyNotices = ''
+
 class App extends Component {
   constructor(props) {
     super(props)
@@ -70,6 +72,26 @@ class App extends Component {
         }
       })
     })
+    //}
+
+    //if (this.state.visible != window.STATES.WELCOME) {
+      // Get daily notices from SBHS API
+      http.get('/getdata?url=dailynews/list.json', (res) => {
+        res.setEncoding('utf8')
+        /*res.on('data', (body) => {
+          dailyNotices = JSON.parse(body)
+
+          this.init()
+        })*/
+
+        let data = ''
+        res.on('data', (body) => {
+          data += body
+        })
+        res.on('end', (body) => {
+          window.dailyNotices = JSON.parse(data)
+        })
+      })
     //}
   }
 

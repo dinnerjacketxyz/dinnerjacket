@@ -7,51 +7,19 @@ class Notices extends Component {
   constructor(props) {
     super(props)
 
-    // Get daily notices from SBHS API
-    http.get('/getdata?url=dailynews/list.json', (res) => {
-      res.setEncoding('utf8')
-      /*res.on('data', (body) => {
-        dailyNotices = JSON.parse(body)
-
-        this.init()
-      })*/
-
-      let data = ''
-      res.on('data', (body) => {
-        data += body
-      })
-      res.on('end', (body) => {
-        dailyNotices = JSON.parse(data)
-        this.init()
-      })
-    })
-
     this.state = {
-      notices: [],
-      retrieved: false
+      notices: []
     }
+
+    this.init()
   }
 
   init() {
-    console.log(dailyNotices.notices[0])
-
-    let noticesList = document.getElementById('noticesList')
-    //noticesList.innerHTML += dailyNotices.notices[0].content
-    //noticesList.innerHTML += <tr><td><p>Test</p></td><tr>
-    //this.addNotice()
-
-    /*while (window.noticeIndex < dailyNotices.notices.length) {
-      this.addNotice()
-      window.noticeIndex++
-    }*/
-
-    //this.addNotice()
+    dailyNotices = window.dailyNotices
 
     for (let i = 0; i < dailyNotices.notices.length; i++) {
       // TEMP - proper solotion later (TODO)
       let content = dailyNotices.notices[i].content.replace(/(<([^>]+)>)/ig,'')
-      /*let content = dailyNotices.notices[i].content
-      content = content.substr(4, content.length - 8)*/
 
       let years = ''
       for (let j = 0; j < dailyNotices.notices[i].years.length; j++) {
@@ -68,48 +36,27 @@ class Notices extends Component {
       let obj = {
         title: dailyNotices.notices[i].title,
         content: content,
-        years: years
-        //content: dailyNotices.notices[i].content
+        years: years,
+        author: dailyNotices.notices[i].authorName
       }
       this.state.notices.push(obj)
     }
-
-    let retrieved = this.state.retrieved
-    this.setState({ retrieved: true })
-
-    console.log(this.state.notices)
   }
 
-  addNotice() {
-    /*let nextState = this.state
-    nextState.notices.push(this.state.notices.length)
-    this.setState(nextState)*/
+  addToClipboard() {
+
   }
 
-  /*
-  <tr>
-      <td><span className='uk-label uk-label-warning uk-align-right uk-text-middle'>Y7</span></td>
-      <td>
-        <ul uk-accordion='multiple: true'>
-          <li>
-              <a className='uk-accordion-title' href='#'>Item 1</a>
-              <div className='uk-accordion-content'>
-                  <a className='uk-icon-link uk-float-right' uk-icon='icon: more-vertical; ratio: 0.75'></a>
-                  <div uk-dropdown='mode: click'>
-                    <ul className='uk-nav uk-dropdown-nav'>
-                      <li><a href='#'>Add to reminders</a></li>
-                      <li><a href='#'>Item</a></li>
-                      <li><a href='#'>Item</a></li>
-                    </ul>
-                  </div>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+  /*toggleNotices() {
+    let toggle = document.getElementById('toggleNotices')
 
-              </div>
-          </li>
-        </ul>
-      </td>
-  </tr>
-  */
+    if (toggle.className = 'uk-open') {
+      toggle.className = ''
+    } else {
+      toggle.className = 'uk-open'
+    }
+  } */
+  //<button id='toggleNotices' onClick={this.toggleNotices.bind(this)}>Toggle</button>
 
   render() {
     let rows = this.state.notices.map(notice => {
@@ -135,7 +82,7 @@ class Notices extends Component {
               rows
             } </tbody>
           </table>
-          <a className='uk-float-right' uk-totop uk-scroll></a>
+          <a className='uk-float-right' uk-totop='true' uk-scroll='true'></a>
         </div>
       </div>
     )
@@ -145,14 +92,19 @@ class Notices extends Component {
 const DailyNoticeRow = (props) => {
   return (
     <tr>
-    <td><span className='uk-label uk-align-left uk-text-middle'>{props.notices.years}</span></td>
+      <td><span className='uk-label uk-align-left uk-text-middle'>{props.notices.years}</span></td>
       <td>
         <ul uk-accordion='multiple: true'>
           <li>
             <a className='uk-accordion-title'>{props.notices.title}</a>
             <div className='uk-accordion-content'>
               <a className='uk-icon-link uk-float-right' uk-icon='icon: more-vertical; ratio: 0.75'></a>
-              {props.notices.content}
+              <div uk-dropdown="mode: click">
+                <ul className="uk-nav uk-dropdown-nav">
+                </ul>
+              </div>
+              <div>{props.notices.content}</div>
+              <p><b>{props.notices.author}</b></p>
             </div>
           </li>
         </ul>
@@ -162,51 +114,7 @@ const DailyNoticeRow = (props) => {
   )
 }
 
-
-
-
-
-    /*return (
-      <div className='uk-flex uk-flex-center'>
-        <div className='uk-margin-top uk-margin-left uk-margin-right uk-card uk-card-default uk-card-body uk-width-1-3@xl uk-width-1-2@m uk-width-2-3@s'>
-          <table className='uk-table uk-table-small uk-table-hover'>
-
-              <thead>
-                  <tr>
-                    <th className='uk-table-shrink'></th>
-                    <th></th>
-                  </tr>
-              </thead>
-
-              <tbody id='noticesList'>
-
-              </tbody>
-
-          </table>
-          <a className='uk-float-right' uk-totop uk-scroll></a>
-        </div>
-      </div>
-    )
-  }*/
-//}
-
 export default Notices
 
-/*
 
-{this.state.notices.map(notice => <tr>
-    <td>
-      <ul uk-accordion='multiple: true'>
-        <li>
-          <a className='uk-accordion-title'>{dailyNotices.notices[0].title}</a>
-          <div className='uk-accordion-content'>
-            <a className='uk-icon-link uk-float-right' uk-icon='icon: more-vertical; ratio: 0.75'></a>
-            <p>{dailyNotices.notices[0].content}</p>
-          </div>
-        </li>
-      </ul>
-    </td>
-  </tr>
-)}
-
-*/
+//<li><a onClick={this.addToClipboard.bind(this)}>Add to clipboard</a></li>
