@@ -28140,7 +28140,7 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       { className: 'uk-flex uk-flex-center uk-margin-top' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
-        { className: 'uk-grid uk-grid-small uk-grid-collapse uk-grid-match' },
+        { className: 'uk-grid uk-grid-small uk-grid-collapse uk-grid-match uk-width-4-5' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
           { className: 'uk-card uk-card-default uk-card-body uk-width-3-5' },
@@ -66227,7 +66227,7 @@ class Notices extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
               'tr',
               null,
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('th', { className: 'uk-table-shrink' }),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('th', null)
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('th', { className: 'uk-table-expand' })
             )
           ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(

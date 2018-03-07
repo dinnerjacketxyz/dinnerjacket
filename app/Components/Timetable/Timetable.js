@@ -116,7 +116,7 @@ class Timetable extends Component {
     //this.initialise()
     return (
       <div className='uk-flex uk-flex-center uk-margin-top'>
-        <div className='uk-grid uk-grid-small uk-grid-collapse uk-grid-match'>
+        <div className='uk-grid uk-grid-small uk-grid-collapse uk-grid-match uk-width-4-5'>
           <div className='uk-card uk-card-default uk-card-body uk-width-3-5'>
             <h2 id='name' className='uk-text-center uk-h2 uk-margin-small-bottom'></h2>
 

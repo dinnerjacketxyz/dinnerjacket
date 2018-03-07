@@ -128,7 +128,7 @@ class Notices extends Component {
             <thead>
               <tr>
                 <th className='uk-table-shrink'></th>
-                <th></th>
+                <th className='uk-table-expand'></th>
               </tr>
             </thead>
             <tbody> {
