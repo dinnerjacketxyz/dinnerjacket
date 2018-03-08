@@ -83,33 +83,31 @@ class App extends Component {
     //}
 
     //if (this.state.visible != window.STATES.WELCOME) {
-    if (window.userData != '') {
-      // Get daily notices from SBHS API
-      http.get('/getdata?url=dailynews/list.json', (res) => {
-        res.setEncoding('utf8')
-        let data = ''
-        res.on('data', (body) => {
-          data += body
-        })
-        res.on('end', (body) => {
-          window.dailyNotices = JSON.parse(data)
-        })
+    // Get daily notices from SBHS API
+    http.get('/getdata?url=dailynews/list.json', (res) => {
+      res.setEncoding('utf8')
+      let data = ''
+      res.on('data', (body) => {
+        data += body
       })
-      // Get timetable data from SBHS API
-      http.get('/getdata?url=timetable/timetable.json', (res) => {
-        res.setEncoding('utf8')
-        let b = ''
-        res.on('data', (body) => {
-          b += body
-        })
-
-        res.on('end', (body) => {
-          window.timetable = JSON.parse(b)
-          console.log(window.timetable)
-        })
+      res.on('end', (body) => {
+        window.dailyNotices = JSON.parse(data)
+      })
+    })
+    // Get timetable data from SBHS API
+    http.get('/getdata?url=timetable/timetable.json', (res) => {
+      res.setEncoding('utf8')
+      let b = ''
+      res.on('data', (body) => {
+        b += body
       })
 
-    }
+      res.on('end', (body) => {
+        window.timetable = JSON.parse(b)
+        console.log(window.timetable)
+      })
+    })
+
   }
 
   blankNavbar() {

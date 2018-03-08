@@ -109,7 +109,7 @@ class Timetable extends Component {
     return (
       <div className='uk-flex uk-flex-center uk-margin-top'>
         <div className='uk-grid uk-grid-small uk-grid-collapse uk-grid-match uk-width-4-5'>
-          <div className='uk-card uk-card-default uk-card-body uk-width-3-5'>
+          <div className='uk-card uk-card-default uk-card-body uk-width-3-5 uk-animation-slide-top-small'>
             <h2 id='name' className='uk-text-center uk-h2 uk-margin-small-bottom'></h2>
 
             <div className='uk-box-shadow-hover-small uk-padding-small'>
@@ -148,7 +148,7 @@ class Timetable extends Component {
               </div>
             </div>
           </div>
-          <div className='uk-card uk-card-default uk-card-body uk-width-1-5'>
+          <div className='uk-card uk-card-default uk-card-body uk-width-1-5 uk-animation-slide-top-small'>
               <h3 className='uk-card-title uk-text-center uk-padding-top'>Classes</h3>
                 <table className='uk-table uk-table-small uk-table-hover uk-width-medium uk-margin-small-top uk-margin-small-left uk-margin-small-right'>
                   <tbody id='classList'></tbody>

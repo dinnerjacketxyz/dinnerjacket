@@ -5,7 +5,7 @@ class About extends Component {
   render() {
     return (
       <div className='uk-flex uk-flex-center uk-text-center uk-margin-top uk-margin-left uk-margin-right'>
-        <div className='uk-card uk-card-default uk-card-body uk-card large uk-width-1-3@xl uk-width-2-5@m uk-width-3-5@s'>
+        <div className='uk-card uk-card-default uk-card-body uk-card large uk-width-1-3@xl uk-width-2-5@m uk-width-3-5@s uk-animation-slide-top-small'>
           <img id='logo'
             className='uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom'
             alt='logo' src='256.png' width='150px' height='150px'>

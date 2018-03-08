@@ -70,7 +70,7 @@ class Notices extends Component {
     })
     return (
       <div className='uk-flex uk-flex-center'>
-        <div className='uk-margin-top uk-margin-left uk-margin-right uk-card uk-card-default uk-card-body uk-width-1-3@xl uk-width-1-2@m uk-width-2-3@s'>
+        <div className='uk-margin-top uk-margin-left uk-margin-right uk-card uk-card-default uk-card-body uk-width-1-3@xl uk-width-1-2@m uk-width-2-3@s uk-animation-slide-top-small'>
           <table className='uk-table uk-table-small uk-table-hover'>
             <thead>
               <tr>
@@ -92,8 +92,8 @@ class Notices extends Component {
 const DailyNoticeRow = (props) => {
   return (
     <tr>
-      <td><span className='uk-label uk-align-left uk-text-middle'>{props.notices.years}</span></td>
       <td>
+        <span className='uk-label uk-align-left uk-text-middle'>{props.notices.years}</span>
         <ul uk-accordion='multiple: true'>
           <li>
             <a className='uk-accordion-title'>{props.notices.title}</a>
