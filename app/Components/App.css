@@ -4,6 +4,10 @@ body {
   font-family: 'Lato', sans-serif;
 }
 
+.welcomeNav {
+  position: fixed;
+}
+
 .main {
   transition: 150ms linear;
 }
@@ -12,7 +16,7 @@ body {
   width: 60px;
   height: 60px
 }
-  
+
 
 .content {
   align-content: center;
@@ -34,5 +38,3 @@ body {
     height: 40px
   }
 }
-
-

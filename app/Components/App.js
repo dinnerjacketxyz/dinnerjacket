@@ -12,7 +12,9 @@ const css = require('./App.css')
 const icons = require('../uikit-icons.min')
 const http = require('http')
 
-let userData = ''
+window.userData = ''
+window.dailyNotices = ''
+window.timetable = ''
 // Requirements for beta release
 // Daily timetable
 // Full timetable
@@ -40,23 +42,15 @@ const nameArray = [
   'Daily Notices'
 ]
 
-//window.authSuccess = false
-
-window.dailyNotices = ''
-
 class App extends Component {
   constructor(props) {
     super(props)
 
     // Set default state on open to Welcome page
-    this.state = { visible: window.STATES.WELCOME, 
-                   width: 0, 
-                   height:0,
-                   renderedSmall: false,
-                   renderedBig: false,
-                   mounted: false }
-    
-    this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
+    this.state = {
+      visible: window.STATES.WELCOME
+    }
+
     //let visible = this.state.visible
     /*let url = window.location.toString()
     if (url.substr(url.length - 11) === '/index.html') {
@@ -74,102 +68,116 @@ class App extends Component {
         //console.log(body)
         a += body
         if (body != undefined) {
+          document.getElementById('navbar').className = 'uk-navbar uk-navbar-container'
           let visible = this.state.visible
-          this.setState({ visible: window.STATES.DASHBOARD})
+          this.setState({ visible: window.STATES.DASHBOARD })
         }
       })
       res.on('end', (body) => {
-        userData = JSON.parse(a)
+        window.userData = JSON.parse(a)
+
+        let name = document.getElementById('menuName')
+        name.innerHTML = window.userData.givenName + ' ' + window.userData.surname
       })
     })
     //}
 
     //if (this.state.visible != window.STATES.WELCOME) {
-      // Get daily notices from SBHS API
-      http.get('/getdata?url=dailynews/list.json', (res) => {
-        res.setEncoding('utf8')
-        /*res.on('data', (body) => {
-          dailyNotices = JSON.parse(body)
+    // Get daily notices from SBHS API
+    http.get('/getdata?url=dailynews/list.json', (res) => {
+      res.setEncoding('utf8')
+      /*res.on('data', (body) => {
+        dailyNotices = JSON.parse(body)
 
-          this.init()
-        })*/
+        this.init()
+      })*/
 
-        let data = ''
-        res.on('data', (body) => {
-          data += body
-        })
-        res.on('end', (body) => {
-          window.dailyNotices = JSON.parse(data)
-        })
+      let data = ''
+      res.on('data', (body) => {
+        data += body
       })
+      res.on('end', (body) => {
+        window.dailyNotices = JSON.parse(data)
+      })
+    })
     //}
+
+    // Get timetable data from SBHS API
+    http.get('/getdata?url=timetable/timetable.json', (res) => {
+      res.setEncoding('utf8')
+      let b = ''
+      res.on('data', (body) => {
+        b += body
+      })
+
+      res.on('end', (body) => {
+        window.timetable = JSON.parse(b)
+        console.log(window.timetable)
+      })
+    })
   }
 
   blankNavbar() {
     //makes all navbar <li> look unselected
-    //let tabCount = document.getElementById('navbar').childNodes.length
+    let tabCount = document.getElementById('navbar').childNodes.length
     for (let i = 0; i < nameArray.length; i++) {
+      //console.log(i)
       let Li = document.getElementById(nameArray[i] + 'Li')
       let A = document.getElementById(nameArray[i] + 'A')
       let B = document.getElementById(nameArray[i] + 'B')
       let P = document.getElementById(nameArray[i] + 'P')
-      let S = document.getElementById(nameArray[i] + 'S')
 
       Li.className = 'uk-animation-toggle'
       P.innerText = nameArray[i]
       A.className = 'uk-box-shadow-hover-medium'
       B.innerText = ''
-      S.className = 'uk-icon uk-margin-small-right'
     }
   }
 
-  selectedNavbar() {
+  selectedNavbar(num) {
     //makes all navbar <li> look unselected
     this.blankNavbar()
 
     //makes one specific <li> look selected
-    console.log(this.state.visible)
-    let Li = document.getElementById(nameArray[this.state.visible] + 'Li')
-    let A = document.getElementById(nameArray[this.state.visible] + 'A')
-    let B = document.getElementById(nameArray[this.state.visible] + 'B')
-    let P = document.getElementById(nameArray[this.state.visible] + 'P')
-    let S = document.getElementById(nameArray[this.state.visible] + 'S')
+
+    let Li = document.getElementById(nameArray[num] + 'Li')
+    let A = document.getElementById(nameArray[num] + 'A')
+    let B = document.getElementById(nameArray[num] + 'B')
+    let P = document.getElementById(nameArray[num] + 'P')
 
     Li.className = 'uk-animation-toggle uk-active'
     P.innerText = ''
     A.className = 'uk-box-shadow-hover-medium uk-card-primary'
-    B.innerText = nameArray[this.state.visible]
-    S.className = 'uk-icon uk-margin-small-right'
+    B.innerText = nameArray[num]
+
   }
 
   showDashboard() {
     console.log('Dashboard tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.DASHBOARD })
-    this.selectedNavbar()
-    let name = document.getElementById('sideA')
-    name.innerHTML = userData.givenName + ' ' + userData.surname
+    this.selectedNavbar(window.STATES.DASHBOARD)
   }
 
   showTimetable() {
     console.log('Timetable tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.TIMETABLE })
-    this.selectedNavbar()
+    this.selectedNavbar(window.STATES.TIMETABLE)
   }
 
   showNotes() {
     console.log('User notes tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.NOTES })
-    this.selectedNavbar()
+    this.selectedNavbar(window.STATES.NOTES)
   }
 
   showNotices() {
     console.log('Daily notices tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.NOTICES })
-    this.selectedNavbar()
+    this.selectedNavbar(window.STATES.NOTICES)
   }
 
   showAbout() {
@@ -184,37 +192,6 @@ class App extends Component {
     this.setState({ visible: window.STATES.FEEDBACK })
   }
 
-  componentDidMount() {
-    this.updateWindowDimensions()
-    window.addEventListener('resize', this.updateWindowDimensions)
-    this.setState({mounted: true})
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.updateWindowDimensions)
-  }
-
-  updateWindowDimensions() {
-    this.setState({ width: window.innerWidth, height: window.innerHeight})
-    if (this.state.width <= 820 && this.state.renderedSmall == false && this.state.mounted == true) {
-      for (let i = 0; i < nameArray.length; i++) {
-        //console.log(i)
-        let B = document.getElementById(nameArray[i] + 'B')
-        let P = document.getElementById(nameArray[i] + 'P')
-        let S = document.getElementById(nameArray[i] + 'S')
-        P.innerText = ''
-        B.innerText = ''
-        S.className = 'uk-icon'
-      }
-      this.setState({renderedSmall:true})
-      this.setState({renderedBig:false})
-    } else if (this.state.width > 820 && this.state.renderedBig == false && this.state.mounted == true) {
-      this.selectedNavbar()
-      this.setState({renderedBig:true})
-      this.setState({renderedSmall:false})
-    }
-  }
-
   // Always renders navbar
   // Renders active page
   render() {
@@ -222,7 +199,7 @@ class App extends Component {
       <div id='main' className='main'>
         {this.state.visible === window.STATES.WELCOME && <Welcome />}
 
-        <nav id='navbar' className='uk-navbar uk-navbar-container' uk-navbar='true'>
+        <nav id='navbar' className='uk-navbar uk-navbar-container welcomeNav' uk-navbar='true'>
           <div className='uk-navbar-left'>
             <img id='logo'
               className='djLogo uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom'
@@ -269,7 +246,7 @@ class App extends Component {
             <ul className='uk-navbar-nav'>
               <li className='uk-animation-toggle'>
                 <a id='sideA' className='uk-box-shadow-hover-medium' uk-icon='icon: chevron-down'>
-                  Stu Studentson
+                  <p id='menuName' />
                 </a>
 
                 <div className='uk-navbar-dropdown' uk-dropdown='mode: click'>

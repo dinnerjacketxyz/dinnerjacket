@@ -11,20 +11,10 @@ let dayOutput = ''
 class Timetable extends Component {
   constructor(props) {
     super(props)
+  }
 
-    // Get timetable data from SBHS API
-    http.get('/getdata?url=timetable/timetable.json', (res) => {
-      res.setEncoding('utf8')
-      let a = ''
-      res.on('data', (body) => {
-        a += body
-      })
-
-      res.on('end', (body) => {
-        timetableData = JSON.parse(a)
-        this.initialise()
-      })
-    })
+  componentDidMount() {
+    this.initialise()
   }
 
   displayWeek(outputA, outputB, outputC) {
@@ -39,17 +29,17 @@ class Timetable extends Component {
   generateWeek() {
     //generates the first week
     for (let i = 1; i <= 5; i++) {
-      let day = timetableData.days[`${i}`].periods
+      let day = timetableData.days[i].periods
       outputA += this.generatePeriod(day)
     }
     //generates the second week
     for (let i = 6; i <= 10; i++) {
-      let day = timetableData.days[`${i}`].periods
+      let day = timetableData.days[i].periods
       outputB += this.generatePeriod(day)
     }
     //generates the third week
     for (let i = 11; i <= 15; i++) {
-      let day = timetableData.days[`${i}`].periods
+      let day = timetableData.days[i].periods
       outputC += this.generatePeriod(day)
     }
     this.displayWeek(outputA, outputB, outputC)
@@ -69,6 +59,8 @@ class Timetable extends Component {
 
   initialise() {
     //clears variables so you can initialise multiple times
+    timetableData = window.timetable
+
     outputA = ''
     outputB = ''
     outputC = ''
@@ -165,7 +157,6 @@ class Timetable extends Component {
               <div id='studentInfo' className='uk-margin-small-top uk-margin-small-left uk-margin-small-right uk-padding-large-bottom uk-margin-bottom'></div>
           </div>
         </div>
-        <script type='text/javascript'>this.initialise()</script>
       </div>
     )
   }
