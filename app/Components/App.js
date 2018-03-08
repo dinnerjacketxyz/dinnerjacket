@@ -12,6 +12,7 @@ const css = require('./App.css')
 const icons = require('../uikit-icons.min')
 const http = require('http')
 
+let userData = ''
 // Requirements for beta release
 // Daily timetable
 // Full timetable
@@ -66,14 +67,19 @@ class App extends Component {
     // If data is undefined, user is not logged in and therefore welcome page is shown
     // Otherwise it sets the state directly to Dashboard, the default homepage for logged in users
     // TODO there is a slight delay between it switching to the dashboard page (a lil flicker here and there innit)
-    http.get('/getdata?url=timetable/timetable.json', (res) => {
+    http.get('/getdata?url=details/userinfo.json', (res) => {
       res.setEncoding('utf8')
+      let a = ''
       res.on('data', (body) => {
         //console.log(body)
+        a += body
         if (body != undefined) {
           let visible = this.state.visible
           this.setState({ visible: window.STATES.DASHBOARD})
         }
+      })
+      res.on('end', (body) => {
+        userData = JSON.parse(a)
       })
     })
     //}
@@ -140,7 +146,9 @@ class App extends Component {
     console.log('Dashboard tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.DASHBOARD })
-    this.selectedNavbar(window.STATES.DASHBOARD)
+    this.selectedNavbar()
+    let name = document.getElementById('sideA')
+    name.innerHTML = userData.givenName + ' ' + userData.surname
   }
 
   showTimetable() {
@@ -214,11 +222,11 @@ class App extends Component {
       <div id='main' className='main'>
         {this.state.visible === window.STATES.WELCOME && <Welcome />}
 
-        <nav id='navbar' className='uk-navbar uk-navbar-container' uk-navbar='true' height='70px'>
+        <nav id='navbar' className='uk-navbar uk-navbar-container' uk-navbar='true'>
           <div className='uk-navbar-left'>
             <img id='logo'
-              className='uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom'
-              alt='logo' src='64.png' width='60px' height='50px'>
+              className='djLogo uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom'
+              alt='logo' src='64.png'>
             </img>
             <ul className='uk-navbar-nav'>
 
@@ -260,7 +268,7 @@ class App extends Component {
           <div className='uk-navbar-right'>
             <ul className='uk-navbar-nav'>
               <li className='uk-animation-toggle'>
-                <a className='uk-box-shadow-hover-medium' uk-icon='icon: chevron-down'>
+                <a id='sideA' className='uk-box-shadow-hover-medium' uk-icon='icon: chevron-down'>
                   Stu Studentson
                 </a>
 
