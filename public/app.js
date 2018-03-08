@@ -4025,8 +4025,8 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   getChanges(periods, timetable) {
 
     // Get room variations - change in rooms
-    const roomVariations = timetable['classVariations'];
-
+    const roomVariations = timetable['roomVariations'];
+    console.log(roomVariations);
     // TODO: Needs testing
     if (timetable['roomVariations'] !== undefined) {
       const numVariations = Object.keys(roomVariations).length;
