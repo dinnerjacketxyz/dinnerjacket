@@ -30,7 +30,7 @@ class Welcome extends Component {
           <div className='uk-navbar-left'>
             <img id='logo'
               className='uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom'
-              alt='logo' src='64.png' width='60px' height='50px'>
+              alt='logo' src='64.png'>
             </img>
           </div>
           <div className='uk-navbar-right'>
@@ -43,15 +43,15 @@ class Welcome extends Component {
             </ul>
           </div>
         </nav>
-        <div className='uk-flex uk-flex-center'>
-          <div className='uk-card uk-card-default uk-card-body uk-animation-slide-top-small'>
+        <div className='uk-flex uk-flex-center uk-text-center'>
+          <div className='uk-card uk-card-default uk-card-body uk-width-large uk-animation-slide-top-small'>
             <img id='logo'
               className='uk-disabled'
               alt='logo' src='256.png' width='150px' height='150px'>
             </img>
             <br/>
 
-            <span className='uk-text-center uk-margin-top uk-h1'>DinnerJacket</span>
+            <span className='uk-margin-top uk-h1'>DinnerJacket</span>
             <br/>
             <span className='uk-label uk-label-danger'>alpha</span>
 

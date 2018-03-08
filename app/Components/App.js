@@ -202,33 +202,33 @@ class App extends Component {
 
               <li id='DashboardLi' className='uk-animation-toggle uk-active' onClick={this.showDashboard.bind(this)}>
                 <a id='DashboardA' className='uk-box-shadow-hover-medium uk-card-primary'>
-                  <span id='DashboardS' className='uk-icon uk-margin-small-right' uk-icon='icon: home'/>
-                  <p id='DashboardP'></p>
-                  <b id='DashboardB'>Dashboard</b>
+                  <span id='DashboardS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: home'/>
+                  <p className='collapseText' id='DashboardP'></p>
+                  <b className='collapseText' id='DashboardB'>Dashboard</b>
                 </a>
               </li>
 
               <li id='TimetableLi' className='uk-animation-toggle' onClick={this.showTimetable.bind(this)}>
                 <a id='TimetableA' className='uk-box-shadow-hover-medium'>
-                  <span id='TimetableS' className='uk-icon uk-margin-small-right' uk-icon='icon: star' />
-                  <p id='TimetableP'>Timetable</p>
-                  <b id='TimetableB'></b>
+                  <span id='TimetableS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: star' />
+                  <p className='collapseText' id='TimetableP'>Timetable</p>
+                  <b className='collapseText' id='TimetableB'></b>
                 </a>
               </li>
 
               <li id='User NotesLi' className='uk-animation-toggle' onClick={this.showNotes.bind(this)}>
                 <a id='User NotesA' className='uk-box-shadow-hover-medium'>
-                  <span id='User NotesS' className='uk-icon uk-margin-small-right' uk-icon='icon: file-edit' />
-                  <p id='User NotesP'>User Notes</p>
-                  <b id='User NotesB'></b>
+                  <span id='User NotesS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: file-edit' />
+                  <p className='collapseText' id='User NotesP'>User Notes</p>
+                  <b className='collapseText' id='User NotesB'></b>
                 </a>
               </li>
 
               <li id='Daily NoticesLi' className='uk-animation-toggle' onClick={this.showNotices.bind(this)}>
                 <a id='Daily NoticesA' className='uk-box-shadow-hover-medium'>
-                  <span id='Daily NoticesS' className='uk-icon uk-margin-small-right' uk-icon='icon: bell' />
-                  <p id='Daily NoticesP'>Daily Notices</p>
-                  <b id='Daily NoticesB'></b>
+                  <span id='Daily NoticesS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: bell' />
+                  <p className='collapseText' id='Daily NoticesP'>Daily Notices</p>
+                  <b className='collapseText' id='Daily NoticesB'></b>
                 </a>
               </li>
 

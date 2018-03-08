@@ -49,9 +49,9 @@ class Timetable extends Component {
     dayOutput = ''
     for (let u = 1; u <= 5; u++) {
       if (day[`${u}`] == undefined) {
-        dayOutput += `<p>${u}:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>`
+        dayOutput += `<p>&nbsp;</p>`
       } else {
-        dayOutput += `<p>${u}: ${day[`${u}`].title}&nbsp;&nbsp;${day[`${u}`].room}</p>`
+        dayOutput += `<p>${day[`${u}`].title}&nbsp;&nbsp;${day[`${u}`].room}</p>`
       }
     }
     return dayOutput
@@ -80,7 +80,7 @@ class Timetable extends Component {
     while (timetableData.subjects[z] != -1) {
       //console.log(timetableData.subjects[z])
       if (timetableData.subjects[z]!=-1) {
-        classList += `<tr><td>${timetableData.subjects[z].title}</td><td>${timetableData.subjects[z].fullTeacher}</td></tr>`
+        classList += `<p>${timetableData.subjects[z].title}</p>`
       }
       z++
     }
@@ -108,12 +108,11 @@ class Timetable extends Component {
     //this.initialise()
     return (
       <div className='uk-flex uk-flex-center uk-margin-top'>
-        <div className='uk-grid uk-grid-small uk-grid-collapse uk-grid-match uk-width-4-5'>
-          <div className='uk-card uk-card-default uk-card-body uk-width-3-5 uk-animation-slide-top-small'>
-            <h2 id='name' className='uk-text-center uk-h2 uk-margin-small-bottom'></h2>
-
-            <div className='uk-box-shadow-hover-small uk-padding-small'>
-              <div className='uk-column-1-5 uk-column-divider uk-text-center uk-text-muted uk-margin-small-left uk-margin-small-right'>
+        <div className='uk-column-1-1@m'>
+          <div className='uk-card uk-card-default uk-card-body uk-animation-slide-top-small'>
+            <h3 id='name' className='uk-text-center uk-h3 uk-margin-small-bottom uk-text-bold'></h3>
+            <div className='uk-box-shadow-hover-small uk-padding-small uk-text-center'>
+              <div className='uk-column-1-5 uk-column-divider uk-text-muted uk-margin-small-left uk-margin-small-right'>
                 <p>MON A</p>
                 <p>TUE A</p>
                 <p>WED A</p>
@@ -124,8 +123,8 @@ class Timetable extends Component {
               </div>
             </div>
 
-            <div className='uk-box-shadow-hover-small uk-padding-small'>
-              <div className='uk-column-1-5 uk-column-divider uk-text-center uk-text-muted uk-margin-small-left uk-margin-small-right'>
+            <div className='uk-box-shadow-hover-small uk-padding-small uk-text-center'>
+              <div className='uk-column-1-5 uk-column-divider uk-text-muted uk-margin-small-left uk-margin-small-right'>
                   <p>MON B</p>
                   <p>TUE B</p>
                   <p>WED B</p>
@@ -136,8 +135,8 @@ class Timetable extends Component {
               </div>
             </div>
 
-            <div className='uk-box-shadow-hover-small uk-padding-small'>
-              <div className='uk-column-1-5 uk-column-divider uk-text-center uk-text-muted uk-margin-small-left uk-margin-small-right'>
+            <div className='uk-box-shadow-hover-small uk-padding-small uk-text-center'>
+              <div className='uk-column-1-5 uk-column-divider uk-text-muted uk-margin-small-left uk-margin-small-right'>
                 <p>MON C</p>
                 <p>TUE C</p>
                 <p>WED C</p>
@@ -147,14 +146,16 @@ class Timetable extends Component {
               <div id='weekC' className='uk-column-1-5 uk-column-divider uk-margin-small-left uk-margin-small-right'>
               </div>
             </div>
-          </div>
-          <div className='uk-card uk-card-default uk-card-body uk-width-1-5 uk-animation-slide-top-small'>
-              <h3 className='uk-card-title uk-text-center uk-padding-top'>Classes</h3>
-                <table className='uk-table uk-table-small uk-table-hover uk-width-medium uk-margin-small-top uk-margin-small-left uk-margin-small-right'>
-                  <tbody id='classList'></tbody>
-                </table>
-              <h3 className='uk-card-title uk-text-center'>Student Information</h3>
-              <div id='studentInfo' className='uk-margin-small-top uk-margin-small-left uk-margin-small-right uk-padding-large-bottom uk-margin-bottom'></div>
+            <div className='uk-grid uk-child-width-1-2'>
+              <div className=''>
+                <h3 className='uk-card-title uk-text-center uk-margin-small-bottom uk-text-bold'>Classes</h3>
+                <div className='noBreak uk-text-center' id='classList'></div>
+              </div>
+              <div>
+                <h3 className='uk-card-title uk-text-center uk-margin-small-bottom uk-text-bold'>Student Information</h3>
+                <div id='studentInfo' className='uk-text-center'></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
