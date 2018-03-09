@@ -12,6 +12,8 @@ const css = require('./App.css')
 const icons = require('../uikit-icons.min')
 const http = require('http')
 
+//const retrieveNotices = require('./Notices/RetrieveNotices')
+
 window.userData = ''
 window.dailyNotices = ''
 window.timetable = ''
@@ -94,6 +96,7 @@ class App extends Component {
         window.dailyNotices = JSON.parse(data)
       })
     })
+
     // Get timetable data from SBHS API
     http.get('/getdata?url=timetable/timetable.json', (res) => {
       res.setEncoding('utf8')
