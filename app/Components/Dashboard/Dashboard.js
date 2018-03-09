@@ -571,8 +571,8 @@ class Dashboard extends Component {
     }
 
     return (
-      <div className='uk-flex uk-flex-center uk-text-center uk-margin-left uk-margin-right uk-margin-top'>
-        <div className='uk-card uk-card-default uk-card-body uk-width-large uk-animation-slide-top-small'>
+      <div className='uk-flex uk-flex-center uk-text-center uk-margin-top'>
+        <div className='uk-card uk-card-default uk-card-body uk-width-large miniFill uk-animation-slide-top-small'>
 
           <h4 className='uk-h4'><b>{nextClass}</b></h4>
           <p> in </p>

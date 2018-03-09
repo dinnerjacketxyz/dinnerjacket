@@ -2,3 +2,8 @@
   margin-bottom: 0px
 }
 
+@media (min-width:450px){
+  miniFill {
+    width:100%!important
+  }
+}

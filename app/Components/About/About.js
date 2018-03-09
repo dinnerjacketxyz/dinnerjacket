@@ -4,15 +4,16 @@ const css = require('./About')
 class About extends Component {
   render() {
     return (
-      <div className='uk-flex uk-flex-center uk-text-center uk-margin-top uk-margin-left uk-margin-right'>
-        <div className='uk-card uk-card-default uk-card-body uk-card large uk-width-1-3@xl uk-width-2-5@m uk-width-3-5@s uk-animation-slide-top-small'>
+      <div className='uk-flex uk-flex-center uk-text-center uk-margin-top'>
+        <div className='uk-card uk-card-default uk-card-body uk-card-large uk-width-xlarge uk-animation-slide-top-small uk-margin-large-bottom'>
           <img id='logo'
             className='uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom'
             alt='logo' src='256.png' width='150px' height='150px'>
           </img>
+          <h1 className='uk-text-center uk-h1'>DinnerJacket</h1>
           <br/>
+            <span className='uk-label uk-label-danger'>alpha</span>
           <br/>
-          <span className='uk-text-center uk-h1'>DinnerJacket</span>
           <br/>
           <span className='uk-text-small'>alpha v0.1.0</span>
           <br/>

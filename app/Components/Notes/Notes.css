@@ -1,3 +1,9 @@
+@media (min-width:750px) {
+  miniFill {
+    width:100%
+  }
+}
+
 .CodeMirror {
   color: #000
 }

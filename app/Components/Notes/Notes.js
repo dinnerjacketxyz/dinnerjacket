@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-//const css = require('./Notes.css')
+const css1 = require('./Notes.css')
 const css = require('!style-loader!css-loader!react-simplemde-editor/dist/simplemde.min.css')
 const SimpleMDE = require('react-simplemde-editor')
 
@@ -24,19 +24,17 @@ class Notes extends Component {
   render() {
     return (
       <div className='uk-flex uk-flex-center'>
-        <div className='uk-margin-large-left uk-margin-top uk-margin-large-right uk-grid-collapse uk-width-3-5@xl' uk-grid='true' uk-sortable = 'handle: .uk-sortable-handle'>
-          <div className='uk-width-expand'>
-            <div className='uk-card uk-card-default uk-card-body'>
-              <div className='uk-margin'>
-                <SimpleMDE id='inputContent' value={note.content} options={{
-                  autofocus: true,
-                  autosave: {
-                    enabled: true,
-                    uniqueID: 'a',
-                    delay: 1000
-                  }
-                }}></SimpleMDE>
-              </div>
+        <div className='uk-margin-top uk-grid-collapse uk-width-xxlarge miniFill'>
+          <div className='uk-card uk-card-default uk-card-body'>
+            <div className='uk-margin'>
+              <SimpleMDE id='inputContent' value={note.content} options={{
+                autofocus: true,
+                autosave: {
+                  enabled: true,
+                  uniqueID: 'a',
+                  delay: 1000
+                }
+              }}></SimpleMDE>
             </div>
           </div>
         </div>

@@ -41,7 +41,8 @@ const nameArray = [
   'Dashboard',
   'Timetable',
   'User Notes',
-  'Daily Notices'
+  'Daily Notices',
+  'Side'
 ]
 
 class App extends Component {
@@ -78,7 +79,7 @@ class App extends Component {
       res.on('end', (body) => {
         window.userData = JSON.parse(a)
 
-        let name = document.getElementById('menuName')
+        let name = document.getElementById('SideP')
         name.innerHTML = window.userData.givenName + ' ' + window.userData.surname
       })
     })
@@ -124,9 +125,13 @@ class App extends Component {
       let P = document.getElementById(nameArray[i] + 'P')
 
       Li.className = 'uk-animation-toggle'
-      P.innerText = nameArray[i]
       A.className = 'uk-box-shadow-hover-medium'
       B.innerText = ''
+      if (nameArray[i]!='Side') {
+        P.innerText = nameArray[i]
+      } else {
+        P.innerText = window.userData.givenName + ' ' + window.userData.surname
+      }
     }
   }
 
@@ -144,8 +149,11 @@ class App extends Component {
     Li.className = 'uk-animation-toggle uk-active'
     P.innerText = ''
     A.className = 'uk-box-shadow-hover-medium uk-card-primary'
-    B.innerText = nameArray[num]
-
+    if (nameArray[num]!='Side') {
+      B.innerText = nameArray[num]
+    } else {
+      B.innerText = window.userData.givenName + ' ' + window.userData.surname
+    }
   }
 
   showDashboard() {
@@ -180,12 +188,14 @@ class App extends Component {
     console.log('About tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.ABOUT })
+    this.selectedNavbar(4)
   }
 
   showFeedback() {
     console.log('Settings tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.FEEDBACK })
+    this.selectedNavbar(4)
   }
 
   // Always renders navbar
@@ -240,9 +250,11 @@ class App extends Component {
 
           <div className='uk-navbar-right'>
             <ul className='uk-navbar-nav'>
-              <li className='uk-animation-toggle'>
-                <a id='sideA' className='uk-box-shadow-hover-medium' uk-icon='icon: chevron-down'>
-                  <p className='name' id='menuName' />
+              <li id='SideLi' className='uk-animation-toggle'>
+                <a id='SideA' className='uk-box-shadow-hover-medium'>
+                  <p className='name' id='SideP' />
+                  <b className='name' id='SideB'/>
+                  <span uk-icon="icon: triangle-down"></span>
                 </a>
 
                 <div className='uk-navbar-dropdown' uk-dropdown='mode: click'>

@@ -71,7 +71,7 @@ class Notices extends Component {
     })
     return (
       <div className='uk-flex uk-flex-center'>
-        <div className='uk-margin-top uk-margin-left uk-margin-right uk-card uk-card-default uk-card-body uk-width-xxlarge uk-animation-slide-top-small'>
+        <div className='uk-margin-top uk-card uk-card-default uk-card-body uk-width-xxlarge miniFill uk-animation-slide-top-small'>
           <div className='uk-margin-large-bottom uk-padding-large-bottom'>
             <div class="uk-margin uk-align-right">
               <select class="uk-select">
