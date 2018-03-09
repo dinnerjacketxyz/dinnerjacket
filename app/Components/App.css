@@ -44,3 +44,17 @@ body {
     margin-right: 0px!important
   }
 }
+
+@media screen and (max-width: 420px) {
+  .djLogo {
+    width: 0px;
+    height: 0px;
+    margin-left: 0px!important;
+    margin-right: 0px!important;
+    margin-top: 0px!important;
+    margin-bottom: 0px!important
+  }
+  .name{
+    font-size: 0px
+  }
+}

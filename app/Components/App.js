@@ -239,7 +239,7 @@ class App extends Component {
             <ul className='uk-navbar-nav'>
               <li className='uk-animation-toggle'>
                 <a id='sideA' className='uk-box-shadow-hover-medium' uk-icon='icon: chevron-down'>
-                  <p id='menuName' />
+                  <p className='name' id='menuName' />
                 </a>
 
                 <div className='uk-navbar-dropdown' uk-dropdown='mode: click'>

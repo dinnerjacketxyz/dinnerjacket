@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 const http = require('http')
+const css = require('./Notices.css')
 
 let dailyNotices = ''
 window.noticeIndex = -1
@@ -71,7 +72,7 @@ class Notices extends Component {
     return (
       <div className='uk-flex uk-flex-center'>
         <div className='uk-margin-top uk-margin-left uk-margin-right uk-card uk-card-default uk-card-body uk-width-xxlarge uk-animation-slide-top-small'>
-          <div>
+          <div className='uk-margin-large-bottom uk-padding-large-bottom'>
             <div class="uk-margin uk-align-right">
               <select class="uk-select">
                 <option>All</option>
@@ -85,8 +86,8 @@ class Notices extends Component {
             </div>
             <button className="uk-button uk-button-default uk-align-left">Hide/Show</button>
           </div>
-          <div className='uk-margin-large-top uk-padding-large-top'>
-            <ul uk-accordion='multiple: true'>
+          <div>
+            <ul className='under' uk-accordion='multiple: true'>
               {rows}
             </ul>
           </div>
