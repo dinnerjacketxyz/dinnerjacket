@@ -14,9 +14,20 @@ body {
 
 .djLogo {
   width: 60px;
-  height: 60px
+  height: 60px;
+  transition: width 0.1s;
+  transition: height 0.1s
 }
 
+.name {
+  margin-bottom: 0px;
+  margin-right: 5px;
+}
+
+.uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {
+  transition: height 0.1s
+  
+}
 
 .content {
   align-content: center;
@@ -55,6 +66,7 @@ body {
     margin-bottom: 0px!important
   }
   .name{
-    font-size: 0px
+    font-size: 0px;
+    margin-right: 0px
   }
 }

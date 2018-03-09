@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+const css = require('./Welcome.css')
 
 class Welcome extends Component {
   toggleLogin() {
@@ -29,7 +30,7 @@ class Welcome extends Component {
         <nav className='uk-navbar uk-navbar-container uk-margin'>
           <div className='uk-navbar-left'>
             <img id='logo'
-              className='uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom'
+              className='djLogo uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom'
               alt='logo' src='64.png'>
             </img>
           </div>
