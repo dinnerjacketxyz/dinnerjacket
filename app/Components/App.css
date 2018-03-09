@@ -14,9 +14,20 @@ body {
 
 .djLogo {
   width: 60px;
-  height: 60px
+  height: 60px;
+  transition: width 0.1s;
+  transition: height 0.1s
 }
 
+.name {
+  margin-bottom: 0px;
+  margin-right: 5px;
+}
+
+.uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {
+  transition: height 0.1s
+  
+}
 
 .content {
   align-content: center;
@@ -42,5 +53,20 @@ body {
   }
   .collapseSpan {
     margin-right: 0px!important
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .djLogo {
+    width: 0px;
+    height: 0px;
+    margin-left: 0px!important;
+    margin-right: 0px!important;
+    margin-top: 0px!important;
+    margin-bottom: 0px!important
+  }
+  .name{
+    font-size: 0px;
+    margin-right: 0px
   }
 }
