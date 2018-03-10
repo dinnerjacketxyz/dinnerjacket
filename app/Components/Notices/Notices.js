@@ -3,13 +3,14 @@ const http = require('http')
 const css = require('./Notices.css')
 
 let dailyNotices = ''
-window.noticeIndex = -1
 class Notices extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      notices: []
+      notices: [],
+      year: 'ALL',
+      text: 'EXPAND ALL'
     }
 
     this.init()
@@ -17,47 +18,110 @@ class Notices extends Component {
 
   init() {
     dailyNotices = window.dailyNotices
+    this.state.notices = []
+    console.log('testing132')
 
     for (let i = 0; i < dailyNotices.notices.length; i++) {
-      // TEMP - proper solotion later (TODO)
-      let content = dailyNotices.notices[i].content.replace(/(<([^>]+)>)/ig,'')
+      if (this.state.year == 'ALL' || this.yearInNotice(this.state.year, dailyNotices.notices[i])) {
+        // TEMP - proper solotion later (TODO)
+        let content = dailyNotices.notices[i].content.replace(/(<([^>]+)>)/ig,'')
 
-      let years = ''
-      for (let j = 0; j < dailyNotices.notices[i].years.length; j++) {
-        if (dailyNotices.notices[i].years.length >= 6) {
-          years = 'ALL'
-        } else {
-          years += dailyNotices.notices[i].years[j]
-          if (j < dailyNotices.notices[i].years.length - 1) {
-            years += ', '
+        let years = ''
+        for (let j = 0; j < dailyNotices.notices[i].years.length; j++) {
+          if (dailyNotices.notices[i].years.length >= 6) {
+            years = 'ALL'
+          } else {
+            years += dailyNotices.notices[i].years[j]
+            if (j < dailyNotices.notices[i].years.length - 1) {
+              years += ', '
+            }
           }
         }
-      }
 
-      let obj = {
-        title: dailyNotices.notices[i].title,
-        content: content,
-        years: years,
-        author: dailyNotices.notices[i].authorName
+        let date = ''
+        const MONTHS = [
+          'Jan',
+          'Feb',
+          'Mar',
+          'Apr',
+          'May',
+          'Jun',
+          'Jul',
+          'Aug',
+          'Sep',
+          'Oct',
+          'Nov',
+          'Dec',
+        ]
+
+        if (dailyNotices.notices[i].isMeeting) {
+          let dd = dailyNotices.notices[i].meetingDate.substr(-2)
+          if (dd[0] === '0') {
+            dd = dd.substr(-1)
+          }
+          let mm = dailyNotices.notices[i].meetingDate.substr(-5, 2)
+          if (mm[0] === '0') {
+            mm = mm.substr(-1)
+          }
+          date = MONTHS[mm] + ' ' + dd + ' at ' + dailyNotices.notices[i].meetingTime
+        }
+
+        let obj = {
+          title: dailyNotices.notices[i].title,
+          date: date,
+          content: content,
+          years: years,
+          author: dailyNotices.notices[i].authorName
+        }
+        this.state.notices.push(obj)
       }
-      this.state.notices.push(obj)
     }
   }
 
-  addToClipboard() {
+  yearInNotice(year, notice) {
+    let found = false
 
+    for (let i = 0; i < notice.years.length; i++) {
+      if (year == notice.years[i]) {
+        console.log(year)
+        console.log(notice.years[i])
+        found = true
+        console.log(found)
+      }
+    }
+    return found
   }
 
-  /*toggleNotices() {
-    let toggle = document.getElementById('toggleNotices')
+  selectYear() {
+    let selector = document.getElementById('yearSelector')
+    this.state.year = selector.options[selector.selectedIndex].text
+    let a = this.state.a
+    this.setState({ a: 'test' })
+    console.log(this.state.year)
 
-    if (toggle.className = 'uk-open') {
-      toggle.className = ''
+    this.init()
+  }
+
+  toggleNotices() {
+    let text = this.state.text
+    let newText = ''
+    let className = ''
+    if (text === 'EXPAND ALL') {
+      newText = 'COLLAPSE ALL'
+      className='uk-open'
     } else {
-      toggle.className = 'uk-open'
+      newText = 'EXPAND ALL'
+      className=''
     }
-  } */
-  //<button id='toggleNotices' onClick={this.toggleNotices.bind(this)}>Toggle</button>
+
+    let noticesList = document.getElementById('noticesList')
+    for (let i = 0; i < noticesList.childNodes.length; i++) {
+      console.log(noticesList.childNodes[i].value)
+      noticesList.childNodes[i].className = className
+    }
+
+    this.setState({ text: newText })
+  }
 
   render() {
     let rows = this.state.notices.map(notice => {
@@ -73,9 +137,9 @@ class Notices extends Component {
       <div className='uk-flex uk-flex-center'>
         <div className='uk-margin-top uk-card uk-card-default uk-card-body uk-width-xxlarge miniFill uk-animation-slide-top-small'>
           <div className='uk-margin-large-bottom uk-padding-large-bottom'>
-            <div class="uk-margin uk-align-right">
-              <select class="uk-select">
-                <option>All</option>
+            <div className='uk-margin uk-align-right'>
+              <select id='yearSelector' onChange={this.selectYear.bind(this)} className='uk-select'>
+                <option>ALL</option>
                 <option>7</option>
                 <option>8</option>
                 <option>9</option>
@@ -84,10 +148,12 @@ class Notices extends Component {
                 <option>12</option>
               </select>
             </div>
-            <button className="uk-button uk-button-default uk-align-left">Hide/Show</button>
+            <button onClick={this.toggleNotices.bind(this)} className="uk-button uk-button-default uk-align-left">
+              {this.state.text}
+            </button>
           </div>
           <div>
-            <ul className='under' uk-accordion='multiple: true'>
+            <ul id='noticesList' className='under' uk-accordion='multiple: true'>
               {rows}
             </ul>
           </div>
@@ -99,13 +165,13 @@ class Notices extends Component {
 
 const DailyNoticeRow = (props) => {
   return (
-          <li>
-            <a className='uk-accordion-title'>{props.notices.title}</a>
-            <div className='uk-accordion-content'>
-              <div className='uk-margin-bottom'>{props.notices.content}</div>
-              <p><b>{props.notices.author}</b></p>
-            </div>
-          </li>
+    <li>
+      <a className='uk-accordion-title'>{props.notices.title}</a><b>{props.notices.date}</b>
+      <div className='uk-accordion-content'>
+        {props.notices.content}
+        <p><b>{props.notices.author}</b></p>
+      </div>
+    </li>
   )
 }
 

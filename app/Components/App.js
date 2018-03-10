@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Loading from './Loading/Loading'
 import Welcome from './Welcome/Welcome'
 import Dashboard from './Dashboard/Dashboard'
 import Timetable from './Timetable/Timetable'
@@ -28,6 +29,7 @@ window.timetable = ''
 // Represents the current visible content
 
 window.STATES = {
+  LOADING: -2,
   WELCOME: -1,
   DASHBOARD: 0,
   TIMETABLE: 1,
@@ -44,6 +46,8 @@ const nameArray = [
   'Daily Notices',
   'Side'
 ]
+
+//let loggedIn = false
 
 class App extends Component {
   constructor(props) {
@@ -70,14 +74,24 @@ class App extends Component {
       res.on('data', (body) => {
         //console.log(body)
         a += body
-        if (body != undefined) {
+        //let visible = this.state.visible
+        //this.setState({ visible: window.STATES.WELCOME })
+        if (body != '') {
           document.getElementById('navbar').className = 'uk-navbar uk-navbar-container'
           let visible = this.state.visible
           this.setState({ visible: window.STATES.DASHBOARD })
+          //loggedIn = true
         }
       })
       res.on('end', (body) => {
         window.userData = JSON.parse(a)
+
+        /*let visible = this.state.visible
+        this.setState({ visible: window.STATES.WELCOME })
+        if (loggedIn) {
+          this.setState({ visible: window.STATES.DASHBOARD })
+        }*/
+
 
         let name = document.getElementById('SideP')
         name.innerHTML = window.userData.givenName + ' ' + window.userData.surname
@@ -204,6 +218,7 @@ class App extends Component {
     return (
       <div id='main' className='main'>
         {this.state.visible === window.STATES.WELCOME && <Welcome />}
+        {this.state.visible === window.STATES.LOADING && <Loading />}
 
         <nav id='navbar' className='uk-navbar uk-navbar-container welcomeNav' uk-navbar='true'>
           <div className='uk-navbar-left'>
