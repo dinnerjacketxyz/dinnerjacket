@@ -3,6 +3,11 @@
   height: 60px
 }
 
+.uk-padding-large {
+  padding-left: 30px!important;
+  padding-right: 30px!important
+}
+
 @media screen and (max-width: 820px) {
   .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {
     height:60px

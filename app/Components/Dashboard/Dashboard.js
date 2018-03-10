@@ -341,7 +341,7 @@ class Dashboard extends Component {
     }
 
     return (<div className='uk-flex uk-flex-center'>
-            <table className='uk-table uk-table-hover uk-table-small uk-width-4-5@s'>
+            <table className='uk-table uk-table-hover uk-table-small'>
               <tbody>
                 <tr>
                   <td className='uk-text-lead uk-text-left'>

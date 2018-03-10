@@ -51,7 +51,7 @@ class Timetable extends Component {
     for (let u = 1; u <= 5; u++) {
       if (day[`${u}`] == undefined) {
         dayOutput += `<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>`
-      } else if (day[`${u}`].room == undefined) {
+      } else if (day[`${u}`].room == '') {
         dayOutput += `<p>${day[`${u}`].title}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>`
       } else {
         dayOutput += `<p>${day[`${u}`].title}&nbsp;&nbsp;${day[`${u}`].room}</p>`
@@ -73,80 +73,56 @@ class Timetable extends Component {
     let name = document.getElementById('name')
     name.innerHTML = `${timetableData.student.givenname}&nbsp;${timetableData.student.surname}`
     //console.log(timetableData.subjects)
-    this.generateStudentInfo()
   }
 
-  generateStudentInfo() {
-    let adviser = timetableData.subjects[17]
-    let info = ''
-    info =
-    `<p>${timetableData.subjects[15].title}</p>
-     <p>Student Adviser: ${timetableData.subjects[17].fullTeacher}</p>
-     <p>ID: ${timetableData.student.studentId}</p>`
-    if (timetableData.student.BoSNumber != 0) {
-      info += `<p>BOS: ${timetableData.student.BoSNumber}</p>`
-    }
-    let studentInfo = document.getElementById('studentInfo')
-    studentInfo.innerHTML = info
-  }
 
   // <button onClick={this.initialise.bind(this)}>Test</button>
 
   render() {
     //this.initialise()
     return (
-      <div className='uk-flex uk-flex-center uk-margin-top'>
-        <div className='uk-grid uk-grid-collapse uk-grid-match'>
-          <div>
-            <div className='uk-card uk-card-default uk-card-body uk-animation-slide-top-small'>
-              <h3 id='name' className='uk-text-center uk-h3 uk-margin-small-bottom uk-text-bold'></h3>
-              <div className='uk-box-shadow-hover-small uk-padding-small uk-text-center'>
-                <div className='uk-column-1-5 uk-text-muted uk-margin-small-left uk-margin-small-right'>
-                  <p>MON A</p>
-                  <p>TUE A</p>
-                  <p>WED A</p>
-                  <p>THU A</p>
-                  <p>FRI A</p>
-                </div>
-                <div id='weekA' className='uk-column-1-5 uk-margin-small-left uk-margin-small-right timetable'>
-                </div>
+        <div className='uk-flex uk-flex-center'>
+          <div className='uk-card uk-card-default uk-width-xlarge uk-card-body uk-animation-slide-top-small uk-margin-top miniFill'>
+            <h3 className='uk-text-center uk-margin-small-bottom uk-heading-line'>
+              <span id='name'/>
+            </h3>
+            <div className='uk-box-shadow-hover-small uk-padding-small uk-text-center'>
+              <div className='uk-column-1-5 uk-text-muted uk-margin-small-left uk-margin-small-right'>
+                <p>MON A</p>
+                <p>TUE A</p>
+                <p>WED A</p>
+                <p>THU A</p>
+                <p>FRI A</p>
               </div>
-              <hr/>
-              <div className='uk-box-shadow-hover-small uk-padding-small uk-text-center'>
-                <div className='uk-column-1-5 uk-text-muted uk-margin-small-left uk-margin-small-right'>
-                    <p>MON B</p>
-                    <p>TUE B</p>
-                    <p>WED B</p>
-                    <p>THU B</p>
-                    <p>FRI B</p>
-                </div>
-                <div id='weekB' className='uk-column-1-5 uk-margin-small-left uk-margin-small-right timetable'>
-                </div>
-              </div>
-              <hr/>
-              <div className='uk-box-shadow-hover-small uk-padding-small uk-text-center'>
-                <div className='uk-column-1-5 uk-text-muted uk-margin-small-left uk-margin-small-right'>
-                  <p>MON C</p>
-                  <p>TUE C</p>
-                  <p>WED C</p>
-                  <p>THU C</p>
-                  <p>FRI C</p>
-                </div>
-                <div id='weekC' className='uk-column-1-5 uk-margin-small-left uk-margin-small-right timetable'>
-                </div>
+              <div id='weekA' className='uk-column-1-5 uk-margin-small-left uk-margin-small-right timetable'>
               </div>
             </div>
-          </div>
-          <div>
-            <div className='uk-card uk-card-default uk-card-body uk-animation-slide-top-small'>
-              <h3 className='uk-card-title uk-text-center uk-margin-small-bottom uk-text-bold'>Student Information</h3>
-              <div className='uk-flex uk-flex-center timetable'>
-                <div id='studentInfo' className='uk-text-left uk-width-small'></div>
+            <hr/>
+            <div className='uk-box-shadow-hover-small uk-padding-small uk-text-center'>
+              <div className='uk-column-1-5 uk-text-muted uk-margin-small-left uk-margin-small-right'>
+                  <p>MON B</p>
+                  <p>TUE B</p>
+                  <p>WED B</p>
+                  <p>THU B</p>
+                  <p>FRI B</p>
+              </div>
+              <div id='weekB' className='uk-column-1-5 uk-margin-small-left uk-margin-small-right timetable'>
+              </div>
+            </div>
+            <hr/>
+            <div className='uk-box-shadow-hover-small uk-padding-small uk-text-center'>
+              <div className='uk-column-1-5 uk-text-muted uk-margin-small-left uk-margin-small-right'>
+                <p>MON C</p>
+                <p>TUE C</p>
+                <p>WED C</p>
+                <p>THU C</p>
+                <p>FRI C</p>
+              </div>
+              <div id='weekC' className='uk-column-1-5 uk-margin-small-left uk-margin-small-right timetable'>
               </div>
             </div>
           </div>
         </div>
-      </div>
     )
   }
 }
