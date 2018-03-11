@@ -23,9 +23,9 @@ class Dashboard extends Component {
   getAPIData() {
 
     this.updateTimetableDisplay(window.dashboard)
-    
+
     /* Old code
-    
+
     // returns daily notices, see auth.js for usage info
     let promise = new Promise( function (resolve, reject) {
       http.get('/getdata?url=timetable/daytimetable.json', (res) => {
@@ -268,7 +268,7 @@ class Dashboard extends Component {
 
   // get room and teacher changes for today
   getChanges(periods, timetable) {
-    
+
     // Get room variations - change in rooms
     const roomVariations = timetable['roomVariations']
     console.log(roomVariations)
@@ -358,7 +358,7 @@ class Dashboard extends Component {
                 </tr>
 
                 <tr>
-                  <td className='uk-text-lead uk-text-left'>
+                  <td className='uk-text-left'>
                     {periods[1].name}
                     {periods[1].teacher}
                   </td>
@@ -366,7 +366,7 @@ class Dashboard extends Component {
                 </tr>
 
                 <tr>
-                  <td className='uk-text-lead uk-text-left'>
+                  <td className='uk-text-left'>
                     {periods[2].name}
                     {periods[2].teacher}
                   </td>
@@ -374,7 +374,7 @@ class Dashboard extends Component {
                 </tr>
 
                 <tr>
-                  <td className='uk-text-lead uk-text-left'>
+                  <td className='uk-text-left'>
                     {periods[3].name}
                     {periods[3].teacher}
                   </td>
@@ -382,7 +382,7 @@ class Dashboard extends Component {
                 </tr>
 
                 <tr>
-                  <td className='uk-text-lead uk-text-left'>
+                  <td className='uk-text-left'>
                     {periods[4].name}
                     {periods[4].teacher}
                   </td>
@@ -390,7 +390,7 @@ class Dashboard extends Component {
                 </tr>
 
                 <tr>
-                  <td className='uk-text-lead uk-text-left'>
+                  <td className='uk-text-left'>
                     {periods[5].name}
                     {periods[5].teacher}
                   </td>
@@ -398,7 +398,7 @@ class Dashboard extends Component {
                 </tr>
 
                 <tr>
-                  <td className='uk-text-lead uk-text-left'>
+                  <td className='uk-text-left'>
                     {periods[6].name}
                     {periods[6].teacher}
                   </td>
@@ -417,7 +417,7 @@ class Dashboard extends Component {
     let schedule
     let periods
     let date = new Date()
-    
+
 
     // if timetable exists and is current (i.e. it is not past 3:15pm), use the timetable periods
     // nested if's are used for readability
@@ -593,7 +593,7 @@ class Dashboard extends Component {
 
   // this is called each time the timer executes
   timerTick() {
-    
+
     function updateCountdown() {
       const date = new Date()
       const secDifference = Math.floor((this.state.nextClass.time.getTime() - date.getTime())/1000)
@@ -602,9 +602,9 @@ class Dashboard extends Component {
       }))
       this.render()
     }
-    
+
     updateCountdown = updateCountdown.bind(this)
-    
+
     if (this.state.timer <= 0) {
       let nextClass = this.getNextClass()
       this.setState( ()=> ({
@@ -612,7 +612,7 @@ class Dashboard extends Component {
       }), ()=> {
         updateCountdown()
       })
-      
+
     } else {
       updateCountdown()
     }
@@ -629,7 +629,7 @@ class Dashboard extends Component {
     // get API data here
     this.getAPIData = this.getAPIData.bind(this)
     this.getAPIData()
-    
+
     this.timerTick = this.timerTick.bind(this)
 
   }

@@ -11,3 +11,23 @@
     width:100%!important
   }
 }
+
+@media (max-width:530px){
+  #fullTimetable {
+    visibility: hidden;
+    display: none
+  }
+  #smallTimetable{
+    visibility: visible
+  }
+}
+
+@media (min-width:530px){
+  #fullTimetable {
+    visibility: visible
+  }
+  #smallTimetable{
+    visibility: hidden;
+    display: none
+  }
+}
