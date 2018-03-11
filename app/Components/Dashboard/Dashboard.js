@@ -21,10 +21,11 @@ class Dashboard extends Component {
 
   // get timetable data from API
   getAPIData() {
-    //console.log('dashboard')
-    //console.log(window.dashboard)
-    //this.updateTimetableDisplay(window.dashboard)
 
+    this.updateTimetableDisplay(window.dashboard)
+    
+    /* Old code
+    
     // returns daily notices, see auth.js for usage info
     let promise = new Promise( function (resolve, reject) {
       http.get('/getdata?url=timetable/daytimetable.json', (res) => {
@@ -47,7 +48,7 @@ class Dashboard extends Component {
       this.updateTimetableDisplay(result)
       this.timerTick()
     }.bind(this))
-
+    */
   }
 
   // get default periods if not authenticated
@@ -267,7 +268,7 @@ class Dashboard extends Component {
 
   // get room and teacher changes for today
   getChanges(periods, timetable) {
-    console.log(timetable)
+    
     // Get room variations - change in rooms
     const roomVariations = timetable['roomVariations']
     console.log(roomVariations)
@@ -416,14 +417,13 @@ class Dashboard extends Component {
     let schedule
     let periods
     let date = new Date()
-
-
+    
 
     // if timetable exists and is current (i.e. it is not past 3:15pm), use the timetable periods
     // nested if's are used for readability
     if (timetable !== '') {
 
-      let timetableDate = new Date(JSON.parse(timetable)['date'])
+      let timetableDate = new Date(timetable['date'])
 
       let timetableIsTodayBefore315 = ((date.getDay() === timetableDate.getDay()) && (date.getHours() < 15 || (date.getHours() === 15 && date.getMinutes() < 15)))
 
@@ -431,10 +431,9 @@ class Dashboard extends Component {
 
       if (timetableIsTodayBefore315 || timetableIsForTheFuture) {
 
-        periods = this.getDailyTimetable(JSON.parse(timetable))
-        let dateOfPeriods = new Date(JSON.parse(timetable)['date'])
-        let bells = JSON.parse(timetable)['bells']
-        schedule = this.getSchedule(periods, dateOfPeriods, bells)
+        periods = this.getDailyTimetable(timetable)
+        let bells = timetable['bells']
+        schedule = this.getSchedule(periods, timetableDate, bells)
       }
       // otherwise, use default periods
     } else {
@@ -463,7 +462,10 @@ class Dashboard extends Component {
     this.setState( ()=> ({
       htmlClasses: this.processHTML(periods),
       schedule: schedule
-    }))
+      //nextClass: this.getNextClass()
+    }), () => {
+      this.timerTick()
+    })
 
     this.render()
   }
@@ -591,22 +593,29 @@ class Dashboard extends Component {
 
   // this is called each time the timer executes
   timerTick() {
-    const date = new Date()
-
+    
+    function updateCountdown() {
+      const date = new Date()
+      const secDifference = Math.floor((this.state.nextClass.time.getTime() - date.getTime())/1000)
+      this.setState( ()=> ({
+        timer: secDifference
+      }))
+      this.render()
+    }
+    
+    updateCountdown = updateCountdown.bind(this)
+    
     if (this.state.timer <= 0) {
       let nextClass = this.getNextClass()
-
       this.setState( ()=> ({
         nextClass: nextClass
-      }))
+      }), ()=> {
+        updateCountdown()
+      })
+      
+    } else {
+      updateCountdown()
     }
-
-    const secDifference = Math.floor((this.state.nextClass.time.getTime() - date.getTime())/1000)
-    this.setState( ()=> ({
-      timer: secDifference
-    }))
-
-    this.render()
   }
 
   componentDidMount() {
@@ -618,8 +627,10 @@ class Dashboard extends Component {
     this.setState({timerID: ID})
 
     // get API data here
-     this.getAPIData = this.getAPIData.bind(this)
+    this.getAPIData = this.getAPIData.bind(this)
     this.getAPIData()
+    
+    this.timerTick = this.timerTick.bind(this)
 
   }
 

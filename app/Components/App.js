@@ -18,7 +18,7 @@ const http = require('http')
 window.userData = ''
 window.dailyNotices = ''
 window.timetable = ''
-//window.dashboard = ''
+window.dashboard = ''
 
 // Requirements for beta release
 // Daily timetable
@@ -123,27 +123,33 @@ class App extends Component {
         if (window.timetable != '') {
           document.getElementById('navbar').className = 'uk-navbar uk-navbar-container'
           let visible = this.state.visible
-          this.setState({ visible: window.STATES.TIMETABLE })
+          //this.setState({ visible: window.STATES.TIMETABLE })
           //loggedIn = true
         }
       })
     })
 
-    /*
+    
     // Get daily timetable data from SBHS API
     http.get('/getdata?url=timetable/daytimetable.json', (res) => {
       res.setEncoding('utf8')
-      let b = ''
+      let data = ''
       res.on('data', (body) => {
-        b += body
+        data += body
       })
 
-      res.on('end', (body) => {
-        window.dashboard = JSON.parse(b)
+      res.on('end', () => {
+        window.dashboard = JSON.parse(data)
         console.log('setting dashboard')
+        if (window.dashboard != '') {
+          document.getElementById('navbar').className = 'uk-navbar uk-navbar-container'
+          let visible = this.state.visible
+          this.setState({ visible: window.STATES.DASHBOARD })
+          //loggedIn = true
+        }
       })
     })
-    */
+    
   }
 
   blankNavbar() {
