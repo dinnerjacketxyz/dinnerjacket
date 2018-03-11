@@ -18,6 +18,8 @@ const http = require('http')
 window.userData = ''
 window.dailyNotices = ''
 window.timetable = ''
+//window.dashboard = ''
+
 // Requirements for beta release
 // Daily timetable
 // Full timetable
@@ -100,6 +102,7 @@ class App extends Component {
     //}
 
     //if (this.state.visible != window.STATES.WELCOME) {
+    
     // Get daily notices from SBHS API
     http.get('/getdata?url=dailynews/list.json', (res) => {
       res.setEncoding('utf8')
@@ -122,10 +125,25 @@ class App extends Component {
 
       res.on('end', (body) => {
         window.timetable = JSON.parse(b)
-        console.log(window.timetable)
+        //console.log(window.timetable)
       })
     })
+    
+    /*
+    // Get daily timetable data from SBHS API
+    http.get('/getdata?url=timetable/daytimetable.json', (res) => {
+      res.setEncoding('utf8')
+      let b = ''
+      res.on('data', (body) => {
+        b += body
+      })
 
+      res.on('end', (body) => {
+        window.dashboard = JSON.parse(b)
+        console.log('setting dashboard')
+      })
+    })
+    */
   }
 
   blankNavbar() {

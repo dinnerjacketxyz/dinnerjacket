@@ -21,7 +21,10 @@ class Dashboard extends Component {
 
   // get timetable data from API
   getAPIData() {
-
+    //console.log('dashboard')
+    //console.log(window.dashboard)
+    //this.updateTimetableDisplay(window.dashboard)
+    
     // returns daily notices, see auth.js for usage info
     let promise = new Promise( function (resolve, reject) {
       http.get('/getdata?url=timetable/daytimetable.json', (res) => {
@@ -44,7 +47,7 @@ class Dashboard extends Component {
       this.updateTimetableDisplay(result)
       this.timerTick()
     }.bind(this))
-
+    
   }
 
   // get default periods if not authenticated
@@ -264,7 +267,7 @@ class Dashboard extends Component {
 
   // get room and teacher changes for today
   getChanges(periods, timetable) {
-
+    console.log(timetable)
     // Get room variations - change in rooms
     const roomVariations = timetable['roomVariations']
     console.log(roomVariations)
@@ -293,8 +296,10 @@ class Dashboard extends Component {
           periods[periodNo-1] = { name: periods[periodNo-1].name,
                                 teacher: '',
                                 room: '',
-                                time: periods[periodNo-1].time}
+                                time: periods[periodNo-1].time,
+                                changed: periods[periodNo-1].changed }
           periods[periodNo-1].changed.push('noclass')
+          
         } else {
           periods[periodNo-1].teacher = classVariations[periodNo]['casualSurname']
           periods[periodNo-1].changed.push('teacher')
@@ -613,7 +618,7 @@ class Dashboard extends Component {
     this.setState({timerID: ID})
 
     // get API data here
-    this.getAPIData = this.getAPIData.bind(this)
+     this.getAPIData = this.getAPIData.bind(this)
     this.getAPIData()
 
   }

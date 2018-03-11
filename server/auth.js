@@ -17,7 +17,7 @@ module.exports = (app) => {
           |   REPLACE THIS WITH CLIENT SECRET WHEN RUNNING   |
           *==================================================*
                                                                 */
-      secret: REDACTED
+      secret: 'Ev2mcT3Ek5s8xxY46G7RKt74dEE'
       /*
           *==================================================*
           |   REMEMBER TO REMOVE IT AGAIN BEFORE YOU PUSH    |
@@ -101,7 +101,7 @@ module.exports = (app) => {
    |  details/participation.json  |  details/userinfo.json      |
    |  timetable/bells.json        |  calendar/days.json         |
    |  calendar/terms.json         |                             |
-   *==============================*============================*/
+   *==============================*=============================*/
 
   app.get('/getdata', (req1, res1) => {
 
@@ -125,12 +125,15 @@ module.exports = (app) => {
       let promise = new Promise( function (resolve, reject) {
 
         https.get(httpsOptions, (res2) => {
+          if (res2.statusCode === 401) {
+            reject()
+          }
           res2.setEncoding('utf8')
           // resolve the promise when data received
           let data = ''
           res2.on('data', function (body) {
             data += body
-            console.log('Data incoming: ' + data)
+            //console.log('Data incoming: ' + data)
           })
           res2.on('end', function(body) {
             resolve(data)
@@ -138,7 +141,7 @@ module.exports = (app) => {
         })
       })
 
-      promise.then(function(result){
+      promise.then(function(result) {
         /*
         const fs = require('fs')
         let jason = JSON.parse(result)
@@ -147,7 +150,22 @@ module.exports = (app) => {
         });*/
 
         // send resources
+        
         res1.send(result)
+        
+      }, function(err) {
+        // Handle an expired access token (1 hour)
+        console.log(req1.session.token)
+        
+        // expiry date of refresh token
+        let token = oauth2.accessToken.create(req1.session.token)
+        
+        // refresh the access token and redirect
+        if (token.expired()) {
+          console.log('access token expired')
+          token = accessToken.refresh()
+          res.redirect(siteURL + '/getdata?url=' + req1.query.url)
+        }
       })
     }
   })
@@ -155,6 +173,7 @@ module.exports = (app) => {
   // TO DO: implement logout
   app.get('/logout', (req, res) => {
     req.session.destroy()
+    res.redirect(siteURL)
   })
 
   var session = require('express-session')
