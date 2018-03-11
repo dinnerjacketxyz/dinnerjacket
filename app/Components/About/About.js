@@ -7,17 +7,12 @@ class About extends Component {
       <div className='uk-flex uk-flex-center uk-text-center uk-margin-top'>
         <div className='uk-card uk-card-default uk-card-body uk-card-large uk-width-xlarge uk-animation-slide-top-small uk-margin-large-bottom'>
           <img id='logo'
-            className='uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom'
+            className='uk-disabled'
             alt='logo' src='256.png' width='150px' height='150px'>
           </img>
           <h1 className='uk-text-center uk-h1'>DinnerJacket</h1>
-          <br/>
-            <span className='uk-label uk-label-danger'>alpha</span>
-          <br/>
-          <br/>
-          <span className='uk-text-small'>alpha v0.1.0</span>
-          <br/>
-          <span className='uk-text-small'>licensed under GNU GPL v3</span>
+          <p className='uk-label uk-label-danger'>alpha v0.1.0</p>
+          <p className='uk-text-small'>licensed under GNU GPL v3</p>
 
           <hr/>
             <p className=''>DinnerJacket is a website developed by SBHS students.</p>

@@ -37,7 +37,7 @@ class Welcome extends Component {
           <div className='uk-navbar-right'>
             <ul className='uk-navbar-nav'>
               <li className='uk-animation-toggle'>
-                  <a className='uk-box-shadow-hover-medium' onClick={this.toggleLogin.bind(this)}>
+                  <a className='uk-box-shadow-hover-small uk-padding-large' onClick={this.toggleLogin.bind(this)}>
                     Login
                   </a>
               </li>
@@ -50,17 +50,10 @@ class Welcome extends Component {
               className='uk-disabled'
               alt='logo' src='256.png' width='150px' height='150px'>
             </img>
-            <br/>
-
-            <span className='uk-margin-top uk-h1'>DinnerJacket</span>
-            <br/>
-            <span className='uk-label uk-label-danger'>alpha</span>
-
-            <p className='uk-text-small uk-margin-small-top uk-margin-small-bottom'>alpha v0.1.0</p>
-            <p className=''>This is an alpha. That means that you might try out new features that are still in development, or even run into technical issues from time to time.</p>
-            <hr/>
-            <h2 className='uk-h2 uk-margin-bottom'>Welcome!</h2>
-            <button className='uk-button uk-button-primary' onClick={this.toggleLogin.bind(this)}>Login</button>
+            <h1 className='uk-h1'>DinnerJacket</h1>
+            <p className='uk-label uk-label-danger'>alpha v0.1.0</p>
+            <p className='uk-margin-top uk-margin-bottom'>This is an alpha. That means that you might try out new features that are still in development, or even run into technical issues from time to time.</p>
+            <button className='uk-button uk-button-primary uk-margin-top uk-margin-bottom' onClick={this.toggleLogin.bind(this)}>Login</button>
           </div>
         </div>
       </div>

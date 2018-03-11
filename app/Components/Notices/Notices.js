@@ -169,7 +169,7 @@ const DailyNoticeRow = (props) => {
       <a className='uk-accordion-title'>{props.notices.title}</a><b>{props.notices.date}</b>
       <div className='uk-accordion-content'>
         {props.notices.content}
-        <p><b>{props.notices.author}</b></p>
+        <p className='uk-margin-small-top'><i>{props.notices.author}</i></p>
       </div>
     </li>
   )
