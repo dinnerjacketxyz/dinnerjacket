@@ -106,18 +106,23 @@ class Notices extends Component {
     let text = this.state.text
     let newText = ''
     let className = ''
+    let aria = ''
     if (text === 'EXPAND ALL') {
       newText = 'COLLAPSE ALL'
       className='uk-open'
+      aria = 'false'
     } else {
       newText = 'EXPAND ALL'
       className=''
+      aria = 'true'
     }
 
     let noticesList = document.getElementById('noticesList')
     for (let i = 0; i < noticesList.childNodes.length; i++) {
       console.log(noticesList.childNodes[i].value)
       noticesList.childNodes[i].className = className
+      noticesList.childNodes[i].childNodes[2].setAttribute('aria-hidden', aria)
+      console.log(noticesList.childNodes[i].childNodes[2])
     }
 
     this.setState({ text: newText })
@@ -166,6 +171,7 @@ class Notices extends Component {
 const DailyNoticeRow = (props) => {
   return (
     <li>
+      <div className='uk-label uk-align-left uk-text-middle'>{props.notices.years}</div>
       <a className='uk-accordion-title'>{props.notices.title}</a><b>{props.notices.date}</b>
       <div className='uk-accordion-content'>
         {props.notices.content}

@@ -25,7 +25,7 @@ class Notes extends Component {
     return (
       <div className='uk-flex uk-flex-center'>
         <div className='uk-margin-top uk-grid-collapse uk-width-xxlarge miniFill'>
-          <div className='uk-card uk-card-default uk-card-body'>
+          <div className='uk-card uk-card-default uk-card-body uk-animation-slide-top-small'>
             <div className='uk-margin'>
               <SimpleMDE id='inputContent' value={note.content} options={{
                 autofocus: true,

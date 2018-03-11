@@ -24,7 +24,7 @@ class Dashboard extends Component {
     //console.log('dashboard')
     //console.log(window.dashboard)
     //this.updateTimetableDisplay(window.dashboard)
-    
+
     // returns daily notices, see auth.js for usage info
     let promise = new Promise( function (resolve, reject) {
       http.get('/getdata?url=timetable/daytimetable.json', (res) => {
@@ -47,7 +47,7 @@ class Dashboard extends Component {
       this.updateTimetableDisplay(result)
       this.timerTick()
     }.bind(this))
-    
+
   }
 
   // get default periods if not authenticated
@@ -299,7 +299,7 @@ class Dashboard extends Component {
                                 time: periods[periodNo-1].time,
                                 changed: periods[periodNo-1].changed }
           periods[periodNo-1].changed.push('noclass')
-          
+
         } else {
           periods[periodNo-1].teacher = classVariations[periodNo]['casualSurname']
           periods[periodNo-1].changed.push('teacher')

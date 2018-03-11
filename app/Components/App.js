@@ -78,14 +78,8 @@ class App extends Component {
         a += body
         //let visible = this.state.visible
         //this.setState({ visible: window.STATES.WELCOME })
-        if (body != '') {
-          document.getElementById('navbar').className = 'uk-navbar uk-navbar-container'
-          let visible = this.state.visible
-          this.setState({ visible: window.STATES.TIMETABLE })
-          //loggedIn = true
-        }
       })
-      res.on('end', (body) => {
+      res.on('end', () => {
         window.userData = JSON.parse(a)
 
         /*let visible = this.state.visible
@@ -102,7 +96,7 @@ class App extends Component {
     //}
 
     //if (this.state.visible != window.STATES.WELCOME) {
-    
+
     // Get daily notices from SBHS API
     http.get('/getdata?url=dailynews/list.json', (res) => {
       res.setEncoding('utf8')
@@ -123,12 +117,18 @@ class App extends Component {
         b += body
       })
 
-      res.on('end', (body) => {
+      res.on('end', () => {
         window.timetable = JSON.parse(b)
         //console.log(window.timetable)
+        if (window.timetable != '') {
+          document.getElementById('navbar').className = 'uk-navbar uk-navbar-container'
+          let visible = this.state.visible
+          this.setState({ visible: window.STATES.TIMETABLE })
+          //loggedIn = true
+        }
       })
     })
-    
+
     /*
     // Get daily timetable data from SBHS API
     http.get('/getdata?url=timetable/daytimetable.json', (res) => {
