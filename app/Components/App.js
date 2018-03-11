@@ -81,7 +81,7 @@ class App extends Component {
         if (body != '') {
           document.getElementById('navbar').className = 'uk-navbar uk-navbar-container'
           let visible = this.state.visible
-          this.setState({ visible: window.STATES.DASHBOARD })
+          this.setState({ visible: window.STATES.TIMETABLE })
           //loggedIn = true
         }
       })
