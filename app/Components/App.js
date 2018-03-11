@@ -70,6 +70,26 @@ class App extends Component {
     // If data is undefined, user is not logged in and therefore welcome page is shown
     // Otherwise it sets the state directly to Dashboard, the default homepage for logged in users
     // TODO there is a slight delay between it switching to the dashboard page (a lil flicker here and there innit)
+    // Get daily timetable data from SBHS API
+    http.get('/getdata?url=timetable/daytimetable.json', (res) => {
+      res.setEncoding('utf8')
+      let data = ''
+      res.on('data', (body) => {
+        data += body
+      })
+
+      res.on('end', () => {
+        window.dashboard = JSON.parse(data)
+        console.log('setting dashboard')
+        if (window.dashboard != '') {
+          document.getElementById('navbar').className = 'uk-navbar uk-navbar-container'
+          let visible = this.state.visible
+          this.setState({ visible: window.STATES.DASHBOARD })
+          //loggedIn = true
+        }
+      })
+    })
+
     http.get('/getdata?url=details/userinfo.json', (res) => {
       res.setEncoding('utf8')
       let a = ''
@@ -104,7 +124,7 @@ class App extends Component {
       res.on('data', (body) => {
         data += body
       })
-      res.on('end', (body) => {
+      res.on('end', () => {
         window.dailyNotices = JSON.parse(data)
       })
     })
@@ -119,37 +139,8 @@ class App extends Component {
 
       res.on('end', () => {
         window.timetable = JSON.parse(b)
-        //console.log(window.timetable)
-        if (window.timetable != '') {
-          document.getElementById('navbar').className = 'uk-navbar uk-navbar-container'
-          let visible = this.state.visible
-          //this.setState({ visible: window.STATES.TIMETABLE })
-          //loggedIn = true
-        }
       })
     })
-
-    
-    // Get daily timetable data from SBHS API
-    http.get('/getdata?url=timetable/daytimetable.json', (res) => {
-      res.setEncoding('utf8')
-      let data = ''
-      res.on('data', (body) => {
-        data += body
-      })
-
-      res.on('end', () => {
-        window.dashboard = JSON.parse(data)
-        console.log('setting dashboard')
-        if (window.dashboard != '') {
-          document.getElementById('navbar').className = 'uk-navbar uk-navbar-container'
-          let visible = this.state.visible
-          this.setState({ visible: window.STATES.DASHBOARD })
-          //loggedIn = true
-        }
-      })
-    })
-    
   }
 
   blankNavbar() {

@@ -150,16 +150,16 @@ module.exports = (app) => {
         });*/
 
         // send resources
-        
+
         res1.send(result)
-        
+
       }, function(err) {
         // Handle an expired access token (1 hour)
         console.log(req1.session.token)
-        
+
         // expiry date of refresh token
         let token = oauth2.accessToken.create(req1.session.token)
-        
+
         // refresh the access token and redirect
         if (token.expired()) {
           console.log('access token expired')

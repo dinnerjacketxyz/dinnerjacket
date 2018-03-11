@@ -172,6 +172,7 @@ const DailyNoticeRow = (props) => {
   return (
     <li>
       <div className='uk-label uk-align-left uk-text-middle'>{props.notices.years}</div>
+      <br />
       <a className='uk-accordion-title'>{props.notices.title}</a><b>{props.notices.date}</b>
       <div className='uk-accordion-content'>
         {props.notices.content}
