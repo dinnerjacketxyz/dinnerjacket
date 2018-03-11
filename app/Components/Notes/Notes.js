@@ -13,7 +13,15 @@ class Notes extends Component {
       theme: 'bubble'
     })
 
-    quill.setContents(window.notes)
+    if (window.notes === '') {
+      quill.setContents([
+        { insert: 'Notes\n\n', attributes: { header: true, bold: true } },
+        { insert: '- Placeholder' },
+        { insert: '\n' }
+      ])
+    } else {
+      quill.setContents(window.notes)
+    }
   }
 
   notesChanged() {
