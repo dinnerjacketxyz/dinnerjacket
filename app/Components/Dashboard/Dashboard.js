@@ -331,16 +331,18 @@ class Dashboard extends Component {
 
       // Lunch, recess or study periods
       if (thisPeriod.room === '') {
-
+      
         thisPeriod.name = (<dd className={nameTextClass + 'uk-text-muted ' + (noClass ? 'uk-text-primary' : '')}>{thisPeriod.name}</dd>)
-        thisPeriod.teacher = (<dd> </dd>)
+        thisPeriod.teacher = (<dd className={teacherTextClass + 'uk-text-primary'}> {(noClass ? 'no teacher' : '')}</dd>)
         thisPeriod.room = (<td className={roomTextClass + 'uk-text-muted ' + (bellChange ? 'uk-text-primary' : '')}>{thisPeriod.time}</td>)
-
+      
       // normal periods
       } else {
 
         thisPeriod.name = (<dd className={nameTextClass + (noClass ? 'uk-text-primary' : '')}>{thisPeriod.name}</dd>)
-        thisPeriod.teacher = (<dd className={teacherTextClass + ((teacherChange || bellChange) ? 'uk-text-primary' : '')}>at {thisPeriod.time} with {thisPeriod.teacher}</dd>)
+        
+        thisPeriod.teacher = (<dd className={teacherTextClass}>at <span className={teacherTextClass + ((bellChange) ? 'uk-text-primary' : '')}>{thisPeriod.time}</span> with <span className={teacherTextClass + ((teacherChange) ? 'uk-text-primary' : '')}>{thisPeriod.teacher}</span></dd>)
+      
         thisPeriod.room = (<td className={roomTextClass + (roomChange ? 'uk-text-primary' : '')}>{thisPeriod.room}</td>)
       }
 
