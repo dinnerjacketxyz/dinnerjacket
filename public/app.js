@@ -4023,7 +4023,7 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
   // get room and teacher changes for today
   getChanges(periods, timetable) {
-    console.log(timetable);
+
     // Get room variations - change in rooms
     const roomVariations = timetable['roomVariations'];
     console.log(roomVariations);
@@ -4091,8 +4091,9 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         );
         thisPeriod.teacher = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'dd',
-          null,
-          ' '
+          { className: teacherTextClass + 'uk-text-primary' },
+          ' ',
+          noClass ? 'no teacher' : ''
         );
         thisPeriod.room = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'td',
@@ -4108,14 +4109,24 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
           { className: nameTextClass + (noClass ? 'uk-text-primary' : '') },
           thisPeriod.name
         );
+
         thisPeriod.teacher = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'dd',
-          { className: teacherTextClass + (teacherChange || bellChange ? 'uk-text-primary' : '') },
+          { className: teacherTextClass },
           'at ',
-          thisPeriod.time,
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'span',
+            { className: teacherTextClass + (bellChange ? 'uk-text-primary' : '') },
+            thisPeriod.time
+          ),
           ' with ',
-          thisPeriod.teacher
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'span',
+            { className: teacherTextClass + (teacherChange ? 'uk-text-primary' : '') },
+            thisPeriod.teacher
+          )
         );
+
         thisPeriod.room = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'td',
           { className: roomTextClass + (roomChange ? 'uk-text-primary' : '') },
@@ -4272,7 +4283,6 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       schedule: schedule
       //nextClass: this.getNextClass()
     }), () => {
-      console.log('nextClass');
       this.timerTick();
     });
 
