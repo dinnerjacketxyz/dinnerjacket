@@ -17,7 +17,8 @@ module.exports = (app) => {
           |   REPLACE THIS WITH CLIENT SECRET WHEN RUNNING   |
           *==================================================*
                                                                 */
-      secret: 'Ev2mcT3Ek5s8xxY46G7RKt74dEE'
+      secret: REDACTED
+      
       /*
           *==================================================*
           |   REMEMBER TO REMOVE IT AGAIN BEFORE YOU PUSH    |
@@ -150,16 +151,16 @@ module.exports = (app) => {
         });*/
 
         // send resources
-        
+
         res1.send(result)
-        
+
       }, function(err) {
         // Handle an expired access token (1 hour)
         console.log(req1.session.token)
-        
+
         // expiry date of refresh token
         let token = oauth2.accessToken.create(req1.session.token)
-        
+
         // refresh the access token and redirect
         if (token.expired()) {
           console.log('access token expired')

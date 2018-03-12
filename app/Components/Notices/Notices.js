@@ -21,37 +21,49 @@ class Notices extends Component {
     this.state.notices = []
     console.log('testing132')
 
+    /*years += dailyNotices.notices[i].years[j]
+      if (j < dailyNotices.notices[i].years.length - 1) {
+        years += ', '
+      }
+    }*/
+
+
+
     for (let i = 0; i < dailyNotices.notices.length; i++) {
       if (this.state.year == 'ALL' || this.yearInNotice(this.state.year, dailyNotices.notices[i])) {
         // TEMP - proper solotion later (TODO)
         let content = dailyNotices.notices[i].content.replace(/(<([^>]+)>)/ig,'')
 
         let years = ''
-        for (let j = 0; j < dailyNotices.notices[i].years.length; j++) {
-          if (dailyNotices.notices[i].years.length >= 6) {
-            years = 'ALL'
-          } else {
-            years += dailyNotices.notices[i].years[j]
-            if (j < dailyNotices.notices[i].years.length - 1) {
-              years += ', '
+        if (dailyNotices.notices[i].years.length >= 6) {
+          years = 'ALL'
+        } else {
+          let c = false
+          for (let j = 0; j < dailyNotices.notices[i].years.length; j++) {
+            let start = 0
+            if (!c) {
+              if (years.length > 0) {
+                years += ', '
+              }
+              start = dailyNotices.notices[i].years[j]
+              years += start + ' '
+            }
+
+            if (parseInt(dailyNotices.notices[i].years[j]) + 1 === parseInt(dailyNotices.notices[i].years[j+1]) && j < dailyNotices.notices[i].years.length - 1) {
+              c = true
+            } else {
+              c = false
+              if (dailyNotices.notices[i].years[j] !== start) {
+                years += ' - ' + dailyNotices.notices[i].years[j] + ' '
+              }
             }
           }
         }
 
         let date = ''
         const MONTHS = [
-          'Jan',
-          'Feb',
-          'Mar',
-          'Apr',
-          'May',
-          'Jun',
-          'Jul',
-          'Aug',
-          'Sep',
-          'Oct',
-          'Nov',
-          'Dec',
+          'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+          'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
         ]
 
         if (dailyNotices.notices[i].isMeeting) {
@@ -171,11 +183,11 @@ class Notices extends Component {
 const DailyNoticeRow = (props) => {
   return (
     <li>
-      <div className='uk-label uk-align-left uk-text-middle'>{props.notices.years}</div>
-      <a className='uk-accordion-title'>{props.notices.title}</a><b>{props.notices.date}</b>
+      <span className='uk-label'>{props.notices.years}</span>
+      <a className='uk-accordion-title'>{props.notices.title}</a><i>{props.notices.date}</i>
       <div className='uk-accordion-content'>
         {props.notices.content}
-        <p className='uk-margin-small-top'><i>{props.notices.author}</i></p>
+        <p className='uk-margin-small-top'><b>{props.notices.author}</b></p>
       </div>
     </li>
   )
