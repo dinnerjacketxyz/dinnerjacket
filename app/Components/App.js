@@ -100,13 +100,16 @@ class App extends Component {
         //this.setState({ visible: window.STATES.WELCOME })
       })
       res.on('end', () => {
+        //data.userData = JSON.parse(a)
+        //Data.setUserData(JSON.parse(a))
         window.userData = JSON.parse(a)
 
         /*let visible = this.state.visible
         this.setState({ visible: window.STATES.WELCOME })
         if (loggedIn) {
-          this.setState({ visible: window.STATES.DASHBOARD })
+          this.setState({ visible: wi.ndow.STATES.DASHBOARD })
         }*/
+
 
 
         let name = document.getElementById('SideP')
