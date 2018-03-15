@@ -251,7 +251,7 @@ class App extends Component {
         {this.state.visible === window.STATES.WELCOME && <Welcome />}
         {this.state.visible === window.STATES.LOADING && <Loading />}
 
-        <nav id='navbar' className='uk-navbar uk-navbar-container welcomeNav' uk-navbar='true'>
+        <nav id='navbar' className='uk-navbar uk-navbar-container welcomeNav uk-sticky' uk-sticky='true' uk-navbar='true'>
           <div className='uk-navbar-left'>
             <img id='logo'
               className='djLogo uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom'

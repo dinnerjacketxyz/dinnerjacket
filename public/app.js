@@ -3825,20 +3825,20 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     this.updateTimetableDisplay(window.dashboard);
 
     /* Old code
-      // returns daily notices, see auth.js for usage info
+     // returns daily notices, see auth.js for usage info
     let promise = new Promise( function (resolve, reject) {
       http.get('/getdata?url=timetable/daytimetable.json', (res) => {
-          res.setEncoding('utf8')
-          let returnData = ''
-          res.on('data', function (body) {
+         res.setEncoding('utf8')
+         let returnData = ''
+         res.on('data', function (body) {
           returnData += body
         })
-          res.on('end', function(){
+         res.on('end', function(){
           resolve(returnData)
         })
       })
     })
-      promise.then(function(result) {
+     promise.then(function(result) {
       this.updateTimetableDisplay(result)
       this.timerTick()
     }.bind(this))
@@ -4090,8 +4090,9 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         );
         thisPeriod.teacher = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'dd',
-          null,
-          ' '
+          { className: teacherTextClass + 'uk-text-primary' },
+          ' ',
+          noClass ? 'no teacher' : ''
         );
         thisPeriod.room = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'td',
@@ -4107,14 +4108,24 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
           { className: nameTextClass + (noClass ? 'uk-text-primary' : '') },
           thisPeriod.name
         );
+
         thisPeriod.teacher = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'dd',
-          { className: teacherTextClass + (teacherChange || bellChange ? 'uk-text-primary' : '') },
+          { className: teacherTextClass },
           'at ',
-          thisPeriod.time,
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'span',
+            { className: teacherTextClass + (bellChange ? 'uk-text-primary' : '') },
+            thisPeriod.time
+          ),
           ' with ',
-          thisPeriod.teacher
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'span',
+            { className: teacherTextClass + (teacherChange ? 'uk-text-primary' : '') },
+            thisPeriod.teacher
+          )
         );
+
         thisPeriod.room = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'td',
           { className: roomTextClass + (roomChange ? 'uk-text-primary' : '') },
@@ -4479,7 +4490,7 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 // Old timer code that relies on Javascript timers (inaccurate)
 /*if (this.state.timer === 0) {
   let nextClass = this.getNextClass()
-    // setup countdown for next class
+   // setup countdown for next class
   const date = new Date()
   const secDifference = Math.floor((nextClass.time.getTime() - date.getTime())/1000)
   this.setState( ()=> ({
@@ -25127,7 +25138,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       this.state.visible === window.STATES.LOADING && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__Loading_Loading__["a" /* default */], null),
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'nav',
-        { id: 'navbar', className: 'uk-navbar uk-navbar-container welcomeNav', 'uk-navbar': 'true' },
+        { id: 'navbar', className: 'uk-navbar uk-navbar-container welcomeNav uk-sticky', 'uk-sticky': 'true', 'uk-navbar': 'true' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
           { className: 'uk-navbar-left' },
@@ -25447,7 +25458,7 @@ exports = module.exports = __webpack_require__(6)(false);
 
 
 // module
-exports.push([module.i, ".djLogo {\r\n  width: 60px;\r\n  height: 60px\r\n}\r\n\r\n.uk-padding-large {\r\n  padding-left: 30px!important;\r\n  padding-right: 30px!important\r\n}\r\n\r\n@media screen and (max-width: 820px) {\r\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n    height:60px\r\n  }\r\n  .djLogo {\r\n    width: 40px;\r\n    height: 40px\r\n  }\r\n}\r\n", ""]);
+exports.push([module.i, ".djLogo {\n  width: 60px;\n  height: 60px\n}\n\n.uk-padding-large {\n  padding-left: 30px!important;\n  padding-right: 30px!important\n}\n\n@media screen and (max-width: 820px) {\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\n    height:60px\n  }\n  .djLogo {\n    width: 40px;\n    height: 40px\n  }\n}\n", ""]);
 
 // exports
 
@@ -28622,7 +28633,7 @@ exports = module.exports = __webpack_require__(6)(false);
 
 
 // module
-exports.push([module.i, ".timetable {\r\n  font-family: 'Roboto Mono', monospace;\r\n}\r\n.heading {\r\n  font-family: 'Roboto' !important;\r\n  font-weight: 300\r\n}\r\n\r\n@media (min-width:728px){\r\n  miniFill {\r\n    width:100%!important\r\n  }\r\n}\r\n\r\n@media (max-width:530px){\r\n  #fullTimetable {\r\n    visibility: hidden;\r\n    display: none\r\n  }\r\n  #smallTimetable{\r\n    visibility: visible\r\n  }\r\n}\r\n\r\n@media (min-width:530px){\r\n  #fullTimetable {\r\n    visibility: visible\r\n  }\r\n  #smallTimetable{\r\n    visibility: hidden;\r\n    display: none\r\n  }\r\n}\r\n", ""]);
+exports.push([module.i, ".timetable {\n  font-family: 'Roboto Mono', monospace;\n}\n.heading {\n  font-family: 'Roboto' !important;\n  font-weight: 300\n}\n\n@media (min-width:728px){\n  miniFill {\n    width:100%!important\n  }\n}\n\n@media (max-width:530px){\n  #fullTimetable {\n    visibility: hidden;\n    display: none\n  }\n  #smallTimetable{\n    visibility: visible\n  }\n}\n\n@media (min-width:530px){\n  #fullTimetable {\n    visibility: visible\n  }\n  #smallTimetable{\n    visibility: hidden;\n    display: none\n  }\n}\n", ""]);
 
 // exports
 
@@ -29058,7 +29069,7 @@ exports = module.exports = __webpack_require__(6)(false);
 
 
 // module
-exports.push([module.i, ".under {\r\n  margin-top: 70px!important\r\n}\r\n\r\n@media (min-width:750px) {\r\n  miniFill {\r\n    width:100%\r\n  }\r\n}\r\n", ""]);
+exports.push([module.i, ".under {\n  margin-top: 70px!important\n}\n\n@media (min-width:750px) {\n  miniFill {\n    width:100%\n  }\n}\n", ""]);
 
 // exports
 
@@ -29193,7 +29204,7 @@ exports = module.exports = __webpack_require__(6)(false);
 
 
 // module
-exports.push([module.i, ".embed {\r\n  width: 100%;\r\n  height: 100vh;\r\n  position: absolute;\r\n  display: block;\r\n}\r\n\r\n.container {\r\n  position: relative;\r\n}\r\n", ""]);
+exports.push([module.i, ".embed {\n  width: 100%;\n  height: 100vh;\n  position: absolute;\n  display: block;\n}\n\n.container {\n  position: relative;\n}\n", ""]);
 
 // exports
 
@@ -29259,7 +29270,7 @@ exports = module.exports = __webpack_require__(6)(false);
 
 
 // module
-exports.push([module.i, "h1,h2,h3,h4,h5,h6,h7,.uk-h1,.uk-accordion-title,.uk-text-lead {\r\n  font-family: 'Roboto', sans-serif\r\n}\r\n\r\nbody {\r\n  user-select: none\r\n}\r\n\r\n.uk-accordion-title,.uk-text-lead {\r\n  font-size: 1.5rem;\r\n  font-weight: 300\r\n}\r\n\r\n.welcomeNav {\r\n  position: fixed;\r\n}\r\n\r\n.main {\r\n  transition: 150ms linear;\r\n}\r\n\r\n.djLogo {\r\n  width: 50px;\r\n  height: 50px;\r\n  transition: width 0.1s;\r\n  transition: height 0.1s\r\n}\r\n\r\n.name {\r\n  margin-bottom: 0px;\r\n  margin-right: 5px;\r\n}\r\n\r\n.uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n  transition: height 0.1s\r\n\r\n}\r\n\r\n.content {\r\n  align-content: center;\r\n  margin-left: 10px;\r\n  background: white;\r\n  transition: 150ms linear;\r\n}\r\n\r\n.background {\r\n  background-color: #2a2c31;\r\n}\r\n\r\n@media screen and (max-width: 820px) {\r\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n    height:60px\r\n  }\r\n  .djLogo {\r\n    width: 40px;\r\n    height: 40px\r\n  }\r\n  .collapseText {\r\n    font-size: 0\r\n  }\r\n  .collapseSpan {\r\n    margin-right: 0px!important\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 430px) {\r\n  .djLogo {\r\n    width: 0px;\r\n    height: 0px;\r\n    margin-left: 0px!important;\r\n    margin-right: 0px!important;\r\n    margin-top: 0px!important;\r\n    margin-bottom: 0px!important\r\n  }\r\n  .name{\r\n    font-size: 0px;\r\n    margin-right: 0px\r\n  }\r\n}\r\n", ""]);
+exports.push([module.i, "h1,h2,h3,h4,h5,h6,h7,.uk-h1,.uk-accordion-title,.uk-text-lead {\n  font-family: 'Roboto', sans-serif\n}\n\nbody {\n  user-select: none\n}\n\n.uk-accordion-title,.uk-text-lead {\n  font-size: 1.5rem;\n  font-weight: 300\n}\n\n.welcomeNav {\n  position: fixed;\n  visibility: hidden\n}\n\n.main {\n  transition: 150ms linear;\n}\n\n.djLogo {\n  width: 50px;\n  height: 50px;\n  transition: width 0.1s;\n  transition: height 0.1s\n}\n\n.name {\n  margin-bottom: 0px;\n  margin-right: 5px;\n}\n\n.uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\n  transition: height 0.1s\n\n}\n\n.content {\n  align-content: center;\n  margin-left: 10px;\n  background: white;\n  transition: 150ms linear;\n}\n\n.background {\n  background-color: #2a2c31;\n}\n\n@media screen and (max-width: 820px) {\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\n    height:60px\n  }\n  .djLogo {\n    width: 40px;\n    height: 40px\n  }\n  .collapseText {\n    font-size: 0\n  }\n  .collapseSpan {\n    margin-right: 0px!important\n  }\n}\n\n@media screen and (max-width: 430px) {\n  .djLogo {\n    width: 0px;\n    height: 0px;\n    margin-left: 0px!important;\n    margin-right: 0px!important;\n    margin-top: 0px!important;\n    margin-bottom: 0px!important\n  }\n  .name{\n    font-size: 0px;\n    margin-right: 0px\n  }\n}\n", ""]);
 
 // exports
 
