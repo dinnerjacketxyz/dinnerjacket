@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 
+// TODO reset database ID and all that innit
+// otherwise we getting haced innit
+
 let quill
 
 let database = firebase.database()
