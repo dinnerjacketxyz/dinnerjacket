@@ -23,6 +23,12 @@ class Notices extends Component {
     selector.value = window.userData['yearGroup']
   }
 
+  strip(html) {
+    var tmp = document.createElement("DIV");
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || "";
+  }
+
   init() {
     dailyNotices = window.dailyNotices
     this.state.notices = []
@@ -39,7 +45,8 @@ class Notices extends Component {
     for (let i = 0; i < dailyNotices.notices.length; i++) {
       if (this.state.year == 'ALL' || this.yearInNotice(this.state.year, dailyNotices.notices[i])) {
         // TEMP - proper solotion later (TODO)
-        let content = dailyNotices.notices[i].content.replace(/(<([^>]+)>)/ig,'')
+        //let content = dailyNotices.notices[i].content.replace(/(<([^>]+)>)/ig,'')
+        let content = this.strip(dailyNotices.notices[i].content)
 
         let years = ''
         if (dailyNotices.notices[i].years.length >= 6) {
@@ -124,39 +131,39 @@ class Notices extends Component {
   toggleNotices() {
     let text = this.state.text
     let newText = ''
-    let className = ''
-    let aria = ''
     if (text === 'EXPAND ALL') {
       newText = 'COLLAPSE ALL'
-      className='uk-open'
-      aria = 'false'
     } else {
       newText = 'EXPAND ALL'
-      className=''
-      aria = 'true'
-    }
-
-    let noticesList = document.getElementById('noticesList')
-    for (let i = 0; i < noticesList.childNodes.length; i++) {
-      console.log(noticesList.childNodes[i].value)
-      noticesList.childNodes[i].className = className
-      noticesList.childNodes[i].childNodes[2].setAttribute('aria-hidden', aria)
-      console.log(noticesList.childNodes[i].childNodes[2])
     }
 
     this.setState({ text: newText })
   }
 
   render() {
-    let rows = this.state.notices.map(notice => {
-      return <DailyNoticeRow key = {
+    let text = this.state.text
+    let rows
+    if (text === 'EXPAND ALL') {
+      rows = this.state.notices.map(notice => {
+        return <CollapsedNotices key = {
           notice.title
         }
         notices = {
           notice
         }
-      />
-    })
+        />
+      })
+    } else {
+      rows = this.state.notices.map(notice => {
+        return <ExpandedNotices key = {
+          notice.title
+        }
+        notices = {
+          notice
+        }
+        />
+      })
+    }
     return (
       <div className='uk-flex uk-flex-center'>
         <div className='uk-margin-top uk-card uk-card-default uk-card-body uk-width-xxlarge miniFill uk-animation-slide-top-small'>
@@ -187,12 +194,25 @@ class Notices extends Component {
   }
 }
 
-const DailyNoticeRow = (props) => {
+const CollapsedNotices = (props) => {
   return (
-    <li>
+    <li className='uk-animation-slide-top-small'>
       <span className='uk-label'>{props.notices.years}</span>
       <a className='uk-accordion-title'>{props.notices.title}</a><i>{props.notices.date}</i>
-      <div className='uk-accordion-content'>
+      <div className='uk-accordion-content uk-animation-slide-top-small'>
+        {props.notices.content}
+        <p className='uk-margin-small-top'><b>{props.notices.author}</b></p>
+      </div>
+    </li>
+  )
+}
+
+const ExpandedNotices = (props) => {
+  return (
+    <li className='uk-open uk-animation-slide-top-small'>
+      <span className='uk-label'>{props.notices.years}</span>
+      <a className='uk-accordion-title'>{props.notices.title}</a><i>{props.notices.date}</i>
+      <div className='uk-accordion-content uk-animation-slide-top-small'>
         {props.notices.content}
         <p className='uk-margin-small-top'><b>{props.notices.author}</b></p>
       </div>

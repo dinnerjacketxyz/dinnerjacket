@@ -100,13 +100,16 @@ class App extends Component {
         //this.setState({ visible: window.STATES.WELCOME })
       })
       res.on('end', () => {
+        //data.userData = JSON.parse(a)
+        //Data.setUserData(JSON.parse(a))
         window.userData = JSON.parse(a)
 
         /*let visible = this.state.visible
         this.setState({ visible: window.STATES.WELCOME })
         if (loggedIn) {
-          this.setState({ visible: window.STATES.DASHBOARD })
+          this.setState({ visible: wi.ndow.STATES.DASHBOARD })
         }*/
+
 
 
         let name = document.getElementById('SideP')
@@ -252,7 +255,7 @@ class App extends Component {
         {this.state.visible === window.STATES.WELCOME && <Welcome />}
         {this.state.visible === window.STATES.LOADING && <Loading />}
 
-        <nav id='navbar' className='uk-navbar uk-navbar-container welcomeNav' uk-navbar='true'>
+        <nav id='navbar' className='uk-navbar uk-navbar-container welcomeNav uk-sticky' uk-sticky='true' uk-navbar='true'>
           <div className='uk-navbar-left'>
             <img id='logo'
               className='djLogo uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom'
