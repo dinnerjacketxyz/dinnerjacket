@@ -239,6 +239,10 @@ class App extends Component {
     this.setState({ visible: window.STATES.FEEDBACK })
     this.selectedNavbar(4)
   }
+  
+  logout() {
+    window.location.href = '/logout'
+  }
 
   // Always renders navbar
   // Renders active page
@@ -318,7 +322,7 @@ class App extends Component {
                     </li>
 
                     <li>
-                      <a className='uk-text-danger'>
+                      <a className='uk-text-danger' onClick={this.logout.bind(this)}>
                         <span className='uk-icon uk-margin-small-right' uk-icon='icon: sign-out' />
                         Log Out
                       </a>
