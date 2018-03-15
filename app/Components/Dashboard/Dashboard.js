@@ -181,14 +181,14 @@ class Dashboard extends Component {
     const lunch = { name: 'Lunch',
                     teacher: '',
                     room: '',
-                    time: bells[5],
-                    changed: [] }
+                    time: bells[5][0],
+                    changed: [(bells[5][1] ? 'bells':[])] }
 
     const recess = { name: 'Recess',
                      teacher: '',
                      room: '',
-                     time: bells[6],
-                     changed: [] }
+                     time: bells[6][0],
+                     changed: [(bells[6][1] ? 'bells':[])] }
 
     switch (routine) {
       // Monday, Tuesday, Friday
@@ -258,9 +258,9 @@ class Dashboard extends Component {
       case '2':
       case '3':
       case '4':
-      case '5': returnVar[(thisBell['bell'] - 1)] = [thisBell['time'], (thisBell['reasonShort'] === '')]; break
-      case 'Lunch 1': returnVar[5] = [thisBell['time'], (thisBell['reasonShort'] === '')]; break;
-      case 'Recess': returnVar[6] = [thisBell['time'], (thisBell['reasonShort'] === '')]; break;
+      case '5': returnVar[(thisBell['bell'] - 1)] = [thisBell['time'], (thisBell['special'])]; break
+      case 'Lunch 1': returnVar[5] = [thisBell['time'], (thisBell['special'])]; break;
+      case 'Recess': returnVar[6] = [thisBell['time'], (thisBell['special'])]; break;
       }
     }
     return returnVar

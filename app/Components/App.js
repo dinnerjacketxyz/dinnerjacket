@@ -242,6 +242,10 @@ class App extends Component {
     this.setState({ visible: window.STATES.FEEDBACK })
     this.selectedNavbar(4)
   }
+  
+  logout() {
+    window.location.href = '/logout'
+  }
 
   // Always renders navbar
   // Renders active page
@@ -251,7 +255,7 @@ class App extends Component {
         {this.state.visible === window.STATES.WELCOME && <Welcome />}
         {this.state.visible === window.STATES.LOADING && <Loading />}
 
-        <nav id='navbar' className='uk-navbar uk-navbar-container welcomeNav' uk-navbar='true'>
+        <nav id='navbar' className='uk-navbar uk-navbar-container welcomeNav uk-sticky' uk-sticky='true' uk-navbar='true'>
           <div className='uk-navbar-left'>
             <img id='logo'
               className='djLogo uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom'
@@ -321,7 +325,7 @@ class App extends Component {
                     </li>
 
                     <li>
-                      <a className='uk-text-danger'>
+                      <a className='uk-text-danger' onClick={this.logout.bind(this)}>
                         <span className='uk-icon uk-margin-small-right' uk-icon='icon: sign-out' />
                         Log Out
                       </a>

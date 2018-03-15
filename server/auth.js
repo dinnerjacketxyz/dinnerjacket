@@ -136,6 +136,7 @@ module.exports = (app) => {
             //console.log('Data incoming: ' + data)
           })
           res2.on('end', function(body) {
+            //console.log(data + '\n')
             resolve(data)
           })
         })
@@ -174,6 +175,7 @@ module.exports = (app) => {
   app.get('/logout', (req, res) => {
     req.session.destroy()
     res.redirect(siteURL)
+
   })
 
   var session = require('express-session')

@@ -6,14 +6,21 @@ let dailyNotices = ''
 class Notices extends Component {
   constructor(props) {
     super(props)
-
+    
+    const userYear = window.userData['yearGroup']
+    
     this.state = {
       notices: [],
-      year: 'ALL',
+      year: window.userData['yearGroup'],
       text: 'EXPAND ALL'
     }
-
+    
     this.init()
+  }
+  
+  componentDidMount() {
+    let selector = document.getElementById('yearSelector')
+    selector.value = window.userData['yearGroup']
   }
 
   strip(html) {
