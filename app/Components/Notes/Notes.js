@@ -11,6 +11,13 @@ let userID
 let interval
 
 class Notes extends Component {
+  constructor(props) {
+    super(props)
+
+    window.addEventListener('beforeunload', (event) => {
+      this.updateDB()
+    }, false)
+  }
   componentDidMount() {
     //userID = window.userData.username // FIX THIS
     http.get('/getdata?url=details/userinfo.json', (res) => {
@@ -44,12 +51,6 @@ class Notes extends Component {
     } else {
       // Local storage not supported
     }
-  }
-  
-  init() {
-    
-  
-    this.retrieveDB()
   }
 
   retrieveDB() {

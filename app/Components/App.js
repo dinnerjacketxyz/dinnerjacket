@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
-import Loading from './Loading/Loading'
 import Welcome from './Welcome/Welcome'
 import Dashboard from './Dashboard/Dashboard'
 import Timetable from './Timetable/Timetable'
 import Notes from './Notes/Notes'
 import Notices from './Notices/Notices'
-import Settings from './Settings/Settings'
 import About from './About/About'
 import Feedback from './Feedback/Feedback'
-import Profile from './Profile/Profile'
 import Changelog from './Changelog/Changelog'
 const css = require('./App.css')
 const icons = require('../uikit-icons.min')
@@ -32,7 +29,6 @@ window.dashboard = ''
 // Represents the current visible content
 
 window.STATES = {
-  LOADING: -2,
   WELCOME: -1,
   DASHBOARD: 0,
   TIMETABLE: 1,
@@ -262,7 +258,6 @@ class App extends Component {
     return (
       <div id='main' className='main'>
         {this.state.visible === window.STATES.WELCOME && <Welcome />}
-        {this.state.visible === window.STATES.LOADING && <Loading />}
 
         <nav id='navbar' className='uk-navbar uk-navbar-container welcomeNav uk-sticky' uk-sticky='true' uk-navbar='true'>
           <div className='uk-navbar-left'>
@@ -282,7 +277,7 @@ class App extends Component {
 
               <li id='TimetableLi' className='uk-animation-toggle' onClick={this.showTimetable.bind(this)}>
                 <a id='TimetableA' className='uk-box-shadow-hover-medium'>
-                  <span id='TimetableS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: star' />
+                  <span id='TimetableS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: table' />
                   <p className='collapseText' id='TimetableP'>Timetable</p>
                   <b className='collapseText' id='TimetableB'></b>
                 </a>
