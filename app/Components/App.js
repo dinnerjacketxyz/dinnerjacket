@@ -86,7 +86,7 @@ class App extends Component {
           let visible = this.state.visible
           this.setState({ visible: window.STATES.DASHBOARD })
           //loggedIn = true
-        }
+        } else {localStorage.setItem('clicked',false)}
       })
     })
 

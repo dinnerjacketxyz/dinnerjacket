@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 const css = require('./Dashboard')
 const http = require('http')
 
+
 class Dashboard extends Component {
   constructor(props) {
     super(props)
-
+    localStorage.setItem('clicked','false')
     this.state = { htmlClasses: (<b></b>),
                    shouldUpdatetimetable: true,
                    schedule: '',

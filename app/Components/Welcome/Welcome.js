@@ -7,7 +7,6 @@ class Welcome extends Component {
     // A user may already have a token and therefore in that case
     // it needs to begin with 'Logout' functionality
     console.log('Login clicked')
-
     let url = window.location.toString()
     if (url.substr(url.length - 11) === '/index.html') {
       alert('Run "npm start" to use server and login functions')
@@ -22,6 +21,26 @@ class Welcome extends Component {
       // this is busted
       //window.states.visible = window.STATES.DASHBOARD
     }
+    this.spinner()
+  }
+
+  spinner() {
+      let button = document.getElementById('loginButton')
+      let div = document.getElementById('loginDiv')
+      let p = document.getElementById('loginP')
+      button.className = 'uk-button uk-button-default uk-margin-top uk-margin-bottom disabled'
+      div.className = 'uk-spinner uk-icon show'
+      p.className = 'hide'
+      localStorage.setItem('clicked', 'true')
+      console.log(localStorage.getItem('clicked'))
+  }
+
+  componentDidMount() {
+    console.log(localStorage.getItem('clicked'))
+    if (localStorage.clicked=='true') {
+      this.spinner()
+      console.log('clicked')
+    }
   }
 
   render() {
@@ -34,15 +53,6 @@ class Welcome extends Component {
               alt='logo' src='64.png'>
             </img>
           </div>
-          <div className='uk-navbar-right'>
-            <ul className='uk-navbar-nav'>
-              <li className='uk-animation-toggle'>
-                  <a className='uk-box-shadow-hover-small uk-padding-large' onClick={this.toggleLogin.bind(this)}>
-                    Login
-                  </a>
-              </li>
-            </ul>
-          </div>
         </nav>
         <div className='uk-flex uk-flex-center uk-text-center'>
           <div className='uk-card uk-card-default uk-card-body uk-width-large uk-animation-slide-top-small'>
@@ -53,7 +63,12 @@ class Welcome extends Component {
             <h1 className='uk-h1'>DinnerJacket</h1>
             <p className='uk-label uk-label-danger'>alpha v0.1.0</p>
             <p className='uk-margin-top uk-margin-bottom'>This is an alpha. That means that you might try out new features that are still in development, or even run into technical issues from time to time.</p>
-            <button className='uk-button uk-button-primary uk-margin-top uk-margin-bottom' onClick={this.toggleLogin.bind(this)}>Login</button>
+            <button id='loginButton' className='uk-button uk-button-primary uk-margin-top uk-margin-bottom' onClick={this.toggleLogin.bind(this)}>
+              <div id='loginDiv' className='uk-spinner uk-icon hide' uk-spinner='true'>
+                <svg width="20" height="20" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" ratio="1"><circle fill="none" stroke="#000" cx="15" cy="15" r="14"></circle></svg>
+              </div>
+              <p id='loginP' className='show'>Login</p>
+            </button>
           </div>
         </div>
       </div>

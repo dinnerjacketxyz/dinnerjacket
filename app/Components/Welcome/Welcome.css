@@ -17,3 +17,12 @@
     height: 40px
   }
 }
+
+.show {
+  visibility: visible!important;
+}
+
+.hide {
+  visibility: hidden!important;
+  display: none!important;
+}
