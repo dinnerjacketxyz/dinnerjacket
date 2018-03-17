@@ -353,7 +353,7 @@ class Dashboard extends Component {
             <table className='uk-table uk-table-hover uk-table-small'>
               <tbody>
                 <tr>
-                  <td className='uk-text-lead uk-text-left'>
+                  <td className='uk-text-left'>
                     {periods[0].name}
                     {periods[0].teacher}
                   </td>

@@ -10752,7 +10752,7 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             null,
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'td',
-              { className: 'uk-text-lead uk-text-left' },
+              { className: 'uk-text-left' },
               periods[0].name,
               periods[0].teacher
             ),
