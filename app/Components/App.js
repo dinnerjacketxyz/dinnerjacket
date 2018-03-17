@@ -9,6 +9,7 @@ import Settings from './Settings/Settings'
 import About from './About/About'
 import Feedback from './Feedback/Feedback'
 import Profile from './Profile/Profile'
+import Changelog from './Changelog/Changelog'
 const css = require('./App.css')
 const icons = require('../uikit-icons.min')
 const http = require('http')
@@ -38,7 +39,8 @@ window.STATES = {
   NOTES: 2,
   NOTICES: 3,
   ABOUT: 4,
-  FEEDBACK: 5
+  CHANGELOG: 5,
+  FEEDBACK: 6
 }
 
 const nameArray = [
@@ -236,8 +238,15 @@ class App extends Component {
     this.selectedNavbar(4)
   }
 
+  showChangelog() {
+    console.log('Changelog tab clicked')
+    let visible = this.state.visible
+    this.setState({ visible: window.STATES.CHANGELOG })
+    this.selectedNavbar(4)
+  }
+
   showFeedback() {
-    console.log('Settings tab clicked')
+    console.log('Feedback tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.FEEDBACK })
     this.selectedNavbar(4)
@@ -314,6 +323,13 @@ class App extends Component {
                       <a onClick={this.showAbout.bind(this)}>
                         <span className='uk-icon uk-margin-small-right' uk-icon='icon: info' />
                         About
+                      </a>
+                    </li>
+
+                    <li>
+                      <a onClick={this.showChangelog.bind(this)}>
+                        <span className='uk-icon uk-margin-small-right' uk-icon='icon: info' />
+                        Changelog
                       </a>
                     </li>
 
