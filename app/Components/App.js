@@ -39,6 +39,8 @@ window.STATES = {
   FEEDBACK: 6
 }
 
+let counter = 0
+
 const nameArray = [
   'Dashboard',
   'Timetable',
@@ -252,6 +254,15 @@ class App extends Component {
     window.location.href = '/logout'
   }
 
+  logo() {
+    console.log('logo click')
+    counter++
+    if (counter === 5) {
+      alert('spif')
+      counter = 0
+    }
+  }
+
   // Always renders navbar
   // Renders active page
   render() {
@@ -261,10 +272,12 @@ class App extends Component {
 
         <nav id='navbar' className='uk-navbar uk-navbar-container welcomeNav uk-sticky' uk-sticky='true' uk-navbar='true'>
           <div className='uk-navbar-left'>
-            <img id='logo'
-              className='djLogo uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom'
-              alt='logo' src='64.png'>
-            </img>
+            <div onClick={this.logo.bind(this)}>
+              <img id='logo'
+                className='djLogo uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom'
+                alt='logo' src='64.png'>
+              </img>
+            </div>
             <ul className='uk-navbar-nav'>
 
               <li id='DashboardLi' className='uk-animation-toggle uk-active' onClick={this.showDashboard.bind(this)}>
@@ -360,6 +373,8 @@ class App extends Component {
       </div>
     )
   }
+
+  
 }
 
 export default App

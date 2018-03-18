@@ -40,7 +40,7 @@ class Notes extends Component {
         toolbar: true
       },
       theme: 'bubble',
-      placeholder: 'test placeholder'
+      placeholder: 'Notes\n\n- Use this tab to take note of homework, or anything else.\n- Notes are stored locally and in an online database so they stay with you on every device.\n- Your notes are encoded so they are visible only to you.\n- Finally, highlight text or use keyboard shortcuts to format text (bold, italics, headings etc.)'
     })
   
     // Local Storage
@@ -117,104 +117,3 @@ class Notes extends Component {
 }
 
 export default Notes
-
-// OLD CODE
-
-
-    /*ref.once('value', (data) => {
-      console.log(data.val())
-      quill.setContents(data.val())
-    })*/
-
-    /*let localTime
-
-    // Local Storage
-    // Retrieve locally stored notes upon load, before database sync
-    if (typeof(Storage) !== 'undefined') {
-      // Local storage supported
-      quill.setContents(JSON.parse(localStorage.getItem('content')))
-      localTime = localStorage.getItem('time')
-    } else {
-      // Local storage not supported
-    }    
-
-    // Notes Hosting - Firebase Database
-    ref.once('value', (data) => {
-      console.log(data.val().time)
-
-      if (data.val().time > localTime) {
-        localStorage.setItem('content', data.val().content)
-        localStorage.setItem('time', data.val().time)
-        quill.setContents(JSON.parse(data.val().content))
-      }
-    })*/
-
-    //this.retrieveDB()
-
-    //abc = setInterval(() => { this.retrieveDB() }, 5000)
-
-     /*retrieveDB() {
-    console.log('retrieveDB')
-    let content
-    let time
-    ref.once('value', (data) => {
-      content = JSON.parse(data.val().content)
-      time = data.val().time
-    })
-    
-    if (time > localStorage.getItem('time')) {
-      localStorage.setItem('content', JSON.stringify(content))
-      localStorage.setItem('time', time)
-      quill.setContents(content)
-    }
-  }*/
-
-  /*retrieveDB() {
-    let time
-    let content
-
-    ref.once('value', (data) => {
-      content = JSON.parse(data.val().content)
-      time = data.val().time
-    })
-
-    if (time > localStorage.getItem('time')) {
-      // DB newer
-      localStorage.setItem('content', JSON.stringify(content))
-      localStorage.setItem('time', time)
-    } else {
-      // Local storage newer
-      content = JSON.parse(localStorage.getItem('content'))
-      let data = {
-        content: content,
-        time: new Date()
-      }
-      ref.update(data)
-    }
-
-    quill.setContents(content)
-  }*/
-  
-  /*
-   * Newer date > Older date
-   * Check if firebase time > localStorage time
-   * If true, quill.setContent(firebase note)
-   * Else, do nothing
-   */
-
- /*updateDB() {
-    if (!firstSync) {
-      let data = {
-        content: quill.getContents()
-      }
-
-      ref.update(data)
-    }
-    firstSync = false
-  }
-
-  retrieveFromDB() {
-    ref.once('value', (data) => {
-      console.log(data.val())
-    })
-  }*/
