@@ -18,6 +18,7 @@ module.exports = (app) => {
           *==================================================*
                                                                 */
       secret: REDACTED
+
       /*
           *==================================================*
           |   REMEMBER TO REMOVE IT AGAIN BEFORE YOU PUSH    |
