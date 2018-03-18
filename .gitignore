@@ -1,12 +1,13 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
 # dependencies
+public/firebase.js
+node_modules
 
 # testing
 /coverage
 
 # production
-public/firebase.js
 
 # misc
 .DS_Store
