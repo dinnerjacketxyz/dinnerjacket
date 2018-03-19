@@ -23,6 +23,7 @@ class Welcome extends Component {
       // this is busted
       //window.states.visible = window.STATES.DASHBOARD
     }
+    localStorage.setItem('clicked',true)
     this.spinner()
   }
 
@@ -33,7 +34,6 @@ class Welcome extends Component {
       button.className = 'uk-button uk-button-default uk-margin-top uk-margin-bottom disabled'
       div.className = 'uk-spinner uk-icon show'
       p.className = 'hide'
-      localStorage.setItem('clicked', 'true')
       //console.log(localStorage.getItem('clicked'))
   }
 

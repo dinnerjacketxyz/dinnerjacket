@@ -49,6 +49,7 @@ const nameArray = [
   'Side'
 ]
 
+
 //let loggedIn = false
 
 class App extends Component {
@@ -86,6 +87,7 @@ class App extends Component {
           let visible = this.state.visible
           this.setState({ visible: window.STATES.DASHBOARD })
           this.getData()
+          localStorage.setItem('clicked',true)
           //loggedIn = true
         } else {localStorage.setItem('clicked',false)}
       })
@@ -105,6 +107,10 @@ class App extends Component {
     // firebase.initializeApp(config)
     //
     // //console.log(firebase)
+  }
+
+  componentWillUnmount(){
+    localStorage.setItem('clicked',true)
   }
 
   getData() {
@@ -263,6 +269,8 @@ class App extends Component {
 
   logout() {
     window.location.href = '/logout'
+    localStorage.setItem('clicked',false)
+    Welcome.spinner()
   }
 
   logo() {
