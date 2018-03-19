@@ -8,11 +8,11 @@ class Welcome extends Component {
     // Ensure this toggles correctly between Login and Logout
     // A user may already have a token and therefore in that case
     // it needs to begin with 'Logout' functionality
-    console.log('Login clicked')
+    //console.log('Login clicked')
     let url = window.location.toString()
     if (url.substr(url.length - 11) === '/index.html') {
       alert('Run "npm start" to use server and login functions')
-      console.log('Run "npm start" to use server and login functions')
+      //console.log('Run "npm start" to use server and login functions')
     } else {
       // also busted cause the entire page reloads on Login
       // therefore it gets initialised again and set to false
@@ -34,19 +34,19 @@ class Welcome extends Component {
       div.className = 'uk-spinner uk-icon show'
       p.className = 'hide'
       localStorage.setItem('clicked', 'true')
-      console.log(localStorage.getItem('clicked'))
+      //console.log(localStorage.getItem('clicked'))
   }
 
   componentDidMount() {
-    console.log(localStorage.getItem('clicked'))
+    //console.log(localStorage.getItem('clicked'))
     if (localStorage.clicked=='true') {
       this.spinner()
-      console.log('clicked')
+      //console.log('clicked')
     }
   }
 
   logo() {
-    console.log('logo click')
+    //console.log('logo click')
     counter++
     if (counter === 5) {
       alert('spif')
@@ -75,7 +75,7 @@ class Welcome extends Component {
             </img>
             <h1 className='uk-h1'>DinnerJacket</h1>
             <p className='uk-label uk-label-danger'>alpha v0.1.0</p>
-            <p className='uk-margin-top uk-margin-bottom'>This is an alpha release of DinnerJacket. New features are still in development and technical issues may occasionally arise. Please report any issues or suggestions in the feedback tab.</p>
+            <p className='uk-margin-top uk-margin-bottom'>This is an alpha release of DinnerJacket. New features are still in development and technical issues may occasionally arise. Please report any issues or suggestions in the feedback tab. Thanks!</p>
             <button id='loginButton' className='uk-button uk-button-primary uk-margin-top uk-margin-bottom' onClick={this.toggleLogin.bind(this)}>
               <div id='loginDiv' className='uk-spinner uk-icon hide' uk-spinner='true'>
                 <svg width="20" height="20" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" ratio="1"><circle fill="none" stroke="#000" cx="15" cy="15" r="14"></circle></svg>

@@ -11,13 +11,6 @@ let userID
 let interval
 
 class Notes extends Component {
-  constructor(props) {
-    super(props)
-
-    window.addEventListener('beforeunload', (event) => {
-      this.updateDB()
-    }, false)
-  }
   componentDidMount() {
     //userID = window.userData.username // FIX THIS
     http.get('/getdata?url=details/userinfo.json', (res) => {
@@ -40,9 +33,9 @@ class Notes extends Component {
         toolbar: true
       },
       theme: 'bubble',
-      placeholder: 'Notes\n\n- Use this tab to take note of homework, or anything else.\n- Notes are stored locally and in an online database so they stay with you on every device.\n- Your notes are encoded so they are visible only to you.\n- Finally, highlight text or use keyboard shortcuts to format text (bold, italics, headings etc.)'
+      placeholder: 'Write any notes here! Your notes are encoded and synced both locally and to the cloud. Highlight text or use keyboard shortcuts for formatting options such as bold, italics and headings.'
     })
-  
+
     // Local Storage
     // Retrieve locally stored notes upon load, before database sync
     if (typeof(Storage) !== 'undefined') {
@@ -54,51 +47,55 @@ class Notes extends Component {
   }
 
   retrieveDB() {
-    ref.once('value', (data) => {
-      console.log('FB Time ' + data.val().time)
-      console.log('Local Time ' + localStorage.getItem('time'))
-      if (data.val().time > localStorage.getItem('time')) {
-        // Firebase DB Newer
-        quill.setContents(JSON.parse(atob(data.val().content)))
-        localStorage.setItem('content', data.val().content)
-        localStorage.setItem('time', data.val().time)
-      } else {
-        // Local Storage Newer
-        quill.setContents(JSON.parse(atob(localStorage.getItem('content'))))
-        let data = {
-          content: localStorage.getItem('content'),
-          time: localStorage.getItem('time')
+    try {
+      ref.once('value', (data) => {
+        //console.log('FB Time ' + data.val().time)
+        //console.log('Local Time ' + localStorage.getItem('time'))
+        if (data.val().time > localStorage.getItem('time')) {
+          // Firebase DB Newer
+          quill.setContents(JSON.parse(atob(data.val().content)))
+          localStorage.setItem('content', data.val().content)
+          localStorage.setItem('time', data.val().time)
+        } else {
+          // Local Storage Newer
+          quill.setContents(JSON.parse(atob(localStorage.getItem('content'))))
+          let data = {
+            content: localStorage.getItem('content'),
+            time: localStorage.getItem('time')
+          }
+          ref.update(data)
         }
-        ref.update(data)
-      }
-    })
-  }
-
-  componentWillUnmount() {
-    this.updateDB()
+      })
+    } catch (e) {
+      console.log('Error retrieving notes')
+    }
   }
 
   updateDB() {
-    let content = btoa(JSON.stringify(quill.getContents()))
-    let time = new Date().getTime()
-    console.log(time)
-  
-    // Local storage
-    // Sync string of notes object locally on text input to retrieve on component load
-    if (typeof(Storage) !== 'undefined') {
-      // Local storage supported
-      localStorage.setItem('content', content)
-      localStorage.setItem('time', time)
-    } else {
-      // Local storage not supported
-    }
+    try {
+      let content = btoa(JSON.stringify(quill.getContents()))
+      let time = new Date().getTime()
+      //console.log(time)
 
-    // Notes Hosting - Firebase Database
-    let data = {
-      content: content,
-      time: time
+      // Local storage
+      // Sync string of notes object locally on text input to retrieve on component load
+      if (typeof(Storage) !== 'undefined') {
+        // Local storage supported
+        localStorage.setItem('content', content)
+        localStorage.setItem('time', time)
+      } else {
+        // Local storage not supported
+      }
+
+      // Notes Hosting - Firebase Database
+      let data = {
+        content: content,
+        time: time
+      }
+      ref.update(data)
+    } catch (e) {
+      console.log('Error updating notes')
     }
-    ref.update(data)
   }
 
   render() {

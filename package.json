@@ -1,6 +1,6 @@
 {
   "name": "dinnerjacket",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "SBHS organiser",
   "main": "server/server.js",
   "scripts": {

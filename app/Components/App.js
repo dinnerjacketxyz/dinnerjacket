@@ -80,21 +80,39 @@ class App extends Component {
 
       res.on('end', () => {
         window.dashboard = JSON.parse(data)
-        console.log('setting dashboard')
+        //console.log('setting dashboard')
         if (window.dashboard != '') {
           document.getElementById('navbar').className = 'uk-navbar uk-navbar-container'
           let visible = this.state.visible
           this.setState({ visible: window.STATES.DASHBOARD })
+          this.getData()
           //loggedIn = true
         } else {localStorage.setItem('clicked',false)}
       })
     })
 
+
+
+    // Initialize Firebase
+    // var config = {
+    //   apiKey: "AIzaSyAev2g0el9w9m_Ad6CAhCxH9hAJ9pYaazo",
+    //   authDomain: "dinnerjacket-5b51a.firebaseapp.com",
+    //   databaseURL: "https://dinnerjacket-5b51a.firebaseio.com",
+    //   projectId: "dinnerjacket-5b51a",
+    //   storageBucket: "dinnerjacket-5b51a.appspot.com",
+    //   messagingSenderId: "503058640770"
+    // };
+    // firebase.initializeApp(config)
+    //
+    // //console.log(firebase)
+  }
+
+  getData() {
     http.get('/getdata?url=details/userinfo.json', (res) => {
       res.setEncoding('utf8')
       let a = ''
       res.on('data', (body) => {
-        //console.log(body)
+        ////console.log(body)
         a += body
         //let visible = this.state.visible
         //this.setState({ visible: window.STATES.WELCOME })
@@ -144,26 +162,13 @@ class App extends Component {
         window.timetable = JSON.parse(b)
       })
     })
-
-    // Initialize Firebase
-    // var config = {
-    //   apiKey: "AIzaSyAev2g0el9w9m_Ad6CAhCxH9hAJ9pYaazo",
-    //   authDomain: "dinnerjacket-5b51a.firebaseapp.com",
-    //   databaseURL: "https://dinnerjacket-5b51a.firebaseio.com",
-    //   projectId: "dinnerjacket-5b51a",
-    //   storageBucket: "dinnerjacket-5b51a.appspot.com",
-    //   messagingSenderId: "503058640770"
-    // };
-    // firebase.initializeApp(config)
-    //
-    // console.log(firebase)
   }
 
   blankNavbar() {
     //makes all navbar <li> look unselected
     let tabCount = document.getElementById('navbar').childNodes.length
     for (let i = 0; i < nameArray.length; i++) {
-      //console.log(i)
+      ////console.log(i)
       let Li = document.getElementById(nameArray[i] + 'Li')
       let A = document.getElementById(nameArray[i] + 'A')
       let B = document.getElementById(nameArray[i] + 'B')
@@ -202,60 +207,66 @@ class App extends Component {
   }
 
   showDashboard() {
-    console.log('Dashboard tab clicked')
-    let visible = this.state.visible
-    this.setState({ visible: window.STATES.DASHBOARD })
-    this.selectedNavbar(window.STATES.DASHBOARD)
+    //console.log('Dashboard tab clicked')
+    if (window.dashboard !== '') {
+      let visible = this.state.visible
+      this.setState({ visible: window.STATES.DASHBOARD })
+      this.selectedNavbar(window.STATES.DASHBOARD)
+    }
   }
 
   showTimetable() {
-    console.log('Timetable tab clicked')
-    let visible = this.state.visible
-    this.setState({ visible: window.STATES.TIMETABLE })
-    this.selectedNavbar(window.STATES.TIMETABLE)
+    //console.log('Timetable tab clicked')
+    if (window.timetable !== '') {
+      let visible = this.state.visible
+      this.setState({ visible: window.STATES.TIMETABLE })
+      this.selectedNavbar(window.STATES.TIMETABLE)
+    }
   }
 
   showNotes() {
-    console.log('User notes tab clicked')
+    //console.log('User notes tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.NOTES })
     this.selectedNavbar(window.STATES.NOTES)
   }
 
   showNotices() {
-    console.log('Daily notices tab clicked')
-    let visible = this.state.visible
-    this.setState({ visible: window.STATES.NOTICES })
-    this.selectedNavbar(window.STATES.NOTICES)
+    //console.log('Daily notices tab clicked')
+    if (window.dailyNotices !== '') {
+      let visible = this.state.visible
+      this.setState({ visible: window.STATES.NOTICES })
+      this.selectedNavbar(window.STATES.NOTICES)
+    }
   }
 
   showAbout() {
-    console.log('About tab clicked')
+    //console.log('About tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.ABOUT })
     this.selectedNavbar(4)
   }
 
   showChangelog() {
-    console.log('Changelog tab clicked')
+    //console.log('Changelog tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.CHANGELOG })
     this.selectedNavbar(4)
   }
 
   showFeedback() {
-    console.log('Feedback tab clicked')
+    //console.log('Feedback tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.FEEDBACK })
     this.selectedNavbar(4)
   }
-  
+
   logout() {
     window.location.href = '/logout'
   }
 
   logo() {
-    console.log('logo click')
+    //console.log('logo click')
     counter++
     if (counter === 5) {
       alert('spif')
@@ -336,7 +347,7 @@ class App extends Component {
 
                     <li>
                       <a onClick={this.showChangelog.bind(this)}>
-                        <span className='uk-icon uk-margin-small-right' uk-icon='icon: info' />
+                        <span className='uk-icon uk-margin-small-right' uk-icon='icon: code' />
                         Changelog
                       </a>
                     </li>
@@ -367,6 +378,7 @@ class App extends Component {
           {this.state.visible === window.STATES.NOTES && <Notes />}
           {this.state.visible === window.STATES.NOTICES && <Notices />}
           {this.state.visible === window.STATES.ABOUT && <About />}
+          {this.state.visible === window.STATES.CHANGELOG && <Changelog />}
           {this.state.visible === window.STATES.FEEDBACK && <Feedback />}
         </div>
 
@@ -374,7 +386,7 @@ class App extends Component {
     )
   }
 
-  
+
 }
 
 export default App

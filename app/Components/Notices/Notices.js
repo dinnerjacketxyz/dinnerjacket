@@ -32,7 +32,7 @@ class Notices extends Component {
   init() {
     dailyNotices = window.dailyNotices
     this.state.notices = []
-    console.log('testing132')
+    //console.log('testing132')
 
     /*years += dailyNotices.notices[i].years[j]
       if (j < dailyNotices.notices[i].years.length - 1) {
@@ -109,10 +109,10 @@ class Notices extends Component {
 
     for (let i = 0; i < notice.years.length; i++) {
       if (year == notice.years[i]) {
-        console.log(year)
-        console.log(notice.years[i])
+        //console.log(year)
+        //console.log(notice.years[i])
         found = true
-        console.log(found)
+        //console.log(found)
       }
     }
     return found
@@ -123,7 +123,7 @@ class Notices extends Component {
     this.state.year = selector.options[selector.selectedIndex].text
     let a = this.state.a
     this.setState({ a: 'test' })
-    console.log(this.state.year)
+    //console.log(this.state.year)
 
     this.init()
   }

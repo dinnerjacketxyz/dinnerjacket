@@ -77,7 +77,7 @@ class Timetable extends Component {
     //Puts your name at the top
     let name = document.getElementById('name')
     name.innerHTML = `${timetableData.student.givenname}&nbsp;${timetableData.student.surname}`
-    //console.log(timetableData.subjects)
+    ////console.log(timetableData.subjects)
     this.activeTab()
   }
 

@@ -1,7 +1,6 @@
-const oauth2module = require('simple-oauth2')
+﻿const oauth2module = require('simple-oauth2')
 const https = require('https')
 
-// change this to 'http://dinnerjacket.xyz' for release
 const siteURL = 'http://localhost:3000'
 
 module.exports = (app) => {
@@ -10,7 +9,7 @@ module.exports = (app) => {
   // Set up OAuth2 parameters
   const cred = {
     client: {
-      id: 'dinnerjacket_1514947891',
+      id: 'DinnerJacket_dev',
 
       /*
           *==================================================*
