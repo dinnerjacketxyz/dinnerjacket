@@ -74,7 +74,7 @@ class Welcome extends Component {
               alt='logo' src='256.png' width='150px' height='150px'>
             </img>
             <h1 className='uk-h1'>DinnerJacket</h1>
-            <p className='uk-label uk-label-danger'>alpha v0.1.0</p>
+            <p className='uk-label uk-label-danger'>alpha v0.1.1</p>
             <p className='uk-margin-top uk-margin-bottom'>This is an alpha release of DinnerJacket. New features are still in development and technical issues may occasionally arise. Please report any issues or suggestions in the feedback tab. Thanks!</p>
             <button id='loginButton' className='uk-button uk-button-primary uk-margin-top uk-margin-bottom' onClick={this.toggleLogin.bind(this)}>
               <div id='loginDiv' className='uk-spinner uk-icon hide' uk-spinner='true'>

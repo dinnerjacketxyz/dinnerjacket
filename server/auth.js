@@ -85,6 +85,7 @@ module.exports = (app) => {
     promise.then(function(result) {
       // store token in user's session
       req.session.token = result
+
       // Login done, redirect back
       res.redirect(siteURL)
     })
@@ -102,6 +103,14 @@ module.exports = (app) => {
    |  timetable/bells.json        |  calendar/days.json         |
    |  calendar/terms.json         |                             |
    *==============================*=============================*/
+
+  app.get('/getsession', (req, res) => {
+    if (req.session.token == undefined) {
+      res.send(false)
+    } else {
+      res.send(true)
+    }
+  })
 
   app.get('/getdata', (req1, res1) => {
 

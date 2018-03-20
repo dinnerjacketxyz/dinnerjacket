@@ -11,6 +11,10 @@ const css = require('./App.css')
 const icons = require('../uikit-icons.min')
 const http = require('http')
 
+//const fb = require('../../public/firebase')
+
+import Loading from './Loading'
+
 //const retrieveNotices = require('./Notices/RetrieveNotices')
 
 window.userData = ''
@@ -29,6 +33,7 @@ window.dashboard = ''
 // Represents the current visible content
 
 window.STATES = {
+  LOADING: -2,
   WELCOME: -1,
   DASHBOARD: 0,
   TIMETABLE: 1,
@@ -58,55 +63,23 @@ class App extends Component {
 
     // Set default state on open to Welcome page
     this.state = {
-      visible: window.STATES.WELCOME
+      visible: window.STATES.LOADING
     }
 
-    //let visible = this.state.visible
-    /*let url = window.location.toString()
-    if (url.substr(url.length - 11) === '/index.html') {
-      this.setState({ visible: window.STATES.DASHBOARD })
-    } else {*/
+    //this.getData()
 
-    // Sample data request
-    // If data is undefined, user is not logged in and therefore welcome page is shown
-    // Otherwise it sets the state directly to Dashboard, the default homepage for logged in users
-    // TODO there is a slight delay between it switching to the dashboard page (a lil flicker here and there innit)
-    // Get daily timetable data from SBHS API
-    http.get('/getdata?url=timetable/daytimetable.json', (res) => {
+    let visible = this.state.visible
+    http.get('/getsession', (res) => {
       res.setEncoding('utf8')
-      let data = ''
+      
       res.on('data', (body) => {
-        data += body
-      })
-
-      res.on('end', () => {
-        window.dashboard = JSON.parse(data)
-        //console.log('setting dashboard')
-        if (window.dashboard != '') {
-          document.getElementById('navbar').className = 'uk-navbar uk-navbar-container'
-          let visible = this.state.visible
-          this.setState({ visible: window.STATES.DASHBOARD })
+        if (body == 'false') {
+          this.setState({ visible: window.STATES.WELCOME })
+        } else {
           this.getData()
-          localStorage.setItem('clicked',true)
-          //loggedIn = true
-        } else {localStorage.setItem('clicked',false)}
+        }
       })
     })
-
-
-
-    // Initialize Firebase
-    // var config = {
-    //   apiKey: "AIzaSyAev2g0el9w9m_Ad6CAhCxH9hAJ9pYaazo",
-    //   authDomain: "dinnerjacket-5b51a.firebaseapp.com",
-    //   databaseURL: "https://dinnerjacket-5b51a.firebaseio.com",
-    //   projectId: "dinnerjacket-5b51a",
-    //   storageBucket: "dinnerjacket-5b51a.appspot.com",
-    //   messagingSenderId: "503058640770"
-    // };
-    // firebase.initializeApp(config)
-    //
-    // //console.log(firebase)
   }
 
   componentWillUnmount(){
@@ -114,35 +87,42 @@ class App extends Component {
   }
 
   getData() {
+    http.get('/getdata?url=timetable/daytimetable.json', (res) => {
+      res.setEncoding('utf8')
+      let data = ''
+      res.on('data', (body) => {
+        data += body
+      })
+      
+      res.on('end', () => {
+        window.dashboard = JSON.parse(data)
+        if (window.dashboard != '') {
+          //let visible = this.state.visible
+          document.getElementById('navbar').className = 'uk-navbar uk-navbar-container'
+          let visible = this.state.visible
+          this.setState({ visible: window.STATES.DASHBOARD })
+          localStorage.setItem('clicked', true)
+        } else {
+          localStorage.setItem('clicked', false)
+        }
+      })
+    })
+
     http.get('/getdata?url=details/userinfo.json', (res) => {
       res.setEncoding('utf8')
+
       let a = ''
       res.on('data', (body) => {
-        ////console.log(body)
         a += body
-        //let visible = this.state.visible
-        //this.setState({ visible: window.STATES.WELCOME })
       })
       res.on('end', () => {
-        //data.userData = JSON.parse(a)
-        //Data.setUserData(JSON.parse(a))
         window.userData = JSON.parse(a)
-
-        /*let visible = this.state.visible
-        this.setState({ visible: window.STATES.WELCOME })
-        if (loggedIn) {
-          this.setState({ visible: wi.ndow.STATES.DASHBOARD })
-        }*/
-
-
 
         let name = document.getElementById('SideP')
         name.innerHTML = window.userData.givenName + ' ' + window.userData.surname
       })
     })
-    //}
 
-    //if (this.state.visible != window.STATES.WELCOME) {
 
     // Get daily notices from SBHS API
     http.get('/getdata?url=dailynews/list.json', (res) => {
@@ -287,6 +267,7 @@ class App extends Component {
   render() {
     return (
       <div id='main' className='main'>
+        {this.state.visible === window.STATES.LOADING && <Loading />}
         {this.state.visible === window.STATES.WELCOME && <Welcome />}
 
         <nav id='navbar' className='uk-navbar uk-navbar-container welcomeNav uk-sticky' uk-sticky='true' uk-navbar='true'>

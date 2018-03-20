@@ -11,6 +11,14 @@ let userID
 let interval
 
 class Notes extends Component {
+  constructor(props) {
+    super(props)
+
+    window.addEventListener('beforeunload', (event) => {
+      this.updateDB()
+    }, false)
+  }
+
   componentDidMount() {
     //userID = window.userData.username // FIX THIS
     http.get('/getdata?url=details/userinfo.json', (res) => {
@@ -40,10 +48,20 @@ class Notes extends Component {
     // Retrieve locally stored notes upon load, before database sync
     if (typeof(Storage) !== 'undefined') {
       // Local storage supported
-      quill.setContents(JSON.parse(atob(localStorage.getItem('content'))))
+      try {
+        if (localStorage.getItem('content') != '') {
+          quill.setContents(JSON.parse(atob(localStorage.getItem('content'))))
+        }
+      } catch (e) {
+        console.log('Error setting note content')
+      }
     } else {
       // Local storage not supported
     }
+  }
+
+  componentWillUnmount() {
+    this.updateDB()
   }
 
   retrieveDB() {
@@ -66,6 +84,8 @@ class Notes extends Component {
           ref.update(data)
         }
       })
+
+      console.log(JSONparse)
     } catch (e) {
       console.log('Error retrieving notes')
     }
