@@ -37,6 +37,14 @@ class Welcome extends Component {
       //console.log(localStorage.getItem('clicked'))
   }
 
+  componentWillMount() {
+    console.log(localStorage.clicked)
+    console.log(window.dashboard)
+    if (window.dashboard === '' && localStorage.clicked===false) {
+      console.log('yes')
+    }
+  }
+
   componentDidMount() {
     //console.log(localStorage.getItem('clicked'))
     if (localStorage.clicked=='true') {
@@ -56,24 +64,14 @@ class Welcome extends Component {
 
   render() {
     return (
-      <div id='main' className='main uk-height-viewport'>
-        <nav className='uk-navbar uk-navbar-container uk-margin'>
-          <div className='uk-navbar-left'>
-            <div onClick={this.logo.bind(this)}>
-              <img id='logo'
-                className='djLogo uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom'
-                alt='logo' src='64.png'>
-              </img>
-            </div>
-          </div>
-        </nav>
-        <div className='uk-flex uk-flex-center uk-text-center'>
-          <div className='uk-card uk-card-default uk-card-body uk-width-large uk-animation-slide-top-small'>
+      <div id='main' className='main uk-height-viewport centerParent'>
+        <div className='uk-flex uk-flex-center uk-text-center centerCard'>
+          <div className='uk-card uk-card-default uk-card-body uk-width-large uk-animation-slide-top-small '>
             <img id='logo'
               className='uk-disabled'
               alt='logo' src='256.png' width='150px' height='150px'>
             </img>
-            <h1 className='uk-h1'>DinnerJacket</h1>
+            <h1 id="djTitle" className='uk-h1'>DinnerJacket</h1>
             <p className='uk-label uk-label-danger'>alpha v0.1.1</p>
             <p className='uk-margin-top uk-margin-bottom'>This is an alpha release of DinnerJacket. New features are still in development and technical issues may occasionally arise. Please report any issues or suggestions in the feedback tab. Thanks!</p>
             <button id='loginButton' className='uk-button uk-button-primary uk-margin-top uk-margin-bottom' onClick={this.toggleLogin.bind(this)}>

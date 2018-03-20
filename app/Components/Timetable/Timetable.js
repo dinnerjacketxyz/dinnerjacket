@@ -2,21 +2,28 @@ import React, { Component } from 'react'
 const http = require('http')
 const css= require('./Timetable.css')
 
+//Variables for the small timetable
 let tabArray = ['MON', 'TUE', 'WED', 'THU', 'FRI','A','B','C']
-let week = 'A'
-let day = 'MON'
+let week = 'A' //decides what week to display by default
+let day = 'MON' //decides what day to display by default
 
-let timetableData = ''
-let outputA = ''
-let outputB = ''
-let outputC = ''
+//Variables for the data of both timetables
+let timetableData = '' //Raw api return
+let outputA = [] //
+let outputB = [] // Formatted for html display, in order of the top down, left to right
+let outputC = [] //
 let dayOutput = ''
 
+let p = []
+let final = []
+let weekArray = []
 
 class Timetable extends Component {
   constructor(props) {
     super(props)
-
+    week = window.bells.weekType
+    day = window.bells.day.substring(0,3).toUpperCase()
+    console.log(week,day)
   }
 
   componentDidMount() {
@@ -32,46 +39,98 @@ class Timetable extends Component {
     C.innerHTML = outputC
   }
 
+  //does pretty much everything for the big timetable
   generateWeek() {
-    //generates the first week
-    for (let i = 1; i <= 5; i++) {
-      let day = timetableData.days[i].periods
-      outputA += this.generatePeriod(day)
-    }
-    //generates the second week
-    for (let i = 6; i <= 10; i++) {
-      let day = timetableData.days[i].periods
-      outputB += this.generatePeriod(day)
-    }
-    //generates the third week
-    for (let i = 11; i <= 15; i++) {
-      let day = timetableData.days[i].periods
-      outputC += this.generatePeriod(day)
-    }
-    this.displayWeek(outputA, outputB, outputC)
-  }
+        //goes through all fifteen days of the cycle and adds specifically the period data
+        //indexed from one to fifteen because that's how the periods are index by the api
+        for (let u = 1; u <= 15; u++) {
+          let index = u-1
+          p[index]= timetableData.days[u].periods
+        }
+        
+        //counts the raw number of times the next look has iterated, so that every period gets its own index in the final array
+        let storageCounter = 0
+    
+        //Puts the periods into html form
+        //Goes through all fifteen days, this time it only has to deal with js indexing
+        for (let u = 0; u <= 14; u++) {
+          //Goes through all five periods of that day and puts it html form depending on its content
+          for (let i = 1; i <= 5; i++) {
+            if (p[u][i] == undefined) {
+              final[storageCounter] = `<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>`
+            } else if (p[u][i].room == '') {
+              final[storageCounter] = `<td>${p[u][i].title}&nbsp;&nbsp;&nbsp;-&nbsp;</td>`
+            } else {
+              final[storageCounter] = `<td>${p[u][i].title}&nbsp;&nbsp;${p[u][i].room}</td>`
+            }
+            storageCounter++
+          }
+        }
 
-  generatePeriod(day) {
-    dayOutput = ''
-    for (let u = 1; u <= 5; u++) {
-      if (day[`${u}`] == undefined) {
-        dayOutput += `<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>`
-      } else if (day[`${u}`].room == '') {
-        dayOutput += `<p>${day[`${u}`].title}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>`
-      } else {
-        dayOutput += `<p>${day[`${u}`].title}&nbsp;&nbsp;${day[`${u}`].room}</p>`
-      }
-    }
-    return dayOutput
+        let multiple = 0
+        let difference = 0
+        let count = 0
+        storageCounter = 0
+        let periodCounter = 1
+        //puts the rows in the right order and into output for weeks
+        for (let u = 0; u <= 75; u++) {
+          let sortNum = multiple*5+difference
+          if (periodCounter<=25) {
+            outputA[storageCounter] = final[sortNum]
+          } else if (periodCounter<=50) {
+            outputB[storageCounter] = final[sortNum]
+          } else if (periodCounter<=75) {
+            outputC[storageCounter] = final[sortNum]
+          }
+          multiple++
+          periodCounter++
+          count++
+          storageCounter++
+          if (count==5) {
+            count=0
+            multiple=0
+            difference++
+          }
+          if (storageCounter == 25) {
+            storageCounter = 0
+          }
+        }
+
+        let end = false
+        for (let u =1; u<=4; u++) {
+          let insertIndex = u*6-1
+          console.log(insertIndex)
+          outputA.splice(insertIndex,0,'</tr><tr>')
+          outputB.splice(insertIndex,0,'</tr><tr>')
+          outputC.splice(insertIndex,0,'</tr><tr>')
+        }
+
+        outputA.unshift('<tr>')
+        outputA.push('</tr>')
+        outputA = outputA.join()
+        outputA = outputA.replace(/,/g,"")
+        let A = document.getElementById('weekA')
+        A.innerHTML = outputA
+
+        outputB.unshift('<tr>')
+        outputB.push('</tr>')
+        outputB = outputB.join()
+        outputB = outputB.replace(/,/g,"")
+        let B = document.getElementById('weekB')
+        B.innerHTML = outputB
+
+        outputC.unshift('<tr>')
+        outputC.push('</tr>')
+        outputC = outputC.join()
+        outputC = outputC.replace(/,/g,"")
+        let C = document.getElementById('weekC')
+        C.innerHTML = outputC
   }
 
   initialise() {
     //clears variables so you can initialise multiple times
     timetableData = window.timetable
 
-    outputA = ''
-    outputB = ''
-    outputC = ''
     //generates the timetable
     this.generateWeek()
     //Puts your name at the top
@@ -145,42 +204,54 @@ class Timetable extends Component {
             <h3 className='uk-heading-line uk-text-center'>
               <span id='name'/>
             </h3>
-            <div className='uk-box-shadow-hover-small uk-padding-small uk-text-center'>
-              <div className='uk-column-1-5 uk-text-muted uk-margin-small-left uk-margin-small-right'>
-                <p>MON A</p>
-                <p>TUE A</p>
-                <p>WED A</p>
-                <p>THU A</p>
-                <p>FRI A</p>
-              </div>
-              <div id='weekA' className='uk-column-1-5 uk-margin-small-left uk-margin-small-right timetable'>
-              </div>
+            <div className='uk-box-shadow-hover-small uk-padding-top uk-text-center'>
+              <table className="uk-table uk-table-small">
+                  <thead>
+                      <tr>
+                          <th>MON A</th>
+                          <th>TUE A</th>
+                          <th>WED A</th>
+                          <th>THU A</th>
+                          <th>FRI A</th>
+                      </tr>
+                  </thead>
+                  <tbody className='timetable' id='weekA'>
+                  </tbody>
+              </table>
             </div>
             <hr/>
-            <div className='uk-box-shadow-hover-small uk-padding-small uk-text-center'>
-              <div className='uk-column-1-5 uk-text-muted uk-margin-small-left uk-margin-small-right'>
-                  <p>MON B</p>
-                  <p>TUE B</p>
-                  <p>WED B</p>
-                  <p>THU B</p>
-                  <p>FRI B</p>
-              </div>
-              <div id='weekB' className='uk-column-1-5 uk-margin-small-left uk-margin-small-right timetable'>
-              </div>
+            <div className='uk-box-shadow-hover-small uk-padding-top uk-text-center'>
+              <table className="uk-table uk-table-small">
+                  <thead>
+                      <tr>
+                          <th>MON B</th>
+                          <th>TUE B</th>
+                          <th>WED B</th>
+                          <th>THU B</th>
+                          <th>FRI B</th>
+                      </tr>
+                  </thead>
+                  <tbody className='timetable' id='weekB'>
+                  </tbody>
+              </table>
             </div>
             <hr/>
-            <div className='uk-box-shadow-hover-small uk-padding-small uk-text-center'>
-              <div className='uk-column-1-5 uk-text-muted uk-margin-small-left uk-margin-small-right'>
-                <p>MON C</p>
-                <p>TUE C</p>
-                <p>WED C</p>
-                <p>THU C</p>
-                <p>FRI C</p>
-              </div>
-              <div id='weekC' className='uk-column-1-5 uk-margin-small-left uk-margin-small-right timetable'>
-              </div>
+            <div className='uk-box-shadow-hover-small uk-padding-top uk-text-center'>
+              <table className="uk-table uk-table-small">
+                  <thead>
+                      <tr>
+                          <th>MON C</th>
+                          <th>TUE C</th>
+                          <th>WED C</th>
+                          <th>THU C</th>
+                          <th>FRI C</th>
+                      </tr>
+                  </thead>
+                  <tbody className='timetable' id='weekC'>
+                  </tbody>
+              </table>
             </div>
-          </div>
+            </div>
           <div id='smallTimetable' className='uk-card uk-card-default uk-card-body uk-animation-slide-top-small uk-margin-top miniFill' onClick={this.activeTab.bind(this)}>
             <ul className='uk-flex-center uk-tab' onClick={this.input}>
               <li id='A'><a>A</a></li>

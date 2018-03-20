@@ -21,6 +21,7 @@ window.userData = ''
 window.dailyNotices = ''
 window.timetable = ''
 window.dashboard = ''
+window.bells = ''
 
 // Requirements for beta release
 // Daily timetable
@@ -60,7 +61,6 @@ const nameArray = [
 class App extends Component {
   constructor(props) {
     super(props)
-
     // Set default state on open to Welcome page
     this.state = {
       visible: window.STATES.LOADING
@@ -101,9 +101,6 @@ class App extends Component {
           document.getElementById('navbar').className = 'uk-navbar uk-navbar-container'
           let visible = this.state.visible
           this.setState({ visible: window.STATES.DASHBOARD })
-          localStorage.setItem('clicked', true)
-        } else {
-          localStorage.setItem('clicked', false)
         }
       })
     })
@@ -146,6 +143,18 @@ class App extends Component {
 
       res.on('end', () => {
         window.timetable = JSON.parse(b)
+      })
+    })
+
+    http.get('/getdata?url=timetable/bells.json', (res) => {
+      res.setEncoding('utf8')
+      let c = ''
+      res.on('data', (body) => {
+        c += body
+      })
+
+      res.on('end', () => {
+        window.bells = JSON.parse(c)
       })
     })
   }
