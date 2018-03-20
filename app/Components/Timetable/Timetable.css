@@ -1,9 +1,14 @@
-.timetable {
+.timetable td {
   font-family: 'Roboto Mono', monospace;
+  padding:5px 6px
 }
 .heading {
   font-family: 'Roboto' !important;
   font-weight: 300
+}
+
+.uk-text-center th {
+  text-align: center;
 }
 
 @media (min-width:728px){

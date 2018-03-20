@@ -17,6 +17,7 @@ window.userData = ''
 window.dailyNotices = ''
 window.timetable = ''
 window.dashboard = ''
+window.bells = ''
 
 // Requirements for beta release
 // Daily timetable
@@ -55,7 +56,6 @@ const nameArray = [
 class App extends Component {
   constructor(props) {
     super(props)
-
     // Set default state on open to Welcome page
     this.state = {
       visible: window.STATES.WELCOME
@@ -88,8 +88,9 @@ class App extends Component {
           this.setState({ visible: window.STATES.DASHBOARD })
           this.getData()
           localStorage.setItem('clicked',true)
+          console.log('login success')
           //loggedIn = true
-        } else {localStorage.setItem('clicked',false)}
+        } 
       })
     })
 
@@ -111,6 +112,13 @@ class App extends Component {
 
   componentWillUnmount(){
     localStorage.setItem('clicked',true)
+  }
+
+  checkLogin() {
+    if (window.dashboard == '') {
+      console.log('login fail')
+      localStorage.setItem('clicked',false)
+    }
   }
 
   getData() {
@@ -166,6 +174,18 @@ class App extends Component {
 
       res.on('end', () => {
         window.timetable = JSON.parse(b)
+      })
+    })
+
+    http.get('/getdata?url=timetable/bells.json', (res) => {
+      res.setEncoding('utf8')
+      let c = ''
+      res.on('data', (body) => {
+        c += body
+      })
+
+      res.on('end', () => {
+        window.bells = JSON.parse(c)
       })
     })
   }
