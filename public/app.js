@@ -29481,15 +29481,11 @@ class Loading extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { id: 'main', className: 'main uk-height-viewport' },
+      { id: 'main', className: 'main uk-height-viewport centerParent' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
-        { 'uk-spinner': 'ratio: 4', className: 'uk-spinner uk-icon' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'svg',
-          { width: '120', height: '120', viewBox: '0 0 30 30', xmlns: 'http://www.w3.org/2000/svg', ratio: '4' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('circle', { fill: 'none', stroke: '#000', cx: '15', cy: '15', r: '14' })
-        )
+        { className: 'uk-flex uk-flex-center centerCard' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { 'uk-spinner': 'ratio: 4', className: 'uk-spinner uk-icon' })
       )
     );
   }
