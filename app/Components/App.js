@@ -78,11 +78,6 @@ class App extends Component {
       })
     })
   }
-
-  componentWillUnmount(){
-    localStorage.setItem('clicked',true)
-  }
-
   getData() {
     http.get('/getdata?url=timetable/daytimetable.json', (res) => {
       res.setEncoding('utf8')
