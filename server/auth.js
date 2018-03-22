@@ -1,4 +1,4 @@
-﻿const oauth2module = require('simple-oauth2')
+const oauth2module = require('simple-oauth2')
 const https = require('https')
 
 const siteURL = 'http://localhost:3000'
@@ -16,7 +16,7 @@ module.exports = (app) => {
           |   REPLACE THIS WITH CLIENT SECRET WHEN RUNNING   |
           *==================================================*
                                                                 */
-      secret: 'lve26aPJH_zzKPHBUrVAcpIGhjQ'
+      secret: REDACTED
 
       /*
           *==================================================*
@@ -85,6 +85,10 @@ module.exports = (app) => {
     promise.then(function(result) {
       // store token in user's session
       req.session.token = result
+      
+      // set access token expiry date
+      var now = new Date()
+      req.session.accessTokenExpiry = now.setHours(now.getHours() + 1)
 
       // Login done, redirect back
       res.redirect(siteURL)
@@ -108,76 +112,114 @@ module.exports = (app) => {
     if (req.session.token == undefined) {
       res.send(false)
     } else {
-      res.send(true)
+      
+      // validate session, inc. tokens
+
+      // check refresh token
+      const refreshTokenExpiry = req.session.token.token.expires_at
+      if (new Date() > refreshTokenExpiry) {
+        req.session.destroy()
+        res.send(false)
+      }
+      
+      // check access token
+      if (new Date() > req.session.accessTokenExpiry) {
+        
+        const querystring = require('querystring');
+        
+        const postData = querystring.stringify({
+          refresh_token: req.session.token.token.refresh_token,
+          grant_type: 'refresh_token',
+          client_id: cred.client.id,
+          client_secret: cred.client.secret
+        })
+        
+        const httpsOptions = {
+          hostname: 'student.sbhs.net.au',
+          path: '/api/token',
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Length': Buffer.byteLength(postData)
+          }
+        }
+        
+        let promise = new Promise( function (resolve, reject) {
+          const req1 = https.request(httpsOptions, (res1) => {
+            res1.setEncoding('utf8')
+            var body = ''
+            res1.on('data', (data)=>{
+              body += data
+            })
+            
+            res1.on('end', ()=> {
+              resolve(body)
+            })
+          })
+          req1.write(postData)
+          req1.end()
+        })
+        
+        promise.then(function(result) {
+        
+          // store token in user's session
+          req.session.token = result
+          
+          // set access token expiry date
+          var now = new Date()
+          req.session.accessTokenExpiry = now.setHours(now.getHours() + 1)
+          res.send(true)
+        })
+      } else {
+        res.send(true)
+      }
     }
   })
 
   app.get('/getdata', (req1, res1) => {
-
-    if (req1.session.token == undefined) {
-      res1.status(401) // 401 unauthorized
-      res1.send(undefined)
-
-    } else {
-
-      const token = req1.session.token.token.access_token
-
-      const httpsOptions = {
-        hostname: 'student.sbhs.net.au',
-        path: '/api/' + req1.query.url,
-        method: 'GET',
-        headers: {
-          'Authorization': 'Bearer ' + token
-        }
+  
+    var token = req1.session.token.token.access_token
+    
+    const httpsOptions = {
+      hostname: 'student.sbhs.net.au',
+      path: '/api/' + req1.query.url,
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + token
       }
+    }
+    
+    let promise = new Promise( function (resolve, reject) {
 
-      let promise = new Promise( function (resolve, reject) {
+      https.get(httpsOptions, (res2) => {
 
-        https.get(httpsOptions, (res2) => {
-          if (res2.statusCode === 401) {
-            reject()
-          }
-          res2.setEncoding('utf8')
-          // resolve the promise when data received
-          let data = ''
-          res2.on('data', function (body) {
-            data += body
-            //console.log('Data incoming: ' + data)
-          })
-          res2.on('end', function(body) {
-            //console.log(data + '\n')
-            resolve(data)
-          })
+        res2.setEncoding('utf8')
+        // resolve the promise when data received
+        let data = ''
+        res2.on('data', function (body) {
+          data += body
+          //console.log('Data incoming: ' + data)
+        })
+        res2.on('end', function(body) {
+          //console.log(data + '\n')
+          resolve(data)
         })
       })
+    })
 
-      promise.then(function(result) {
-        /*
-        const fs = require('fs')
-        let jason = JSON.parse(result)
-        fs.writeFile("test.txt", JSON.stringify(jason, null, 2), function(err) {
-          console.log('saved, ' + err)
-        });*/
+    promise.then(function(result) {
+      /*
+      const fs = require('fs')
+      let jason = JSON.parse(result)
+      fs.writeFile("test.txt", JSON.stringify(jason, null, 2), function(err) {
+        console.log('saved, ' + err)
+      });*/
 
-        // send resources
+      // send resources
 
-        res1.send(result)
+      res1.send(result)
 
-      }, function(err) {
-        // Handle an expired access token (1 hour)
-        console.log(req1.session.token)
-
-        // expiry date of refresh token
-        let token = oauth2.accessToken.create(req1.session.token)
-
-        // refresh the access token and redirect
-        if (token.expired()) {
-          console.log('access token expired')
-          token = accessToken.refresh()
-          res.redirect(siteURL + '/getdata?url=' + req1.query.url)
-        }
-      })
-    }
+    })
   })
 
   // TO DO: implement logout
