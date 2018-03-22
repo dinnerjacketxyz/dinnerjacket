@@ -76,12 +76,14 @@ class Notes extends Component {
           localStorage.setItem('time', data.val().time)
         } else {
           // Local Storage Newer
-          quill.setContents(JSON.parse(atob(localStorage.getItem('content'))))
-          let data = {
-            content: localStorage.getItem('content'),
-            time: localStorage.getItem('time')
+          if (quill.getText() != '') {
+            quill.setContents(JSON.parse(atob(localStorage.getItem('content'))))
+            let data = {
+              content: localStorage.getItem('content'),
+              time: localStorage.getItem('time')
+            }
+            ref.update(data)
           }
-          ref.update(data)
         }
       })
 

@@ -73,7 +73,11 @@ class App extends Component {
         if (body == 'false') {
           this.setState({ visible: window.STATES.WELCOME })
         } else {
-          this.getData()
+          try {
+            this.getData()
+          } catch (e) {
+            console.log('Error recieving data')
+          }
         }
       })
     })
