@@ -11,8 +11,6 @@ const css = require('./App.css')
 const icons = require('../uikit-icons.min')
 const http = require('http')
 
-//const fb = require('../../public/firebase')
-
 import Loading from './Loading'
 
 //const retrieveNotices = require('./Notices/RetrieveNotices')
@@ -61,12 +59,11 @@ const nameArray = [
 class App extends Component {
   constructor(props) {
     super(props)
+
     // Set default state on open to Welcome page
     this.state = {
       visible: window.STATES.LOADING
     }
-
-    //this.getData()
 
     let visible = this.state.visible
     http.get('/getsession', (res) => {
@@ -119,7 +116,6 @@ class App extends Component {
         name.innerHTML = window.userData.givenName + ' ' + window.userData.surname
       })
     })
-
 
     // Get daily notices from SBHS API
     http.get('/getdata?url=dailynews/list.json', (res) => {

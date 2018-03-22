@@ -2,6 +2,13 @@ h1,h2,h3,h4,h5,h6,h7,.uk-h1,.uk-accordion-title,.uk-text-lead {
   font-family: 'Roboto', sans-serif
 }
 
+.spinner {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}
+
 body {
   user-select: none
 }

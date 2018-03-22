@@ -11,7 +11,6 @@ class Changelog extends Component {
               <ul>
                 <li>Bugfixes and stability</li>
                 <li>Reduce size of "DinnerJacket" titles on mobile</li>
-                <li>Update timetable that fixes layout on some devices using Safari</li>
                 <li>Add school calendar</li>
               </ul>
 
@@ -19,7 +18,9 @@ class Changelog extends Component {
 
               <h2>Alpha v0.1.1</h2>
               <ul>
-                <li>Sample change</li>
+                <li>Updated full timetable</li>
+                <li>Fixed notes from crashing on launch</li>
+                <li>Updated server and login system</li>
               </ul>
 
               <hr />

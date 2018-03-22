@@ -8,6 +8,16 @@
   padding-right: 30px!important
 }
 
+@media screen and (max-width: 820px) {
+  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {
+    height:60px
+  }
+  .djLogo {
+    width: 40px;
+    height: 40px
+  }
+}
+
 .show {
   visibility: visible!important;
 }
@@ -15,26 +25,4 @@
 .hide {
   visibility: hidden!important;
   display: none!important;
-}
-
-.centerParent {
-  display: flex;
-  height: auto;
-  margin: 0 auto;
-}
-
-.centerCard {
-  margin: auto;
-}
-
-@media screen and (max-width: 450px) {
-  .centerCard{
-    width:100%
-  }
-}
-
-@media screen and (max-width: 420px) {
-  #djTitle {
-    font-size: 3.1em
-  }
 }
