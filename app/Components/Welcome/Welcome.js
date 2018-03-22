@@ -23,26 +23,6 @@ class Welcome extends Component {
       // this is busted
       //window.states.visible = window.STATES.DASHBOARD
     }
-    localStorage.setItem('clicked',true)
-    this.spinner()
-  }
-
-  spinner() {
-      let button = document.getElementById('loginButton')
-      let div = document.getElementById('loginDiv')
-      let p = document.getElementById('loginP')
-      button.className = 'uk-button uk-button-default uk-margin-top uk-margin-bottom disabled'
-      div.className = 'uk-spinner uk-icon show'
-      p.className = 'hide'
-      //console.log(localStorage.getItem('clicked'))
-  }
-
-  componentDidMount() {
-    //console.log(localStorage.getItem('clicked'))
-    if (localStorage.clicked=='true') {
-      this.spinner()
-      //console.log('clicked')
-    }
   }
 
   logo() {
@@ -56,18 +36,8 @@ class Welcome extends Component {
 
   render() {
     return (
-      <div id='main' className='main uk-height-viewport'>
-        <nav className='uk-navbar uk-navbar-container uk-margin'>
-          <div className='uk-navbar-left'>
-            <div onClick={this.logo.bind(this)}>
-              <img id='logo'
-                className='djLogo uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom'
-                alt='logo' src='64.png'>
-              </img>
-            </div>
-          </div>
-        </nav>
-        <div className='uk-flex uk-flex-center uk-text-center'>
+      <div id='main' className='main uk-height-viewport centerParent'>
+        <div className='uk-flex uk-flex-center uk-text-center centerCard'>
           <div className='uk-card uk-card-default uk-card-body uk-width-large uk-animation-slide-top-small'>
             <img id='logo'
               className='uk-disabled'
@@ -76,12 +46,7 @@ class Welcome extends Component {
             <h1 className='uk-h1'>DinnerJacket</h1>
             <p className='uk-label uk-label-danger'>alpha v0.1.1</p>
             <p className='uk-margin-top uk-margin-bottom'>This is an alpha release of DinnerJacket. New features are still in development and technical issues may occasionally arise. Please report any issues or suggestions in the feedback tab. Thanks!</p>
-            <button id='loginButton' className='uk-button uk-button-primary uk-margin-top uk-margin-bottom' onClick={this.toggleLogin.bind(this)}>
-              <div id='loginDiv' className='uk-spinner uk-icon hide' uk-spinner='true'>
-                <svg width="20" height="20" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" ratio="1"><circle fill="none" stroke="#000" cx="15" cy="15" r="14"></circle></svg>
-              </div>
-              <p id='loginP' className='show'>Login</p>
-            </button>
+            <button id='loginButton' className='uk-button uk-button-primary uk-margin-top uk-margin-bottom' onClick={this.toggleLogin.bind(this)}>Login</button>
           </div>
         </div>
       </div>
