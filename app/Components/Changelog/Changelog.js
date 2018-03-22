@@ -18,8 +18,9 @@ class Changelog extends Component {
 
               <h2>Alpha v0.1.1</h2>
               <ul>
+                <li>Fixed crashing on loading page</li>
                 <li>Updated full timetable</li>
-                <li>Fixed notes from crashing on launch</li>
+                <li>Fixed notes crashing on launch</li>
                 <li>Updated server and login system</li>
               </ul>
 
