@@ -66,7 +66,7 @@ module.exports = (app) => {
       code: code,
       redirect_uri: siteURL + '/callback'
     }
-
+    
     let promise = new Promise( function (resolve, reject) {
 
         // exchange code for token
@@ -74,7 +74,8 @@ module.exports = (app) => {
 
         // handle error
         if (error) {
-          return res.json('Access Token Error: ' + error.message)
+          console.log(error)
+          return res.json(error)
         }
 
         // use token
@@ -109,6 +110,7 @@ module.exports = (app) => {
    *==============================*=============================*/
 
   app.get('/getsession', (req, res) => {
+    
     if (req.session.token == undefined) {
       res.send(false)
     } else {
@@ -161,9 +163,9 @@ module.exports = (app) => {
         })
         
         promise.then(function(result) {
-        
+          console.log(result)
           // store token in user's session
-          req.session.token = result
+          req.session.token.token.access_token = result
           
           // set access token expiry date
           var now = new Date()
