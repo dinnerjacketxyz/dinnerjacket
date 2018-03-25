@@ -1,11 +1,17 @@
 ﻿const oauth2module = require('simple-oauth2')
 const https = require('https')
+var session = require('express-session')
 
 const siteURL = 'http://localhost:3000'
 
 module.exports = (app) => {
   'use strict'
-
+  app.use(session({
+    secret: 'a',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false }
+  }))
   // Set up OAuth2 parameters
   const cred = {
     client: {
@@ -68,8 +74,8 @@ module.exports = (app) => {
     }
     
     let promise = new Promise( function (resolve, reject) {
-
-        // exchange code for token
+      console.log('getting token')
+      // exchange code for token
       oauth2.authorizationCode.getToken(options, (error, result) => {
 
         // handle error
@@ -86,10 +92,11 @@ module.exports = (app) => {
     promise.then(function(result) {
       // store token in user's session
       req.session.token = result
-      console.log('token stored')
-
+      console.log('logged in, token stored: ' + req.session.token.token.access_token )
+      
       // Login done, redirect back
-      res.redirect(siteURL)
+      res.redirect('/')
+      console.log('* PAGE RELOADED *')
     })
   })
 
@@ -107,12 +114,12 @@ module.exports = (app) => {
    *==============================*=============================*/
 
   app.get('/getsession', (req, res) => {
-    console.log('validating session')
+    console.log('/getsession === Validating session')
     if (req.session.token === undefined) {
       console.log('no token found')
       res.send(false)
     } else {
-      
+      console.log('access token found')
       // validate session, inc. tokens
       
       /*
@@ -124,8 +131,7 @@ module.exports = (app) => {
         req.session.destroy()
         res.send(false)
       }*/
-      console.log(req.session.token)
-      console.log(new Date() + ' ' + new Date(req.session.token.token.expires_at))
+      //console.log('access token needs to be refreshed: ' + (new Date() > new Date(req.session.token.token.expires_at)))
       // check access token
       if (new Date() > new Date(req.session.token.token.expires_at)) {
         console.log('refreshing access token')
@@ -170,8 +176,8 @@ module.exports = (app) => {
           req.session.token.token.access_token = result
           console.log('token refreshed')
           // set access token expiry date
-          var now = new Date()
-          req.session.accessTokenExpiry = now.setHours(now.getHours() + 1)
+          //var now = new Date()
+          //req.session.accessTokenExpiry = now.setHours(now.getHours() + 1)
           res.send(true)
         })
       } else {
@@ -179,17 +185,17 @@ module.exports = (app) => {
         res.send(true)
       }
     }
-    
+    console.log('/getsession === finished validating session')
   })
 
-  app.get('/getdata', (req1, res1) => {
+  app.get('/getdata', (req, res) => {
     console.log('Token getdata')
-    console.log('Token exists: ' + (req1.session.token != undefined))
-    var token = req1.session.token.token.access_token
+    console.log('Token exists: ' + (req.session.token != undefined))
+    var token = req.session.token.token.access_token
     
     const httpsOptions = {
       hostname: 'student.sbhs.net.au',
-      path: '/api/' + req1.query.url,
+      path: '/api/' + req.query.url,
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + token
@@ -224,21 +230,22 @@ module.exports = (app) => {
 
       // send resources
 
-      res1.send(result)
+      res.send(result)
 
     })
   })
 
   app.get('/logout', (req, res) => {
     console.log('logging out')
-    req.session.destroy()
-    req.session.token = undefined
-    console.log(req.session.token)
-    res.redirect(siteURL)
+    if (siteURL === 'http://localhost:3000') {
+      req.session.destroy()
+      res.redirect('/')
+    } else {
+      req.session.destroy(function(err) {
+        res.redirect('/')
+      })
+    }
   })
-
-  var session = require('express-session')
-  app.use(session({secret: 'a'}))
 
   // for testing
   app.get('/test', (req, res) => {

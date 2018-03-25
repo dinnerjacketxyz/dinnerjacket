@@ -67,17 +67,23 @@ class App extends Component {
 
     let visible = this.state.visible
     http.get('/getsession', (res) => {
+      console.log('starting getsession req.')
       res.setEncoding('utf8')
-      
-      res.on('data', (body) => {
-        if (body == 'false') {
-          this.setState({ visible: window.STATES.WELCOME })
-        } else {
+      var body = ''
+      res.on('data', (data) => {
+        body += data
+      })
+      res.on('end', ()=> {
+        console.log('getsession req. returned ' + body)
+        if (body === 'true') {
+          console.log('getting data')
           try {
             this.getData()
           } catch (e) {
             console.log('Error receiving data')
           }
+        } else {
+          this.setState({ visible: window.STATES.WELCOME })
         }
       })
     })
@@ -254,7 +260,6 @@ class App extends Component {
   logout() {
     window.location.href = '/logout'
     localStorage.setItem('clicked',false)
-    Welcome.spinner()
   }
 
   logo() {
