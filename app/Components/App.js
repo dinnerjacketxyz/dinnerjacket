@@ -76,7 +76,7 @@ class App extends Component {
           try {
             this.getData()
           } catch (e) {
-            console.log('Error recieving data')
+            console.log('Error receiving data')
           }
         }
       })

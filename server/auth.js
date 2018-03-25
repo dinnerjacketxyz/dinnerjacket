@@ -86,10 +86,7 @@ module.exports = (app) => {
     promise.then(function(result) {
       // store token in user's session
       req.session.token = result
-      
-      // set access token expiry date
-      var now = new Date()
-      req.session.accessTokenExpiry = now.setHours(now.getHours() + 1)
+      console.log('token stored')
 
       // Login done, redirect back
       res.redirect(siteURL)
@@ -110,23 +107,28 @@ module.exports = (app) => {
    *==============================*=============================*/
 
   app.get('/getsession', (req, res) => {
-    
-    if (req.session.token == undefined) {
+    console.log('validating session')
+    if (req.session.token === undefined) {
+      console.log('no token found')
       res.send(false)
     } else {
       
       // validate session, inc. tokens
-
+      
+      /*
       // check refresh token
+      console.log(req.session.token)
       const refreshTokenExpiry = req.session.token.token.expires_at
+      console.log(new Date() + ' ' + new Date(refreshTokenExpiry))
       if (new Date() > refreshTokenExpiry) {
         req.session.destroy()
         res.send(false)
-      }
-      
+      }*/
+      console.log(req.session.token)
+      console.log(new Date() + ' ' + new Date(req.session.token.token.expires_at))
       // check access token
-      if (new Date() > req.session.accessTokenExpiry) {
-        
+      if (new Date() > new Date(req.session.token.token.expires_at)) {
+        console.log('refreshing access token')
         const querystring = require('querystring');
         
         const postData = querystring.stringify({
@@ -166,20 +168,23 @@ module.exports = (app) => {
           console.log(result)
           // store token in user's session
           req.session.token.token.access_token = result
-          
+          console.log('token refreshed')
           // set access token expiry date
           var now = new Date()
           req.session.accessTokenExpiry = now.setHours(now.getHours() + 1)
           res.send(true)
         })
       } else {
+        console.log('valid access token')
         res.send(true)
       }
     }
+    
   })
 
   app.get('/getdata', (req1, res1) => {
-  
+    console.log('Token getdata')
+    console.log('Token exists: ' + (req1.session.token != undefined))
     var token = req1.session.token.token.access_token
     
     const httpsOptions = {
@@ -224,11 +229,12 @@ module.exports = (app) => {
     })
   })
 
-  // TO DO: implement logout
   app.get('/logout', (req, res) => {
+    console.log('logging out')
     req.session.destroy()
+    req.session.token = undefined
+    console.log(req.session.token)
     res.redirect(siteURL)
-
   })
 
   var session = require('express-session')
