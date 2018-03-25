@@ -955,7 +955,7 @@ function updateLink (link, options, obj) {
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var ClientRequest = __webpack_require__(56)
-var response = __webpack_require__(28)
+var IncomingMessage = __webpack_require__(28)
 var extend = __webpack_require__(67)
 var statusCodes = __webpack_require__(68)
 var url = __webpack_require__(69)
@@ -1002,12 +1002,10 @@ http.get = function get (opts, cb) {
 }
 
 http.ClientRequest = ClientRequest
-http.IncomingMessage = response.IncomingMessage
+http.IncomingMessage = IncomingMessage
 
 http.Agent = function () {}
 http.Agent.defaultMaxSockets = 4
-
-http.globalAgent = new http.Agent()
 
 http.STATUS_CODES = statusCodes
 
@@ -24955,13 +24953,23 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
     let visible = this.state.visible;
     http.get('/getsession', res => {
+      console.log('starting getsession req.');
       res.setEncoding('utf8');
-
-      res.on('data', body => {
-        if (body == 'false') {
-          this.setState({ visible: window.STATES.WELCOME });
+      var body = '';
+      res.on('data', data => {
+        body += data;
+      });
+      res.on('end', () => {
+        console.log('getsession req. returned ' + body);
+        if (body === 'true') {
+          console.log('getting data');
+          try {
+            this.getData();
+          } catch (e) {
+            console.log('Error receiving data');
+          }
         } else {
-          this.getData();
+          this.setState({ visible: window.STATES.WELCOME });
         }
       });
     });
@@ -25138,7 +25146,6 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   logout() {
     window.location.href = '/logout';
     localStorage.setItem('clicked', false);
-    __WEBPACK_IMPORTED_MODULE_1__Welcome_Welcome__["a" /* default */].spinner();
   }
 
   logo() {
@@ -26005,7 +26012,7 @@ function fromByteArray (uint8) {
 
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
-  var eLen = (nBytes * 8) - mLen - 1
+  var eLen = nBytes * 8 - mLen - 1
   var eMax = (1 << eLen) - 1
   var eBias = eMax >> 1
   var nBits = -7
@@ -26018,12 +26025,12 @@ exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   e = s & ((1 << (-nBits)) - 1)
   s >>= (-nBits)
   nBits += eLen
-  for (; nBits > 0; e = (e * 256) + buffer[offset + i], i += d, nBits -= 8) {}
+  for (; nBits > 0; e = e * 256 + buffer[offset + i], i += d, nBits -= 8) {}
 
   m = e & ((1 << (-nBits)) - 1)
   e >>= (-nBits)
   nBits += mLen
-  for (; nBits > 0; m = (m * 256) + buffer[offset + i], i += d, nBits -= 8) {}
+  for (; nBits > 0; m = m * 256 + buffer[offset + i], i += d, nBits -= 8) {}
 
   if (e === 0) {
     e = 1 - eBias
@@ -26038,7 +26045,7 @@ exports.read = function (buffer, offset, isLE, mLen, nBytes) {
 
 exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   var e, m, c
-  var eLen = (nBytes * 8) - mLen - 1
+  var eLen = nBytes * 8 - mLen - 1
   var eMax = (1 << eLen) - 1
   var eBias = eMax >> 1
   var rt = (mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0)
@@ -26071,7 +26078,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
       m = 0
       e = eMax
     } else if (e + eBias >= 1) {
-      m = ((value * c) - 1) * Math.pow(2, mLen)
+      m = (value * c - 1) * Math.pow(2, mLen)
       e = e + eBias
     } else {
       m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen)
@@ -28799,12 +28806,14 @@ class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
           localStorage.setItem('time', data.val().time);
         } else {
           // Local Storage Newer
-          quill.setContents(JSON.parse(atob(localStorage.getItem('content'))));
-          let data = {
-            content: localStorage.getItem('content'),
-            time: localStorage.getItem('time')
-          };
-          ref.update(data);
+          if (quill.getText() != '') {
+            quill.setContents(JSON.parse(atob(localStorage.getItem('content'))));
+            let data = {
+              content: localStorage.getItem('content'),
+              time: localStorage.getItem('time')
+            };
+            ref.update(data);
+          }
         }
       });
 
@@ -29356,12 +29365,17 @@ class Changelog extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'li',
                 null,
+                'Fixed crashing on loading page'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'li',
+                null,
                 'Updated full timetable'
               ),
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'li',
                 null,
-                'Fixed notes from crashing on launch'
+                'Fixed notes crashing on launch'
               ),
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'li',
