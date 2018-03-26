@@ -1,4 +1,4 @@
-﻿const oauth2module = require('simple-oauth2')
+const oauth2module = require('simple-oauth2')
 const https = require('https')
 var session = require('express-session')
 
@@ -6,12 +6,12 @@ const siteURL = 'http://localhost:3000'
 
 module.exports = (app) => {
   'use strict'
-  app.use(session({
+  /*app.use(session({
     secret: 'a',
     resave: false,
     saveUninitialized: false,
     cookie: { secure: false }
-  }))
+  }))*/
   // Set up OAuth2 parameters
   const cred = {
     client: {
@@ -22,7 +22,7 @@ module.exports = (app) => {
           |   REPLACE THIS WITH CLIENT SECRET WHEN RUNNING   |
           *==================================================*
                                                                 */
-      secret: 'lve26aPJH_zzKPHBUrVAcpIGhjQ'
+      secret: REDACTED
 
       /*
           *==================================================*
@@ -91,6 +91,7 @@ module.exports = (app) => {
 
     promise.then(function(result) {
       // store token in user's session
+      console.log('storing token')
       req.session.token = result
       console.log('logged in, token stored: ' + req.session.token.token.access_token )
       
@@ -115,6 +116,8 @@ module.exports = (app) => {
 
   app.get('/getsession', (req, res) => {
     console.log('/getsession === Validating session')
+    console.log('Session ID: '+req.session.id)
+
     if (req.session.token === undefined) {
       console.log('no token found')
       res.send(false)
@@ -237,20 +240,19 @@ module.exports = (app) => {
 
   app.get('/logout', (req, res) => {
     console.log('logging out')
-    if (siteURL === 'http://localhost:3000') {
-      req.session.destroy()
+    console.log('Session ID: '+req.session.id)
+    req.session.destroy(function(err) {
+      console.log('* PAGE RELOADED *')
       res.redirect('/')
-    } else {
-      req.session.destroy(function(err) {
-        res.redirect('/')
-      })
-    }
+    })
   })
 
+  var counter = 0
   // for testing
   app.get('/test', (req, res) => {
-    console.log(req.session.token)
-    let returnVal =
+    counter += 1
+    console.log(counter)
+    /*let returnVal =
        ' <p style="line-height:1">\
         &nbsp;∛3<br>\
        ⎰<i>t² dt </i> ⋅ cos(3π/9) = log(∛<i>e</i>)<br>\
@@ -269,6 +271,6 @@ module.exports = (app) => {
         When raised to the prime, <br>\
         Between 5 and 9, <br>\
         Is <i>e</i> to the <i>iπ</i> times 3.';
-    res.send(returnVal)
+    res.send(returnVal)*/
   })
 }

@@ -66,16 +66,18 @@ class App extends Component {
     }
 
     let visible = this.state.visible
-    http.get('/getsession', (res) => {
+    
+    
+  }
+  
+  componentDidMount() {
+    if (window.location.href === 'http://localhost:3000/') {
+      http.get('/getsession', (res) => {
       console.log('starting getsession req.')
       res.setEncoding('utf8')
-      var body = ''
       res.on('data', (data) => {
-        body += data
-      })
-      res.on('end', ()=> {
-        console.log('getsession req. returned ' + body)
-        if (body === 'true') {
+        console.log('getsession req. returned ' + data)
+        if (data === 'true') {
           console.log('getting data')
           try {
             this.getData()
@@ -87,7 +89,10 @@ class App extends Component {
         }
       })
     })
+    
+    }
   }
+  
   getData() {
     http.get('/getdata?url=timetable/daytimetable.json', (res) => {
       res.setEncoding('utf8')
