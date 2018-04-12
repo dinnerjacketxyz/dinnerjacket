@@ -3825,20 +3825,20 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     this.updateTimetableDisplay(window.dashboard);
 
     /* Old code
-     // returns daily notices, see auth.js for usage info
+      // returns daily notices, see auth.js for usage info
     let promise = new Promise( function (resolve, reject) {
       http.get('/getdata?url=timetable/daytimetable.json', (res) => {
-         res.setEncoding('utf8')
-         let returnData = ''
-         res.on('data', function (body) {
+          res.setEncoding('utf8')
+          let returnData = ''
+          res.on('data', function (body) {
           returnData += body
         })
-         res.on('end', function(){
+          res.on('end', function(){
           resolve(returnData)
         })
       })
     })
-     promise.then(function(result) {
+      promise.then(function(result) {
       this.updateTimetableDisplay(result)
       this.timerTick()
     }.bind(this))
@@ -4490,7 +4490,7 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 // Old timer code that relies on Javascript timers (inaccurate)
 /*if (this.state.timer === 0) {
   let nextClass = this.getNextClass()
-   // setup countdown for next class
+    // setup countdown for next class
   const date = new Date()
   const secDifference = Math.floor((nextClass.time.getTime() - date.getTime())/1000)
   this.setState( ()=> ({
@@ -25377,34 +25377,32 @@ class Welcome extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { id: 'main', className: 'main uk-height-viewport centerParent' },
+      { className: 'main centerParent' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
-        { className: 'uk-flex uk-flex-center uk-text-center centerCard' },
+        { className: 'centerCard' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
-          { className: 'uk-card uk-card-default uk-card-body uk-width-large uk-animation-slide-top-small' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { id: 'logo',
-            className: 'uk-disabled',
-            alt: 'logo', src: '256.png', width: '150px', height: '150px' }),
+          { id: 'welcomeContent', className: 'uk-box-shadow-hover-xlarge uk-animation-slide-top-small' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { id: 'logo', alt: 'logo', src: '256.png', width: '150px', height: '150px' }),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'h1',
-            { className: 'uk-h1' },
+            { id: 'welcomeTitle' },
             'DinnerJacket'
           ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'p',
-            { className: 'uk-label uk-label-danger' },
+            { id: 'welcomeLabel' },
             'alpha v0.1.1'
           ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'p',
-            { className: 'uk-margin-top uk-margin-bottom' },
+            { id: 'welcomeText' },
             'This is an alpha release of DinnerJacket. New features are still in development and technical issues may occasionally arise. Please report any issues or suggestions in the feedback tab. Thanks!'
           ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'button',
-            { id: 'loginButton', className: 'uk-button uk-button-primary uk-margin-top uk-margin-bottom', onClick: this.toggleLogin.bind(this) },
+            { id: 'loginButton', className: 'uk-button uk-button-primary', onClick: this.toggleLogin.bind(this) },
             'Login'
           )
         )
@@ -25455,7 +25453,7 @@ exports = module.exports = __webpack_require__(6)(false);
 
 
 // module
-exports.push([module.i, ".djLogo {\n  width: 60px;\n  height: 60px\n}\n\n.uk-padding-large {\n  padding-left: 30px!important;\n  padding-right: 30px!important\n}\n\n.show {\n  visibility: visible!important;\n}\n\n.hide {\n  visibility: hidden!important;\n  display: none!important;\n}\n\n.centerParent {\n  display: flex;\n  height: auto;\n  margin: 0 auto;\n}\n\n.centerCard {\n  margin: auto;\n}\n\n@media screen and (max-width: 450px) {\n  .centerCard{\n    width:100%\n  }\n}\n\n@media screen and (max-width: 420px) {\n  #djTitle {\n    font-size: 3.1em\n  }\n}", ""]);
+exports.push([module.i, ".uk-padding-large {\r\n  padding-left: 30px!important;\r\n  padding-right: 30px!important\r\n}\r\n\r\n.centerParent {\r\n  display: flex;\r\n  height: auto;\r\n  margin: 0 auto;\r\n  min-height: 100vh;\r\n}\r\n\r\n#welcomeContent{\r\n  padding: 30px;\r\n  width: 450px!important;\r\n}\r\n\r\n.centerCard {\r\n  margin: auto;\r\n  justify-content: center;\r\n  display: flex;\r\n  text-align: center!important;\r\n}\r\n\r\n#welcomeTitle{\r\n  font-size: 4rem;\r\n  line-height: 1.2;\r\n}\r\n\r\n#welcomeLabel{\r\n  background-color: #f0506e;\r\n  color: #fff;\r\n  display: inline-block;\r\n  padding: 0 10px;\r\n  line-height: 1.5;\r\n  font-size: .875rem;\r\n  color: #fff;\r\n  vertical-align: middle;\r\n  white-space: nowrap;\r\n  border-radius: 2px;\r\n  text-transform: uppercase;\r\n}\r\n\r\n#welcomeText{\r\n  margin-top: 20px!important;\r\n  margin-bottom: 20px!important\r\n}\r\n\r\n#loginButton {\r\n  margin-bottom: 20px!important;\r\n  margin-top: 20px!important;\r\n}\r\n\r\n#logo {\r\n  pointer-events: none;\r\n}\r\n\r\n@media screen and (max-width: 450px) {\r\n  .centerCard{\r\n    width:100%;\r\n  }\r\n  #welcomeContent{\r\n    padding: 0px;\r\n    box-shadow: none;\r\n  }\r\n  #welcomeText {\r\n    margin-left: 30px;\r\n    margin-right: 30px;\r\n  }\r\n  #welcomeTitle{\r\n    font-size:3rem;\r\n    line-height:1.3\r\n  }\r\n  #logo{\r\n    width: 100px;\r\n  }\r\n  .uk-label,.uk-button,#welcomeContent{\r\n    font-size: 13px;\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 310px) {\r\n  #welcomeTitle{\r\n    font-size:2.5rem;line-height:1.4 \r\n  }\r\n  .uk-label,.uk-button,#welcomeContent{\r\n    font-size: 12px;\r\n  }\r\n  #logo{\r\n    width: 90px;\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 255px) {\r\n  #welcomeTitle{\r\n    font-size:1.5rem;line-height:1.4\r\n  }\r\n  .uk-label,.uk-button,#welcomeContent{\r\n    font-size: 10px;\r\n  }\r\n  #logo{\r\n    width: 80px;\r\n  }\r\n}", ""]);
 
 // exports
 
@@ -28718,7 +28716,7 @@ exports = module.exports = __webpack_require__(6)(false);
 
 
 // module
-exports.push([module.i, ".timetable td {\n  font-family: 'Roboto Mono', monospace;\n  padding:5px 6px\n}\n.heading {\n  font-family: 'Roboto' !important;\n  font-weight: 300\n}\n\n.uk-text-center th {\n  text-align: center;\n}\n\n@media (min-width:728px){\n  miniFill {\n    width:100%!important\n  }\n}\n\n@media (max-width:530px){\n  #fullTimetable {\n    visibility: hidden;\n    display: none\n  }\n  #smallTimetable{\n    visibility: visible\n  }\n}\n\n@media (min-width:530px){\n  #fullTimetable {\n    visibility: visible\n  }\n  #smallTimetable{\n    visibility: hidden;\n    display: none\n  }\n}", ""]);
+exports.push([module.i, ".timetable td {\r\n  font-family: 'Roboto Mono', monospace;\r\n  padding:5px 6px\r\n}\r\n.heading {\r\n  font-family: 'Roboto' !important;\r\n  font-weight: 300\r\n}\r\n\r\n.uk-text-center th {\r\n  text-align: center;\r\n}\r\n\r\n@media (min-width:728px){\r\n  miniFill {\r\n    width:100%!important\r\n  }\r\n}\r\n\r\n@media (max-width:530px){\r\n  #fullTimetable {\r\n    visibility: hidden;\r\n    display: none\r\n  }\r\n  #smallTimetable{\r\n    visibility: visible\r\n  }\r\n}\r\n\r\n@media (min-width:530px){\r\n  #fullTimetable {\r\n    visibility: visible\r\n  }\r\n  #smallTimetable{\r\n    visibility: hidden;\r\n    display: none\r\n  }\r\n}", ""]);
 
 // exports
 
@@ -29224,7 +29222,7 @@ exports = module.exports = __webpack_require__(6)(false);
 
 
 // module
-exports.push([module.i, ".under {\n  margin-top: 70px!important\n}\n\n@media (min-width:750px) {\n  miniFill {\n    width:100%\n  }\n}\n", ""]);
+exports.push([module.i, ".under {\r\n  margin-top: 70px!important\r\n}\r\n\r\n@media (min-width:750px) {\r\n  miniFill {\r\n    width:100%\r\n  }\r\n}\r\n", ""]);
 
 // exports
 
@@ -29303,7 +29301,7 @@ exports = module.exports = __webpack_require__(6)(false);
 
 
 // module
-exports.push([module.i, ".embed {\n  width: 100%;\n  height: 100vh;\n  position: absolute;\n  display: block;\n}\n\n.container {\n  position: relative;\n}\n", ""]);
+exports.push([module.i, ".embed {\r\n  width: 100%;\r\n  height: 100vh;\r\n  position: absolute;\r\n  display: block;\r\n}\r\n\r\n.container {\r\n  position: relative;\r\n}\r\n", ""]);
 
 // exports
 
@@ -29464,7 +29462,7 @@ exports = module.exports = __webpack_require__(6)(false);
 
 
 // module
-exports.push([module.i, "h1,h2,h3,h4,h5,h6,h7,.uk-h1,.uk-accordion-title,.uk-text-lead {\n  font-family: 'Roboto', sans-serif\n}\n\n.spinner {\n  display: flex;\n  align-items: center;\n  align-content: center;\n  justify-content: center;\n}\n\nbody {\n  user-select: none\n}\n\n.uk-accordion-title,.uk-text-lead {\n  font-size: 1.5rem;\n  font-weight: 300\n}\n\n.welcomeNav {\n  position: fixed;\n  visibility: hidden\n}\n\n.main {\n  transition: 150ms linear;\n}\n\n.djLogo {\n  width: 50px;\n  height: 50px;\n  transition: width 0.1s;\n  transition: height 0.1s\n}\n\n.name {\n  margin-bottom: 0px;\n  margin-right: 5px;\n}\n\n.uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\n  transition: height 0.1s\n\n}\n\n.content {\n  align-content: center;\n  margin-left: 10px;\n  background: white;\n  transition: 150ms linear;\n}\n\n.background {\n  background-color: #2a2c31;\n}\n\n@media screen and (max-width: 820px) {\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\n    height:60px\n  }\n  .djLogo {\n    width: 40px;\n    height: 40px\n  }\n  .collapseText {\n    font-size: 0\n  }\n  .collapseSpan {\n    margin-right: 0px!important\n  }\n}\n\n@media screen and (max-width: 430px) {\n  .djLogo {\n    width: 0px;\n    height: 0px;\n    margin-left: 0px!important;\n    margin-right: 0px!important;\n    margin-top: 0px!important;\n    margin-bottom: 0px!important\n  }\n  .name{\n    font-size: 0px;\n    margin-right: 0px\n  }\n}\n", ""]);
+exports.push([module.i, "h1,h2,h3,h4,h5,h6,h7,.uk-h1,.uk-accordion-title,.uk-text-lead {\r\n  font-family: 'Roboto', sans-serif\r\n}\r\n\r\n.spinner {\r\n  display: flex;\r\n  align-items: center;\r\n  align-content: center;\r\n  justify-content: center;\r\n}\r\n\r\nbody {\r\n  user-select: none\r\n}\r\n\r\n.uk-accordion-title,.uk-text-lead {\r\n  font-size: 1.5rem;\r\n  font-weight: 300\r\n}\r\n\r\n.welcomeNav {\r\n  position: fixed;\r\n  visibility: hidden\r\n}\r\n\r\n.main {\r\n  transition: 150ms linear;\r\n}\r\n\r\n.djLogo {\r\n  width: 50px;\r\n  height: 50px;\r\n  transition: width 0.1s;\r\n  transition: height 0.1s\r\n}\r\n\r\n.name {\r\n  margin-bottom: 0px;\r\n  margin-right: 5px;\r\n}\r\n\r\n.uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n  transition: height 0.1s\r\n\r\n}\r\n\r\n.content {\r\n  align-content: center;\r\n  margin-left: 10px;\r\n  background: white;\r\n  transition: 150ms linear;\r\n}\r\n\r\n.background {\r\n  background-color: #2a2c31;\r\n}\r\n\r\n@media screen and (max-width: 820px) {\r\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n    height:60px\r\n  }\r\n  .djLogo {\r\n    width: 40px;\r\n    height: 40px\r\n  }\r\n  .collapseText {\r\n    font-size: 0\r\n  }\r\n  .collapseSpan {\r\n    margin-right: 0px!important\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 430px) {\r\n  .djLogo {\r\n    width: 0px;\r\n    height: 0px;\r\n    margin-left: 0px!important;\r\n    margin-right: 0px!important;\r\n    margin-top: 0px!important;\r\n    margin-bottom: 0px!important\r\n  }\r\n  .name{\r\n    font-size: 0px;\r\n    margin-right: 0px\r\n  }\r\n}\r\n", ""]);
 
 // exports
 
