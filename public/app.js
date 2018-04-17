@@ -28252,10 +28252,13 @@ let timetableData = ''; //Raw api return
 let outputA = []; //
 let outputB = []; // Formatted for html display, in order of the top down, left to right
 let outputC = []; //
-let dayOutput = '';
 
+let finalA = []; //
+let finalB = []; // Formatted for html display
+let finalC = []; //
+
+let html = [];
 let p = [];
-let final = [];
 
 class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   constructor(props) {
@@ -28269,17 +28272,17 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     this.initialise();
   }
 
-  displayWeek(outputA, outputB, outputC) {
+  displayWeek(weekA, weekB, weekC) {
     let A = document.getElementById('weekA');
-    A.innerHTML = outputA;
+    A.innerHTML = weekA;
     let B = document.getElementById('weekB');
-    B.innerHTML = outputB;
+    B.innerHTML = weekB;
     let C = document.getElementById('weekC');
-    C.innerHTML = outputC;
+    C.innerHTML = weekC;
   }
 
   //does pretty much everything for the big timetable
-  generateWeek() {
+  generateTTable() {
     //goes through all fifteen days of the cycle and adds specifically the period data
     //indexed from one to fifteen because that's how the periods are index by the api
     for (let u = 1; u <= 15; u++) {
@@ -28296,74 +28299,71 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       //Goes through all five periods of that day and puts it html form depending on its content
       for (let i = 1; i <= 5; i++) {
         if (p[u][i] == undefined) {
-          final[storageCounter] = `<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>`;
+          html[storageCounter] = `<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>`;
         } else if (p[u][i].room == '') {
-          final[storageCounter] = `<td>${p[u][i].title}&nbsp;&nbsp;&nbsp;-&nbsp;</td>`;
+          html[storageCounter] = `<td>${p[u][i].title}&nbsp;&nbsp;&nbsp;-&nbsp;</td>`;
         } else {
-          final[storageCounter] = `<td>${p[u][i].title}&nbsp;&nbsp;${p[u][i].room}</td>`;
+          html[storageCounter] = `<td>${p[u][i].title}&nbsp;&nbsp;${p[u][i].room}</td>`;
         }
         storageCounter++;
       }
     }
 
-    let multiple = 0;
-    let difference = 0;
-    let count = 0;
-    storageCounter = 0;
-    let periodCounter = 1;
-    //puts the rows in the right order and into output for weeks
-    for (let u = 0; u <= 75; u++) {
-      let sortNum = multiple * 5 + difference;
-      if (periodCounter <= 25) {
-        outputA[storageCounter] = final[sortNum];
-      } else if (periodCounter <= 50) {
-        outputB[storageCounter] = final[sortNum];
-      } else if (periodCounter <= 75) {
-        outputC[storageCounter] = final[sortNum];
-      }
-      multiple++;
-      periodCounter++;
-      count++;
+    //sorts any array of 75 into three arrays of 25
+    storageCounter = -1;
+    for (let u = 0; u <= 74; u++) {
       storageCounter++;
-      if (count == 5) {
-        count = 0;
-        multiple = 0;
-        difference++;
+      if (u < 25) {
+        finalA[storageCounter] = html[u];
+      } else if (u < 50) {
+        finalB[storageCounter] = html[u];
+      } else if (u < 75) {
+        finalC[storageCounter] = html[u];
       }
-      if (storageCounter == 25) {
-        storageCounter = 0;
+      if (storageCounter == 24) {
+        storageCounter = -1;
       }
     }
 
-    let end = false;
+    //rotates the arrays 90 degrees
+    outputA = this.rearrange(finalA);
+    outputB = this.rearrange(finalB);
+    outputC = this.rearrange(finalC);
+
+    //adds table rows at the center of the array
     for (let u = 1; u <= 4; u++) {
       let insertIndex = u * 6 - 1;
-      console.log(insertIndex);
       outputA.splice(insertIndex, 0, '</tr><tr>');
       outputB.splice(insertIndex, 0, '</tr><tr>');
       outputC.splice(insertIndex, 0, '</tr><tr>');
     }
 
-    outputA.unshift('<tr>');
-    outputA.push('</tr>');
-    outputA = outputA.join();
-    outputA = outputA.replace(/,/g, "");
-    let A = document.getElementById('weekA');
-    A.innerHTML = outputA;
+    //adds the table rows on the ends and joins the arrays
+    finalA = this.finalStep(outputA);
+    finalB = this.finalStep(outputB);
+    finalC = this.finalStep(outputC);
 
-    outputB.unshift('<tr>');
-    outputB.push('</tr>');
-    outputB = outputB.join();
-    outputB = outputB.replace(/,/g, "");
-    let B = document.getElementById('weekB');
-    B.innerHTML = outputB;
+    this.displayWeek(finalA, finalB, finalC);
+  }
 
-    outputC.unshift('<tr>');
-    outputC.push('</tr>');
-    outputC = outputC.join();
-    outputC = outputC.replace(/,/g, "");
-    let C = document.getElementById('weekC');
-    C.innerHTML = outputC;
+  finalStep(array) {
+    array.unshift('<tr>');
+    array.push('</tr>');
+    array = array.join();
+    array = array.replace(/,/g, "");
+    return array;
+  }
+
+  rearrange(array) {
+    let rearrangeCount = 0;
+    let returnArray = [];
+    for (let u = 0; u <= 4; u++) {
+      for (let x = 0; x <= 4; x++) {
+        returnArray[rearrangeCount] = array[x * 5 + u];
+        rearrangeCount++;
+      }
+    }
+    return returnArray;
   }
 
   initialise() {
@@ -28372,10 +28372,12 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     outputA = [];
     outputB = [];
     outputC = [];
+    finalA = [];
+    finalB = [];
+    finalC = [];
     p = [];
-    final = [];
     //generates the timetable
-    this.generateWeek();
+    this.generateTTable();
     //Puts your name at the top
     let name = document.getElementById('name');
     name.innerHTML = `${timetableData.student.givenname}&nbsp;${timetableData.student.surname}`;
@@ -29098,6 +29100,11 @@ class Notices extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             'ul',
             { id: 'noticesList', className: 'under', 'uk-accordion': 'multiple: true' },
             rows
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'h2',
+            { className: 'uk-text-center show uk-margin-bottom' },
+            'No daily notices'
           )
         )
       )
@@ -29222,7 +29229,7 @@ exports = module.exports = __webpack_require__(6)(false);
 
 
 // module
-exports.push([module.i, ".under {\r\n  margin-top: 70px!important\r\n}\r\n\r\n@media (min-width:750px) {\r\n  miniFill {\r\n    width:100%\r\n  }\r\n}\r\n", ""]);
+exports.push([module.i, ".under {\r\n  margin-top: 70px!important\r\n}\r\n\r\n@media (min-width:750px) {\r\n  miniFill {\r\n    width:100%\r\n  }\r\n}\r\n\r\n.show {\r\n  visibility: visible;\r\n}\r\n\r\n.hidden {\r\n  visibility: hidden;\r\n  height: 0px;\r\n}\r\n", ""]);
 
 // exports
 

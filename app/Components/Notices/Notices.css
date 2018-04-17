@@ -7,3 +7,12 @@
     width:100%
   }
 }
+
+.show {
+  visibility: visible;
+}
+
+.hidden {
+  visibility: hidden;
+  height: 0px;
+}
