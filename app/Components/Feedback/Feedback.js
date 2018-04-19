@@ -12,8 +12,16 @@ const css = require('./Feedback.css')
 class Feedback extends Component {
   render() {
     return (
-      <div className='uk-animation-slide-top-small container'>
-        <iframe className='embed' src="https://docs.google.com/forms/d/e/1FAIpQLSds9ueVdjY4UvMM27KrdBoV8JW4cDeJa0vwLrlhviGBEndQDA/viewform?embedded=true">Loading...</iframe>
+      <div>
+        <div className='uk-animation-slide-top-small container'>
+          <iframe className='embed' src="https://docs.google.com/forms/d/e/1FAIpQLSds9ueVdjY4UvMM27KrdBoV8JW4cDeJa0vwLrlhviGBEndQDA/viewform?embedded=true">Loading...</iframe>
+        </div>
+        <div className='main uk-height-viewport vcWelcomeParent behind'>
+          <div className='uk-flex uk-flex-center vcWelcomeCard'>
+            <div uk-spinner="ratio: 4" className="uk-spinner uk-icon">
+            </div>
+          </div>
+        </div>
       </div>
     )
   }

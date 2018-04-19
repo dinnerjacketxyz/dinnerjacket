@@ -28817,10 +28817,10 @@ class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
     quill = new Quill('#editor', {
       modules: {
-        toolbar: false
+        toolbar: true
       },
-      theme: 'snow',
-      placeholder: 'Write anything here.'
+      theme: 'bubble',
+      placeholder: 'Write any notes here! Your notes are encoded and synced both locally and to the cloud. Highlight text or use keyboard shortcuts for formatting options such as bold, italics and headings.'
     });
 
     // Local Storage
@@ -29084,7 +29084,7 @@ class Notices extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     }
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { className: 'uk-flex uk-flex-center vcNavbarCard' },
+      { className: 'uk-flex uk-flex-center' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
         { className: 'uk-margin-top uk-card uk-card-default uk-card-body uk-width-xxlarge miniFill uk-animation-slide-top-small' },
@@ -29303,11 +29303,24 @@ class Feedback extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { className: 'uk-animation-slide-top-small container' },
+      null,
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'iframe',
-        { className: 'embed', src: 'https://docs.google.com/forms/d/e/1FAIpQLSds9ueVdjY4UvMM27KrdBoV8JW4cDeJa0vwLrlhviGBEndQDA/viewform?embedded=true' },
-        'Loading...'
+        'div',
+        { className: 'uk-animation-slide-top-small container' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'iframe',
+          { className: 'embed', src: 'https://docs.google.com/forms/d/e/1FAIpQLSds9ueVdjY4UvMM27KrdBoV8JW4cDeJa0vwLrlhviGBEndQDA/viewform?embedded=true' },
+          'Loading...'
+        )
+      ),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { className: 'main uk-height-viewport vcWelcomeParent behind' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'uk-flex uk-flex-center vcWelcomeCard' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { 'uk-spinner': 'ratio: 4', className: 'uk-spinner uk-icon' })
+        )
       )
     );
   }
@@ -29355,7 +29368,7 @@ exports = module.exports = __webpack_require__(6)(false);
 
 
 // module
-exports.push([module.i, ".embed {\r\n  width: 100%;\r\n  height: 100vh;\r\n  position: absolute;\r\n  display: block;\r\n}\r\n\r\n.container {\r\n  position: relative;\r\n}\r\n", ""]);
+exports.push([module.i, ".embed {\r\n  width: 100%;\r\n  height: 100vh;\r\n  position: absolute;\r\n  display: block;\r\n}\r\n\r\n.container {\r\n  position: relative;\r\n  z-index: 1;\r\n}\r\n\r\n.behind {\r\n  z-index: -1000;\r\n}\r\n", ""]);
 
 // exports
 
@@ -29549,10 +29562,10 @@ class Loading extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { id: 'main', className: 'main uk-height-viewport centerParent' },
+      { id: 'main', className: 'main uk-height-viewport vcWelcomeParent' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
-        { className: 'uk-flex uk-flex-center centerCard' },
+        { className: 'uk-flex uk-flex-center vcWelcomeCard' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { 'uk-spinner': 'ratio: 4', className: 'uk-spinner uk-icon' })
       )
     );
