@@ -1,17 +1,11 @@
 ﻿const oauth2module = require('simple-oauth2')
 const https = require('https')
-var session = require('express-session')
 
 const siteURL = 'http://localhost:3000'
 
 module.exports = (app) => {
   'use strict'
-  /*app.use(session({
-    secret: 'a',
-    resave: false,
-    saveUninitialized: false,
-    cookie: { secure: false }
-  }))*/
+
   // Set up OAuth2 parameters
   const cred = {
     client: {
@@ -74,8 +68,8 @@ module.exports = (app) => {
     }
     
     let promise = new Promise( function (resolve, reject) {
-      console.log('getting token')
-      // exchange code for token
+
+        // exchange code for token
       oauth2.authorizationCode.getToken(options, (error, result) => {
 
         // handle error
@@ -91,13 +85,11 @@ module.exports = (app) => {
 
     promise.then(function(result) {
       // store token in user's session
-      console.log('storing token')
       req.session.token = result
-      console.log('logged in, token stored: ' + req.session.token.token.access_token )
-      
+      console.log('token stored')
+
       // Login done, redirect back
-      res.redirect('/')
-      console.log('* PAGE RELOADED *')
+      res.redirect(siteURL)
     })
   })
 
@@ -115,14 +107,12 @@ module.exports = (app) => {
    *==============================*=============================*/
 
   app.get('/getsession', (req, res) => {
-    console.log('/getsession === Validating session')
-    console.log('Session ID: '+req.session.id)
-
-    if (req.session.token === undefined) {
+    console.log('validating session')
+    if (req.session.token === undefined || req.session.token.token === undefined) {
       console.log('no token found')
       res.send(false)
     } else {
-      console.log('access token found')
+      
       // validate session, inc. tokens
       
       /*
@@ -134,7 +124,8 @@ module.exports = (app) => {
         req.session.destroy()
         res.send(false)
       }*/
-      //console.log('access token needs to be refreshed: ' + (new Date() > new Date(req.session.token.token.expires_at)))
+      console.log(req.session.token)
+      console.log(new Date() + ' ' + new Date(req.session.token.token.expires_at))
       // check access token
       if (new Date() > new Date(req.session.token.token.expires_at)) {
         console.log('refreshing access token')
@@ -179,8 +170,8 @@ module.exports = (app) => {
           req.session.token.token.access_token = result
           console.log('token refreshed')
           // set access token expiry date
-          //var now = new Date()
-          //req.session.accessTokenExpiry = now.setHours(now.getHours() + 1)
+          var now = new Date()
+          req.session.accessTokenExpiry = now.setHours(now.getHours() + 1)
           res.send(true)
         })
       } else {
@@ -188,17 +179,17 @@ module.exports = (app) => {
         res.send(true)
       }
     }
-    console.log('/getsession === finished validating session')
+    
   })
 
-  app.get('/getdata', (req, res) => {
+  app.get('/getdata', (req1, res1) => {
     console.log('Token getdata')
-    console.log('Token exists: ' + (req.session.token != undefined))
-    var token = req.session.token.token.access_token
+    console.log('Token exists: ' + (req1.session.token != undefined))
+    var token = req1.session.token.token.access_token
     
     const httpsOptions = {
       hostname: 'student.sbhs.net.au',
-      path: '/api/' + req.query.url,
+      path: '/api/' + req1.query.url,
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + token
@@ -233,26 +224,23 @@ module.exports = (app) => {
 
       // send resources
 
-      res.send(result)
+      res1.send(result)
 
     })
   })
 
   app.get('/logout', (req, res) => {
     console.log('logging out')
-    console.log('Session ID: '+req.session.id)
-    req.session.destroy(function(err) {
-      console.log('* PAGE RELOADED *')
-      res.redirect('/')
-    })
+    req.session.destroy()
+    req.session.token = undefined
+    console.log(req.session.token)
+    res.redirect(siteURL)
   })
 
-  var counter = 0
   // for testing
   app.get('/test', (req, res) => {
-    counter += 1
-    console.log(counter)
-    /*let returnVal =
+    console.log(req.session.token)
+    let returnVal =
        ' <p style="line-height:1">\
         &nbsp;∛3<br>\
        ⎰<i>t² dt </i> ⋅ cos(3π/9) = log(∛<i>e</i>)<br>\
@@ -271,6 +259,6 @@ module.exports = (app) => {
         When raised to the prime, <br>\
         Between 5 and 9, <br>\
         Is <i>e</i> to the <i>iπ</i> times 3.';
-    res.send(returnVal)*/
+    res.send(returnVal)
   })
 }
