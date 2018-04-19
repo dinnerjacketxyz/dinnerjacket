@@ -36,8 +36,8 @@ class Welcome extends Component {
 
   render() {
     return (
-      <div className='main centerParent'>
-        <div className='centerCard'>
+      <div className='main vcWelcomeParent'>
+        <div className='vcWelcomeCard'>
           <div id='welcomeContent' className='uk-box-shadow-hover-xlarge uk-animation-slide-top-small'>
             <img id='logo' alt='logo' src='256.png' width='150px' height='150px'/>
             <h1 id='welcomeTitle'>DinnerJacket</h1>

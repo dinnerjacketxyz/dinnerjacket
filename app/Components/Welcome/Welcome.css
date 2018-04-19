@@ -1,32 +1,26 @@
-.uk-padding-large {
-  padding-left: 30px!important;
-  padding-right: 30px!important
-}
-
-.centerParent {
+/*Vertical centering welcome card*/
+.vcWelcomeParent {
   display: flex;
   height: auto;
   margin: 0 auto;
   min-height: 100vh;
 }
-
-#welcomeContent{
-  padding: 30px;
-  width: 450px!important;
-}
-
-.centerCard {
+.vcWelcomeCard {
   margin: auto;
   justify-content: center;
   display: flex;
   text-align: center!important;
 }
 
+/*Onscreen elements of the welcome page*/
+#welcomeContent{
+  padding: 30px;
+  width: 450px!important;
+}
 #welcomeTitle{
   font-size: 4rem;
   line-height: 1.2;
 }
-
 #welcomeLabel{
   background-color: #f0506e;
   color: #fff;
@@ -40,23 +34,21 @@
   border-radius: 2px;
   text-transform: uppercase;
 }
-
 #welcomeText{
   margin-top: 20px!important;
   margin-bottom: 20px!important
 }
-
 #loginButton {
   margin-bottom: 20px!important;
   margin-top: 20px!important;
 }
-
 #logo {
   pointer-events: none;
 }
 
+/*Media rules*/
 @media screen and (max-width: 450px) {
-  .centerCard{
+  .vcWelcomeCard{
     width:100%;
   }
   #welcomeContent{
@@ -78,7 +70,6 @@
     font-size: 13px;
   }
 }
-
 @media screen and (max-width: 310px) {
   #welcomeTitle{
     font-size:2.5rem;line-height:1.4 
@@ -90,7 +81,6 @@
     width: 90px;
   }
 }
-
 @media screen and (max-width: 255px) {
   #welcomeTitle{
     font-size:1.5rem;line-height:1.4
@@ -102,3 +92,4 @@
     width: 80px;
   }
 }
+

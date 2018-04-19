@@ -581,14 +581,15 @@ class Dashboard extends Component {
     }
 
     return (
-      <div className='uk-flex uk-flex-center uk-text-center uk-margin-top'>
-        <div className='uk-card uk-card-default uk-card-body uk-width-large miniFill uk-animation-slide-top-small'>
-
-          <h4 className='uk-h4'><b>{nextClass}</b></h4>
-          <p> in </p>
-          <h1 className='uk-heading-line'><span>{timeLeft}</span></h1>
-          <p> <br/> </p>
-          {this.state.htmlClasses}
+      <div className='vcNavbarParent'>
+        <div className='uk-flex uk-flex-center uk-text-center vcNavbarCard'>
+          <div className='uk-card uk-card-default uk-card-body uk-width-large uk-animation-slide-top-small'>
+            <h4 className='uk-h4'><b>{nextClass}</b></h4>
+            <p> in </p>
+            <h1 className='uk-heading-line'><span>{timeLeft}</span></h1>
+            <p> <br/> </p>
+            {this.state.htmlClasses}
+          </div>
         </div>
       </div>
     )

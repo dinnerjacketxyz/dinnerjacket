@@ -2,8 +2,7 @@
   margin-bottom: 0px
 }
 
-@media (min-width:450px){
-  miniFill {
-    width:100%!important
-  }
+@media screen and (max-height: 625px) {
+  
 }
+

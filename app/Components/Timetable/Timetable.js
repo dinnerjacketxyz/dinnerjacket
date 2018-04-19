@@ -198,77 +198,80 @@ class Timetable extends Component {
  render() {
    //this.initialise()
    return (
-       <div className='uk-flex uk-flex-center'>
-         <div id='fullTimetable' className='uk-card uk-card-default uk-width-xlarge uk-card-body uk-animation-slide-top-small uk-margin-top miniFill'>
-           <h3 className='uk-heading-line uk-text-center'>
-             <span id='name'/>
-           </h3>
-           <div className='uk-box-shadow-hover-small uk-padding-top uk-text-center'>
-             <table className="uk-table uk-table-small">
-                 <thead>
-                     <tr>
-                         <th>MON A</th>
-                         <th>TUE A</th>
-                         <th>WED A</th>
-                         <th>THU A</th>
-                         <th>FRI A</th>
-                     </tr>
-                 </thead>
-                 <tbody className='timetable' id='weekA'>
-                 </tbody>
-             </table>
-           </div>
-           <hr/>
-           <div className='uk-box-shadow-hover-small uk-padding-top uk-text-center'>
-             <table className="uk-table uk-table-small">
-                 <thead>
-                     <tr>
-                         <th>MON B</th>
-                         <th>TUE B</th>
-                         <th>WED B</th>
-                         <th>THU B</th>
-                         <th>FRI B</th>
-                     </tr>
-                 </thead>
-                 <tbody className='timetable' id='weekB'>
-                 </tbody>
-             </table>
-           </div>
-           <hr/>
-           <div className='uk-box-shadow-hover-small uk-padding-top uk-text-center'>
-             <table className="uk-table uk-table-small">
-                 <thead>
-                     <tr>
-                         <th>MON C</th>
-                         <th>TUE C</th>
-                         <th>WED C</th>
-                         <th>THU C</th>
-                         <th>FRI C</th>
-                     </tr>
-                 </thead>
-                 <tbody className='timetable' id='weekC'>
-                 </tbody>
-             </table>
-           </div>
-           </div>
-         <div id='smallTimetable' className='uk-card uk-card-default uk-card-body uk-animation-slide-top-small uk-margin-top miniFill' onClick={this.activeTab.bind(this)}>
-           <ul className='uk-flex-center uk-tab' onClick={this.input}>
-             <li id='A'><a>A</a></li>
-             <li id='B'><a>B</a></li>
-             <li id='C'><a>C</a></li>
-           </ul>
-           <ul className='uk-flex-center uk-tab' onClick={this.input}>
-             <li id='MON'><a>MON</a></li>
-             <li id='TUE'><a>TUE</a></li>
-             <li id='WED'><a>WED</a></li>
-             <li id='THU'><a>THU</a></li>
-             <li id='FRI'><a>FRI</a></li>
-           </ul>
-           <table className='uk-table uk-table-hover timetable uk-text-center'>
-             <tbody id='smallTable'></tbody>
-           </table>
-         </div>
-       </div>
+      <div className='vcNavbarParent'>
+        <div className='uk-flex uk-flex-center vcNavbarCard'>
+          <div id='fullTimetable' className='uk-card uk-card-default uk-width-xlarge uk-card-body uk-animation-slide-top-small uk-margin-top miniFill'>
+            <h3 className='uk-heading-line uk-text-center'>
+              <span id='name'/>
+            </h3>
+            <div className='uk-box-shadow-hover-small uk-padding-top uk-text-center'>
+              <table className="uk-table uk-table-small">
+                  <thead>
+                      <tr>
+                          <th>MON A</th>
+                          <th>TUE A</th>
+                          <th>WED A</th>
+                          <th>THU A</th>
+                          <th>FRI A</th>
+                      </tr>
+                  </thead>
+                  <tbody className='timetable' id='weekA'>
+                  </tbody>
+              </table>
+            </div>
+            <hr/>
+            <div className='uk-box-shadow-hover-small uk-padding-top uk-text-center'>
+              <table className="uk-table uk-table-small">
+                  <thead>
+                      <tr>
+                          <th>MON B</th>
+                          <th>TUE B</th>
+                          <th>WED B</th>
+                          <th>THU B</th>
+                          <th>FRI B</th>
+                      </tr>
+                  </thead>
+                  <tbody className='timetable' id='weekB'>
+                  </tbody>
+              </table>
+            </div>
+            <hr/>
+            <div className='uk-box-shadow-hover-small uk-padding-top uk-text-center'>
+              <table className="uk-table uk-table-small">
+                  <thead>
+                      <tr>
+                          <th>MON C</th>
+                          <th>TUE C</th>
+                          <th>WED C</th>
+                          <th>THU C</th>
+                          <th>FRI C</th>
+                      </tr>
+                  </thead>
+                  <tbody className='timetable' id='weekC'>
+                  </tbody>
+              </table>
+            </div>
+            </div>
+          <div id='smallTimetable' className='uk-card uk-card-default uk-card-body uk-animation-slide-top-small uk-margin-top miniFill' onClick={this.activeTab.bind(this)}>
+            <ul className='uk-flex-center uk-tab' onClick={this.input}>
+              <li id='A'><a>A</a></li>
+              <li id='B'><a>B</a></li>
+              <li id='C'><a>C</a></li>
+            </ul>
+            <ul className='uk-flex-center uk-tab' onClick={this.input}>
+              <li id='MON'><a>MON</a></li>
+              <li id='TUE'><a>TUE</a></li>
+              <li id='WED'><a>WED</a></li>
+              <li id='THU'><a>THU</a></li>
+              <li id='FRI'><a>FRI</a></li>
+            </ul>
+            <table className='uk-table uk-table-hover timetable uk-text-center'>
+              <tbody id='smallTable'></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+       
    )
  }
 }

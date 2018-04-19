@@ -323,7 +323,7 @@ class App extends Component {
         <nav id='navbar' className='uk-navbar uk-navbar-container welcomeNav uk-sticky' uk-sticky='true' uk-navbar='true'>
           <div className='uk-navbar-left'>
             <div onClick={this.logo.bind(this)}>
-              <img id='logo'
+              <img
                 className='djLogo uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom'
                 alt='logo' src='64.png'>
               </img>
@@ -364,7 +364,6 @@ class App extends Component {
 
             </ul>
           </div>
-
           <div className='uk-navbar-right'>
             <ul className='uk-navbar-nav'>
               <li id='SideLi' className='uk-animation-toggle'>
@@ -411,7 +410,7 @@ class App extends Component {
           </div>
         </nav>
 
-        <div id='content'>
+        <div id='content' className = ''>
           {this.state.visible === window.STATES.DASHBOARD && <Dashboard />}
           {this.state.visible === window.STATES.TIMETABLE && <Timetable />}
           {this.state.visible === window.STATES.NOTES && <Notes />}
