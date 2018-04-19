@@ -1,4 +1,4 @@
-const oauth2module = require('simple-oauth2')
+﻿const oauth2module = require('simple-oauth2')
 const https = require('https')
 var session = require('express-session')
 
