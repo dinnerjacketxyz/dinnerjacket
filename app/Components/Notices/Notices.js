@@ -187,6 +187,7 @@ class Notices extends Component {
             <ul id='noticesList' className='under' uk-accordion='multiple: true'>
               {rows}
             </ul>
+            <h2 className='uk-text-center show uk-margin-bottom'>No daily notices</h2>
           </div>
         </div>
       </div>

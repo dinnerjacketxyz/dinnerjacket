@@ -22,7 +22,7 @@ module.exports = (app) => {
           |   REPLACE THIS WITH CLIENT SECRET WHEN RUNNING   |
           *==================================================*
                                                                 */
-      secret: REDACTED
+      secret: 'bGDDFl_qy6P3sYJxu70wBmeIqkk'
 
       /*
           *==================================================*

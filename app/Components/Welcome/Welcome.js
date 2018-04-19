@@ -36,17 +36,17 @@ class Welcome extends Component {
 
   render() {
     return (
-      <div id='main' className='main uk-height-viewport centerParent'>
-        <div className='uk-flex uk-flex-center uk-text-center centerCard'>
-          <div className='uk-card uk-card-default uk-card-body uk-width-large uk-animation-slide-top-small'>
-            <img id='logo'
-              className='uk-disabled'
-              alt='logo' src='256.png' width='150px' height='150px'>
-            </img>
-            <h1 className='uk-h1'>DinnerJacket</h1>
-            <p className='uk-label uk-label-danger'>alpha v0.1.1</p>
-            <p className='uk-margin-top uk-margin-bottom'>This is an alpha release of DinnerJacket. New features are still in development and technical issues may occasionally arise. Please report any issues or suggestions in the feedback tab. Thanks!</p>
-            <button id='loginButton' className='uk-button uk-button-primary uk-margin-top uk-margin-bottom' onClick={this.toggleLogin.bind(this)}>Login</button>
+      <div className='main centerParent'>
+        <div className='centerCard'>
+          <div id='welcomeContent' className='uk-box-shadow-hover-xlarge uk-animation-slide-top-small'>
+            <img id='logo' alt='logo' src='256.png' width='150px' height='150px'/>
+            <h1 id='welcomeTitle'>DinnerJacket</h1>
+            <p id='welcomeLabel'>alpha v0.1.1</p>
+            <p id='welcomeText'>This is an alpha release of DinnerJacket. 
+                                New features are still in development and technical issues may occasionally arise. 
+                                Please report any issues or suggestions in the feedback tab. 
+                                Thanks!</p>
+            <button id='loginButton' className='uk-button uk-button-primary' onClick={this.toggleLogin.bind(this)}>Login</button>
           </div>
         </div>
       </div>
