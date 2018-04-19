@@ -4,6 +4,7 @@ import Dashboard from './Dashboard/Dashboard'
 import Timetable from './Timetable/Timetable'
 import Notes from './Notes/Notes'
 import Notices from './Notices/Notices'
+import Calendar from './Calendar/Calendar'
 import About from './About/About'
 import Feedback from './Feedback/Feedback'
 import Changelog from './Changelog/Changelog'
@@ -20,6 +21,7 @@ window.dailyNotices = ''
 window.timetable = ''
 window.dashboard = ''
 window.bells = ''
+window.calendar = 'remove when calendar api data is retrieved'
 
 // Requirements for beta release
 // Daily timetable
@@ -38,9 +40,10 @@ window.STATES = {
   TIMETABLE: 1,
   NOTES: 2,
   NOTICES: 3,
-  ABOUT: 4,
-  CHANGELOG: 5,
-  FEEDBACK: 6
+  CALENDAR: 4,
+  ABOUT: 5,
+  CHANGELOG: 6,
+  FEEDBACK: 7
 }
 
 let counter = 0
@@ -48,11 +51,11 @@ let counter = 0
 const nameArray = [
   'Dashboard',
   'Timetable',
-  'User Notes',
-  'Daily Notices',
+  'Notes',
+  'Notices',
+  'Calendar',
   'Side'
 ]
-
 
 //let loggedIn = false
 
@@ -79,7 +82,10 @@ class App extends Component {
       res.setEncoding('utf8')
       res.on('data', (data) => {
         console.log('getsession req. returned ' + data)
-        if (data === 'true') {
+        
+        // This is weird. Was 'true' before but in console 
+        // it kept showing 'tru' then 'e' on a seperate line.
+        if (data === 'tru') {
           console.log('getting data')
           try {
             this.getData()
@@ -277,6 +283,15 @@ class App extends Component {
     }
   }
 
+  showCalendar() {
+    //console.log('Calendar tab clicked')
+    if (window.calendar !== '') {
+      let visible = this.state.visible
+      this.setState({ visible: window.STATES.CALENDAR })
+      this.selectedNavbar(window.STATES.CALENDAR)
+    }
+  }
+
   showAbout() {
     //console.log('About tab clicked')
     let visible = this.state.visible
@@ -334,14 +349,14 @@ class App extends Component {
                 <a id='DashboardA' className='uk-box-shadow-hover-medium uk-card-primary'>
                   <span id='DashboardS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: home'/>
                   <p className='collapseText' id='DashboardP'></p>
-                  <b className='collapseText' id='DashboardB'>Dashboard</b>
+                  <b className='collapseText' id='DashboardB'>{nameArray[0]}</b>
                 </a>
               </li>
 
               <li id='TimetableLi' className='uk-animation-toggle' onClick={this.showTimetable.bind(this)}>
                 <a id='TimetableA' className='uk-box-shadow-hover-medium'>
                   <span id='TimetableS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: table' />
-                  <p className='collapseText' id='TimetableP'>Timetable</p>
+                  <p className='collapseText' id='TimetableP'>{nameArray[1]}</p>
                   <b className='collapseText' id='TimetableB'></b>
                 </a>
               </li>
@@ -349,7 +364,7 @@ class App extends Component {
               <li id='User NotesLi' className='uk-animation-toggle' onClick={this.showNotes.bind(this)}>
                 <a id='User NotesA' className='uk-box-shadow-hover-medium'>
                   <span id='User NotesS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: file-edit' />
-                  <p className='collapseText' id='User NotesP'>User Notes</p>
+                  <p className='collapseText' id='User NotesP'>{nameArray[2]}</p>
                   <b className='collapseText' id='User NotesB'></b>
                 </a>
               </li>
@@ -357,8 +372,16 @@ class App extends Component {
               <li id='Daily NoticesLi' className='uk-animation-toggle' onClick={this.showNotices.bind(this)}>
                 <a id='Daily NoticesA' className='uk-box-shadow-hover-medium'>
                   <span id='Daily NoticesS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: bell' />
-                  <p className='collapseText' id='Daily NoticesP'>Daily Notices</p>
+                  <p className='collapseText' id='Daily NoticesP'>{nameArray[3]}</p>
                   <b className='collapseText' id='Daily NoticesB'></b>
+                </a>
+              </li>
+
+              <li id='CalendarLi' className='uk-animation-toggle' onClick={this.showCalendar.bind(this)}>
+                <a id='CalendarA' className='uk-box-shadow-hover-medium'>
+                  <span id='CalendarS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: calendar' />
+                  <p className='collapseText' id='CalendarP'>{nameArray[4]}</p>
+                  <b className='collapseText' id='CalendarB'></b>
                 </a>
               </li>
 
@@ -415,6 +438,7 @@ class App extends Component {
           {this.state.visible === window.STATES.TIMETABLE && <Timetable />}
           {this.state.visible === window.STATES.NOTES && <Notes />}
           {this.state.visible === window.STATES.NOTICES && <Notices />}
+          {this.state.visible === window.STATES.CALENDAR && <Calendar />}
           {this.state.visible === window.STATES.ABOUT && <About />}
           {this.state.visible === window.STATES.CHANGELOG && <Changelog />}
           {this.state.visible === window.STATES.FEEDBACK && <Feedback />}

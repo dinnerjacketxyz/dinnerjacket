@@ -14,92 +14,90 @@ class Notices extends Component {
       year: window.userData['yearGroup'],
       text: 'EXPAND ALL'
     }
-    
-    this.init()
   }
   
   componentDidMount() {
     let selector = document.getElementById('yearSelector')
     selector.value = window.userData['yearGroup']
+    this.init()
   }
 
   strip(html) {
-    var tmp = document.createElement("DIV");
-    tmp.innerHTML = html;
-    return tmp.textContent || tmp.innerText || "";
+    var tmp = document.createElement('DIV')
+    tmp.innerHTML = html
+    return tmp.textContent || tmp.innerText || ""
   }
 
   init() {
     dailyNotices = window.dailyNotices
     this.state.notices = []
-    //console.log('testing132')
 
-    /*years += dailyNotices.notices[i].years[j]
-      if (j < dailyNotices.notices[i].years.length - 1) {
-        years += ', '
-      }
-    }*/
+    if (this.state.notices.length <= 0) {
+      document.getElementById('noNotices').className = 'uk-text-center uk-margin-bottom show'
+      document.getElementById('toggleNotices').disabled = 'true'
+      document.getElementById('yearSelector').disabled = 'true'
+    } else {
+      document.getElementById('noNotices').className = 'uk-text-center uk-margin-bottom hidden'
+      document.getElementById('toggleNotices').disabled = 'false'
+      document.getElementById('yearSelector').disabled = 'false'
 
-
-
-    for (let i = 0; i < dailyNotices.notices.length; i++) {
-      if (this.state.year == 'ALL' || this.yearInNotice(this.state.year, dailyNotices.notices[i])) {
-        // TEMP - proper solotion later (TODO)
-        //let content = dailyNotices.notices[i].content.replace(/(<([^>]+)>)/ig,'')
-        let content = this.strip(dailyNotices.notices[i].content)
-
-        let years = ''
-        if (dailyNotices.notices[i].years.length >= 6) {
-          years = 'ALL'
-        } else {
-          let c = false
-          for (let j = 0; j < dailyNotices.notices[i].years.length; j++) {
-            let start = 0
-            if (!c) {
-              if (years.length > 0) {
-                years += ', '
+      for (let i = 0; i < dailyNotices.notices.length; i++) {
+        if (this.state.year == 'ALL' || this.yearInNotice(this.state.year, dailyNotices.notices[i])) {
+          let content = this.strip(dailyNotices.notices[i].content)
+  
+          let years = ''
+          if (dailyNotices.notices[i].years.length >= 6) {
+            years = 'ALL'
+          } else {
+            let c = false
+            for (let j = 0; j < dailyNotices.notices[i].years.length; j++) {
+              let start = 0
+              if (!c) {
+                if (years.length > 0) {
+                  years += ', '
+                }
+                start = dailyNotices.notices[i].years[j]
+                years += start + ' '
               }
-              start = dailyNotices.notices[i].years[j]
-              years += start + ' '
-            }
-
-            if (parseInt(dailyNotices.notices[i].years[j]) + 1 === parseInt(dailyNotices.notices[i].years[j+1]) && j < dailyNotices.notices[i].years.length - 1) {
-              c = true
-            } else {
-              c = false
-              if (dailyNotices.notices[i].years[j] !== start) {
-                years += ' - ' + dailyNotices.notices[i].years[j] + ' '
+  
+              if (parseInt(dailyNotices.notices[i].years[j]) + 1 === parseInt(dailyNotices.notices[i].years[j+1]) && j < dailyNotices.notices[i].years.length - 1) {
+                c = true
+              } else {
+                c = false
+                if (dailyNotices.notices[i].years[j] !== start) {
+                  years += ' - ' + dailyNotices.notices[i].years[j] + ' '
+                }
               }
             }
           }
-        }
-
-        let date = ''
-        const MONTHS = [
-          'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-          'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
-        ]
-
-        if (dailyNotices.notices[i].isMeeting) {
-          let dd = dailyNotices.notices[i].meetingDate.substr(-2)
-          if (dd[0] === '0') {
-            dd = dd.substr(-1)
+  
+          let date = ''
+          const MONTHS = [
+            'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+          ]
+  
+          if (dailyNotices.notices[i].isMeeting) {
+            let dd = dailyNotices.notices[i].meetingDate.substr(-2)
+            if (dd[0] === '0') {
+              dd = dd.substr(-1)
+            }
+            let mm = dailyNotices.notices[i].meetingDate.substr(-5, 2)
+            if (mm[0] === '0') {
+              mm = mm.substr(-1)
+            }
+            date = MONTHS[mm] + ' ' + dd + ' at ' + dailyNotices.notices[i].meetingTime
           }
-          let mm = dailyNotices.notices[i].meetingDate.substr(-5, 2)
-          if (mm[0] === '0') {
-            mm = mm.substr(-1)
+  
+          let obj = {
+            title: dailyNotices.notices[i].title,
+            date: date,
+            content: content,
+            years: years,
+            author: dailyNotices.notices[i].authorName
           }
-          date = MONTHS[mm] + ' ' + dd + ' at ' + dailyNotices.notices[i].meetingTime
+          this.state.notices.push(obj)
         }
-
-        let obj = {
-          title: dailyNotices.notices[i].title,
-          date: date,
-          content: content,
-          years: years,
-          author: dailyNotices.notices[i].authorName
-        }
-        this.state.notices.push(obj)
       }
     }
   }
@@ -109,10 +107,7 @@ class Notices extends Component {
 
     for (let i = 0; i < notice.years.length; i++) {
       if (year == notice.years[i]) {
-        //console.log(year)
-        //console.log(notice.years[i])
         found = true
-        //console.log(found)
       }
     }
     return found
@@ -123,8 +118,6 @@ class Notices extends Component {
     this.state.year = selector.options[selector.selectedIndex].text
     let a = this.state.a
     this.setState({ a: 'test' })
-    //console.log(this.state.year)
-
     this.init()
   }
 
@@ -179,7 +172,7 @@ class Notices extends Component {
                 <option>12</option>
               </select>
             </div>
-            <button onClick={this.toggleNotices.bind(this)} className="uk-button uk-button-default uk-align-left">
+            <button id='toggleNotices' onClick={this.toggleNotices.bind(this)} className="uk-button uk-button-default uk-align-left">
               {this.state.text}
             </button>
           </div>
@@ -187,7 +180,7 @@ class Notices extends Component {
             <ul id='noticesList' className='under' uk-accordion='multiple: true'>
               {rows}
             </ul>
-            <h2 className='uk-text-center show uk-margin-bottom'>No daily notices</h2>
+            <h2 id='noNotices' className='uk-text-center show uk-margin-bottom'>No daily notices</h2>
           </div>
         </div>
       </div>
@@ -222,7 +215,3 @@ const ExpandedNotices = (props) => {
 }
 
 export default Notices
-
-
-//<li><a onClick={this.addToClipboard.bind(this)}>Add to clipboard</a></li>
-//<span className='uk-label uk-align-left uk-text-middle'>{props.notices.years}</span>

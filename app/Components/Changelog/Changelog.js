@@ -16,6 +16,13 @@ class Changelog extends Component {
 
               <hr />
 
+              <h2>Alpha v0.1.2</h2>
+              <ul>
+                <li></li>
+              </ul>
+
+              <hr />
+
               <h2>Alpha v0.1.1</h2>
               <ul>
                 <li>Fixed crashing on loading page</li>
