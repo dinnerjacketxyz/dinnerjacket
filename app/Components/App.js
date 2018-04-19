@@ -60,19 +60,21 @@ class App extends Component {
   constructor(props) {
     super(props)
 
+    console.log('Server Updated 3')
+
     // Set default state on open to Welcome page
     this.state = {
       visible: window.STATES.LOADING
     }
+  }
 
+  showLogin() {
     let visible = this.state.visible
-    
-    
+    this.setState({ visible: window.STATES.WELCOME })
   }
   
   componentDidMount() {
-    if (window.location.href === 'http://localhost:3000/') {
-      http.get('/getsession', (res) => {
+    http.get('/getsession', (res) => {
       console.log('starting getsession req.')
       res.setEncoding('utf8')
       res.on('data', (data) => {
@@ -83,14 +85,13 @@ class App extends Component {
             this.getData()
           } catch (e) {
             console.log('Error receiving data')
+            this.showLogin()
           }
         } else {
-          this.setState({ visible: window.STATES.WELCOME })
+          this.showLogin()
         }
       })
     })
-    
-    }
   }
   
   getData() {
@@ -102,7 +103,14 @@ class App extends Component {
       })
       
       res.on('end', () => {
-        window.dashboard = JSON.parse(data)
+        try {
+          window.dashboard = JSON.parse(data)
+        } catch (e) {
+          console.log(e)
+          console.log(data)
+          this.showLogin()
+          return
+        }
         if (window.dashboard != '') {
           //let visible = this.state.visible
           document.getElementById('navbar').className = 'uk-navbar uk-navbar-container'
@@ -120,7 +128,14 @@ class App extends Component {
         a += body
       })
       res.on('end', () => {
-        window.userData = JSON.parse(a)
+        try {
+          window.userData = JSON.parse(a)
+        } catch (e) {
+          console.log(e)
+          console.log(a)
+          this.showLogin()
+          return
+        }
 
         let name = document.getElementById('SideP')
         name.innerHTML = window.userData.givenName + ' ' + window.userData.surname
@@ -130,12 +145,19 @@ class App extends Component {
     // Get daily notices from SBHS API
     http.get('/getdata?url=dailynews/list.json', (res) => {
       res.setEncoding('utf8')
-      let data = ''
+      let d = ''
       res.on('data', (body) => {
-        data += body
+        d += body
       })
       res.on('end', () => {
-        window.dailyNotices = JSON.parse(data)
+        try {
+          window.dailyNotices = JSON.parse(d)
+        } catch (e) {
+          console.log(e)
+          console.log(d)
+          this.showLogin()
+          return
+        }
       })
     })
 
@@ -148,7 +170,14 @@ class App extends Component {
       })
 
       res.on('end', () => {
-        window.timetable = JSON.parse(b)
+        try {
+          window.timetable = JSON.parse(b)
+        } catch (e) {
+          console.log(e)
+          console.log(b)
+          this.showLogin()
+          return
+        }
       })
     })
 
@@ -160,7 +189,14 @@ class App extends Component {
       })
 
       res.on('end', () => {
-        window.bells = JSON.parse(c)
+        try {
+          window.bells = JSON.parse(c)
+        } catch (e) {
+          console.log(e)
+          console.log(c)
+          this.showLogin()
+          return
+        }
       })
     })
   }

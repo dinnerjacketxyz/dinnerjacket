@@ -275,4 +275,3 @@ class Timetable extends Component {
 
 export default Timetable
 
-
