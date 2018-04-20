@@ -1,0 +1,13 @@
+.calNotif {
+  left: 400%; 
+  top: 20%
+}
+
+.calDay {
+  width: 30px
+}
+
+.calTable {
+  table-layout: fixed;
+  padding: 5px 5px!important;
+}

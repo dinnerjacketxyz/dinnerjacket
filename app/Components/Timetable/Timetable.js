@@ -200,7 +200,7 @@ class Timetable extends Component {
    return (
       <div className='vcNavbarParent'>
         <div className='uk-flex uk-flex-center vcNavbarCard'>
-          <div id='fullTimetable' className='uk-card uk-card-default uk-width-xlarge uk-card-body uk-animation-slide-top-small uk-margin-top miniFill'>
+          <div id='fullTimetable' className='uk-card uk-card-default uk-width-xlarge uk-card-body uk-animation-slide-top-small'>
             <h3 className='uk-heading-line uk-text-center'>
               <span id='name'/>
             </h3>

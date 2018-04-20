@@ -209,14 +209,12 @@ class App extends Component {
 
   blankNavbar() {
     //makes all navbar <li> look unselected
-    let tabCount = document.getElementById('navbar').childNodes.length
     for (let i = 0; i < nameArray.length; i++) {
-      ////console.log(i)
+      console.log(i)
       let Li = document.getElementById(nameArray[i] + 'Li')
       let A = document.getElementById(nameArray[i] + 'A')
       let B = document.getElementById(nameArray[i] + 'B')
       let P = document.getElementById(nameArray[i] + 'P')
-
       Li.className = 'uk-animation-toggle'
       A.className = 'uk-box-shadow-hover-medium'
       B.innerText = ''
@@ -230,6 +228,7 @@ class App extends Component {
 
   selectedNavbar(num) {
     //makes all navbar <li> look unselected
+    console.log(num)
     this.blankNavbar()
 
     //makes one specific <li> look selected
@@ -279,7 +278,7 @@ class App extends Component {
     if (window.dailyNotices !== '') {
       let visible = this.state.visible
       this.setState({ visible: window.STATES.NOTICES })
-      this.selectedNavbar(window.STATES.NOTICES)
+      this.selectedNavbar(3)
     }
   }
 
@@ -368,19 +367,19 @@ class App extends Component {
                 </a>
               </li>
 
-              <li id='User NotesLi' className='uk-animation-toggle' onClick={this.showNotes.bind(this)}>
-                <a id='User NotesA' className='uk-box-shadow-hover-medium'>
-                  <span id='User NotesS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: file-edit' />
-                  <p className='collapseText' id='User NotesP'>{nameArray[2]}</p>
-                  <b className='collapseText' id='User NotesB'></b>
+              <li id='NotesLi' className='uk-animation-toggle' onClick={this.showNotes.bind(this)}>
+                <a id='NotesA' className='uk-box-shadow-hover-medium'>
+                  <span id='NotesS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: file-edit' />
+                  <p className='collapseText' id='NotesP'>{nameArray[2]}</p>
+                  <b className='collapseText' id='NotesB'></b>
                 </a>
               </li>
 
-              <li id='Daily NoticesLi' className='uk-animation-toggle' onClick={this.showNotices.bind(this)}>
-                <a id='Daily NoticesA' className='uk-box-shadow-hover-medium'>
-                  <span id='Daily NoticesS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: bell' />
-                  <p className='collapseText' id='Daily NoticesP'>{nameArray[3]}</p>
-                  <b className='collapseText' id='Daily NoticesB'></b>
+              <li id='NoticesLi' className='uk-animation-toggle' onClick={this.showNotices.bind(this)}>
+                <a id='NoticesA' className='uk-box-shadow-hover-medium'>
+                  <span id='NoticesS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: bell' />
+                  <p className='collapseText' id='NoticesP'>{nameArray[3]}</p>
+                  <b className='collapseText' id='NoticesB'></b>
                 </a>
               </li>
 
