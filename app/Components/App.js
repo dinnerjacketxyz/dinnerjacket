@@ -83,9 +83,7 @@ class App extends Component {
       res.on('data', (data) => {
         console.log('getsession req. returned ' + data)
         
-        // This is weird. Was 'true' before but in console 
-        // it kept showing 'tru' then 'e' on a seperate line.
-        if (data === 'tru') {
+        if (data === 'true' || data === 'tru') {
           console.log('getting data')
           try {
             this.getData()
