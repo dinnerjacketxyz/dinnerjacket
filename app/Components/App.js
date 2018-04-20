@@ -6,6 +6,7 @@ import Notes from './Notes/Notes'
 import Notices from './Notices/Notices'
 import Calendar from './Calendar/Calendar'
 import About from './About/About'
+import Profile from './Profile/Profile'
 import Feedback from './Feedback/Feedback'
 import Changelog from './Changelog/Changelog'
 const css = require('./App.css')
@@ -42,6 +43,7 @@ window.STATES = {
   NOTICES: 3,
   CALENDAR: 4,
   ABOUT: 5,
+  PROFILE: 9999,
   CHANGELOG: 6,
   FEEDBACK: 7
 }
@@ -294,21 +296,28 @@ class App extends Component {
     //console.log('About tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.ABOUT })
-    this.selectedNavbar(4)
+    this.selectedNavbar(5)
   }
+
+  showProfile() {
+    let visible = this.state.visible
+    this.setState({ visible: window.STATES.PROFILE })
+    this.selectedNavbar(5)
+  }
+
 
   showChangelog() {
     //console.log('Changelog tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.CHANGELOG })
-    this.selectedNavbar(4)
+    this.selectedNavbar(5)
   }
 
   showFeedback() {
     //console.log('Feedback tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.FEEDBACK })
-    this.selectedNavbar(4)
+    this.selectedNavbar(5)
   }
 
   logout() {
@@ -405,6 +414,13 @@ class App extends Component {
                     </li>
 
                     <li>
+                      <a onClick={this.showProfile.bind(this)}>
+                        <span className='uk-icon uk-margin-small-right' uk-icon='icon: profile' />
+                        Profile
+                      </a>
+                    </li>
+
+                    <li>
                       <a onClick={this.showChangelog.bind(this)}>
                         <span className='uk-icon uk-margin-small-right' uk-icon='icon: code' />
                         Changelog
@@ -438,6 +454,7 @@ class App extends Component {
           {this.state.visible === window.STATES.NOTICES && <Notices />}
           {this.state.visible === window.STATES.CALENDAR && <Calendar />}
           {this.state.visible === window.STATES.ABOUT && <About />}
+          {this.state.visible === window.STATES.PROFILE && <Profile />}
           {this.state.visible === window.STATES.CHANGELOG && <Changelog />}
           {this.state.visible === window.STATES.FEEDBACK && <Feedback />}
         </div>
