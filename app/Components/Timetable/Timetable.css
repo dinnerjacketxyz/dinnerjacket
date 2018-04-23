@@ -11,28 +11,70 @@
   text-align: center;
 }
 
-@media (min-width:728px){
-  miniFill {
-    width:100%!important
+.ttableCard {
+  position: relative;
+  box-sizing: border-box;
+  transition: box-shadow .1s ease-in-out;
+  background: #fff;
+  color: #666;
+  box-shadow: 0 5px 15px rgba(0,0,0,.08);
+  padding: 30px 30px;
+}
+
+@media (max-height:830px){
+  .timetable td{
+    padding: 2px 1px;
+  }
+  .uk-table th {
+    padding: 5px 6px;
+  }
+  .uk-table{
+    margin-bottom: 5px;
+  }
+  #name{
+    font-size: 2.25rem;
+  }
+  #fullTimetable hr{
+    margin-top: 15px;
+    margin-bottom: 15px;
   }
 }
 
-@media (max-width:530px){
-  #fullTimetable {
+@media (max-height:675px){
+  #name{
     visibility: hidden;
-    display: none
+    height: 0px;
   }
-  #smallTimetable{
-    visibility: visible
+  #fullTimetable h3{
+    height:0px;
   }
 }
 
-@media (min-width:530px){
+@media (max-width:530px), (max-height:620px){
   #fullTimetable {
-    visibility: visible
+    visibility: hidden;
+    display: none;
+  }
+  #smallTimetable{
+    visibility: visible;
+    display: block;
+  }
+}
+
+@media (min-width:530px) and (min-height:620px){
+  #fullTimetable {
+    visibility: visible;
+    display: block;
   }
   #smallTimetable{
     visibility: hidden;
-    display: none
+    display: none;
+  }
+}
+
+@media (max-width:371px){
+  #smallTimetable a{
+    padding-left: 2px;
+    padding-right: 2px;
   }
 }

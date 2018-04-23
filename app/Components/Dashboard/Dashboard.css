@@ -65,7 +65,7 @@
   .nextClass{
     font-size: 1.25rem;
   }
-  td{
+  .dashTable td{
     padding: 7px 7px!important
   }
   .dashCard{
@@ -87,11 +87,18 @@
   .nextClass{
     font-size: 1.2rem!important;
   }
-  td{
+  .dashTable td{
     padding: 5px 5px!important
   }
   .dashCard{
     width: 300px
+  }
+}
+
+@media screen and (max-width: 510px) {
+  .dashCard{
+    width: 100vw;
+    max-width: 100%;
   }
 }
 

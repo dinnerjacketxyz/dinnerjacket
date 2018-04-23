@@ -582,7 +582,7 @@ class Dashboard extends Component {
 
     return (
       <div className='vcNavbarParent'>
-        <div className='uk-flex uk-flex-center uk-text-center vcNavbarCard'>
+        <div className='vcNavbarCard'>
           <div className='uk-animation-slide-top-small dashCard'>
             <h4 className='nextClass'>{nextClass}</h4>
             <p className='in'>in</p>
