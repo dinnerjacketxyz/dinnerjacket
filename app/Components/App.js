@@ -414,7 +414,7 @@ class App extends Component {
 
                     <li>
                       <a onClick={this.showProfile.bind(this)}>
-                        <span className='uk-icon uk-margin-small-right' uk-icon='icon: profile' />
+                        <span className='uk-icon uk-margin-small-right' uk-icon='icon: user' />
                         Profile
                       </a>
                     </li>

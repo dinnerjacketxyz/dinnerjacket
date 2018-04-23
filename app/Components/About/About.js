@@ -11,7 +11,7 @@ class About extends Component {
             alt='logo' src='256.png' width='150px' height='150px'>
           </img>
           <h1 className='uk-text-center uk-h1'>DinnerJacket</h1>
-          <p className='uk-label uk-label-danger'>alpha v0.1.0</p>
+          <p className='uk-label uk-label-danger'>alpha v0.1.2</p>
           <p className='uk-text-small'>licensed under GNU GPL v3</p>
 
           <hr/>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-const css = require('./Dashboard')
+const css = require('./Dashboard.css')
 const http = require('http')
 
 
@@ -316,9 +316,9 @@ class Dashboard extends Component {
 
     const numPeriods = Object.keys(periods).length
 
-    const nameTextClass = 'uk-text-middle uk-text-lead '
-    const teacherTextClass = 'uk-text-meta uk-text-top uk-text-left '
-    const roomTextClass = 'uk-text-middle uk-table-shrink uk-text-lead '
+    const nameTextClass = 'lead '
+    const teacherTextClass = 'meta '
+    const roomTextClass = 'room '
 
     for (var i=0; i<numPeriods; i++) {
 
@@ -350,7 +350,7 @@ class Dashboard extends Component {
     }
 
     return (<div className='uk-flex uk-flex-center'>
-            <table className='uk-table uk-table-hover uk-table-small'>
+            <table className='dashTable uk-table-hover uk-table-small'>
               <tbody>
                 <tr>
                   <td className='uk-text-left'>
@@ -583,11 +583,10 @@ class Dashboard extends Component {
     return (
       <div className='vcNavbarParent'>
         <div className='uk-flex uk-flex-center uk-text-center vcNavbarCard'>
-          <div className='uk-card uk-card-default uk-card-body uk-width-large uk-animation-slide-top-small'>
-            <h4 className='uk-h4'><b>{nextClass}</b></h4>
-            <p> in </p>
-            <h1 className='uk-heading-line'><span>{timeLeft}</span></h1>
-            <p> <br/> </p>
+          <div className='uk-animation-slide-top-small dashCard'>
+            <h4 className='nextClass'>{nextClass}</h4>
+            <p className='in'>in</p>
+            <h1 className='uk-heading-line countdown'><span>{timeLeft}</span></h1>
             {this.state.htmlClasses}
           </div>
         </div>
