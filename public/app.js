@@ -30351,7 +30351,7 @@ class Feedback extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       null,
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
-        { className: 'uk-animation-slide-top-small container' },
+        { className: 'container' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'iframe',
           { className: 'embed', src: 'https://docs.google.com/forms/d/e/1FAIpQLSds9ueVdjY4UvMM27KrdBoV8JW4cDeJa0vwLrlhviGBEndQDA/viewform?embedded=true' },
@@ -30360,10 +30360,10 @@ class Feedback extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       ),
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
-        { className: 'main uk-height-viewport vcWelcomeParent behind' },
+        { className: 'loadingParent behind' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
-          { className: 'uk-flex uk-flex-center vcWelcomeCard' },
+          { className: 'loadingChild' },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { 'uk-spinner': 'ratio: 4', className: 'uk-spinner uk-icon' })
         )
       )
@@ -30413,7 +30413,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, ".embed {\r\n  width: 100%;\r\n  height: 100vh;\r\n  position: absolute;\r\n  display: block;\r\n}\r\n\r\n.container {\r\n  position: relative;\r\n  z-index: 1;\r\n}\r\n\r\n.behind {\r\n  z-index: -1000;\r\n}\r\n", ""]);
+exports.push([module.i, ".embed {\r\n  width: 100%;\r\n  height: 100vh;\r\n  position: absolute;\r\n  display: block;\r\n}\r\n\r\n.container {\r\n  position: relative;\r\n  z-index: 1;\r\n}\r\n\r\n.behind {\r\n  z-index: -1000;\r\n}\r\n\r\n.loadingParent {\r\n  display: flex;\r\n  height: auto;\r\n  margin: 0 auto;\r\n  min-height: calc(100vh - 80px);\r\n  min-height: -o-calc(100vh - 80px);\r\n  min-height: -webkit-calc(100vh - 80px);\r\n  min-height: -moz-calc(100vh - 80px)\r\n}\r\n.loadingChild {\r\n  margin: auto;\r\n  justify-content: center;\r\n  display: flex;\r\n  text-align: center!important;\r\n  max-width: 100%;\r\n}\r\n@media (max-width: 880px), (max-height: 620px) {\r\n  .loadingParent{\r\n    min-height: calc(100vh - 60px);\r\n    min-height: -o-calc(100vh - 60px);\r\n    min-height: -webkit-calc(100vh - 60px);\r\n    min-height: -moz-calc(100vh - 60px)\r\n  }\r\n}\r\n", ""]);
 
 // exports
 
