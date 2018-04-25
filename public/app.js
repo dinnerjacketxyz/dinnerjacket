@@ -28499,7 +28499,7 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         let highlight = document.getElementById(fadeArray[u]);
         highlight.className = '';
       }
-    }, 1000);
+    }, 2000);
   }
 
   // <button onClick={this.initialise.bind(this)}>Test</button>
@@ -28525,7 +28525,7 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             { className: 'uk-padding-top uk-text-center' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'table',
-              { className: 'uk-table uk-table-small' },
+              { className: 'uk-table uk-table-small', onMouseLeave: this.fade.bind(this) },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'thead',
                 null,
@@ -28561,7 +28561,7 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
               ),
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'tbody',
-                { className: 'timetable', onMouseOver: this.subjectHighlight.bind(this), onMouseLeave: this.fade.bind(this) },
+                { className: 'timetable', onMouseOver: this.subjectHighlight.bind(this) },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r0', onMouseOver: this.bigInput }),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r1', onMouseOver: this.bigInput }),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r2', onMouseOver: this.bigInput }),
@@ -28576,7 +28576,7 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             { className: 'uk-padding-top uk-text-center' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'table',
-              { className: 'uk-table uk-table-small' },
+              { className: 'uk-table uk-table-small', onMouseLeave: this.fade.bind(this) },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'thead',
                 null,
@@ -28612,7 +28612,7 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
               ),
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'tbody',
-                { className: 'timetable', onMouseOver: this.subjectHighlight.bind(this), onMouseLeave: this.fade.bind(this) },
+                { className: 'timetable', onMouseOver: this.subjectHighlight.bind(this) },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r5', onMouseOver: this.bigInput }),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r6', onMouseOver: this.bigInput }),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r7', onMouseOver: this.bigInput }),
@@ -28627,7 +28627,7 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             { className: 'uk-padding-top uk-text-center' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'table',
-              { className: 'uk-table uk-table-small' },
+              { className: 'uk-table uk-table-small', onMouseLeave: this.fade.bind(this) },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'thead',
                 null,
@@ -28663,7 +28663,7 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
               ),
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'tbody',
-                { className: 'timetable', onMouseOver: this.subjectHighlight.bind(this), onMouseLeave: this.fade.bind(this) },
+                { className: 'timetable', onMouseOver: this.subjectHighlight.bind(this) },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r10', onMouseOver: this.bigInput }),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r11', onMouseOver: this.bigInput }),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r12', onMouseOver: this.bigInput }),
@@ -30607,6 +30607,11 @@ class Changelog extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
               'li',
               null,
               'Accurate timetable'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              'Subjects on your timetable are highlighted when you hover over them.'
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'li',

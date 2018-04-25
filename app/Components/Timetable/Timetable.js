@@ -245,7 +245,7 @@ class Timetable extends Component {
         let highlight = document.getElementById(fadeArray[u])
         highlight.className = ''
       }
-  }, 3000)
+  }, 2000)
  }
 
  // <button onClick={this.initialise.bind(this)}>Test</button>
@@ -260,7 +260,7 @@ class Timetable extends Component {
               <span id='ttableName'/>
             </h3>
             <div className='uk-padding-top uk-text-center'>
-              <table className="uk-table uk-table-small">
+              <table className="uk-table uk-table-small" onMouseLeave={this.fade.bind(this)}>
                   <thead>
                       <tr>
                           <th>MON A</th>
@@ -270,7 +270,7 @@ class Timetable extends Component {
                           <th>FRI A</th>
                       </tr>
                   </thead>
-                  <tbody className='timetable' onMouseOver={this.subjectHighlight.bind(this)} onMouseLeave={this.fade.bind(this)}>
+                  <tbody className='timetable' onMouseOver={this.subjectHighlight.bind(this)}>
                     <tr id='r0' onMouseOver={this.bigInput}></tr>
                     <tr id='r1' onMouseOver={this.bigInput}></tr>
                     <tr id='r2' onMouseOver={this.bigInput}></tr>
@@ -281,7 +281,7 @@ class Timetable extends Component {
             </div>
             <hr/>
             <div className='uk-padding-top uk-text-center'>
-              <table className="uk-table uk-table-small">
+              <table className="uk-table uk-table-small" onMouseLeave={this.fade.bind(this)}>
                   <thead>
                       <tr>
                           <th>MON B</th>
@@ -291,7 +291,7 @@ class Timetable extends Component {
                           <th>FRI B</th>
                       </tr>
                   </thead>
-                  <tbody className='timetable'onMouseOver={this.subjectHighlight.bind(this)} onMouseLeave={this.fade.bind(this)}>
+                  <tbody className='timetable'onMouseOver={this.subjectHighlight.bind(this)}>
                     <tr id='r5' onMouseOver={this.bigInput}></tr>
                     <tr id='r6' onMouseOver={this.bigInput}></tr>
                     <tr id='r7' onMouseOver={this.bigInput}></tr>
@@ -302,7 +302,7 @@ class Timetable extends Component {
             </div>
             <hr/>
             <div className='uk-padding-top uk-text-center'>
-              <table className="uk-table uk-table-small">
+              <table className="uk-table uk-table-small" onMouseLeave={this.fade.bind(this)}>
                   <thead>
                       <tr>
                           <th>MON C</th>
@@ -312,7 +312,7 @@ class Timetable extends Component {
                           <th>FRI C</th>
                       </tr>
                   </thead>
-                  <tbody className='timetable' onMouseOver={this.subjectHighlight.bind(this)} onMouseLeave={this.fade.bind(this)}>
+                  <tbody className='timetable' onMouseOver={this.subjectHighlight.bind(this)} >
                     <tr id='r10' onMouseOver={this.bigInput}></tr>
                     <tr id='r11' onMouseOver={this.bigInput}></tr>
                     <tr id='r12' onMouseOver={this.bigInput}></tr>

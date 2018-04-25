@@ -8,7 +8,7 @@ class Changelog extends Component {
           <div className='clCard uk-animation-slide-top-small'>
             <article class="uk-article">
               <h1 class="uk-article-title">Unreleased features</h1>
-              <p class="uk-article-meta">Written on 25 April 2018</p>
+              <p class="uk-article-meta">Written on 26 April 2018</p>
               <ul>
                 <li>Bugfixes and stability</li>
                 <li>Low resolution compatibility</li>
@@ -16,6 +16,7 @@ class Changelog extends Component {
                 <li>Better notes editor</li>
                 <li>New profile page with participation details</li>
                 <li>Accurate timetable</li>
+                <li>Subjects on your timetable are highlighted when you hover over them.</li>
                 <li>Different changelog appearance</li>
               </ul>
             </article>
