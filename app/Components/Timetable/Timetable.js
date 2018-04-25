@@ -9,36 +9,25 @@ let day = 'MON' //decides what day to display by default
 
 //Variables for the data of both timetables
 let timetableData = '' //Raw api return
-let outputA = [] //
-let outputB = [] // Formatted for html display, in order of the top down, left to right
-let outputC = [] //
-
-let finalA = []//
-let finalB = []// Formatted for html display
-let finalC = []//
 
 let html = []
 let p = []
+
+let subject = ''
+let leave = ''
+let posArray = []
+let fadeArray = []
+let subjectOnly = []
 
 class Timetable extends Component {
  constructor(props) {
    super(props)
    week = window.bells.weekType
    day = window.bells.day.substring(0,3).toUpperCase()
-   console.log(week,day)
  }
 
  componentDidMount() {
    this.initialise()
- }
-
- displayWeek(weekA,weekB,weekC) {
-   let A = document.getElementById('weekA')
-   A.innerHTML = weekA
-   let B = document.getElementById('weekB')
-   B.innerHTML = weekB
-   let C = document.getElementById('weekC')
-   C.innerHTML = weekC
  }
 
  //does pretty much everything for the big timetable
@@ -59,53 +48,36 @@ class Timetable extends Component {
          //Goes through all five periods of that day and puts it html form depending on its content
          for (let i = 1; i <= 5; i++) {
            if (p[u][i] == undefined) {
-             html[storageCounter] = `<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>`
+             html[storageCounter] = `<td id='${u},${i-1}'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>`
            } else if (p[u][i].room == '') {
-             html[storageCounter] = `<td>${p[u][i].title}&nbsp;&nbsp;&nbsp;-&nbsp;</td>`
+             html[storageCounter] = `<td id='${u},${i-1}'>${p[u][i].title}&nbsp;&nbsp;&nbsp;-&nbsp;</td>`
            } else {
-             html[storageCounter] = `<td>${p[u][i].title}&nbsp;&nbsp;${p[u][i].room}</td>`
+             html[storageCounter] = `<td id='${u},${i-1}'>${p[u][i].title}&nbsp;&nbsp;${p[u][i].room}</td>`
            }
            storageCounter++
          }
        }
 
-       //sorts any array of 75 into three arrays of 25
-        storageCounter = -1
-        for (let u = 0; u <= 74; u++) {
-          storageCounter++
-          if (u<25) {finalA[storageCounter] = html[u]} 
-          else if (u<50) {finalB[storageCounter] = html[u]} 
-          else if (u<75) {finalC[storageCounter] = html[u]}
-          if (storageCounter == 24){storageCounter = -1}
-        }
-
         //rotates the arrays 90 degrees
-        outputA = this.rearrange(finalA)
-        outputB = this.rearrange(finalB)
-        outputC = this.rearrange(finalC)
+        let temp1 = this.rearrange(html.slice(0,25))
+        let temp2 = this.rearrange(html.slice(25,50))
+        let temp3 = this.rearrange(html.slice(50,75))
 
-        //adds table rows at the center of the array
-       for (let u =1; u<=4; u++) {
-         let insertIndex = u*6-1
-         outputA.splice(insertIndex,0,'</tr><tr>')
-         outputB.splice(insertIndex,0,'</tr><tr>')
-         outputC.splice(insertIndex,0,'</tr><tr>')
-       }
-
-       //adds the table rows on the ends and joins the arrays
-       finalA = this.finalStep(outputA)
-       finalB = this.finalStep(outputB)
-       finalC = this.finalStep(outputC)
-
-       this.displayWeek(finalA, finalB, finalC)
+        html = temp1.concat(temp2)
+        p = html.concat(temp3)
+        
+        this.distributor()
  }
 
- finalStep(array){
-  array.unshift('<tr>')
-  array.push('</tr>')
-  array = array.join()
-  array = array.replace(/,/g,"")
-  return array
+ distributor(){
+  let dist = 0
+  for (let u = 0; u <= 74; u++){
+    let divide = (u/5).toString()
+    if (u>49) { dist = divide.slice(0,2)}
+    else{dist = (divide[0])}
+    let row = document.getElementById(`r${dist}`)
+    row.innerHTML += p[u]
+  }
  }
 
  rearrange(array) {
@@ -123,20 +95,37 @@ class Timetable extends Component {
  initialise() {
    //clears variables so you can initialise multiple times
    timetableData = window.timetable
-   outputA = []
-   outputB = []
-   outputC = []
-   finalA = []
-   finalB = []
-   finalC = []
+   html = []
    p = []
    //generates the timetable
    this.generateTTable()
    //Puts your name at the top
-   let name = document.getElementById('name')
+   let name = document.getElementById('ttableName')
    name.innerHTML = `${timetableData.student.givenname}&nbsp;${timetableData.student.surname}`
    ////console.log(timetableData.subjects)
    this.activeTab()
+   this.subjectOnly()
+ }
+
+ subjectOnly() {
+  let temp1 = []
+  for (let u = 1; u <= 15; u++) {
+    let index = u-1
+    temp1[index]= timetableData.days[u].periods
+  }
+  let storageCounter = 0
+  for (let u = 0; u <= 14; u++) {
+    for (let i = 1; i <= 5; i++) {
+      if (temp1[u][i] == undefined) {
+        subjectOnly[storageCounter] = ' '
+      } else if (p[u][i].room == '') {
+        subjectOnly[storageCounter] = temp1[u][i].title
+      } else {
+        subjectOnly[storageCounter] = temp1[u][i].title
+      }
+      storageCounter++
+    }
+  }
  }
 
  blankTab() {
@@ -146,9 +135,9 @@ class Timetable extends Component {
    }
  }
 
- input (e) {
+ smallInput (e) {
    if (document.getElementById(e.target.innerHTML)!=null) {
-     if(e.target.innerHTML.length == 1) {
+    if(e.target.innerHTML.length == 1) {
        week = e.target.innerHTML
      } else {
        day = e.target.innerHTML
@@ -193,6 +182,72 @@ class Timetable extends Component {
    small.innerHTML = smallOutput
  }
 
+ bigInput(e){
+    subject = e.target.innerHTML.slice(0,3)
+    if (e.target.innerHTML.slice(0,3)!='&nb'){subject = e.target.innerHTML.slice(0,3)}
+    else {subject=''}
+ }
+
+ subjectHighlight(){
+  if (subject != '') {
+    let start = 0
+    let indexArray = []
+
+    while (subjectOnly.indexOf(subject,start)!=-1) {
+      //if (subjectOnly.indexOf(subject,start)!=-1) {}
+      indexArray.push(subjectOnly.indexOf(subject,start))
+      start = subjectOnly.indexOf(subject,start)+1
+    }
+    this.calcPos(indexArray)
+  }
+ }
+
+ calcPos(array){
+  let row = 0
+  let day = 0
+  for (let u = 0; u < array.length; u++){
+    let day = this.specialRound(array[u])
+    let row = array[u]%5
+    posArray.push(day+','+row)
+  }
+  this.dispHighlight(posArray)
+  fadeArray = posArray
+  
+  posArray = []
+ }
+
+ dispHighlight(array) {
+  this.blankHighlight()
+  for (let u = 0; u < array.length; u++){
+    let highlight = document.getElementById(array[u])
+    highlight.className = 'highlight'
+  }
+ }
+
+ blankHighlight(){
+  for (let u = 0; u <= 14; u++) {
+    for (let i = 0; i <= 4; i++) {
+      let highlight = document.getElementById(u+','+i)
+      highlight.className = ''
+    }
+  }
+ }
+
+ specialRound(num){
+  let divide = (num/5).toString()
+  if (divide>10) { return divide.slice(0,2)}
+  else{return (divide[0])}
+ }
+
+ fade(){
+  setTimeout(function() { 
+      for (let u = 0; u < fadeArray.length; u++){
+        let highlight = document.getElementById(fadeArray[u])
+        highlight.className = ''
+      }
+  }, 3000)
+ }
+
  // <button onClick={this.initialise.bind(this)}>Test</button>
 
  render() {
@@ -200,11 +255,11 @@ class Timetable extends Component {
    return (
       <div className='vcNavbarParent'>
         <div className='vcNavbarCard'>
-          <div id='fullTimetable' className='ttableCard uk-width-xlarge uk-animation-slide-top-small'>
+          <div id='fullTimetable' className='ttableCard uk-animation-slide-top-small'>
             <h3 className='uk-heading-line uk-text-center'>
-              <span id='name'/>
+              <span id='ttableName'/>
             </h3>
-            <div className='uk-box-shadow-hover-small uk-padding-top uk-text-center'>
+            <div className='uk-padding-top uk-text-center'>
               <table className="uk-table uk-table-small">
                   <thead>
                       <tr>
@@ -215,12 +270,17 @@ class Timetable extends Component {
                           <th>FRI A</th>
                       </tr>
                   </thead>
-                  <tbody className='timetable' id='weekA'>
+                  <tbody className='timetable' onMouseOver={this.subjectHighlight.bind(this)} onMouseLeave={this.fade.bind(this)}>
+                    <tr id='r0' onMouseOver={this.bigInput}></tr>
+                    <tr id='r1' onMouseOver={this.bigInput}></tr>
+                    <tr id='r2' onMouseOver={this.bigInput}></tr>
+                    <tr id='r3' onMouseOver={this.bigInput}></tr>
+                    <tr id='r4' onMouseOver={this.bigInput}></tr>
                   </tbody>
               </table>
             </div>
             <hr/>
-            <div className='uk-box-shadow-hover-small uk-padding-top uk-text-center'>
+            <div className='uk-padding-top uk-text-center'>
               <table className="uk-table uk-table-small">
                   <thead>
                       <tr>
@@ -231,12 +291,17 @@ class Timetable extends Component {
                           <th>FRI B</th>
                       </tr>
                   </thead>
-                  <tbody className='timetable' id='weekB'>
+                  <tbody className='timetable'onMouseOver={this.subjectHighlight.bind(this)} onMouseLeave={this.fade.bind(this)}>
+                    <tr id='r5' onMouseOver={this.bigInput}></tr>
+                    <tr id='r6' onMouseOver={this.bigInput}></tr>
+                    <tr id='r7' onMouseOver={this.bigInput}></tr>
+                    <tr id='r8' onMouseOver={this.bigInput}></tr>
+                    <tr id='r9' onMouseOver={this.bigInput}></tr>
                   </tbody>
               </table>
             </div>
             <hr/>
-            <div className='uk-box-shadow-hover-small uk-padding-top uk-text-center'>
+            <div className='uk-padding-top uk-text-center'>
               <table className="uk-table uk-table-small">
                   <thead>
                       <tr>
@@ -247,18 +312,23 @@ class Timetable extends Component {
                           <th>FRI C</th>
                       </tr>
                   </thead>
-                  <tbody className='timetable' id='weekC'>
+                  <tbody className='timetable' onMouseOver={this.subjectHighlight.bind(this)} onMouseLeave={this.fade.bind(this)}>
+                    <tr id='r10' onMouseOver={this.bigInput}></tr>
+                    <tr id='r11' onMouseOver={this.bigInput}></tr>
+                    <tr id='r12' onMouseOver={this.bigInput}></tr>
+                    <tr id='r13' onMouseOver={this.bigInput}></tr>
+                    <tr id='r14' onMouseOver={this.bigInput}></tr>
                   </tbody>
               </table>
             </div>
             </div>
           <div id='smallTimetable' className='ttableCard uk-animation-slide-top-small' onClick={this.activeTab.bind(this)}>
-            <ul className='uk-flex-center uk-tab' onClick={this.input}>
+            <ul className='uk-flex-center uk-tab' onClick={this.smallInput}>
               <li id='A'><a>A</a></li>
               <li id='B'><a>B</a></li>
               <li id='C'><a>C</a></li>
             </ul>
-            <ul className='uk-flex-center uk-tab' onClick={this.input}>
+            <ul className='uk-flex-center uk-tab' onClick={this.smallInput}>
               <li id='MON'><a>MON</a></li>
               <li id='TUE'><a>TUE</a></li>
               <li id='WED'><a>WED</a></li>

@@ -91,7 +91,11 @@
     padding: 5px 5px!important
   }
   .dashCard{
-    width: 300px
+    width: 300px;
+    padding: 15px 15px;
+  }
+  .meta{
+    font-size: 0.75rem;
   }
 }
 

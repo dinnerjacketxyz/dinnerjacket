@@ -1,6 +1,8 @@
 .timetable td {
   font-family: 'Roboto Mono', monospace;
-  padding:5px 6px
+  padding:5px 6px;
+  transition: box-shadow .1s ease-in-out;
+  transition: background .1s ease-in-out;
 }
 .heading {
   font-family: 'Roboto' !important;
@@ -11,6 +13,12 @@
   text-align: center;
 }
 
+.highlight {
+  background: #2dc0d5;
+  color: #fff;
+  box-shadow: 0 5px 15px rgba(0,0,0,.08);
+}
+
 .ttableCard {
   position: relative;
   box-sizing: border-box;
@@ -19,6 +27,11 @@
   color: #666;
   box-shadow: 0 5px 15px rgba(0,0,0,.08);
   padding: 30px 30px;
+  width: 600px;
+}
+
+#ttableName {
+  font-weight: 300
 }
 
 @media (max-height:830px){
@@ -31,7 +44,7 @@
   .uk-table{
     margin-bottom: 5px;
   }
-  #name{
+  #ttableName{
     font-size: 2.25rem;
   }
   #fullTimetable hr{
@@ -41,7 +54,7 @@
 }
 
 @media (max-height:675px){
-  #name{
+  #ttableName{
     visibility: hidden;
     height: 0px;
   }

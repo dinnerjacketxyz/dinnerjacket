@@ -116,6 +116,12 @@ body {
   }
 }
 
+@media screen and (max-width: 300px){
+  .uk-navbar-item, .uk-navbar-nav>li>a, .uk-navbar-toggle {
+    padding: 0 10px;
+  }
+}
+
 @media (max-height: 620px) {
   .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {
     height:60px

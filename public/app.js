@@ -25553,7 +25553,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, ".name {\r\n  margin-bottom: 0px\r\n}\r\n\r\n.meta {\r\n  font-size: .875rem;\r\n  line-height: 1.4;\r\n  color: #999;\r\n  vertical-align: top!important;\r\n  text-align: left!important;\r\n  font-family: \"Open Sans\",sans-serif;\r\n}\r\n\r\n.lead {\r\n  font-size: 1.5rem;\r\n  font-weight: 300;\r\n  vertical-align: middle!important;\r\n  font-family: 'Roboto', sans-serif;\r\n}\r\n\r\n.room {\r\n  font-size: 1.5rem;\r\n  font-weight: 300;\r\n  vertical-align: middle!important;\r\n  width: 1px;\r\n  font-family: 'Roboto', sans-serif;\r\n}\r\n\r\n.nextClass {\r\n  font-weight: 300!important\r\n}\r\n\r\n.countdown {\r\n  margin-bottom: 20px;\r\n}\r\n\r\n.dashCard {\r\n  width: 450px;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  padding: 30px 30px;\r\n}\r\n\r\n.dashTable {\r\n  border-collapse: collapse;\r\n  border-spacing: 0;\r\n  width: 100%;\r\n  display: table;\r\n  border-color: grey;\r\n}\r\n\r\n@media (max-height: 747px),(max-width: 400px) {\r\n  .lead,.room{\r\n    font-size: 1.3rem;\r\n  }\r\n  .countdown{\r\n    font-size: 3.5rem;\r\n    margin-bottom: 10px;\r\n  }\r\n  .in{\r\n    font-size: 13px;\r\n    margin: 0 0 0 0;\r\n  }\r\n  .nextClass{\r\n    font-size: 1.25rem;\r\n  }\r\n  .dashTable td{\r\n    padding: 7px 7px!important\r\n  }\r\n  .dashCard{\r\n    width: 375px\r\n  }\r\n}\r\n\r\n@media (max-height: 620px),(max-width: 300px) {\r\n  .lead,.room{\r\n    font-size: 1.25rem;\r\n  }\r\n  .countdown{\r\n    font-size: 3rem;\r\n    margin-bottom: 5px;\r\n  }\r\n  .in{\r\n    font-size: 11px;\r\n  }\r\n  .nextClass{\r\n    font-size: 1.2rem!important;\r\n  }\r\n  .dashTable td{\r\n    padding: 5px 5px!important\r\n  }\r\n  .dashCard{\r\n    width: 300px\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 510px) {\r\n  .dashCard{\r\n    width: 100vw;\r\n    max-width: 100%;\r\n    box-shadow: none;\r\n  }\r\n}\r\n\r\n\r\n", ""]);
+exports.push([module.i, ".name {\r\n  margin-bottom: 0px\r\n}\r\n\r\n.meta {\r\n  font-size: .875rem;\r\n  line-height: 1.4;\r\n  color: #999;\r\n  vertical-align: top!important;\r\n  text-align: left!important;\r\n  font-family: \"Open Sans\",sans-serif;\r\n}\r\n\r\n.lead {\r\n  font-size: 1.5rem;\r\n  font-weight: 300;\r\n  vertical-align: middle!important;\r\n  font-family: 'Roboto', sans-serif;\r\n}\r\n\r\n.room {\r\n  font-size: 1.5rem;\r\n  font-weight: 300;\r\n  vertical-align: middle!important;\r\n  width: 1px;\r\n  font-family: 'Roboto', sans-serif;\r\n}\r\n\r\n.nextClass {\r\n  font-weight: 300!important\r\n}\r\n\r\n.countdown {\r\n  margin-bottom: 20px;\r\n}\r\n\r\n.dashCard {\r\n  width: 450px;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  padding: 30px 30px;\r\n}\r\n\r\n.dashTable {\r\n  border-collapse: collapse;\r\n  border-spacing: 0;\r\n  width: 100%;\r\n  display: table;\r\n  border-color: grey;\r\n}\r\n\r\n@media (max-height: 747px),(max-width: 400px) {\r\n  .lead,.room{\r\n    font-size: 1.3rem;\r\n  }\r\n  .countdown{\r\n    font-size: 3.5rem;\r\n    margin-bottom: 10px;\r\n  }\r\n  .in{\r\n    font-size: 13px;\r\n    margin: 0 0 0 0;\r\n  }\r\n  .nextClass{\r\n    font-size: 1.25rem;\r\n  }\r\n  .dashTable td{\r\n    padding: 7px 7px!important\r\n  }\r\n  .dashCard{\r\n    width: 375px\r\n  }\r\n}\r\n\r\n@media (max-height: 620px),(max-width: 300px) {\r\n  .lead,.room{\r\n    font-size: 1.25rem;\r\n  }\r\n  .countdown{\r\n    font-size: 3rem;\r\n    margin-bottom: 5px;\r\n  }\r\n  .in{\r\n    font-size: 11px;\r\n  }\r\n  .nextClass{\r\n    font-size: 1.2rem!important;\r\n  }\r\n  .dashTable td{\r\n    padding: 5px 5px!important\r\n  }\r\n  .dashCard{\r\n    width: 300px;\r\n    padding: 15px 15px;\r\n  }\r\n  .meta{\r\n    font-size: 0.75rem;\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 510px) {\r\n  .dashCard{\r\n    width: 100vw;\r\n    max-width: 100%;\r\n    box-shadow: none;\r\n  }\r\n}\r\n\r\n\r\n", ""]);
 
 // exports
 
@@ -28254,36 +28254,25 @@ let day = 'MON'; //decides what day to display by default
 
 //Variables for the data of both timetables
 let timetableData = ''; //Raw api return
-let outputA = []; //
-let outputB = []; // Formatted for html display, in order of the top down, left to right
-let outputC = []; //
-
-let finalA = []; //
-let finalB = []; // Formatted for html display
-let finalC = []; //
 
 let html = [];
 let p = [];
+
+let subject = '';
+let leave = '';
+let posArray = [];
+let fadeArray = [];
+let subjectOnly = [];
 
 class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   constructor(props) {
     super(props);
     week = window.bells.weekType;
     day = window.bells.day.substring(0, 3).toUpperCase();
-    console.log(week, day);
   }
 
   componentDidMount() {
     this.initialise();
-  }
-
-  displayWeek(weekA, weekB, weekC) {
-    let A = document.getElementById('weekA');
-    A.innerHTML = weekA;
-    let B = document.getElementById('weekB');
-    B.innerHTML = weekB;
-    let C = document.getElementById('weekC');
-    C.innerHTML = weekC;
   }
 
   //does pretty much everything for the big timetable
@@ -28304,59 +28293,39 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       //Goes through all five periods of that day and puts it html form depending on its content
       for (let i = 1; i <= 5; i++) {
         if (p[u][i] == undefined) {
-          html[storageCounter] = `<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>`;
+          html[storageCounter] = `<td id='${u},${i - 1}'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>`;
         } else if (p[u][i].room == '') {
-          html[storageCounter] = `<td>${p[u][i].title}&nbsp;&nbsp;&nbsp;-&nbsp;</td>`;
+          html[storageCounter] = `<td id='${u},${i - 1}'>${p[u][i].title}&nbsp;&nbsp;&nbsp;-&nbsp;</td>`;
         } else {
-          html[storageCounter] = `<td>${p[u][i].title}&nbsp;&nbsp;${p[u][i].room}</td>`;
+          html[storageCounter] = `<td id='${u},${i - 1}'>${p[u][i].title}&nbsp;&nbsp;${p[u][i].room}</td>`;
         }
         storageCounter++;
       }
     }
 
-    //sorts any array of 75 into three arrays of 25
-    storageCounter = -1;
-    for (let u = 0; u <= 74; u++) {
-      storageCounter++;
-      if (u < 25) {
-        finalA[storageCounter] = html[u];
-      } else if (u < 50) {
-        finalB[storageCounter] = html[u];
-      } else if (u < 75) {
-        finalC[storageCounter] = html[u];
-      }
-      if (storageCounter == 24) {
-        storageCounter = -1;
-      }
-    }
-
     //rotates the arrays 90 degrees
-    outputA = this.rearrange(finalA);
-    outputB = this.rearrange(finalB);
-    outputC = this.rearrange(finalC);
+    let temp1 = this.rearrange(html.slice(0, 25));
+    let temp2 = this.rearrange(html.slice(25, 50));
+    let temp3 = this.rearrange(html.slice(50, 75));
 
-    //adds table rows at the center of the array
-    for (let u = 1; u <= 4; u++) {
-      let insertIndex = u * 6 - 1;
-      outputA.splice(insertIndex, 0, '</tr><tr>');
-      outputB.splice(insertIndex, 0, '</tr><tr>');
-      outputC.splice(insertIndex, 0, '</tr><tr>');
-    }
+    html = temp1.concat(temp2);
+    p = html.concat(temp3);
 
-    //adds the table rows on the ends and joins the arrays
-    finalA = this.finalStep(outputA);
-    finalB = this.finalStep(outputB);
-    finalC = this.finalStep(outputC);
-
-    this.displayWeek(finalA, finalB, finalC);
+    this.distributor();
   }
 
-  finalStep(array) {
-    array.unshift('<tr>');
-    array.push('</tr>');
-    array = array.join();
-    array = array.replace(/,/g, "");
-    return array;
+  distributor() {
+    let dist = 0;
+    for (let u = 0; u <= 74; u++) {
+      let divide = (u / 5).toString();
+      if (u > 49) {
+        dist = divide.slice(0, 2);
+      } else {
+        dist = divide[0];
+      }
+      let row = document.getElementById(`r${dist}`);
+      row.innerHTML += p[u];
+    }
   }
 
   rearrange(array) {
@@ -28374,20 +28343,37 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   initialise() {
     //clears variables so you can initialise multiple times
     timetableData = window.timetable;
-    outputA = [];
-    outputB = [];
-    outputC = [];
-    finalA = [];
-    finalB = [];
-    finalC = [];
+    html = [];
     p = [];
     //generates the timetable
     this.generateTTable();
     //Puts your name at the top
-    let name = document.getElementById('name');
+    let name = document.getElementById('ttableName');
     name.innerHTML = `${timetableData.student.givenname}&nbsp;${timetableData.student.surname}`;
     ////console.log(timetableData.subjects)
     this.activeTab();
+    this.subjectOnly();
+  }
+
+  subjectOnly() {
+    let temp1 = [];
+    for (let u = 1; u <= 15; u++) {
+      let index = u - 1;
+      temp1[index] = timetableData.days[u].periods;
+    }
+    let storageCounter = 0;
+    for (let u = 0; u <= 14; u++) {
+      for (let i = 1; i <= 5; i++) {
+        if (temp1[u][i] == undefined) {
+          subjectOnly[storageCounter] = ' ';
+        } else if (p[u][i].room == '') {
+          subjectOnly[storageCounter] = temp1[u][i].title;
+        } else {
+          subjectOnly[storageCounter] = temp1[u][i].title;
+        }
+        storageCounter++;
+      }
+    }
   }
 
   blankTab() {
@@ -28397,7 +28383,7 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     }
   }
 
-  input(e) {
+  smallInput(e) {
     if (document.getElementById(e.target.innerHTML) != null) {
       if (e.target.innerHTML.length == 1) {
         week = e.target.innerHTML;
@@ -28444,6 +28430,78 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     small.innerHTML = smallOutput;
   }
 
+  bigInput(e) {
+    subject = e.target.innerHTML.slice(0, 3);
+    if (e.target.innerHTML.slice(0, 3) != '&nb') {
+      subject = e.target.innerHTML.slice(0, 3);
+    } else {
+      subject = '';
+    }
+  }
+
+  subjectHighlight() {
+    if (subject != '') {
+      let start = 0;
+      let indexArray = [];
+
+      while (subjectOnly.indexOf(subject, start) != -1) {
+        //if (subjectOnly.indexOf(subject,start)!=-1) {}
+        indexArray.push(subjectOnly.indexOf(subject, start));
+        start = subjectOnly.indexOf(subject, start) + 1;
+      }
+      this.calcPos(indexArray);
+    }
+  }
+
+  calcPos(array) {
+    let row = 0;
+    let day = 0;
+    for (let u = 0; u < array.length; u++) {
+      let day = this.specialRound(array[u]);
+      let row = array[u] % 5;
+      posArray.push(day + ',' + row);
+    }
+    this.dispHighlight(posArray);
+    fadeArray = posArray;
+
+    posArray = [];
+  }
+
+  dispHighlight(array) {
+    this.blankHighlight();
+    for (let u = 0; u < array.length; u++) {
+      let highlight = document.getElementById(array[u]);
+      highlight.className = 'highlight';
+    }
+  }
+
+  blankHighlight() {
+    for (let u = 0; u <= 14; u++) {
+      for (let i = 0; i <= 4; i++) {
+        let highlight = document.getElementById(u + ',' + i);
+        highlight.className = '';
+      }
+    }
+  }
+
+  specialRound(num) {
+    let divide = (num / 5).toString();
+    if (divide > 10) {
+      return divide.slice(0, 2);
+    } else {
+      return divide[0];
+    }
+  }
+
+  fade() {
+    setTimeout(function () {
+      for (let u = 0; u < fadeArray.length; u++) {
+        let highlight = document.getElementById(fadeArray[u]);
+        highlight.className = '';
+      }
+    }, 1000);
+  }
+
   // <button onClick={this.initialise.bind(this)}>Test</button>
 
   render() {
@@ -28456,15 +28514,15 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         { className: 'vcNavbarCard' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
-          { id: 'fullTimetable', className: 'ttableCard uk-width-xlarge uk-animation-slide-top-small' },
+          { id: 'fullTimetable', className: 'ttableCard uk-animation-slide-top-small' },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'h3',
             { className: 'uk-heading-line uk-text-center' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { id: 'name' })
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { id: 'ttableName' })
           ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'div',
-            { className: 'uk-box-shadow-hover-small uk-padding-top uk-text-center' },
+            { className: 'uk-padding-top uk-text-center' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'table',
               { className: 'uk-table uk-table-small' },
@@ -28501,13 +28559,21 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                   )
                 )
               ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tbody', { className: 'timetable', id: 'weekA' })
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'tbody',
+                { className: 'timetable', onMouseOver: this.subjectHighlight.bind(this), onMouseLeave: this.fade.bind(this) },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r0', onMouseOver: this.bigInput }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r1', onMouseOver: this.bigInput }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r2', onMouseOver: this.bigInput }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r3', onMouseOver: this.bigInput }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r4', onMouseOver: this.bigInput })
+              )
             )
           ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'div',
-            { className: 'uk-box-shadow-hover-small uk-padding-top uk-text-center' },
+            { className: 'uk-padding-top uk-text-center' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'table',
               { className: 'uk-table uk-table-small' },
@@ -28544,13 +28610,21 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                   )
                 )
               ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tbody', { className: 'timetable', id: 'weekB' })
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'tbody',
+                { className: 'timetable', onMouseOver: this.subjectHighlight.bind(this), onMouseLeave: this.fade.bind(this) },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r5', onMouseOver: this.bigInput }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r6', onMouseOver: this.bigInput }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r7', onMouseOver: this.bigInput }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r8', onMouseOver: this.bigInput }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r9', onMouseOver: this.bigInput })
+              )
             )
           ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'div',
-            { className: 'uk-box-shadow-hover-small uk-padding-top uk-text-center' },
+            { className: 'uk-padding-top uk-text-center' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'table',
               { className: 'uk-table uk-table-small' },
@@ -28587,7 +28661,15 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                   )
                 )
               ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tbody', { className: 'timetable', id: 'weekC' })
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'tbody',
+                { className: 'timetable', onMouseOver: this.subjectHighlight.bind(this), onMouseLeave: this.fade.bind(this) },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r10', onMouseOver: this.bigInput }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r11', onMouseOver: this.bigInput }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r12', onMouseOver: this.bigInput }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r13', onMouseOver: this.bigInput }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r14', onMouseOver: this.bigInput })
+              )
             )
           )
         ),
@@ -28596,7 +28678,7 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
           { id: 'smallTimetable', className: 'ttableCard uk-animation-slide-top-small', onClick: this.activeTab.bind(this) },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'ul',
-            { className: 'uk-flex-center uk-tab', onClick: this.input },
+            { className: 'uk-flex-center uk-tab', onClick: this.smallInput },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'li',
               { id: 'A' },
@@ -28627,7 +28709,7 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
           ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'ul',
-            { className: 'uk-flex-center uk-tab', onClick: this.input },
+            { className: 'uk-flex-center uk-tab', onClick: this.smallInput },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'li',
               { id: 'MON' },
@@ -28727,7 +28809,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, ".timetable td {\r\n  font-family: 'Roboto Mono', monospace;\r\n  padding:5px 6px\r\n}\r\n.heading {\r\n  font-family: 'Roboto' !important;\r\n  font-weight: 300\r\n}\r\n\r\n.uk-text-center th {\r\n  text-align: center;\r\n}\r\n\r\n.ttableCard {\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  padding: 30px 30px;\r\n}\r\n\r\n@media (max-height:830px){\r\n  .timetable td{\r\n    padding: 2px 1px;\r\n  }\r\n  .uk-table th {\r\n    padding: 5px 6px;\r\n  }\r\n  .uk-table{\r\n    margin-bottom: 5px;\r\n  }\r\n  #name{\r\n    font-size: 2.25rem;\r\n  }\r\n  #fullTimetable hr{\r\n    margin-top: 15px;\r\n    margin-bottom: 15px;\r\n  }\r\n}\r\n\r\n@media (max-height:675px){\r\n  #name{\r\n    visibility: hidden;\r\n    height: 0px;\r\n  }\r\n  #fullTimetable h3{\r\n    height:0px;\r\n  }\r\n}\r\n\r\n@media (max-width:530px), (max-height:620px){\r\n  #fullTimetable {\r\n    visibility: hidden;\r\n    display: none;\r\n  }\r\n  #smallTimetable{\r\n    visibility: visible;\r\n    display: block;\r\n  }\r\n}\r\n\r\n@media (min-width:530px) and (min-height:620px){\r\n  #fullTimetable {\r\n    visibility: visible;\r\n    display: block;\r\n  }\r\n  #smallTimetable{\r\n    visibility: hidden;\r\n    display: none;\r\n  }\r\n}\r\n\r\n@media (max-width:371px){\r\n  #smallTimetable a{\r\n    padding-left: 2px;\r\n    padding-right: 2px;\r\n  }\r\n}\r\n\r\n@media (max-width:600px){\r\n  .ttableCard{\r\n    box-shadow: none;\r\n  }\r\n}", ""]);
+exports.push([module.i, ".timetable td {\r\n  font-family: 'Roboto Mono', monospace;\r\n  padding:5px 6px;\r\n  transition: box-shadow .1s ease-in-out;\r\n  transition: background .1s ease-in-out;\r\n}\r\n.heading {\r\n  font-family: 'Roboto' !important;\r\n  font-weight: 300\r\n}\r\n\r\n.uk-text-center th {\r\n  text-align: center;\r\n}\r\n\r\n.highlight {\r\n  background: #2dc0d5;\r\n  color: #fff;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n}\r\n\r\n.ttableCard {\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  padding: 30px 30px;\r\n  width: 600px;\r\n}\r\n\r\n#ttableName {\r\n  font-weight: 300\r\n}\r\n\r\n@media (max-height:830px){\r\n  .timetable td{\r\n    padding: 2px 1px;\r\n  }\r\n  .uk-table th {\r\n    padding: 5px 6px;\r\n  }\r\n  .uk-table{\r\n    margin-bottom: 5px;\r\n  }\r\n  #ttableName{\r\n    font-size: 2.25rem;\r\n  }\r\n  #fullTimetable hr{\r\n    margin-top: 15px;\r\n    margin-bottom: 15px;\r\n  }\r\n}\r\n\r\n@media (max-height:675px){\r\n  #ttableName{\r\n    visibility: hidden;\r\n    height: 0px;\r\n  }\r\n  #fullTimetable h3{\r\n    height:0px;\r\n  }\r\n}\r\n\r\n@media (max-width:530px), (max-height:620px){\r\n  #fullTimetable {\r\n    visibility: hidden;\r\n    display: none;\r\n  }\r\n  #smallTimetable{\r\n    visibility: visible;\r\n    display: block;\r\n  }\r\n}\r\n\r\n@media (min-width:530px) and (min-height:620px){\r\n  #fullTimetable {\r\n    visibility: visible;\r\n    display: block;\r\n  }\r\n  #smallTimetable{\r\n    visibility: hidden;\r\n    display: none;\r\n  }\r\n}\r\n\r\n@media (max-width:371px){\r\n  #smallTimetable a{\r\n    padding-left: 2px;\r\n    padding-right: 2px;\r\n  }\r\n}\r\n\r\n@media (max-width:600px){\r\n  .ttableCard{\r\n    box-shadow: none;\r\n  }\r\n}", ""]);
 
 // exports
 
@@ -30486,7 +30568,7 @@ class Changelog extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'h1',
             { 'class': 'uk-article-title' },
-            'Unrealeased features'
+            'Unreleased features'
           ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'p',
@@ -30688,7 +30770,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, ".clContainer {\r\n  margin-top: 20px!important;\r\n  margin-bottom: 20px!important;\r\n  justify-content: center;\r\n  display: flex;\r\n}\r\n\r\n.clCard{\r\n  width: 600px;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  padding: 60px 60px;\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n}\r\n\r\n@media (max-width:600px){\r\n  .clCard{\r\n    box-shadow: none;\r\n  }\r\n}\r\n\r\n@media (max-width:440px){\r\n  .clCard{\r\n    padding: 30px 30px;\r\n  }\r\n}\r\n\r\n", ""]);
+exports.push([module.i, ".clContainer {\r\n  margin-top: 20px!important;\r\n  margin-bottom: 20px!important;\r\n  justify-content: center;\r\n  display: flex;\r\n}\r\n\r\n.clCard{\r\n  width: 600px;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  padding: 40px 60px;\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n}\r\n\r\n@media (max-width:600px){\r\n  .clCard{\r\n    box-shadow: none;\r\n  }\r\n}\r\n\r\n@media (max-width:440px){\r\n  .clCard{\r\n    padding: 30px 30px;\r\n  }\r\n}\r\n\r\n", ""]);
 
 // exports
 
@@ -30733,7 +30815,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "h1,h2,h3,h4,h5,h6,h7,.uk-h1,.uk-accordion-title,.uk-text-lead {\r\n  font-family: 'Roboto', sans-serif\r\n}\r\n\r\n.spinner {\r\n  display: flex;\r\n  align-items: center;\r\n  align-content: center;\r\n  justify-content: center;\r\n}\r\n\r\nbody {\r\n  user-select: none\r\n}\r\n\r\n.uk-accordion-title,.uk-text-lead {\r\n  font-size: 1.5rem;\r\n  font-weight: 300\r\n}\r\n\r\n.welcomeNav {\r\n  position: fixed;\r\n  visibility: hidden\r\n}\r\n\r\n.main {\r\n  transition: 150ms linear;\r\n}\r\n\r\n.djLogo {\r\n  width: 50px;\r\n  height: 50px;\r\n  transition: width 0.1s;\r\n  transition: height 0.1s\r\n}\r\n\r\n.name {\r\n  margin-bottom: 0px;\r\n  margin-right: 5px;\r\n}\r\n\r\n.uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n  transition: height 0.1s\r\n}\r\n\r\n.uk-sticky-placeholder {\r\n  height: 80px!important;\r\n}\r\n\r\n.content {\r\n  align-content: center;\r\n  margin-left: 10px;\r\n  background: white;\r\n  transition: 150ms linear;\r\n}\r\n\r\n.background {\r\n  background-color: #2a2c31;\r\n}\r\n\r\n/*Vertical centering content with a navbar above*/\r\n.vcNavbarParent {\r\n  display: flex;\r\n  height: auto;\r\n  margin: 0 auto;\r\n  min-height: calc(100vh - 80px);\r\n  min-height: -o-calc(100vh - 80px);\r\n  min-height: -webkit-calc(100vh - 80px);\r\n  min-height: -moz-calc(100vh - 80px)\r\n}\r\n.vcNavbarCard {\r\n  margin: auto;\r\n  justify-content: center;\r\n  display: flex;\r\n  text-align: center!important;\r\n  max-width: 100%;\r\n}\r\n\r\n@media screen and (max-width: 880px) {\r\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n    height:60px\r\n  }\r\n  .uk-sticky-placeholder {\r\n    height:60px!important\r\n  }\r\n  .vcNavbarParent {\r\n    display: flex;\r\n    height: auto;\r\n    margin: 0 auto;\r\n    min-height: calc(100vh - 60px);\r\n    min-height: -o-calc(100vh - 60px);\r\n    min-height: -webkit-calc(100vh - 60px);\r\n    min-height: -moz-calc(100vh - 60px)\r\n  }\r\n  .djLogo {\r\n    width: 40px;\r\n    height: 40px\r\n  }\r\n  .collapseText {\r\n    font-size: 0\r\n  }\r\n  .collapseSpan {\r\n    margin-right: 0px!important\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 500px) {\r\n  .djLogo {\r\n    width: 0px;\r\n    height: 0px;\r\n    margin: 0 0 0 0!important;\r\n  }\r\n  .name{\r\n    font-size: 0px;\r\n    margin-right: 0px\r\n  }\r\n}\r\n\r\n@media (max-height: 620px) {\r\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n    height:60px\r\n  }\r\n  .uk-sticky-placeholder {\r\n    height:60px!important\r\n  }\r\n  .vcNavbarParent {\r\n    display: flex;\r\n    height: auto;\r\n    margin: 0 auto;\r\n    min-height: calc(100vh - 60px);\r\n    min-height: -o-calc(100vh - 60px);\r\n    min-height: -webkit-calc(100vh - 60px);\r\n    min-height: -moz-calc(100vh - 60px)\r\n  }\r\n  .collapseText {\r\n    font-size: 0\r\n  }\r\n  .collapseSpan {\r\n    margin-right: 0px!important\r\n  }\r\n}\r\n", ""]);
+exports.push([module.i, "h1,h2,h3,h4,h5,h6,h7,.uk-h1,.uk-accordion-title,.uk-text-lead {\r\n  font-family: 'Roboto', sans-serif\r\n}\r\n\r\n.spinner {\r\n  display: flex;\r\n  align-items: center;\r\n  align-content: center;\r\n  justify-content: center;\r\n}\r\n\r\nbody {\r\n  user-select: none\r\n}\r\n\r\n.uk-accordion-title,.uk-text-lead {\r\n  font-size: 1.5rem;\r\n  font-weight: 300\r\n}\r\n\r\n.welcomeNav {\r\n  position: fixed;\r\n  visibility: hidden\r\n}\r\n\r\n.main {\r\n  transition: 150ms linear;\r\n}\r\n\r\n.djLogo {\r\n  width: 50px;\r\n  height: 50px;\r\n  transition: width 0.1s;\r\n  transition: height 0.1s\r\n}\r\n\r\n.name {\r\n  margin-bottom: 0px;\r\n  margin-right: 5px;\r\n}\r\n\r\n.uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n  transition: height 0.1s\r\n}\r\n\r\n.uk-sticky-placeholder {\r\n  height: 80px!important;\r\n}\r\n\r\n.content {\r\n  align-content: center;\r\n  margin-left: 10px;\r\n  background: white;\r\n  transition: 150ms linear;\r\n}\r\n\r\n.background {\r\n  background-color: #2a2c31;\r\n}\r\n\r\n/*Vertical centering content with a navbar above*/\r\n.vcNavbarParent {\r\n  display: flex;\r\n  height: auto;\r\n  margin: 0 auto;\r\n  min-height: calc(100vh - 80px);\r\n  min-height: -o-calc(100vh - 80px);\r\n  min-height: -webkit-calc(100vh - 80px);\r\n  min-height: -moz-calc(100vh - 80px)\r\n}\r\n.vcNavbarCard {\r\n  margin: auto;\r\n  justify-content: center;\r\n  display: flex;\r\n  text-align: center!important;\r\n  max-width: 100%;\r\n}\r\n\r\n@media screen and (max-width: 880px) {\r\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n    height:60px\r\n  }\r\n  .uk-sticky-placeholder {\r\n    height:60px!important\r\n  }\r\n  .vcNavbarParent {\r\n    display: flex;\r\n    height: auto;\r\n    margin: 0 auto;\r\n    min-height: calc(100vh - 60px);\r\n    min-height: -o-calc(100vh - 60px);\r\n    min-height: -webkit-calc(100vh - 60px);\r\n    min-height: -moz-calc(100vh - 60px)\r\n  }\r\n  .djLogo {\r\n    width: 40px;\r\n    height: 40px\r\n  }\r\n  .collapseText {\r\n    font-size: 0\r\n  }\r\n  .collapseSpan {\r\n    margin-right: 0px!important\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 500px) {\r\n  .djLogo {\r\n    width: 0px;\r\n    height: 0px;\r\n    margin: 0 0 0 0!important;\r\n  }\r\n  .name{\r\n    font-size: 0px;\r\n    margin-right: 0px\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 300px){\r\n  .uk-navbar-item, .uk-navbar-nav>li>a, .uk-navbar-toggle {\r\n    padding: 0 10px;\r\n  }\r\n}\r\n\r\n@media (max-height: 620px) {\r\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n    height:60px\r\n  }\r\n  .uk-sticky-placeholder {\r\n    height:60px!important\r\n  }\r\n  .vcNavbarParent {\r\n    display: flex;\r\n    height: auto;\r\n    margin: 0 auto;\r\n    min-height: calc(100vh - 60px);\r\n    min-height: -o-calc(100vh - 60px);\r\n    min-height: -webkit-calc(100vh - 60px);\r\n    min-height: -moz-calc(100vh - 60px)\r\n  }\r\n  .collapseText {\r\n    font-size: 0\r\n  }\r\n  .collapseSpan {\r\n    margin-right: 0px!important\r\n  }\r\n}\r\n", ""]);
 
 // exports
 
