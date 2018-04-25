@@ -1,0 +1,65 @@
+.aboutContainer {
+  margin-top: 20px!important;
+  margin-bottom: 20px!important;
+  justify-content: center;
+  display: flex;
+  text-align: center!important;
+}
+
+.aboutCard{
+  width: 600px;
+  background: #fff;
+  color: #666;
+  box-shadow: 0 5px 15px rgba(0,0,0,.08);
+  padding: 30px 30px;
+  position: relative;
+  box-sizing: border-box;
+  transition: box-shadow .1s ease-in-out;
+}
+
+h4 {
+  font-weight: 300!important;
+}
+
+@media (max-width:600px){
+  .aboutCard{
+    box-shadow: none;
+  }
+}
+
+@media (max-width:420px){
+  .aboutCard h1{
+    font-size: 3.5rem;
+  }
+  .aboutCard h2{
+    font-size: 2.5rem;
+    font-weight: 300
+  }
+  #aboutlogo{
+    width: 125px;
+  }
+}
+@media (max-width:375px){
+  .aboutCard h1{
+    font-size: 3rem;
+    font-weight: 300
+  }
+  .aboutCard h2{
+    font-size: 2rem;
+  }
+  #aboutlogo{
+    width: 100px;
+  }
+}
+@media (max-width:335px){
+  .aboutCard h1{
+    font-size: 2.5rem;
+  }
+  .aboutCard h2{
+    font-size: 1.5rem;
+  }
+  #aboutlogo{
+    width: 75px;
+  }
+}
+

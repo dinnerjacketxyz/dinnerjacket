@@ -16,6 +16,7 @@
 #welcomeContent{
   padding: 30px;
   width: 450px!important;
+  box-shadow:0 5px 15px rgba(0,0,0,.08)
 }
 #welcomeTitle{
   font-size: 4rem;
@@ -47,7 +48,7 @@
 }
 
 /*Media rules*/
-@media screen and (max-width: 570px) {
+@media screen and (max-width: 510px) {
   .vcWelcomeCard{
     width:100%;
   }

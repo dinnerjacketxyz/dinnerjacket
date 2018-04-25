@@ -78,3 +78,9 @@
     padding-right: 2px;
   }
 }
+
+@media (max-width:600px){
+  .ttableCard{
+    box-shadow: none;
+  }
+}

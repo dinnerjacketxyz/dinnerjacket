@@ -38,7 +38,7 @@ class Welcome extends Component {
     return (
       <div className='main vcWelcomeParent'>
         <div className='vcWelcomeCard'>
-          <div id='welcomeContent' className='uk-box-shadow-hover-xlarge uk-animation-slide-top-small'>
+          <div id='welcomeContent' className='uk-animation-slide-top-small'>
             <img id='welcomelogo' alt='logo' src='256.png' width='150px' height='150px'/>
             <h1 id='welcomeTitle'>DinnerJacket</h1>
             <p id='welcomeLabel'>alpha v0.1.2</p>

@@ -50,7 +50,7 @@
   border-color: grey;
 }
 
-@media screen and (max-height: 747px) {
+@media (max-height: 747px),(max-width: 400px) {
   .lead,.room{
     font-size: 1.3rem;
   }
@@ -73,7 +73,7 @@
   }
 }
 
-@media screen and (max-height: 620px) {
+@media (max-height: 620px),(max-width: 300px) {
   .lead,.room{
     font-size: 1.25rem;
   }
@@ -99,6 +99,7 @@
   .dashCard{
     width: 100vw;
     max-width: 100%;
+    box-shadow: none;
   }
 }
 

@@ -1,49 +1,64 @@
 import React, { Component } from 'react'
+const css = require('./Changelog.css')
 
 class Changelog extends Component {
   render() {
     return (
-      <div className='uk-flex uk-flex-center'>
-        <div className='uk-margin-top uk-grid-collapse uk-width-xxlarge miniFill'>
-          <div className='uk-card uk-card-default uk-card-body uk-animation-slide-top-small'>
-            <div className='uk-margin'>
-              <h2>Upcoming</h2>
+        <div className='clContainer'>
+          <div className='clCard uk-animation-slide-top-small'>
+            <article class="uk-article">
+              <h1 class="uk-article-title">Unreleased features</h1>
+              <p class="uk-article-meta">Written on 25 April 2018</p>
               <ul>
                 <li>Bugfixes and stability</li>
-                <li>Reduce size of "DinnerJacket" titles on mobile</li>
-                <li>Add school calendar</li>
+                <li>Low resolution compatibility</li>
+                <li>New calendar page with school calendar</li>
+                <li>Better notes editor</li>
+                <li>New profile page with participation details</li>
+                <li>Accurate timetable</li>
+                <li>Different changelog appearance</li>
               </ul>
+            </article>
 
-              <hr />
+            <hr />
 
-              <h2>Alpha v0.1.2</h2>
+            <article class="uk-article">
+              <h1 class="uk-article-title">Alpha v0.1.2</h1>
+              <p class="uk-article-meta">Written on 25 April 2018</p>
               <ul>
                 <li></li>
               </ul>
+            </article>
 
-              <hr />
+            <hr />
 
-              <h2>Alpha v0.1.1</h2>
+            <article class="uk-article">
+              <h1 class="uk-article-title">Alpha v0.1.1</h1>
+              <p class="uk-article-meta">Written on 25 April 2018</p>
+              <p>The first update of DinnerJacket fixing critical to cosmetic issues.</p>
               <ul>
                 <li>Fixed crashing on loading page</li>
                 <li>Updated full timetable</li>
                 <li>Fixed notes crashing on launch</li>
                 <li>Updated server and login system</li>
               </ul>
+            </article>
+          
+            <hr />
 
-              <hr />
-
-              <h2>Alpha v0.1.0</h2>
+            <article class="uk-article">
+              <h1 class="uk-article-title">Alpha v0.1.0</h1>
+              <p class="uk-article-meta">Written on 25 April 2018</p>
+              <p>The first operational release of DinnerJacket with basic functionality.</p>
               <ul>
                 <li>Added dashboard</li>
                 <li>Added timetable</li>
                 <li>Added user notes</li>
                 <li>Added daily notices</li>
               </ul>
-            </div>
+            </article>
           </div>
         </div>
-      </div>
     )
   }
 }

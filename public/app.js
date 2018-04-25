@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 37);
+/******/ 	return __webpack_require__(__webpack_require__.s = 36);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -71,9 +71,9 @@
 /* WEBPACK VAR INJECTION */(function(process) {
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(38);
+  module.exports = __webpack_require__(37);
 } else {
-  module.exports = __webpack_require__(39);
+  module.exports = __webpack_require__(38);
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
@@ -434,7 +434,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(54);
+var	fixUrls = __webpack_require__(53);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -954,11 +954,11 @@ function forEach(xs, f) {
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {var ClientRequest = __webpack_require__(58)
+/* WEBPACK VAR INJECTION */(function(global) {var ClientRequest = __webpack_require__(57)
 var IncomingMessage = __webpack_require__(27)
-var extend = __webpack_require__(69)
-var statusCodes = __webpack_require__(70)
-var url = __webpack_require__(71)
+var extend = __webpack_require__(68)
+var statusCodes = __webpack_require__(69)
+var url = __webpack_require__(70)
 
 var http = exports
 
@@ -1054,8 +1054,8 @@ http.METHODS = [
 
 
 
-var base64 = __webpack_require__(59)
-var ieee754 = __webpack_require__(60)
+var base64 = __webpack_require__(58)
+var ieee754 = __webpack_require__(59)
 var isArray = __webpack_require__(25)
 
 exports.Buffer = Buffer
@@ -3337,7 +3337,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 if (process.env.NODE_ENV !== 'production') {
   var invariant = __webpack_require__(14);
   var warning = __webpack_require__(15);
-  var ReactPropTypesSecret = __webpack_require__(40);
+  var ReactPropTypesSecret = __webpack_require__(39);
   var loggedTypeFailures = {};
 }
 
@@ -3733,7 +3733,7 @@ module.exports = shallowEqual;
  * 
  */
 
-var isTextNode = __webpack_require__(43);
+var isTextNode = __webpack_require__(42);
 
 /*eslint-disable no-bitwise */
 
@@ -4115,7 +4115,7 @@ exports.Readable = exports;
 exports.Writable = __webpack_require__(33);
 exports.Duplex = __webpack_require__(7);
 exports.Transform = __webpack_require__(35);
-exports.PassThrough = __webpack_require__(67);
+exports.PassThrough = __webpack_require__(66);
 
 
 /***/ }),
@@ -4194,7 +4194,7 @@ util.inherits = __webpack_require__(5);
 /*</replacement>*/
 
 /*<replacement>*/
-var debugUtil = __webpack_require__(61);
+var debugUtil = __webpack_require__(60);
 var debug = void 0;
 if (debugUtil && debugUtil.debuglog) {
   debug = debugUtil.debuglog('stream');
@@ -4203,7 +4203,7 @@ if (debugUtil && debugUtil.debuglog) {
 }
 /*</replacement>*/
 
-var BufferList = __webpack_require__(62);
+var BufferList = __webpack_require__(61);
 var destroyImpl = __webpack_require__(32);
 var StringDecoder;
 
@@ -5612,7 +5612,7 @@ util.inherits = __webpack_require__(5);
 
 /*<replacement>*/
 var internalUtil = {
-  deprecate: __webpack_require__(66)
+  deprecate: __webpack_require__(65)
 };
 /*</replacement>*/
 
@@ -6217,7 +6217,7 @@ Writable.prototype._destroy = function (err, cb) {
   this.end();
   cb(err);
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(64).setImmediate, __webpack_require__(2)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(63).setImmediate, __webpack_require__(2)))
 
 /***/ }),
 /* 34 */
@@ -6725,140 +6725,9 @@ function done(stream, er, data) {
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-
-const css = __webpack_require__(36);
-
-class About extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
-  render() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'div',
-      { className: 'uk-flex uk-flex-center uk-text-center uk-margin-top' },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { className: 'uk-card uk-card-default uk-card-body uk-card-large uk-width-xlarge uk-animation-slide-top-small uk-margin-large-bottom' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { id: 'logo',
-          className: 'uk-disabled',
-          alt: 'logo', src: '256.png', width: '150px', height: '150px' }),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'h1',
-          { className: 'uk-text-center uk-h1' },
-          'DinnerJacket'
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'p',
-          { className: 'uk-label uk-label-danger' },
-          'alpha v0.1.2'
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'p',
-          { className: 'uk-text-small' },
-          'licensed under GNU GPL v3'
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'p',
-          { className: '' },
-          'DinnerJacket is a website developed by SBHS students.'
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'h2',
-          { className: 'uk-h2' },
-          'Developers'
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'p',
-          null,
-          'George Flabouris'
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'p',
-          null,
-          'Brian Nguyen'
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'p',
-          null,
-          'Vincent Liu'
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'h2',
-          { className: 'uk-h2' },
-          'Special thanks to'
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'p',
-          null,
-          'Ram Kuniyar'
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'article',
-          { className: 'uk-article' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'h2',
-            { className: 'uk-h2 small-margin' },
-            'spiff'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'p',
-            { className: 'uk-article-meta' },
-            '/sp\u026Af/'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'span',
-            { className: 'uk-article-meta' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'i',
-              null,
-              'verb '
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'span',
-              { className: 'uk-label' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'i',
-                null,
-                'N. AMER.'
-              )
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'i',
-              null,
-              ' informal'
-            )
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'p',
-            null,
-            'make someone or something attractive, smart, or stylish.'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'h4',
-            { className: 'uk-h4' },
-            '"he arrived all spiffed up in a dinner jacket"'
-          )
-        )
-      )
-    );
-  }
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (About);
-
-/***/ }),
-/* 37 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(40);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Components_App__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Components_App__ = __webpack_require__(49);
 
 
 
@@ -6866,7 +6735,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Components_App__["a" /* default */], null), document.getElementById('app'));
 
 /***/ }),
-/* 38 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6894,7 +6763,7 @@ isValidElement:K,version:"16.2.0",__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_F
 
 
 /***/ }),
-/* 39 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8259,7 +8128,7 @@ module.exports = react;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 40 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8278,7 +8147,7 @@ module.exports = ReactPropTypesSecret;
 
 
 /***/ }),
-/* 41 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8316,15 +8185,15 @@ if (process.env.NODE_ENV === 'production') {
   // DCE check should happen before ReactDOM bundle executes so that
   // DevTools can report bad minification during injection.
   checkDCE();
-  module.exports = __webpack_require__(42);
+  module.exports = __webpack_require__(41);
 } else {
-  module.exports = __webpack_require__(45);
+  module.exports = __webpack_require__(44);
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 42 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8560,7 +8429,7 @@ Z.injectIntoDevTools({findFiberByHostInstance:pb,bundleType:0,version:"16.2.0",r
 
 
 /***/ }),
-/* 43 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8575,7 +8444,7 @@ Z.injectIntoDevTools({findFiberByHostInstance:pb,bundleType:0,version:"16.2.0",r
  * @typechecks
  */
 
-var isNode = __webpack_require__(44);
+var isNode = __webpack_require__(43);
 
 /**
  * @param {*} object The object to check.
@@ -8588,7 +8457,7 @@ function isTextNode(object) {
 module.exports = isTextNode;
 
 /***/ }),
-/* 44 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8616,7 +8485,7 @@ function isNode(object) {
 module.exports = isNode;
 
 /***/ }),
-/* 45 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8650,8 +8519,8 @@ var containsNode = __webpack_require__(23);
 var focusNode = __webpack_require__(24);
 var emptyObject = __webpack_require__(11);
 var checkPropTypes = __webpack_require__(17);
-var hyphenateStyleName = __webpack_require__(46);
-var camelizeStyleName = __webpack_require__(48);
+var hyphenateStyleName = __webpack_require__(45);
+var camelizeStyleName = __webpack_require__(47);
 
 /**
  * WARNING: DO NOT manually require this module.
@@ -24018,7 +23887,7 @@ module.exports = reactDom;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 46 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24033,7 +23902,7 @@ module.exports = reactDom;
 
 
 
-var hyphenate = __webpack_require__(47);
+var hyphenate = __webpack_require__(46);
 
 var msPattern = /^ms-/;
 
@@ -24060,7 +23929,7 @@ function hyphenateStyleName(string) {
 module.exports = hyphenateStyleName;
 
 /***/ }),
-/* 47 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24096,7 +23965,7 @@ function hyphenate(string) {
 module.exports = hyphenate;
 
 /***/ }),
-/* 48 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24111,7 +23980,7 @@ module.exports = hyphenate;
 
 
 
-var camelize = __webpack_require__(49);
+var camelize = __webpack_require__(48);
 
 var msPattern = /^-ms-/;
 
@@ -24139,7 +24008,7 @@ function camelizeStyleName(string) {
 module.exports = camelizeStyleName;
 
 /***/ }),
-/* 49 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24174,23 +24043,23 @@ function camelize(string) {
 module.exports = camelize;
 
 /***/ }),
-/* 50 */
+/* 49 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Welcome_Welcome__ = __webpack_require__(51);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Dashboard_Dashboard__ = __webpack_require__(55);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Timetable_Timetable__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Notes_Notes__ = __webpack_require__(81);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Notices_Notices__ = __webpack_require__(82);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Calendar_Calendar__ = __webpack_require__(85);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__About_About__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Profile_Profile__ = __webpack_require__(88);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Feedback_Feedback__ = __webpack_require__(89);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Changelog_Changelog__ = __webpack_require__(92);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__Loading__ = __webpack_require__(96);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Welcome_Welcome__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Dashboard_Dashboard__ = __webpack_require__(54);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Timetable_Timetable__ = __webpack_require__(77);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Notes_Notes__ = __webpack_require__(80);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Notices_Notices__ = __webpack_require__(81);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Calendar_Calendar__ = __webpack_require__(84);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__About_About__ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Profile_Profile__ = __webpack_require__(90);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Feedback_Feedback__ = __webpack_require__(91);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Changelog_Changelog__ = __webpack_require__(94);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__Loading__ = __webpack_require__(100);
 
 
 
@@ -24202,8 +24071,8 @@ module.exports = camelize;
 
 
 
-const css = __webpack_require__(93);
-const icons = __webpack_require__(95);
+const css = __webpack_require__(97);
+const icons = __webpack_require__(99);
 const http = __webpack_require__(8);
 
 
@@ -24705,7 +24574,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         this.state.visible === window.STATES.NOTES && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__Notes_Notes__["a" /* default */], null),
         this.state.visible === window.STATES.NOTICES && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__Notices_Notices__["a" /* default */], null),
         this.state.visible === window.STATES.CALENDAR && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__Calendar_Calendar__["a" /* default */], null),
-        this.state.visible === window.STATES.ABOUT && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__About_About__["default"], null),
+        this.state.visible === window.STATES.ABOUT && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__About_About__["a" /* default */], null),
         this.state.visible === window.STATES.PROFILE && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__Profile_Profile__["a" /* default */], null),
         this.state.visible === window.STATES.CHANGELOG && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10__Changelog_Changelog__["a" /* default */], null),
         this.state.visible === window.STATES.FEEDBACK && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9__Feedback_Feedback__["a" /* default */], null)
@@ -24718,14 +24587,14 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (App);
 
 /***/ }),
-/* 51 */
+/* 50 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
-const css = __webpack_require__(52);
+const css = __webpack_require__(51);
 
 let counter = 0;
 
@@ -24769,7 +24638,7 @@ class Welcome extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         { className: 'vcWelcomeCard' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
-          { id: 'welcomeContent', className: 'uk-box-shadow-hover-xlarge uk-animation-slide-top-small' },
+          { id: 'welcomeContent', className: 'uk-animation-slide-top-small' },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { id: 'welcomelogo', alt: 'logo', src: '256.png', width: '150px', height: '150px' }),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'h1',
@@ -24800,13 +24669,13 @@ class Welcome extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Welcome);
 
 /***/ }),
-/* 52 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(53);
+var content = __webpack_require__(52);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -24831,7 +24700,7 @@ if(false) {
 }
 
 /***/ }),
-/* 53 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)(false);
@@ -24839,13 +24708,13 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "/*Vertical centering welcome card*/\r\n.vcWelcomeParent {\r\n  display: flex;\r\n  height: auto;\r\n  margin: 0 auto;\r\n  min-height: 100vh;\r\n}\r\n.vcWelcomeCard {\r\n  margin: auto;\r\n  justify-content: center;\r\n  display: flex;\r\n  text-align: center!important;\r\n}\r\n\r\n/*Onscreen elements of the welcome page*/\r\n#welcomeContent{\r\n  padding: 30px;\r\n  width: 450px!important;\r\n}\r\n#welcomeTitle{\r\n  font-size: 4rem;\r\n  line-height: 1.2;\r\n}\r\n#welcomeLabel{\r\n  background-color: #f0506e;\r\n  color: #fff;\r\n  display: inline-block;\r\n  padding: 0 10px;\r\n  line-height: 1.5;\r\n  font-size: .875rem;\r\n  color: #fff;\r\n  vertical-align: middle;\r\n  white-space: nowrap;\r\n  border-radius: 2px;\r\n  text-transform: uppercase;\r\n}\r\n#welcomeText{\r\n  margin-top: 20px!important;\r\n  margin-bottom: 20px!important\r\n}\r\n#loginButton {\r\n  margin-bottom: 20px!important;\r\n  margin-top: 20px!important;\r\n}\r\n#welcomelogo {\r\n  pointer-events: none;\r\n}\r\n\r\n/*Media rules*/\r\n@media screen and (max-width: 570px) {\r\n  .vcWelcomeCard{\r\n    width:100%;\r\n  }\r\n  #welcomeContent{\r\n    padding: 0px;\r\n    box-shadow: none;\r\n  }\r\n  #welcomeText {\r\n    margin-left: 30px;\r\n    margin-right: 30px;\r\n  }\r\n  #welcomeTitle{\r\n    font-size:3rem;\r\n    line-height:1.3\r\n  }\r\n  #welcomelogo{\r\n    width: 100px;\r\n  }\r\n  #welcomeLabel,#loginButton,#welcomeContent{\r\n    font-size: 13px;\r\n  }\r\n}\r\n@media screen and (max-width: 310px) {\r\n  #welcomeTitle{\r\n    font-size:2.5rem;line-height:1.4 \r\n  }\r\n  #welcomeLabel,#loginButton,#welcomeContent{\r\n    font-size: 12px;\r\n  }\r\n  #welcomelogo{\r\n    width: 90px;\r\n  }\r\n}\r\n@media screen and (max-width: 255px) {\r\n  #welcomeTitle{\r\n    font-size:1.5rem;line-height:1.4\r\n  }\r\n  #welcomeLabel,#loginButton,#welcomeContent{\r\n    font-size: 10px;\r\n  }\r\n  #welcomelogo{\r\n    width: 80px;\r\n  }\r\n}\r\n\r\n@media screen and (max-height: 490px) {\r\n  #welcomeContent{\r\n    padding: 0px;\r\n    box-shadow: none;\r\n  }\r\n  #welcomeText {\r\n    margin-top: 10px!important;\r\n    margin-bottom: 10px!important;\r\n  }\r\n  #welcomeTitle{\r\n    font-size:3rem;\r\n    line-height:1.3\r\n  }\r\n  #welcomelogo{\r\n    width: 100px;\r\n  }\r\n  #welcomeLabel,#loginButton,#welcomeContent{\r\n    font-size: 13px;\r\n  }\r\n  #loginButton {\r\n    margin-top: 10px!important;\r\n    margin-bottom: 10px!important;\r\n  }\r\n}\r\n\r\n", ""]);
+exports.push([module.i, "/*Vertical centering welcome card*/\r\n.vcWelcomeParent {\r\n  display: flex;\r\n  height: auto;\r\n  margin: 0 auto;\r\n  min-height: 100vh;\r\n}\r\n.vcWelcomeCard {\r\n  margin: auto;\r\n  justify-content: center;\r\n  display: flex;\r\n  text-align: center!important;\r\n}\r\n\r\n/*Onscreen elements of the welcome page*/\r\n#welcomeContent{\r\n  padding: 30px;\r\n  width: 450px!important;\r\n  box-shadow:0 5px 15px rgba(0,0,0,.08)\r\n}\r\n#welcomeTitle{\r\n  font-size: 4rem;\r\n  line-height: 1.2;\r\n}\r\n#welcomeLabel{\r\n  background-color: #f0506e;\r\n  color: #fff;\r\n  display: inline-block;\r\n  padding: 0 10px;\r\n  line-height: 1.5;\r\n  font-size: .875rem;\r\n  color: #fff;\r\n  vertical-align: middle;\r\n  white-space: nowrap;\r\n  border-radius: 2px;\r\n  text-transform: uppercase;\r\n}\r\n#welcomeText{\r\n  margin-top: 20px!important;\r\n  margin-bottom: 20px!important\r\n}\r\n#loginButton {\r\n  margin-bottom: 20px!important;\r\n  margin-top: 20px!important;\r\n}\r\n#welcomelogo {\r\n  pointer-events: none;\r\n}\r\n\r\n/*Media rules*/\r\n@media screen and (max-width: 510px) {\r\n  .vcWelcomeCard{\r\n    width:100%;\r\n  }\r\n  #welcomeContent{\r\n    padding: 0px;\r\n    box-shadow: none;\r\n  }\r\n  #welcomeText {\r\n    margin-left: 30px;\r\n    margin-right: 30px;\r\n  }\r\n  #welcomeTitle{\r\n    font-size:3rem;\r\n    line-height:1.3\r\n  }\r\n  #welcomelogo{\r\n    width: 100px;\r\n  }\r\n  #welcomeLabel,#loginButton,#welcomeContent{\r\n    font-size: 13px;\r\n  }\r\n}\r\n@media screen and (max-width: 310px) {\r\n  #welcomeTitle{\r\n    font-size:2.5rem;line-height:1.4 \r\n  }\r\n  #welcomeLabel,#loginButton,#welcomeContent{\r\n    font-size: 12px;\r\n  }\r\n  #welcomelogo{\r\n    width: 90px;\r\n  }\r\n}\r\n@media screen and (max-width: 255px) {\r\n  #welcomeTitle{\r\n    font-size:1.5rem;line-height:1.4\r\n  }\r\n  #welcomeLabel,#loginButton,#welcomeContent{\r\n    font-size: 10px;\r\n  }\r\n  #welcomelogo{\r\n    width: 80px;\r\n  }\r\n}\r\n\r\n@media screen and (max-height: 490px) {\r\n  #welcomeContent{\r\n    padding: 0px;\r\n    box-shadow: none;\r\n  }\r\n  #welcomeText {\r\n    margin-top: 10px!important;\r\n    margin-bottom: 10px!important;\r\n  }\r\n  #welcomeTitle{\r\n    font-size:3rem;\r\n    line-height:1.3\r\n  }\r\n  #welcomelogo{\r\n    width: 100px;\r\n  }\r\n  #welcomeLabel,#loginButton,#welcomeContent{\r\n    font-size: 13px;\r\n  }\r\n  #loginButton {\r\n    margin-top: 10px!important;\r\n    margin-bottom: 10px!important;\r\n  }\r\n}\r\n\r\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 54 */
+/* 53 */
 /***/ (function(module, exports) {
 
 
@@ -24940,14 +24809,14 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 55 */
+/* 54 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
-const css = __webpack_require__(56);
+const css = __webpack_require__(55);
 const http = __webpack_require__(8);
 
 class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
@@ -25645,13 +25514,13 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 }*/
 
 /***/ }),
-/* 56 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(57);
+var content = __webpack_require__(56);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -25676,7 +25545,7 @@ if(false) {
 }
 
 /***/ }),
-/* 57 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)(false);
@@ -25684,20 +25553,20 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, ".name {\r\n  margin-bottom: 0px\r\n}\r\n\r\n.meta {\r\n  font-size: .875rem;\r\n  line-height: 1.4;\r\n  color: #999;\r\n  vertical-align: top!important;\r\n  text-align: left!important;\r\n  font-family: \"Open Sans\",sans-serif;\r\n}\r\n\r\n.lead {\r\n  font-size: 1.5rem;\r\n  font-weight: 300;\r\n  vertical-align: middle!important;\r\n  font-family: 'Roboto', sans-serif;\r\n}\r\n\r\n.room {\r\n  font-size: 1.5rem;\r\n  font-weight: 300;\r\n  vertical-align: middle!important;\r\n  width: 1px;\r\n  font-family: 'Roboto', sans-serif;\r\n}\r\n\r\n.nextClass {\r\n  font-weight: 300!important\r\n}\r\n\r\n.countdown {\r\n  margin-bottom: 20px;\r\n}\r\n\r\n.dashCard {\r\n  width: 450px;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  padding: 30px 30px;\r\n}\r\n\r\n.dashTable {\r\n  border-collapse: collapse;\r\n  border-spacing: 0;\r\n  width: 100%;\r\n  display: table;\r\n  border-color: grey;\r\n}\r\n\r\n@media screen and (max-height: 747px) {\r\n  .lead,.room{\r\n    font-size: 1.3rem;\r\n  }\r\n  .countdown{\r\n    font-size: 3.5rem;\r\n    margin-bottom: 10px;\r\n  }\r\n  .in{\r\n    font-size: 13px;\r\n    margin: 0 0 0 0;\r\n  }\r\n  .nextClass{\r\n    font-size: 1.25rem;\r\n  }\r\n  .dashTable td{\r\n    padding: 7px 7px!important\r\n  }\r\n  .dashCard{\r\n    width: 375px\r\n  }\r\n}\r\n\r\n@media screen and (max-height: 620px) {\r\n  .lead,.room{\r\n    font-size: 1.25rem;\r\n  }\r\n  .countdown{\r\n    font-size: 3rem;\r\n    margin-bottom: 5px;\r\n  }\r\n  .in{\r\n    font-size: 11px;\r\n  }\r\n  .nextClass{\r\n    font-size: 1.2rem!important;\r\n  }\r\n  .dashTable td{\r\n    padding: 5px 5px!important\r\n  }\r\n  .dashCard{\r\n    width: 300px\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 510px) {\r\n  .dashCard{\r\n    width: 100vw;\r\n    max-width: 100%;\r\n  }\r\n}\r\n\r\n\r\n", ""]);
+exports.push([module.i, ".name {\r\n  margin-bottom: 0px\r\n}\r\n\r\n.meta {\r\n  font-size: .875rem;\r\n  line-height: 1.4;\r\n  color: #999;\r\n  vertical-align: top!important;\r\n  text-align: left!important;\r\n  font-family: \"Open Sans\",sans-serif;\r\n}\r\n\r\n.lead {\r\n  font-size: 1.5rem;\r\n  font-weight: 300;\r\n  vertical-align: middle!important;\r\n  font-family: 'Roboto', sans-serif;\r\n}\r\n\r\n.room {\r\n  font-size: 1.5rem;\r\n  font-weight: 300;\r\n  vertical-align: middle!important;\r\n  width: 1px;\r\n  font-family: 'Roboto', sans-serif;\r\n}\r\n\r\n.nextClass {\r\n  font-weight: 300!important\r\n}\r\n\r\n.countdown {\r\n  margin-bottom: 20px;\r\n}\r\n\r\n.dashCard {\r\n  width: 450px;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  padding: 30px 30px;\r\n}\r\n\r\n.dashTable {\r\n  border-collapse: collapse;\r\n  border-spacing: 0;\r\n  width: 100%;\r\n  display: table;\r\n  border-color: grey;\r\n}\r\n\r\n@media (max-height: 747px),(max-width: 400px) {\r\n  .lead,.room{\r\n    font-size: 1.3rem;\r\n  }\r\n  .countdown{\r\n    font-size: 3.5rem;\r\n    margin-bottom: 10px;\r\n  }\r\n  .in{\r\n    font-size: 13px;\r\n    margin: 0 0 0 0;\r\n  }\r\n  .nextClass{\r\n    font-size: 1.25rem;\r\n  }\r\n  .dashTable td{\r\n    padding: 7px 7px!important\r\n  }\r\n  .dashCard{\r\n    width: 375px\r\n  }\r\n}\r\n\r\n@media (max-height: 620px),(max-width: 300px) {\r\n  .lead,.room{\r\n    font-size: 1.25rem;\r\n  }\r\n  .countdown{\r\n    font-size: 3rem;\r\n    margin-bottom: 5px;\r\n  }\r\n  .in{\r\n    font-size: 11px;\r\n  }\r\n  .nextClass{\r\n    font-size: 1.2rem!important;\r\n  }\r\n  .dashTable td{\r\n    padding: 5px 5px!important\r\n  }\r\n  .dashCard{\r\n    width: 300px\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 510px) {\r\n  .dashCard{\r\n    width: 100vw;\r\n    max-width: 100%;\r\n    box-shadow: none;\r\n  }\r\n}\r\n\r\n\r\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 58 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer, global, process) {var capability = __webpack_require__(26)
 var inherits = __webpack_require__(5)
 var response = __webpack_require__(27)
 var stream = __webpack_require__(28)
-var toArrayBuffer = __webpack_require__(68)
+var toArrayBuffer = __webpack_require__(67)
 
 var IncomingMessage = response.IncomingMessage
 var rStates = response.readyStates
@@ -26020,7 +25889,7 @@ var unsafeHeaders = [
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9).Buffer, __webpack_require__(2), __webpack_require__(1)))
 
 /***/ }),
-/* 59 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26143,7 +26012,7 @@ function fromByteArray (uint8) {
 
 
 /***/ }),
-/* 60 */
+/* 59 */
 /***/ (function(module, exports) {
 
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -26233,13 +26102,13 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 
 
 /***/ }),
-/* 61 */
+/* 60 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 62 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26248,7 +26117,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Buffer = __webpack_require__(13).Buffer;
-var util = __webpack_require__(63);
+var util = __webpack_require__(62);
 
 function copyBuffer(src, target, offset) {
   src.copy(target, offset);
@@ -26324,13 +26193,13 @@ if (util && util.inspect && util.inspect.custom) {
 }
 
 /***/ }),
-/* 63 */
+/* 62 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 64 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var apply = Function.prototype.apply;
@@ -26383,7 +26252,7 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(65);
+__webpack_require__(64);
 // On some exotic environments, it's not clear which object `setimmeidate` was
 // able to install onto.  Search each possibility in the same order as the
 // `setimmediate` library.
@@ -26397,7 +26266,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 65 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -26590,7 +26459,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(1)))
 
 /***/ }),
-/* 66 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -26664,7 +26533,7 @@ function config (name) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 67 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26717,7 +26586,7 @@ PassThrough.prototype._transform = function (chunk, encoding, cb) {
 };
 
 /***/ }),
-/* 68 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Buffer = __webpack_require__(9).Buffer
@@ -26750,7 +26619,7 @@ module.exports = function (buf) {
 
 
 /***/ }),
-/* 69 */
+/* 68 */
 /***/ (function(module, exports) {
 
 module.exports = extend
@@ -26775,7 +26644,7 @@ function extend() {
 
 
 /***/ }),
-/* 70 */
+/* 69 */
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -26845,7 +26714,7 @@ module.exports = {
 
 
 /***/ }),
-/* 71 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26872,8 +26741,8 @@ module.exports = {
 
 
 
-var punycode = __webpack_require__(72);
-var util = __webpack_require__(74);
+var punycode = __webpack_require__(71);
+var util = __webpack_require__(73);
 
 exports.parse = urlParse;
 exports.resolve = urlResolve;
@@ -26948,7 +26817,7 @@ var protocolPattern = /^([a-z0-9.+-]+:)/i,
       'gopher:': true,
       'file:': true
     },
-    querystring = __webpack_require__(75);
+    querystring = __webpack_require__(74);
 
 function urlParse(url, parseQueryString, slashesDenoteHost) {
   if (url && util.isObject(url) && url instanceof Url) return url;
@@ -27584,7 +27453,7 @@ Url.prototype.parseHost = function() {
 
 
 /***/ }),
-/* 72 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/punycode v1.4.1 by @mathias */
@@ -28120,10 +27989,10 @@ Url.prototype.parseHost = function() {
 
 }(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(73)(module), __webpack_require__(2)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(72)(module), __webpack_require__(2)))
 
 /***/ }),
-/* 73 */
+/* 72 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -28151,7 +28020,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 74 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28174,18 +28043,18 @@ module.exports = {
 
 
 /***/ }),
-/* 75 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports.decode = exports.parse = __webpack_require__(76);
-exports.encode = exports.stringify = __webpack_require__(77);
+exports.decode = exports.parse = __webpack_require__(75);
+exports.encode = exports.stringify = __webpack_require__(76);
 
 
 /***/ }),
-/* 76 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28276,7 +28145,7 @@ var isArray = Array.isArray || function (xs) {
 
 
 /***/ }),
-/* 77 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28368,7 +28237,7 @@ var objectKeys = Object.keys || function (obj) {
 
 
 /***/ }),
-/* 78 */
+/* 77 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -28376,7 +28245,7 @@ var objectKeys = Object.keys || function (obj) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
 const http = __webpack_require__(8);
-const css = __webpack_require__(79);
+const css = __webpack_require__(78);
 
 //Variables for the small timetable
 let tabArray = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'A', 'B', 'C'];
@@ -28819,13 +28688,13 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Timetable);
 
 /***/ }),
-/* 79 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(80);
+var content = __webpack_require__(79);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -28850,7 +28719,7 @@ if(false) {
 }
 
 /***/ }),
-/* 80 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)(false);
@@ -28858,13 +28727,13 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, ".timetable td {\r\n  font-family: 'Roboto Mono', monospace;\r\n  padding:5px 6px\r\n}\r\n.heading {\r\n  font-family: 'Roboto' !important;\r\n  font-weight: 300\r\n}\r\n\r\n.uk-text-center th {\r\n  text-align: center;\r\n}\r\n\r\n.ttableCard {\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  padding: 30px 30px;\r\n}\r\n\r\n@media (max-height:830px){\r\n  .timetable td{\r\n    padding: 2px 1px;\r\n  }\r\n  .uk-table th {\r\n    padding: 5px 6px;\r\n  }\r\n  .uk-table{\r\n    margin-bottom: 5px;\r\n  }\r\n  #name{\r\n    font-size: 2.25rem;\r\n  }\r\n  #fullTimetable hr{\r\n    margin-top: 15px;\r\n    margin-bottom: 15px;\r\n  }\r\n}\r\n\r\n@media (max-height:675px){\r\n  #name{\r\n    visibility: hidden;\r\n    height: 0px;\r\n  }\r\n  #fullTimetable h3{\r\n    height:0px;\r\n  }\r\n}\r\n\r\n@media (max-width:530px), (max-height:620px){\r\n  #fullTimetable {\r\n    visibility: hidden;\r\n    display: none;\r\n  }\r\n  #smallTimetable{\r\n    visibility: visible;\r\n    display: block;\r\n  }\r\n}\r\n\r\n@media (min-width:530px) and (min-height:620px){\r\n  #fullTimetable {\r\n    visibility: visible;\r\n    display: block;\r\n  }\r\n  #smallTimetable{\r\n    visibility: hidden;\r\n    display: none;\r\n  }\r\n}\r\n\r\n@media (max-width:371px){\r\n  #smallTimetable a{\r\n    padding-left: 2px;\r\n    padding-right: 2px;\r\n  }\r\n}", ""]);
+exports.push([module.i, ".timetable td {\r\n  font-family: 'Roboto Mono', monospace;\r\n  padding:5px 6px\r\n}\r\n.heading {\r\n  font-family: 'Roboto' !important;\r\n  font-weight: 300\r\n}\r\n\r\n.uk-text-center th {\r\n  text-align: center;\r\n}\r\n\r\n.ttableCard {\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  padding: 30px 30px;\r\n}\r\n\r\n@media (max-height:830px){\r\n  .timetable td{\r\n    padding: 2px 1px;\r\n  }\r\n  .uk-table th {\r\n    padding: 5px 6px;\r\n  }\r\n  .uk-table{\r\n    margin-bottom: 5px;\r\n  }\r\n  #name{\r\n    font-size: 2.25rem;\r\n  }\r\n  #fullTimetable hr{\r\n    margin-top: 15px;\r\n    margin-bottom: 15px;\r\n  }\r\n}\r\n\r\n@media (max-height:675px){\r\n  #name{\r\n    visibility: hidden;\r\n    height: 0px;\r\n  }\r\n  #fullTimetable h3{\r\n    height:0px;\r\n  }\r\n}\r\n\r\n@media (max-width:530px), (max-height:620px){\r\n  #fullTimetable {\r\n    visibility: hidden;\r\n    display: none;\r\n  }\r\n  #smallTimetable{\r\n    visibility: visible;\r\n    display: block;\r\n  }\r\n}\r\n\r\n@media (min-width:530px) and (min-height:620px){\r\n  #fullTimetable {\r\n    visibility: visible;\r\n    display: block;\r\n  }\r\n  #smallTimetable{\r\n    visibility: hidden;\r\n    display: none;\r\n  }\r\n}\r\n\r\n@media (max-width:371px){\r\n  #smallTimetable a{\r\n    padding-left: 2px;\r\n    padding-right: 2px;\r\n  }\r\n}\r\n\r\n@media (max-width:600px){\r\n  .ttableCard{\r\n    box-shadow: none;\r\n  }\r\n}", ""]);
 
 // exports
 
 
 /***/ }),
-/* 81 */
+/* 80 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -29016,7 +28885,7 @@ class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Notes);
 
 /***/ }),
-/* 82 */
+/* 81 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -29024,7 +28893,7 @@ class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
 const http = __webpack_require__(8);
-const css = __webpack_require__(83);
+const css = __webpack_require__(82);
 
 let dailyNotices = '';
 class Notices extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
@@ -29322,13 +29191,13 @@ const ExpandedNotices = props => {
 /* harmony default export */ __webpack_exports__["a"] = (Notices);
 
 /***/ }),
-/* 83 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(84);
+var content = __webpack_require__(83);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -29353,7 +29222,7 @@ if(false) {
 }
 
 /***/ }),
-/* 84 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)(false);
@@ -29367,14 +29236,14 @@ exports.push([module.i, ".under {\r\n  margin-top: 70px!important\r\n}\r\n\r\n@m
 
 
 /***/ }),
-/* 85 */
+/* 84 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
-const css = __webpack_require__(86);
+const css = __webpack_require__(85);
 
 class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   render() {
@@ -30194,13 +30063,13 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Calendar);
 
 /***/ }),
-/* 86 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(87);
+var content = __webpack_require__(86);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -30225,7 +30094,7 @@ if(false) {
 }
 
 /***/ }),
-/* 87 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)(false);
@@ -30239,7 +30108,182 @@ exports.push([module.i, ".calNotif {\r\n  left: 300%;\r\n  position: absolute!im
 
 
 /***/ }),
+/* 87 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+
+const css = __webpack_require__(88);
+
+class About extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { className: 'aboutContainer' },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { className: 'aboutCard uk-animation-slide-top-small' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { id: 'aboutLogo',
+          className: 'uk-disabled',
+          alt: 'logo', src: '256.png', width: '150px', height: '150px' }),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'h1',
+          { className: '' },
+          'DinnerJacket'
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'p',
+          { className: 'uk-label uk-label-danger' },
+          'alpha v0.1.2'
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'p',
+          { className: 'uk-text-small' },
+          'licensed under GNU GPL v3'
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'p',
+          { className: '' },
+          'DinnerJacket is a website developed by SBHS students.'
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'h2',
+          { className: 'uk-h2' },
+          'Developers'
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'p',
+          null,
+          'George Flabouris'
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'p',
+          null,
+          'Brian Nguyen'
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'p',
+          null,
+          'Vincent Liu'
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'h2',
+          { className: 'uk-h2' },
+          'Special thanks to'
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'p',
+          null,
+          'Ram Kuniyar'
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'article',
+          { className: 'uk-article' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'h2',
+            { className: 'uk-h2 small-margin' },
+            'spiff'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'p',
+            { className: 'uk-article-meta' },
+            '/sp\u026Af/'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'span',
+            { className: 'uk-article-meta' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'i',
+              null,
+              'verb '
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'span',
+              { className: 'uk-label' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'i',
+                null,
+                'N. AMER.'
+              )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'i',
+              null,
+              ' informal'
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'p',
+            null,
+            'make someone or something attractive, smart, or stylish.'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'h4',
+            { className: 'uk-h4' },
+            '"he arrived all spiffed up in a dinner jacket"'
+          )
+        )
+      )
+    );
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (About);
+
+/***/ }),
 /* 88 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(89);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {"hmr":true}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(4)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../node_modules/css-loader/index.js!./About.css", function() {
+			var newContent = require("!!../../../node_modules/css-loader/index.js!./About.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 89 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)(false);
+// imports
+
+
+// module
+exports.push([module.i, ".aboutContainer {\r\n  margin-top: 20px!important;\r\n  margin-bottom: 20px!important;\r\n  justify-content: center;\r\n  display: flex;\r\n  text-align: center!important;\r\n}\r\n\r\n.aboutCard{\r\n  width: 600px;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  padding: 30px 30px;\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n}\r\n\r\nh4 {\r\n  font-weight: 300!important;\r\n}\r\n\r\n@media (max-width:600px){\r\n  .aboutCard{\r\n    box-shadow: none;\r\n  }\r\n}\r\n\r\n@media (max-width:420px){\r\n  .aboutCard h1{\r\n    font-size: 3.5rem;\r\n  }\r\n  .aboutCard h2{\r\n    font-size: 2.5rem;\r\n    font-weight: 300\r\n  }\r\n  #aboutlogo{\r\n    width: 125px;\r\n  }\r\n}\r\n@media (max-width:375px){\r\n  .aboutCard h1{\r\n    font-size: 3rem;\r\n    font-weight: 300\r\n  }\r\n  .aboutCard h2{\r\n    font-size: 2rem;\r\n  }\r\n  #aboutlogo{\r\n    width: 100px;\r\n  }\r\n}\r\n@media (max-width:335px){\r\n  .aboutCard h1{\r\n    font-size: 2.5rem;\r\n  }\r\n  .aboutCard h2{\r\n    font-size: 1.5rem;\r\n  }\r\n  #aboutlogo{\r\n    width: 75px;\r\n  }\r\n}\r\n\r\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 90 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -30327,14 +30371,14 @@ class Profile extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Profile);
 
 /***/ }),
-/* 89 */
+/* 91 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
-const css = __webpack_require__(90);
+const css = __webpack_require__(92);
 
 // TODO
 // google forms iframe takes a few secs to Load
@@ -30374,13 +30418,13 @@ class Feedback extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Feedback);
 
 /***/ }),
-/* 90 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(91);
+var content = __webpack_require__(93);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -30405,7 +30449,7 @@ if(false) {
 }
 
 /***/ }),
-/* 91 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)(false);
@@ -30419,122 +30463,181 @@ exports.push([module.i, ".embed {\r\n  width: 100%;\r\n  height: 100vh;\r\n  pos
 
 
 /***/ }),
-/* 92 */
+/* 94 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
+const css = __webpack_require__(95);
 
 class Changelog extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { className: 'uk-flex uk-flex-center' },
+      { className: 'clContainer' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
-        { className: 'uk-margin-top uk-grid-collapse uk-width-xxlarge miniFill' },
+        { className: 'clCard uk-animation-slide-top-small' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'div',
-          { className: 'uk-card uk-card-default uk-card-body uk-animation-slide-top-small' },
+          'article',
+          { 'class': 'uk-article' },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'uk-margin' },
+            'h1',
+            { 'class': 'uk-article-title' },
+            'Unrealeased features'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'p',
+            { 'class': 'uk-article-meta' },
+            'Written on 25 April 2018'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'ul',
+            null,
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'h2',
+              'li',
               null,
-              'Upcoming'
+              'Bugfixes and stability'
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'ul',
+              'li',
               null,
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'li',
-                null,
-                'Bugfixes and stability'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'li',
-                null,
-                'Reduce size of "DinnerJacket" titles on mobile'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'li',
-                null,
-                'Add school calendar'
-              )
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'h2',
-              null,
-              'Alpha v0.1.2'
+              'Low resolution compatibility'
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'ul',
+              'li',
               null,
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('li', null)
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'h2',
-              null,
-              'Alpha v0.1.1'
+              'New calendar page with school calendar'
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'ul',
+              'li',
               null,
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'li',
-                null,
-                'Fixed crashing on loading page'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'li',
-                null,
-                'Updated full timetable'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'li',
-                null,
-                'Fixed notes crashing on launch'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'li',
-                null,
-                'Updated server and login system'
-              )
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'h2',
-              null,
-              'Alpha v0.1.0'
+              'Better notes editor'
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'ul',
+              'li',
               null,
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'li',
-                null,
-                'Added dashboard'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'li',
-                null,
-                'Added timetable'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'li',
-                null,
-                'Added user notes'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'li',
-                null,
-                'Added daily notices'
-              )
+              'New profile page with participation details'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              'Accurate timetable'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              'Different changelog appearance'
+            )
+          )
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'article',
+          { 'class': 'uk-article' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'h1',
+            { 'class': 'uk-article-title' },
+            'Alpha v0.1.2'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'p',
+            { 'class': 'uk-article-meta' },
+            'Written on 25 April 2018'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'ul',
+            null,
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('li', null)
+          )
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'article',
+          { 'class': 'uk-article' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'h1',
+            { 'class': 'uk-article-title' },
+            'Alpha v0.1.1'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'p',
+            { 'class': 'uk-article-meta' },
+            'Written on 25 April 2018'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'p',
+            null,
+            'The first update of DinnerJacket fixing critical to cosmetic issues.'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'ul',
+            null,
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              'Fixed crashing on loading page'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              'Updated full timetable'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              'Fixed notes crashing on launch'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              'Updated server and login system'
+            )
+          )
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'article',
+          { 'class': 'uk-article' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'h1',
+            { 'class': 'uk-article-title' },
+            'Alpha v0.1.0'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'p',
+            { 'class': 'uk-article-meta' },
+            'Written on 25 April 2018'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'p',
+            null,
+            'The first operational release of DinnerJacket with basic functionality.'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'ul',
+            null,
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              'Added dashboard'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              'Added timetable'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              'Added user notes'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              'Added daily notices'
             )
           )
         )
@@ -30546,13 +30649,58 @@ class Changelog extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Changelog);
 
 /***/ }),
-/* 93 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(94);
+var content = __webpack_require__(96);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {"hmr":true}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(4)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../node_modules/css-loader/index.js!./Changelog.css", function() {
+			var newContent = require("!!../../../node_modules/css-loader/index.js!./Changelog.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 96 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)(false);
+// imports
+
+
+// module
+exports.push([module.i, ".clContainer {\r\n  margin-top: 20px!important;\r\n  margin-bottom: 20px!important;\r\n  justify-content: center;\r\n  display: flex;\r\n}\r\n\r\n.clCard{\r\n  width: 600px;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  padding: 60px 60px;\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n}\r\n\r\n@media (max-width:600px){\r\n  .clCard{\r\n    box-shadow: none;\r\n  }\r\n}\r\n\r\n@media (max-width:440px){\r\n  .clCard{\r\n    padding: 30px 30px;\r\n  }\r\n}\r\n\r\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 97 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(98);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -30577,7 +30725,7 @@ if(false) {
 }
 
 /***/ }),
-/* 94 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)(false);
@@ -30591,7 +30739,7 @@ exports.push([module.i, "h1,h2,h3,h4,h5,h6,h7,.uk-h1,.uk-accordion-title,.uk-tex
 
 
 /***/ }),
-/* 95 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*! UIkit 3.0.0-beta.37 | http://www.getuikit.com | (c) 2014 - 2017 YOOtheme | MIT License */
@@ -30606,7 +30754,7 @@ exports.push([module.i, "h1,h2,h3,h4,h5,h6,h7,.uk-h1,.uk-accordion-title,.uk-tex
 });
 
 /***/ }),
-/* 96 */
+/* 100 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
