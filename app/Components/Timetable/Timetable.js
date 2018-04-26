@@ -255,12 +255,12 @@ class Timetable extends Component {
    return (
       <div className='vcNavbarParent'>
         <div className='vcNavbarCard'>
-          <div id='fullTimetable' className='ttableCard uk-animation-slide-top-small'>
+          <div id='fullTimetable' className='ttableCard uk-animation-slide-top-small' onMouseLeave={this.fade.bind(this)}>
             <h3 className='uk-heading-line uk-text-center'>
               <span id='ttableName'/>
             </h3>
             <div className='uk-padding-top uk-text-center'>
-              <table className="uk-table uk-table-small" onMouseLeave={this.fade.bind(this)}>
+              <table className="uk-table uk-table-small">
                   <thead>
                       <tr>
                           <th>MON A</th>
@@ -281,7 +281,7 @@ class Timetable extends Component {
             </div>
             <hr/>
             <div className='uk-padding-top uk-text-center'>
-              <table className="uk-table uk-table-small" onMouseLeave={this.fade.bind(this)}>
+              <table className="uk-table uk-table-small">
                   <thead>
                       <tr>
                           <th>MON B</th>
@@ -302,7 +302,7 @@ class Timetable extends Component {
             </div>
             <hr/>
             <div className='uk-padding-top uk-text-center'>
-              <table className="uk-table uk-table-small" onMouseLeave={this.fade.bind(this)}>
+              <table className="uk-table uk-table-small">
                   <thead>
                       <tr>
                           <th>MON C</th>
