@@ -40,7 +40,7 @@ class Notes extends Component {
       modules: {
         toolbar: true
       },
-      theme: 'bubble',
+      theme: 'snow', // OK I CHANGED IT FRICKER !
       placeholder: 'Write any notes here! Your notes are encoded and synced both locally and to the cloud. Highlight text or use keyboard shortcuts for formatting options such as bold, italics and headings.'
     })
 
