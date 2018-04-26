@@ -35,7 +35,7 @@
 }
 
 .dashCard {
-  width: 450px;
+  width: 400px;
   background: #fff;
   color: #666;
   box-shadow: 0 5px 15px rgba(0,0,0,.08);
@@ -99,7 +99,7 @@
   }
 }
 
-@media screen and (max-width: 510px) {
+@media screen and (max-width: 460px) {
   .dashCard{
     width: 100vw;
     max-width: 100%;

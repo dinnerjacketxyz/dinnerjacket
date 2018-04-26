@@ -51,6 +51,9 @@
     margin-top: 15px;
     margin-bottom: 15px;
   }
+  .ttableCard {
+    width: 525px;
+  }
 }
 
 @media (max-height:675px){
