@@ -24053,13 +24053,13 @@ module.exports = camelize;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Dashboard_Dashboard__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Timetable_Timetable__ = __webpack_require__(77);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Notes_Notes__ = __webpack_require__(80);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Notices_Notices__ = __webpack_require__(81);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Calendar_Calendar__ = __webpack_require__(84);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__About_About__ = __webpack_require__(87);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Profile_Profile__ = __webpack_require__(90);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Feedback_Feedback__ = __webpack_require__(91);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Changelog_Changelog__ = __webpack_require__(94);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__Loading__ = __webpack_require__(100);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Notices_Notices__ = __webpack_require__(83);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Calendar_Calendar__ = __webpack_require__(86);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__About_About__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Profile_Profile__ = __webpack_require__(92);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Feedback_Feedback__ = __webpack_require__(93);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Changelog_Changelog__ = __webpack_require__(96);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__Loading__ = __webpack_require__(102);
 
 
 
@@ -24071,8 +24071,8 @@ module.exports = camelize;
 
 
 
-const css = __webpack_require__(97);
-const icons = __webpack_require__(99);
+const css = __webpack_require__(99);
+const icons = __webpack_require__(101);
 const http = __webpack_require__(8);
 
 
@@ -24084,7 +24084,7 @@ window.dailyNotices = '';
 window.timetable = '';
 window.dashboard = '';
 window.bells = '';
-window.calendar = 'remove when calendar api data is retrieved';
+window.diaryCal = '';
 
 // Requirements for beta release
 // Daily timetable
@@ -24255,6 +24255,25 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         } catch (e) {
           console.log(e);
           console.log(c);
+          this.showLogin();
+          return;
+        }
+      });
+    });
+
+    http.get('/getdata?url=diarycalendar/events.json', res => {
+      res.setEncoding('utf8');
+      let d = '';
+      res.on('d', body => {
+        d += body;
+      });
+
+      res.on('end', () => {
+        try {
+          window.diaryCal = JSON.parse(d);
+        } catch (e) {
+          console.log(e);
+          console.log(d);
           this.showLogin();
           return;
         }
@@ -28823,6 +28842,7 @@ exports.push([module.i, ".timetable td {\r\n  font-family: 'Roboto Mono', monosp
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
 const http = __webpack_require__(8);
+const css = __webpack_require__(81);
 
 // TODO reset database ID and all that innit
 // otherwise we getting haced innit
@@ -28863,7 +28883,7 @@ class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       modules: {
         toolbar: true
       },
-      theme: 'bubble',
+      theme: 'snow', // OK I CHANGED IT FRICKER !
       placeholder: 'Write any notes here! Your notes are encoded and synced both locally and to the cloud. Highlight text or use keyboard shortcuts for formatting options such as bold, italics and headings.'
     });
 
@@ -28946,19 +28966,11 @@ class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { className: 'uk-flex uk-flex-center' },
+      { className: 'notesParent' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
-        { className: 'uk-margin-top uk-grid-collapse uk-width-xxlarge miniFill' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'div',
-          { className: 'uk-card uk-card-default uk-card-body uk-animation-slide-top-small' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'uk-margin' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { id: 'editor', onInput: this.updateDB.bind(this) })
-          )
-        )
+        { className: 'notesChild uk-animation-slide-top-small' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { id: 'editor', onInput: this.updateDB.bind(this) })
       )
     );
   }
@@ -28968,6 +28980,51 @@ class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
 /***/ }),
 /* 81 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(82);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {"hmr":true}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(4)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../node_modules/css-loader/index.js!./Notes.css", function() {
+			var newContent = require("!!../../../node_modules/css-loader/index.js!./Notes.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 82 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)(false);
+// imports
+
+
+// module
+exports.push([module.i, ".ql-editor p{\r\n  font-family: 'Open Sans', sans-serif!important;\r\n  font-weight: 400!important;\r\n}\r\n\r\n.ql-editor p strong,.ql-editor h1 ,.ql-editor h2 ,.ql-editor h3 {\r\n  font-family: 'Open Sans', sans-serif!important;\r\n  font-weight: 700!important;\r\n}\r\n\r\n.notesParent {\r\n  justify-content: center;\r\n  display: flex;\r\n}\r\n\r\n#editor {\r\n  height:600px;\r\n}\r\n\r\n.notesChild {\r\n  width: 750px;\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  margin-top: 20px!important;\r\n}\r\n\r\n@media (max-width: 750px) {\r\n  #editor {\r\n    width: 100vw;\r\n  }\r\n}", ""]);
+
+// exports
+
+
+/***/ }),
+/* 83 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -28975,7 +29032,7 @@ class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
 const http = __webpack_require__(8);
-const css = __webpack_require__(82);
+const css = __webpack_require__(84);
 
 let dailyNotices = '';
 class Notices extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
@@ -29273,13 +29330,13 @@ const ExpandedNotices = props => {
 /* harmony default export */ __webpack_exports__["a"] = (Notices);
 
 /***/ }),
-/* 82 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(83);
+var content = __webpack_require__(85);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -29304,7 +29361,7 @@ if(false) {
 }
 
 /***/ }),
-/* 83 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)(false);
@@ -29318,821 +29375,68 @@ exports.push([module.i, ".under {\r\n  margin-top: 70px!important\r\n}\r\n\r\n@m
 
 
 /***/ }),
-/* 84 */
+/* 86 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
-const css = __webpack_require__(85);
+const css = __webpack_require__(87);
+
+let date = '2018-04-26';
 
 class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      diaryCal: []
+    };
+  }
+
+  componentDidMount() {
+    diaryCal = window.diaryCal;
+    this.state.diaryCal = [];
+
+    console.log(diaryCal[0]);
+  }
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { className: 'uk-grid-collapse' },
+      { className: 'uk-flex uk-flex-center' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'ul',
-        { className: 'uk-grid-collapse uk-text-center uk-height-1-1 uk-margin-left uk-margin-right uk-grid' },
+        'div',
+        { className: 'uk-margin-top uk-grid-collapse uk-width-xxlarge miniFill' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'li',
-          { className: 'uk-width-3-5@m' },
+          'div',
+          { className: 'uk-card uk-card-default uk-card-body uk-animation-slide-top-small' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { className: 'uk-icon-link uk-float-right', 'uk-icon': 'icon: plus-circle' }),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'p',
+            { className: 'uk-text-center uk-text-large' },
+            'Calendar Events'
+          ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'div',
-            { className: 'uk-card uk-card-default uk-card-body uk-card-small' },
+            { className: 'uk-overflow-hidden' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { 'uk-slideshow': 'true' },
+              'table',
+              { className: 'uk-table uk-table-hover uk-table-middle uk-table-divider' },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'ul',
-                { className: 'uk-slideshow-items' },
+                'thead',
+                null,
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'li',
+                  'tr',
                   null,
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'div',
-                    { className: 'calWidth uk-overlay uk-position-center' },
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                      'p',
-                      { className: 'uk-text-center uk-text-large' },
-                      'January'
-                    ),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                      'table',
-                      { className: 'uk-table uk-grid-collapse uk-text-center uk-table-small calTable' },
-                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'thead',
-                        null,
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                          'tr',
-                          null,
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'th',
-                            { className: 'calCell' },
-                            'SUN'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'th',
-                            { className: 'calCell' },
-                            'MON'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'th',
-                            { className: 'calCell' },
-                            'TUE'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'th',
-                            { className: 'calCell' },
-                            'WED'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'th',
-                            { className: 'calCell' },
-                            'THU'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'th',
-                            { className: 'calCell' },
-                            'FRI'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'th',
-                            { className: 'calCell' },
-                            'SAT'
-                          )
-                        )
-                      ),
-                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'tbody',
-                        null,
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                          'tr',
-                          null,
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium calCell' },
-                            '1'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium calCell' },
-                            '2'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium calCell' },
-                            '3'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium calCell' },
-                            '4'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium uk-light calCellSelected' },
-                            '5'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'div',
-                              { className: 'uk-card uk-inline uk-text-middle' },
-                              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                'span',
-                                { className: 'calNotif' },
-                                '3'
-                              ),
-                              '6'
-                            )
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium calCell' },
-                            '7'
-                          )
-                        ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                          'tr',
-                          null,
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium calCell' },
-                            '8'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium calCell' },
-                            '9'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium calCell' },
-                            '10'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium calCell' },
-                            '11'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium calCell' },
-                            '12'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium calCell' },
-                            '13'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium calCell' },
-                            '14'
-                          )
-                        ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                          'tr',
-                          null,
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium calCell' },
-                            '15'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium calCell' },
-                            '16'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium calCell' },
-                            '17'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium calCell' },
-                            '18'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium calCell' },
-                            '19'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium calCell' },
-                            '20'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium calCell' },
-                            '21'
-                          )
-                        ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                          'tr',
-                          null,
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium calCell' },
-                            '22'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium calCell' },
-                            '23'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium calCell' },
-                            '24'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium calCell' },
-                            '25'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium calCell' },
-                            '26'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium calCell' },
-                            '27'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium calCell' },
-                            '28'
-                          )
-                        ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                          'tr',
-                          null,
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium calCell' },
-                            '29'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium calCell' },
-                            '30'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium calCell' },
-                            '31'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium calCellMuted' },
-                            '1'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium calCellMuted' },
-                            '2'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium calCellMuted' },
-                            '3'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium calCellMuted' },
-                            '4'
-                          )
-                        )
-                      )
-                    )
-                  )
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'li',
-                  null,
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'div',
-                    { className: 'uk-overlay uk-position-center uk-width-xxlarge@l' },
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                      'p',
-                      { className: 'uk-text-center uk-text-large uk-text-d' },
-                      'January'
-                    ),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                      'table',
-                      { className: 'uk-table uk-grid-collapse uk-text-center uk-table-small calTable' },
-                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'thead',
-                        null,
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                          'tr',
-                          null,
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'th',
-                            { className: 'calCell' },
-                            'SUN'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'th',
-                            { className: 'calCell' },
-                            'MON'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'th',
-                            { className: 'calCell' },
-                            'TUE'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'th',
-                            { className: 'calCell' },
-                            'WED'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'th',
-                            { className: 'calCell' },
-                            'THU'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'th',
-                            { className: 'calCell' },
-                            'FRI'
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'th',
-                            { className: 'calCell' },
-                            'SAT'
-                          )
-                        )
-                      ),
-                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'tbody',
-                        null,
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                          'tr',
-                          { className: '' },
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium dayCal' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'a',
-                              { className: 'uk-text-middle' },
-                              '1'
-                            )
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium dayCal' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'a',
-                              { className: 'uk-text-middle' },
-                              '2'
-                            )
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium dayCal' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'a',
-                              { className: 'uk-text-middle' },
-                              '3'
-                            )
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'a',
-                              { className: 'uk-text-middle' },
-                              '4'
-                            )
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium uk-background-primary' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'p',
-                              { className: 'uk-text-middle uk-light uk-text-bold' },
-                              '5'
-                            )
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'div',
-                              { className: 'uk-card uk-inline' },
-                              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                'span',
-                                { className: 'uk-position-absolute uk-transform-center uk-badge calNotif' },
-                                '3'
-                              ),
-                              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                'a',
-                                { className: 'uk-text-middle' },
-                                '6'
-                              )
-                            )
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'a',
-                              { className: 'uk-text-middle' },
-                              '7'
-                            )
-                          )
-                        ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                          'tr',
-                          null,
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'a',
-                              { className: 'uk-text-middle' },
-                              '8'
-                            )
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'a',
-                              { className: 'uk-text-middle' },
-                              '9'
-                            )
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'a',
-                              { className: 'uk-text-middle' },
-                              '10'
-                            )
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'a',
-                              { className: 'uk-text-middle' },
-                              '11'
-                            )
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'a',
-                              { className: 'uk-text-middle' },
-                              '12'
-                            )
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'a',
-                              { className: 'uk-text-middle' },
-                              '13'
-                            )
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'a',
-                              { className: 'uk-text-middle' },
-                              '14'
-                            )
-                          )
-                        ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                          'tr',
-                          null,
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'a',
-                              { className: 'uk-text-middle' },
-                              '15'
-                            )
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'a',
-                              { className: 'uk-text-middle' },
-                              '16'
-                            )
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'a',
-                              { className: 'uk-text-middle' },
-                              '17'
-                            )
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'a',
-                              { className: 'uk-text-middle' },
-                              '18'
-                            )
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'a',
-                              { className: 'uk-text-middle' },
-                              '19'
-                            )
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'a',
-                              { className: 'uk-text-middle' },
-                              '20'
-                            )
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'a',
-                              { className: 'uk-text-middle' },
-                              '21'
-                            )
-                          )
-                        ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                          'tr',
-                          null,
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'a',
-                              { className: 'uk-text-middle' },
-                              '22'
-                            )
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'a',
-                              { className: 'uk-text-middle' },
-                              '23'
-                            )
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'a',
-                              { className: 'uk-text-middle' },
-                              '24'
-                            )
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'a',
-                              { className: 'uk-text-middle' },
-                              '25'
-                            )
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'a',
-                              { className: 'uk-text-middle' },
-                              '26'
-                            )
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'a',
-                              { className: 'uk-text-middle' },
-                              '27'
-                            )
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'a',
-                              { className: 'uk-text-middle' },
-                              '28'
-                            )
-                          )
-                        ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                          'tr',
-                          null,
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'a',
-                              { className: 'uk-text-middle' },
-                              '29'
-                            )
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'a',
-                              { className: 'uk-text-middle' },
-                              '30'
-                            )
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'a',
-                              { className: 'uk-text-middle' },
-                              '31'
-                            )
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'a',
-                              { className: 'uk-text-middle uk-text-muted' },
-                              '1'
-                            )
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'a',
-                              { className: 'uk-text-middle uk-text-muted' },
-                              '2'
-                            )
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'a',
-                              { className: 'uk-text-middle uk-text-muted' },
-                              '3'
-                            )
-                          ),
-                          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'td',
-                            { className: 'uk-box-shadow-hover-medium' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                              'a',
-                              { className: 'uk-text-middle uk-text-muted' },
-                              '4'
-                            )
-                          )
-                        )
-                      )
-                    )
-                  )
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('th', { className: 'uk-table-expand' }),
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('th', { className: 'uk-table-shrink' })
                 )
               ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { className: 'uk-position-center-left uk-position-small uk-hidden-hover uk-overlay', href: '', 'uk-slidenav-previous': 'true', 'uk-slideshow-item': 'previous', 'uk-icon': 'icon: chevron-left' }),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { className: 'uk-position-center-right uk-position-small uk-hidden-hover uk-overlay', href: '', 'uk-slidenav-next': 'true', 'uk-slideshow-item': 'next', 'uk-icon': 'icon: chevron-right' })
-            )
-          )
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'li',
-          { className: 'uk-width-2-5@m' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'uk-card uk-card-default uk-card-body' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { href: '', className: 'uk-icon-link uk-float-right', 'uk-icon': 'icon: plus-circle' }),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'p',
-              { className: 'uk-text-center uk-text-large' },
-              'Calendar Events'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'uk-overflow-hidden' },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'table',
-                { className: 'uk-table uk-table-hover uk-table-middle uk-table-divider' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'thead',
-                  null,
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'tr',
-                    null,
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('th', { className: 'uk-table-expand' }),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('th', { className: 'uk-table-shrink' })
-                  )
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'tbody',
-                  null,
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'tr',
-                    null,
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                      'td',
-                      { className: 'uk-table-link' },
-                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'a',
-                        { className: 'uk-link-reset', href: '' },
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.'
-                      )
-                    ),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                      'td',
-                      null,
-                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { href: '', className: 'uk-icon-link uk-float-right', 'uk-icon': 'icon: more-vertical' })
-                    )
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'tr',
-                    null,
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                      'td',
-                      { className: 'uk-table-link' },
-                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'a',
-                        { className: 'uk-link-reset', href: '' },
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.'
-                      )
-                    ),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                      'td',
-                      null,
-                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { href: '', className: 'uk-icon-link uk-float-right', 'uk-icon': 'icon: more-vertical' })
-                    )
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'tr',
-                    null,
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                      'td',
-                      { className: 'uk-table-link' },
-                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'a',
-                        { className: 'uk-link-reset', href: '' },
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.'
-                      )
-                    ),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                      'td',
-                      null,
-                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { href: '', className: 'uk-icon-link uk-float-right', 'uk-icon': 'icon: more-vertical' })
-                    )
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'tr',
-                    null,
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                      'td',
-                      { className: 'uk-table-link' },
-                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'a',
-                        { className: 'uk-link-reset', href: '' },
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.'
-                      )
-                    ),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                      'td',
-                      null,
-                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { href: '', className: 'uk-icon-link uk-float-right', 'uk-icon': 'icon: more-vertical' })
-                    )
-                  )
-                )
+                'tbody',
+                null,
+                'HERERERERRERERRERRERRERERERRERERERRERER'
               )
             )
           )
@@ -30142,16 +29446,54 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   }
 }
 
+const ListItem = props => {
+  return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+    'tr',
+    null,
+    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'td',
+      null,
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'a',
+        { className: 'uk-link-reset' },
+        'LOREM IPSUM'
+      )
+    ),
+    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'td',
+      null,
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { className: 'uk-icon-link uk-float-right', 'uk-icon': 'icon: more-vertical' })
+    )
+  );
+};
+
 /* harmony default export */ __webpack_exports__["a"] = (Calendar);
 
+/*
+
+const ExpandedNotices = (props) => {
+  return (
+    <li className='uk-open uk-animation-slide-top-small'>
+      <span className='uk-label'>{props.notices.years}</span>
+      <a className='uk-accordion-title'>{props.notices.title}</a><i>{props.notices.date}</i>
+      <div className='uk-accordion-content uk-animation-slide-top-small'>
+        {props.notices.content}
+        <p className='uk-margin-small-top'><b>{props.notices.author}</b></p>
+      </div>
+    </li>
+  )
+}
+
+*/
+
 /***/ }),
-/* 85 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(86);
+var content = __webpack_require__(88);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -30176,7 +29518,7 @@ if(false) {
 }
 
 /***/ }),
-/* 86 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)(false);
@@ -30190,14 +29532,14 @@ exports.push([module.i, ".calNotif {\r\n  left: 300%;\r\n  position: absolute!im
 
 
 /***/ }),
-/* 87 */
+/* 89 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
-const css = __webpack_require__(88);
+const css = __webpack_require__(90);
 
 class About extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   render() {
@@ -30320,13 +29662,13 @@ class About extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (About);
 
 /***/ }),
-/* 88 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(89);
+var content = __webpack_require__(91);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -30351,7 +29693,7 @@ if(false) {
 }
 
 /***/ }),
-/* 89 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)(false);
@@ -30365,7 +29707,7 @@ exports.push([module.i, ".aboutContainer {\r\n  margin-top: 20px!important;\r\n 
 
 
 /***/ }),
-/* 90 */
+/* 92 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -30453,14 +29795,14 @@ class Profile extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Profile);
 
 /***/ }),
-/* 91 */
+/* 93 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
-const css = __webpack_require__(92);
+const css = __webpack_require__(94);
 
 // TODO
 // google forms iframe takes a few secs to Load
@@ -30500,13 +29842,13 @@ class Feedback extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Feedback);
 
 /***/ }),
-/* 92 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(93);
+var content = __webpack_require__(95);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -30531,7 +29873,7 @@ if(false) {
 }
 
 /***/ }),
-/* 93 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)(false);
@@ -30545,14 +29887,14 @@ exports.push([module.i, ".embed {\r\n  width: 100%;\r\n  height: 100vh;\r\n  pos
 
 
 /***/ }),
-/* 94 */
+/* 96 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
-const css = __webpack_require__(95);
+const css = __webpack_require__(97);
 
 class Changelog extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   render() {
@@ -30736,13 +30078,13 @@ class Changelog extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Changelog);
 
 /***/ }),
-/* 95 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(96);
+var content = __webpack_require__(98);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -30767,7 +30109,7 @@ if(false) {
 }
 
 /***/ }),
-/* 96 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)(false);
@@ -30781,13 +30123,13 @@ exports.push([module.i, ".clContainer {\r\n  margin-top: 20px!important;\r\n  ma
 
 
 /***/ }),
-/* 97 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(98);
+var content = __webpack_require__(100);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -30812,7 +30154,7 @@ if(false) {
 }
 
 /***/ }),
-/* 98 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)(false);
@@ -30820,13 +30162,13 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "h1,h2,h3,h4,h5,h6,h7,.uk-h1,.uk-accordion-title,.uk-text-lead {\r\n  font-family: 'Roboto', sans-serif\r\n}\r\n\r\nb {\r\n  font-family: 'Open Sans', sans-serif;\r\n  font-weight: 700\r\n}\r\n\r\n.spinner {\r\n  display: flex;\r\n  align-items: center;\r\n  align-content: center;\r\n  justify-content: center;\r\n}\r\n\r\nbody {\r\n  user-select: none\r\n}\r\n\r\n.uk-accordion-title,.uk-text-lead {\r\n  font-size: 1.5rem;\r\n  font-weight: 300\r\n}\r\n\r\n.welcomeNav {\r\n  position: fixed;\r\n  visibility: hidden\r\n}\r\n\r\n.main {\r\n  transition: 150ms linear;\r\n}\r\n\r\n.djLogo {\r\n  width: 50px;\r\n  height: 50px;\r\n  transition: width 0.1s;\r\n  transition: height 0.1s\r\n}\r\n\r\n.name {\r\n  margin-bottom: 0px;\r\n  margin-right: 5px;\r\n}\r\n\r\n.uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n  transition: height 0.1s\r\n}\r\n\r\n.uk-sticky-placeholder {\r\n  height: 80px!important;\r\n}\r\n\r\n.content {\r\n  align-content: center;\r\n  margin-left: 10px;\r\n  background: white;\r\n  transition: 150ms linear;\r\n}\r\n\r\n.background {\r\n  background-color: #2a2c31;\r\n}\r\n\r\n/*Vertical centering content with a navbar above*/\r\n.vcNavbarParent {\r\n  display: flex;\r\n  height: auto;\r\n  margin: 0 auto;\r\n  min-height: calc(100vh - 80px);\r\n  min-height: -o-calc(100vh - 80px);\r\n  min-height: -webkit-calc(100vh - 80px);\r\n  min-height: -moz-calc(100vh - 80px)\r\n}\r\n.vcNavbarCard {\r\n  margin: auto;\r\n  justify-content: center;\r\n  display: flex;\r\n  text-align: center!important;\r\n  max-width: 100%;\r\n}\r\n\r\n@media screen and (max-width: 880px) {\r\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n    height:60px\r\n  }\r\n  .uk-sticky-placeholder {\r\n    height:60px!important\r\n  }\r\n  .vcNavbarParent {\r\n    display: flex;\r\n    height: auto;\r\n    margin: 0 auto;\r\n    min-height: calc(100vh - 60px);\r\n    min-height: -o-calc(100vh - 60px);\r\n    min-height: -webkit-calc(100vh - 60px);\r\n    min-height: -moz-calc(100vh - 60px)\r\n  }\r\n  .djLogo {\r\n    width: 40px;\r\n    height: 40px\r\n  }\r\n  .collapseText {\r\n    font-size: 0\r\n  }\r\n  .collapseSpan {\r\n    margin-right: 0px!important\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 500px) {\r\n  .djLogo {\r\n    width: 0px;\r\n    height: 0px;\r\n    margin: 0 0 0 0!important;\r\n  }\r\n  .name{\r\n    font-size: 0px;\r\n    margin-right: 0px\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 300px){\r\n  .uk-navbar-item, .uk-navbar-nav>li>a, .uk-navbar-toggle {\r\n    padding: 0 10px;\r\n  }\r\n}\r\n\r\n@media (max-height: 620px) {\r\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n    height:60px\r\n  }\r\n  .uk-sticky-placeholder {\r\n    height:60px!important\r\n  }\r\n  .vcNavbarParent {\r\n    display: flex;\r\n    height: auto;\r\n    margin: 0 auto;\r\n    min-height: calc(100vh - 60px);\r\n    min-height: -o-calc(100vh - 60px);\r\n    min-height: -webkit-calc(100vh - 60px);\r\n    min-height: -moz-calc(100vh - 60px)\r\n  }\r\n  .collapseText {\r\n    font-size: 0\r\n  }\r\n  .collapseSpan {\r\n    margin-right: 0px!important\r\n  }\r\n}\r\n", ""]);
+exports.push([module.i, "h1,h2,h3,h4,h5,h6,h7,.uk-h1,.uk-accordion-title,.uk-text-lead {\r\n  font-family: 'Roboto', sans-serif\r\n}\r\n\r\nb {\r\n  font-family: 'Open Sans', sans-serif;\r\n  font-weight: 700\r\n}\r\n\r\n.spinner {\r\n  display: flex;\r\n  align-items: center;\r\n  align-content: center;\r\n  justify-content: center;\r\n}\r\n\r\nbody {\r\n  user-select: none\r\n}\r\n\r\n.uk-accordion-title,.uk-text-lead {\r\n  font-size: 1.5rem;\r\n  font-weight: 300\r\n}\r\n\r\n.welcomeNav {\r\n  position: fixed;\r\n  visibility: hidden\r\n}\r\n\r\n.main {\r\n  transition: 150ms linear;\r\n}\r\n\r\n.djLogo {\r\n  width: 50px;\r\n  height: 50px;\r\n  transition: width 0.1s;\r\n  transition: height 0.1s\r\n}\r\n\r\n.name {\r\n  margin-bottom: 0px;\r\n  margin-right: 5px;\r\n}\r\n\r\n.uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n  transition: height 0.1s\r\n}\r\n\r\n.uk-sticky-placeholder {\r\n  height: 80px!important;\r\n}\r\n\r\n.content {\r\n  align-content: center;\r\n  margin-left: 10px;\r\n  background: white;\r\n  transition: 150ms linear;\r\n}\r\n\r\n.background {\r\n  background-color: #2a2c31;\r\n}\r\n\r\n/*Vertical centering content with a navbar above*/\r\n.vcNavbarParent {\r\n  display: flex;\r\n  height: auto;\r\n  margin: 0 auto;\r\n  min-height: calc(100vh - 80px);\r\n  min-height: -o-calc(100vh - 80px);\r\n  min-height: -webkit-calc(100vh - 80px);\r\n  min-height: -moz-calc(100vh - 80px)\r\n}\r\n.vcNavbarCard {\r\n  margin: auto;\r\n  justify-content: center;\r\n  display: flex;\r\n  text-align: center!important;\r\n  max-width: 100%;\r\n}\r\n\r\n@media (max-width: 880px) {\r\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n    height:60px\r\n  }\r\n  .uk-sticky-placeholder {\r\n    height:60px!important\r\n  }\r\n  .vcNavbarParent {\r\n    display: flex;\r\n    height: auto;\r\n    margin: 0 auto;\r\n    min-height: calc(100vh - 60px);\r\n    min-height: -o-calc(100vh - 60px);\r\n    min-height: -webkit-calc(100vh - 60px);\r\n    min-height: -moz-calc(100vh - 60px)\r\n  }\r\n  .djLogo {\r\n    width: 40px;\r\n    height: 40px\r\n  }\r\n  .collapseText {\r\n    font-size: 0\r\n  }\r\n  .collapseSpan {\r\n    margin-right: 0px!important\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 500px) {\r\n  .djLogo {\r\n    width: 0px;\r\n    height: 0px;\r\n    margin: 0 0 0 0!important;\r\n  }\r\n  .name{\r\n    font-size: 0px;\r\n    margin-right: 0px\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 300px){\r\n  .uk-navbar-item, .uk-navbar-nav>li>a, .uk-navbar-toggle {\r\n    padding: 0 10px;\r\n  }\r\n}\r\n\r\n@media (max-height: 620px) {\r\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n    height:60px\r\n  }\r\n  .uk-sticky-placeholder {\r\n    height:60px!important\r\n  }\r\n  .vcNavbarParent {\r\n    display: flex;\r\n    height: auto;\r\n    margin: 0 auto;\r\n    min-height: calc(100vh - 60px);\r\n    min-height: -o-calc(100vh - 60px);\r\n    min-height: -webkit-calc(100vh - 60px);\r\n    min-height: -moz-calc(100vh - 60px)\r\n  }\r\n  .collapseText {\r\n    font-size: 0\r\n  }\r\n  .collapseSpan {\r\n    margin-right: 0px!important\r\n  }\r\n}\r\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 99 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*! UIkit 3.0.0-beta.37 | http://www.getuikit.com | (c) 2014 - 2017 YOOtheme | MIT License */
@@ -30841,7 +30183,7 @@ exports.push([module.i, "h1,h2,h3,h4,h5,h6,h7,.uk-h1,.uk-accordion-title,.uk-tex
 });
 
 /***/ }),
-/* 100 */
+/* 102 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

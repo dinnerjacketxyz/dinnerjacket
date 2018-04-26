@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 const http = require('http')
+const css = require('./Notes.css')
 
 // TODO reset database ID and all that innit
 // otherwise we getting haced innit
@@ -122,13 +123,9 @@ class Notes extends Component {
 
   render() {
     return (
-      <div className='uk-flex uk-flex-center'>
-        <div className='uk-margin-top uk-grid-collapse uk-width-xxlarge miniFill'>
-          <div className='uk-card uk-card-default uk-card-body uk-animation-slide-top-small'>
-            <div className='uk-margin'>
-              <div id='editor' onInput={this.updateDB.bind(this)}/>
-            </div>
-          </div>
+      <div className='notesParent'>
+        <div className='notesChild uk-animation-slide-top-small'>
+          <div id='editor'onInput={this.updateDB.bind(this)}/>
         </div>
       </div>
     )
