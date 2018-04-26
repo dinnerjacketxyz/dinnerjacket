@@ -22,7 +22,7 @@ window.dailyNotices = ''
 window.timetable = ''
 window.dashboard = ''
 window.bells = ''
-window.calendar = 'remove when calendar api data is retrieved'
+window.diaryCal = ''
 
 // Requirements for beta release
 // Daily timetable
@@ -200,6 +200,25 @@ class App extends Component {
         } catch (e) {
           console.log(e)
           console.log(c)
+          this.showLogin()
+          return
+        }
+      })
+    })
+
+    http.get('/getdata?url=diarycalendar/events.json', (res) => {
+      res.setEncoding('utf8')
+      let d = ''
+      res.on('d', (body) => {
+        d += body
+      })
+
+      res.on('end', () => {
+        try {
+          window.diaryCal = JSON.parse(d)
+        } catch (e) {
+          console.log(e)
+          console.log(d)
           this.showLogin()
           return
         }
