@@ -13,3 +13,28 @@
 .behind {
   z-index: -1000;
 }
+
+.loadingParent {
+  display: flex;
+  height: auto;
+  margin: 0 auto;
+  min-height: calc(100vh - 80px);
+  min-height: -o-calc(100vh - 80px);
+  min-height: -webkit-calc(100vh - 80px);
+  min-height: -moz-calc(100vh - 80px)
+}
+.loadingChild {
+  margin: auto;
+  justify-content: center;
+  display: flex;
+  text-align: center!important;
+  max-width: 100%;
+}
+@media (max-width: 880px), (max-height: 620px) {
+  .loadingParent{
+    min-height: calc(100vh - 60px);
+    min-height: -o-calc(100vh - 60px);
+    min-height: -webkit-calc(100vh - 60px);
+    min-height: -moz-calc(100vh - 60px)
+  }
+}

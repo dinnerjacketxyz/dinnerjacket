@@ -73,9 +73,10 @@ body {
   justify-content: center;
   display: flex;
   text-align: center!important;
+  max-width: 100%;
 }
 
-@media screen and (max-width: 820px) {
+@media screen and (max-width: 880px) {
   .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {
     height:60px
   }
@@ -103,17 +104,44 @@ body {
   }
 }
 
-@media screen and (max-width: 430px) {
+@media screen and (max-width: 500px) {
   .djLogo {
     width: 0px;
     height: 0px;
-    margin-left: 0px!important;
-    margin-right: 0px!important;
-    margin-top: 0px!important;
-    margin-bottom: 0px!important
+    margin: 0 0 0 0!important;
   }
   .name{
     font-size: 0px;
     margin-right: 0px
+  }
+}
+
+@media screen and (max-width: 300px){
+  .uk-navbar-item, .uk-navbar-nav>li>a, .uk-navbar-toggle {
+    padding: 0 10px;
+  }
+}
+
+@media (max-height: 620px) {
+  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {
+    height:60px
+  }
+  .uk-sticky-placeholder {
+    height:60px!important
+  }
+  .vcNavbarParent {
+    display: flex;
+    height: auto;
+    margin: 0 auto;
+    min-height: calc(100vh - 60px);
+    min-height: -o-calc(100vh - 60px);
+    min-height: -webkit-calc(100vh - 60px);
+    min-height: -moz-calc(100vh - 60px)
+  }
+  .collapseText {
+    font-size: 0
+  }
+  .collapseSpan {
+    margin-right: 0px!important
   }
 }

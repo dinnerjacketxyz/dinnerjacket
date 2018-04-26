@@ -16,6 +16,7 @@
 #welcomeContent{
   padding: 30px;
   width: 450px!important;
+  box-shadow:0 5px 15px rgba(0,0,0,.08)
 }
 #welcomeTitle{
   font-size: 4rem;
@@ -42,12 +43,12 @@
   margin-bottom: 20px!important;
   margin-top: 20px!important;
 }
-#logo {
+#welcomelogo {
   pointer-events: none;
 }
 
 /*Media rules*/
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 510px) {
   .vcWelcomeCard{
     width:100%;
   }
@@ -63,10 +64,10 @@
     font-size:3rem;
     line-height:1.3
   }
-  #logo{
+  #welcomelogo{
     width: 100px;
   }
-  .uk-label,.uk-button,#welcomeContent{
+  #welcomeLabel,#loginButton,#welcomeContent{
     font-size: 13px;
   }
 }
@@ -74,10 +75,10 @@
   #welcomeTitle{
     font-size:2.5rem;line-height:1.4 
   }
-  .uk-label,.uk-button,#welcomeContent{
+  #welcomeLabel,#loginButton,#welcomeContent{
     font-size: 12px;
   }
-  #logo{
+  #welcomelogo{
     width: 90px;
   }
 }
@@ -85,11 +86,36 @@
   #welcomeTitle{
     font-size:1.5rem;line-height:1.4
   }
-  .uk-label,.uk-button,#welcomeContent{
+  #welcomeLabel,#loginButton,#welcomeContent{
     font-size: 10px;
   }
-  #logo{
+  #welcomelogo{
     width: 80px;
+  }
+}
+
+@media screen and (max-height: 490px) {
+  #welcomeContent{
+    padding: 0px;
+    box-shadow: none;
+  }
+  #welcomeText {
+    margin-top: 10px!important;
+    margin-bottom: 10px!important;
+  }
+  #welcomeTitle{
+    font-size:3rem;
+    line-height:1.3
+  }
+  #welcomelogo{
+    width: 100px;
+  }
+  #welcomeLabel,#loginButton,#welcomeContent{
+    font-size: 13px;
+  }
+  #loginButton {
+    margin-top: 10px!important;
+    margin-bottom: 10px!important;
   }
 }
 

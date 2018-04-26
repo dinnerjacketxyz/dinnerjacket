@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
-const css = require('./About')
+const css = require('./About.css')
 
 class About extends Component {
   render() {
     return (
-      <div className='uk-flex uk-flex-center uk-text-center uk-margin-top'>
-        <div className='uk-card uk-card-default uk-card-body uk-card-large uk-width-xlarge uk-animation-slide-top-small uk-margin-large-bottom'>
-          <img id='logo'
+      <div className='aboutContainer'>
+        <div className='aboutCard uk-animation-slide-top-small'>
+          <img id='aboutLogo'
             className='uk-disabled'
             alt='logo' src='256.png' width='150px' height='150px'>
           </img>
-          <h1 className='uk-text-center uk-h1'>DinnerJacket</h1>
-          <p className='uk-label uk-label-danger'>alpha v0.1.0</p>
+          <h1 className=''>DinnerJacket</h1>
+          <p className='uk-label uk-label-danger'>alpha v0.1.2</p>
           <p className='uk-text-small'>licensed under GNU GPL v3</p>
 
           <hr/>

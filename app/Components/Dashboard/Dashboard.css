@@ -2,7 +2,109 @@
   margin-bottom: 0px
 }
 
-@media screen and (max-height: 625px) {
-  
+.meta {
+  font-size: .875rem;
+  line-height: 1.4;
+  color: #999;
+  vertical-align: top!important;
+  text-align: left!important;
+  font-family: "Open Sans",sans-serif;
 }
+
+.lead {
+  font-size: 1.5rem;
+  font-weight: 300;
+  vertical-align: middle!important;
+  font-family: 'Roboto', sans-serif;
+}
+
+.room {
+  font-size: 1.5rem;
+  font-weight: 300;
+  vertical-align: middle!important;
+  width: 1px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.nextClass {
+  font-weight: 300!important
+}
+
+.countdown {
+  margin-bottom: 20px;
+}
+
+.dashCard {
+  width: 450px;
+  background: #fff;
+  color: #666;
+  box-shadow: 0 5px 15px rgba(0,0,0,.08);
+  padding: 30px 30px;
+}
+
+.dashTable {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  display: table;
+  border-color: grey;
+}
+
+@media (max-height: 747px),(max-width: 400px) {
+  .lead,.room{
+    font-size: 1.3rem;
+  }
+  .countdown{
+    font-size: 3.5rem;
+    margin-bottom: 10px;
+  }
+  .in{
+    font-size: 13px;
+    margin: 0 0 0 0;
+  }
+  .nextClass{
+    font-size: 1.25rem;
+  }
+  .dashTable td{
+    padding: 7px 7px!important
+  }
+  .dashCard{
+    width: 375px
+  }
+}
+
+@media (max-height: 620px),(max-width: 300px) {
+  .lead,.room{
+    font-size: 1.25rem;
+  }
+  .countdown{
+    font-size: 3rem;
+    margin-bottom: 5px;
+  }
+  .in{
+    font-size: 11px;
+  }
+  .nextClass{
+    font-size: 1.2rem!important;
+  }
+  .dashTable td{
+    padding: 5px 5px!important
+  }
+  .dashCard{
+    width: 300px;
+    padding: 15px 15px;
+  }
+  .meta{
+    font-size: 0.75rem;
+  }
+}
+
+@media screen and (max-width: 510px) {
+  .dashCard{
+    width: 100vw;
+    max-width: 100%;
+    box-shadow: none;
+  }
+}
+
 

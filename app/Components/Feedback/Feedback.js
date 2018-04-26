@@ -13,11 +13,11 @@ class Feedback extends Component {
   render() {
     return (
       <div>
-        <div className='uk-animation-slide-top-small container'>
+        <div className='container'>
           <iframe className='embed' src="https://docs.google.com/forms/d/e/1FAIpQLSds9ueVdjY4UvMM27KrdBoV8JW4cDeJa0vwLrlhviGBEndQDA/viewform?embedded=true">Loading...</iframe>
         </div>
-        <div className='main uk-height-viewport vcWelcomeParent behind'>
-          <div className='uk-flex uk-flex-center vcWelcomeCard'>
+        <div className='loadingParent behind'>
+          <div className='loadingChild'>
             <div uk-spinner="ratio: 4" className="uk-spinner uk-icon">
             </div>
           </div>

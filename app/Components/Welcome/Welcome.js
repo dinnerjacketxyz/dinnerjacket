@@ -38,10 +38,10 @@ class Welcome extends Component {
     return (
       <div className='main vcWelcomeParent'>
         <div className='vcWelcomeCard'>
-          <div id='welcomeContent' className='uk-box-shadow-hover-xlarge uk-animation-slide-top-small'>
-            <img id='logo' alt='logo' src='256.png' width='150px' height='150px'/>
+          <div id='welcomeContent' className='uk-animation-slide-top-small'>
+            <img id='welcomelogo' alt='logo' src='256.png' width='150px' height='150px'/>
             <h1 id='welcomeTitle'>DinnerJacket</h1>
-            <p id='welcomeLabel'>alpha v0.1.1</p>
+            <p id='welcomeLabel'>alpha v0.1.2</p>
             <p id='welcomeText'>This is an alpha release of DinnerJacket. 
                                 New features are still in development and technical issues may occasionally arise. 
                                 Please report any issues or suggestions in the feedback tab. 
