@@ -8,7 +8,32 @@ class Profile extends Component {
         <div className="profileParent">
           <div className="profileChild">
             <span className='profileParent' uk-icon="icon: user; ratio:2"></span>
-            <p className="uk-card-title uk-text-center">Profile</p>
+            <h2 className="uk-text-center">Speg McGinsley</h2>
+            <p className="uk-text-center">Student | Year 7E</p>
+            <ul className='uk-margin-top uk-margin-bottom uk-flex-center' uk-tab='true'>
+                <li className="uk-active"><a>Details</a></li>
+                <li><a>Participation</a></li>
+            </ul>
+            <table className="uk-table uk-table-small">
+                <tbody>
+                    <tr>
+                        <td>Email</td>
+                        <td>412345679@student.sbhs.nsw.edu.au</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>speg.mcginsley@student.sbhs.nsw.edu.au</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>speg.mcginsley@education.nsw.gov.au</td>
+                    </tr>
+                    <tr>
+                        <td>Groups</td>
+                        <td>2016-10YRb; 2017-11SDS; 2018-12SDs; BYOD.Charter-Signed; Domain Users; Year12</td>
+                    </tr>
+                </tbody>
+            </table>
             <hr/>
             <div className="uk-align-left">
               Filter by year: 
