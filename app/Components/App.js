@@ -23,6 +23,8 @@ window.timetable = ''
 window.dashboard = ''
 window.bells = ''
 window.diaryCal = ''
+window.participation = ''
+window.userinfo = ''
 
 // Requirements for beta release
 // Daily timetable
@@ -206,6 +208,7 @@ class App extends Component {
       })
     })
 
+    // NOT WORKING GOOD?
     http.get('/getdata?url=diarycalendar/events.json', (res) => {
       res.setEncoding('utf8')
       let d = ''
@@ -219,6 +222,73 @@ class App extends Component {
         } catch (e) {
           console.log(e)
           console.log(d)
+          this.showLogin()
+          return
+        }
+      })
+    })
+
+    /* Participation
+      [                              // array of participation information
+        {"year" : "2014",            // year of activity
+          "activity" : "Smiling",     // name of activity
+          "category" : "90",          // award scheme category number
+          "categoryName" : "Bonus",   // name of category
+          "points" : "1",             // number of points awarded
+          "pointsCap" : 10            // maximum number of points achievable in the category
+          },
+          ...
+      ]
+    */
+    http.get('/getdata?url=details/participation.json', (res) => {
+      res.setEncoding('utf8')
+      let data = ''
+      res.on('data', (body) => {
+        data += body
+      })
+
+      res.on('end', () => {
+        try {
+          window.participation = JSON.parse(data)
+        } catch (e) {
+          console.log(e)
+          console.log(data)
+          this.showLogin()
+          return
+        }
+      })
+    })
+
+    /* User Info
+       {"username" : "436345789",     
+        "studentId" : "436345789",
+        "givenName" : "John",        
+        "surname"   : "Citizen",        
+        "rollClass" : "07E",        
+        "yearGroup" : "7",        
+        "role"      : "Student",      // may be valid for staff
+        "department": "Year 7",       // may be valid for staff
+        "office"    : "7E",           // may be valid for staff
+        "email"     : "436345789@student.sbhs.nsw.edu.au",
+        "emailAliases : [             // array of email addresses also valid for the user
+          "john.citizen23@student.sbhs.nsw.edu.au"],
+        "decEmail"  : "jcz@education.nsw.gov.au",
+        "groups"    : []              // array of network group memberships
+      }
+    */
+    http.get('/getdata?url=details/userinfo', (res) => {
+      res.setEncoding('utf8')
+      let data = ''
+      res.on('data', (body) => {
+        data += body
+      })
+
+      res.on('end', () => {
+        try {
+          window.userinfo = JSON.parse(data)
+        } catch (e) {
+          console.log(e)
+          console.log(data)
           this.showLogin()
           return
         }
