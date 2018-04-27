@@ -25,7 +25,7 @@ class Notices extends Component {
   strip(html) {
     var tmp = document.createElement('DIV')
     tmp.innerHTML = html
-    return tmp.textContent || tmp.innerText || ""
+    return tmp.textContent || tmp.innerText || ''
   }
 
   init() {

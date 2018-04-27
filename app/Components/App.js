@@ -24,7 +24,7 @@ window.dashboard = ''
 window.bells = ''
 window.diaryCal = ''
 window.participation = ''
-window.userinfo = ''
+window.userInfo = ''
 
 // Requirements for beta release
 // Daily timetable
@@ -285,7 +285,7 @@ class App extends Component {
 
       res.on('end', () => {
         try {
-          window.userinfo = JSON.parse(data)
+          window.userInfo = JSON.parse(data)
         } catch (e) {
           console.log(e)
           console.log(data)
@@ -388,9 +388,11 @@ class App extends Component {
   }
 
   showProfile() {
-    let visible = this.state.visible
-    this.setState({ visible: window.STATES.PROFILE })
-    this.selectedNavbar(5)
+    if (window.participation !== '' && window.userInfo !== '') {
+      let visible = this.state.visible
+      this.setState({ visible: window.STATES.PROFILE })
+      this.selectedNavbar(5)
+    }
   }
 
 
