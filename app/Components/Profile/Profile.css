@@ -1,0 +1,25 @@
+.profileParent {
+  display: flex;
+  justify-content: center;
+}
+
+.profileChild {
+  background: #fff;
+  color: #666;
+  box-shadow: 0 5px 15px rgba(0,0,0,.08);
+  padding: 30px 30px;
+  position: relative;
+  box-sizing: border-box;
+  transition: box-shadow .1s ease-in-out;
+  width: 550px;
+  margin-top: 20px;
+}
+
+.big {
+  margin-top: 70px!important
+}
+
+.profileChild .uk-align-left{
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
