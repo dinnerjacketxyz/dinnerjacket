@@ -6,9 +6,9 @@ class Changelog extends Component {
     return (
         <div className='clContainer'>
           <div className='clCard uk-animation-slide-top-small'>
-            <article class="uk-article">
-              <h1 class="uk-article-title">Unreleased features</h1>
-              <p class="uk-article-meta">Written on 26 April 2018</p>
+            <article className="uk-article">
+              <h1 className="uk-article-title">Unreleased features</h1>
+              <p className="uk-article-meta">Written on 26 April 2018</p>
               <ul>
                 <li>Bugfixes and stability</li>
                 <li>Low resolution compatibility</li>
@@ -23,9 +23,9 @@ class Changelog extends Component {
 
             <hr />
 
-            <article class="uk-article">
-              <h1 class="uk-article-title">Alpha v0.1.2</h1>
-              <p class="uk-article-meta">Written on 25 April 2018</p>
+            <article className="uk-article">
+              <h1 className="uk-article-title">Alpha v0.1.2</h1>
+              <p className="uk-article-meta">Written on 25 April 2018</p>
               <ul>
                 <li></li>
               </ul>
@@ -33,9 +33,9 @@ class Changelog extends Component {
 
             <hr />
 
-            <article class="uk-article">
-              <h1 class="uk-article-title">Alpha v0.1.1</h1>
-              <p class="uk-article-meta">Written on 25 April 2018</p>
+            <article className="uk-article">
+              <h1 className="uk-article-title">Alpha v0.1.1</h1>
+              <p className="uk-article-meta">Written on 25 April 2018</p>
               <p>The first update of DinnerJacket fixing critical to cosmetic issues.</p>
               <ul>
                 <li>Fixed crashing on loading page</li>
@@ -47,9 +47,9 @@ class Changelog extends Component {
           
             <hr />
 
-            <article class="uk-article">
-              <h1 class="uk-article-title">Alpha v0.1.0</h1>
-              <p class="uk-article-meta">Written on 25 April 2018</p>
+            <article className="uk-article">
+              <h1 className="uk-article-title">Alpha v0.1.0</h1>
+              <p className="uk-article-meta">Written on 25 April 2018</p>
               <p>The first operational release of DinnerJacket with basic functionality.</p>
               <ul>
                 <li>Added dashboard</li>
