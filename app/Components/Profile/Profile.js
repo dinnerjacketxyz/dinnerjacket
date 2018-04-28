@@ -8,7 +8,6 @@ let part = {}
 let profileContent
 let detailsTab
 let partTab
-
 let content
 
 // part is participation innit too long innit
@@ -16,7 +15,7 @@ let content
 class Profile extends Component {
   constructor(props) {
     super(props)
-    this.state = { loading: false, content: 'details' }
+    this.state = { loading: true, content: 'details' }
   }
 
   componentDidMount() {
@@ -45,8 +44,30 @@ class Profile extends Component {
       })
     }
 
+    console.log(part)
+    console.log(yearList)
+
+    for (let j = 0; j < yearList.length; j++) {
+      let year = yearList[j].year
+
+      console.log(year)
+      
+      /*yearList[j].push({
+        target: ' | Target: ' + part[year].event.shift().points,
+        total: ' | Total: ' + part[year].event.pop().points
+      })*/
+
+      yearList[j].target = ' | Target: ' + part[year].event.shift().points
+      yearList[j].total = ' | Total: ' + part[year].event.pop().points
+    }
+
+    console.log(yearList)
+
+    //target = ' | Target: ' + part[props.years.year].event.shift().points
+    //total = ' | Total: ' + part[props.years.year].event.pop().points
+
     let loading = this.state.loading
-    this.setState({ loading: true })
+    this.setState({ loading: false })
   }
 
   render() {
@@ -81,13 +102,18 @@ class Profile extends Component {
 }
 
 const YearList = (props) => {
+  
   let rows = part[String(props.years.year)].event.map(event => {
     return <TableRow key={event.activity} part={event} />
   })
 
+  //console.log(part[props.years.year].event)
+  /*let target = part[props.years.year].event[0]
+  let total = part[props.years.year].event[part[props.years.year].event.length - 1]*/
+
   return (
     <li>
-      <p className='uk-accordion-title'>{props.years.year}</p>
+      <p className='uk-accordion-title'>{props.years.year+props.years.target+props.years.total}</p>
       <div className='uk-accordion-content'>
         <table className='uk-table uk-table-small uk-table-hover uk-table-striped'>
           <thead>

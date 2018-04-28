@@ -23,11 +23,6 @@ class About extends Component {
           <p>Brian Nguyen</p>
           <p>Vincent Liu</p>
 
-          <hr/>
-          <h2 className='uk-h2'>Special thanks to</h2>
-          <p>Ram Kuniyar</p>
-          <hr/>
-
           <article className='uk-article' >
             <h2 className='uk-h2 small-margin'>spiff</h2>
             <p className='uk-article-meta'>/spɪf/</p>
