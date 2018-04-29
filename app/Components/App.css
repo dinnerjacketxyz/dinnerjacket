@@ -1,3 +1,23 @@
+.uk-navbar-nav>li>a {
+  -webkit-font-smoothing: antialiased!important;
+  -moz-osx-font-smoothing: grayscale!important;
+}
+
+.mouseLoad{
+  cursor: wait;
+}
+
+#CalendarA {
+  color: #999!important;
+  pointer-events: all;
+  opacity: 0.25;
+  cursor: default;
+}
+
+.uk-tooltip {
+  background-color: #32d296;
+}
+
 h1,h2,h3,h4,h5,h6,h7,.uk-h1,.uk-accordion-title,.uk-text-lead {
   font-family: 'Roboto', sans-serif
 }
