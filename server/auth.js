@@ -16,7 +16,7 @@ module.exports = (app) => {
           |   REPLACE THIS WITH CLIENT SECRET WHEN RUNNING   |
           *==================================================*
                                                                 */
-      secret: REDACTED // ISACS U IN BOILING WATER (100 degrees innit watch out)
+      secret: 'lve26aPJH_zzKPHBUrVAcpIGhjQ' // ISACS U IN BOILING WATER (100 degrees innit watch out)
 
       /*
           *==================================================*

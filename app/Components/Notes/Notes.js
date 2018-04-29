@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 const http = require('http')
 const css = require('./Notes.css')
 
-// TODO reset database ID and all that innit
-// otherwise we getting haced innit
+const firebase = require('firebase')
+const fb2 = require('./firebase')(firebase)
 
 let quill
 let database = firebase.database()
