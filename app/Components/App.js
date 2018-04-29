@@ -43,8 +43,8 @@ window.STATES = {
   TIMETABLE: 1,
   NOTES: 2,
   NOTICES: 3,
-  CALENDAR: 4,
-  ABOUT: 5,
+  //CALENDAR: 4,
+  ABOUT: 4,
   PROFILE: 9999,
   CHANGELOG: 6,
   FEEDBACK: 7
@@ -57,7 +57,7 @@ const nameArray = [
   'Timetable',
   'Notes',
   'Notices',
-  'Calendar',
+  //'Calendar',
   'Side'
 ]
 
@@ -207,7 +207,7 @@ class App extends Component {
         }
       })
     })
-
+    /*
     // NOT WORKING GOOD?
     http.get('/getdata?url=diarycalendar/events.json', (res) => {
       res.setEncoding('utf8')
@@ -226,7 +226,7 @@ class App extends Component {
           return
         }
       })
-    })
+    })*/
 
     /* Participation
       [                              // array of participation information
@@ -276,24 +276,6 @@ class App extends Component {
         "groups"    : []              // array of network group memberships
       }
     */
-    http.get('/getdata?url=details/userinfo', (res) => {
-      res.setEncoding('utf8')
-      let data = ''
-      res.on('data', (body) => {
-        data += body
-      })
-
-      res.on('end', () => {
-        try {
-          window.userInfo = JSON.parse(data)
-        } catch (e) {
-          console.log(e)
-          console.log(data)
-          this.showLogin()
-          return
-        }
-      })
-    })
   }
 
   blankNavbar() {
@@ -367,10 +349,11 @@ class App extends Component {
     if (window.dailyNotices !== '') {
       let visible = this.state.visible
       this.setState({ visible: window.STATES.NOTICES })
-      this.selectedNavbar(3)
+      this.selectedNavbar(window.STATES.NOTICES)
     }
   }
 
+  /*
   showCalendar() {
     //console.log('Calendar tab clicked')
     if (window.calendar !== '') {
@@ -378,20 +361,20 @@ class App extends Component {
       this.setState({ visible: window.STATES.CALENDAR })
       this.selectedNavbar(window.STATES.CALENDAR)
     }
-  }
+  }*/
 
   showAbout() {
     //console.log('About tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.ABOUT })
-    this.selectedNavbar(5)
+    this.selectedNavbar(4)
   }
 
   showProfile() {
-    if (window.participation !== '' && window.userInfo !== '') {
+    if (window.participation !== '' && window.userData !== '') {
       let visible = this.state.visible
       this.setState({ visible: window.STATES.PROFILE })
-      this.selectedNavbar(5)
+      this.selectedNavbar(4)
     }
   }
 
@@ -400,14 +383,14 @@ class App extends Component {
     //console.log('Changelog tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.CHANGELOG })
-    this.selectedNavbar(5)
+    this.selectedNavbar(4)
   }
 
   showFeedback() {
     //console.log('Feedback tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.FEEDBACK })
-    this.selectedNavbar(5)
+    this.selectedNavbar(4)
   }
 
   logout() {
@@ -443,7 +426,7 @@ class App extends Component {
             <ul className='uk-navbar-nav'>
 
               <li id='DashboardLi' className='uk-animation-toggle uk-active' onClick={this.showDashboard.bind(this)}>
-                <a id='DashboardA' className='uk-box-shadow-hover-medium uk-card-primary'>
+                <a id='DashboardA' className='uk-box-shadow-hover-small uk-card-primary'>
                   <span id='DashboardS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: home'/>
                   <p className='collapseText' id='DashboardP'></p>
                   <b className='collapseText' id='DashboardB'>{nameArray[0]}</b>
@@ -451,7 +434,7 @@ class App extends Component {
               </li>
 
               <li id='TimetableLi' className='uk-animation-toggle' onClick={this.showTimetable.bind(this)}>
-                <a id='TimetableA' className='uk-box-shadow-hover-medium'>
+                <a id='TimetableA' className='uk-box-shadow-hover-small'>
                   <span id='TimetableS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: table' />
                   <p className='collapseText' id='TimetableP'>{nameArray[1]}</p>
                   <b className='collapseText' id='TimetableB'></b>
@@ -459,7 +442,7 @@ class App extends Component {
               </li>
 
               <li id='NotesLi' className='uk-animation-toggle' onClick={this.showNotes.bind(this)}>
-                <a id='NotesA' className='uk-box-shadow-hover-medium'>
+                <a id='NotesA' className='uk-box-shadow-hover-small'>
                   <span id='NotesS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: file-edit' />
                   <p className='collapseText' id='NotesP'>{nameArray[2]}</p>
                   <b className='collapseText' id='NotesB'></b>
@@ -467,17 +450,17 @@ class App extends Component {
               </li>
 
               <li id='NoticesLi' className='uk-animation-toggle' onClick={this.showNotices.bind(this)}>
-                <a id='NoticesA' className='uk-box-shadow-hover-medium'>
+                <a id='NoticesA' className='uk-box-shadow-hover-small'>
                   <span id='NoticesS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: bell' />
                   <p className='collapseText' id='NoticesP'>{nameArray[3]}</p>
                   <b className='collapseText' id='NoticesB'></b>
                 </a>
               </li>
 
-              <li id='CalendarLi' className='uk-animation-toggle' onClick={this.showCalendar.bind(this)}>
-                <a id='CalendarA' className='uk-box-shadow-hover-medium'>
+              <li id='CalendarLi' className='uk-disabled'>
+                <a id='CalendarA' className='uk-card uk-card-body' uk-tooltip="title: Coming Soon; pos: bottom">
                   <span id='CalendarS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: calendar' />
-                  <p className='collapseText' id='CalendarP'>{nameArray[4]}</p>
+                  <p className='collapseText' id='CalendarP'>Calendar</p>
                   <b className='collapseText' id='CalendarB'></b>
                 </a>
               </li>
@@ -553,6 +536,14 @@ class App extends Component {
     )
   }
 
+  /*
+              <li id='CalendarLi' className='uk-animation-toggle' onClick={this.showCalendar.bind(this)}>
+                <a id='CalendarA' className='uk-box-shadow-hover-medium'>
+                  <span id='CalendarS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: calendar' />
+                  <p className='collapseText' id='CalendarP'>{nameArray[4]}</p>
+                  <b className='collapseText' id='CalendarB'></b>
+                </a>
+              </li>*/
 
 }
 

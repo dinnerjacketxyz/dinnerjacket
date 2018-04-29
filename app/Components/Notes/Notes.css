@@ -3,6 +3,18 @@
   font-weight: 400!important;
 }
 
+.pad {
+  margin: 30px 30px 30px 30px;
+}
+
+.ql-container.ql-snow {
+  border:none!important;
+}
+.ql-toolbar.ql-snow {
+  border-bottom: 1px solid #ccc!important;
+  border: none;
+}
+
 .ql-editor p strong,.ql-editor h1 ,.ql-editor h2 ,.ql-editor h3 {
   font-family: 'Open Sans', sans-serif!important;
   font-weight: 700!important;
@@ -18,7 +30,7 @@
 }
 
 .notesChild {
-  width: 750px;
+  width: 650px;
   position: relative;
   box-sizing: border-box;
   transition: box-shadow .1s ease-in-out;
@@ -28,8 +40,8 @@
   margin-top: 20px!important;
 }
 
-@media (max-width: 750px) {
+@media (max-width: 650px) {
   #editor {
-    width: 100vw;
+    width: 100%;
   }
 }
