@@ -30259,7 +30259,11 @@ class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
         { className: 'notesChild uk-animation-slide-top-small' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { id: 'editor', onInput: this.updateDB.bind(this) })
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'pad' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { id: 'editor', onInput: this.updateDB.bind(this) })
+        )
       )
     );
   }
@@ -30307,7 +30311,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, ".ql-editor p{\r\n  font-family: 'Open Sans', sans-serif!important;\r\n  font-weight: 400!important;\r\n}\r\n\r\n.ql-editor p strong,.ql-editor h1 ,.ql-editor h2 ,.ql-editor h3 {\r\n  font-family: 'Open Sans', sans-serif!important;\r\n  font-weight: 700!important;\r\n}\r\n\r\n.notesParent {\r\n  justify-content: center;\r\n  display: flex;\r\n}\r\n\r\n#editor {\r\n  height:600px;\r\n}\r\n\r\n.notesChild {\r\n  width: 750px;\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  margin-top: 20px!important;\r\n}\r\n\r\n@media (max-width: 750px) {\r\n  #editor {\r\n    width: 100vw;\r\n  }\r\n}", ""]);
+exports.push([module.i, ".ql-editor p{\r\n  font-family: 'Open Sans', sans-serif!important;\r\n  font-weight: 400!important;\r\n}\r\n\r\n.pad {\r\n  margin: 30px 30px 30px 30px;\r\n}\r\n\r\n.ql-container.ql-snow {\r\n  border:none!important;\r\n}\r\n.ql-toolbar.ql-snow {\r\n  border-bottom: 1px solid #ccc!important;\r\n  border: none;\r\n}\r\n\r\n.ql-editor p strong,.ql-editor h1 ,.ql-editor h2 ,.ql-editor h3 {\r\n  font-family: 'Open Sans', sans-serif!important;\r\n  font-weight: 700!important;\r\n}\r\n\r\n.notesParent {\r\n  justify-content: center;\r\n  display: flex;\r\n}\r\n\r\n#editor {\r\n  height:600px;\r\n}\r\n\r\n.notesChild {\r\n  width: 650px;\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  margin-top: 20px!important;\r\n}\r\n\r\n@media (max-width: 750px) {\r\n  #editor {\r\n    width: 100%;\r\n  }\r\n}", ""]);
 
 // exports
 

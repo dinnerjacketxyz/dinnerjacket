@@ -125,7 +125,9 @@ class Notes extends Component {
     return (
       <div className='notesParent'>
         <div className='notesChild uk-animation-slide-top-small'>
-          <div id='editor'onInput={this.updateDB.bind(this)}/>
+          <div className='pad'>
+            <div id='editor'onInput={this.updateDB.bind(this)}/>
+          </div>
         </div>
       </div>
     )
