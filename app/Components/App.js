@@ -371,7 +371,7 @@ class App extends Component {
   }
 
   showProfile() {
-    if (window.participation !== '' && window.userInfo !== '') {
+    if (window.participation !== '' && window.userData !== '') {
       let visible = this.state.visible
       this.setState({ visible: window.STATES.PROFILE })
       this.selectedNavbar(4)

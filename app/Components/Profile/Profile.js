@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 const css = require('./Profile.css')
 
-let userInfo = ''
+let userData = ''
 let yearList = []
 let part = {}
 
@@ -25,7 +25,7 @@ class Profile extends Component {
     partTab = document.getElementById('partTab')
 
     let apiPart = window.participation
-    userInfo = window.userInfo
+    userData = window.userData
     yearList = []
     part = {}
 
@@ -58,7 +58,7 @@ class Profile extends Component {
       })*/
 
       yearList[j].target = ' | Target: ' + part[year].event.shift().points
-      yearList[j].total = ' | Total: ' + part[year].event.pop().points
+      yearList[j].total = ', Total: ' + part[year].event.pop().points
     }
 
     console.log(yearList)
@@ -86,8 +86,8 @@ class Profile extends Component {
       <div className='profileParent'>
         <div className='profileChild uk-animation-slide-top-small'>
           <span className='profileParent' uk-icon='icon: user; ratio:2'></span>
-          <h2 className='uk-text-center'>{userInfo.givenName+' '+userInfo.surname}</h2>
-          <p className='uk-text-center'>{userInfo.role+' | '+userInfo.department+' | '+userInfo.office}</p>
+          <h2 className='uk-text-center'>{userData.givenName+' '+userData.surname}</h2>
+          <p className='uk-text-center'>{userData.role+' | '+userData.department+' | '+userData.office}</p>
           <ul className='uk-margin-top uk-margin-bottom uk-flex-center' uk-tab='true'>
               <li id='detailsTab' className='uk-active' onClick={() => {this.setState({ content: 'details' })}}><a>Details</a></li>
               <li id='partTab' onClick={() => {this.setState({ content: 'part' })}}><a>Participation</a></li>
@@ -148,19 +148,19 @@ const DETAILS = () => {
       <tbody>
         <tr>
             <td>Email</td>
-            <td>{userInfo.email}</td>
+            <td><code>{userData.email}</code></td>
         </tr>
         <tr>
             <td></td>
-            <td>{userInfo.emailAliases}</td>
+            <td><code>{userData.emailAliases}</code></td>
         </tr>
         <tr>
             <td></td>
-            <td>{userInfo.decEmail}</td>
+            <td><code>{userData.decEmail}</code></td>
         </tr>
         <tr>
             <td>Groups</td>
-            <td>{userInfo.groups}</td>
+            <td>{userData.groups}</td>
         </tr>
       </tbody>
     </table>

@@ -25651,7 +25651,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   }
 
   showProfile() {
-    if (window.participation !== '' && window.userInfo !== '') {
+    if (window.participation !== '' && window.userData !== '') {
       let visible = this.state.visible;
       this.setState({ visible: window.STATES.PROFILE });
       this.selectedNavbar(4);
@@ -30998,7 +30998,7 @@ exports.push([module.i, ".aboutContainer {\r\n  margin-top: 20px!important;\r\n 
 
 const css = __webpack_require__(91);
 
-let userInfo = '';
+let userData = '';
 let yearList = [];
 let part = {};
 
@@ -31022,7 +31022,7 @@ class Profile extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     partTab = document.getElementById('partTab');
 
     let apiPart = window.participation;
-    userInfo = window.userInfo;
+    userData = window.userData;
     yearList = [];
     part = {};
 
@@ -31055,7 +31055,7 @@ class Profile extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       })*/
 
       yearList[j].target = ' | Target: ' + part[year].event.shift().points;
-      yearList[j].total = ' | Total: ' + part[year].event.pop().points;
+      yearList[j].total = ', Total: ' + part[year].event.pop().points;
     }
 
     console.log(yearList);
@@ -31089,12 +31089,12 @@ class Profile extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'h2',
           { className: 'uk-text-center' },
-          userInfo.givenName + ' ' + userInfo.surname
+          userData.givenName + ' ' + userData.surname
         ),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'p',
           { className: 'uk-text-center' },
-          userInfo.role + ' | ' + userInfo.department + ' | ' + userInfo.office
+          userData.role + ' | ' + userData.department + ' | ' + userData.office
         ),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'ul',
@@ -31229,7 +31229,11 @@ const DETAILS = () => {
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'td',
           null,
-          userInfo.email
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'code',
+            null,
+            userData.email
+          )
         )
       ),
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -31239,7 +31243,11 @@ const DETAILS = () => {
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'td',
           null,
-          userInfo.emailAliases
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'code',
+            null,
+            userData.emailAliases
+          )
         )
       ),
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -31249,7 +31257,11 @@ const DETAILS = () => {
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'td',
           null,
-          userInfo.decEmail
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'code',
+            null,
+            userData.decEmail
+          )
         )
       ),
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -31263,7 +31275,7 @@ const DETAILS = () => {
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'td',
           null,
-          userInfo.groups
+          userData.groups
         )
       )
     )
@@ -31412,7 +31424,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, ".embed {\r\n  width: 100%;\r\n  height: 100vh;\r\n  position: absolute;\r\n  display: block;\r\n}\r\n\r\n.container {\r\n  position: relative;\r\n  z-index: 1;\r\n}\r\n\r\n.behind {\r\n  z-index: -1000;\r\n}\r\n\r\n.loadingParent {\r\n  display: flex;\r\n  height: auto;\r\n  margin: 0 auto;\r\n  min-height: calc(100vh - 80px);\r\n  min-height: -o-calc(100vh - 80px);\r\n  min-height: -webkit-calc(100vh - 80px);\r\n  min-height: -moz-calc(100vh - 80px)\r\n}\r\n.loadingChild {\r\n  margin: auto;\r\n  justify-content: center;\r\n  display: flex;\r\n  text-align: center!important;\r\n  max-width: 100%;\r\n}\r\n@media (max-width: 880px), (max-height: 620px) {\r\n  .loadingParent{\r\n    min-height: calc(100vh - 60px);\r\n    min-height: -o-calc(100vh - 60px);\r\n    min-height: -webkit-calc(100vh - 60px);\r\n    min-height: -moz-calc(100vh - 60px)\r\n  }\r\n}\r\n", ""]);
+exports.push([module.i, ".embed {\r\n  width: 100%;\r\n  height: 100vh;\r\n  position: absolute;\r\n  display: block;\r\n}\r\n\r\n.container {\r\n  position: relative;\r\n  z-index: 1;\r\n}\r\n\r\n.behind {\r\n  z-index: -1;\r\n}\r\n\r\n.loadingParent {\r\n  display: flex;\r\n  height: auto;\r\n  margin: 0 auto;\r\n  min-height: calc(100vh - 80px);\r\n  min-height: -o-calc(100vh - 80px);\r\n  min-height: -webkit-calc(100vh - 80px);\r\n  min-height: -moz-calc(100vh - 80px)\r\n}\r\n.loadingChild {\r\n  margin: auto;\r\n  justify-content: center;\r\n  display: flex;\r\n  text-align: center!important;\r\n  max-width: 100%;\r\n}\r\n@media (max-width: 880px), (max-height: 620px) {\r\n  .loadingParent{\r\n    min-height: calc(100vh - 60px);\r\n    min-height: -o-calc(100vh - 60px);\r\n    min-height: -webkit-calc(100vh - 60px);\r\n    min-height: -moz-calc(100vh - 60px)\r\n  }\r\n}\r\n", ""]);
 
 // exports
 
@@ -31707,7 +31719,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, ".uk-navbar-nav>li>a {\r\n  -webkit-font-smoothing: antialiased!important;\r\n  -moz-osx-font-smoothing: grayscale!important;\r\n}\r\n\r\n.mouseLoad{\r\n  cursor: wait;\r\n}\r\n\r\n#CalendarA {\r\n  color: #999!important;\r\n  pointer-events: all;\r\n  opacity: 0.25;\r\n  cursor: default;\r\n}\r\n\r\n.uk-tooltip {\r\n  background-color: #32d296;\r\n}\r\n\r\nh1,h2,h3,h4,h5,h6,h7,.uk-h1,.uk-accordion-title,.uk-text-lead {\r\n  font-family: 'Roboto', sans-serif\r\n}\r\n\r\nb {\r\n  font-family: 'Open Sans', sans-serif;\r\n  font-weight: 700\r\n}\r\n\r\n.spinner {\r\n  display: flex;\r\n  align-items: center;\r\n  align-content: center;\r\n  justify-content: center;\r\n}\r\n\r\nbody {\r\n  user-select: none\r\n}\r\n\r\n.uk-accordion-title,.uk-text-lead {\r\n  font-size: 1.5rem;\r\n  font-weight: 300\r\n}\r\n\r\n.welcomeNav {\r\n  position: fixed;\r\n  visibility: hidden\r\n}\r\n\r\n.main {\r\n  transition: 150ms linear;\r\n}\r\n\r\n.djLogo {\r\n  width: 50px;\r\n  height: 50px;\r\n  transition: width 0.1s;\r\n  transition: height 0.1s\r\n}\r\n\r\n.name {\r\n  margin-bottom: 0px;\r\n  margin-right: 5px;\r\n}\r\n\r\n.uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n  transition: height 0.1s\r\n}\r\n\r\n.uk-sticky-placeholder {\r\n  height: 80px!important;\r\n}\r\n\r\n.content {\r\n  align-content: center;\r\n  margin-left: 10px;\r\n  background: white;\r\n  transition: 150ms linear;\r\n}\r\n\r\n.background {\r\n  background-color: #2a2c31;\r\n}\r\n\r\n/*Vertical centering content with a navbar above*/\r\n.vcNavbarParent {\r\n  display: flex;\r\n  height: auto;\r\n  margin: 0 auto;\r\n  min-height: calc(100vh - 80px);\r\n  min-height: -o-calc(100vh - 80px);\r\n  min-height: -webkit-calc(100vh - 80px);\r\n  min-height: -moz-calc(100vh - 80px)\r\n}\r\n.vcNavbarCard {\r\n  margin: auto;\r\n  justify-content: center;\r\n  display: flex;\r\n  text-align: center!important;\r\n  max-width: 100%;\r\n}\r\n\r\n@media (max-width: 880px) {\r\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n    height:60px\r\n  }\r\n  .uk-sticky-placeholder {\r\n    height:60px!important\r\n  }\r\n  .vcNavbarParent {\r\n    display: flex;\r\n    height: auto;\r\n    margin: 0 auto;\r\n    min-height: calc(100vh - 60px);\r\n    min-height: -o-calc(100vh - 60px);\r\n    min-height: -webkit-calc(100vh - 60px);\r\n    min-height: -moz-calc(100vh - 60px)\r\n  }\r\n  .djLogo {\r\n    width: 40px;\r\n    height: 40px\r\n  }\r\n  .collapseText {\r\n    font-size: 0\r\n  }\r\n  .collapseSpan {\r\n    margin-right: 0px!important\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 500px) {\r\n  .djLogo {\r\n    width: 0px;\r\n    height: 0px;\r\n    margin: 0 0 0 0!important;\r\n  }\r\n  .name{\r\n    font-size: 0px;\r\n    margin-right: 0px\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 300px){\r\n  .uk-navbar-item, .uk-navbar-nav>li>a, .uk-navbar-toggle {\r\n    padding: 0 10px;\r\n  }\r\n}\r\n\r\n@media (max-height: 620px) {\r\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n    height:60px\r\n  }\r\n  .uk-sticky-placeholder {\r\n    height:60px!important\r\n  }\r\n  .vcNavbarParent {\r\n    display: flex;\r\n    height: auto;\r\n    margin: 0 auto;\r\n    min-height: calc(100vh - 60px);\r\n    min-height: -o-calc(100vh - 60px);\r\n    min-height: -webkit-calc(100vh - 60px);\r\n    min-height: -moz-calc(100vh - 60px)\r\n  }\r\n  .collapseText {\r\n    font-size: 0\r\n  }\r\n  .collapseSpan {\r\n    margin-right: 0px!important\r\n  }\r\n}\r\n", ""]);
+exports.push([module.i, ".uk-navbar-nav>li>a {\r\n  -webkit-font-smoothing: antialiased!important;\r\n  -moz-osx-font-smoothing: grayscale!important;\r\n}\r\n\r\n.mouseLoad{\r\n  cursor: wait;\r\n}\r\n\r\n#CalendarA {\r\n  color: #999!important;\r\n  pointer-events: all;\r\n  opacity: 0.25;\r\n  cursor: default;\r\n}\r\n\r\n.uk-tooltip {\r\n  background-color: #32d296;\r\n}\r\n\r\nh1,h2,h3,h4,h5,h6,h7,.uk-h1,.uk-accordion-title,.uk-text-lead {\r\n  font-family: 'Roboto', sans-serif\r\n}\r\n\r\nb {\r\n  font-family: 'Open Sans', sans-serif;\r\n  font-weight: 700\r\n}\r\n\r\n.spinner {\r\n  display: flex;\r\n  align-items: center;\r\n  align-content: center;\r\n  justify-content: center;\r\n}\r\n\r\nbody {\r\n  user-select: none\r\n}\r\n\r\n.uk-accordion-title,.uk-text-lead {\r\n  font-size: 1.5rem;\r\n  font-weight: 300\r\n}\r\n\r\n.welcomeNav {\r\n  position: fixed;\r\n  visibility: hidden\r\n}\r\n\r\n.main {\r\n  transition: 150ms linear;\r\n}\r\n\r\n.djLogo {\r\n  width: 50px;\r\n  height: 50px;\r\n  transition: width 0.1s;\r\n  transition: height 0.1s\r\n}\r\n\r\n.name {\r\n  margin-bottom: 0px;\r\n  margin-right: 5px;\r\n}\r\n\r\n.uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n  transition: height 0.1s\r\n}\r\n\r\n.uk-sticky-placeholder {\r\n  height: 80px!important;\r\n}\r\n\r\n.content {\r\n  align-content: center;\r\n  margin-left: 10px;\r\n  background: white;\r\n  transition: 150ms linear;\r\n}\r\n\r\n.background {\r\n  background-color: #2a2c31;\r\n}\r\n\r\n/*Vertical centering content with a navbar above*/\r\n.vcNavbarParent {\r\n  display: flex;\r\n  height: auto;\r\n  margin: 0 auto;\r\n  min-height: calc(100vh - 80px);\r\n  min-height: -o-calc(100vh - 80px);\r\n  min-height: -webkit-calc(100vh - 80px);\r\n  min-height: -moz-calc(100vh - 80px)\r\n}\r\n.vcNavbarCard {\r\n  margin: auto;\r\n  justify-content: center;\r\n  display: flex;\r\n  text-align: center!important;\r\n  max-width: 100%;\r\n}\r\n\r\n@media (max-width: 880px) {\r\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n    height:60px\r\n  }\r\n  .uk-sticky-placeholder {\r\n    height:60px!important\r\n  }\r\n  .vcNavbarParent {\r\n    display: flex;\r\n    height: auto;\r\n    margin: 0 auto;\r\n    min-height: calc(100vh - 60px);\r\n    min-height: -o-calc(100vh - 60px);\r\n    min-height: -webkit-calc(100vh - 60px);\r\n    min-height: -moz-calc(100vh - 60px)\r\n  }\r\n  .djLogo {\r\n    width: 40px;\r\n    height: 40px\r\n  }\r\n  .collapseText {\r\n    font-size: 0\r\n  }\r\n  .collapseSpan {\r\n    margin-right: 0px!important\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 500px) {\r\n  .djLogo {\r\n    width: 0px!important;\r\n    height: 0px!important;\r\n    margin: 0 0 0 0!important;\r\n  }\r\n  .name{\r\n    font-size: 0px;\r\n    margin-right: 0px\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 300px){\r\n  .uk-navbar-item, .uk-navbar-nav>li>a, .uk-navbar-toggle {\r\n    padding: 0 10px;\r\n  }\r\n}\r\n\r\n@media (max-height: 620px) {\r\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n    height:60px\r\n  }\r\n  .uk-sticky-placeholder {\r\n    height:60px!important\r\n  }\r\n  .djLogo{\r\n    width: 40px;\r\n    height: 40px;\r\n  }\r\n  .vcNavbarParent {\r\n    display: flex;\r\n    height: auto;\r\n    margin: 0 auto;\r\n    min-height: calc(100vh - 60px);\r\n    min-height: -o-calc(100vh - 60px);\r\n    min-height: -webkit-calc(100vh - 60px);\r\n    min-height: -moz-calc(100vh - 60px)\r\n  }\r\n  .collapseText {\r\n    font-size: 0\r\n  }\r\n  .collapseSpan {\r\n    margin-right: 0px!important\r\n  }\r\n}\r\n", ""]);
 
 // exports
 
