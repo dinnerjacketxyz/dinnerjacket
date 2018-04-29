@@ -426,7 +426,7 @@ class App extends Component {
             <ul className='uk-navbar-nav'>
 
               <li id='DashboardLi' className='uk-animation-toggle uk-active' onClick={this.showDashboard.bind(this)}>
-                <a id='DashboardA' className='uk-box-shadow-hover-medium uk-card-primary'>
+                <a id='DashboardA' className='uk-box-shadow-hover-small uk-card-primary'>
                   <span id='DashboardS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: home'/>
                   <p className='collapseText' id='DashboardP'></p>
                   <b className='collapseText' id='DashboardB'>{nameArray[0]}</b>
@@ -434,7 +434,7 @@ class App extends Component {
               </li>
 
               <li id='TimetableLi' className='uk-animation-toggle' onClick={this.showTimetable.bind(this)}>
-                <a id='TimetableA' className='uk-box-shadow-hover-medium'>
+                <a id='TimetableA' className='uk-box-shadow-hover-small'>
                   <span id='TimetableS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: table' />
                   <p className='collapseText' id='TimetableP'>{nameArray[1]}</p>
                   <b className='collapseText' id='TimetableB'></b>
@@ -442,7 +442,7 @@ class App extends Component {
               </li>
 
               <li id='NotesLi' className='uk-animation-toggle' onClick={this.showNotes.bind(this)}>
-                <a id='NotesA' className='uk-box-shadow-hover-medium'>
+                <a id='NotesA' className='uk-box-shadow-hover-small'>
                   <span id='NotesS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: file-edit' />
                   <p className='collapseText' id='NotesP'>{nameArray[2]}</p>
                   <b className='collapseText' id='NotesB'></b>
@@ -450,7 +450,7 @@ class App extends Component {
               </li>
 
               <li id='NoticesLi' className='uk-animation-toggle' onClick={this.showNotices.bind(this)}>
-                <a id='NoticesA' className='uk-box-shadow-hover-medium'>
+                <a id='NoticesA' className='uk-box-shadow-hover-small'>
                   <span id='NoticesS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: bell' />
                   <p className='collapseText' id='NoticesP'>{nameArray[3]}</p>
                   <b className='collapseText' id='NoticesB'></b>

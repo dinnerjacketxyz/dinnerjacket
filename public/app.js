@@ -25715,7 +25715,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
               { id: 'DashboardLi', className: 'uk-animation-toggle uk-active', onClick: this.showDashboard.bind(this) },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'a',
-                { id: 'DashboardA', className: 'uk-box-shadow-hover-medium uk-card-primary' },
+                { id: 'DashboardA', className: 'uk-box-shadow-hover-small uk-card-primary' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { id: 'DashboardS', className: 'collapseSpan uk-icon uk-margin-small-right', 'uk-icon': 'icon: home' }),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('p', { className: 'collapseText', id: 'DashboardP' }),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -25730,7 +25730,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
               { id: 'TimetableLi', className: 'uk-animation-toggle', onClick: this.showTimetable.bind(this) },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'a',
-                { id: 'TimetableA', className: 'uk-box-shadow-hover-medium' },
+                { id: 'TimetableA', className: 'uk-box-shadow-hover-small' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { id: 'TimetableS', className: 'collapseSpan uk-icon uk-margin-small-right', 'uk-icon': 'icon: table' }),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                   'p',
@@ -25745,7 +25745,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
               { id: 'NotesLi', className: 'uk-animation-toggle', onClick: this.showNotes.bind(this) },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'a',
-                { id: 'NotesA', className: 'uk-box-shadow-hover-medium' },
+                { id: 'NotesA', className: 'uk-box-shadow-hover-small' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { id: 'NotesS', className: 'collapseSpan uk-icon uk-margin-small-right', 'uk-icon': 'icon: file-edit' }),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                   'p',
@@ -25760,7 +25760,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
               { id: 'NoticesLi', className: 'uk-animation-toggle', onClick: this.showNotices.bind(this) },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'a',
-                { id: 'NoticesA', className: 'uk-box-shadow-hover-medium' },
+                { id: 'NoticesA', className: 'uk-box-shadow-hover-small' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { id: 'NoticesS', className: 'collapseSpan uk-icon uk-margin-small-right', 'uk-icon': 'icon: bell' }),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                   'p',
@@ -30311,7 +30311,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, ".ql-editor p{\r\n  font-family: 'Open Sans', sans-serif!important;\r\n  font-weight: 400!important;\r\n}\r\n\r\n.pad {\r\n  margin: 30px 30px 30px 30px;\r\n}\r\n\r\n.ql-container.ql-snow {\r\n  border:none!important;\r\n}\r\n.ql-toolbar.ql-snow {\r\n  border-bottom: 1px solid #ccc!important;\r\n  border: none;\r\n}\r\n\r\n.ql-editor p strong,.ql-editor h1 ,.ql-editor h2 ,.ql-editor h3 {\r\n  font-family: 'Open Sans', sans-serif!important;\r\n  font-weight: 700!important;\r\n}\r\n\r\n.notesParent {\r\n  justify-content: center;\r\n  display: flex;\r\n}\r\n\r\n#editor {\r\n  height:600px;\r\n}\r\n\r\n.notesChild {\r\n  width: 650px;\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  margin-top: 20px!important;\r\n}\r\n\r\n@media (max-width: 750px) {\r\n  #editor {\r\n    width: 100%;\r\n  }\r\n}", ""]);
+exports.push([module.i, ".ql-editor p{\r\n  font-family: 'Open Sans', sans-serif!important;\r\n  font-weight: 400!important;\r\n}\r\n\r\n.pad {\r\n  margin: 30px 30px 30px 30px;\r\n}\r\n\r\n.ql-container.ql-snow {\r\n  border:none!important;\r\n}\r\n.ql-toolbar.ql-snow {\r\n  border-bottom: 1px solid #ccc!important;\r\n  border: none;\r\n}\r\n\r\n.ql-editor p strong,.ql-editor h1 ,.ql-editor h2 ,.ql-editor h3 {\r\n  font-family: 'Open Sans', sans-serif!important;\r\n  font-weight: 700!important;\r\n}\r\n\r\n.notesParent {\r\n  justify-content: center;\r\n  display: flex;\r\n}\r\n\r\n#editor {\r\n  height:600px;\r\n}\r\n\r\n.notesChild {\r\n  width: 650px;\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  margin-top: 20px!important;\r\n}\r\n\r\n@media (max-width: 650px) {\r\n  #editor {\r\n    width: 100%;\r\n  }\r\n}", ""]);
 
 // exports
 
@@ -30863,8 +30863,8 @@ class About extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'p',
-          { className: '' },
-          'DinnerJacket is a website developed by SBHS students.'
+          null,
+          'DinnerJacket is a website developed by SBHS students. We do not store your personal information bar your notes which are encrypted end-to-end.'
         ),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -30884,9 +30884,10 @@ class About extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         ),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'p',
-          null,
+          { className: 'uk-margin-bottom-small' },
           'Vincent Liu'
         ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'article',
           { className: 'uk-article' },
@@ -31453,42 +31454,12 @@ class Changelog extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'li',
               null,
-              'Bugfixes and stability'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              'Low resolution compatibility'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
               'New calendar page with school calendar'
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'li',
               null,
-              'Better notes editor'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              'New profile page with participation details'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              'Accurate timetable'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              'Subjects on your timetable are highlighted when you hover over them.'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              'Different changelog appearance'
+              'The ability to logout'
             )
           )
         ),
@@ -31504,12 +31475,56 @@ class Changelog extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'p',
             { className: 'uk-article-meta' },
-            'Written on 25 April 2018'
+            'Written on 29 April 2018'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'p',
+            null,
+            'Term 2 update addressing existing issues and bugs, and adding new functionality.'
           ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'ul',
             null,
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('li', null)
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              'Bugfixes and stability'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              'Low resolution compatibility'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              'Better notes editor'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              'New profile page with participation and user details'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              'Accurate timetable'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              'Accurate daily notices input and filtering'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              'Subjects on your timetable are highlighted when you hover over them.'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              'Different changelog appearance'
+            )
           )
         ),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),

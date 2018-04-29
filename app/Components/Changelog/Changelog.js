@@ -10,14 +10,8 @@ class Changelog extends Component {
               <h1 className="uk-article-title">Unreleased features</h1>
               <p className="uk-article-meta">Written on 26 April 2018</p>
               <ul>
-                <li>Bugfixes and stability</li>
-                <li>Low resolution compatibility</li>
                 <li>New calendar page with school calendar</li>
-                <li>Better notes editor</li>
-                <li>New profile page with participation details</li>
-                <li>Accurate timetable</li>
-                <li>Subjects on your timetable are highlighted when you hover over them.</li>
-                <li>Different changelog appearance</li>
+                <li>The ability to logout</li>
               </ul>
             </article>
 
@@ -25,9 +19,17 @@ class Changelog extends Component {
 
             <article className="uk-article">
               <h1 className="uk-article-title">Alpha v0.1.2</h1>
-              <p className="uk-article-meta">Written on 25 April 2018</p>
+              <p className="uk-article-meta">Written on 29 April 2018</p>
+              <p>Term 2 update addressing existing issues and bugs, and adding new functionality.</p>
               <ul>
-                <li></li>
+                <li>Bugfixes and stability</li>
+                <li>Low resolution compatibility</li>
+                <li>Better notes editor</li>
+                <li>New profile page with participation and user details</li>
+                <li>Accurate timetable</li>
+                <li>Accurate daily notices input and filtering</li>
+                <li>Subjects on your timetable are highlighted when you hover over them.</li>
+                <li>Different changelog appearance</li>
               </ul>
             </article>
 

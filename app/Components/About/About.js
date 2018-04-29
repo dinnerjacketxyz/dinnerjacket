@@ -15,14 +15,14 @@ class About extends Component {
           <p className='uk-text-small'>licensed under GNU GPL v3</p>
 
           <hr/>
-            <p className=''>DinnerJacket is a website developed by SBHS students.</p>
+            <p>DinnerJacket is a website developed by SBHS students. We do not store your personal information bar your notes which are encrypted end-to-end.</p>
           <hr/>
 
           <h2 className='uk-h2'>Developers</h2>
           <p>George Flabouris</p>
           <p>Brian Nguyen</p>
-          <p>Vincent Liu</p>
-
+          <p className='uk-margin-bottom-small'>Vincent Liu</p>
+          <hr/>
           <article className='uk-article' >
             <h2 className='uk-h2 small-margin'>spiff</h2>
             <p className='uk-article-meta'>/spɪf/</p>
