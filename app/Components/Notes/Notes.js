@@ -3,7 +3,7 @@ const http = require('http')
 const css = require('./Notes.css')
 
 const firebase = require('firebase')
-const fb2 = require('./firebase')(firebase)
+const fb = require('./fb')(firebase)
 
 let quill
 let database = firebase.database()

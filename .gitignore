@@ -1,7 +1,7 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
 # dependencies
-app/Components/Notes/firebase.js
+app/Components/Notes/fb.js
 node_modules
 
 # testing
