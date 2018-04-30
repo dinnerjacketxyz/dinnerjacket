@@ -1,4 +1,4 @@
-﻿const oauth2module = require('simple-oauth2')
+const oauth2module = require('simple-oauth2')
 const https = require('https')
 
 const siteURL = 'http://localhost:3000'
@@ -16,7 +16,7 @@ module.exports = (app) => {
           |   REPLACE THIS WITH CLIENT SECRET WHEN RUNNING   |
           *==================================================*
                                                                 */
-      secret: 'lve26aPJH_zzKPHBUrVAcpIGhjQ' // ISACS U IN BOILING WATER (100 degrees innit watch out)
+      secret: REDACTED
 
       /*
           *==================================================*
@@ -232,8 +232,6 @@ module.exports = (app) => {
   app.get('/logout', (req, res) => {
     console.log('logging out')
     req.session.destroy()
-    req.session.token = undefined
-    console.log(req.session.token)
     res.redirect(siteURL)
   })
 
