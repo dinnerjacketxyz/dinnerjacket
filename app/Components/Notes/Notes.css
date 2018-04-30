@@ -23,6 +23,10 @@ background: #2dc0d5!important;
 background: #2dc0d5!important;
 }
 
+input:focus{
+  outline-color: #2dc0d5!important;
+}
+
 .pad {
   margin: 30px 30px 30px 30px;
 }
@@ -38,6 +42,10 @@ background: #2dc0d5!important;
 .ql-editor p strong,.ql-editor h1 ,.ql-editor h2 ,.ql-editor h3 {
   font-family: 'Open Sans', sans-serif!important;
   font-weight: 700!important;
+}
+
+.ql-snow a {
+  color: #2dc0d5;
 }
 
 .notesParent {

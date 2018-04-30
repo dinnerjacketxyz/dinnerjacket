@@ -8,10 +8,9 @@ class Changelog extends Component {
           <div className='clCard uk-animation-slide-top-small'>
             <article className="uk-article">
               <h1 className="uk-article-title">Unreleased features</h1>
-              <p className="uk-article-meta">Written on 26 April 2018</p>
+              <p className="uk-article-meta">29 April 2018</p>
               <ul>
                 <li>New calendar page with school calendar</li>
-                <li>The ability to logout</li>
               </ul>
             </article>
 
@@ -19,9 +18,10 @@ class Changelog extends Component {
 
             <article className="uk-article">
               <h1 className="uk-article-title">Alpha v0.1.2</h1>
-              <p className="uk-article-meta">Written on 29 April 2018</p>
+              <p className="uk-article-meta">29 April 2018</p>
               <p>Term 2 update addressing existing issues and bugs, and adding new functionality.</p>
               <ul>
+                <li>The ability to logout</li>
                 <li>Bugfixes and stability</li>
                 <li>Low resolution compatibility</li>
                 <li>Better notes editor</li>
@@ -37,7 +37,7 @@ class Changelog extends Component {
 
             <article className="uk-article">
               <h1 className="uk-article-title">Alpha v0.1.1</h1>
-              <p className="uk-article-meta">Written on 25 April 2018</p>
+              <p className="uk-article-meta">25 April 2018</p>
               <p>The first update of DinnerJacket fixing critical to cosmetic issues.</p>
               <ul>
                 <li>Fixed crashing on loading page</li>
@@ -51,7 +51,7 @@ class Changelog extends Component {
 
             <article className="uk-article">
               <h1 className="uk-article-title">Alpha v0.1.0</h1>
-              <p className="uk-article-meta">Written on 25 April 2018</p>
+              <p className="uk-article-meta">25 April 2018</p>
               <p>The first operational release of DinnerJacket with basic functionality.</p>
               <ul>
                 <li>Added dashboard</li>
