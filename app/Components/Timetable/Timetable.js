@@ -240,11 +240,11 @@ class Timetable extends Component {
  }
 
  fade(){
-  setTimeout(function() { 
-      for (let u = 0; u < fadeArray.length; u++){
-        let highlight = document.getElementById(fadeArray[u])
-        highlight.className = ''
-      }
+  setTimeout(function() { //TODO MAKE SURE THIS ONLY EXECUTES WHEN TIMETABLE IS OPEN
+        for (let u = 0; u < fadeArray.length; u++){
+          let highlight = document.getElementById(fadeArray[u])
+          highlight.className = ''
+        }
   }, 2000)
  }
 

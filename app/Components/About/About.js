@@ -8,7 +8,7 @@ class About extends Component {
         <div className='aboutCard uk-animation-slide-top-small'>
           <img id='aboutLogo'
             className='uk-disabled'
-            alt='logo' src='256.png' width='150px' height='150px'>
+            alt='logo' src='./icons/256.png' width='150px' height='150px'>
           </img>
           <h1 className=''>DinnerJacket</h1>
           <p className='uk-label uk-label-danger'>alpha v0.1.2</p>

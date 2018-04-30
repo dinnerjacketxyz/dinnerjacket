@@ -15,7 +15,7 @@
 }
 
 .uk-tooltip {
-  background-color: #32d296;
+  background-color: #2dc0d5;
 }
 
 h1,h2,h3,h4,h5,h6,h7,.uk-h1,.uk-accordion-title,.uk-text-lead {
@@ -147,7 +147,7 @@ body {
   }
 }
 
-@media (max-height: 620px) {
+@media (max-height: 700px) {
   .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {
     height:60px
   }

@@ -2,10 +2,14 @@
   margin-bottom: 0px
 }
 
+.uk-table-hover tbody tr:hover,.uk-table-hover>tr:hover{
+  background: #00ddff50;
+}
+
 .meta {
   font-size: .875rem;
   line-height: 1.4;
-  color: #999;
+  color: #666;
   vertical-align: top!important;
   text-align: left!important;
   font-family: "Open Sans",sans-serif;

@@ -1,23 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta charset='utf-8'>
-
-    <meta name='viewport' content='width=device-width,initial-scale=1,maximum-scale=1'>
+    <!-- Web app capable-->
     <meta name='apple-mobile-web-app-capable' content='yes'>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name='mobile-web-app-capable' content='yes'>
 
+
+    <!-- Title, Description, Manifest, Charset, Viewport -->
     <title>DinnerJacket</title>
-    <meta name='description' content='SBHS organiser'>
+    <meta name='description' content='A SBHS student organiser'>
+    <link rel='manifest' href="/manifest.json">
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width,initial-scale=1,maximum-scale=1'>
+
+    <!-- Icons -->
+    <link rel='icon' type='image/icon' href='favicon.ico'>
+    <!-- reuse same icon for Safari -->
+    <link rel="apple-touch-icon" href='/icons/touch/apple-touch-icon.ico'>
+    <!-- multiple icons for IE -->
+    <meta name="msapplication-square310x310logo" content="/icons/512.png">
+
+
+    <!-- Social Metadata -->
+    <meta name='og:title' content="DinnerJacket">
+    <meta name='og:description' content="A SBHS student organisert">
+    <meta name='og:type' content="website">
+    <meta name='og:image' content='favicon.ico'>
+    <meta name='og:url' content="www.dinnerjacket.xyz">
+
+
+    <!-- Google Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700|Roboto:100,300' rel='stylesheet'>
     <link href='https://fonts.googleapis.com/css?family=Roboto+Mono' rel='stylesheet'>
-    <link rel='icon' type='image/icon' href='favicon.ico'>
-
+    <!-- Firebase -->
     <script src='https://www.gstatic.com/firebasejs/4.11.0/firebase.js'></script>
     <script src='/firebase.js'></script>
+    <!-- UIKit -->
     <link rel='stylesheet' href='ui/uikit.min.css'>
     <script src='ui/uikit.min.js'></script>
-
+    <!-- Quill.js -->
     <link href='https://cdn.quilljs.com/1.3.5/quill.snow.css' rel='stylesheet'>
     <script src='https://cdn.quilljs.com/1.3.5/quill.js'></script>
   </head>

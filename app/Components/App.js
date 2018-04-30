@@ -420,7 +420,7 @@ class App extends Component {
             <div onClick={this.logo.bind(this)}>
               <img
                 className='djLogo uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom'
-                alt='logo' src='64.png'>
+                alt='logo' src='./icons/64.png'>
               </img>
             </div>
             <ul className='uk-navbar-nav'>
