@@ -96,8 +96,7 @@ class Profile extends Component {
           <p className='uk-text-center'>{userData.role+' | '+userData.department+' | '+userData.office}</p>
           <ul className='uk-margin-top uk-margin-bottom uk-flex-center' uk-tab='true'>
               <li id='detailsTab' className='uk-active' onClick={() => {this.setState({ content: 'details' })}}><a>Details</a></li>
-              <li id='partTab' onClick={() => {this.setState({ content: 'part' })}}><a>Participation (Experimental)</a></li>
-          </ul>
+              <li id='partTab' onClick={() => {this.setState({ content: 'part' })}} uk-tooltip="title: Experimental; pos: bottom"><a>Participation</a></li>          </ul>
           <div id='profileContent'>
             {content}
           </div>
@@ -149,22 +148,22 @@ const TableRow = (props) => {
 
 const DETAILS = () => {
   return (
-    <table className='uk-table uk-table-small'>
+    <table id='detailsTable' className='uk-table uk-table-small'>
       <tbody>
         <tr>
-            <td>Email</td>
+            <td className='width-small'>Email</td>
             <td><code>{userData.email}</code></td>
         </tr>
         <tr>
-            <td></td>
+            <td className='width-small'></td>
             <td><code>{userData.emailAliases}</code></td>
         </tr>
         <tr>
-            <td></td>
+            <td className='width-small'></td>
             <td><code>{userData.decEmail}</code></td>
         </tr>
         <tr>
-            <td>Groups</td>
+            <td className='width-small'>Groups</td>
             <td>{userData.groups}</td>
         </tr>
       </tbody>
