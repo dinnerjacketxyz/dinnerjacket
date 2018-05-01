@@ -57,10 +57,10 @@ class Profile extends Component {
         total: ' | Total: ' + part[year].event.pop().points
       })*/
       let eventOne = part[year].event[0].points
+      console.log(eventOne)
       yearList[j].target = ' | Target: '
-      if (eventOne === 0) {
-        yearList[j].target += part[year].event[1].points
-        part[year].event = (part[year].event[0] + ',' + part[year].event.splice(2)).split(',')
+      if (eventOne == 0) {
+        yearList[j].target += part[year].event.splice(1, 1)[0].points
       } else {
         yearList[j].target += part[year].event.shift().points
       }
