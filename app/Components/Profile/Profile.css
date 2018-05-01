@@ -30,10 +30,33 @@
     text-shadow: none;
 }
 
-td code {
+.width-small {
+  width:80px;
+}
+
+.profileChild td code {
+  word-wrap: break-word;
   user-select: text;
+  font-size: .875rem;
+  color: #666;
+  white-space: initial!important;
+  padding: 2px 6px;
+  background: #f8f8f8;
+}
+
+
+
+#detailsTable {
+  width: 100%!important;
+  table-layout: fixed!important;
 }
 
 @media (max-width:550px){
-  
+  .profileChild {
+    width: 100%;
+    box-shadow: none;
+  }
+  #profileContent .uk-accordion-title {
+    font-size: 1.25rem;
+  }
 }
