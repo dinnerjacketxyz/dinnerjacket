@@ -127,7 +127,24 @@ class App extends Component {
         }
       })
     })
-
+    
+    /* User Info
+       {"username" : "436345789",     
+        "studentId" : "436345789",
+        "givenName" : "John",        
+        "surname"   : "Citizen",        
+        "rollClass" : "07E",        
+        "yearGroup" : "7",        
+        "role"      : "Student",      // may be valid for staff
+        "department": "Year 7",       // may be valid for staff
+        "office"    : "7E",           // may be valid for staff
+        "email"     : "436345789@student.sbhs.nsw.edu.au",
+        "emailAliases : [             // array of email addresses also valid for the user
+          "john.citizen23@student.sbhs.nsw.edu.au"],
+        "decEmail"  : "jcz@education.nsw.gov.au",
+        "groups"    : []              // array of network group memberships
+      }
+    */
     http.get('/getdata?url=details/userinfo.json', (res) => {
       res.setEncoding('utf8')
 
@@ -258,30 +275,12 @@ class App extends Component {
         }
       })
     })
-
-    /* User Info
-       {"username" : "436345789",     
-        "studentId" : "436345789",
-        "givenName" : "John",        
-        "surname"   : "Citizen",        
-        "rollClass" : "07E",        
-        "yearGroup" : "7",        
-        "role"      : "Student",      // may be valid for staff
-        "department": "Year 7",       // may be valid for staff
-        "office"    : "7E",           // may be valid for staff
-        "email"     : "436345789@student.sbhs.nsw.edu.au",
-        "emailAliases : [             // array of email addresses also valid for the user
-          "john.citizen23@student.sbhs.nsw.edu.au"],
-        "decEmail"  : "jcz@education.nsw.gov.au",
-        "groups"    : []              // array of network group memberships
-      }
-    */
   }
 
   blankNavbar() {
     //makes all navbar <li> look unselected
     for (let i = 0; i < nameArray.length; i++) {
-      console.log(i)
+      //console.log(i)
       let Li = document.getElementById(nameArray[i] + 'Li')
       let A = document.getElementById(nameArray[i] + 'A')
       let B = document.getElementById(nameArray[i] + 'B')
@@ -299,7 +298,7 @@ class App extends Component {
 
   selectedNavbar(num) {
     //makes all navbar <li> look unselected
-    console.log(num)
+    //console.log(num)
     this.blankNavbar()
 
     //makes one specific <li> look selected

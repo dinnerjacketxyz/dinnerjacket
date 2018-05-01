@@ -42,7 +42,7 @@ class Notes extends Component {
         toolbar: true
       },
       theme: 'snow', // OK I CHANGED IT FRICKER !
-      placeholder: 'Write any notes here! Your notes are encoded and synced both locally and to the cloud. Highlight text or use keyboard shortcuts for formatting options such as bold, italics and headings.'
+      placeholder: 'Write any notes here! Notes are encoded and are not visible to anyone else. Notes are stored locally and also online in order to sync across devices (experimental).'
     })
 
     // Local Storage
@@ -110,12 +110,14 @@ class Notes extends Component {
         // Local storage not supported
       }
 
-      // Notes Hosting - Firebase Database
-      let data = {
-        content: content,
-        time: time
+      if (quill.getText().length > 0) {
+        // Notes Hosting - Firebase Database
+        let data = {
+          content: content,
+          time: time
+        }
+        ref.update(data)   
       }
-      ref.update(data)
     } catch (e) {
       console.log('Error updating notes')
     }
@@ -126,7 +128,7 @@ class Notes extends Component {
       <div className='notesParent'>
         <div className='notesChild uk-animation-slide-top-small'>
           <div className='pad'>
-            <div id='editor'onInput={this.updateDB.bind(this)}/>
+            <div id='editor' onInput={this.updateDB.bind(this)}/>
           </div>
         </div>
       </div>

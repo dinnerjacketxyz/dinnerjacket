@@ -27,7 +27,7 @@ class Profile extends Component {
     let apiPart = window.participation
     userData = window.userData
     yearList = []
-    part = {}
+    part = []
 
     for (let i = 0; i < apiPart.length; i++) {
       if (!(apiPart[i].year in part)) {
@@ -90,7 +90,7 @@ class Profile extends Component {
           <p className='uk-text-center'>{userData.role+' | '+userData.department+' | '+userData.office}</p>
           <ul className='uk-margin-top uk-margin-bottom uk-flex-center' uk-tab='true'>
               <li id='detailsTab' className='uk-active' onClick={() => {this.setState({ content: 'details' })}}><a>Details</a></li>
-              <li id='partTab' onClick={() => {this.setState({ content: 'part' })}}><a>Participation</a></li>
+              <li id='partTab' onClick={() => {this.setState({ content: 'part' })}}><a>Participation (Experimental)</a></li>
           </ul>
           <div id='profileContent'>
             {content}
@@ -101,8 +101,7 @@ class Profile extends Component {
   }
 }
 
-const YearList = (props) => {
-  
+const YearList = (props) => {  
   let rows = part[String(props.years.year)].event.map(event => {
     return <TableRow key={event.activity} part={event} />
   })
