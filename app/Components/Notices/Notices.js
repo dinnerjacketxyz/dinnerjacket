@@ -6,19 +6,13 @@ let dailyNotices = ''
 class Notices extends Component {
   constructor(props) {
     super(props)
-    
-    const userYear = window.userData['yearGroup']
-    
+
     this.state = {
       notices: [],
-      year: window.userData['yearGroup'],
-      text: 'EXPAND'
+      year: 'ALL',
+      text: 'EXPAND ALL'
     }
-  }
-  
-  componentDidMount() {
-    let selector = document.getElementById('yearSelector')
-    selector.value = window.userData['yearGroup']
+
     this.init()
   }
 
@@ -32,72 +26,64 @@ class Notices extends Component {
     dailyNotices = window.dailyNotices
     this.state.notices = []
 
-    if (this.state.notices.length <= 0) {
-      document.getElementById('noNotices').className = 'uk-text-center uk-margin-bottom show'
-      document.getElementById('toggleNotices').disabled = 'true'
-      document.getElementById('yearSelector').disabled = 'true'
-    } else {
-      document.getElementById('noNotices').className = 'uk-text-center uk-margin-bottom hidden'
-      document.getElementById('toggleNotices').disabled = 'false'
-      document.getElementById('yearSelector').disabled = 'false'
+    for (let i = 0; i < dailyNotices.notices.length; i++) {
+      if (this.state.year == 'ALL' || this.yearInNotice(this.state.year, dailyNotices.notices[i])) {
+        // TEMP - proper solotion later (TODO)
+        //let content = dailyNotices.notices[i].content.replace(/(<([^>]+)>)/ig,'')
+        let content = this.strip(dailyNotices.notices[i].content)
 
-      for (let i = 0; i < dailyNotices.notices.length; i++) {
-        if (this.state.year == 'ALL' || this.yearInNotice(this.state.year, dailyNotices.notices[i])) {
-          let content = this.strip(dailyNotices.notices[i].content)
-  
-          let years = ''
-          if (dailyNotices.notices[i].years.length >= 6) {
-            years = 'ALL'
-          } else {
-            let c = false
-            for (let j = 0; j < dailyNotices.notices[i].years.length; j++) {
-              let start = 0
-              if (!c) {
-                if (years.length > 0) {
-                  years += ', '
-                }
-                start = dailyNotices.notices[i].years[j]
-                years += start + ' '
+        let years = ''
+        if (dailyNotices.notices[i].years.length >= 6) {
+          years = 'ALL'
+        } else {
+          let c = false
+          for (let j = 0; j < dailyNotices.notices[i].years.length; j++) {
+            let start = 0
+            if (!c) {
+              if (years.length > 0) {
+                years += ', '
               }
-  
-              if (parseInt(dailyNotices.notices[i].years[j]) + 1 === parseInt(dailyNotices.notices[i].years[j+1]) && j < dailyNotices.notices[i].years.length - 1) {
-                c = true
-              } else {
-                c = false
-                if (dailyNotices.notices[i].years[j] !== start) {
-                  years += ' - ' + dailyNotices.notices[i].years[j] + ' '
-                }
+              start = dailyNotices.notices[i].years[j]
+              years += start + ' '
+            }
+
+            if (parseInt(dailyNotices.notices[i].years[j]) + 1 === parseInt(dailyNotices.notices[i].years[j+1]) && j < dailyNotices.notices[i].years.length - 1) {
+              c = true
+            } else {
+              c = false
+              if (dailyNotices.notices[i].years[j] !== start) {
+                years += ' - ' + dailyNotices.notices[i].years[j] + ' '
               }
             }
           }
-  
-          let date = ''
-          const MONTHS = [
-            'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
-          ]
-  
-          if (dailyNotices.notices[i].isMeeting) {
-            let dd = dailyNotices.notices[i].meetingDate.substr(-2)
-            if (dd[0] === '0') {
-              dd = dd.substr(-1)
-            }
-            let mm = dailyNotices.notices[i].meetingDate.substr(-5, 2)
-            if (mm[0] === '0') {
-              mm = mm.substr(-1)
-            }
-            date = MONTHS[mm] + ' ' + dd + ' at ' + dailyNotices.notices[i].meetingTime
-          }
-  
-          let obj = {
-            title: dailyNotices.notices[i].title,
-            date: date,
-            content: content,
-            years: years,
-            author: dailyNotices.notices[i].authorName
-          }
-          this.state.notices.push(obj)
         }
+
+        let date = ''
+        const MONTHS = [
+          'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+          'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+        ]
+
+        if (dailyNotices.notices[i].isMeeting) {
+          let dd = dailyNotices.notices[i].meetingDate.substr(-2)
+          if (dd[0] === '0') {
+            dd = dd.substr(-1)
+          }
+          let mm = dailyNotices.notices[i].meetingDate.substr(-5, 2)
+          if (mm[0] === '0') {
+            mm = mm.substr(-1)
+          }
+          date = MONTHS[mm] + ' ' + dd + ' at ' + dailyNotices.notices[i].meetingTime
+        }
+
+        let obj = {
+          title: dailyNotices.notices[i].title,
+          date: date,
+          content: content,
+          years: years,
+          author: dailyNotices.notices[i].authorName
+        }
+        this.state.notices.push(obj)
       }
     }
   }
@@ -107,7 +93,10 @@ class Notices extends Component {
 
     for (let i = 0; i < notice.years.length; i++) {
       if (year == notice.years[i]) {
+        console.log(year)
+        console.log(notice.years[i])
         found = true
+        console.log(found)
       }
     }
     return found
@@ -118,16 +107,18 @@ class Notices extends Component {
     this.state.year = selector.options[selector.selectedIndex].text
     let a = this.state.a
     this.setState({ a: 'test' })
+    console.log(this.state.year)
+
     this.init()
   }
 
   toggleNotices() {
     let text = this.state.text
     let newText = ''
-    if (text === 'EXPAND') {
-      newText = 'COLLAPSE'
+    if (text === 'EXPAND ALL') {
+      newText = 'COLLAPSE ALL'
     } else {
-      newText = 'EXPAND'
+      newText = 'EXPAND ALL'
     }
 
     this.setState({ text: newText })
@@ -136,7 +127,7 @@ class Notices extends Component {
   render() {
     let text = this.state.text
     let rows
-    if (text === 'EXPAND') {
+    if (text === 'EXPAND ALL') {
       rows = this.state.notices.map(notice => {
         return <CollapsedNotices key = {
           notice.title
@@ -158,13 +149,10 @@ class Notices extends Component {
       })
     }
     return (
-      <div className='noticesParent'>
-        <div className='noticesChild uk-animation-slide-top-small'>
-          <div className='uk-margin-large-bottom'>
-            <button id='toggleNotices' onClick={this.toggleNotices.bind(this)} className="uk-button uk-button-default uk-align-left">
-              {this.state.text}
-            </button>
-            <div className='uk-align-right'>
+      <div className='uk-flex uk-flex-center'>
+        <div className='uk-margin-top uk-card uk-card-default uk-card-body uk-width-xxlarge miniFill uk-animation-slide-top-small'>
+          <div className='uk-margin-large-bottom uk-padding-large-bottom'>
+            <div className='uk-margin uk-align-right'>
               <select id='yearSelector' onChange={this.selectYear.bind(this)} className='uk-select'>
                 <option>ALL</option>
                 <option>7</option>
@@ -175,12 +163,14 @@ class Notices extends Component {
                 <option>12</option>
               </select>
             </div>
+            <button onClick={this.toggleNotices.bind(this)} className='uk-button uk-button-default uk-align-left'>
+              {this.state.text}
+            </button>
           </div>
           <div>
             <ul id='noticesList' className='under' uk-accordion='multiple: true'>
               {rows}
             </ul>
-            <h2 id='noNotices' className='uk-text-center show uk-margin-bottom'>No daily notices</h2>
           </div>
         </div>
       </div>

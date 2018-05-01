@@ -1,45 +1,9 @@
 .under {
-  margin-top: 70px!important;
+  margin-top: 70px!important
 }
 
-@media (max-width:750px) {
-  .noticesChild {
-    width:100%;
-    box-shadow: none!important;
+@media (min-width:750px) {
+  miniFill {
+    width:100%
   }
-}
-
-@media (max-width: 300px) {
-  #toggleNotices {
-    padding: 0px 15px;
-  }
-  .noticesChild .uk-align-right {
-    margin-left: 15px!important;
-  }
-}
-
-.show {
-  visibility: visible;
-}
-
-.hidden {
-  visibility: hidden;
-  height: 0px;
-}
-
-.noticesParent {
-  justify-content: center;
-  display: flex;
-}
-
-.noticesChild {
-  margin-top: 20px!important;
-  width: 750px;
-  background: #fff;
-  color: #666;
-  box-shadow: 0 5px 15px rgba(0,0,0,.08);
-  padding: 30px 30px;
-  position: relative;
-  box-sizing: border-box;
-  transition: box-shadow .1s ease-in-out;
 }
