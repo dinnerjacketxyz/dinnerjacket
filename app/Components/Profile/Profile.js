@@ -27,7 +27,7 @@ class Profile extends Component {
     let apiPart = window.participation
     userData = window.userData
     yearList = []
-    part = []
+    part = {}
 
     for (let i = 0; i < apiPart.length; i++) {
       if (!(apiPart[i].year in part)) {
@@ -56,8 +56,15 @@ class Profile extends Component {
         target: ' | Target: ' + part[year].event.shift().points,
         total: ' | Total: ' + part[year].event.pop().points
       })*/
+      let eventOne = part[year].event[0].points
+      yearList[j].target = ' | Target: '
+      if (eventOne === 0) {
+        yearList[j].target += part[year].event[1].points
+        part[year].event = (part[year].event[0] + ',' + part[year].event.splice(2)).split(',')
+      } else {
+        yearList[j].target += part[year].event.shift().points
+      }
 
-      yearList[j].target = ' | Target: ' + part[year].event.shift().points
       yearList[j].total = ', Total: ' + part[year].event.pop().points
     }
 
