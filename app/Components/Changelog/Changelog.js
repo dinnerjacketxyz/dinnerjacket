@@ -8,11 +8,17 @@ class Changelog extends Component {
           <div className='clCard uk-animation-slide-top-small'>
             <article className="uk-article">
               <h1 className="uk-article-title">Unreleased features</h1>
+<<<<<<< HEAD
               <ul>
                 <li>Bugfixes for participation tab</li>
                 <li>School calendar</li>
                 <li>Personal calendar integration</li>
                 <li>Themes and additional cosmetic options</li>
+=======
+              <p className="uk-article-meta">29 April 2018</p>
+              <ul>
+                <li>New calendar page with school calendar</li>
+>>>>>>> d1e0251623083c4d679840df0452151015c41569
               </ul>
             </article>
 
@@ -23,6 +29,7 @@ class Changelog extends Component {
               <p className="uk-article-meta">29 April 2018</p>
               <p>Term 2 update addressing existing issues and bugs, and adding new functionality.</p>
               <ul>
+                <li>The ability to logout</li>
                 <li>Bugfixes and stability</li>
                 <li>Low resolution compatibility</li>
                 <li>Better notes editor</li>
@@ -38,7 +45,11 @@ class Changelog extends Component {
 
             <article className="uk-article">
               <h1 className="uk-article-title">Alpha v0.1.1</h1>
+<<<<<<< HEAD
               <p className="uk-article-meta">25 March 2018</p>
+=======
+              <p className="uk-article-meta">25 April 2018</p>
+>>>>>>> d1e0251623083c4d679840df0452151015c41569
               <p>The first update of DinnerJacket fixing critical to cosmetic issues.</p>
               <ul>
                 <li>Fixed crashing on loading page</li>
@@ -52,7 +63,11 @@ class Changelog extends Component {
 
             <article className="uk-article">
               <h1 className="uk-article-title">Alpha v0.1.0</h1>
+<<<<<<< HEAD
               <p className="uk-article-meta">18 March 2018</p>
+=======
+              <p className="uk-article-meta">25 April 2018</p>
+>>>>>>> d1e0251623083c4d679840df0452151015c41569
               <p>The first operational release of DinnerJacket with basic functionality.</p>
               <ul>
                 <li>Added dashboard</li>

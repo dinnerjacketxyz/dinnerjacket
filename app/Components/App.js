@@ -377,7 +377,6 @@ class App extends Component {
     }
   }
 
-
   showChangelog() {
     //console.log('Changelog tab clicked')
     let visible = this.state.visible

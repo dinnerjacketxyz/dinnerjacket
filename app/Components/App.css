@@ -101,7 +101,7 @@ body {
   max-width: 100%;
 }
 
-@media (max-width: 880px) {
+@media (max-width: 920px) {
   .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {
     height:60px
   }
