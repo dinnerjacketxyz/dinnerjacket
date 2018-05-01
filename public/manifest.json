@@ -1,5 +1,4 @@
-{
-  "short_name": "DinnerJacket",
+{"short_name": "DinnerJacket",
   "name": "DinnerJacket",
   "icons": [{
     "src": "/icons/touch/icon-128x128.png",
@@ -22,9 +21,8 @@
     "type": "image/png",
     "sizes": "512x512"
   }],
-  "start_url": "",
   "background_color": "#f8f8f8",
-  "theme_color": "#2dc0d5",
+  "theme_color": "#f8f8f8",
   "display": "standalone",
   "orientation": "portrait"
 }
