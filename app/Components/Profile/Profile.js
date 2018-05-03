@@ -151,6 +151,10 @@ const DETAILS = () => {
     <table id='detailsTable' className='uk-table uk-table-small'>
       <tbody>
         <tr>
+            <td className='width-small'>ID</td>
+            <td><code>{userData.username}</code></td>
+        </tr>
+        <tr>
             <td className='width-small'>Email</td>
             <td><code>{userData.email}</code></td>
         </tr>

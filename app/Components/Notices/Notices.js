@@ -10,7 +10,7 @@ class Notices extends Component {
     this.state = {
       notices: [],
       year: 'ALL',
-      text: 'EXPAND ALL'
+      text: 'EXPAND'
     }
 
     this.init()
@@ -115,10 +115,10 @@ class Notices extends Component {
   toggleNotices() {
     let text = this.state.text
     let newText = ''
-    if (text === 'EXPAND ALL') {
-      newText = 'COLLAPSE ALL'
+    if (text === 'EXPAND') {
+      newText = 'COLLAPSE'
     } else {
-      newText = 'EXPAND ALL'
+      newText = 'EXPAND'
     }
 
     this.setState({ text: newText })
@@ -127,7 +127,7 @@ class Notices extends Component {
   render() {
     let text = this.state.text
     let rows
-    if (text === 'EXPAND ALL') {
+    if (text === 'EXPAND') {
       rows = this.state.notices.map(notice => {
         return <CollapsedNotices key = {
           notice.title
@@ -149,11 +149,11 @@ class Notices extends Component {
       })
     }
     return (
-      <div className='uk-flex uk-flex-center'>
-        <div className='uk-margin-top uk-card uk-card-default uk-card-body uk-width-xxlarge miniFill uk-animation-slide-top-small'>
-          <div className='uk-margin-large-bottom uk-padding-large-bottom'>
-            <div className='uk-margin uk-align-right'>
-              <select id='yearSelector' onChange={this.selectYear.bind(this)} className='uk-select'>
+      <div className='noticesParent'>
+        <div className='noticesChild uk-animation-slide-top-small'>
+          <div className='uk-margin-large-bottom'>
+            <div className='yearSelect'>
+              <select id='yearSelector' onChange={this.selectYear.bind(this)} className='yearSelect uk-select'>
                 <option>ALL</option>
                 <option>7</option>
                 <option>8</option>
@@ -180,9 +180,9 @@ class Notices extends Component {
 
 const CollapsedNotices = (props) => {
   return (
-    <li className='uk-animation-slide-top-small'>
+    <li className=''>
       <span className='uk-label'>{props.notices.years}</span>
-      <a className='uk-accordion-title'>{props.notices.title}</a><i>{props.notices.date}</i>
+      <a className='uk-accordion-title'>{props.notices.title}</a>
       <div className='uk-accordion-content uk-animation-slide-top-small'>
         {props.notices.content}
         <p className='uk-margin-small-top'><b>{props.notices.author}</b></p>
@@ -193,9 +193,9 @@ const CollapsedNotices = (props) => {
 
 const ExpandedNotices = (props) => {
   return (
-    <li className='uk-open uk-animation-slide-top-small'>
+    <li className='uk-open'>
       <span className='uk-label'>{props.notices.years}</span>
-      <a className='uk-accordion-title'>{props.notices.title}</a><i>{props.notices.date}</i>
+      <a className='uk-accordion-title'>{props.notices.title}</a>
       <div className='uk-accordion-content uk-animation-slide-top-small'>
         {props.notices.content}
         <p className='uk-margin-small-top'><b>{props.notices.author}</b></p>
@@ -205,3 +205,5 @@ const ExpandedNotices = (props) => {
 }
 
 export default Notices
+
+//<i>{props.notices.date}</i>
