@@ -6,7 +6,7 @@ html {
   display: flex;
   height: auto;
   margin: 0 auto;
-  min-height: inherit;
+  min-height: 100vh;
 }
 .vcWelcomeCard {
   margin: auto;
