@@ -272,13 +272,13 @@ class Dashboard extends Component {
 
     // Get room variations - change in rooms
     const roomVariations = timetable['roomVariations']
-    //console.log(roomVariations)
+    console.log(roomVariations)
     // TODO: Needs testing
     if (timetable['roomVariations'] !== undefined) {
       const numVariations = Object.keys(roomVariations).length
       for (var i=0; i<numVariations; i++) {
         const periodNo = Object.keys(roomVariations)[i]
-        periods[periodNo-1].room = roomVariations[i]['roomTo']
+        periods[periodNo-1].room = roomVariations[periodNo]['roomTo']
         periods[periodNo-1].changed.push('room')
       }
     }

@@ -837,13 +837,10 @@ var Writable = __webpack_require__(34);
 
 util.inherits(Duplex, Readable);
 
-{
-  // avoid scope creep, the keys array can then be collected
-  var keys = objectKeys(Writable.prototype);
-  for (var v = 0; v < keys.length; v++) {
-    var method = keys[v];
-    if (!Duplex.prototype[method]) Duplex.prototype[method] = Writable.prototype[method];
-  }
+var keys = objectKeys(Writable.prototype);
+for (var v = 0; v < keys.length; v++) {
+  var method = keys[v];
+  if (!Duplex.prototype[method]) Duplex.prototype[method] = Writable.prototype[method];
 }
 
 function Duplex(options) {
@@ -861,16 +858,6 @@ function Duplex(options) {
 
   this.once('end', onend);
 }
-
-Object.defineProperty(Duplex.prototype, 'writableHighWaterMark', {
-  // making it explicit this property is not enumerable
-  // because otherwise some prototype manipulation in
-  // userland will fail
-  enumerable: false,
-  get: function () {
-    return this._writableState.highWaterMark;
-  }
-});
 
 // the no-half-open enforcer
 function onend() {
@@ -914,6 +901,12 @@ Duplex.prototype._destroy = function (err, cb) {
 
   pna.nextTick(cb, err);
 };
+
+function forEach(xs, f) {
+  for (var i = 0, l = xs.length; i < l; i++) {
+    f(xs[i], i);
+  }
+}
 
 /***/ }),
 /* 7 */
@@ -1022,7 +1015,7 @@ module.exports = emptyFunction;
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var ClientRequest = __webpack_require__(59)
-var response = __webpack_require__(28)
+var IncomingMessage = __webpack_require__(28)
 var extend = __webpack_require__(69)
 var statusCodes = __webpack_require__(70)
 var url = __webpack_require__(71)
@@ -1069,12 +1062,10 @@ http.get = function get (opts, cb) {
 }
 
 http.ClientRequest = ClientRequest
-http.IncomingMessage = response.IncomingMessage
+http.IncomingMessage = IncomingMessage
 
 http.Agent = function () {}
 http.Agent.defaultMaxSockets = 4
-
-http.globalAgent = new http.Agent()
 
 http.STATUS_CODES = statusCodes
 
@@ -7290,16 +7281,6 @@ Readable.prototype.wrap = function (stream) {
   return this;
 };
 
-Object.defineProperty(Readable.prototype, 'readableHighWaterMark', {
-  // making it explicit this property is not enumerable
-  // because otherwise some prototype manipulation in
-  // userland will fail
-  enumerable: false,
-  get: function () {
-    return this._readableState.highWaterMark;
-  }
-});
-
 // exposed for testing purposes only.
 Readable._fromList = fromList;
 
@@ -7422,6 +7403,12 @@ function endReadableNT(state, stream) {
     state.endEmitted = true;
     stream.readable = false;
     stream.emit('end');
+  }
+}
+
+function forEach(xs, f) {
+  for (var i = 0, l = xs.length; i < l; i++) {
+    f(xs[i], i);
   }
 }
 
@@ -8203,16 +8190,6 @@ function decodeChunk(state, chunk, encoding) {
   return chunk;
 }
 
-Object.defineProperty(Writable.prototype, 'writableHighWaterMark', {
-  // making it explicit this property is not enumerable
-  // because otherwise some prototype manipulation in
-  // userland will fail
-  enumerable: false,
-  get: function () {
-    return this._writableState.highWaterMark;
-  }
-});
-
 // if we're already writing something, then just put this
 // in the queue, and wait our turn.  Otherwise, call _write
 // If we return false, then we need a drain event, so set that flag.
@@ -8526,18 +8503,15 @@ Writable.prototype._destroy = function (err, cb) {
 /* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {var scope = (typeof global !== "undefined" && global) ||
-            (typeof self !== "undefined" && self) ||
-            window;
-var apply = Function.prototype.apply;
+/* WEBPACK VAR INJECTION */(function(global) {var apply = Function.prototype.apply;
 
 // DOM APIs, for completeness
 
 exports.setTimeout = function() {
-  return new Timeout(apply.call(setTimeout, scope, arguments), clearTimeout);
+  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
 };
 exports.setInterval = function() {
-  return new Timeout(apply.call(setInterval, scope, arguments), clearInterval);
+  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
 };
 exports.clearTimeout =
 exports.clearInterval = function(timeout) {
@@ -8552,7 +8526,7 @@ function Timeout(id, clearFn) {
 }
 Timeout.prototype.unref = Timeout.prototype.ref = function() {};
 Timeout.prototype.close = function() {
-  this._clearFn.call(scope, this._id);
+  this._clearFn.call(window, this._id);
 };
 
 // Does not start the time, just sets up the members needed.
@@ -8580,7 +8554,7 @@ exports._unrefActive = exports.active = function(item) {
 
 // setimmediate attaches itself to the global object
 __webpack_require__(65);
-// On some exotic environments, it's not clear which object `setimmediate` was
+// On some exotic environments, it's not clear which object `setimmeidate` was
 // able to install onto.  Search each possibility in the same order as the
 // `setimmediate` library.
 exports.setImmediate = (typeof self !== "undefined" && self.setImmediate) ||
@@ -8597,33 +8571,9 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-
-
-/*<replacement>*/
 
 var Buffer = __webpack_require__(15).Buffer;
-/*</replacement>*/
 
 var isEncoding = Buffer.isEncoding || function (encoding) {
   encoding = '' + encoding;
@@ -8735,10 +8685,10 @@ StringDecoder.prototype.fillLast = function (buf) {
 };
 
 // Checks the type of a UTF-8 byte, whether it's ASCII, a leading byte, or a
-// continuation byte. If an invalid byte is detected, -2 is returned.
+// continuation byte.
 function utf8CheckByte(byte) {
   if (byte <= 0x7F) return 0;else if (byte >> 5 === 0x06) return 2;else if (byte >> 4 === 0x0E) return 3;else if (byte >> 3 === 0x1E) return 4;
-  return byte >> 6 === 0x02 ? -1 : -2;
+  return -1;
 }
 
 // Checks at most 3 bytes at the end of a Buffer in order to detect an
@@ -8752,13 +8702,13 @@ function utf8CheckIncomplete(self, buf, i) {
     if (nb > 0) self.lastNeed = nb - 1;
     return nb;
   }
-  if (--j < i || nb === -2) return 0;
+  if (--j < i) return 0;
   nb = utf8CheckByte(buf[j]);
   if (nb >= 0) {
     if (nb > 0) self.lastNeed = nb - 2;
     return nb;
   }
-  if (--j < i || nb === -2) return 0;
+  if (--j < i) return 0;
   nb = utf8CheckByte(buf[j]);
   if (nb >= 0) {
     if (nb > 0) {
@@ -8772,7 +8722,7 @@ function utf8CheckIncomplete(self, buf, i) {
 // Validates as many continuation bytes for a multi-byte UTF-8 character as
 // needed or are available. If we see a non-continuation byte where we expect
 // one, we "replace" the validated continuation bytes we've seen so far with
-// a single UTF-8 replacement character ('\ufffd'), to match v8's UTF-8 decoding
+// UTF-8 replacement characters ('\ufffd'), to match v8's UTF-8 decoding
 // behavior. The continuation byte check is included three times in the case
 // where all of the continuation bytes for a character exist in the same buffer.
 // It is also done this way as a slight performance increase instead of using a
@@ -8780,17 +8730,17 @@ function utf8CheckIncomplete(self, buf, i) {
 function utf8CheckExtraBytes(self, buf, p) {
   if ((buf[0] & 0xC0) !== 0x80) {
     self.lastNeed = 0;
-    return '\ufffd';
+    return '\ufffd'.repeat(p);
   }
   if (self.lastNeed > 1 && buf.length > 1) {
     if ((buf[1] & 0xC0) !== 0x80) {
       self.lastNeed = 1;
-      return '\ufffd';
+      return '\ufffd'.repeat(p + 1);
     }
     if (self.lastNeed > 2 && buf.length > 2) {
       if ((buf[2] & 0xC0) !== 0x80) {
         self.lastNeed = 2;
-        return '\ufffd';
+        return '\ufffd'.repeat(p + 2);
       }
     }
   }
@@ -8821,11 +8771,11 @@ function utf8Text(buf, i) {
   return buf.toString('utf8', i, end);
 }
 
-// For UTF-8, a replacement character is added when ending on a partial
-// character.
+// For UTF-8, a replacement character for each buffered byte of a (partial)
+// character needs to be added to the output.
 function utf8End(buf) {
   var r = buf && buf.length ? this.write(buf) : '';
-  if (this.lastNeed) return r + '\ufffd';
+  if (this.lastNeed) return r + '\ufffd'.repeat(this.lastTotal - this.lastNeed);
   return r;
 }
 
@@ -28021,7 +27971,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       res.on('d', (body) => {
         d += body
       })
-        res.on('end', () => {
+       res.on('end', () => {
         try {
           window.diaryCal = JSON.parse(d)
         } catch (e) {
@@ -28523,7 +28473,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "/*Vertical centering welcome card*/\r\nhtml {\r\n  width: 100%!important; height: 100%!important\r\n}\r\n.vcWelcomeParent {\r\n  display: flex;\r\n  height: auto;\r\n  margin: 0 auto;\r\n  min-height: inherit;\r\n}\r\n.vcWelcomeCard {\r\n  margin: auto;\r\n  justify-content: center;\r\n  display: flex;\r\n  text-align: center!important;\r\n}\r\n\r\n/*Onscreen elements of the welcome page*/\r\n#welcomeContent{\r\n  padding: 30px;\r\n  width: 450px!important;\r\n  box-shadow:0 5px 15px rgba(0,0,0,.08)\r\n}\r\n#welcomeTitle{\r\n  font-size: 4rem;\r\n  line-height: 1.2;\r\n}\r\n#welcomeLabel{\r\n  background-color: #f0506e;\r\n  color: #fff;\r\n  display: inline-block;\r\n  padding: 0 10px;\r\n  line-height: 1.5;\r\n  font-size: .875rem;\r\n  color: #fff;\r\n  vertical-align: middle;\r\n  white-space: nowrap;\r\n  border-radius: 2px;\r\n  text-transform: uppercase;\r\n}\r\n#welcomeText{\r\n  margin-top: 20px!important;\r\n  margin-bottom: 20px!important\r\n}\r\n#loginButton {\r\n  margin-bottom: 20px!important;\r\n  margin-top: 20px!important;\r\n}\r\n#welcomelogo {\r\n  pointer-events: none;\r\n}\r\n\r\n/*Media rules*/\r\n@media screen and (max-width: 510px) {\r\n  .vcWelcomeCard{\r\n    width:100%;\r\n  }\r\n  #welcomeContent{\r\n    padding: 0px;\r\n    box-shadow: none;\r\n  }\r\n  #welcomeText {\r\n    margin-left: 30px;\r\n    margin-right: 30px;\r\n  }\r\n  #welcomeTitle{\r\n    font-size:3rem;\r\n    line-height:1.3\r\n  }\r\n  #welcomelogo{\r\n    width: 100px;\r\n  }\r\n  #welcomeLabel,#loginButton,#welcomeContent{\r\n    font-size: 13px;\r\n  }\r\n}\r\n@media screen and (max-width: 310px) {\r\n  #welcomeTitle{\r\n    font-size:2.5rem;line-height:1.4 \r\n  }\r\n  #welcomeLabel,#loginButton,#welcomeContent{\r\n    font-size: 12px;\r\n  }\r\n  #welcomelogo{\r\n    width: 90px;\r\n  }\r\n}\r\n@media screen and (max-width: 255px) {\r\n  #welcomeTitle{\r\n    font-size:1.5rem;line-height:1.4\r\n  }\r\n  #welcomeLabel,#loginButton,#welcomeContent{\r\n    font-size: 10px;\r\n  }\r\n  #welcomelogo{\r\n    width: 80px;\r\n  }\r\n}\r\n\r\n@media screen and (max-height: 490px) {\r\n  #welcomeContent{\r\n    padding: 0px;\r\n    box-shadow: none;\r\n  }\r\n  #welcomeText {\r\n    margin-top: 10px!important;\r\n    margin-bottom: 10px!important;\r\n  }\r\n  #welcomeTitle{\r\n    font-size:3rem;\r\n    line-height:1.3\r\n  }\r\n  #welcomelogo{\r\n    width: 100px;\r\n  }\r\n  #welcomeLabel,#loginButton,#welcomeContent{\r\n    font-size: 13px;\r\n  }\r\n  #loginButton {\r\n    margin-top: 10px!important;\r\n    margin-bottom: 10px!important;\r\n  }\r\n}\r\n\r\n", ""]);
+exports.push([module.i, "/*Vertical centering welcome card*/\nhtml {\n  width: 100%!important; height: 100%!important\n}\n.vcWelcomeParent {\n  display: flex;\n  height: auto;\n  margin: 0 auto;\n  min-height: inherit;\n}\n.vcWelcomeCard {\n  margin: auto;\n  justify-content: center;\n  display: flex;\n  text-align: center!important;\n}\n\n/*Onscreen elements of the welcome page*/\n#welcomeContent{\n  padding: 30px;\n  width: 450px!important;\n  box-shadow:0 5px 15px rgba(0,0,0,.08)\n}\n#welcomeTitle{\n  font-size: 4rem;\n  line-height: 1.2;\n}\n#welcomeLabel{\n  background-color: #f0506e;\n  color: #fff;\n  display: inline-block;\n  padding: 0 10px;\n  line-height: 1.5;\n  font-size: .875rem;\n  color: #fff;\n  vertical-align: middle;\n  white-space: nowrap;\n  border-radius: 2px;\n  text-transform: uppercase;\n}\n#welcomeText{\n  margin-top: 20px!important;\n  margin-bottom: 20px!important\n}\n#loginButton {\n  margin-bottom: 20px!important;\n  margin-top: 20px!important;\n}\n#welcomelogo {\n  pointer-events: none;\n}\n\n/*Media rules*/\n@media screen and (max-width: 510px) {\n  .vcWelcomeCard{\n    width:100%;\n  }\n  #welcomeContent{\n    padding: 0px;\n    box-shadow: none;\n  }\n  #welcomeText {\n    margin-left: 30px;\n    margin-right: 30px;\n  }\n  #welcomeTitle{\n    font-size:3rem;\n    line-height:1.3\n  }\n  #welcomelogo{\n    width: 100px;\n  }\n  #welcomeLabel,#loginButton,#welcomeContent{\n    font-size: 13px;\n  }\n}\n@media screen and (max-width: 310px) {\n  #welcomeTitle{\n    font-size:2.5rem;line-height:1.4 \n  }\n  #welcomeLabel,#loginButton,#welcomeContent{\n    font-size: 12px;\n  }\n  #welcomelogo{\n    width: 90px;\n  }\n}\n@media screen and (max-width: 255px) {\n  #welcomeTitle{\n    font-size:1.5rem;line-height:1.4\n  }\n  #welcomeLabel,#loginButton,#welcomeContent{\n    font-size: 10px;\n  }\n  #welcomelogo{\n    width: 80px;\n  }\n}\n\n@media screen and (max-height: 490px) {\n  #welcomeContent{\n    padding: 0px;\n    box-shadow: none;\n  }\n  #welcomeText {\n    margin-top: 10px!important;\n    margin-bottom: 10px!important;\n  }\n  #welcomeTitle{\n    font-size:3rem;\n    line-height:1.3\n  }\n  #welcomelogo{\n    width: 100px;\n  }\n  #welcomeLabel,#loginButton,#welcomeContent{\n    font-size: 13px;\n  }\n  #loginButton {\n    margin-top: 10px!important;\n    margin-bottom: 10px!important;\n  }\n}\n\n", ""]);
 
 // exports
 
@@ -28657,20 +28607,20 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     this.updateTimetableDisplay(window.dashboard);
 
     /* Old code
-      // returns daily notices, see auth.js for usage info
+     // returns daily notices, see auth.js for usage info
     let promise = new Promise( function (resolve, reject) {
       http.get('/getdata?url=timetable/daytimetable.json', (res) => {
-          res.setEncoding('utf8')
-          let returnData = ''
-          res.on('data', function (body) {
+         res.setEncoding('utf8')
+         let returnData = ''
+         res.on('data', function (body) {
           returnData += body
         })
-          res.on('end', function(){
+         res.on('end', function(){
           resolve(returnData)
         })
       })
     })
-      promise.then(function(result) {
+     promise.then(function(result) {
       this.updateTimetableDisplay(result)
       this.timerTick()
     }.bind(this))
@@ -28857,13 +28807,13 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
     // Get room variations - change in rooms
     const roomVariations = timetable['roomVariations'];
-    //console.log(roomVariations)
+    console.log(roomVariations);
     // TODO: Needs testing
     if (timetable['roomVariations'] !== undefined) {
       const numVariations = Object.keys(roomVariations).length;
       for (var i = 0; i < numVariations; i++) {
         const periodNo = Object.keys(roomVariations)[i];
-        periods[periodNo - 1].room = roomVariations[i]['roomTo'];
+        periods[periodNo - 1].room = roomVariations[periodNo]['roomTo'];
         periods[periodNo - 1].changed.push('room');
       }
     }
@@ -29315,7 +29265,7 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 // Old timer code that relies on Javascript timers (inaccurate)
 /*if (this.state.timer === 0) {
   let nextClass = this.getNextClass()
-    // setup countdown for next class
+   // setup countdown for next class
   const date = new Date()
   const secDifference = Math.floor((nextClass.time.getTime() - date.getTime())/1000)
   this.setState( ()=> ({
@@ -29368,7 +29318,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, ".name {\r\n  margin-bottom: 0px\r\n}\r\n\r\n.uk-table-hover tbody tr:hover,.uk-table-hover>tr:hover{\r\n  background: #00ddff2c;\r\n}\r\n\r\n.meta {\r\n  font-size: .875rem;\r\n  line-height: 1.4;\r\n  color: #666;\r\n  vertical-align: top!important;\r\n  text-align: left!important;\r\n  font-family: \"Open Sans\",sans-serif;\r\n}\r\n\r\n.lead {\r\n  font-size: 1.5rem;\r\n  font-weight: 300;\r\n  vertical-align: middle!important;\r\n  font-family: 'Roboto', sans-serif;\r\n}\r\n\r\n.room {\r\n  font-size: 1.5rem;\r\n  font-weight: 300;\r\n  vertical-align: middle!important;\r\n  width: 1px;\r\n  font-family: 'Roboto', sans-serif;\r\n}\r\n\r\n.nextClass {\r\n  font-weight: 300!important\r\n}\r\n\r\n.countdown {\r\n  margin-bottom: 20px;\r\n}\r\n\r\n.dashCard {\r\n  width: 400px;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  padding: 30px 30px;\r\n}\r\n\r\n.dashTable {\r\n  border-collapse: collapse;\r\n  border-spacing: 0;\r\n  width: 100%;\r\n  display: table;\r\n  border-color: grey;\r\n}\r\n\r\n@media (max-height: 747px),(max-width: 400px) {\r\n  .lead,.room{\r\n    font-size: 1.3rem;\r\n  }\r\n  .countdown{\r\n    font-size: 3.5rem;\r\n    margin-bottom: 10px;\r\n  }\r\n  .in{\r\n    font-size: 13px;\r\n    margin: 0 0 0 0;\r\n  }\r\n  .nextClass{\r\n    font-size: 1.25rem;\r\n  }\r\n  .dashTable td{\r\n    padding: 7px 7px!important\r\n  }\r\n  .dashCard{\r\n    width: 375px\r\n  }\r\n}\r\n\r\n@media (max-height: 620px),(max-width: 300px) {\r\n  .lead,.room{\r\n    font-size: 1.25rem;\r\n  }\r\n  .countdown{\r\n    font-size: 3rem;\r\n    margin-bottom: 5px;\r\n  }\r\n  .in{\r\n    font-size: 11px;\r\n  }\r\n  .nextClass{\r\n    font-size: 1.2rem!important;\r\n  }\r\n  .dashTable td{\r\n    padding: 5px 5px!important\r\n  }\r\n  .dashCard{\r\n    width: 300px;\r\n    padding: 15px 15px;\r\n  }\r\n  .meta{\r\n    font-size: 0.75rem;\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 460px) {\r\n  .dashCard{\r\n    width: 100vw;\r\n    max-width: 100%;\r\n    box-shadow: none;\r\n  }\r\n}\r\n\r\n\r\n", ""]);
+exports.push([module.i, ".name {\n  margin-bottom: 0px\n}\n\n.uk-table-hover tbody tr:hover,.uk-table-hover>tr:hover{\n  background: #00ddff2c;\n}\n\n.meta {\n  font-size: .875rem;\n  line-height: 1.4;\n  color: #666;\n  vertical-align: top!important;\n  text-align: left!important;\n  font-family: \"Open Sans\",sans-serif;\n}\n\n.lead {\n  font-size: 1.5rem;\n  font-weight: 300;\n  vertical-align: middle!important;\n  font-family: 'Roboto', sans-serif;\n}\n\n.room {\n  font-size: 1.5rem;\n  font-weight: 300;\n  vertical-align: middle!important;\n  width: 1px;\n  font-family: 'Roboto', sans-serif;\n}\n\n.nextClass {\n  font-weight: 300!important\n}\n\n.countdown {\n  margin-bottom: 20px;\n}\n\n.dashCard {\n  width: 400px;\n  background: #fff;\n  color: #666;\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\n  padding: 30px 30px;\n}\n\n.dashTable {\n  border-collapse: collapse;\n  border-spacing: 0;\n  width: 100%;\n  display: table;\n  border-color: grey;\n}\n\n@media (max-height: 747px),(max-width: 400px) {\n  .lead,.room{\n    font-size: 1.3rem;\n  }\n  .countdown{\n    font-size: 3.5rem;\n    margin-bottom: 10px;\n  }\n  .in{\n    font-size: 13px;\n    margin: 0 0 0 0;\n  }\n  .nextClass{\n    font-size: 1.25rem;\n  }\n  .dashTable td{\n    padding: 7px 7px!important\n  }\n  .dashCard{\n    width: 375px\n  }\n}\n\n@media (max-height: 620px),(max-width: 300px) {\n  .lead,.room{\n    font-size: 1.25rem;\n  }\n  .countdown{\n    font-size: 3rem;\n    margin-bottom: 5px;\n  }\n  .in{\n    font-size: 11px;\n  }\n  .nextClass{\n    font-size: 1.2rem!important;\n  }\n  .dashTable td{\n    padding: 5px 5px!important\n  }\n  .dashCard{\n    width: 300px;\n    padding: 15px 15px;\n  }\n  .meta{\n    font-size: 0.75rem;\n  }\n}\n\n@media screen and (max-width: 460px) {\n  .dashCard{\n    width: 100vw;\n    max-width: 100%;\n    box-shadow: none;\n  }\n}\n\n\n", ""]);
 
 // exports
 
@@ -29729,97 +29679,65 @@ for (var i = 0, len = code.length; i < len; ++i) {
 revLookup['-'.charCodeAt(0)] = 62
 revLookup['_'.charCodeAt(0)] = 63
 
-function getLens (b64) {
+function placeHoldersCount (b64) {
   var len = b64.length
-
   if (len % 4 > 0) {
     throw new Error('Invalid string. Length must be a multiple of 4')
   }
 
-  // Trim off extra bytes after placeholder bytes are found
-  // See: https://github.com/beatgammit/base64-js/issues/42
-  var validLen = b64.indexOf('=')
-  if (validLen === -1) validLen = len
-
-  var placeHoldersLen = validLen === len
-    ? 0
-    : 4 - (validLen % 4)
-
-  return [validLen, placeHoldersLen]
+  // the number of equal signs (place holders)
+  // if there are two placeholders, than the two characters before it
+  // represent one byte
+  // if there is only one, then the three characters before it represent 2 bytes
+  // this is just a cheap hack to not do indexOf twice
+  return b64[len - 2] === '=' ? 2 : b64[len - 1] === '=' ? 1 : 0
 }
 
-// base64 is 4/3 + up to two characters of the original data
 function byteLength (b64) {
-  var lens = getLens(b64)
-  var validLen = lens[0]
-  var placeHoldersLen = lens[1]
-  return ((validLen + placeHoldersLen) * 3 / 4) - placeHoldersLen
-}
-
-function _byteLength (b64, validLen, placeHoldersLen) {
-  return ((validLen + placeHoldersLen) * 3 / 4) - placeHoldersLen
+  // base64 is 4/3 + up to two characters of the original data
+  return (b64.length * 3 / 4) - placeHoldersCount(b64)
 }
 
 function toByteArray (b64) {
-  var tmp
-  var lens = getLens(b64)
-  var validLen = lens[0]
-  var placeHoldersLen = lens[1]
+  var i, l, tmp, placeHolders, arr
+  var len = b64.length
+  placeHolders = placeHoldersCount(b64)
 
-  var arr = new Arr(_byteLength(b64, validLen, placeHoldersLen))
-
-  var curByte = 0
+  arr = new Arr((len * 3 / 4) - placeHolders)
 
   // if there are placeholders, only get up to the last complete 4 chars
-  var len = placeHoldersLen > 0
-    ? validLen - 4
-    : validLen
+  l = placeHolders > 0 ? len - 4 : len
 
-  for (var i = 0; i < len; i += 4) {
-    tmp =
-      (revLookup[b64.charCodeAt(i)] << 18) |
-      (revLookup[b64.charCodeAt(i + 1)] << 12) |
-      (revLookup[b64.charCodeAt(i + 2)] << 6) |
-      revLookup[b64.charCodeAt(i + 3)]
-    arr[curByte++] = (tmp >> 16) & 0xFF
-    arr[curByte++] = (tmp >> 8) & 0xFF
-    arr[curByte++] = tmp & 0xFF
+  var L = 0
+
+  for (i = 0; i < l; i += 4) {
+    tmp = (revLookup[b64.charCodeAt(i)] << 18) | (revLookup[b64.charCodeAt(i + 1)] << 12) | (revLookup[b64.charCodeAt(i + 2)] << 6) | revLookup[b64.charCodeAt(i + 3)]
+    arr[L++] = (tmp >> 16) & 0xFF
+    arr[L++] = (tmp >> 8) & 0xFF
+    arr[L++] = tmp & 0xFF
   }
 
-  if (placeHoldersLen === 2) {
-    tmp =
-      (revLookup[b64.charCodeAt(i)] << 2) |
-      (revLookup[b64.charCodeAt(i + 1)] >> 4)
-    arr[curByte++] = tmp & 0xFF
-  }
-
-  if (placeHoldersLen === 1) {
-    tmp =
-      (revLookup[b64.charCodeAt(i)] << 10) |
-      (revLookup[b64.charCodeAt(i + 1)] << 4) |
-      (revLookup[b64.charCodeAt(i + 2)] >> 2)
-    arr[curByte++] = (tmp >> 8) & 0xFF
-    arr[curByte++] = tmp & 0xFF
+  if (placeHolders === 2) {
+    tmp = (revLookup[b64.charCodeAt(i)] << 2) | (revLookup[b64.charCodeAt(i + 1)] >> 4)
+    arr[L++] = tmp & 0xFF
+  } else if (placeHolders === 1) {
+    tmp = (revLookup[b64.charCodeAt(i)] << 10) | (revLookup[b64.charCodeAt(i + 1)] << 4) | (revLookup[b64.charCodeAt(i + 2)] >> 2)
+    arr[L++] = (tmp >> 8) & 0xFF
+    arr[L++] = tmp & 0xFF
   }
 
   return arr
 }
 
 function tripletToBase64 (num) {
-  return lookup[num >> 18 & 0x3F] +
-    lookup[num >> 12 & 0x3F] +
-    lookup[num >> 6 & 0x3F] +
-    lookup[num & 0x3F]
+  return lookup[num >> 18 & 0x3F] + lookup[num >> 12 & 0x3F] + lookup[num >> 6 & 0x3F] + lookup[num & 0x3F]
 }
 
 function encodeChunk (uint8, start, end) {
   var tmp
   var output = []
   for (var i = start; i < end; i += 3) {
-    tmp =
-      ((uint8[i] << 16) & 0xFF0000) +
-      ((uint8[i + 1] << 8) & 0xFF00) +
-      (uint8[i + 2] & 0xFF)
+    tmp = ((uint8[i] << 16) & 0xFF0000) + ((uint8[i + 1] << 8) & 0xFF00) + (uint8[i + 2] & 0xFF)
     output.push(tripletToBase64(tmp))
   }
   return output.join('')
@@ -29829,33 +29747,30 @@ function fromByteArray (uint8) {
   var tmp
   var len = uint8.length
   var extraBytes = len % 3 // if we have 1 byte left, pad 2 bytes
+  var output = ''
   var parts = []
   var maxChunkLength = 16383 // must be multiple of 3
 
   // go through the array every three bytes, we'll deal with trailing stuff later
   for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
-    parts.push(encodeChunk(
-      uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)
-    ))
+    parts.push(encodeChunk(uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)))
   }
 
   // pad the end with zeros, but make sure to not forget the extra bytes
   if (extraBytes === 1) {
     tmp = uint8[len - 1]
-    parts.push(
-      lookup[tmp >> 2] +
-      lookup[(tmp << 4) & 0x3F] +
-      '=='
-    )
+    output += lookup[tmp >> 2]
+    output += lookup[(tmp << 4) & 0x3F]
+    output += '=='
   } else if (extraBytes === 2) {
-    tmp = (uint8[len - 2] << 8) + uint8[len - 1]
-    parts.push(
-      lookup[tmp >> 10] +
-      lookup[(tmp >> 4) & 0x3F] +
-      lookup[(tmp << 2) & 0x3F] +
-      '='
-    )
+    tmp = (uint8[len - 2] << 8) + (uint8[len - 1])
+    output += lookup[tmp >> 10]
+    output += lookup[(tmp >> 4) & 0x3F]
+    output += lookup[(tmp << 2) & 0x3F]
+    output += '='
   }
+
+  parts.push(output)
 
   return parts.join('')
 }
@@ -29867,7 +29782,7 @@ function fromByteArray (uint8) {
 
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
-  var eLen = (nBytes * 8) - mLen - 1
+  var eLen = nBytes * 8 - mLen - 1
   var eMax = (1 << eLen) - 1
   var eBias = eMax >> 1
   var nBits = -7
@@ -29880,12 +29795,12 @@ exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   e = s & ((1 << (-nBits)) - 1)
   s >>= (-nBits)
   nBits += eLen
-  for (; nBits > 0; e = (e * 256) + buffer[offset + i], i += d, nBits -= 8) {}
+  for (; nBits > 0; e = e * 256 + buffer[offset + i], i += d, nBits -= 8) {}
 
   m = e & ((1 << (-nBits)) - 1)
   e >>= (-nBits)
   nBits += mLen
-  for (; nBits > 0; m = (m * 256) + buffer[offset + i], i += d, nBits -= 8) {}
+  for (; nBits > 0; m = m * 256 + buffer[offset + i], i += d, nBits -= 8) {}
 
   if (e === 0) {
     e = 1 - eBias
@@ -29900,7 +29815,7 @@ exports.read = function (buffer, offset, isLE, mLen, nBytes) {
 
 exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   var e, m, c
-  var eLen = (nBytes * 8) - mLen - 1
+  var eLen = nBytes * 8 - mLen - 1
   var eMax = (1 << eLen) - 1
   var eBias = eMax >> 1
   var rt = (mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0)
@@ -29933,7 +29848,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
       m = 0
       e = eMax
     } else if (e + eBias >= 1) {
-      m = ((value * c) - 1) * Math.pow(2, mLen)
+      m = (value * c - 1) * Math.pow(2, mLen)
       e = e + eBias
     } else {
       m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen)
@@ -32593,7 +32508,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, ".timetable td {\r\n  font-family: 'Roboto Mono', monospace;\r\n  padding:5px 6px;\r\n  transition: box-shadow .1s ease-in-out;\r\n  transition: background .1s ease-in-out;\r\n}\r\n.heading {\r\n  font-family: 'Roboto' !important;\r\n  font-weight: 300\r\n}\r\n\r\n.uk-text-center th {\r\n  text-align: center;\r\n}\r\n\r\n.highlight {\r\n  background: #2dc0d5;\r\n  color: #fff;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n}\r\n\r\n.ttableCard {\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  padding: 30px 30px;\r\n  width: 600px;\r\n}\r\n\r\n#ttableName {\r\n  font-weight: 300;\r\n}\r\n\r\n@media (max-height:830px){\r\n  .timetable td{\r\n    padding: 2px 1px;\r\n  }\r\n  .uk-table th {\r\n    padding: 5px 6px;\r\n  }\r\n  .uk-table{\r\n    margin-bottom: 5px;\r\n  }\r\n  #ttableName{\r\n    font-size: 2.25rem;\r\n  }\r\n  #fullTimetable hr{\r\n    margin-top: 15px;\r\n    margin-bottom: 15px;\r\n  }\r\n  .ttableCard {\r\n    width: 525px;\r\n  }\r\n}\r\n\r\n@media (max-height:675px){\r\n  #ttableName{\r\n    visibility: hidden;\r\n    height: 0px;\r\n  }\r\n  #fullTimetable h3{\r\n    height:0px;\r\n  }\r\n}\r\n\r\n@media (max-width:530px), (max-height:620px){\r\n  #fullTimetable {\r\n    visibility: hidden;\r\n    display: none;\r\n  }\r\n  #smallTimetable{\r\n    visibility: visible;\r\n    display: block;\r\n  }\r\n}\r\n\r\n@media (min-width:530px) and (min-height:620px){\r\n  #fullTimetable {\r\n    visibility: visible;\r\n    display: block;\r\n  }\r\n  #smallTimetable{\r\n    visibility: hidden;\r\n    display: none;\r\n  }\r\n}\r\n\r\n@media (max-width:371px){\r\n  #smallTimetable a{\r\n    padding-left: 2px;\r\n    padding-right: 2px;\r\n  }\r\n}\r\n\r\n@media (max-width:600px){\r\n  .ttableCard{\r\n    box-shadow: none;\r\n  }\r\n}", ""]);
+exports.push([module.i, ".timetable td {\n  font-family: 'Roboto Mono', monospace;\n  padding:5px 6px;\n  transition: box-shadow .1s ease-in-out;\n  transition: background .1s ease-in-out;\n}\n.heading {\n  font-family: 'Roboto' !important;\n  font-weight: 300\n}\n\n.uk-text-center th {\n  text-align: center;\n}\n\n.highlight {\n  background: #2dc0d5;\n  color: #fff;\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\n}\n\n.ttableCard {\n  position: relative;\n  box-sizing: border-box;\n  transition: box-shadow .1s ease-in-out;\n  background: #fff;\n  color: #666;\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\n  padding: 30px 30px;\n  width: 600px;\n}\n\n#ttableName {\n  font-weight: 300;\n}\n\n@media (max-height:830px){\n  .timetable td{\n    padding: 2px 1px;\n  }\n  .uk-table th {\n    padding: 5px 6px;\n  }\n  .uk-table{\n    margin-bottom: 5px;\n  }\n  #ttableName{\n    font-size: 2.25rem;\n  }\n  #fullTimetable hr{\n    margin-top: 15px;\n    margin-bottom: 15px;\n  }\n  .ttableCard {\n    width: 525px;\n  }\n}\n\n@media (max-height:675px){\n  #ttableName{\n    visibility: hidden;\n    height: 0px;\n  }\n  #fullTimetable h3{\n    height:0px;\n  }\n}\n\n@media (max-width:530px), (max-height:620px){\n  #fullTimetable {\n    visibility: hidden;\n    display: none;\n  }\n  #smallTimetable{\n    visibility: visible;\n    display: block;\n  }\n}\n\n@media (min-width:530px) and (min-height:620px){\n  #fullTimetable {\n    visibility: visible;\n    display: block;\n  }\n  #smallTimetable{\n    visibility: hidden;\n    display: none;\n  }\n}\n\n@media (max-width:371px){\n  #smallTimetable a{\n    padding-left: 2px;\n    padding-right: 2px;\n  }\n}\n\n@media (max-width:600px){\n  .ttableCard{\n    box-shadow: none;\n  }\n}", ""]);
 
 // exports
 
@@ -32789,7 +32704,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, ".ql-editor p{\r\n  font-family: 'Open Sans', sans-serif!important;\r\n  font-weight: 400!important;\r\n}\r\n\r\n.ql-editor ol li:not(.ql-direction-rtl), .ql-editor ul li:not(.ql-direction-rtl) {\r\n  padding-left: 1.5em;\r\n  padding-right: 1.5em;\r\n}\r\n\r\n.ql-snow.ql-toolbar button:hover, .ql-snow .ql-toolbar button:hover, .ql-snow.ql-toolbar button:focus, .ql-snow .ql-toolbar button:focus, .ql-snow.ql-toolbar button.ql-active, .ql-snow .ql-toolbar button.ql-active, .ql-snow.ql-toolbar .ql-picker-label:hover, .ql-snow .ql-toolbar .ql-picker-label:hover, .ql-snow.ql-toolbar .ql-picker-label.ql-active, .ql-snow .ql-toolbar .ql-picker-label.ql-active, .ql-snow.ql-toolbar .ql-picker-item:hover, .ql-snow .ql-toolbar .ql-picker-item:hover, .ql-snow.ql-toolbar .ql-picker-item.ql-selected, .ql-snow .ql-toolbar .ql-picker-item.ql-selected {\r\n  color: #2dc0d5!important;\r\n}\r\n\r\n.ql-snow.ql-toolbar button:hover .ql-stroke, .ql-snow .ql-toolbar button:hover .ql-stroke, .ql-snow.ql-toolbar button:focus .ql-stroke, .ql-snow .ql-toolbar button:focus .ql-stroke, .ql-snow.ql-toolbar button.ql-active .ql-stroke, .ql-snow .ql-toolbar button.ql-active .ql-stroke, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke, .ql-snow.ql-toolbar button:hover .ql-stroke-miter, .ql-snow .ql-toolbar button:hover .ql-stroke-miter, .ql-snow.ql-toolbar button:focus .ql-stroke-miter, .ql-snow .ql-toolbar button:focus .ql-stroke-miter, .ql-snow.ql-toolbar button.ql-active .ql-stroke-miter, .ql-snow .ql-toolbar button.ql-active .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter {\r\n  stroke: #2dc0d5!important;\r\n}\r\n\r\n.ql-snow.ql-toolbar button:hover .ql-fill, .ql-snow .ql-toolbar button:hover .ql-fill, .ql-snow.ql-toolbar button:focus .ql-fill, .ql-snow .ql-toolbar button:focus .ql-fill, .ql-snow.ql-toolbar button.ql-active .ql-fill, .ql-snow .ql-toolbar button.ql-active .ql-fill, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-fill, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-fill, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-fill, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-fill, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-fill, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-fill, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-fill, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-fill, .ql-snow.ql-toolbar button:hover .ql-stroke.ql-fill, .ql-snow .ql-toolbar button:hover .ql-stroke.ql-fill, .ql-snow.ql-toolbar button:focus .ql-stroke.ql-fill, .ql-snow .ql-toolbar button:focus .ql-stroke.ql-fill, .ql-snow.ql-toolbar button.ql-active .ql-stroke.ql-fill, .ql-snow .ql-toolbar button.ql-active .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill {\r\n  fill: #2dc0d5!important;\r\n}\r\n\r\n::selection{\r\nbackground: #2dc0d5!important;\r\n}\r\n\r\n::-moz-selection {\r\nbackground: #2dc0d5!important;\r\n}\r\n\r\ninput:focus{\r\n  outline-color: #2dc0d5!important;\r\n}\r\n\r\n.pad {\r\n  margin: 30px 30px 30px 30px;\r\n}\r\n\r\n.ql-container.ql-snow {\r\n  border:none!important;\r\n}\r\n.ql-toolbar.ql-snow {\r\n  border-bottom: 1px solid #ccc!important;\r\n  border: none;\r\n}\r\n\r\n.ql-editor p strong,.ql-editor h1 ,.ql-editor h2 ,.ql-editor h3 {\r\n  font-family: 'Open Sans', sans-serif!important;\r\n  font-weight: 700!important;\r\n}\r\n\r\n.ql-snow a {\r\n  color: #2dc0d5;\r\n}\r\n\r\n.notesParent {\r\n  justify-content: center;\r\n  display: flex;\r\n}\r\n\r\n#editor {\r\n  height:600px;\r\n}\r\n\r\n.notesChild {\r\n  width: 650px;\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  margin-top: 20px!important;\r\n}\r\n\r\n@media (max-width: 650px) {\r\n  #editor {\r\n    width: 100%;\r\n  }\r\n  .notesChild {\r\n    box-shadow: none;\r\n  }\r\n}", ""]);
+exports.push([module.i, ".ql-editor p{\n  font-family: 'Open Sans', sans-serif!important;\n  font-weight: 400!important;\n}\n\n.ql-editor ol li:not(.ql-direction-rtl), .ql-editor ul li:not(.ql-direction-rtl) {\n  padding-left: 1.5em;\n  padding-right: 1.5em;\n}\n\n.ql-snow.ql-toolbar button:hover, .ql-snow .ql-toolbar button:hover, .ql-snow.ql-toolbar button:focus, .ql-snow .ql-toolbar button:focus, .ql-snow.ql-toolbar button.ql-active, .ql-snow .ql-toolbar button.ql-active, .ql-snow.ql-toolbar .ql-picker-label:hover, .ql-snow .ql-toolbar .ql-picker-label:hover, .ql-snow.ql-toolbar .ql-picker-label.ql-active, .ql-snow .ql-toolbar .ql-picker-label.ql-active, .ql-snow.ql-toolbar .ql-picker-item:hover, .ql-snow .ql-toolbar .ql-picker-item:hover, .ql-snow.ql-toolbar .ql-picker-item.ql-selected, .ql-snow .ql-toolbar .ql-picker-item.ql-selected {\n  color: #2dc0d5!important;\n}\n\n.ql-snow.ql-toolbar button:hover .ql-stroke, .ql-snow .ql-toolbar button:hover .ql-stroke, .ql-snow.ql-toolbar button:focus .ql-stroke, .ql-snow .ql-toolbar button:focus .ql-stroke, .ql-snow.ql-toolbar button.ql-active .ql-stroke, .ql-snow .ql-toolbar button.ql-active .ql-stroke, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke, .ql-snow.ql-toolbar button:hover .ql-stroke-miter, .ql-snow .ql-toolbar button:hover .ql-stroke-miter, .ql-snow.ql-toolbar button:focus .ql-stroke-miter, .ql-snow .ql-toolbar button:focus .ql-stroke-miter, .ql-snow.ql-toolbar button.ql-active .ql-stroke-miter, .ql-snow .ql-toolbar button.ql-active .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter {\n  stroke: #2dc0d5!important;\n}\n\n.ql-snow.ql-toolbar button:hover .ql-fill, .ql-snow .ql-toolbar button:hover .ql-fill, .ql-snow.ql-toolbar button:focus .ql-fill, .ql-snow .ql-toolbar button:focus .ql-fill, .ql-snow.ql-toolbar button.ql-active .ql-fill, .ql-snow .ql-toolbar button.ql-active .ql-fill, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-fill, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-fill, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-fill, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-fill, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-fill, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-fill, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-fill, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-fill, .ql-snow.ql-toolbar button:hover .ql-stroke.ql-fill, .ql-snow .ql-toolbar button:hover .ql-stroke.ql-fill, .ql-snow.ql-toolbar button:focus .ql-stroke.ql-fill, .ql-snow .ql-toolbar button:focus .ql-stroke.ql-fill, .ql-snow.ql-toolbar button.ql-active .ql-stroke.ql-fill, .ql-snow .ql-toolbar button.ql-active .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill {\n  fill: #2dc0d5!important;\n}\n\n::selection{\nbackground: #2dc0d5!important;\n}\n\n::-moz-selection {\nbackground: #2dc0d5!important;\n}\n\ninput:focus{\n  outline-color: #2dc0d5!important;\n}\n\n.pad {\n  margin: 30px 30px 30px 30px;\n}\n\n.ql-container.ql-snow {\n  border:none!important;\n}\n.ql-toolbar.ql-snow {\n  border-bottom: 1px solid #ccc!important;\n  border: none;\n}\n\n.ql-editor p strong,.ql-editor h1 ,.ql-editor h2 ,.ql-editor h3 {\n  font-family: 'Open Sans', sans-serif!important;\n  font-weight: 700!important;\n}\n\n.ql-snow a {\n  color: #2dc0d5;\n}\n\n.notesParent {\n  justify-content: center;\n  display: flex;\n}\n\n#editor {\n  height:600px;\n}\n\n.notesChild {\n  width: 650px;\n  position: relative;\n  box-sizing: border-box;\n  transition: box-shadow .1s ease-in-out;\n  background: #fff;\n  color: #666;\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\n  margin-top: 20px!important;\n}\n\n@media (max-width: 650px) {\n  #editor {\n    width: 100%;\n  }\n  .notesChild {\n    box-shadow: none;\n  }\n}", ""]);
 
 // exports
 
@@ -55887,7 +55802,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, ".under {\r\n  margin-top: 70px!important\r\n}\r\n\r\n#noticesList .uk-accordion>:nth-child(n+2) {\r\n  margin-top: 20px;\r\n}\r\n\r\n#noticesList .uk-accordion-content {\r\n  margin-top: 8px;\r\n}\r\n\r\n.noticesParent {\r\n  display: flex;\r\n  justify-content: center;\r\n}\r\n\r\n.noticesChild {\r\n  margin-top: 20px!important;\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  width: 750px;\r\n  padding: 30px 30px;\r\n}\r\n\r\n.yearSelect {\r\n  float: right;\r\n  width: 60px!important;\r\n}\r\n\r\n@media (max-width:750px) {\r\n  .noticesChild {\r\n    box-shadow: none;\r\n  }\r\n  .noticesChild .uk-accordion-title {\r\n    font-size: 1.25rem;\r\n  }\r\n}", ""]);
+exports.push([module.i, ".under {\n  margin-top: 70px!important\n}\n\n#noticesList .uk-accordion>:nth-child(n+2) {\n  margin-top: 20px;\n}\n\n#noticesList .uk-accordion-content {\n  margin-top: 8px;\n}\n\n.noticesParent {\n  display: flex;\n  justify-content: center;\n}\n\n.noticesChild {\n  margin-top: 20px!important;\n  position: relative;\n  box-sizing: border-box;\n  transition: box-shadow .1s ease-in-out;\n  background: #fff;\n  color: #666;\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\n  width: 750px;\n  padding: 30px 30px;\n}\n\n.yearSelect {\n  float: right;\n  width: 60px!important;\n}\n\n@media (max-width:750px) {\n  .noticesChild {\n    box-shadow: none;\n  }\n  .noticesChild .uk-accordion-title {\n    font-size: 1.25rem;\n  }\n}", ""]);
 
 // exports
 
@@ -56044,7 +55959,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, ".calNotif {\r\n  left: 300%;\r\n  position: absolute!important;\r\n  transform: translate(-50%,-50%);\r\n  box-sizing: border-box;\r\n  min-width: 22px;\r\n  height: 22px;\r\n  padding: 0 5px;\r\n  border-radius: 500px;\r\n  vertical-align: middle;\r\n  background: #2dc0d5;\r\n  color: #fff;\r\n  font-size: .875rem;\r\n  display: inline-flex;\r\n  justify-content: center;\r\n  align-items: center;\r\n}\r\n\r\n.calDay {\r\n  width: 30px\r\n}\r\n\r\n.calTable {\r\n  table-layout: fixed;\r\n  padding: 5px 5px!important;\r\n}\r\n\r\n.calCell {\r\n  text-align: center;\r\n  width: 1px;\r\n  vertical-align: middle!important;\r\n}\r\n\r\n.calCellMuted {\r\n  color: #999!important;\r\n  text-align: center;\r\n  width: 1px;\r\n}\r\n\r\n.calCellSelected {\r\n  background-color: #2dc0d5;\r\n  vertical-align: middle!important;\r\n  font-weight: bolder;\r\n}\r\n\r\n.calWidth {\r\n  width: 85%\r\n}", ""]);
+exports.push([module.i, ".calNotif {\n  left: 300%;\n  position: absolute!important;\n  transform: translate(-50%,-50%);\n  box-sizing: border-box;\n  min-width: 22px;\n  height: 22px;\n  padding: 0 5px;\n  border-radius: 500px;\n  vertical-align: middle;\n  background: #2dc0d5;\n  color: #fff;\n  font-size: .875rem;\n  display: inline-flex;\n  justify-content: center;\n  align-items: center;\n}\n\n.calDay {\n  width: 30px\n}\n\n.calTable {\n  table-layout: fixed;\n  padding: 5px 5px!important;\n}\n\n.calCell {\n  text-align: center;\n  width: 1px;\n  vertical-align: middle!important;\n}\n\n.calCellMuted {\n  color: #999!important;\n  text-align: center;\n  width: 1px;\n}\n\n.calCellSelected {\n  background-color: #2dc0d5;\n  vertical-align: middle!important;\n  font-weight: bolder;\n}\n\n.calWidth {\n  width: 85%\n}", ""]);
 
 // exports
 
@@ -56208,7 +56123,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, ".aboutContainer {\r\n  margin-top: 20px!important;\r\n  margin-bottom: 20px!important;\r\n  justify-content: center;\r\n  display: flex;\r\n  text-align: center!important;\r\n}\r\n\r\n.aboutCard{\r\n  width: 600px;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  padding: 30px 30px;\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n}\r\n\r\nh4 {\r\n  font-weight: 300!important;\r\n}\r\n\r\n@media (max-width:600px){\r\n  .aboutCard{\r\n    box-shadow: none;\r\n  }\r\n}\r\n\r\n@media (max-width:420px){\r\n  .aboutCard h1{\r\n    font-size: 3.5rem;\r\n  }\r\n  .aboutCard h2{\r\n    font-size: 2.5rem;\r\n    font-weight: 300\r\n  }\r\n  #aboutlogo{\r\n    width: 125px;\r\n  }\r\n}\r\n@media (max-width:375px){\r\n  .aboutCard h1{\r\n    font-size: 3rem;\r\n    font-weight: 300\r\n  }\r\n  .aboutCard h2{\r\n    font-size: 2rem;\r\n  }\r\n  #aboutlogo{\r\n    width: 100px;\r\n  }\r\n}\r\n@media (max-width:335px){\r\n  .aboutCard h1{\r\n    font-size: 2.5rem;\r\n  }\r\n  .aboutCard h2{\r\n    font-size: 1.5rem;\r\n  }\r\n  #aboutlogo{\r\n    width: 75px;\r\n  }\r\n}\r\n\r\n", ""]);
+exports.push([module.i, ".aboutContainer {\n  margin-top: 20px!important;\n  margin-bottom: 20px!important;\n  justify-content: center;\n  display: flex;\n  text-align: center!important;\n}\n\n.aboutCard{\n  width: 600px;\n  background: #fff;\n  color: #666;\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\n  padding: 30px 30px;\n  position: relative;\n  box-sizing: border-box;\n  transition: box-shadow .1s ease-in-out;\n}\n\nh4 {\n  font-weight: 300!important;\n}\n\n@media (max-width:600px){\n  .aboutCard{\n    box-shadow: none;\n  }\n}\n\n@media (max-width:420px){\n  .aboutCard h1{\n    font-size: 3.5rem;\n  }\n  .aboutCard h2{\n    font-size: 2.5rem;\n    font-weight: 300\n  }\n  #aboutlogo{\n    width: 125px;\n  }\n}\n@media (max-width:375px){\n  .aboutCard h1{\n    font-size: 3rem;\n    font-weight: 300\n  }\n  .aboutCard h2{\n    font-size: 2rem;\n  }\n  #aboutlogo{\n    width: 100px;\n  }\n}\n@media (max-width:335px){\n  .aboutCard h1{\n    font-size: 2.5rem;\n  }\n  .aboutCard h2{\n    font-size: 1.5rem;\n  }\n  #aboutlogo{\n    width: 75px;\n  }\n}\n\n", ""]);
 
 // exports
 
@@ -56581,7 +56496,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, ".profileParent {\r\n  display: flex;\r\n  justify-content: center;\r\n}\r\n\r\n.profileChild {\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  padding: 30px 30px;\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n  width: 550px;\r\n  margin-top: 20px;\r\n}\r\n\r\n.big {\r\n  margin-top: 70px!important\r\n}\r\n\r\n.profileChild .uk-align-left{\r\n  margin-top: 0px;\r\n  margin-bottom: 0px;\r\n}\r\n\r\n.uk-table-small button ::selection {\r\n    background: #39f;\r\n    color: #fff;\r\n    text-shadow: none;\r\n}\r\n\r\n.width-small {\r\n  width:80px;\r\n}\r\n\r\n.profileChild td code {\r\n  word-wrap: break-word;\r\n  user-select: text;\r\n  font-size: .875rem;\r\n  color: #666;\r\n  white-space: initial!important;\r\n  padding: 2px 6px;\r\n  background: #f8f8f8;\r\n}\r\n\r\n\r\n\r\n#detailsTable {\r\n  width: 100%!important;\r\n  table-layout: fixed!important;\r\n}\r\n\r\n@media (max-width:550px){\r\n  .profileChild {\r\n    width: 100%;\r\n    box-shadow: none;\r\n  }\r\n  #profileContent .uk-accordion-title {\r\n    font-size: 1.25rem;\r\n  }\r\n}", ""]);
+exports.push([module.i, ".profileParent {\n  display: flex;\n  justify-content: center;\n}\n\n.profileChild {\n  background: #fff;\n  color: #666;\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\n  padding: 30px 30px;\n  position: relative;\n  box-sizing: border-box;\n  transition: box-shadow .1s ease-in-out;\n  width: 550px;\n  margin-top: 20px;\n}\n\n.big {\n  margin-top: 70px!important\n}\n\n.profileChild .uk-align-left{\n  margin-top: 0px;\n  margin-bottom: 0px;\n}\n\n.uk-table-small button ::selection {\n    background: #39f;\n    color: #fff;\n    text-shadow: none;\n}\n\n.width-small {\n  width:80px;\n}\n\n.profileChild td code {\n  word-wrap: break-word;\n  user-select: text;\n  font-size: .875rem;\n  color: #666;\n  white-space: initial!important;\n  padding: 2px 6px;\n  background: #f8f8f8;\n}\n\n\n\n#detailsTable {\n  width: 100%!important;\n  table-layout: fixed!important;\n}\n\n@media (max-width:550px){\n  .profileChild {\n    width: 100%;\n    box-shadow: none;\n  }\n  #profileContent .uk-accordion-title {\n    font-size: 1.25rem;\n  }\n}", ""]);
 
 // exports
 
@@ -56673,7 +56588,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, ".embed {\r\n  width: 100%;\r\n  height: 100vh;\r\n  position: absolute;\r\n  display: block;\r\n}\r\n\r\n.container {\r\n  position: relative;\r\n  z-index: 1;\r\n}\r\n\r\n.behind {\r\n  z-index: -1;\r\n}\r\n\r\n.loadingParent {\r\n  display: flex;\r\n  height: auto;\r\n  margin: 0 auto;\r\n  min-height: calc(100vh - 80px);\r\n  min-height: -o-calc(100vh - 80px);\r\n  min-height: -webkit-calc(100vh - 80px);\r\n  min-height: -moz-calc(100vh - 80px)\r\n}\r\n.loadingChild {\r\n  margin: auto;\r\n  justify-content: center;\r\n  display: flex;\r\n  text-align: center!important;\r\n  max-width: 100%;\r\n}\r\n@media (max-width: 880px), (max-height: 620px) {\r\n  .loadingParent{\r\n    min-height: calc(100vh - 60px);\r\n    min-height: -o-calc(100vh - 60px);\r\n    min-height: -webkit-calc(100vh - 60px);\r\n    min-height: -moz-calc(100vh - 60px)\r\n  }\r\n}\r\n", ""]);
+exports.push([module.i, ".embed {\n  width: 100%;\n  height: 100vh;\n  position: absolute;\n  display: block;\n}\n\n.container {\n  position: relative;\n  z-index: 1;\n}\n\n.behind {\n  z-index: -1;\n}\n\n.loadingParent {\n  display: flex;\n  height: auto;\n  margin: 0 auto;\n  min-height: calc(100vh - 80px);\n  min-height: -o-calc(100vh - 80px);\n  min-height: -webkit-calc(100vh - 80px);\n  min-height: -moz-calc(100vh - 80px)\n}\n.loadingChild {\n  margin: auto;\n  justify-content: center;\n  display: flex;\n  text-align: center!important;\n  max-width: 100%;\n}\n@media (max-width: 880px), (max-height: 620px) {\n  .loadingParent{\n    min-height: calc(100vh - 60px);\n    min-height: -o-calc(100vh - 60px);\n    min-height: -webkit-calc(100vh - 60px);\n    min-height: -moz-calc(100vh - 60px)\n  }\n}\n", ""]);
 
 // exports
 
@@ -56933,7 +56848,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, ".clContainer {\r\n  margin-top: 20px!important;\r\n  margin-bottom: 20px!important;\r\n  justify-content: center;\r\n  display: flex;\r\n}\r\n\r\n.clCard{\r\n  width: 600px;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  padding: 40px 60px;\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n}\r\n\r\n@media (max-width:600px){\r\n  .clCard{\r\n    box-shadow: none;\r\n  }\r\n}\r\n\r\n@media (max-width:440px){\r\n  .clCard{\r\n    padding: 30px 30px;\r\n  }\r\n}\r\n\r\n", ""]);
+exports.push([module.i, ".clContainer {\n  margin-top: 20px!important;\n  margin-bottom: 20px!important;\n  justify-content: center;\n  display: flex;\n}\n\n.clCard{\n  width: 600px;\n  background: #fff;\n  color: #666;\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\n  padding: 40px 60px;\n  position: relative;\n  box-sizing: border-box;\n  transition: box-shadow .1s ease-in-out;\n}\n\n@media (max-width:600px){\n  .clCard{\n    box-shadow: none;\n  }\n}\n\n@media (max-width:440px){\n  .clCard{\n    padding: 30px 30px;\n  }\n}\n\n", ""]);
 
 // exports
 
@@ -56978,7 +56893,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, ".uk-navbar-nav>li>a {\r\n  -webkit-font-smoothing: antialiased!important;\r\n  -moz-osx-font-smoothing: grayscale!important;\r\n}\r\n\r\n#content {\r\n  z-index: 1;\r\n}\r\n\r\n.mouseLoad{\r\n  cursor: wait;\r\n}\r\n\r\n#CalendarA {\r\n  color: #999!important;\r\n  pointer-events: all;\r\n  opacity: 0.25;\r\n  cursor: default;\r\n}\r\n\r\n.uk-tooltip {\r\n  background-color: #2dc0d5;\r\n  z-index: 2;\r\n}\r\n\r\nh1,h2,h3,h4,h5,h6,h7,.uk-h1,.uk-accordion-title,.uk-text-lead {\r\n  font-family: 'Roboto', sans-serif\r\n}\r\n\r\nb {\r\n  font-family: 'Open Sans', sans-serif;\r\n  font-weight: 700\r\n}\r\n\r\n.spinner {\r\n  display: flex;\r\n  align-items: center;\r\n  align-content: center;\r\n  justify-content: center;\r\n}\r\n\r\nbody {\r\n  user-select: none\r\n}\r\n\r\n.uk-accordion-title,.uk-text-lead {\r\n  font-size: 1.5rem;\r\n  font-weight: 300\r\n}\r\n\r\n.welcomeNav {\r\n  position: fixed;\r\n  visibility: hidden\r\n}\r\n\r\n.main {\r\n  transition: 150ms linear;\r\n}\r\n\r\n.djLogo {\r\n  width: 50px;\r\n  height: 50px;\r\n  transition: width 0.1s;\r\n  transition: height 0.1s\r\n}\r\n\r\n.name {\r\n  margin-bottom: 0px;\r\n  margin-right: 5px;\r\n}\r\n\r\n.uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n  transition: height 0.1s\r\n}\r\n\r\n.uk-sticky-placeholder {\r\n  height: 80px!important;\r\n}\r\n\r\n.content {\r\n  align-content: center;\r\n  margin-left: 10px;\r\n  background: white;\r\n  transition: 150ms linear;\r\n}\r\n\r\n.background {\r\n  background-color: #2a2c31;\r\n}\r\n\r\n/*Vertical centering content with a navbar above*/\r\n.vcNavbarParent {\r\n  display: flex;\r\n  height: auto;\r\n  margin: 0 auto;\r\n  min-height: calc(100vh - 80px);\r\n  min-height: -o-calc(100vh - 80px);\r\n  min-height: -webkit-calc(100vh - 80px);\r\n  min-height: -moz-calc(100vh - 80px)\r\n}\r\n.vcNavbarCard {\r\n  margin: auto;\r\n  justify-content: center;\r\n  display: flex;\r\n  text-align: center!important;\r\n  max-width: 100%;\r\n}\r\n\r\n@media (max-width: 920px) {\r\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n    height:60px\r\n  }\r\n  .uk-sticky-placeholder {\r\n    height:60px!important\r\n  }\r\n  .vcNavbarParent {\r\n    display: flex;\r\n    height: auto;\r\n    margin: 0 auto;\r\n    min-height: calc(100vh - 60px);\r\n    min-height: -o-calc(100vh - 60px);\r\n    min-height: -webkit-calc(100vh - 60px);\r\n    min-height: -moz-calc(100vh - 60px)\r\n  }\r\n  .djLogo {\r\n    width: 40px;\r\n    height: 40px\r\n  }\r\n  .collapseText {\r\n    font-size: 0\r\n  }\r\n  .collapseSpan {\r\n    margin-right: 0px!important\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 500px) {\r\n  .djLogo {\r\n    width: 0px!important;\r\n    height: 0px!important;\r\n    margin: 0 0 0 0!important;\r\n  }\r\n  .name{\r\n    font-size: 0px;\r\n    margin-right: 0px\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 300px){\r\n  .uk-navbar-item, .uk-navbar-nav>li>a, .uk-navbar-toggle {\r\n    padding: 0 10px;\r\n  }\r\n}\r\n\r\n@media (max-height: 700px) {\r\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n    height:60px\r\n  }\r\n  .uk-sticky-placeholder {\r\n    height:60px!important\r\n  }\r\n  .djLogo{\r\n    width: 40px;\r\n    height: 40px;\r\n  }\r\n  .vcNavbarParent {\r\n    display: flex;\r\n    height: auto;\r\n    margin: 0 auto;\r\n    min-height: calc(100vh - 60px);\r\n    min-height: -o-calc(100vh - 60px);\r\n    min-height: -webkit-calc(100vh - 60px);\r\n    min-height: -moz-calc(100vh - 60px)\r\n  }\r\n  .collapseText {\r\n    font-size: 0\r\n  }\r\n  .collapseSpan {\r\n    margin-right: 0px!important\r\n  }\r\n}\r\n", ""]);
+exports.push([module.i, ".uk-navbar-nav>li>a {\n  -webkit-font-smoothing: antialiased!important;\n  -moz-osx-font-smoothing: grayscale!important;\n}\n\n#content {\n  z-index: 1;\n}\n\n.mouseLoad{\n  cursor: wait;\n}\n\n#CalendarA {\n  color: #999!important;\n  pointer-events: all;\n  opacity: 0.25;\n  cursor: default;\n}\n\n.uk-tooltip {\n  background-color: #2dc0d5;\n  z-index: 2;\n}\n\nh1,h2,h3,h4,h5,h6,h7,.uk-h1,.uk-accordion-title,.uk-text-lead {\n  font-family: 'Roboto', sans-serif\n}\n\nb {\n  font-family: 'Open Sans', sans-serif;\n  font-weight: 700\n}\n\n.spinner {\n  display: flex;\n  align-items: center;\n  align-content: center;\n  justify-content: center;\n}\n\nbody {\n  user-select: none\n}\n\n.uk-accordion-title,.uk-text-lead {\n  font-size: 1.5rem;\n  font-weight: 300\n}\n\n.welcomeNav {\n  position: fixed;\n  visibility: hidden\n}\n\n.main {\n  transition: 150ms linear;\n}\n\n.djLogo {\n  width: 50px;\n  height: 50px;\n  transition: width 0.1s;\n  transition: height 0.1s\n}\n\n.name {\n  margin-bottom: 0px;\n  margin-right: 5px;\n}\n\n.uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\n  transition: height 0.1s\n}\n\n.uk-sticky-placeholder {\n  height: 80px!important;\n}\n\n.content {\n  align-content: center;\n  margin-left: 10px;\n  background: white;\n  transition: 150ms linear;\n}\n\n.background {\n  background-color: #2a2c31;\n}\n\n/*Vertical centering content with a navbar above*/\n.vcNavbarParent {\n  display: flex;\n  height: auto;\n  margin: 0 auto;\n  min-height: calc(100vh - 80px);\n  min-height: -o-calc(100vh - 80px);\n  min-height: -webkit-calc(100vh - 80px);\n  min-height: -moz-calc(100vh - 80px)\n}\n.vcNavbarCard {\n  margin: auto;\n  justify-content: center;\n  display: flex;\n  text-align: center!important;\n  max-width: 100%;\n}\n\n@media (max-width: 920px) {\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\n    height:60px\n  }\n  .uk-sticky-placeholder {\n    height:60px!important\n  }\n  .vcNavbarParent {\n    display: flex;\n    height: auto;\n    margin: 0 auto;\n    min-height: calc(100vh - 60px);\n    min-height: -o-calc(100vh - 60px);\n    min-height: -webkit-calc(100vh - 60px);\n    min-height: -moz-calc(100vh - 60px)\n  }\n  .djLogo {\n    width: 40px;\n    height: 40px\n  }\n  .collapseText {\n    font-size: 0\n  }\n  .collapseSpan {\n    margin-right: 0px!important\n  }\n}\n\n@media screen and (max-width: 500px) {\n  .djLogo {\n    width: 0px!important;\n    height: 0px!important;\n    margin: 0 0 0 0!important;\n  }\n  .name{\n    font-size: 0px;\n    margin-right: 0px\n  }\n}\n\n@media screen and (max-width: 300px){\n  .uk-navbar-item, .uk-navbar-nav>li>a, .uk-navbar-toggle {\n    padding: 0 10px;\n  }\n}\n\n@media (max-height: 700px) {\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\n    height:60px\n  }\n  .uk-sticky-placeholder {\n    height:60px!important\n  }\n  .djLogo{\n    width: 40px;\n    height: 40px;\n  }\n  .vcNavbarParent {\n    display: flex;\n    height: auto;\n    margin: 0 auto;\n    min-height: calc(100vh - 60px);\n    min-height: -o-calc(100vh - 60px);\n    min-height: -webkit-calc(100vh - 60px);\n    min-height: -moz-calc(100vh - 60px)\n  }\n  .collapseText {\n    font-size: 0\n  }\n  .collapseSpan {\n    margin-right: 0px!important\n  }\n}\n", ""]);
 
 // exports
 
