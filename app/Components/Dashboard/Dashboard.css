@@ -55,7 +55,7 @@
   border-color: grey;
 }
 
-@media (max-height: 747px),(max-width: 400px) {
+@media (max-height: 765px),(max-width: 400px) {
   .lead,.room{
     font-size: 1.3rem;
   }
@@ -78,7 +78,7 @@
   }
 }
 
-@media (max-height: 620px),(max-width: 300px) {
+@media (max-height: 630px),(max-width: 300px) {
   .lead,.room{
     font-size: 1.25rem;
   }

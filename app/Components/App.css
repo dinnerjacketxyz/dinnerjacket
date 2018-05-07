@@ -43,6 +43,11 @@ body {
   user-select: none
 }
 
+html, body {
+  height: 100%!important;
+  width: 100%!important;
+}
+
 .uk-accordion-title,.uk-text-lead {
   font-size: 1.5rem;
   font-weight: 300
