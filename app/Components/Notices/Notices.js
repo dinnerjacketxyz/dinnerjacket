@@ -9,11 +9,15 @@ class Notices extends Component {
 
     this.state = {
       notices: [],
-      year: 'ALL',
+      year: window.userData['yearGroup'],
       text: 'EXPAND'
     }
-
     this.init()
+  }
+
+  componentDidMount() {
+    let selector = document.getElementById('yearSelector')
+    selector.value = window.userData['yearGroup']
   }
 
   strip(html) {
