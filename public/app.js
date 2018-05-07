@@ -55953,37 +55953,37 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'li',
               null,
-              'Mo'
+              'M'
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'li',
               null,
-              'Tu'
+              'T'
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'li',
               null,
-              'We'
+              'W'
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'li',
               null,
-              'Th'
+              'T'
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'li',
               null,
-              'Fr'
+              'F'
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'li',
               null,
-              'Sa'
+              'S'
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'li',
               null,
-              'Su'
+              'S'
             )
           ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -56263,7 +56263,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, ".flex-container {\r\n  justify-content: center;\r\n  display: flex;\r\n}\r\n\r\n.two {\r\n  width: 750px;\r\n}\r\n\r\n.flex-child {\r\n  margin-top: 20px!important;\r\n}\r\n\r\n.month {\r\n  padding: 70px 25px;\r\n  background: #2dc0d5;\r\n  text-align: center;\r\n}\r\n\r\n.month ul {\r\n  margin: 0;\r\n  padding: 0;\r\n}\r\n\r\n.month ul li {\r\n  color: white;\r\n  font-size: 20px;\r\n  text-transform: uppercase;\r\n  letter-spacing: 3px;\r\n}\r\n\r\n.month .prev {\r\n  float: left;\r\n  padding-top: 10px;\r\n}\r\n\r\n.month .next {\r\n  float: right;\r\n  padding-top: 10px;\r\n}\r\n\r\n.weekdays {\r\n  margin: 0;\r\n  padding: 10px 0;\r\n  background-color: #ddd;\r\n}\r\n\r\n.weekdays li {\r\n  display: inline-block;\r\n  width: 13.6%;\r\n  color: #666;\r\n  text-align: center;\r\n}\r\n\r\n.days {\r\n  padding: 10px 0;\r\n  background: #eee;\r\n  margin: 0;\r\n}\r\n\r\n.month li {\r\n  list-style-type: none;\r\n}\r\n\r\n.days li {\r\n  list-style-type: none;\r\n  display: inline-block;\r\n  width: 13.6%;\r\n  text-align: center;\r\n  margin-bottom: 5px;\r\n  font-size:12px;\r\n  color: #777;\r\n}\r\n\r\n.days li .active {\r\n  padding: 5px;\r\n  background: #2dc0d5;\r\n  color: white !important\r\n}\r\n\r\n/* Add media queries for smaller screens */\r\n@media screen and (max-width:720px) {\r\n  .weekdays li, .days li {width: 13.1%;}\r\n}\r\n\r\n@media screen and (max-width: 420px) {\r\n/*  .weekdays li, .days li {width: 12.5%;}*/\r\n  .days li .active {padding: 2px;}\r\n}\r\n\r\n@media screen and (max-width: 290px) {\r\n/*  .weekdays li, .days li {width: 12.2%;}*/\r\n}", ""]);
+exports.push([module.i, ".flex-container {\r\n  justify-content: center;\r\n  display: flex;\r\n}\r\n\r\n.two {\r\n  width: 750px;\r\n}\r\n\r\n.flex-child {\r\n  margin-top: 20px!important;\r\n}\r\n\r\n.month {\r\n  padding: 70px 25px;\r\n  background: #2dc0d5;\r\n  text-align: center;\r\n}\r\n\r\n.month ul {\r\n  margin: 0;\r\n  padding: 0;\r\n}\r\n\r\n.month ul li {\r\n  color: white;\r\n  font-size: 20px;\r\n  text-transform: uppercase;\r\n  letter-spacing: 3px;\r\n}\r\n\r\n.month .prev {\r\n  float: left;\r\n  padding-top: 10px;\r\n}\r\n\r\n.month .next {\r\n  float: right;\r\n  padding-top: 10px;\r\n}\r\n\r\n.weekdays {\r\n  margin: 0;\r\n  padding: 10px 0;\r\n  background-color: #f8f8f8;\r\n}\r\n\r\n.weekdays li {\r\n  display: inline-block;\r\n  width: 14.2%;\r\n  color: #666;\r\n  text-align: center;\r\n}\r\n\r\n.days {\r\n  padding: 10px 0;\r\n  background: #fff;\r\n  margin: 0;\r\n}\r\n\r\n.month li {\r\n  list-style-type: none;\r\n}\r\n\r\n.days li {\r\n  list-style-type: none;\r\n  display: inline-block;\r\n  width: 14.2%;\r\n  text-align: center;\r\n  margin-bottom: 5px;\r\n  font-size:12px;\r\n  color: #777;\r\n}\r\n\r\n.weekdays li{\r\n  font-weight: 700;\r\n}\r\n\r\n.days li .active {\r\n  padding: 5px;\r\n  background: #2dc0d5;\r\n  color: white !important\r\n}\r\n\r\n/* Add media queries for smaller screens */\r\n@media screen and (max-width:720px) {\r\n  /*.weekdays li, .days li {width: 13.1%;}*/\r\n}\r\n\r\n@media screen and (max-width: 420px) {\r\n/*  .weekdays li, .days li {width: 12.5%;}*/\r\n  .days li .active {padding: 2px;}\r\n}\r\n\r\n@media screen and (max-width: 290px) {\r\n/*  .weekdays li, .days li {width: 12.2%;}*/\r\n}", ""]);
 
 // exports
 

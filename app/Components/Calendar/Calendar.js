@@ -34,13 +34,13 @@ class Calendar extends Component {
               </ul>
             </div>
             <ul className="weekdays">
-              <li>Mo</li>
-              <li>Tu</li>
-              <li>We</li>
-              <li>Th</li>
-              <li>Fr</li>
-              <li>Sa</li>
-              <li>Su</li>
+              <li>M</li>
+              <li>T</li>
+              <li>W</li>
+              <li>T</li>
+              <li>F</li>
+              <li>S</li>
+              <li>S</li>
             </ul>
             <ul className="days">  
               <li>1</li>

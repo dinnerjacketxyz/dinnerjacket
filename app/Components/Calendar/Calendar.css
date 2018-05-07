@@ -42,19 +42,19 @@
 .weekdays {
   margin: 0;
   padding: 10px 0;
-  background-color: #ddd;
+  background-color: #f8f8f8;
 }
 
 .weekdays li {
   display: inline-block;
-  width: 13.6%;
+  width: 14.2%;
   color: #666;
   text-align: center;
 }
 
 .days {
   padding: 10px 0;
-  background: #eee;
+  background: #fff;
   margin: 0;
 }
 
@@ -65,11 +65,15 @@
 .days li {
   list-style-type: none;
   display: inline-block;
-  width: 13.6%;
+  width: 14.2%;
   text-align: center;
   margin-bottom: 5px;
   font-size:12px;
   color: #777;
+}
+
+.weekdays li{
+  font-weight: 700;
 }
 
 .days li .active {
@@ -80,7 +84,7 @@
 
 /* Add media queries for smaller screens */
 @media screen and (max-width:720px) {
-  .weekdays li, .days li {width: 13.1%;}
+  /*.weekdays li, .days li {width: 13.1%;}*/
 }
 
 @media screen and (max-width: 420px) {
