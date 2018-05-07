@@ -3,19 +3,17 @@
   -moz-osx-font-smoothing: grayscale!important;
 }
 
+#content {
+  z-index: 1;
+}
+
 .mouseLoad{
   cursor: wait;
 }
 
-#CalendarA {
-  color: #999!important;
-  pointer-events: all;
-  opacity: 0.25;
-  cursor: default;
-}
-
 .uk-tooltip {
   background-color: #2dc0d5;
+  z-index: 2;
 }
 
 h1,h2,h3,h4,h5,h6,h7,.uk-h1,.uk-accordion-title,.uk-text-lead {
@@ -36,6 +34,11 @@ b {
 
 body {
   user-select: none
+}
+
+html, body {
+  height: 100%!important;
+  width: 100%!important;
 }
 
 .uk-accordion-title,.uk-text-lead {

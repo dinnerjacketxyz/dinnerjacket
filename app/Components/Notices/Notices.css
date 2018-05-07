@@ -2,8 +2,41 @@
   margin-top: 70px!important
 }
 
-@media (min-width:750px) {
-  miniFill {
-    width:100%
+#noticesList .uk-accordion>:nth-child(n+2) {
+  margin-top: 20px;
+}
+
+#noticesList .uk-accordion-content {
+  margin-top: 8px;
+}
+
+.noticesParent {
+  display: flex;
+  justify-content: center;
+}
+
+.noticesChild {
+  margin-top: 20px!important;
+  position: relative;
+  box-sizing: border-box;
+  transition: box-shadow .1s ease-in-out;
+  background: #fff;
+  color: #666;
+  box-shadow: 0 5px 15px rgba(0,0,0,.08);
+  width: 750px;
+  padding: 30px 30px;
+}
+
+.yearSelect {
+  float: right;
+  width: 60px!important;
+}
+
+@media (max-width:750px) {
+  .noticesChild {
+    box-shadow: none;
+  }
+  .noticesChild .uk-accordion-title {
+    font-size: 1.25rem;
   }
 }

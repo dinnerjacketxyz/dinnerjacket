@@ -3,7 +3,7 @@
 }
 
 .uk-table-hover tbody tr:hover,.uk-table-hover>tr:hover{
-  background: #00ddff50;
+  background: #00ddff2c;
 }
 
 .meta {
@@ -44,6 +44,7 @@
   color: #666;
   box-shadow: 0 5px 15px rgba(0,0,0,.08);
   padding: 30px 30px;
+  margin-top: 20px;
 }
 
 .dashTable {
@@ -54,7 +55,7 @@
   border-color: grey;
 }
 
-@media (max-height: 747px),(max-width: 400px) {
+@media (max-height: 765px),(max-width: 400px) {
   .lead,.room{
     font-size: 1.3rem;
   }
@@ -77,7 +78,7 @@
   }
 }
 
-@media (max-height: 620px),(max-width: 300px) {
+@media (max-height: 630px),(max-width: 300px) {
   .lead,.room{
     font-size: 1.25rem;
   }
