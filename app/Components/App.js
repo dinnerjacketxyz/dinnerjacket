@@ -67,7 +67,7 @@ class App extends Component {
   constructor(props) {
     super(props)
 
-    console.log('Server Updated 3')
+    //console.log('Server Updated 3')
 
     // Set default state on open to Welcome page
     this.state = {

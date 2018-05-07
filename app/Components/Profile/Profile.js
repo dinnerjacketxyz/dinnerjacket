@@ -95,8 +95,8 @@ class Profile extends Component {
           <h2 className='uk-text-center'>{userData.givenName+' '+userData.surname}</h2>
           <p className='uk-text-center'>{userData.role+' | '+userData.department+' | '+userData.office}</p>
           <ul className='uk-margin-top uk-margin-bottom uk-flex-center' uk-tab='true'>
-              <li id='detailsTab' className='uk-active' onClick={() => {this.setState({ content: 'details' })}}><a>Details</a></li>
-              <li id='partTab' onClick={() => {this.setState({ content: 'part' })}} uk-tooltip="title: Experimental; pos: bottom"><a>Participation</a></li>          </ul>
+            <li id='detailsTab' className='uk-active' onClick={() => {this.setState({ content: 'details' })}}><a>Details</a></li>
+            <li id='partTab' onClick={() => {this.setState({ content: 'part' })}} uk-tooltip="title: Experimental; pos: bottom"><a>Participation</a></li>          </ul>
           <div id='profileContent'>
             {content}
           </div>
@@ -138,7 +138,7 @@ const YearList = (props) => {
 
 const TableRow = (props) => {
   return (
-    <tr>
+    <tr className='uk-animation-slide-top-small'>
       <td>{props.part.category}</td>
       <td>{props.part.activity}</td>
       <td>{props.part.points}</td>
