@@ -11,13 +11,6 @@
   cursor: wait;
 }
 
-#CalendarA {
-  color: #999!important;
-  pointer-events: all;
-  opacity: 0.25;
-  cursor: default;
-}
-
 .uk-tooltip {
   background-color: #2dc0d5;
   z-index: 2;

@@ -20,24 +20,69 @@ class Calendar extends Component {
   }
   render() {
     return (
-      <div className='uk-flex uk-flex-center'>
-        <div className='uk-margin-top uk-grid-collapse uk-width-xxlarge miniFill'>
-          <div className='uk-card uk-card-default uk-card-body uk-animation-slide-top-small'>
-            <a className='uk-icon-link uk-float-right' uk-icon='icon: plus-circle' />
-            <p className='uk-text-center uk-text-large'>Calendar Events</p>
-            <div className='uk-overflow-hidden'>
-              <table className='uk-table uk-table-hover uk-table-middle uk-table-divider'>
-                <thead>
-                  <tr>
-                    <th className='uk-table-expand' />
-                    <th className='uk-table-shrink' />
-                  </tr>
-                </thead>
-                <tbody>
-                  HERERERERRERERRERRERRERERERRERERERRERER
-                </tbody>
-              </table>
+      <div className='flex-container uk-width-1-1'>
+        <div className="uk-grid-collapse uk-child-width-expand@s uk-grid two uk-margin-top" uk-grid='true'>
+          <div className='uk-card uk-card-default uk-animation-slide-top-small'>
+            <div className="month">      
+              <ul>
+                <li className="prev">&#10094;</li>
+                <li className="next">&#10095;</li>
+                <li>
+                  August<br/>
+                  <span>2017</span>
+                </li>
+              </ul>
             </div>
+            <ul className="weekdays">
+              <li>Mo</li>
+              <li>Tu</li>
+              <li>We</li>
+              <li>Th</li>
+              <li>Fr</li>
+              <li>Sa</li>
+              <li>Su</li>
+            </ul>
+            <ul className="days">  
+              <li>1</li>
+              <li>2</li>
+              <li>3</li>
+              <li>4</li>
+              <li>5</li>
+              <li>6</li>
+              <li>7</li>
+              <li>8</li>
+              <li>9</li>
+              <li><span className="active">10</span></li>
+              <li>11</li>
+              <li>12</li>
+              <li>13</li>
+              <li>14</li>
+              <li>15</li>
+              <li>16</li>
+              <li>17</li>
+              <li>18</li>
+              <li>19</li>
+              <li>20</li>
+              <li>21</li>
+              <li>22</li>
+              <li>23</li>
+              <li>24</li>
+              <li>25</li>
+              <li>26</li>
+              <li>27</li>
+              <li>28</li>
+              <li>29</li>
+              <li>30</li>
+              <li>31</li>
+            </ul>
+          </div>
+          <div className='uk-card uk-card-default uk-card-body uk-animation-slide-top-small'>
+            <p className='uk-text-center uk-text-large'>Calendar Events</p>
+            <ul className="uk-list uk-list-striped">
+                <li>List item 1</li>
+                <li>List item 2</li>
+                <li>List item 3</li>
+            </ul>
           </div>
         </div>
       </div>

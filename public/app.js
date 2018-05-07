@@ -27837,8 +27837,8 @@ window.STATES = {
   TIMETABLE: 1,
   NOTES: 2,
   NOTICES: 3,
-  //CALENDAR: 4,
-  ABOUT: 4,
+  CALENDAR: 4,
+  ABOUT: 5,
   PROFILE: 9999,
   CHANGELOG: 6,
   FEEDBACK: 7
@@ -27846,9 +27846,7 @@ window.STATES = {
 
 let counter = 0;
 
-const nameArray = ['Dashboard', 'Timetable', 'Notes', 'Notices',
-//'Calendar',
-'Side'];
+const nameArray = ['Dashboard', 'Timetable', 'Notes', 'Notices', 'Calendar', 'Side'];
 
 //let loggedIn = false
 
@@ -28140,15 +28138,14 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     }
   }
 
-  /*
   showCalendar() {
     //console.log('Calendar tab clicked')
     if (window.calendar !== '') {
-      let visible = this.state.visible
-      this.setState({ visible: window.STATES.CALENDAR })
-      this.selectedNavbar(window.STATES.CALENDAR)
+      let visible = this.state.visible;
+      this.setState({ visible: window.STATES.CALENDAR });
+      this.selectedNavbar(window.STATES.CALENDAR);
     }
-  }*/
+  }
 
   showAbout() {
     //console.log('About tab clicked')
@@ -28279,15 +28276,15 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'li',
-              { id: 'CalendarLi', className: 'uk-disabled' },
+              { id: 'CalendarLi', className: 'uk-animation-toggle', onClick: this.showCalendar.bind(this) },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'a',
-                { id: 'CalendarA', className: 'uk-card uk-card-body', 'uk-tooltip': 'title: Coming Soon; pos: bottom' },
+                { id: 'CalendarA', className: 'uk-box-shadow-hover-small' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { id: 'CalendarS', className: 'collapseSpan uk-icon uk-margin-small-right', 'uk-icon': 'icon: calendar' }),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                   'p',
                   { className: 'collapseText', id: 'CalendarP' },
-                  'Calendar'
+                  nameArray[4]
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('b', { className: 'collapseText', id: 'CalendarB' })
               )
@@ -55914,40 +55911,270 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { className: 'uk-flex uk-flex-center' },
+      { className: 'flex-container uk-width-1-1' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
-        { className: 'uk-margin-top uk-grid-collapse uk-width-xxlarge miniFill' },
+        { className: 'uk-grid-collapse uk-child-width-expand@s uk-grid two uk-margin-top', 'uk-grid': 'true' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'uk-card uk-card-default uk-animation-slide-top-small' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'month' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'ul',
+              null,
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'li',
+                { className: 'prev' },
+                '\u276E'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'li',
+                { className: 'next' },
+                '\u276F'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'li',
+                null,
+                'August',
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'span',
+                  null,
+                  '2017'
+                )
+              )
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'ul',
+            { className: 'weekdays' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              'Mo'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              'Tu'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              'We'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              'Th'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              'Fr'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              'Sa'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              'Su'
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'ul',
+            { className: 'days' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              '1'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              '2'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              '3'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              '4'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              '5'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              '6'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              '7'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              '8'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              '9'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'span',
+                { className: 'active' },
+                '10'
+              )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              '11'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              '12'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              '13'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              '14'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              '15'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              '16'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              '17'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              '18'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              '19'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              '20'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              '21'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              '22'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              '23'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              '24'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              '25'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              '26'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              '27'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              '28'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              '29'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              '30'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              '31'
+            )
+          )
+        ),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
           { className: 'uk-card uk-card-default uk-card-body uk-animation-slide-top-small' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', { className: 'uk-icon-link uk-float-right', 'uk-icon': 'icon: plus-circle' }),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'p',
             { className: 'uk-text-center uk-text-large' },
             'Calendar Events'
           ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'uk-overflow-hidden' },
+            'ul',
+            { className: 'uk-list uk-list-striped' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'table',
-              { className: 'uk-table uk-table-hover uk-table-middle uk-table-divider' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'thead',
-                null,
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'tr',
-                  null,
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('th', { className: 'uk-table-expand' }),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('th', { className: 'uk-table-shrink' })
-                )
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'tbody',
-                null,
-                'HERERERERRERERRERRERRERERERRERERERRERER'
-              )
+              'li',
+              null,
+              'List item 1'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              'List item 2'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
+              'List item 3'
             )
           )
         )
@@ -56036,7 +56263,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, ".calNotif {\r\n  left: 300%;\r\n  position: absolute!important;\r\n  transform: translate(-50%,-50%);\r\n  box-sizing: border-box;\r\n  min-width: 22px;\r\n  height: 22px;\r\n  padding: 0 5px;\r\n  border-radius: 500px;\r\n  vertical-align: middle;\r\n  background: #2dc0d5;\r\n  color: #fff;\r\n  font-size: .875rem;\r\n  display: inline-flex;\r\n  justify-content: center;\r\n  align-items: center;\r\n}\r\n\r\n.calDay {\r\n  width: 30px\r\n}\r\n\r\n.calTable {\r\n  table-layout: fixed;\r\n  padding: 5px 5px!important;\r\n}\r\n\r\n.calCell {\r\n  text-align: center;\r\n  width: 1px;\r\n  vertical-align: middle!important;\r\n}\r\n\r\n.calCellMuted {\r\n  color: #999!important;\r\n  text-align: center;\r\n  width: 1px;\r\n}\r\n\r\n.calCellSelected {\r\n  background-color: #2dc0d5;\r\n  vertical-align: middle!important;\r\n  font-weight: bolder;\r\n}\r\n\r\n.calWidth {\r\n  width: 85%\r\n}", ""]);
+exports.push([module.i, ".flex-container {\r\n  justify-content: center;\r\n  display: flex;\r\n}\r\n\r\n.two {\r\n  width: 750px;\r\n}\r\n\r\n.flex-child {\r\n  margin-top: 20px!important;\r\n}\r\n\r\n.month {\r\n  padding: 70px 25px;\r\n  background: #2dc0d5;\r\n  text-align: center;\r\n}\r\n\r\n.month ul {\r\n  margin: 0;\r\n  padding: 0;\r\n}\r\n\r\n.month ul li {\r\n  color: white;\r\n  font-size: 20px;\r\n  text-transform: uppercase;\r\n  letter-spacing: 3px;\r\n}\r\n\r\n.month .prev {\r\n  float: left;\r\n  padding-top: 10px;\r\n}\r\n\r\n.month .next {\r\n  float: right;\r\n  padding-top: 10px;\r\n}\r\n\r\n.weekdays {\r\n  margin: 0;\r\n  padding: 10px 0;\r\n  background-color: #ddd;\r\n}\r\n\r\n.weekdays li {\r\n  display: inline-block;\r\n  width: 13.6%;\r\n  color: #666;\r\n  text-align: center;\r\n}\r\n\r\n.days {\r\n  padding: 10px 0;\r\n  background: #eee;\r\n  margin: 0;\r\n}\r\n\r\n.month li {\r\n  list-style-type: none;\r\n}\r\n\r\n.days li {\r\n  list-style-type: none;\r\n  display: inline-block;\r\n  width: 13.6%;\r\n  text-align: center;\r\n  margin-bottom: 5px;\r\n  font-size:12px;\r\n  color: #777;\r\n}\r\n\r\n.days li .active {\r\n  padding: 5px;\r\n  background: #2dc0d5;\r\n  color: white !important\r\n}\r\n\r\n/* Add media queries for smaller screens */\r\n@media screen and (max-width:720px) {\r\n  .weekdays li, .days li {width: 13.1%;}\r\n}\r\n\r\n@media screen and (max-width: 420px) {\r\n/*  .weekdays li, .days li {width: 12.5%;}*/\r\n  .days li .active {padding: 2px;}\r\n}\r\n\r\n@media screen and (max-width: 290px) {\r\n/*  .weekdays li, .days li {width: 12.2%;}*/\r\n}", ""]);
 
 // exports
 
@@ -56600,7 +56827,7 @@ class Feedback extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { className: 'flex-container' },
+      null,
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
         { className: 'container' },
@@ -56613,7 +56840,11 @@ class Feedback extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
         { className: 'loadingParent behind' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { 'uk-spinner': 'ratio: 4', className: 'uk-spinner uk-icon spinner' })
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'loadingChild' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { 'uk-spinner': 'ratio: 4', className: 'uk-spinner uk-icon' })
+        )
       )
     );
   }
@@ -56661,7 +56892,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, ".embed {\r\n  width: 100%;\r\n  height: 100vh;\r\n  position: absolute;\r\n  display: block;\r\n}\r\n\r\n.container {\r\n  position: relative;\r\n  z-index: 1;\r\n}\r\n\r\n.behind {\r\n  z-index: -1;\r\n}\r\n\r\n.loadingParent {\r\n  width: auto;\r\n}\r\n\r\n.flex-container {\r\n  height: 100%;\r\n  padding: 0;\r\n  margin: 0;\r\n  display: -webkit-box;\r\n  display: -moz-box;\r\n  display: -ms-flexbox;\r\n  display: -webkit-flex;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n}\r\n", ""]);
+exports.push([module.i, ".embed {\r\n  width: 100%;\r\n  height: 100vh;\r\n  position: absolute;\r\n  display: block;\r\n}\r\n\r\n.container {\r\n  position: relative;\r\n  z-index: 1;\r\n}\r\n\r\n.behind {\r\n  z-index: -1;\r\n}\r\n\r\n.loadingParent {\r\n  display: flex;\r\n  height: auto;\r\n  margin: 0 auto;\r\n  min-height: calc(100vh - 80px);\r\n  min-height: -o-calc(100vh - 80px);\r\n  min-height: -webkit-calc(100vh - 80px);\r\n  min-height: -moz-calc(100vh - 80px)\r\n}\r\n.loadingChild {\r\n  margin: auto;\r\n  justify-content: center;\r\n  display: flex;\r\n  text-align: center!important;\r\n  max-width: 100%;\r\n}\r\n@media (max-width: 880px), (max-height: 620px) {\r\n  .loadingParent{\r\n    min-height: calc(100vh - 60px);\r\n    min-height: -o-calc(100vh - 60px);\r\n    min-height: -webkit-calc(100vh - 60px);\r\n    min-height: -moz-calc(100vh - 60px)\r\n  }\r\n}\r\n", ""]);
 
 // exports
 
@@ -56966,7 +57197,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, ".uk-navbar-nav>li>a {\r\n  -webkit-font-smoothing: antialiased!important;\r\n  -moz-osx-font-smoothing: grayscale!important;\r\n}\r\n\r\n#content {\r\n  z-index: 1;\r\n}\r\n\r\n.mouseLoad{\r\n  cursor: wait;\r\n}\r\n\r\n#CalendarA {\r\n  color: #999!important;\r\n  pointer-events: all;\r\n  opacity: 0.25;\r\n  cursor: default;\r\n}\r\n\r\n.uk-tooltip {\r\n  background-color: #2dc0d5;\r\n  z-index: 2;\r\n}\r\n\r\nh1,h2,h3,h4,h5,h6,h7,.uk-h1,.uk-accordion-title,.uk-text-lead {\r\n  font-family: 'Roboto', sans-serif\r\n}\r\n\r\nb {\r\n  font-family: 'Open Sans', sans-serif;\r\n  font-weight: 700\r\n}\r\n\r\n.spinner {\r\n  display: flex;\r\n  align-items: center;\r\n  align-content: center;\r\n  justify-content: center;\r\n}\r\n\r\nbody {\r\n  user-select: none\r\n}\r\n\r\nhtml, body {\r\n  height: 100%!important;\r\n  width: 100%!important;\r\n}\r\n\r\n.uk-accordion-title,.uk-text-lead {\r\n  font-size: 1.5rem;\r\n  font-weight: 300\r\n}\r\n\r\n.welcomeNav {\r\n  position: fixed;\r\n  visibility: hidden\r\n}\r\n\r\n.main {\r\n  transition: 150ms linear;\r\n}\r\n\r\n.djLogo {\r\n  width: 50px;\r\n  height: 50px;\r\n  transition: width 0.1s;\r\n  transition: height 0.1s\r\n}\r\n\r\n.name {\r\n  margin-bottom: 0px;\r\n  margin-right: 5px;\r\n}\r\n\r\n.uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n  transition: height 0.1s\r\n}\r\n\r\n.uk-sticky-placeholder {\r\n  height: 80px!important;\r\n}\r\n\r\n.content {\r\n  align-content: center;\r\n  margin-left: 10px;\r\n  background: white;\r\n  transition: 150ms linear;\r\n}\r\n\r\n.background {\r\n  background-color: #2a2c31;\r\n}\r\n\r\n/*Vertical centering content with a navbar above*/\r\n.vcNavbarParent {\r\n  display: flex;\r\n  height: auto;\r\n  margin: 0 auto;\r\n  min-height: calc(100vh - 80px);\r\n  min-height: -o-calc(100vh - 80px);\r\n  min-height: -webkit-calc(100vh - 80px);\r\n  min-height: -moz-calc(100vh - 80px)\r\n}\r\n.vcNavbarCard {\r\n  margin: auto;\r\n  justify-content: center;\r\n  display: flex;\r\n  text-align: center!important;\r\n  max-width: 100%;\r\n}\r\n\r\n@media (max-width: 920px) {\r\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n    height:60px\r\n  }\r\n  .uk-sticky-placeholder {\r\n    height:60px!important\r\n  }\r\n  .vcNavbarParent {\r\n    display: flex;\r\n    height: auto;\r\n    margin: 0 auto;\r\n    min-height: calc(100vh - 60px);\r\n    min-height: -o-calc(100vh - 60px);\r\n    min-height: -webkit-calc(100vh - 60px);\r\n    min-height: -moz-calc(100vh - 60px)\r\n  }\r\n  .djLogo {\r\n    width: 40px;\r\n    height: 40px\r\n  }\r\n  .collapseText {\r\n    font-size: 0\r\n  }\r\n  .collapseSpan {\r\n    margin-right: 0px!important\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 500px) {\r\n  .djLogo {\r\n    width: 0px!important;\r\n    height: 0px!important;\r\n    margin: 0 0 0 0!important;\r\n  }\r\n  .name{\r\n    font-size: 0px;\r\n    margin-right: 0px\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 300px){\r\n  .uk-navbar-item, .uk-navbar-nav>li>a, .uk-navbar-toggle {\r\n    padding: 0 10px;\r\n  }\r\n}\r\n\r\n@media (max-height: 700px) {\r\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n    height:60px\r\n  }\r\n  .uk-sticky-placeholder {\r\n    height:60px!important\r\n  }\r\n  .djLogo{\r\n    width: 40px;\r\n    height: 40px;\r\n  }\r\n  .vcNavbarParent {\r\n    display: flex;\r\n    height: auto;\r\n    margin: 0 auto;\r\n    min-height: calc(100vh - 60px);\r\n    min-height: -o-calc(100vh - 60px);\r\n    min-height: -webkit-calc(100vh - 60px);\r\n    min-height: -moz-calc(100vh - 60px)\r\n  }\r\n  .collapseText {\r\n    font-size: 0\r\n  }\r\n  .collapseSpan {\r\n    margin-right: 0px!important\r\n  }\r\n}\r\n", ""]);
+exports.push([module.i, ".uk-navbar-nav>li>a {\r\n  -webkit-font-smoothing: antialiased!important;\r\n  -moz-osx-font-smoothing: grayscale!important;\r\n}\r\n\r\n#content {\r\n  z-index: 1;\r\n}\r\n\r\n.mouseLoad{\r\n  cursor: wait;\r\n}\r\n\r\n.uk-tooltip {\r\n  background-color: #2dc0d5;\r\n  z-index: 2;\r\n}\r\n\r\nh1,h2,h3,h4,h5,h6,h7,.uk-h1,.uk-accordion-title,.uk-text-lead {\r\n  font-family: 'Roboto', sans-serif\r\n}\r\n\r\nb {\r\n  font-family: 'Open Sans', sans-serif;\r\n  font-weight: 700\r\n}\r\n\r\n.spinner {\r\n  display: flex;\r\n  align-items: center;\r\n  align-content: center;\r\n  justify-content: center;\r\n}\r\n\r\nbody {\r\n  user-select: none\r\n}\r\n\r\nhtml, body {\r\n  height: 100%!important;\r\n  width: 100%!important;\r\n}\r\n\r\n.uk-accordion-title,.uk-text-lead {\r\n  font-size: 1.5rem;\r\n  font-weight: 300\r\n}\r\n\r\n.welcomeNav {\r\n  position: fixed;\r\n  visibility: hidden\r\n}\r\n\r\n.main {\r\n  transition: 150ms linear;\r\n}\r\n\r\n.djLogo {\r\n  width: 50px;\r\n  height: 50px;\r\n  transition: width 0.1s;\r\n  transition: height 0.1s\r\n}\r\n\r\n.name {\r\n  margin-bottom: 0px;\r\n  margin-right: 5px;\r\n}\r\n\r\n.uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n  transition: height 0.1s\r\n}\r\n\r\n.uk-sticky-placeholder {\r\n  height: 80px!important;\r\n}\r\n\r\n.content {\r\n  align-content: center;\r\n  margin-left: 10px;\r\n  background: white;\r\n  transition: 150ms linear;\r\n}\r\n\r\n.background {\r\n  background-color: #2a2c31;\r\n}\r\n\r\n/*Vertical centering content with a navbar above*/\r\n.vcNavbarParent {\r\n  display: flex;\r\n  height: auto;\r\n  margin: 0 auto;\r\n  min-height: calc(100vh - 80px);\r\n  min-height: -o-calc(100vh - 80px);\r\n  min-height: -webkit-calc(100vh - 80px);\r\n  min-height: -moz-calc(100vh - 80px)\r\n}\r\n.vcNavbarCard {\r\n  margin: auto;\r\n  justify-content: center;\r\n  display: flex;\r\n  text-align: center!important;\r\n  max-width: 100%;\r\n}\r\n\r\n@media (max-width: 920px) {\r\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n    height:60px\r\n  }\r\n  .uk-sticky-placeholder {\r\n    height:60px!important\r\n  }\r\n  .vcNavbarParent {\r\n    display: flex;\r\n    height: auto;\r\n    margin: 0 auto;\r\n    min-height: calc(100vh - 60px);\r\n    min-height: -o-calc(100vh - 60px);\r\n    min-height: -webkit-calc(100vh - 60px);\r\n    min-height: -moz-calc(100vh - 60px)\r\n  }\r\n  .djLogo {\r\n    width: 40px;\r\n    height: 40px\r\n  }\r\n  .collapseText {\r\n    font-size: 0\r\n  }\r\n  .collapseSpan {\r\n    margin-right: 0px!important\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 500px) {\r\n  .djLogo {\r\n    width: 0px!important;\r\n    height: 0px!important;\r\n    margin: 0 0 0 0!important;\r\n  }\r\n  .name{\r\n    font-size: 0px;\r\n    margin-right: 0px\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 300px){\r\n  .uk-navbar-item, .uk-navbar-nav>li>a, .uk-navbar-toggle {\r\n    padding: 0 10px;\r\n  }\r\n}\r\n\r\n@media (max-height: 700px) {\r\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n    height:60px\r\n  }\r\n  .uk-sticky-placeholder {\r\n    height:60px!important\r\n  }\r\n  .djLogo{\r\n    width: 40px;\r\n    height: 40px;\r\n  }\r\n  .vcNavbarParent {\r\n    display: flex;\r\n    height: auto;\r\n    margin: 0 auto;\r\n    min-height: calc(100vh - 60px);\r\n    min-height: -o-calc(100vh - 60px);\r\n    min-height: -webkit-calc(100vh - 60px);\r\n    min-height: -moz-calc(100vh - 60px)\r\n  }\r\n  .collapseText {\r\n    font-size: 0\r\n  }\r\n  .collapseSpan {\r\n    margin-right: 0px!important\r\n  }\r\n}\r\n", ""]);
 
 // exports
 
