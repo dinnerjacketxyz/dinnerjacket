@@ -253,92 +253,90 @@ class Timetable extends Component {
  render() {
    //this.initialise()
    return (
-      <div className='vcNavbarParent'>
-        <div className='vcNavbarCard'>
-          <div id='fullTimetable' className='ttableCard uk-animation-slide-top-small' onMouseLeave={this.fade.bind(this)}>
-            <h3 className='uk-heading-line uk-text-center'>
-              <span id='ttableName'/>
-            </h3>
-            <div className='uk-padding-top uk-text-center'>
-              <table className="uk-table uk-table-small">
-                  <thead>
-                      <tr>
-                          <th>MON A</th>
-                          <th>TUE A</th>
-                          <th>WED A</th>
-                          <th>THU A</th>
-                          <th>FRI A</th>
-                      </tr>
-                  </thead>
-                  <tbody className='timetable' onMouseOver={this.subjectHighlight.bind(this)}>
-                    <tr id='r0' onMouseOver={this.bigInput}></tr>
-                    <tr id='r1' onMouseOver={this.bigInput}></tr>
-                    <tr id='r2' onMouseOver={this.bigInput}></tr>
-                    <tr id='r3' onMouseOver={this.bigInput}></tr>
-                    <tr id='r4' onMouseOver={this.bigInput}></tr>
-                  </tbody>
-              </table>
-            </div>
-            <hr/>
-            <div className='uk-padding-top uk-text-center'>
-              <table className="uk-table uk-table-small">
-                  <thead>
-                      <tr>
-                          <th>MON B</th>
-                          <th>TUE B</th>
-                          <th>WED B</th>
-                          <th>THU B</th>
-                          <th>FRI B</th>
-                      </tr>
-                  </thead>
-                  <tbody className='timetable'onMouseOver={this.subjectHighlight.bind(this)}>
-                    <tr id='r5' onMouseOver={this.bigInput}></tr>
-                    <tr id='r6' onMouseOver={this.bigInput}></tr>
-                    <tr id='r7' onMouseOver={this.bigInput}></tr>
-                    <tr id='r8' onMouseOver={this.bigInput}></tr>
-                    <tr id='r9' onMouseOver={this.bigInput}></tr>
-                  </tbody>
-              </table>
-            </div>
-            <hr/>
-            <div className='uk-padding-top uk-text-center'>
-              <table className="uk-table uk-table-small">
-                  <thead>
-                      <tr>
-                          <th>MON C</th>
-                          <th>TUE C</th>
-                          <th>WED C</th>
-                          <th>THU C</th>
-                          <th>FRI C</th>
-                      </tr>
-                  </thead>
-                  <tbody className='timetable' onMouseOver={this.subjectHighlight.bind(this)} >
-                    <tr id='r10' onMouseOver={this.bigInput}></tr>
-                    <tr id='r11' onMouseOver={this.bigInput}></tr>
-                    <tr id='r12' onMouseOver={this.bigInput}></tr>
-                    <tr id='r13' onMouseOver={this.bigInput}></tr>
-                    <tr id='r14' onMouseOver={this.bigInput}></tr>
-                  </tbody>
-              </table>
-            </div>
-            </div>
-          <div id='smallTimetable' className='ttableCard uk-animation-slide-top-small' onClick={this.activeTab.bind(this)}>
-            <ul className='uk-flex-center uk-tab' onClick={this.smallInput}>
-              <li id='A'><a>A</a></li>
-              <li id='B'><a>B</a></li>
-              <li id='C'><a>C</a></li>
-            </ul>
-            <ul className='uk-flex-center uk-tab' onClick={this.smallInput}>
-              <li id='MON'><a>MON</a></li>
-              <li id='TUE'><a>TUE</a></li>
-              <li id='WED'><a>WED</a></li>
-              <li id='THU'><a>THU</a></li>
-              <li id='FRI'><a>FRI</a></li>
-            </ul>
-            <table className='uk-table uk-table-hover timetable uk-text-center'>
-              <tbody id='smallTable'></tbody>
+      <div className='uk-flex uk-flex-center'>
+        <div id='fullTimetable' className='ttableCard uk-animation-slide-top-small' onMouseLeave={this.fade.bind(this)}>
+          <h3 className='uk-heading-line uk-text-center'>
+            <span id='ttableName'/>
+          </h3>
+          <div className='uk-padding-top uk-text-center'>
+            <table className="uk-table uk-table-small">
+                <thead>
+                    <tr>
+                        <th>MON A</th>
+                        <th>TUE A</th>
+                        <th>WED A</th>
+                        <th>THU A</th>
+                        <th>FRI A</th>
+                    </tr>
+                </thead>
+                <tbody className='timetable' onMouseOver={this.subjectHighlight.bind(this)}>
+                  <tr id='r0' onMouseOver={this.bigInput}></tr>
+                  <tr id='r1' onMouseOver={this.bigInput}></tr>
+                  <tr id='r2' onMouseOver={this.bigInput}></tr>
+                  <tr id='r3' onMouseOver={this.bigInput}></tr>
+                  <tr id='r4' onMouseOver={this.bigInput}></tr>
+                </tbody>
             </table>
           </div>
+          <hr/>
+          <div className='uk-padding-top uk-text-center'>
+            <table className="uk-table uk-table-small">
+                <thead>
+                    <tr>
+                        <th>MON B</th>
+                        <th>TUE B</th>
+                        <th>WED B</th>
+                        <th>THU B</th>
+                        <th>FRI B</th>
+                    </tr>
+                </thead>
+                <tbody className='timetable'onMouseOver={this.subjectHighlight.bind(this)}>
+                  <tr id='r5' onMouseOver={this.bigInput}></tr>
+                  <tr id='r6' onMouseOver={this.bigInput}></tr>
+                  <tr id='r7' onMouseOver={this.bigInput}></tr>
+                  <tr id='r8' onMouseOver={this.bigInput}></tr>
+                  <tr id='r9' onMouseOver={this.bigInput}></tr>
+                </tbody>
+            </table>
+          </div>
+          <hr/>
+          <div className='uk-padding-top uk-text-center'>
+            <table className="uk-table uk-table-small">
+                <thead>
+                    <tr>
+                        <th>MON C</th>
+                        <th>TUE C</th>
+                        <th>WED C</th>
+                        <th>THU C</th>
+                        <th>FRI C</th>
+                    </tr>
+                </thead>
+                <tbody className='timetable' onMouseOver={this.subjectHighlight.bind(this)} >
+                  <tr id='r10' onMouseOver={this.bigInput}></tr>
+                  <tr id='r11' onMouseOver={this.bigInput}></tr>
+                  <tr id='r12' onMouseOver={this.bigInput}></tr>
+                  <tr id='r13' onMouseOver={this.bigInput}></tr>
+                  <tr id='r14' onMouseOver={this.bigInput}></tr>
+                </tbody>
+            </table>
+          </div>
+          </div>
+        <div id='smallTimetable' className='ttableCard uk-animation-slide-top-small' onClick={this.activeTab.bind(this)}>
+          <ul className='uk-flex-center uk-tab' onClick={this.smallInput}>
+            <li id='A'><a>A</a></li>
+            <li id='B'><a>B</a></li>
+            <li id='C'><a>C</a></li>
+          </ul>
+          <ul className='uk-flex-center uk-tab' onClick={this.smallInput}>
+            <li id='MON'><a>MON</a></li>
+            <li id='TUE'><a>TUE</a></li>
+            <li id='WED'><a>WED</a></li>
+            <li id='THU'><a>THU</a></li>
+            <li id='FRI'><a>FRI</a></li>
+          </ul>
+          <table className='uk-table uk-table-hover timetable uk-text-center'>
+            <tbody id='smallTable'></tbody>
+          </table>
         </div>
       </div>
        

@@ -581,16 +581,14 @@ class Dashboard extends Component {
     }
 
     return (
-      <div className='vcNavbarParent'>
-        <div className='vcNavbarCard'>
+        <div className='uk-flex uk-flex-center'>
           <div className='uk-animation-slide-top-small dashCard'>
-            <h4 className='nextClass'>{nextClass}</h4>
-            <p className='in'>in</p>
-            <h1 className='uk-heading-line countdown'><span>{timeLeft}</span></h1>
+            <h4 className='nextClass uk-text-center'>{nextClass}</h4>
+            <p className='in uk-text-center'>in</p>
+            <h1 className='uk-heading-line countdown uk-text-center'><span>{timeLeft}</span></h1>
             {this.state.htmlClasses}
           </div>
         </div>
-      </div>
     )
   }
 
