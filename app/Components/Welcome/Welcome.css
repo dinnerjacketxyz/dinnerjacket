@@ -1,12 +1,8 @@
 /*Vertical centering welcome card*/
-html {
-  width: 100%!important; height: 100%!important
-}
 .vcWelcomeParent {
   display: flex;
-  height: auto;
   margin: 0 auto;
-  min-height: 100vh;
+  min-height: 100%;
 }
 .vcWelcomeCard {
   margin: auto;

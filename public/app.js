@@ -28182,6 +28182,9 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   logout() {
     window.location.href = '/logout';
     localStorage.setItem('clicked', false);
+
+    let content = document.getElementById('content');
+    content.className = '';
   }
 
   logo() {
@@ -28447,7 +28450,7 @@ class Welcome extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { className: 'main vcWelcomeParent' },
+      { className: 'vcWelcomeParent' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
         { className: 'vcWelcomeCard' },
@@ -28523,7 +28526,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "/*Vertical centering welcome card*/\r\nhtml {\r\n  width: 100%!important; height: 100%!important\r\n}\r\n.vcWelcomeParent {\r\n  display: flex;\r\n  height: auto;\r\n  margin: 0 auto;\r\n  min-height: 100vh;\r\n}\r\n.vcWelcomeCard {\r\n  margin: auto;\r\n  justify-content: center;\r\n  display: flex;\r\n  text-align: center!important;\r\n}\r\n\r\n/*Onscreen elements of the welcome page*/\r\n#welcomeContent{\r\n  padding: 30px;\r\n  width: 450px!important;\r\n  box-shadow:0 5px 15px rgba(0,0,0,.08)\r\n}\r\n#welcomeTitle{\r\n  font-size: 4rem;\r\n  line-height: 1.2;\r\n}\r\n#welcomeLabel{\r\n  background-color: #f0506e;\r\n  color: #fff;\r\n  display: inline-block;\r\n  padding: 0 10px;\r\n  line-height: 1.5;\r\n  font-size: .875rem;\r\n  color: #fff;\r\n  vertical-align: middle;\r\n  white-space: nowrap;\r\n  border-radius: 2px;\r\n  text-transform: uppercase;\r\n}\r\n#welcomeText{\r\n  margin-top: 20px!important;\r\n  margin-bottom: 20px!important\r\n}\r\n#loginButton {\r\n  margin-bottom: 20px!important;\r\n  margin-top: 20px!important;\r\n}\r\n#welcomelogo {\r\n  pointer-events: none;\r\n}\r\n\r\n/*Media rules*/\r\n@media screen and (max-width: 510px) {\r\n  .vcWelcomeCard{\r\n    width:100%;\r\n  }\r\n  #welcomeContent{\r\n    padding: 0px;\r\n    box-shadow: none;\r\n  }\r\n  #welcomeText {\r\n    margin-left: 30px;\r\n    margin-right: 30px;\r\n  }\r\n  #welcomeTitle{\r\n    font-size:3rem;\r\n    line-height:1.3\r\n  }\r\n  #welcomelogo{\r\n    width: 100px;\r\n  }\r\n  #welcomeLabel,#loginButton,#welcomeContent{\r\n    font-size: 13px;\r\n  }\r\n}\r\n@media screen and (max-width: 310px) {\r\n  #welcomeTitle{\r\n    font-size:2.5rem;line-height:1.4 \r\n  }\r\n  #welcomeLabel,#loginButton,#welcomeContent{\r\n    font-size: 12px;\r\n  }\r\n  #welcomelogo{\r\n    width: 90px;\r\n  }\r\n}\r\n@media screen and (max-width: 255px) {\r\n  #welcomeTitle{\r\n    font-size:1.5rem;line-height:1.4\r\n  }\r\n  #welcomeLabel,#loginButton,#welcomeContent{\r\n    font-size: 10px;\r\n  }\r\n  #welcomelogo{\r\n    width: 80px;\r\n  }\r\n}\r\n\r\n@media screen and (max-height: 490px) {\r\n  #welcomeContent{\r\n    padding: 0px;\r\n    box-shadow: none;\r\n  }\r\n  #welcomeText {\r\n    margin-top: 10px!important;\r\n    margin-bottom: 10px!important;\r\n  }\r\n  #welcomeTitle{\r\n    font-size:3rem;\r\n    line-height:1.3\r\n  }\r\n  #welcomelogo{\r\n    width: 100px;\r\n  }\r\n  #welcomeLabel,#loginButton,#welcomeContent{\r\n    font-size: 13px;\r\n  }\r\n  #loginButton {\r\n    margin-top: 10px!important;\r\n    margin-bottom: 10px!important;\r\n  }\r\n}\r\n\r\n", ""]);
+exports.push([module.i, "/*Vertical centering welcome card*/\r\n.vcWelcomeParent {\r\n  display: flex;\r\n  margin: 0 auto;\r\n  min-height: 100%;\r\n}\r\n.vcWelcomeCard {\r\n  margin: auto;\r\n  justify-content: center;\r\n  display: flex;\r\n  text-align: center!important;\r\n}\r\n\r\n/*Onscreen elements of the welcome page*/\r\n#welcomeContent{\r\n  padding: 30px;\r\n  width: 450px!important;\r\n  box-shadow:0 5px 15px rgba(0,0,0,.08)\r\n}\r\n#welcomeTitle{\r\n  font-size: 4rem;\r\n  line-height: 1.2;\r\n}\r\n#welcomeLabel{\r\n  background-color: #f0506e;\r\n  color: #fff;\r\n  display: inline-block;\r\n  padding: 0 10px;\r\n  line-height: 1.5;\r\n  font-size: .875rem;\r\n  color: #fff;\r\n  vertical-align: middle;\r\n  white-space: nowrap;\r\n  border-radius: 2px;\r\n  text-transform: uppercase;\r\n}\r\n#welcomeText{\r\n  margin-top: 20px!important;\r\n  margin-bottom: 20px!important\r\n}\r\n#loginButton {\r\n  margin-bottom: 20px!important;\r\n  margin-top: 20px!important;\r\n}\r\n#welcomelogo {\r\n  pointer-events: none;\r\n}\r\n\r\n/*Media rules*/\r\n@media screen and (max-width: 510px) {\r\n  .vcWelcomeCard{\r\n    width:100%;\r\n  }\r\n  #welcomeContent{\r\n    padding: 0px;\r\n    box-shadow: none;\r\n  }\r\n  #welcomeText {\r\n    margin-left: 30px;\r\n    margin-right: 30px;\r\n  }\r\n  #welcomeTitle{\r\n    font-size:3rem;\r\n    line-height:1.3\r\n  }\r\n  #welcomelogo{\r\n    width: 100px;\r\n  }\r\n  #welcomeLabel,#loginButton,#welcomeContent{\r\n    font-size: 13px;\r\n  }\r\n}\r\n@media screen and (max-width: 310px) {\r\n  #welcomeTitle{\r\n    font-size:2.5rem;line-height:1.4 \r\n  }\r\n  #welcomeLabel,#loginButton,#welcomeContent{\r\n    font-size: 12px;\r\n  }\r\n  #welcomelogo{\r\n    width: 90px;\r\n  }\r\n}\r\n@media screen and (max-width: 255px) {\r\n  #welcomeTitle{\r\n    font-size:1.5rem;line-height:1.4\r\n  }\r\n  #welcomeLabel,#loginButton,#welcomeContent{\r\n    font-size: 10px;\r\n  }\r\n  #welcomelogo{\r\n    width: 80px;\r\n  }\r\n}\r\n\r\n@media screen and (max-height: 490px) {\r\n  #welcomeContent{\r\n    padding: 0px;\r\n    box-shadow: none;\r\n  }\r\n  #welcomeText {\r\n    margin-top: 10px!important;\r\n    margin-bottom: 10px!important;\r\n  }\r\n  #welcomeTitle{\r\n    font-size:3rem;\r\n    line-height:1.3\r\n  }\r\n  #welcomelogo{\r\n    width: 100px;\r\n  }\r\n  #welcomeLabel,#loginButton,#welcomeContent{\r\n    font-size: 13px;\r\n  }\r\n  #loginButton {\r\n    margin-top: 10px!important;\r\n    margin-bottom: 10px!important;\r\n  }\r\n}\r\n\r\n", ""]);
 
 // exports
 
@@ -29231,34 +29234,30 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { className: 'vcNavbarParent' },
+      { className: 'vcNavbarCard' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
-        { className: 'vcNavbarCard' },
+        { className: 'uk-animation-slide-top-small dashCard' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'div',
-          { className: 'uk-animation-slide-top-small dashCard' },
+          'h4',
+          { className: 'nextClass' },
+          nextClass
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'p',
+          { className: 'in' },
+          'in'
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'h1',
+          { className: 'uk-heading-line countdown' },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'h4',
-            { className: 'nextClass' },
-            nextClass
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'p',
-            { className: 'in' },
-            'in'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'h1',
-            { className: 'uk-heading-line countdown' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'span',
-              null,
-              timeLeft
-            )
-          ),
-          this.state.htmlClasses
-        )
+            'span',
+            null,
+            timeLeft
+          )
+        ),
+        this.state.htmlClasses
       )
     );
   }
@@ -29302,11 +29301,17 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     this.getAPIData();
 
     this.timerTick = this.timerTick.bind(this);
+
+    let content = document.getElementById('content');
+    content.className = 'full vcNavbarParent';
   }
 
   componentWillUnmount() {
     // remove timer after unmount
     clearInterval(this.state.timerID);
+
+    let content = document.getElementById('content');
+    content.className = 'full';
   }
 }
 
@@ -32056,6 +32061,13 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
   componentDidMount() {
     this.initialise();
+    let content = document.getElementById('content');
+    content.className = 'full vcNavbarParent';
+  }
+
+  componentWillUnmount() {
+    let content = document.getElementById('content');
+    content.className = 'full';
   }
 
   //does pretty much everything for the big timetable
@@ -32292,259 +32304,255 @@ class Timetable extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     //this.initialise()
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { className: 'vcNavbarParent' },
+      { className: 'vcNavbarCard' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
-        { className: 'vcNavbarCard' },
+        { id: 'fullTimetable', className: 'ttableCard uk-animation-slide-top-small', onMouseLeave: this.fade.bind(this) },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'h3',
+          { className: 'uk-heading-line uk-text-center' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { id: 'ttableName' })
+        ),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
-          { id: 'fullTimetable', className: 'ttableCard uk-animation-slide-top-small', onMouseLeave: this.fade.bind(this) },
+          { className: 'uk-padding-top uk-text-center' },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'h3',
-            { className: 'uk-heading-line uk-text-center' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { id: 'ttableName' })
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'uk-padding-top uk-text-center' },
+            'table',
+            { className: 'uk-table uk-table-small' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'table',
-              { className: 'uk-table uk-table-small' },
+              'thead',
+              null,
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'thead',
+                'tr',
                 null,
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'tr',
+                  'th',
                   null,
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'th',
-                    null,
-                    'MON A'
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'th',
-                    null,
-                    'TUE A'
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'th',
-                    null,
-                    'WED A'
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'th',
-                    null,
-                    'THU A'
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'th',
-                    null,
-                    'FRI A'
-                  )
+                  'MON A'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'th',
+                  null,
+                  'TUE A'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'th',
+                  null,
+                  'WED A'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'th',
+                  null,
+                  'THU A'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'th',
+                  null,
+                  'FRI A'
                 )
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'tbody',
-                { className: 'timetable', onMouseOver: this.subjectHighlight.bind(this) },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r0', onMouseOver: this.bigInput }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r1', onMouseOver: this.bigInput }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r2', onMouseOver: this.bigInput }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r3', onMouseOver: this.bigInput }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r4', onMouseOver: this.bigInput })
               )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'tbody',
+              { className: 'timetable', onMouseOver: this.subjectHighlight.bind(this) },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r0', onMouseOver: this.bigInput }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r1', onMouseOver: this.bigInput }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r2', onMouseOver: this.bigInput }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r3', onMouseOver: this.bigInput }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r4', onMouseOver: this.bigInput })
+            )
+          )
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'uk-padding-top uk-text-center' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'table',
+            { className: 'uk-table uk-table-small' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'thead',
+              null,
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'tr',
+                null,
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'th',
+                  null,
+                  'MON B'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'th',
+                  null,
+                  'TUE B'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'th',
+                  null,
+                  'WED B'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'th',
+                  null,
+                  'THU B'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'th',
+                  null,
+                  'FRI B'
+                )
+              )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'tbody',
+              { className: 'timetable', onMouseOver: this.subjectHighlight.bind(this) },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r5', onMouseOver: this.bigInput }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r6', onMouseOver: this.bigInput }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r7', onMouseOver: this.bigInput }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r8', onMouseOver: this.bigInput }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r9', onMouseOver: this.bigInput })
+            )
+          )
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'uk-padding-top uk-text-center' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'table',
+            { className: 'uk-table uk-table-small' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'thead',
+              null,
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'tr',
+                null,
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'th',
+                  null,
+                  'MON C'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'th',
+                  null,
+                  'TUE C'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'th',
+                  null,
+                  'WED C'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'th',
+                  null,
+                  'THU C'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'th',
+                  null,
+                  'FRI C'
+                )
+              )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'tbody',
+              { className: 'timetable', onMouseOver: this.subjectHighlight.bind(this) },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r10', onMouseOver: this.bigInput }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r11', onMouseOver: this.bigInput }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r12', onMouseOver: this.bigInput }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r13', onMouseOver: this.bigInput }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r14', onMouseOver: this.bigInput })
+            )
+          )
+        )
+      ),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { id: 'smallTimetable', className: 'ttableCard uk-animation-slide-top-small', onClick: this.activeTab.bind(this) },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'ul',
+          { className: 'uk-flex-center uk-tab', onClick: this.smallInput },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'li',
+            { id: 'A' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'a',
+              null,
+              'A'
             )
           ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'uk-padding-top uk-text-center' },
+            'li',
+            { id: 'B' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'table',
-              { className: 'uk-table uk-table-small' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'thead',
-                null,
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'tr',
-                  null,
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'th',
-                    null,
-                    'MON B'
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'th',
-                    null,
-                    'TUE B'
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'th',
-                    null,
-                    'WED B'
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'th',
-                    null,
-                    'THU B'
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'th',
-                    null,
-                    'FRI B'
-                  )
-                )
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'tbody',
-                { className: 'timetable', onMouseOver: this.subjectHighlight.bind(this) },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r5', onMouseOver: this.bigInput }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r6', onMouseOver: this.bigInput }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r7', onMouseOver: this.bigInput }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r8', onMouseOver: this.bigInput }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r9', onMouseOver: this.bigInput })
-              )
+              'a',
+              null,
+              'B'
             )
           ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'uk-padding-top uk-text-center' },
+            'li',
+            { id: 'C' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'table',
-              { className: 'uk-table uk-table-small' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'thead',
-                null,
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'tr',
-                  null,
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'th',
-                    null,
-                    'MON C'
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'th',
-                    null,
-                    'TUE C'
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'th',
-                    null,
-                    'WED C'
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'th',
-                    null,
-                    'THU C'
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'th',
-                    null,
-                    'FRI C'
-                  )
-                )
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'tbody',
-                { className: 'timetable', onMouseOver: this.subjectHighlight.bind(this) },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r10', onMouseOver: this.bigInput }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r11', onMouseOver: this.bigInput }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r12', onMouseOver: this.bigInput }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r13', onMouseOver: this.bigInput }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tr', { id: 'r14', onMouseOver: this.bigInput })
-              )
+              'a',
+              null,
+              'C'
             )
           )
         ),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'div',
-          { id: 'smallTimetable', className: 'ttableCard uk-animation-slide-top-small', onClick: this.activeTab.bind(this) },
+          'ul',
+          { className: 'uk-flex-center uk-tab', onClick: this.smallInput },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'ul',
-            { className: 'uk-flex-center uk-tab', onClick: this.smallInput },
+            'li',
+            { id: 'MON' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              { id: 'A' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'a',
-                null,
-                'A'
-              )
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              { id: 'B' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'a',
-                null,
-                'B'
-              )
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              { id: 'C' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'a',
-                null,
-                'C'
-              )
+              'a',
+              null,
+              'MON'
             )
           ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'ul',
-            { className: 'uk-flex-center uk-tab', onClick: this.smallInput },
+            'li',
+            { id: 'TUE' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              { id: 'MON' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'a',
-                null,
-                'MON'
-              )
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              { id: 'TUE' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'a',
-                null,
-                'TUE'
-              )
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              { id: 'WED' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'a',
-                null,
-                'WED'
-              )
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              { id: 'THU' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'a',
-                null,
-                'THU'
-              )
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              { id: 'FRI' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'a',
-                null,
-                'FRI'
-              )
+              'a',
+              null,
+              'TUE'
             )
           ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'table',
-            { className: 'uk-table uk-table-hover timetable uk-text-center' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tbody', { id: 'smallTable' })
+            'li',
+            { id: 'WED' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'a',
+              null,
+              'WED'
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'li',
+            { id: 'THU' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'a',
+              null,
+              'THU'
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'li',
+            { id: 'FRI' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'a',
+              null,
+              'FRI'
+            )
           )
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'table',
+          { className: 'uk-table uk-table-hover timetable uk-text-center' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('tbody', { id: 'smallTable' })
         )
       )
     );
@@ -32593,7 +32601,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, ".timetable td {\r\n  font-family: 'Roboto Mono', monospace;\r\n  padding:5px 6px;\r\n  transition: box-shadow .1s ease-in-out;\r\n  transition: background .1s ease-in-out;\r\n}\r\n.heading {\r\n  font-family: 'Roboto' !important;\r\n  font-weight: 300\r\n}\r\n\r\n.uk-text-center th {\r\n  text-align: center;\r\n}\r\n\r\n.highlight {\r\n  background: #2dc0d5;\r\n  color: #fff;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n}\r\n\r\n.ttableCard {\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  padding: 30px 30px;\r\n  width: 600px;\r\n}\r\n\r\n#ttableName {\r\n  font-weight: 300;\r\n}\r\n\r\n@media (max-height:830px){\r\n  .timetable td{\r\n    padding: 2px 1px;\r\n  }\r\n  .uk-table th {\r\n    padding: 5px 6px;\r\n  }\r\n  .uk-table{\r\n    margin-bottom: 5px;\r\n  }\r\n  #ttableName{\r\n    font-size: 2.25rem;\r\n  }\r\n  #fullTimetable hr{\r\n    margin-top: 15px;\r\n    margin-bottom: 15px;\r\n  }\r\n  .ttableCard {\r\n    width: 525px;\r\n  }\r\n}\r\n\r\n@media (max-height:675px){\r\n  #ttableName{\r\n    visibility: hidden;\r\n    height: 0px;\r\n  }\r\n  #fullTimetable h3{\r\n    height:0px;\r\n  }\r\n}\r\n\r\n@media (max-width:530px), (max-height:620px){\r\n  #fullTimetable {\r\n    visibility: hidden;\r\n    display: none;\r\n  }\r\n  #smallTimetable{\r\n    visibility: visible;\r\n    display: block;\r\n  }\r\n}\r\n\r\n@media (min-width:530px) and (min-height:620px){\r\n  #fullTimetable {\r\n    visibility: visible;\r\n    display: block;\r\n  }\r\n  #smallTimetable{\r\n    visibility: hidden;\r\n    display: none;\r\n  }\r\n}\r\n\r\n@media (max-width:371px){\r\n  #smallTimetable a{\r\n    padding-left: 2px;\r\n    padding-right: 2px;\r\n  }\r\n}\r\n\r\n@media (max-width:600px){\r\n  .ttableCard{\r\n    box-shadow: none;\r\n  }\r\n}", ""]);
+exports.push([module.i, ".timetable td {\r\n  font-family: 'Roboto Mono', monospace;\r\n  padding:5px 6px;\r\n  transition: box-shadow .1s ease-in-out;\r\n  transition: background .1s ease-in-out;\r\n}\r\n.heading {\r\n  font-family: 'Roboto' !important;\r\n  font-weight: 300\r\n}\r\n\r\n.uk-text-center th {\r\n  text-align: center;\r\n}\r\n\r\n.highlight {\r\n  background: #2dc0d5;\r\n  color: #fff;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n}\r\n\r\n.ttableCard {\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  padding: 30px 30px;\r\n  width: 600px;\r\n}\r\n\r\n.uk-tab>* {\r\n  padding-left: 10px!important;\r\n}\r\n\r\n#ttableName {\r\n  font-weight: 300;\r\n}\r\n\r\n@media (max-height:830px){\r\n  .timetable td{\r\n    padding: 2px 1px;\r\n  }\r\n  .uk-table th {\r\n    padding: 5px 6px;\r\n  }\r\n  .uk-table{\r\n    margin-bottom: 5px;\r\n  }\r\n  #ttableName{\r\n    font-size: 2.25rem;\r\n  }\r\n  #fullTimetable hr{\r\n    margin-top: 15px;\r\n    margin-bottom: 15px;\r\n  }\r\n  .ttableCard {\r\n    width: 525px;\r\n  }\r\n}\r\n\r\n@media (max-height:675px){\r\n  #ttableName{\r\n    visibility: hidden;\r\n    height: 0px;\r\n  }\r\n  #fullTimetable h3{\r\n    height:0px;\r\n  }\r\n}\r\n\r\n@media (max-width:530px), (max-height:620px){\r\n  #fullTimetable {\r\n    visibility: hidden;\r\n    display: none;\r\n  }\r\n  #smallTimetable{\r\n    visibility: visible;\r\n    display: block;\r\n  }\r\n}\r\n\r\n@media (min-width:530px) and (min-height:620px){\r\n  #fullTimetable {\r\n    visibility: visible;\r\n    display: block;\r\n  }\r\n  #smallTimetable{\r\n    visibility: hidden;\r\n    display: none;\r\n  }\r\n}\r\n\r\n@media (max-width:371px){\r\n  #smallTimetable a{\r\n    padding-left: 2px;\r\n    padding-right: 2px;\r\n  }\r\n  .uk-tab>* {\r\n    padding-left: 5px!important;\r\n  }\r\n}\r\n\r\n@media (max-width:600px){\r\n  .ttableCard{\r\n    box-shadow: none;\r\n  }\r\n}", ""]);
 
 // exports
 
@@ -32628,6 +32636,8 @@ class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   }
 
   componentDidMount() {
+    let content = document.getElementById('content');
+    content.className = 'full vcNavbarParent';
     //userID = window.userData.username // FIX THIS
     http.get('/getdata?url=details/userinfo.json', res => {
       res.setEncoding('utf8');
@@ -32670,6 +32680,8 @@ class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
   componentWillUnmount() {
     this.updateDB();
+    let content = document.getElementById('content');
+    content.className = 'full';
   }
 
   retrieveDB() {
@@ -32733,7 +32745,7 @@ class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { className: 'notesParent' },
+      { className: 'vcNavbarCard notesParent' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
         { className: 'notesChild uk-animation-slide-top-small' },
@@ -32789,7 +32801,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, ".ql-editor p{\r\n  font-family: 'Open Sans', sans-serif!important;\r\n  font-weight: 400!important;\r\n}\r\n\r\n.ql-editor ol li:not(.ql-direction-rtl), .ql-editor ul li:not(.ql-direction-rtl) {\r\n  padding-left: 1.5em;\r\n  padding-right: 1.5em;\r\n}\r\n\r\n.ql-snow.ql-toolbar button:hover, .ql-snow .ql-toolbar button:hover, .ql-snow.ql-toolbar button:focus, .ql-snow .ql-toolbar button:focus, .ql-snow.ql-toolbar button.ql-active, .ql-snow .ql-toolbar button.ql-active, .ql-snow.ql-toolbar .ql-picker-label:hover, .ql-snow .ql-toolbar .ql-picker-label:hover, .ql-snow.ql-toolbar .ql-picker-label.ql-active, .ql-snow .ql-toolbar .ql-picker-label.ql-active, .ql-snow.ql-toolbar .ql-picker-item:hover, .ql-snow .ql-toolbar .ql-picker-item:hover, .ql-snow.ql-toolbar .ql-picker-item.ql-selected, .ql-snow .ql-toolbar .ql-picker-item.ql-selected {\r\n  color: #2dc0d5!important;\r\n}\r\n\r\n.ql-snow.ql-toolbar button:hover .ql-stroke, .ql-snow .ql-toolbar button:hover .ql-stroke, .ql-snow.ql-toolbar button:focus .ql-stroke, .ql-snow .ql-toolbar button:focus .ql-stroke, .ql-snow.ql-toolbar button.ql-active .ql-stroke, .ql-snow .ql-toolbar button.ql-active .ql-stroke, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke, .ql-snow.ql-toolbar button:hover .ql-stroke-miter, .ql-snow .ql-toolbar button:hover .ql-stroke-miter, .ql-snow.ql-toolbar button:focus .ql-stroke-miter, .ql-snow .ql-toolbar button:focus .ql-stroke-miter, .ql-snow.ql-toolbar button.ql-active .ql-stroke-miter, .ql-snow .ql-toolbar button.ql-active .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter {\r\n  stroke: #2dc0d5!important;\r\n}\r\n\r\n.ql-snow.ql-toolbar button:hover .ql-fill, .ql-snow .ql-toolbar button:hover .ql-fill, .ql-snow.ql-toolbar button:focus .ql-fill, .ql-snow .ql-toolbar button:focus .ql-fill, .ql-snow.ql-toolbar button.ql-active .ql-fill, .ql-snow .ql-toolbar button.ql-active .ql-fill, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-fill, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-fill, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-fill, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-fill, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-fill, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-fill, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-fill, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-fill, .ql-snow.ql-toolbar button:hover .ql-stroke.ql-fill, .ql-snow .ql-toolbar button:hover .ql-stroke.ql-fill, .ql-snow.ql-toolbar button:focus .ql-stroke.ql-fill, .ql-snow .ql-toolbar button:focus .ql-stroke.ql-fill, .ql-snow.ql-toolbar button.ql-active .ql-stroke.ql-fill, .ql-snow .ql-toolbar button.ql-active .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill {\r\n  fill: #2dc0d5!important;\r\n}\r\n\r\n::selection{\r\nbackground: #2dc0d5!important;\r\n}\r\n\r\n::-moz-selection {\r\nbackground: #2dc0d5!important;\r\n}\r\n\r\ninput:focus{\r\n  outline-color: #2dc0d5!important;\r\n}\r\n\r\n.pad {\r\n  margin: 30px 30px 30px 30px;\r\n}\r\n\r\n.ql-container.ql-snow {\r\n  border:none!important;\r\n}\r\n.ql-toolbar.ql-snow {\r\n  border-bottom: 1px solid #ccc!important;\r\n  border: none;\r\n}\r\n\r\n.ql-editor p strong,.ql-editor h1 ,.ql-editor h2 ,.ql-editor h3 {\r\n  font-family: 'Open Sans', sans-serif!important;\r\n  font-weight: 700!important;\r\n}\r\n\r\n.ql-snow a {\r\n  color: #2dc0d5;\r\n}\r\n\r\n.notesParent {\r\n  justify-content: center;\r\n  display: flex;\r\n}\r\n\r\n#editor {\r\n  height:300px;\r\n}\r\n\r\n.notesChild {\r\n  width: 650px;\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  margin-top: 20px!important;\r\n}\r\n\r\n@media (max-width: 650px) {\r\n  #editor {\r\n    width: 100%;\r\n  }\r\n  .notesChild {\r\n    box-shadow: none;\r\n  }\r\n}", ""]);
+exports.push([module.i, ".ql-editor p{\r\n  font-family: 'Open Sans', sans-serif!important;\r\n  font-weight: 400!important;\r\n}\r\n\r\n.ql-editor ol li:not(.ql-direction-rtl), .ql-editor ul li:not(.ql-direction-rtl) {\r\n  padding-left: 1.5em;\r\n  padding-right: 1.5em;\r\n}\r\n\r\n.ql-snow.ql-toolbar button:hover, .ql-snow .ql-toolbar button:hover, .ql-snow.ql-toolbar button:focus, .ql-snow .ql-toolbar button:focus, .ql-snow.ql-toolbar button.ql-active, .ql-snow .ql-toolbar button.ql-active, .ql-snow.ql-toolbar .ql-picker-label:hover, .ql-snow .ql-toolbar .ql-picker-label:hover, .ql-snow.ql-toolbar .ql-picker-label.ql-active, .ql-snow .ql-toolbar .ql-picker-label.ql-active, .ql-snow.ql-toolbar .ql-picker-item:hover, .ql-snow .ql-toolbar .ql-picker-item:hover, .ql-snow.ql-toolbar .ql-picker-item.ql-selected, .ql-snow .ql-toolbar .ql-picker-item.ql-selected {\r\n  color: #2dc0d5!important;\r\n}\r\n\r\n.ql-snow.ql-toolbar button:hover .ql-stroke, .ql-snow .ql-toolbar button:hover .ql-stroke, .ql-snow.ql-toolbar button:focus .ql-stroke, .ql-snow .ql-toolbar button:focus .ql-stroke, .ql-snow.ql-toolbar button.ql-active .ql-stroke, .ql-snow .ql-toolbar button.ql-active .ql-stroke, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke, .ql-snow.ql-toolbar button:hover .ql-stroke-miter, .ql-snow .ql-toolbar button:hover .ql-stroke-miter, .ql-snow.ql-toolbar button:focus .ql-stroke-miter, .ql-snow .ql-toolbar button:focus .ql-stroke-miter, .ql-snow.ql-toolbar button.ql-active .ql-stroke-miter, .ql-snow .ql-toolbar button.ql-active .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter {\r\n  stroke: #2dc0d5!important;\r\n}\r\n\r\n.ql-snow.ql-toolbar button:hover .ql-fill, .ql-snow .ql-toolbar button:hover .ql-fill, .ql-snow.ql-toolbar button:focus .ql-fill, .ql-snow .ql-toolbar button:focus .ql-fill, .ql-snow.ql-toolbar button.ql-active .ql-fill, .ql-snow .ql-toolbar button.ql-active .ql-fill, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-fill, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-fill, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-fill, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-fill, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-fill, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-fill, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-fill, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-fill, .ql-snow.ql-toolbar button:hover .ql-stroke.ql-fill, .ql-snow .ql-toolbar button:hover .ql-stroke.ql-fill, .ql-snow.ql-toolbar button:focus .ql-stroke.ql-fill, .ql-snow .ql-toolbar button:focus .ql-stroke.ql-fill, .ql-snow.ql-toolbar button.ql-active .ql-stroke.ql-fill, .ql-snow .ql-toolbar button.ql-active .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill {\r\n  fill: #2dc0d5!important;\r\n}\r\n\r\n::selection{\r\nbackground: #2dc0d5!important;\r\n}\r\n\r\n::-moz-selection {\r\nbackground: #2dc0d5!important;\r\n}\r\n\r\ninput:focus{\r\n  outline-color: #2dc0d5!important;\r\n}\r\n\r\n.pad {\r\n  margin: 30px 30px 30px 30px;\r\n}\r\n\r\n.ql-container.ql-snow {\r\n  border:none!important;\r\n}\r\n.ql-toolbar.ql-snow {\r\n  border-bottom: 1px solid #ccc!important;\r\n  border: none;\r\n}\r\n\r\n.ql-editor p strong,.ql-editor h1 ,.ql-editor h2 ,.ql-editor h3 {\r\n  font-family: 'Open Sans', sans-serif!important;\r\n  font-weight: 700!important;\r\n}\r\n\r\n.ql-editor li:not(.ql-direction-rtl)::before {\r\n  margin-right: 1em!important;\r\n}\r\n\r\n.ql-snow a {\r\n  color: #2dc0d5;\r\n}\r\n\r\n.notesParent {\r\n  justify-content: center;\r\n  display: flex;\r\n}\r\n\r\n#editor {\r\n  height:300px;\r\n}\r\n\r\n.notesChild {\r\n  width: 650px;\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  margin-top: 20px!important;\r\n}\r\n\r\n@media (max-width: 650px) {\r\n  #editor {\r\n    width: 100%;\r\n  }\r\n  .notesChild {\r\n    box-shadow: none;\r\n  }\r\n  .pad {\r\n    margin: 10px 10px 10px 10px;\r\n  }\r\n}\r\n\r\n@media (max-height: 650px) {\r\n\r\n}", ""]);
 
 // exports
 
@@ -56815,7 +56827,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, ".profileParent {\r\n  display: flex;\r\n  justify-content: center;\r\n}\r\n\r\n.profileChild {\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  padding: 30px 30px;\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n  width: 550px;\r\n  margin-top: 20px;\r\n}\r\n\r\n.big {\r\n  margin-top: 70px!important\r\n}\r\n\r\n.profileChild .uk-align-left{\r\n  margin-top: 0px;\r\n  margin-bottom: 0px;\r\n}\r\n\r\n.uk-table-small button ::selection {\r\n    background: #39f;\r\n    color: #fff;\r\n    text-shadow: none;\r\n}\r\n\r\n.width-small {\r\n  width:80px;\r\n}\r\n\r\n.profileChild td code {\r\n  word-wrap: break-word;\r\n  user-select: text;\r\n  font-size: .875rem;\r\n  color: #666;\r\n  white-space: initial!important;\r\n  padding: 2px 6px;\r\n  background: #f8f8f8;\r\n}\r\n\r\n\r\n\r\n#detailsTable {\r\n  width: 100%!important;\r\n  table-layout: fixed!important;\r\n}\r\n\r\n@media (max-width:550px){\r\n  .profileChild {\r\n    width: 100%;\r\n    box-shadow: none;\r\n  }\r\n  #profileContent .uk-accordion-title {\r\n    font-size: 1.25rem;\r\n  }\r\n}", ""]);
+exports.push([module.i, ".profileParent {\r\n  display: flex;\r\n  justify-content: center;\r\n}\r\n\r\n.profileChild {\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  padding: 30px 30px;\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n  width: 550px;\r\n  margin-top: 20px;\r\n}\r\n\r\n.big {\r\n  margin-top: 70px!important\r\n}\r\n\r\n.profileChild .uk-align-left{\r\n  margin-top: 0px;\r\n  margin-bottom: 0px;\r\n}\r\n\r\n.uk-table-small button ::selection {\r\n    background: #39f;\r\n    color: #fff;\r\n    text-shadow: none;\r\n}\r\n\r\n.width-small {\r\n  width:80px;\r\n}\r\n\r\n.profileChild td code {\r\n  word-wrap: break-word;\r\n  user-select: text;\r\n  font-size: .875rem;\r\n  color: #666;\r\n  white-space: initial!important;\r\n  padding: 2px 6px;\r\n  background: #f8f8f8;\r\n}\r\n\r\n#detailsTable {\r\n  width: 100%!important;\r\n  table-layout: fixed!important;\r\n}\r\n\r\n@media (max-width:550px){\r\n  .profileChild {\r\n    width: 100%;\r\n    box-shadow: none;\r\n  }\r\n  #profileContent .uk-accordion-title {\r\n    font-size: 1.25rem;\r\n  }\r\n}", ""]);
 
 // exports
 
@@ -57212,7 +57224,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, ".uk-navbar-nav>li>a {\r\n  -webkit-font-smoothing: antialiased!important;\r\n  -moz-osx-font-smoothing: grayscale!important;\r\n}\r\n\r\n#content {\r\n  z-index: 1;\r\n}\r\n\r\n.mouseLoad{\r\n  cursor: wait;\r\n}\r\n\r\n#CalendarA {\r\n  color: #999!important;\r\n  pointer-events: all;\r\n  opacity: 0.25;\r\n  cursor: default;\r\n}\r\n\r\n.uk-tooltip {\r\n  background-color: #2dc0d5;\r\n  z-index: 2;\r\n}\r\n\r\nh1,h2,h3,h4,h5,h6,h7,.uk-h1,.uk-accordion-title,.uk-text-lead {\r\n  font-family: 'Roboto', sans-serif\r\n}\r\n\r\nb {\r\n  font-family: 'Open Sans', sans-serif;\r\n  font-weight: 700\r\n}\r\n\r\n.spinner {\r\n  display: flex;\r\n  align-items: center;\r\n  align-content: center;\r\n  justify-content: center;\r\n}\r\n\r\nbody {\r\n  user-select: none\r\n}\r\n\r\n.uk-accordion-title,.uk-text-lead {\r\n  font-size: 1.5rem;\r\n  font-weight: 300\r\n}\r\n\r\n.welcomeNav {\r\n  position: fixed;\r\n  visibility: hidden\r\n}\r\n\r\n.main {\r\n  transition: 150ms linear;\r\n}\r\n\r\n.djLogo {\r\n  width: 50px;\r\n  height: 50px;\r\n  transition: width 0.1s;\r\n  transition: height 0.1s\r\n}\r\n\r\n.name {\r\n  margin-bottom: 0px;\r\n  margin-right: 5px;\r\n}\r\n\r\n.uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n  transition: height 0.1s\r\n}\r\n\r\n.uk-sticky-placeholder {\r\n  height: 80px!important;\r\n}\r\n\r\n.content {\r\n  align-content: center;\r\n  margin-left: 10px;\r\n  background: white;\r\n  transition: 150ms linear;\r\n}\r\n\r\n.background {\r\n  background-color: #2a2c31;\r\n}\r\n\r\n/*Vertical centering content with a navbar above*/\r\n.vcNavbarParent {\r\n  display: flex;\r\n  height: auto;\r\n  margin: 0 auto;\r\n  min-height: calc(100vh - 80px);\r\n  min-height: -o-calc(100vh - 80px);\r\n  min-height: -webkit-calc(100vh - 80px);\r\n  min-height: -moz-calc(100vh - 80px)\r\n}\r\n.vcNavbarCard {\r\n  margin: auto;\r\n  justify-content: center;\r\n  display: flex;\r\n  text-align: center!important;\r\n  max-width: 100%;\r\n}\r\n\r\n@media (max-width: 920px) {\r\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n    height:60px\r\n  }\r\n  .uk-sticky-placeholder {\r\n    height:60px!important\r\n  }\r\n  .vcNavbarParent {\r\n    display: flex;\r\n    height: auto;\r\n    margin: 0 auto;\r\n    min-height: calc(100vh - 60px);\r\n    min-height: -o-calc(100vh - 60px);\r\n    min-height: -webkit-calc(100vh - 60px);\r\n    min-height: -moz-calc(100vh - 60px)\r\n  }\r\n  .djLogo {\r\n    width: 40px;\r\n    height: 40px\r\n  }\r\n  .collapseText {\r\n    font-size: 0\r\n  }\r\n  .collapseSpan {\r\n    margin-right: 0px!important\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 500px) {\r\n  .djLogo {\r\n    width: 0px!important;\r\n    height: 0px!important;\r\n    margin: 0 0 0 0!important;\r\n  }\r\n  .name{\r\n    font-size: 0px;\r\n    margin-right: 0px\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 300px){\r\n  .uk-navbar-item, .uk-navbar-nav>li>a, .uk-navbar-toggle {\r\n    padding: 0 10px;\r\n  }\r\n}\r\n\r\n@media (max-height: 700px) {\r\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n    height:60px\r\n  }\r\n  .uk-sticky-placeholder {\r\n    height:60px!important\r\n  }\r\n  .djLogo{\r\n    width: 40px;\r\n    height: 40px;\r\n  }\r\n  .vcNavbarParent {\r\n    display: flex;\r\n    height: auto;\r\n    margin: 0 auto;\r\n    min-height: calc(100vh - 60px);\r\n    min-height: -o-calc(100vh - 60px);\r\n    min-height: -webkit-calc(100vh - 60px);\r\n    min-height: -moz-calc(100vh - 60px)\r\n  }\r\n  .collapseText {\r\n    font-size: 0\r\n  }\r\n  .collapseSpan {\r\n    margin-right: 0px!important\r\n  }\r\n}", ""]);
+exports.push([module.i, ".uk-navbar-nav>li>a {\r\n  -webkit-font-smoothing: antialiased!important;\r\n  -moz-osx-font-smoothing: grayscale!important;\r\n}\r\n\r\nhtml, body, #main, #app {\r\n  height: 100%;\r\n  width: 100%;\r\n}\r\n\r\n#content {\r\n  z-index: 1;\r\n}\r\n\r\n.mouseLoad{\r\n  cursor: wait;\r\n}\r\n\r\n#CalendarA {\r\n  color: #999!important;\r\n  pointer-events: all;\r\n  opacity: 0.25;\r\n  cursor: default;\r\n}\r\n\r\n.uk-tooltip {\r\n  background-color: #2dc0d5;\r\n  z-index: 2;\r\n}\r\n\r\nh1,h2,h3,h4,h5,h6,h7,.uk-h1,.uk-accordion-title,.uk-text-lead {\r\n  font-family: 'Roboto', sans-serif\r\n}\r\n\r\nb {\r\n  font-family: 'Open Sans', sans-serif;\r\n  font-weight: 700\r\n}\r\n\r\n.spinner {\r\n  display: flex;\r\n  align-items: center;\r\n  align-content: center;\r\n  justify-content: center;\r\n}\r\n\r\nbody {\r\n  user-select: none\r\n}\r\n\r\n.uk-accordion-title,.uk-text-lead {\r\n  font-size: 1.5rem;\r\n  font-weight: 300\r\n}\r\n\r\n.welcomeNav {\r\n  position: fixed;\r\n  visibility: hidden\r\n}\r\n\r\n.main {\r\n  transition: 150ms linear;\r\n}\r\n\r\n.djLogo {\r\n  width: 50px;\r\n  height: 50px;\r\n  transition: width 0.1s;\r\n  transition: height 0.1s\r\n}\r\n\r\n.name {\r\n  margin-bottom: 0px;\r\n  margin-right: 5px;\r\n}\r\n\r\n.uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n  transition: height 0.1s\r\n}\r\n\r\n.uk-sticky-placeholder {\r\n  height: 80px!important;\r\n}\r\n\r\n.content {\r\n  align-content: center;\r\n  margin-left: 10px;\r\n  background: white;\r\n  transition: 150ms linear;\r\n}\r\n\r\n.background {\r\n  background-color: #2a2c31;\r\n}\r\n\r\n/*Vertical centering content with a navbar above*/\r\n.vcNavbarParent {\r\n  display: flex;\r\n}\r\n\r\n.full {\r\n  min-height: calc(100% - 80px);\r\n  min-height: -o-calc(100% - 80px);\r\n  min-height: -webkit-calc(100% - 80px);\r\n  min-height: -moz-calc(100% - 80px);\r\n}\r\n\r\n.vcNavbarCard {\r\n  margin: auto;\r\n  justify-content: center;\r\n  display: flex;\r\n  text-align: center!important;\r\n  max-width: 100%;\r\n}\r\n\r\n@media (max-width: 960px) {\r\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n    height:60px\r\n  }\r\n  .uk-sticky-placeholder {\r\n    height:60px!important\r\n  }\r\n  .full {\r\n    min-height: calc(100% - 60px);\r\n    min-height: -o-calc(100% - 60px);\r\n    min-height: -webkit-calc(100% - 60px);\r\n    min-height: -moz-calc(100% - 60px)\r\n  }\r\n  .djLogo {\r\n    width: 40px;\r\n    height: 40px\r\n  }\r\n  .collapseText {\r\n    font-size: 0\r\n  }\r\n  .collapseSpan {\r\n    margin-right: 0px!important\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 580px) {\r\n  .djLogo {\r\n    width: 0px!important;\r\n    height: 0px!important;\r\n    margin: 0 0 0 0!important;\r\n  }\r\n  .name{\r\n    font-size: 0px;\r\n    margin-right: 0px\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 300px){\r\n  .uk-navbar-item, .uk-navbar-nav>li>a, .uk-navbar-toggle {\r\n    padding: 0 10px;\r\n  }\r\n}\r\n\r\n@media (max-height: 700px) {\r\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n    height:60px\r\n  }\r\n  .uk-sticky-placeholder {\r\n    height:60px!important\r\n  }\r\n  .djLogo{\r\n    width: 40px;\r\n    height: 40px;\r\n  }\r\n  .full {\r\n    min-height: calc(100% - 60px);\r\n    min-height: -o-calc(100% - 60px);\r\n    min-height: -webkit-calc(100% - 60px);\r\n    min-height: -moz-calc(100% - 60px)\r\n  }\r\n  .collapseText {\r\n    font-size: 0\r\n  }\r\n  .collapseSpan {\r\n    margin-right: 0px!important\r\n  }\r\n}", ""]);
 
 // exports
 

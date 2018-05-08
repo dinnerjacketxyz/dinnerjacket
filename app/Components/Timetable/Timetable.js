@@ -28,6 +28,13 @@ class Timetable extends Component {
 
  componentDidMount() {
    this.initialise()
+   let content = document.getElementById('content')
+    content.className = 'full vcNavbarParent'
+ }
+
+ componentWillUnmount() {
+  let content = document.getElementById('content')
+  content.className = 'full'
  }
 
  //does pretty much everything for the big timetable
@@ -253,7 +260,6 @@ class Timetable extends Component {
  render() {
    //this.initialise()
    return (
-      <div className='vcNavbarParent'>
         <div className='vcNavbarCard'>
           <div id='fullTimetable' className='ttableCard uk-animation-slide-top-small' onMouseLeave={this.fade.bind(this)}>
             <h3 className='uk-heading-line uk-text-center'>
@@ -340,7 +346,6 @@ class Timetable extends Component {
             </table>
           </div>
         </div>
-      </div>
        
    )
  }

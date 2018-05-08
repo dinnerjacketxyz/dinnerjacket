@@ -3,6 +3,11 @@
   -moz-osx-font-smoothing: grayscale!important;
 }
 
+html, body, #main, #app {
+  height: 100%;
+  width: 100%;
+}
+
 #content {
   z-index: 1;
 }
@@ -91,13 +96,15 @@ body {
 /*Vertical centering content with a navbar above*/
 .vcNavbarParent {
   display: flex;
-  height: auto;
-  margin: 0 auto;
-  min-height: calc(100vh - 80px);
-  min-height: -o-calc(100vh - 80px);
-  min-height: -webkit-calc(100vh - 80px);
-  min-height: -moz-calc(100vh - 80px);
 }
+
+.full {
+  min-height: calc(100% - 80px);
+  min-height: -o-calc(100% - 80px);
+  min-height: -webkit-calc(100% - 80px);
+  min-height: -moz-calc(100% - 80px);
+}
+
 .vcNavbarCard {
   margin: auto;
   justify-content: center;
@@ -106,21 +113,18 @@ body {
   max-width: 100%;
 }
 
-@media (max-width: 920px) {
+@media (max-width: 960px) {
   .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {
     height:60px
   }
   .uk-sticky-placeholder {
     height:60px!important
   }
-  .vcNavbarParent {
-    display: flex;
-    height: auto;
-    margin: 0 auto;
-    min-height: calc(100vh - 60px);
-    min-height: -o-calc(100vh - 60px);
-    min-height: -webkit-calc(100vh - 60px);
-    min-height: -moz-calc(100vh - 60px)
+  .full {
+    min-height: calc(100% - 60px);
+    min-height: -o-calc(100% - 60px);
+    min-height: -webkit-calc(100% - 60px);
+    min-height: -moz-calc(100% - 60px)
   }
   .djLogo {
     width: 40px;
@@ -134,7 +138,7 @@ body {
   }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 580px) {
   .djLogo {
     width: 0px!important;
     height: 0px!important;
@@ -163,14 +167,11 @@ body {
     width: 40px;
     height: 40px;
   }
-  .vcNavbarParent {
-    display: flex;
-    height: auto;
-    margin: 0 auto;
-    min-height: calc(100vh - 60px);
-    min-height: -o-calc(100vh - 60px);
-    min-height: -webkit-calc(100vh - 60px);
-    min-height: -moz-calc(100vh - 60px)
+  .full {
+    min-height: calc(100% - 60px);
+    min-height: -o-calc(100% - 60px);
+    min-height: -webkit-calc(100% - 60px);
+    min-height: -moz-calc(100% - 60px)
   }
   .collapseText {
     font-size: 0

@@ -30,6 +30,10 @@
   width: 600px;
 }
 
+.uk-tab>* {
+  padding-left: 10px!important;
+}
+
 #ttableName {
   font-weight: 300;
 }
@@ -92,6 +96,9 @@
   #smallTimetable a{
     padding-left: 2px;
     padding-right: 2px;
+  }
+  .uk-tab>* {
+    padding-left: 5px!important;
   }
 }
 

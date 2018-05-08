@@ -575,7 +575,6 @@ class Dashboard extends Component {
     }
 
     return (
-      <div className='vcNavbarParent'>
         <div className='vcNavbarCard'>
           <div className='uk-animation-slide-top-small dashCard'>
             <h4 className='nextClass'>{nextClass}</h4>
@@ -584,7 +583,6 @@ class Dashboard extends Component {
             {this.state.htmlClasses}
           </div>
         </div>
-      </div>
     )
   }
 
@@ -629,11 +627,16 @@ class Dashboard extends Component {
 
     this.timerTick = this.timerTick.bind(this)
 
+    let content = document.getElementById('content')
+    content.className = 'full vcNavbarParent'
   }
 
   componentWillUnmount() {
     // remove timer after unmount
     clearInterval(this.state.timerID)
+
+    let content = document.getElementById('content')
+    content.className = 'full'
   }
 }
 

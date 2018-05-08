@@ -36,7 +36,7 @@ class Welcome extends Component {
 
   render() {
     return (
-      <div className='main vcWelcomeParent'>
+      <div className='vcWelcomeParent'>
         <div className='vcWelcomeCard'>
           <div id='welcomeContent' className='uk-animation-slide-top-small'>
             <img id='welcomelogo' alt='logo' src='./icons/256.png' width='150px' height='150px'/>

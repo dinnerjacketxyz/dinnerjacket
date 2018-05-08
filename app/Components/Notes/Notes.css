@@ -49,6 +49,10 @@ input:focus{
   font-weight: 700!important;
 }
 
+.ql-editor li:not(.ql-direction-rtl)::before {
+  margin-right: 1em!important;
+}
+
 .ql-snow a {
   color: #2dc0d5;
 }
@@ -80,4 +84,11 @@ input:focus{
   .notesChild {
     box-shadow: none;
   }
+  .pad {
+    margin: 10px 10px 10px 10px;
+  }
+}
+
+@media (max-height: 650px) {
+
 }

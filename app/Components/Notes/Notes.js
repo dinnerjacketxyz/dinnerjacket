@@ -21,6 +21,8 @@ class Notes extends Component {
   }
 
   componentDidMount() {
+    let content = document.getElementById('content')
+    content.className = 'full vcNavbarParent'
     //userID = window.userData.username // FIX THIS
     http.get('/getdata?url=details/userinfo.json', (res) => {
       res.setEncoding('utf8')
@@ -63,6 +65,8 @@ class Notes extends Component {
 
   componentWillUnmount() {
     this.updateDB()
+    let content = document.getElementById('content')
+    content.className = 'full'
   }
 
   retrieveDB() {
@@ -125,7 +129,7 @@ class Notes extends Component {
 
   render() {
     return (
-      <div className='notesParent'>
+      <div className='vcNavbarCard notesParent'>
         <div className='notesChild uk-animation-slide-top-small'>
           <div className='pad'>
             <div id='editor' onInput={this.updateDB.bind(this)}/>
