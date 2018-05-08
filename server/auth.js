@@ -1,4 +1,4 @@
-const oauth2module = require('simple-oauth2')
+﻿const oauth2module = require('simple-oauth2')
 const https = require('https')
 
 const siteURL = 'http://localhost:3000'
@@ -16,7 +16,7 @@ module.exports = (app) => {
           |   REPLACE THIS WITH CLIENT SECRET WHEN RUNNING   |
           *==================================================*
                                                                 */
-      secret: REDACTED
+      secret: 'lve26aPJH_zzKPHBUrVAcpIGhjQ'
 
       /*
           *==================================================*

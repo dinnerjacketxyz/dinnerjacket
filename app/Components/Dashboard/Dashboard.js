@@ -26,25 +26,19 @@ class Dashboard extends Component {
     this.updateTimetableDisplay(window.dashboard)
 
     /* Old code
-
     // returns daily notices, see auth.js for usage info
     let promise = new Promise( function (resolve, reject) {
       http.get('/getdata?url=timetable/daytimetable.json', (res) => {
-
         res.setEncoding('utf8')
-
         let returnData = ''
-
         res.on('data', function (body) {
           returnData += body
         })
-
         res.on('end', function(){
           resolve(returnData)
         })
       })
     })
-
     promise.then(function(result) {
       this.updateTimetableDisplay(result)
       this.timerTick()
@@ -581,14 +575,16 @@ class Dashboard extends Component {
     }
 
     return (
-        <div className='uk-flex uk-flex-center'>
+      <div className='vcNavbarParent'>
+        <div className='vcNavbarCard'>
           <div className='uk-animation-slide-top-small dashCard'>
-            <h4 className='nextClass uk-text-center'>{nextClass}</h4>
-            <p className='in uk-text-center'>in</p>
-            <h1 className='uk-heading-line countdown uk-text-center'><span>{timeLeft}</span></h1>
+            <h4 className='nextClass'>{nextClass}</h4>
+            <p className='in'>in</p>
+            <h1 className='uk-heading-line countdown'><span>{timeLeft}</span></h1>
             {this.state.htmlClasses}
           </div>
         </div>
+      </div>
     )
   }
 
@@ -646,7 +642,6 @@ export default Dashboard
 // Old timer code that relies on Javascript timers (inaccurate)
       /*if (this.state.timer === 0) {
         let nextClass = this.getNextClass()
-
         // setup countdown for next class
         const date = new Date()
         const secDifference = Math.floor((nextClass.time.getTime() - date.getTime())/1000)

@@ -43,8 +43,8 @@ window.STATES = {
   TIMETABLE: 1,
   NOTES: 2,
   NOTICES: 3,
-  CALENDAR: 4,
-  ABOUT: 5,
+  //CALENDAR: 4,
+  ABOUT: 4,
   PROFILE: 9999,
   CHANGELOG: 6,
   FEEDBACK: 7
@@ -57,7 +57,7 @@ const nameArray = [
   'Timetable',
   'Notes',
   'Notices',
-  'Calendar',
+  //'Calendar',
   'Side'
 ]
 
@@ -67,7 +67,7 @@ class App extends Component {
   constructor(props) {
     super(props)
 
-    //console.log('Server Updated 3')
+    console.log('Server Updated 3')
 
     // Set default state on open to Welcome page
     this.state = {
@@ -232,7 +232,6 @@ class App extends Component {
       res.on('d', (body) => {
         d += body
       })
-
       res.on('end', () => {
         try {
           window.diaryCal = JSON.parse(d)
@@ -352,7 +351,7 @@ class App extends Component {
     }
   }
 
-  
+  /*
   showCalendar() {
     //console.log('Calendar tab clicked')
     if (window.calendar !== '') {
@@ -360,7 +359,7 @@ class App extends Component {
       this.setState({ visible: window.STATES.CALENDAR })
       this.selectedNavbar(window.STATES.CALENDAR)
     }
-  }
+  }*/
 
   showAbout() {
     //console.log('About tab clicked')
@@ -455,10 +454,10 @@ class App extends Component {
                 </a>
               </li>
 
-              <li id='CalendarLi' className='uk-animation-toggle' onClick={this.showCalendar.bind(this)}>
-                <a id='CalendarA' className='uk-box-shadow-hover-small'>
+              <li id='CalendarLi' className='uk-disabled'>
+                <a id='CalendarA' className='uk-card uk-card-body' uk-tooltip="title: Coming Soon; pos: bottom">
                   <span id='CalendarS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: calendar' />
-                  <p className='collapseText' id='CalendarP'>{nameArray[4]}</p>
+                  <p className='collapseText' id='CalendarP'>Calendar</p>
                   <b className='collapseText' id='CalendarB'></b>
                 </a>
               </li>

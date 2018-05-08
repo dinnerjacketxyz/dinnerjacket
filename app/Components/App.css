@@ -11,6 +11,13 @@
   cursor: wait;
 }
 
+#CalendarA {
+  color: #999!important;
+  pointer-events: all;
+  opacity: 0.25;
+  cursor: default;
+}
+
 .uk-tooltip {
   background-color: #2dc0d5;
   z-index: 2;
@@ -34,11 +41,6 @@ b {
 
 body {
   user-select: none
-}
-
-html, body {
-  height: 100%!important;
-  width: 100%!important;
 }
 
 .uk-accordion-title,.uk-text-lead {
@@ -94,7 +96,7 @@ html, body {
   min-height: calc(100vh - 80px);
   min-height: -o-calc(100vh - 80px);
   min-height: -webkit-calc(100vh - 80px);
-  min-height: -moz-calc(100vh - 80px)
+  min-height: -moz-calc(100vh - 80px);
 }
 .vcNavbarCard {
   margin: auto;
