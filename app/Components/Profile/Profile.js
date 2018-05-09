@@ -17,8 +17,14 @@ class Profile extends Component {
     super(props)
     this.state = { loading: true, content: 'details' }
   }
+  componentWillUnmount(){
+    let content = document.getElementById('content')
+    content.className = 'full vcNavbarParent'
+  }
 
   componentDidMount() {
+    let content = document.getElementById('content')
+    content.className = 'full vcNavbarParent'
     content = this.state.content
     profileContent = document.getElementById('profileContent')
     detailsTab = document.getElementById('detailsTab')
@@ -89,6 +95,7 @@ class Profile extends Component {
     }
 
     return (
+      <div className='vcNavbarCard'>
       <div className='profileParent'>
         <div className='profileChild uk-animation-slide-top-small'>
           <span className='profileParent' uk-icon='icon: user; ratio:2'></span>
@@ -101,6 +108,7 @@ class Profile extends Component {
             {content}
           </div>
         </div>
+      </div>
       </div>
     )
   }

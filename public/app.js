@@ -28182,9 +28182,6 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   logout() {
     window.location.href = '/logout';
     localStorage.setItem('clicked', false);
-
-    let content = document.getElementById('content');
-    content.className = '';
   }
 
   logo() {
@@ -28445,6 +28442,11 @@ class Welcome extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       alert('spif');
       counter = 0;
     }
+  }
+
+  componentDidMount() {
+    let content = document.getElementById('content');
+    content.className = '';
   }
 
   render() {
@@ -32636,8 +32638,6 @@ class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   }
 
   componentDidMount() {
-    let content = document.getElementById('content');
-    content.className = 'full vcNavbarParent';
     //userID = window.userData.username // FIX THIS
     http.get('/getdata?url=details/userinfo.json', res => {
       res.setEncoding('utf8');
@@ -32680,8 +32680,6 @@ class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
   componentWillUnmount() {
     this.updateDB();
-    let content = document.getElementById('content');
-    content.className = 'full';
   }
 
   retrieveDB() {
@@ -32745,16 +32743,8 @@ class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   render() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { className: 'vcNavbarCard notesParent' },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { className: 'notesChild uk-animation-slide-top-small' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'div',
-          { className: 'pad' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { id: 'editor', onInput: this.updateDB.bind(this) })
-        )
-      )
+      { className: 'pad uk-animation-slide-top-small' },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { id: 'editor', onInput: this.updateDB.bind(this) })
     );
   }
 }
@@ -32801,7 +32791,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, ".ql-editor p{\r\n  font-family: 'Open Sans', sans-serif!important;\r\n  font-weight: 400!important;\r\n}\r\n\r\n.ql-editor ol li:not(.ql-direction-rtl), .ql-editor ul li:not(.ql-direction-rtl) {\r\n  padding-left: 1.5em;\r\n  padding-right: 1.5em;\r\n}\r\n\r\n.ql-snow.ql-toolbar button:hover, .ql-snow .ql-toolbar button:hover, .ql-snow.ql-toolbar button:focus, .ql-snow .ql-toolbar button:focus, .ql-snow.ql-toolbar button.ql-active, .ql-snow .ql-toolbar button.ql-active, .ql-snow.ql-toolbar .ql-picker-label:hover, .ql-snow .ql-toolbar .ql-picker-label:hover, .ql-snow.ql-toolbar .ql-picker-label.ql-active, .ql-snow .ql-toolbar .ql-picker-label.ql-active, .ql-snow.ql-toolbar .ql-picker-item:hover, .ql-snow .ql-toolbar .ql-picker-item:hover, .ql-snow.ql-toolbar .ql-picker-item.ql-selected, .ql-snow .ql-toolbar .ql-picker-item.ql-selected {\r\n  color: #2dc0d5!important;\r\n}\r\n\r\n.ql-snow.ql-toolbar button:hover .ql-stroke, .ql-snow .ql-toolbar button:hover .ql-stroke, .ql-snow.ql-toolbar button:focus .ql-stroke, .ql-snow .ql-toolbar button:focus .ql-stroke, .ql-snow.ql-toolbar button.ql-active .ql-stroke, .ql-snow .ql-toolbar button.ql-active .ql-stroke, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke, .ql-snow.ql-toolbar button:hover .ql-stroke-miter, .ql-snow .ql-toolbar button:hover .ql-stroke-miter, .ql-snow.ql-toolbar button:focus .ql-stroke-miter, .ql-snow .ql-toolbar button:focus .ql-stroke-miter, .ql-snow.ql-toolbar button.ql-active .ql-stroke-miter, .ql-snow .ql-toolbar button.ql-active .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter {\r\n  stroke: #2dc0d5!important;\r\n}\r\n\r\n.ql-snow.ql-toolbar button:hover .ql-fill, .ql-snow .ql-toolbar button:hover .ql-fill, .ql-snow.ql-toolbar button:focus .ql-fill, .ql-snow .ql-toolbar button:focus .ql-fill, .ql-snow.ql-toolbar button.ql-active .ql-fill, .ql-snow .ql-toolbar button.ql-active .ql-fill, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-fill, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-fill, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-fill, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-fill, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-fill, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-fill, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-fill, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-fill, .ql-snow.ql-toolbar button:hover .ql-stroke.ql-fill, .ql-snow .ql-toolbar button:hover .ql-stroke.ql-fill, .ql-snow.ql-toolbar button:focus .ql-stroke.ql-fill, .ql-snow .ql-toolbar button:focus .ql-stroke.ql-fill, .ql-snow.ql-toolbar button.ql-active .ql-stroke.ql-fill, .ql-snow .ql-toolbar button.ql-active .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill {\r\n  fill: #2dc0d5!important;\r\n}\r\n\r\n::selection{\r\nbackground: #2dc0d5!important;\r\n}\r\n\r\n::-moz-selection {\r\nbackground: #2dc0d5!important;\r\n}\r\n\r\ninput:focus{\r\n  outline-color: #2dc0d5!important;\r\n}\r\n\r\n.pad {\r\n  margin: 30px 30px 30px 30px;\r\n}\r\n\r\n.ql-container.ql-snow {\r\n  border:none!important;\r\n}\r\n.ql-toolbar.ql-snow {\r\n  border-bottom: 1px solid #ccc!important;\r\n  border: none;\r\n}\r\n\r\n.ql-editor p strong,.ql-editor h1 ,.ql-editor h2 ,.ql-editor h3 {\r\n  font-family: 'Open Sans', sans-serif!important;\r\n  font-weight: 700!important;\r\n}\r\n\r\n.ql-editor li:not(.ql-direction-rtl)::before {\r\n  margin-right: 1em!important;\r\n}\r\n\r\n.ql-snow a {\r\n  color: #2dc0d5;\r\n}\r\n\r\n.notesParent {\r\n  justify-content: center;\r\n  display: flex;\r\n}\r\n\r\n#editor {\r\n  height:300px;\r\n}\r\n\r\n.notesChild {\r\n  width: 650px;\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  margin-top: 20px!important;\r\n}\r\n\r\n@media (max-width: 650px) {\r\n  #editor {\r\n    width: 100%;\r\n  }\r\n  .notesChild {\r\n    box-shadow: none;\r\n  }\r\n  .pad {\r\n    margin: 10px 10px 10px 10px;\r\n  }\r\n}\r\n\r\n@media (max-height: 650px) {\r\n\r\n}", ""]);
+exports.push([module.i, ".ql-editor p{\r\n  font-family: 'Open Sans', sans-serif!important;\r\n  font-weight: 400!important;\r\n}\r\n\r\n.ql-editor ol li:not(.ql-direction-rtl), .ql-editor ul li:not(.ql-direction-rtl) {\r\n  padding-left: 1.5em;\r\n  padding-right: 1.5em;\r\n}\r\n\r\n.ql-snow.ql-toolbar button:hover, .ql-snow .ql-toolbar button:hover, .ql-snow.ql-toolbar button:focus, .ql-snow .ql-toolbar button:focus, .ql-snow.ql-toolbar button.ql-active, .ql-snow .ql-toolbar button.ql-active, .ql-snow.ql-toolbar .ql-picker-label:hover, .ql-snow .ql-toolbar .ql-picker-label:hover, .ql-snow.ql-toolbar .ql-picker-label.ql-active, .ql-snow .ql-toolbar .ql-picker-label.ql-active, .ql-snow.ql-toolbar .ql-picker-item:hover, .ql-snow .ql-toolbar .ql-picker-item:hover, .ql-snow.ql-toolbar .ql-picker-item.ql-selected, .ql-snow .ql-toolbar .ql-picker-item.ql-selected {\r\n  color: #2dc0d5!important;\r\n}\r\n\r\n.ql-snow.ql-toolbar button:hover .ql-stroke, .ql-snow .ql-toolbar button:hover .ql-stroke, .ql-snow.ql-toolbar button:focus .ql-stroke, .ql-snow .ql-toolbar button:focus .ql-stroke, .ql-snow.ql-toolbar button.ql-active .ql-stroke, .ql-snow .ql-toolbar button.ql-active .ql-stroke, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke, .ql-snow.ql-toolbar button:hover .ql-stroke-miter, .ql-snow .ql-toolbar button:hover .ql-stroke-miter, .ql-snow.ql-toolbar button:focus .ql-stroke-miter, .ql-snow .ql-toolbar button:focus .ql-stroke-miter, .ql-snow.ql-toolbar button.ql-active .ql-stroke-miter, .ql-snow .ql-toolbar button.ql-active .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter {\r\n  stroke: #2dc0d5!important;\r\n}\r\n\r\n.ql-snow.ql-toolbar button:hover .ql-fill, .ql-snow .ql-toolbar button:hover .ql-fill, .ql-snow.ql-toolbar button:focus .ql-fill, .ql-snow .ql-toolbar button:focus .ql-fill, .ql-snow.ql-toolbar button.ql-active .ql-fill, .ql-snow .ql-toolbar button.ql-active .ql-fill, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-fill, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-fill, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-fill, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-fill, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-fill, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-fill, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-fill, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-fill, .ql-snow.ql-toolbar button:hover .ql-stroke.ql-fill, .ql-snow .ql-toolbar button:hover .ql-stroke.ql-fill, .ql-snow.ql-toolbar button:focus .ql-stroke.ql-fill, .ql-snow .ql-toolbar button:focus .ql-stroke.ql-fill, .ql-snow.ql-toolbar button.ql-active .ql-stroke.ql-fill, .ql-snow .ql-toolbar button.ql-active .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill {\r\n  fill: #2dc0d5!important;\r\n}\r\n\r\n::selection{\r\nbackground: #2dc0d5!important;\r\n}\r\n\r\n::-moz-selection {\r\nbackground: #2dc0d5!important;\r\n}\r\n\r\ninput:focus{\r\n  outline-color: #2dc0d5!important;\r\n}\r\n\r\n.pad {\r\n  padding: 10px;\r\n  height: 100%;\r\n  width: 100%;\r\n}\r\n\r\n.ql-container.ql-snow {\r\n  border:none!important;\r\n}\r\n.ql-toolbar.ql-snow {\r\n  border-bottom: 1px solid #ccc!important;\r\n  border: none;\r\n}\r\n\r\n.ql-editor p strong,.ql-editor h1 ,.ql-editor h2 ,.ql-editor h3 {\r\n  font-family: 'Open Sans', sans-serif!important;\r\n  font-weight: 700!important;\r\n}\r\n\r\n.ql-editor li:not(.ql-direction-rtl)::before {\r\n  margin-right: 1em!important;\r\n}\r\n\r\n.ql-snow a {\r\n  color: #2dc0d5;\r\n}\r\n\r\n.notesParent {\r\n  justify-content: center;\r\n  display: flex;\r\n}\r\n\r\n.notesChild {\r\n  width: 650px;\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  margin-top: 20px!important;\r\n}\r\n\r\n@media (max-width: 650px) {\r\n  .notesChild {\r\n    box-shadow: none;\r\n  }\r\n  .pad {\r\n    margin: 10px 10px 10px 10px;\r\n  }\r\n}\r\n\r\n@media (max-height: 650px) {\r\n\r\n}", ""]);
 
 // exports
 
@@ -56485,8 +56475,14 @@ class Profile extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     super(props);
     this.state = { loading: true, content: 'details' };
   }
+  componentWillUnmount() {
+    let content = document.getElementById('content');
+    content.className = 'full vcNavbarParent';
+  }
 
   componentDidMount() {
+    let content = document.getElementById('content');
+    content.className = 'full vcNavbarParent';
     content = this.state.content;
     profileContent = document.getElementById('profileContent');
     detailsTab = document.getElementById('detailsTab');
@@ -56558,52 +56554,56 @@ class Profile extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { className: 'profileParent' },
+      { className: 'vcNavbarCard' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
-        { className: 'profileChild uk-animation-slide-top-small' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'profileParent', 'uk-icon': 'icon: user; ratio:2' }),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'h2',
-          { className: 'uk-text-center' },
-          userData.givenName + ' ' + userData.surname
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'p',
-          { className: 'uk-text-center' },
-          userData.role + ' | ' + userData.department + ' | ' + userData.office
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'ul',
-          { className: 'uk-margin-top uk-margin-bottom uk-flex-center', 'uk-tab': 'true' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            { id: 'detailsTab', className: 'uk-active', onClick: () => {
-                this.setState({ content: 'details' });
-              } },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'a',
-              null,
-              'Details'
-            )
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            { id: 'partTab', onClick: () => {
-                this.setState({ content: 'part' });
-              }, 'uk-tooltip': 'title: Experimental; pos: bottom' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'a',
-              null,
-              'Participation'
-            )
-          ),
-          '          '
-        ),
+        { className: 'profileParent' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
-          { id: 'profileContent' },
-          content
+          { className: 'profileChild uk-animation-slide-top-small' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'profileParent', 'uk-icon': 'icon: user; ratio:2' }),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'h2',
+            { className: 'uk-text-center' },
+            userData.givenName + ' ' + userData.surname
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'p',
+            { className: 'uk-text-center' },
+            userData.role + ' | ' + userData.department + ' | ' + userData.office
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'ul',
+            { className: 'uk-margin-top uk-margin-bottom uk-flex-center', 'uk-tab': 'true' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              { id: 'detailsTab', className: 'uk-active', onClick: () => {
+                  this.setState({ content: 'details' });
+                } },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'a',
+                null,
+                'Details'
+              )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              { id: 'partTab', onClick: () => {
+                  this.setState({ content: 'part' });
+                }, 'uk-tooltip': 'title: Experimental; pos: bottom' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'a',
+                null,
+                'Participation'
+              )
+            ),
+            '          '
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { id: 'profileContent' },
+            content
+          )
         )
       )
     );
@@ -56827,7 +56827,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, ".profileParent {\r\n  display: flex;\r\n  justify-content: center;\r\n}\r\n\r\n.profileChild {\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  padding: 30px 30px;\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n  width: 550px;\r\n  margin-top: 20px;\r\n}\r\n\r\n.big {\r\n  margin-top: 70px!important\r\n}\r\n\r\n.profileChild .uk-align-left{\r\n  margin-top: 0px;\r\n  margin-bottom: 0px;\r\n}\r\n\r\n.uk-table-small button ::selection {\r\n    background: #39f;\r\n    color: #fff;\r\n    text-shadow: none;\r\n}\r\n\r\n.width-small {\r\n  width:80px;\r\n}\r\n\r\n.profileChild td code {\r\n  word-wrap: break-word;\r\n  user-select: text;\r\n  font-size: .875rem;\r\n  color: #666;\r\n  white-space: initial!important;\r\n  padding: 2px 6px;\r\n  background: #f8f8f8;\r\n}\r\n\r\n#detailsTable {\r\n  width: 100%!important;\r\n  table-layout: fixed!important;\r\n}\r\n\r\n@media (max-width:550px){\r\n  .profileChild {\r\n    width: 100%;\r\n    box-shadow: none;\r\n  }\r\n  #profileContent .uk-accordion-title {\r\n    font-size: 1.25rem;\r\n  }\r\n}", ""]);
+exports.push([module.i, ".profileParent {\r\n  display: flex;\r\n  justify-content: center;\r\n}\r\n\r\n#profileContent {\r\n  text-align: left;\r\n}\r\n\r\n\r\n\r\n.profileChild {\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  padding: 30px 30px;\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n  width: 550px;\r\n  margin-top: 20px;\r\n}\r\n\r\n.big {\r\n  margin-top: 70px!important\r\n}\r\n\r\n.profileChild .uk-align-left{\r\n  margin-top: 0px;\r\n  margin-bottom: 0px;\r\n}\r\n\r\n.uk-table-small button ::selection {\r\n    background: #39f;\r\n    color: #fff;\r\n    text-shadow: none;\r\n}\r\n\r\n.width-small {\r\n  width:80px;\r\n}\r\n\r\n.profileChild td code {\r\n  word-wrap: break-word;\r\n  user-select: text;\r\n  font-size: .875rem;\r\n  color: #666;\r\n  white-space: initial!important;\r\n  padding: 2px 6px;\r\n  background: #f8f8f8;\r\n}\r\n\r\n#detailsTable {\r\n  width: 100%!important;\r\n  table-layout: fixed!important;\r\n}\r\n\r\n@media (max-width:550px){\r\n  .profileChild {\r\n    width: 100%;\r\n    box-shadow: none;\r\n  }\r\n  #profileContent .uk-accordion-title {\r\n    font-size: 1.25rem;\r\n  }\r\n}", ""]);
 
 // exports
 

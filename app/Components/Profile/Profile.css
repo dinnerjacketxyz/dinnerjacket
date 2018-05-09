@@ -3,6 +3,12 @@
   justify-content: center;
 }
 
+#profileContent {
+  text-align: left;
+}
+
+
+
 .profileChild {
   background: #fff;
   color: #666;

@@ -393,9 +393,6 @@ class App extends Component {
   logout() {
     window.location.href = '/logout'
     localStorage.setItem('clicked',false)
-
-    let content = document.getElementById('content')
-    content.className = ''
   }
 
   logo() {

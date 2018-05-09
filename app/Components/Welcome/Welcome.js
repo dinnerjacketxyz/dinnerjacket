@@ -34,6 +34,11 @@ class Welcome extends Component {
     }
   }
 
+  componentDidMount(){
+    let content = document.getElementById('content')
+    content.className = ''
+  }
+
   render() {
     return (
       <div className='vcWelcomeParent'>
