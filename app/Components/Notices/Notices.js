@@ -187,7 +187,7 @@ const CollapsedNotices = (props) => {
     <li className=''>
       <span className='uk-label'>{props.notices.years}</span>
       <a className='uk-accordion-title'>{props.notices.title}</a>
-      <div className='uk-accordion-content uk-animation-slide-top-small'>
+      <div className='uk-accordion-content'>
         {props.notices.content}
         <p className='uk-margin-small-top'><b>{props.notices.author}</b></p>
       </div>
@@ -200,7 +200,7 @@ const ExpandedNotices = (props) => {
     <li className='uk-open'>
       <span className='uk-label'>{props.notices.years}</span>
       <a className='uk-accordion-title'>{props.notices.title}</a>
-      <div className='uk-accordion-content uk-animation-slide-top-small'>
+      <div className='uk-accordion-content'>
         {props.notices.content}
         <p className='uk-margin-small-top'><b>{props.notices.author}</b></p>
       </div>

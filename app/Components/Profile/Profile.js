@@ -146,7 +146,7 @@ const YearList = (props) => {
 
 const TableRow = (props) => {
   return (
-    <tr className='uk-animation-slide-top-small'>
+    <tr>
       <td>{props.part.category}</td>
       <td>{props.part.activity}</td>
       <td>{props.part.points}</td>
