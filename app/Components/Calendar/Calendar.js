@@ -11,16 +11,19 @@ class Calendar extends Component {
       diaryCal: []
     }
   }
-
   componentDidMount() {
-    diaryCal = window.diaryCal
-    this.state.diaryCal = []
-
-    console.log(diaryCal[0])
+    let content = document.getElementById('content')
+     content.className = 'full vcNavbarParent'
   }
+ 
+  componentWillUnmount() {
+   let content = document.getElementById('content')
+   content.className = 'full'
+  }
+
   render() {
     return (
-      <div className='flex-container uk-width-1-1'>
+      <div className='flex-container uk-width-1-1 vcNavbarCard'>
         <div className="uk-grid-collapse uk-child-width-expand@s uk-grid two uk-margin-top" uk-grid='true'>
           <div className='uk-card uk-card-default uk-animation-slide-top-small'>
             <div className="month">      
@@ -90,34 +93,4 @@ class Calendar extends Component {
   }
 }
 
-const ListItem = (props) => {
-  return (
-    <tr>
-      <td>
-        <a className='uk-link-reset'>LOREM IPSUM</a>
-      </td>
-      <td>
-        <a className='uk-icon-link uk-float-right' uk-icon='icon: more-vertical' />
-      </td>
-    </tr>
-  )
-}
-
 export default Calendar
-
-/*
-
-const ExpandedNotices = (props) => {
-  return (
-    <li className='uk-open uk-animation-slide-top-small'>
-      <span className='uk-label'>{props.notices.years}</span>
-      <a className='uk-accordion-title'>{props.notices.title}</a><i>{props.notices.date}</i>
-      <div className='uk-accordion-content uk-animation-slide-top-small'>
-        {props.notices.content}
-        <p className='uk-margin-small-top'><b>{props.notices.author}</b></p>
-      </div>
-    </li>
-  )
-}
-
-*/
