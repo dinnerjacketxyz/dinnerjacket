@@ -55822,27 +55822,37 @@ exports.push([module.i, ".under {\n  margin-top: 70px!important\n}\n\n#noticesLi
 
 const css = __webpack_require__(102);
 const http = __webpack_require__(6);
-
 let input = '';
+
+const ListItem = ({ value }) => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+  'li',
+  null,
+  value
+);
 
 class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   constructor(props) {
     super(props);
 
     this.state = {
+      calData: window.diaryCal,
       eventsToShow: [],
-      selectedDay: new Date().getDay(),
+      selectedDay: new Date().getDate(),
       selectedMonth: new Date().getMonth(),
       selectedYear: new Date().getFullYear(),
-      daysHTML: this.setDaysForMonth(new Date().getMonth())
+      days: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]
     };
     this.setDaysForMonth = this.setDaysForMonth.bind(this);
+    this.highlightSelectedDay = this.highlightSelectedDay.bind(this);
     this.setEvents = this.setEvents.bind(this);
+    this.changeMonth = this.changeMonth.bind(this);
   }
   componentDidMount() {
     let content = document.getElementById('content');
     content.className = 'full vcNavbarParent';
-    this.state.selectedMonth = new Date().getMonth();
+    this.setDaysForMonth(new Date().getMonth());
+    this.setEvents(this.state.calData[this.state.selectedDay - 1]);
+    this.highlightSelectedDay(this.state.selectedDay);
   }
 
   componentWillUnmount() {
@@ -55858,49 +55868,70 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   //this sub is simultaneously fired and can do your processing - good luck
   displayCal() {
     if (!isNaN(input)) {
-      console.log('Events for this day');
-      console.log(window.diaryCal[input - 1]);
-      this.setEvents(window.diaryCal[input - 1]);
+      this.highlightSelectedDay(input);
+      this.setEvents(this.state.calData[input - 1]);
     }
   }
 
   // events is a JSON of { info: {}, items: {} }
+  // TO DO: add support for varying numbers of events
   setEvents(events) {
     var eventsToAdd = [];
     const items = events['items'];
-    console.log('events items');
-    console.log(events['items']);
+    //console.log('events items')
+    //console.log(events['items'])
     var i;
     for (i = 0; i < items.length; i++) {
       const thisEvent = items[i];
       switch (thisEvent['type']) {
         case 'school':
-          eventsToAdd.push('[' + thisEvent['time'] + '] ' + thisEvent['title']);break;
+          eventsToAdd.push(thisEvent['title']);break;
         case 'assessment':
-          eventsToAdd.push('[' + thisEvent['time'] + '] ' + thisEvent['assessment']);break;
+          eventsToAdd.push(thisEvent['assessment']);break;
         case 'moodle':
-          eventsToAdd.push('[' + thisEvent['time'] + '] ' + thisEvent['title']);break;
+          eventsToAdd.push(thisEvent['title']);break;
         case 'personal':
-          eventsToAdd.push('[' + thisEvent['time'] + '] ' + thisEvent['title']);break;
+          eventsToAdd.push(thisEvent['title']);break;
         default:
           console.log('not found');break;
       }
     }
-    console.log(eventsToAdd);
+    //console.log(eventsToAdd)
     this.setState(() => ({
       eventsToShow: eventsToAdd
     }));
   }
 
-  getCalendarForMonth(monthIndex, year) {
+  prevMonth() {
+    this.changeMonth(-1);
+  }
 
-    const month = monthIndex + 1;
+  nextMonth() {
+    this.changeMonth(1);
+  }
 
-    var from = year + '-' + (month > 9 ? month : '0' + month) + '-01';
-    var to = year + '-' + (month > 9 ? month : '0' + month) + '-' + new Date(year, month, 0).getDate();
+  changeMonth(diff) {
+    var curMonth = this.state.selectedMonth;
+    var curYear = this.state.selectedYear;
+    if (curMonth == 0 && diff == -1) {
+      curMonth = 11;
+      curYear -= 1;
+    } else if (curMonth == 11 && diff == 1) {
+      curMonth = 0;
+      curYear += 1;
+    } else {
+      curMonth += diff;
+    }
+
+    this.setDaysForMonth(curMonth);
 
     // Authenticated calendar
     let promise1 = new Promise(function (resolve, reject) {
+      const year = curYear;
+      const month = curMonth + 1;
+
+      var from = year + '-' + (month > 9 ? month : '0' + month) + '-01';
+      var to = year + '-' + (month > 9 ? month : '0' + month) + '-' + new Date(year, month, 0).getDate();
       http.get('/getdata?url=diarycalendar/events.json?from=' + from + '&to=' + to, res => {
         res.setEncoding('utf8');
         let d = '';
@@ -55908,72 +55939,21 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
           d += body;
         });
         res.on('end', () => {
-          resolve(d);
+          resolve(JSON.parse(d));
         });
       });
     });
 
     promise1.then(result => {
-      console.log(result);
+      this.setState(() => ({
+        selectedMonth: curMonth,
+        selectedYear: curYear,
+        calData: result
+      }));
+
+      this.setEvents(this.state.calData[0]);
+      this.highlightSelectedDay(1);
     });
-
-    /*
-    // Public calendar
-    let promise2 = new Promise( function (resolve, reject) {
-      http.get('/getdata?url=calendar/terms.json?from=' + from + '&to=' + to, (res) => {
-        res.setEncoding('utf8')
-        let d = ''
-        res.on('data', (body) => {
-          d += body
-        })
-        res.on('end', () => {
-          resolve(d)
-        })
-      })
-    })
-       Promise.all([promise1, promise2]).then( (values) => {
-      console.log(values[0])
-      console.log(values[1])
-    })
-    */
-  }
-
-  prevMonth() {
-    var curMonth = this.state.selectedMonth;
-    var curYear = this.state.selectedYear;
-    if (curMonth == 0) {
-      curMonth = 11;
-      curYear -= 1;
-    } else {
-      curMonth -= 1;
-    }
-
-    this.setState(() => ({
-      selectedMonth: curMonth,
-      selectedYear: curYear,
-      daysHTML: this.setDaysForMonth(curMonth)
-    }));
-
-    this.getCalendarForMonth(curMonth, curYear);
-  }
-
-  nextMonth() {
-    var curMonth = this.state.selectedMonth;
-    var curYear = this.state.selectedYear;
-    if (curMonth == 11) {
-      curMonth = 0;
-      curYear += 1;
-    } else {
-      curMonth += 1;
-    }
-
-    this.setState(() => ({
-      selectedMonth: curMonth,
-      selectedYear: curYear,
-      daysHTML: this.setDaysForMonth(curMonth)
-    }));
-
-    this.getCalendarForMonth(curMonth, curYear);
   }
 
   monthNumToText(num) {
@@ -55981,640 +55961,47 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     return arr[num];
   }
 
-  setDaysForMonth(curMonth) {
+  highlightSelectedDay(newDay) {
+    let days = this.state.days;
+    let prevDay = this.state.selectedDay;
+    days[prevDay - 1] = prevDay;
+    days[newDay - 1] = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'span',
+      { className: 'active' },
+      newDay
+    );
+    this.setState(() => ({
+      selectedDay: newDay,
+      days: days
+    }));
+  }
 
+  setDaysForMonth(curMonth) {
+    var days = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28];
+    console.log(curMonth);
     switch (curMonth + 1) {
+
       // 28/29 days
       case 2:
         if (new Date().getFullYear % 4 == 0) {
-          return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'ul',
-            { className: 'days', onClick: this.monthInput },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'span',
-                { className: 'active' },
-                '1'
-              )
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '2'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '3'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '4'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '5'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '6'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '7'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '8'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '9'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '10'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '11'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '12'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '13'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '14'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '15'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '16'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '17'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '18'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '19'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '20'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '21'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '22'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '23'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '24'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '25'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '26'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '27'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '28'
-            )
-          );
-        } else {
-          return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'ul',
-            { className: 'days', onClick: this.monthInput },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'span',
-                { className: 'active' },
-                '1'
-              )
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '2'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '3'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '4'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '5'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '6'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '7'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '8'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '9'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '10'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '11'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '12'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '13'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '14'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '15'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '16'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '17'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '18'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '19'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '20'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '21'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '22'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '23'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '24'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '25'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '26'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '27'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              '29'
-            )
-          );
-        }
+          days.push(29);
+        };break;
+
       // 30 days
       case 4:
       case 6:
       case 9:
       case 11:
-        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'ul',
-          { className: 'days', onClick: this.monthInput },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'span',
-              { className: 'active' },
-              '1'
-            )
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '2'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '3'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '4'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '5'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '6'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '7'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '8'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '9'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '10'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '11'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '12'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '13'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '14'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '15'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '16'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '17'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '18'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '19'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '20'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '21'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '22'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '23'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '24'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '25'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '26'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '27'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '28'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '29'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '30'
-          )
-        );
+        days = days.concat([29, 30]);break;
 
       // 31 days
       default:
-        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'ul',
-          { className: 'days', onClick: this.monthInput },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'span',
-              { className: 'active' },
-              '1'
-            )
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '2'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '3'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '4'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '5'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '6'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '7'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '8'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '9'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '10'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '11'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '12'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '13'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '14'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '15'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '16'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '17'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '18'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '19'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '20'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '21'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '22'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '23'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '24'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '25'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '26'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '27'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '28'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '29'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '30'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            null,
-            '31'
-          )
-        );
+        days = days.concat([29, 30, 31]);
     }
+
+    this.setState(() => ({
+      days: days
+    }));
   }
 
   render() {
@@ -56698,7 +56085,11 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'div',
             { onClick: this.displayCal.bind(this) },
-            this.state.daysHTML
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'ul',
+              { className: 'days', onClick: this.monthInput },
+              this.state.days.map((item, i) => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(ListItem, { key: i, value: item }))
+            )
           )
         ),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -56712,21 +56103,7 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'ul',
             { className: 'uk-list uk-list-striped' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              this.state.eventsToShow[0]
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              this.state.eventsToShow[1]
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              this.state.eventsToShow[2]
-            )
+            this.state.eventsToShow.map((item, i) => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(ListItem, { key: i, value: item }))
           )
         )
       )

@@ -1,27 +1,35 @@
 import React, { Component } from 'react'
 const css = require('./Calendar.css')
 const http = require('http')
-
 let input = ''
+
+const ListItem = ({ value }) => (
+  <li>{value}</li>
+);
 
 class Calendar extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
+      calData: window.diaryCal,
       eventsToShow: [],
-      selectedDay: (new Date()).getDay(),
+      selectedDay: (new Date()).getDate(),
       selectedMonth: (new Date()).getMonth(),
       selectedYear: (new Date()).getFullYear(),
-      daysHTML: this.setDaysForMonth((new Date()).getMonth())
+      days: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]
     }
     this.setDaysForMonth = this.setDaysForMonth.bind(this)
+    this.highlightSelectedDay = this.highlightSelectedDay.bind(this)
     this.setEvents = this.setEvents.bind(this)
+    this.changeMonth = this.changeMonth.bind(this)
   }
   componentDidMount() {
     let content = document.getElementById('content')
     content.className = 'full vcNavbarParent'
-    this.state.selectedMonth = (new Date()).getMonth()
+    this.setDaysForMonth((new Date()).getMonth())
+    this.setEvents(this.state.calData[this.state.selectedDay-1])
+    this.highlightSelectedDay(this.state.selectedDay)
   }
  
   componentWillUnmount() {
@@ -37,9 +45,8 @@ class Calendar extends Component {
   //this sub is simultaneously fired and can do your processing - good luck
   displayCal() {
     if (!isNaN(input)) {
-      console.log('Events for this day')
-      console.log(window.diaryCal[input-1])
-      this.setEvents(window.diaryCal[input-1])
+      this.highlightSelectedDay(input)
+      this.setEvents(this.state.calData[input-1])
     }
   }
   
@@ -48,8 +55,8 @@ class Calendar extends Component {
   setEvents(events) {
     var eventsToAdd = []
     const items = events['items']
-    console.log('events items')
-    console.log(events['items'])
+    //console.log('events items')
+    //console.log(events['items'])
     var i
     for (i=0; i<items.length; i++) {
       const thisEvent = items[i]
@@ -61,21 +68,42 @@ class Calendar extends Component {
         default: console.log('not found'); break
       }
     }
-    console.log(eventsToAdd)
+    //console.log(eventsToAdd)
     this.setState( ()=> ({
       eventsToShow: eventsToAdd
     }))
   }
   
-  getCalendarForMonth(monthIndex, year) {
+  prevMonth() {
+    this.changeMonth(-1)
+  }
   
-    const month = monthIndex + 1
+  nextMonth() {
+    this.changeMonth(1)
+  }
+  
+  changeMonth(diff) {
+    var curMonth = this.state.selectedMonth
+    var curYear = this.state.selectedYear
+    if ((curMonth == 0) && (diff == -1)) {
+      curMonth = 11
+      curYear -= 1
+    } else if ((curMonth == 11) && (diff == 1)) {
+      curMonth = 0
+      curYear += 1
+    } else {
+      curMonth += diff
+    }
 
-    var from = year + '-' + (month > 9 ? month : '0' + month) + '-01'
-    var to = year + '-' + (month > 9 ? month : '0' + month) + '-' + (new Date(year, month, 0).getDate())
+    this.setDaysForMonth(curMonth)
     
     // Authenticated calendar
     let promise1 = new Promise( function (resolve, reject) {
+      const year = curYear
+      const month = curMonth + 1
+
+      var from = year + '-' + (month > 9 ? month : '0' + month) + '-01'
+      var to = year + '-' + (month > 9 ? month : '0' + month) + '-' + (new Date(year, month, 0).getDate())
       http.get('/getdata?url=diarycalendar/events.json?from=' + from + '&to=' + to, (res) => {
         res.setEncoding('utf8')
         let d = ''
@@ -83,73 +111,22 @@ class Calendar extends Component {
           d += body
         })
         res.on('end', () => {
-         resolve(d)
+          resolve(JSON.parse(d))
         })
       })
     })
     
     promise1.then( (result) => {
-      console.log(result)
+      this.setState( ()=> ({
+        selectedMonth: curMonth,
+        selectedYear: curYear,
+        calData: result
+      }))
+      
+      this.setEvents(this.state.calData[0])
+      this.highlightSelectedDay(1)
     })
     
-    /*
-    // Public calendar
-    let promise2 = new Promise( function (resolve, reject) {
-      http.get('/getdata?url=calendar/terms.json?from=' + from + '&to=' + to, (res) => {
-        res.setEncoding('utf8')
-        let d = ''
-        res.on('data', (body) => {
-          d += body
-        })
-        res.on('end', () => {
-          resolve(d)
-        })
-      })
-    })
-  
-    Promise.all([promise1, promise2]).then( (values) => {
-      console.log(values[0])
-      console.log(values[1])
-    })
-    */
-  }
-  
-  prevMonth() {
-    var curMonth = this.state.selectedMonth
-    var curYear = this.state.selectedYear
-    if (curMonth == 0) {
-      curMonth = 11
-      curYear -= 1
-    } else {
-      curMonth -= 1
-    }
-    
-    this.setState( ()=> ({
-      selectedMonth: curMonth,
-      selectedYear: curYear,
-      daysHTML: this.setDaysForMonth(curMonth)
-    }))
-
-    this.getCalendarForMonth(curMonth, curYear)
-  }
-
-  nextMonth() {
-    var curMonth = this.state.selectedMonth
-    var curYear = this.state.selectedYear
-    if (curMonth == 11) {
-      curMonth = 0
-      curYear += 1
-    } else {
-      curMonth += 1
-    }
-    
-    this.setState( ()=> ({
-      selectedMonth: curMonth,
-      selectedYear: curYear,
-      daysHTML: this.setDaysForMonth(curMonth)
-    }))
-    
-    this.getCalendarForMonth(curMonth, curYear)
   }
   
   monthNumToText(num) {
@@ -157,145 +134,38 @@ class Calendar extends Component {
     return arr[num]
   }
   
+  highlightSelectedDay(newDay) {
+    let days = this.state.days
+    let prevDay = this.state.selectedDay
+    days[prevDay-1] = prevDay
+    days[newDay-1] = (<span className="active">{newDay}</span>)
+    this.setState( ()=> ({
+      selectedDay: newDay,
+      days: days
+    }))
+  }
+  
   setDaysForMonth(curMonth) {
-
+    var days = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]
+    console.log(curMonth)
     switch (curMonth + 1) {
+    
       // 28/29 days
-      case 2: if ((new Date()).getFullYear % 4 == 0) {
-                  return (<ul className="days" onClick={this.monthInput}>
-                          <li><span className="active">1</span></li>
-                          <li>2</li>
-                          <li>3</li>
-                          <li>4</li>
-                          <li>5</li>
-                          <li>6</li>
-                          <li>7</li>
-                          <li>8</li>
-                          <li>9</li>
-                          <li>10</li>
-                          <li>11</li>
-                          <li>12</li>
-                          <li>13</li>
-                          <li>14</li>
-                          <li>15</li>
-                          <li>16</li>
-                          <li>17</li>
-                          <li>18</li>
-                          <li>19</li>
-                          <li>20</li>
-                          <li>21</li>
-                          <li>22</li>
-                          <li>23</li>
-                          <li>24</li>
-                          <li>25</li>
-                          <li>26</li>
-                          <li>27</li>
-                          <li>28</li>
-                          </ul>)
-                } else {
-                  return (<ul className="days" onClick={this.monthInput}>
-                          <li><span className="active">1</span></li>
-                          <li>2</li>
-                          <li>3</li>
-                          <li>4</li>
-                          <li>5</li>
-                          <li>6</li>
-                          <li>7</li>
-                          <li>8</li>
-                          <li>9</li>
-                          <li>10</li>
-                          <li>11</li>
-                          <li>12</li>
-                          <li>13</li>
-                          <li>14</li>
-                          <li>15</li>
-                          <li>16</li>
-                          <li>17</li>
-                          <li>18</li>
-                          <li>19</li>
-                          <li>20</li>
-                          <li>21</li>
-                          <li>22</li>
-                          <li>23</li>
-                          <li>24</li>
-                          <li>25</li>
-                          <li>26</li>
-                          <li>27</li>
-                          <li>29</li>
-                          </ul>)
-              }
+      case 2: if ((new Date()).getFullYear % 4 == 0) { days.push(29) }; break
+      
       // 30 days
       case 4:
       case 6:
       case 9:
-      case 11: return (<ul className="days" onClick={this.monthInput}>
-                        <li><span className="active">1</span></li>
-                        <li>2</li>
-                        <li>3</li>
-                        <li>4</li>
-                        <li>5</li>
-                        <li>6</li>
-                        <li>7</li>
-                        <li>8</li>
-                        <li>9</li>
-                        <li>10</li>
-                        <li>11</li>
-                        <li>12</li>
-                        <li>13</li>
-                        <li>14</li>
-                        <li>15</li>
-                        <li>16</li>
-                        <li>17</li>
-                        <li>18</li>
-                        <li>19</li>
-                        <li>20</li>
-                        <li>21</li>
-                        <li>22</li>
-                        <li>23</li>
-                        <li>24</li>
-                        <li>25</li>
-                        <li>26</li>
-                        <li>27</li>
-                        <li>28</li>
-                        <li>29</li>
-                        <li>30</li>
-                      </ul>)
+      case 11: days = days.concat([29, 30]); break
       
       // 31 days
-      default: return (<ul className="days" onClick={this.monthInput}>
-                        <li><span className="active">1</span></li>
-                        <li>2</li>
-                        <li>3</li>
-                        <li>4</li>
-                        <li>5</li>
-                        <li>6</li>
-                        <li>7</li>
-                        <li>8</li>
-                        <li>9</li>
-                        <li>10</li>
-                        <li>11</li>
-                        <li>12</li>
-                        <li>13</li>
-                        <li>14</li>
-                        <li>15</li>
-                        <li>16</li>
-                        <li>17</li>
-                        <li>18</li>
-                        <li>19</li>
-                        <li>20</li>
-                        <li>21</li>
-                        <li>22</li>
-                        <li>23</li>
-                        <li>24</li>
-                        <li>25</li>
-                        <li>26</li>
-                        <li>27</li>
-                        <li>28</li>
-                        <li>29</li>
-                        <li>30</li>
-                        <li>31</li>
-                      </ul>)
+      default: days = days.concat([29, 30, 31])
     }
+    
+    this.setState( ()=> ({
+      days: days
+    }))
   }
   
   render() {
@@ -323,15 +193,15 @@ class Calendar extends Component {
               <li>Su</li>
             </ul>
             <div onClick={this.displayCal.bind(this)}>
-              {this.state.daysHTML}
+              <ul className="days" onClick={this.monthInput}>
+                { (this.state.days).map((item, i) => <ListItem key={i} value={item} />) }
+              </ul>
             </div>
           </div>
           <div className='uk-card uk-card-default uk-card-body uk-animation-slide-top-small'>
             <p className='uk-text-center uk-text-large'>Calendar Events</p>
             <ul className="uk-list uk-list-striped">
-                <li>{this.state.eventsToShow[0]}</li>
-                <li>{this.state.eventsToShow[1]}</li>
-                <li>{this.state.eventsToShow[2]}</li>
+                { (this.state.eventsToShow).map((item, i) => <ListItem key={i} value={item} />) }
             </ul>
           </div>
         </div>
