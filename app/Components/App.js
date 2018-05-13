@@ -22,6 +22,7 @@ window.dailyNotices = ''
 window.timetable = ''
 window.dashboard = ''
 window.bells = ''
+//window.publicCal = ''
 window.diaryCal = ''
 window.participation = ''
 window.userInfo = ''
@@ -224,12 +225,19 @@ class App extends Component {
         }
       })
     })
-    /*
-    // NOT WORKING GOOD?
-    http.get('/getdata?url=diarycalendar/events.json', (res) => {
+    
+    // get data for the whole month
+    
+    const year = (new Date()).getFullYear()
+    const month = (new Date()).getMonth() + 1
+
+    var from = year + '-' + (month > 9 ? month : '0' + month) + '-01'
+    var to = year + '-' + (month > 9 ? month : '0' + month) + '-' + (new Date(year, month, 0).getDate())
+    
+    http.get('/getdata?url=diarycalendar/events.json?from=' + from + '&to=' + to, (res) => {
       res.setEncoding('utf8')
       let d = ''
-      res.on('d', (body) => {
+      res.on('data', (body) => {
         d += body
       })
       res.on('end', () => {
@@ -242,7 +250,27 @@ class App extends Component {
           return
         }
       })
-    })*/
+    })
+    
+    /*
+    http.get('/getdata?url=calendar/terms.json?from=' + from + '&to=' + to, (res) => {
+      res.setEncoding('utf8')
+      let d = ''
+      res.on('data', (body) => {
+        d += body
+      })
+      res.on('end', () => {
+        try {
+          window.publicCal = JSON.parse(d)
+        } catch (e) {
+          console.log(e)
+          console.log(d)
+          this.showLogin()
+          return
+        }
+      })
+    })
+    */
 
     /* Participation
       [                              // array of participation information

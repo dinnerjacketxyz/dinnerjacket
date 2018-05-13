@@ -22,28 +22,7 @@ class Dashboard extends Component {
 
   // get timetable data from API
   getAPIData() {
-
     this.updateTimetableDisplay(window.dashboard)
-
-    /* Old code
-    // returns daily notices, see auth.js for usage info
-    let promise = new Promise( function (resolve, reject) {
-      http.get('/getdata?url=timetable/daytimetable.json', (res) => {
-        res.setEncoding('utf8')
-        let returnData = ''
-        res.on('data', function (body) {
-          returnData += body
-        })
-        res.on('end', function(){
-          resolve(returnData)
-        })
-      })
-    })
-    promise.then(function(result) {
-      this.updateTimetableDisplay(result)
-      this.timerTick()
-    }.bind(this))
-    */
   }
 
   // get default periods if not authenticated
@@ -267,7 +246,6 @@ class Dashboard extends Component {
     // Get room variations - change in rooms
     const roomVariations = timetable['roomVariations']
     console.log(roomVariations)
-    // TODO: Needs testing
     if (timetable['roomVariations'] !== undefined) {
       const numVariations = Object.keys(roomVariations).length
       for (var i=0; i<numVariations; i++) {
@@ -641,19 +619,3 @@ class Dashboard extends Component {
 }
 
 export default Dashboard
-
-// Old timer code that relies on Javascript timers (inaccurate)
-      /*if (this.state.timer === 0) {
-        let nextClass = this.getNextClass()
-        // setup countdown for next class
-        const date = new Date()
-        const secDifference = Math.floor((nextClass.time.getTime() - date.getTime())/1000)
-        this.setState( ()=> ({
-          timer: secDifference,
-          nextClass: nextClass.name
-        }))
-      } else {
-        this.setState( ()=> ({
-          timer: this.state.timer - 1
-        }))
-      }*/

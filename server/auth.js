@@ -1,4 +1,4 @@
-﻿const oauth2module = require('simple-oauth2')
+const oauth2module = require('simple-oauth2')
 const https = require('https')
 
 const siteURL = 'http://localhost:3000'
@@ -16,7 +16,7 @@ module.exports = (app) => {
           |   REPLACE THIS WITH CLIENT SECRET WHEN RUNNING   |
           *==================================================*
                                                                 */
-      secret: REDACTED
+      secret: redacted
 
       /*
           *==================================================*
@@ -186,10 +186,9 @@ module.exports = (app) => {
     console.log('Token getdata')
     console.log('Token exists: ' + (req1.session.token != undefined))
     var token = req1.session.token.token.access_token
-    
     const httpsOptions = {
       hostname: 'student.sbhs.net.au',
-      path: '/api/' + req1.query.url,
+      path: '/api/' + req1.query.url + (req1.query.to != undefined ? '&to=' + req1.query.to : ''),
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + token
