@@ -483,7 +483,7 @@ class App extends Component {
               </li>
 
               <li id='CalendarLi' className='uk-animation-toggle' onClick={this.showCalendar.bind(this)}>
-                <a id='CalendarA' className='uk-box-shadow-hover-small' uk-tooltip="title: Coming Soon; pos: bottom">
+                <a id='CalendarA' className='uk-box-shadow-hover-small'>
                   <span id='CalendarS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: calendar' />
                   <p className='collapseText' id='CalendarP'>{nameArray[4]}</p>
                   <b className='collapseText' id='CalendarB'></b>

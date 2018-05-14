@@ -172,7 +172,7 @@ class Calendar extends Component {
     return (
       <div className='flex-container uk-width-1-1 vcNavbarCard'>
         <div className="uk-grid-collapse uk-child-width-expand@s uk-grid two uk-margin-top" uk-grid='true'>
-          <div className='uk-card uk-card-default uk-animation-slide-top-small'>
+          <div className='cal uk-card uk-card-default uk-animation-slide-top-small'>
             <div className="month">      
               <ul>
                 <li onClick={this.prevMonth.bind(this)} className="prev">&#10094;</li>
