@@ -16,7 +16,7 @@ module.exports = (app) => {
           |   REPLACE THIS WITH CLIENT SECRET WHEN RUNNING   |
           *==================================================*
                                                                 */
-      secret: REDACTED
+      secret: 'lve26aPJH_zzKPHBUrVAcpIGhjQ'
 
       /*
           *==================================================*
@@ -45,19 +45,19 @@ module.exports = (app) => {
     res.redirect(authorizationURI)
   })
 
-  /* TOKEN FORMAT
-
-    { token:
-     { access_token: '________________________________________',  (40 char alphanum.)
-       expires_in: 3600,
-       token_type: 'Bearer',
-       scope: 'all-ro',
-       refresh_token: '________________________________________', (40 char alphanum.)
-       expires_at: '2018-02-24T02:54:54.925Z'
-     }
-    }
-
-  */
+  /* === TOKEN FORMAT =================================================================*
+  |                                                                                    |
+  |  { token:                                                                          |
+  |   { access_token: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',  (40 char alphanum.) |
+  |     expires_in: 3600,                                                              |
+  |     token_type: 'Bearer',                                                          |
+  |     scope: 'all-ro',                                                               |
+  |     refresh_token: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX', (40 char alphanum.) |
+  |     expires_at: '2018-02-24T02:54:54.925Z'                                         |
+  |   }                                                                                |
+  |  }                                                                                 |
+  |                                                                                    |
+  *====================================================================================*/
 
   // SBHS API will redirect to this URL with code
   app.get('/callback', (req, res) => {
@@ -69,7 +69,7 @@ module.exports = (app) => {
     
     let promise = new Promise( function (resolve, reject) {
 
-        // exchange code for token
+      // exchange code for token
       oauth2.authorizationCode.getToken(options, (error, result) => {
 
         // handle error
@@ -106,6 +106,7 @@ module.exports = (app) => {
    |  calendar/terms.json         |                             |
    *==============================*=============================*/
 
+  // checks the client's session to determine the presence of valid tokens
   app.get('/getsession', (req, res) => {
     console.log('validating session')
     if (req.session.token === undefined || req.session.token.token === undefined) {
@@ -124,6 +125,7 @@ module.exports = (app) => {
         req.session.destroy()
         res.send(false)
       }*/
+      
       console.log(req.session.token)
       console.log(new Date() + ' ' + new Date(req.session.token.token.expires_at))
       // check access token
@@ -182,6 +184,7 @@ module.exports = (app) => {
     
   })
 
+  // used to retrieve data from API
   app.get('/getdata', (req1, res1) => {
     console.log('Token getdata')
     console.log('Token exists: ' + (req1.session.token != undefined))
@@ -214,20 +217,20 @@ module.exports = (app) => {
     })
 
     promise.then(function(result) {
-      /*
+      
+      /* Use this to save API data to file (pretty printed)
       const fs = require('fs')
       let jason = JSON.parse(result)
       fs.writeFile("test.txt", JSON.stringify(jason, null, 2), function(err) {
         console.log('saved, ' + err)
-      });*/
-
-      // send resources
+      });
+      */
 
       res1.send(result)
-
     })
   })
 
+  // handles logout
   app.get('/logout', (req, res) => {
     console.log('logging out')
     req.session.destroy()

@@ -76,22 +76,27 @@
   font-weight: 700;
 }
 
+.events {
+  text-align: left;
+}
+
 .days li .active {
   padding: 5px;
   background: #2dc0d5;
   color: white !important
 }
 
-/* Add media queries for smaller screens */
-@media screen and (max-width:720px) {
-  /*.weekdays li, .days li {width: 13.1%;}*/
+.days {
+  text-align: left!important;
 }
+
+.cal {
+  height: min-content!important;
+}
+
+
 
 @media screen and (max-width: 420px) {
 /*  .weekdays li, .days li {width: 12.5%;}*/
   .days li .active {padding: 2px;}
-}
-
-@media screen and (max-width: 290px) {
-/*  .weekdays li, .days li {width: 12.2%;}*/
 }

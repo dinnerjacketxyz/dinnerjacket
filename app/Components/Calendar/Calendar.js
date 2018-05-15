@@ -15,6 +15,7 @@ class Calendar extends Component {
       calData: window.diaryCal,
       eventsToShow: [],
       selectedDay: (new Date()).getDate(),
+      selectedDayIndex: -1,
       selectedMonth: (new Date()).getMonth(),
       selectedYear: (new Date()).getFullYear(),
       days: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]
@@ -24,10 +25,12 @@ class Calendar extends Component {
     this.setEvents = this.setEvents.bind(this)
     this.changeMonth = this.changeMonth.bind(this)
   }
+  
+  // setup
   componentDidMount() {
     let content = document.getElementById('content')
     content.className = 'full vcNavbarParent'
-    this.setDaysForMonth((new Date()).getMonth())
+    this.setDaysForMonth((new Date()).getMonth(), (new Date()).getFullYear())
     this.setEvents(this.state.calData[this.state.selectedDay-1])
     this.highlightSelectedDay(this.state.selectedDay)
   }
@@ -45,30 +48,30 @@ class Calendar extends Component {
   //this sub is simultaneously fired and can do your processing - good luck
   displayCal() {
     if (!isNaN(input)) {
-      this.highlightSelectedDay(input)
-      this.setEvents(this.state.calData[input-1])
+      if (input != this.state.selectedDay) {
+        this.highlightSelectedDay(input)
+        this.setEvents(this.state.calData[input-1])
+      }
     }
   }
   
   // events is a JSON of { info: {}, items: {} }
-  // TO DO: add support for varying numbers of events
   setEvents(events) {
     var eventsToAdd = []
     const items = events['items']
-    //console.log('events items')
-    //console.log(events['items'])
-    var i
-    for (i=0; i<items.length; i++) {
+
+    for (var i = 0; i < items.length; i++) {
       const thisEvent = items[i]
+
       switch (thisEvent['type']) {
-        case 'school':     eventsToAdd.push(thisEvent['title']); break
-        case 'assessment': eventsToAdd.push(thisEvent['assessment']); break
-        case 'moodle':     eventsToAdd.push(thisEvent['title']); break
-        case 'personal':   eventsToAdd.push(thisEvent['title']); break
-        default: console.log('not found'); break
+        case 'school':     eventsToAdd.push((thisEvent['subject'] != '' ? thisEvent['subject'] + ': ' : '') + thisEvent['title']); break
+        case 'assessment': eventsToAdd.push('(Assessment) ' + thisEvent['assessment']); break
+        case 'moodle':     eventsToAdd.push('(Moodle) ' + (thisEvent['subject'] != '' ? thisEvent['subject'] + ': ' : '') + thisEvent['title']); break
+        case 'personal':   eventsToAdd.push('(Personal) ' + thisEvent['title']); break
+        default: break
       }
     }
-    //console.log(eventsToAdd)
+  
     this.setState( ()=> ({
       eventsToShow: eventsToAdd
     }))
@@ -82,12 +85,18 @@ class Calendar extends Component {
     this.changeMonth(1)
   }
   
+  // diff is either 1 or -1
   changeMonth(diff) {
+  
     var curMonth = this.state.selectedMonth
     var curYear = this.state.selectedYear
+    
+    // back past January
     if ((curMonth == 0) && (diff == -1)) {
       curMonth = 11
       curYear -= 1
+  
+    // forward past December
     } else if ((curMonth == 11) && (diff == 1)) {
       curMonth = 0
       curYear += 1
@@ -95,15 +104,19 @@ class Calendar extends Component {
       curMonth += diff
     }
 
-    this.setDaysForMonth(curMonth)
+    this.setDaysForMonth(curMonth, curYear)
     
-    // Authenticated calendar
+    // Get calendar data for the next month
     let promise1 = new Promise( function (resolve, reject) {
+      
       const year = curYear
       const month = curMonth + 1
-
+      
+      // create parameters:   from=YYYY-MM-DD   to=YYYY-MM-DD
       var from = year + '-' + (month > 9 ? month : '0' + month) + '-01'
       var to = year + '-' + (month > 9 ? month : '0' + month) + '-' + (new Date(year, month, 0).getDate())
+      
+      // make http request
       http.get('/getdata?url=diarycalendar/events.json?from=' + from + '&to=' + to, (res) => {
         res.setEncoding('utf8')
         let d = ''
@@ -116,10 +129,12 @@ class Calendar extends Component {
       })
     })
     
+    // process data from http requests
     promise1.then( (result) => {
       this.setState( ()=> ({
         selectedMonth: curMonth,
         selectedYear: curYear,
+        selectedDayIndex: -1,
         calData: result
       }))
       
@@ -129,29 +144,48 @@ class Calendar extends Component {
     
   }
   
+  // converts a number to a month e.g. 0 -> 'January', 1 -> 'February'
   monthNumToText(num) {
     const arr = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
     return arr[num]
   }
   
+  // highlights newDay on the calendar
   highlightSelectedDay(newDay) {
     let days = this.state.days
     let prevDay = this.state.selectedDay
-    days[prevDay-1] = prevDay
-    days[newDay-1] = (<span className="active">{newDay}</span>)
+    
+    // unselect selected day
+    if (this.state.selectedDayIndex != -1) {
+      days[this.state.selectedDayIndex] = prevDay
+    }
+    
+    // select new day
+    for (var i = 0; i < days.length; i++) {
+      if (days[i] == newDay) {
+        days[i] = (<span className="active">{newDay}</span>)
+        this.setState( ()=> ({
+          selectedDayIndex: i
+        }))
+        break
+      }
+    }
+
     this.setState( ()=> ({
       selectedDay: newDay,
       days: days
     }))
   }
   
-  setDaysForMonth(curMonth) {
+  // get the number of days for the month for UI
+  setDaysForMonth(month, year) {
+    
     var days = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]
-    console.log(curMonth)
-    switch (curMonth + 1) {
+
+    switch (month + 1) {
     
       // 28/29 days
-      case 2: if ((new Date()).getFullYear % 4 == 0) { days.push(29) }; break
+      case 2: if (year % 4 == 0) { days.push(29) }; break
       
       // 30 days
       case 4:
@@ -163,6 +197,12 @@ class Calendar extends Component {
       default: days = days.concat([29, 30, 31])
     }
     
+    // offset first day so it starts on the correct day of week e.g. 1st of month starts on Friday or Tuesday
+    const firstOfMonth = new Date(year, month, 1)
+    for (var i=0; i < firstOfMonth.getDay(); i++) {
+      days.unshift('')
+    }
+    
     this.setState( ()=> ({
       days: days
     }))
@@ -172,7 +212,7 @@ class Calendar extends Component {
     return (
       <div className='flex-container uk-width-1-1 vcNavbarCard'>
         <div className="uk-grid-collapse uk-child-width-expand@s uk-grid two uk-margin-top" uk-grid='true'>
-          <div className='uk-card uk-card-default uk-animation-slide-top-small'>
+          <div className='cal uk-card uk-card-default uk-animation-slide-top-small'>
             <div className="month">      
               <ul>
                 <li onClick={this.prevMonth.bind(this)} className="prev">&#10094;</li>
@@ -184,13 +224,13 @@ class Calendar extends Component {
               </ul>
             </div>
             <ul className="weekdays">
+              <li>Su</li>
               <li>M</li>
               <li>Tu</li>
               <li>W</li>
               <li>Th</li>
               <li>F</li>
               <li>Sa</li>
-              <li>Su</li>
             </ul>
             <div onClick={this.displayCal.bind(this)}>
               <ul className="days" onClick={this.monthInput}>
@@ -200,7 +240,7 @@ class Calendar extends Component {
           </div>
           <div className='uk-card uk-card-default uk-card-body uk-animation-slide-top-small'>
             <p className='uk-text-center uk-text-large'>Calendar Events</p>
-            <ul className="uk-list uk-list-striped">
+            <ul className="events uk-list uk-list-striped">
                 { (this.state.eventsToShow).map((item, i) => <ListItem key={i} value={item} />) }
             </ul>
           </div>

@@ -13,16 +13,64 @@ class Dashboard extends Component {
                    timer: 0,
                    nextClass: 'Loading' }
 
-    //let periods = this.getDailyTimetable(this.state.timetable)
-    //this.state.htmlClasses = this.processHTML(periods)
-
     this.updateTimetableDisplay = this.updateTimetableDisplay.bind(this)
     this.getNextClass = this.getNextClass.bind(this)
   }
+  
+  // setup
+  componentDidMount() {
+    // set up timer
 
-  // get timetable data from API
-  getAPIData() {
+    let ID = setInterval(this.timerTick.bind(this), 1000)
+
+    // save timer ID so we can remove the timer later
+    this.setState({timerID: ID})
+
+    // get API data here
     this.updateTimetableDisplay(window.dashboard)
+
+    this.timerTick = this.timerTick.bind(this)
+
+    let content = document.getElementById('content')
+    content.className = 'full vcNavbarParent'
+  }
+
+  // deconstructor
+  componentWillUnmount() {
+    // remove timer after unmount
+    clearInterval(this.state.timerID)
+
+    let content = document.getElementById('content')
+    content.className = 'full'
+  }
+  
+  // this is called each time the timer executes
+  timerTick() {
+
+    function updateCountdown() {
+      const date = new Date()
+      const secDifference = Math.floor((this.state.nextClass.time.getTime() - date.getTime())/1000)
+      this.setState( ()=> ({
+        timer: secDifference
+      }))
+      this.render()
+    }
+
+    updateCountdown = updateCountdown.bind(this)
+    
+    // update display if timer runs out
+    if (this.state.timer <= 0) {
+
+      this.setState( ()=> ({
+        nextClass: this.getNextClass()
+      }), ()=> {
+        updateCountdown()
+      })
+      
+    // otherwise, decrement timer
+    } else {
+      updateCountdown()
+    }
   }
 
   // get default periods if not authenticated
@@ -30,7 +78,7 @@ class Dashboard extends Component {
     let date = new Date()
     let returnData = []
 
-    // 0 - Sun // 1 - Mon // 2 - Tue // 3 - Wed // 4 - Thu // 5 - Fri // 6 - Sat
+    // 0 - Sun | 1 - Mon | 2 - Tue | 3 - Wed | 4 - Thu | 5 - Fri | 6 - Sat
     let day = date.getDay()
 
     // use next day if school day is over
@@ -40,7 +88,7 @@ class Dashboard extends Component {
 
     switch (day) {
 
-      // return monday/tuesday
+      // return periods for monday/tuesday
       case 6:
       case 7:
       case 1:
@@ -52,7 +100,7 @@ class Dashboard extends Component {
                       {name: 'Recess',   teacher: '', room: '', time: '13:55'},
                       {name: 'Period 5', teacher: '', room: '', time: '14:15'}]
 
-      // return wed/thu
+      // return periods for wednesday/thursday
       case 3:
       case 4: return [{name: 'Period 1', teacher: '', room: '', time: '09:05'},
                       {name: 'Period 2', teacher: '', room: '', time: '10:10'},
@@ -62,7 +110,7 @@ class Dashboard extends Component {
                       {name: 'Period 4', teacher: '', room: '', time: '13:10'},
                       {name: 'Period 5', teacher: '', room: '', time: '14:15'}]
 
-      // return friday
+      // return periods for friday
       case 5: return [{name: 'Period 1', teacher: '', room: '', time: '09:30'},
                       {name: 'Period 2', teacher: '', room: '', time: '10:30'},
                       {name: 'Recess',   teacher: '', room: '', time: '11:25'},
@@ -88,7 +136,7 @@ class Dashboard extends Component {
 
     switch (day) {
 
-      // return monday/tuesday
+      // return bells for monday/tuesday
       case 6:
       case 0:
       case 1:
@@ -105,7 +153,7 @@ class Dashboard extends Component {
                             {bell: 'Period 5',   time: '14:15'},
                             {bell: 'End of Day', time: '15:15'}]
 
-      // return wed/thu
+      // return bells for wednesday/thursday
       case 3:
       case 4: returnData = [{bell: 'Roll Call',  time: '09:00'},
                             {bell: 'Period 1',   time: '09:05'},
@@ -120,7 +168,7 @@ class Dashboard extends Component {
                             {bell: 'Period 5',   time: '14:15'},
                             {bell: 'End of Day', time: '15:15'}]
 
-      // return friday
+      // return bells for friday
       case 5: returnData = [{bell: 'Roll Call',  time: '09:25'},
                             {bell: 'Period 1',   time: '09:30'},
                             {bell: 'Transition', time: '10:25'},
@@ -141,29 +189,27 @@ class Dashboard extends Component {
   // get the timetable for today
   getDailyTimetable(timetable) {
 
-    let daytimetable = timetable
+    let bells = this.getBelltimes(timetable)
 
-    let bells = this.getBelltimes(daytimetable)
+    let periods = this.getClasses(timetable, bells)
 
-    let periods = this.getClasses(daytimetable, bells)
-
-    this.getChanges(periods, daytimetable)
-
-    let routine = daytimetable['timetable']['timetable']['routine']
+    this.getChanges(periods, timetable)
 
     // Lunch is 5, Recess is 6
     const lunch = { name: 'Lunch',
                     teacher: '',
                     room: '',
                     time: bells[5][0],
-                    changed: [(bells[5][1] ? 'bells':[])] }
+                    changed: [(bells[5][1] ? 'bells' : [])] }
 
     const recess = { name: 'Recess',
                      teacher: '',
                      room: '',
                      time: bells[6][0],
-                     changed: [(bells[6][1] ? 'bells':[])] }
-
+                     changed: [(bells[6][1] ? 'bells' : [])] }
+    
+    // use routine to determine where to put lunch and recess
+    let routine = timetable['timetable']['timetable']['routine']
     switch (routine) {
       // Monday, Tuesday, Friday
       case 'R1T2=3T4=5': periods.splice(2, 0, lunch); periods.splice(5, 0, recess); break
@@ -183,14 +229,18 @@ class Dashboard extends Component {
 
     // periods is a JSON, not an array - starts from '1'
     let periods = daytimetable['timetable']['timetable']['periods']
-    for (var i=0; i<5; i++) {
+    
+    // loop through periods to set data
+    for (var i = 0; i < 5; i++) {
       let thisPeriod = periods[i+1]
+      
+      // not a free period
       if (thisPeriod !== undefined) {
         const name = thisPeriod['year'] + thisPeriod['title']
 
-        // handle any bugs with the API
+        // handles an API bug where the teacher name is empty
         let teacherName = thisPeriod['fullTeacher']
-        if (teacherName === '') {
+        if (teacherName == '') {
           teacherName = thisPeriod['teacher']
         }
 
@@ -201,6 +251,7 @@ class Dashboard extends Component {
                           fullName: subjects[name]['subject'],
                           changed: [] }
 
+      // free period
       } else {
         returnData[i] = { name: 'Period ' + (i+1),
                           teacher: '',
@@ -208,7 +259,8 @@ class Dashboard extends Component {
                           time: bells[i][0],
                           changed: [] }
       }
-
+      
+      // so we know later if a bell was changed
       if (bells[i][1]) {
         returnData[i].changed.push('bells')
       }
@@ -224,7 +276,7 @@ class Dashboard extends Component {
     const numBells = Object.keys(bells).length
 
     // get name and time for each bell
-    for (var i=0; i<numBells; i++) {
+    for (var i = 0; i < numBells; i++) {
       let thisBell = bells[i]
 
       switch (thisBell['bell']) {
@@ -243,29 +295,30 @@ class Dashboard extends Component {
   // get room and teacher changes for today
   getChanges(periods, timetable) {
 
-    // Get room variations - change in rooms
+    // Get room variations
     const roomVariations = timetable['roomVariations']
-    console.log(roomVariations)
+  
     if (timetable['roomVariations'] !== undefined) {
+    
       const numVariations = Object.keys(roomVariations).length
-      for (var i=0; i<numVariations; i++) {
+      
+      for (var i = 0; i < numVariations; i++) {
         const periodNo = Object.keys(roomVariations)[i]
         periods[periodNo-1].room = roomVariations[periodNo]['roomTo']
         periods[periodNo-1].changed.push('room')
       }
     }
 
-    // Get class variations - change in teachers
+    // Get class variations
     const classVariations = timetable['classVariations']
     if (timetable['classVariations'] !== undefined) {
 
-      // get number of variations (changed periods)
       const numVariations = Object.keys(classVariations).length
 
-      // iterate through all variations
-      for (var i=0; i<numVariations; i++) {
+      for (var i = 0; i < numVariations; i++) {
         const periodNo = Object.keys(classVariations)[i]
-        // nocover = study period
+        
+        // nocover = no teacher -> study period
         if (classVariations[periodNo]['type'] === 'nocover') {
           periods[periodNo-1] = { name: periods[periodNo-1].name,
                                 teacher: '',
@@ -273,7 +326,8 @@ class Dashboard extends Component {
                                 time: periods[periodNo-1].time,
                                 changed: periods[periodNo-1].changed }
           periods[periodNo-1].changed.push('noclass')
-
+        
+        // casual teacher
         } else {
           periods[periodNo-1].teacher = classVariations[periodNo]['casualSurname']
           periods[periodNo-1].changed.push('teacher')
@@ -292,7 +346,7 @@ class Dashboard extends Component {
     const teacherTextClass = 'meta '
     const roomTextClass = 'room '
 
-    for (var i=0; i<numPeriods; i++) {
+    for (var i = 0; i < numPeriods; i++) {
 
       let thisPeriod = periods[i]
 
@@ -437,11 +491,11 @@ class Dashboard extends Component {
     this.setState( ()=> ({
       htmlClasses: this.processHTML(periods),
       schedule: schedule
-      //nextClass: this.getNextClass()
     }), () => {
       this.timerTick()
     })
-
+    
+    // is this needed?
     this.render()
   }
 
@@ -463,7 +517,7 @@ class Dashboard extends Component {
     let returnVar = []
     let periodsCopy = periods.slice(0)
 
-    // remove any non-period classes
+    // remove any non-period time blocks
     for (var i=0; i < periodsCopy.length; i++) {
 
       if (periodsCopy[i].name.startsWith('Recess') || periodsCopy[i].name.startsWith('Lunch')) {
@@ -562,59 +616,6 @@ class Dashboard extends Component {
           </div>
         </div>
     )
-  }
-
-  // this is called each time the timer executes
-  timerTick() {
-
-    function updateCountdown() {
-      const date = new Date()
-      const secDifference = Math.floor((this.state.nextClass.time.getTime() - date.getTime())/1000)
-      this.setState( ()=> ({
-        timer: secDifference
-      }))
-      this.render()
-    }
-
-    updateCountdown = updateCountdown.bind(this)
-
-    if (this.state.timer <= 0) {
-      let nextClass = this.getNextClass()
-      this.setState( ()=> ({
-        nextClass: nextClass
-      }), ()=> {
-        updateCountdown()
-      })
-
-    } else {
-      updateCountdown()
-    }
-  }
-
-  componentDidMount() {
-    // set up timer
-
-    let ID = setInterval(this.timerTick.bind(this), 1000)
-
-    // save timer ID so we can remove the timer later
-    this.setState({timerID: ID})
-
-    // get API data here
-    this.getAPIData = this.getAPIData.bind(this)
-    this.getAPIData()
-
-    this.timerTick = this.timerTick.bind(this)
-
-    let content = document.getElementById('content')
-    content.className = 'full vcNavbarParent'
-  }
-
-  componentWillUnmount() {
-    // remove timer after unmount
-    clearInterval(this.state.timerID)
-
-    let content = document.getElementById('content')
-    content.className = 'full'
   }
 }
 

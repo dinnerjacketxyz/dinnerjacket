@@ -28164,6 +28164,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     counter++;
     if (counter === 5) {
       alert('spif');
+      window.location.href = '/test';
       counter = 0;
     }
   }
@@ -28257,7 +28258,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
               { id: 'CalendarLi', className: 'uk-animation-toggle', onClick: this.showCalendar.bind(this) },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'a',
-                { id: 'CalendarA', className: 'uk-box-shadow-hover-small', 'uk-tooltip': 'title: Coming Soon; pos: bottom' },
+                { id: 'CalendarA', className: 'uk-box-shadow-hover-small' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { id: 'CalendarS', className: 'collapseSpan uk-icon uk-margin-small-right', 'uk-icon': 'icon: calendar' }),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                   'p',
@@ -28622,18 +28623,66 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       shouldUpdatetimetable: true,
       schedule: '',
       timer: 0,
-      nextClass: 'Loading'
+      nextClass: 'Loading' };
 
-      //let periods = this.getDailyTimetable(this.state.timetable)
-      //this.state.htmlClasses = this.processHTML(periods)
-
-    };this.updateTimetableDisplay = this.updateTimetableDisplay.bind(this);
+    this.updateTimetableDisplay = this.updateTimetableDisplay.bind(this);
     this.getNextClass = this.getNextClass.bind(this);
   }
 
-  // get timetable data from API
-  getAPIData() {
+  // setup
+  componentDidMount() {
+    // set up timer
+
+    let ID = setInterval(this.timerTick.bind(this), 1000);
+
+    // save timer ID so we can remove the timer later
+    this.setState({ timerID: ID });
+
+    // get API data here
     this.updateTimetableDisplay(window.dashboard);
+
+    this.timerTick = this.timerTick.bind(this);
+
+    let content = document.getElementById('content');
+    content.className = 'full vcNavbarParent';
+  }
+
+  // deconstructor
+  componentWillUnmount() {
+    // remove timer after unmount
+    clearInterval(this.state.timerID);
+
+    let content = document.getElementById('content');
+    content.className = 'full';
+  }
+
+  // this is called each time the timer executes
+  timerTick() {
+
+    function updateCountdown() {
+      const date = new Date();
+      const secDifference = Math.floor((this.state.nextClass.time.getTime() - date.getTime()) / 1000);
+      this.setState(() => ({
+        timer: secDifference
+      }));
+      this.render();
+    }
+
+    updateCountdown = updateCountdown.bind(this);
+
+    // update display if timer runs out
+    if (this.state.timer <= 0) {
+
+      this.setState(() => ({
+        nextClass: this.getNextClass()
+      }), () => {
+        updateCountdown();
+      });
+
+      // otherwise, decrement timer
+    } else {
+      updateCountdown();
+    }
   }
 
   // get default periods if not authenticated
@@ -28641,7 +28690,7 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     let date = new Date();
     let returnData = [];
 
-    // 0 - Sun // 1 - Mon // 2 - Tue // 3 - Wed // 4 - Thu // 5 - Fri // 6 - Sat
+    // 0 - Sun | 1 - Mon | 2 - Tue | 3 - Wed | 4 - Thu | 5 - Fri | 6 - Sat
     let day = date.getDay();
 
     // use next day if school day is over
@@ -28651,19 +28700,19 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
     switch (day) {
 
-      // return monday/tuesday
+      // return periods for monday/tuesday
       case 6:
       case 7:
       case 1:
       case 2:
         return [{ name: 'Period 1', teacher: '', room: '', time: '09:05' }, { name: 'Period 2', teacher: '', room: '', time: '10:10' }, { name: 'Lunch', teacher: '', room: '', time: '11:10' }, { name: 'Period 3', teacher: '', room: '', time: '11:50' }, { name: 'Period 4', teacher: '', room: '', time: '12:55' }, { name: 'Recess', teacher: '', room: '', time: '13:55' }, { name: 'Period 5', teacher: '', room: '', time: '14:15' }];
 
-      // return wed/thu
+      // return periods for wednesday/thursday
       case 3:
       case 4:
         return [{ name: 'Period 1', teacher: '', room: '', time: '09:05' }, { name: 'Period 2', teacher: '', room: '', time: '10:10' }, { name: 'Recess', teacher: '', room: '', time: '11:10' }, { name: 'Period 3', teacher: '', room: '', time: '11:30' }, { name: 'Lunch', teacher: '', room: '', time: '12:30' }, { name: 'Period 4', teacher: '', room: '', time: '13:10' }, { name: 'Period 5', teacher: '', room: '', time: '14:15' }];
 
-      // return friday
+      // return periods for friday
       case 5:
         return [{ name: 'Period 1', teacher: '', room: '', time: '09:30' }, { name: 'Period 2', teacher: '', room: '', time: '10:30' }, { name: 'Recess', teacher: '', room: '', time: '11:25' }, { name: 'Period 3', teacher: '', room: '', time: '11:45' }, { name: 'Lunch', teacher: '', room: '', time: '12:40' }, { name: 'Period 4', teacher: '', room: '', time: '13:20' }, { name: 'Period 5', teacher: '', room: '', time: '14:20' }];
 
@@ -28684,19 +28733,19 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
     switch (day) {
 
-      // return monday/tuesday
+      // return bells for monday/tuesday
       case 6:
       case 0:
       case 1:
       case 2:
         returnData = [{ bell: 'Roll Call', time: '09:00' }, { bell: 'Period 1', time: '09:05' }, { bell: 'Transition', time: '10:05' }, { bell: 'Period 2', time: '10:10' }, { bell: 'Lunch 1', time: '11:10' }, { bell: 'Lunch 2', time: '11:30' }, { bell: 'Period 3', time: '11:50' }, { bell: 'Transition', time: '12:50' }, { bell: 'Period 4', time: '12:55' }, { bell: 'Recess', time: '13:55' }, { bell: 'Period 5', time: '14:15' }, { bell: 'End of Day', time: '15:15' }];
 
-      // return wed/thu
+      // return bells for wednesday/thursday
       case 3:
       case 4:
         returnData = [{ bell: 'Roll Call', time: '09:00' }, { bell: 'Period 1', time: '09:05' }, { bell: 'Transition', time: '10:05' }, { bell: 'Period 2', time: '10:10' }, { bell: 'Recess', time: '11:10' }, { bell: 'Period 3', time: '11:30' }, { bell: 'Lunch 1', time: '12:30' }, { bell: 'Lunch 2', time: '12:50' }, { bell: 'Period 4', time: '13:10' }, { bell: 'Transition', time: '14:10' }, { bell: 'Period 5', time: '14:15' }, { bell: 'End of Day', time: '15:15' }];
 
-      // return friday
+      // return bells for friday
       case 5:
         returnData = [{ bell: 'Roll Call', time: '09:25' }, { bell: 'Period 1', time: '09:30' }, { bell: 'Transition', time: '10:25' }, { bell: 'Period 2', time: '10:30' }, { bell: 'Recess', time: '11:25' }, { bell: 'Period 3', time: '11:45' }, { bell: 'Lunch 1', time: '12:40' }, { bell: 'Lunch 2', time: '13:00' }, { bell: 'Period 4', time: '13:20' }, { bell: 'Transition', time: '14:15' }, { bell: 'Period 5', time: '14:20' }, { bell: 'End of Day', time: '15:15' }];
 
@@ -28707,15 +28756,11 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   // get the timetable for today
   getDailyTimetable(timetable) {
 
-    let daytimetable = timetable;
+    let bells = this.getBelltimes(timetable);
 
-    let bells = this.getBelltimes(daytimetable);
+    let periods = this.getClasses(timetable, bells);
 
-    let periods = this.getClasses(daytimetable, bells);
-
-    this.getChanges(periods, daytimetable);
-
-    let routine = daytimetable['timetable']['timetable']['routine'];
+    this.getChanges(periods, timetable);
 
     // Lunch is 5, Recess is 6
     const lunch = { name: 'Lunch',
@@ -28728,8 +28773,10 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       teacher: '',
       room: '',
       time: bells[6][0],
-      changed: [bells[6][1] ? 'bells' : []] };
+      changed: [bells[6][1] ? 'bells' : []]
 
+      // use routine to determine where to put lunch and recess
+    };let routine = timetable['timetable']['timetable']['routine'];
     switch (routine) {
       // Monday, Tuesday, Friday
       case 'R1T2=3T4=5':
@@ -28752,14 +28799,18 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
     // periods is a JSON, not an array - starts from '1'
     let periods = daytimetable['timetable']['timetable']['periods'];
+
+    // loop through periods to set data
     for (var i = 0; i < 5; i++) {
       let thisPeriod = periods[i + 1];
+
+      // not a free period
       if (thisPeriod !== undefined) {
         const name = thisPeriod['year'] + thisPeriod['title'];
 
-        // handle any bugs with the API
+        // handles an API bug where the teacher name is empty
         let teacherName = thisPeriod['fullTeacher'];
-        if (teacherName === '') {
+        if (teacherName == '') {
           teacherName = thisPeriod['teacher'];
         }
 
@@ -28768,7 +28819,10 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
           room: thisPeriod['room'],
           time: bells[i][0],
           fullName: subjects[name]['subject'],
-          changed: [] };
+          changed: []
+
+          // free period
+        };
       } else {
         returnData[i] = { name: 'Period ' + (i + 1),
           teacher: '',
@@ -28777,6 +28831,7 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
           changed: [] };
       }
 
+      // so we know later if a bell was changed
       if (bells[i][1]) {
         returnData[i].changed.push('bells');
       }
@@ -28814,11 +28869,13 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   // get room and teacher changes for today
   getChanges(periods, timetable) {
 
-    // Get room variations - change in rooms
+    // Get room variations
     const roomVariations = timetable['roomVariations'];
-    console.log(roomVariations);
+
     if (timetable['roomVariations'] !== undefined) {
+
       const numVariations = Object.keys(roomVariations).length;
+
       for (var i = 0; i < numVariations; i++) {
         const periodNo = Object.keys(roomVariations)[i];
         periods[periodNo - 1].room = roomVariations[periodNo]['roomTo'];
@@ -28826,17 +28883,16 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       }
     }
 
-    // Get class variations - change in teachers
+    // Get class variations
     const classVariations = timetable['classVariations'];
     if (timetable['classVariations'] !== undefined) {
 
-      // get number of variations (changed periods)
       const numVariations = Object.keys(classVariations).length;
 
-      // iterate through all variations
       for (var i = 0; i < numVariations; i++) {
         const periodNo = Object.keys(classVariations)[i];
-        // nocover = study period
+
+        // nocover = no teacher -> study period
         if (classVariations[periodNo]['type'] === 'nocover') {
           periods[periodNo - 1] = { name: periods[periodNo - 1].name,
             teacher: '',
@@ -28844,6 +28900,8 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             time: periods[periodNo - 1].time,
             changed: periods[periodNo - 1].changed };
           periods[periodNo - 1].changed.push('noclass');
+
+          // casual teacher
         } else {
           periods[periodNo - 1].teacher = classVariations[periodNo]['casualSurname'];
           periods[periodNo - 1].changed.push('teacher');
@@ -29070,11 +29128,11 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     this.setState(() => ({
       htmlClasses: this.processHTML(periods),
       schedule: schedule
-      //nextClass: this.getNextClass()
     }), () => {
       this.timerTick();
     });
 
+    // is this needed?
     this.render();
   }
 
@@ -29096,7 +29154,7 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     let returnVar = [];
     let periodsCopy = periods.slice(0);
 
-    // remove any non-period classes
+    // remove any non-period time blocks
     for (var i = 0; i < periodsCopy.length; i++) {
 
       if (periodsCopy[i].name.startsWith('Recess') || periodsCopy[i].name.startsWith('Lunch')) {
@@ -29215,58 +29273,6 @@ class Dashboard extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         this.state.htmlClasses
       )
     );
-  }
-
-  // this is called each time the timer executes
-  timerTick() {
-
-    function updateCountdown() {
-      const date = new Date();
-      const secDifference = Math.floor((this.state.nextClass.time.getTime() - date.getTime()) / 1000);
-      this.setState(() => ({
-        timer: secDifference
-      }));
-      this.render();
-    }
-
-    updateCountdown = updateCountdown.bind(this);
-
-    if (this.state.timer <= 0) {
-      let nextClass = this.getNextClass();
-      this.setState(() => ({
-        nextClass: nextClass
-      }), () => {
-        updateCountdown();
-      });
-    } else {
-      updateCountdown();
-    }
-  }
-
-  componentDidMount() {
-    // set up timer
-
-    let ID = setInterval(this.timerTick.bind(this), 1000);
-
-    // save timer ID so we can remove the timer later
-    this.setState({ timerID: ID });
-
-    // get API data here
-    this.getAPIData = this.getAPIData.bind(this);
-    this.getAPIData();
-
-    this.timerTick = this.timerTick.bind(this);
-
-    let content = document.getElementById('content');
-    content.className = 'full vcNavbarParent';
-  }
-
-  componentWillUnmount() {
-    // remove timer after unmount
-    clearInterval(this.state.timerID);
-
-    let content = document.getElementById('content');
-    content.className = 'full';
   }
 }
 
@@ -55838,6 +55844,7 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       calData: window.diaryCal,
       eventsToShow: [],
       selectedDay: new Date().getDate(),
+      selectedDayIndex: -1,
       selectedMonth: new Date().getMonth(),
       selectedYear: new Date().getFullYear(),
       days: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]
@@ -55847,10 +55854,12 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     this.setEvents = this.setEvents.bind(this);
     this.changeMonth = this.changeMonth.bind(this);
   }
+
+  // setup
   componentDidMount() {
     let content = document.getElementById('content');
     content.className = 'full vcNavbarParent';
-    this.setDaysForMonth(new Date().getMonth());
+    this.setDaysForMonth(new Date().getMonth(), new Date().getFullYear());
     this.setEvents(this.state.calData[this.state.selectedDay - 1]);
     this.highlightSelectedDay(this.state.selectedDay);
   }
@@ -55868,35 +55877,35 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   //this sub is simultaneously fired and can do your processing - good luck
   displayCal() {
     if (!isNaN(input)) {
-      this.highlightSelectedDay(input);
-      this.setEvents(this.state.calData[input - 1]);
+      if (input != this.state.selectedDay) {
+        this.highlightSelectedDay(input);
+        this.setEvents(this.state.calData[input - 1]);
+      }
     }
   }
 
   // events is a JSON of { info: {}, items: {} }
-  // TO DO: add support for varying numbers of events
   setEvents(events) {
     var eventsToAdd = [];
     const items = events['items'];
-    //console.log('events items')
-    //console.log(events['items'])
-    var i;
-    for (i = 0; i < items.length; i++) {
+
+    for (var i = 0; i < items.length; i++) {
       const thisEvent = items[i];
+
       switch (thisEvent['type']) {
         case 'school':
-          eventsToAdd.push(thisEvent['title']);break;
+          eventsToAdd.push((thisEvent['subject'] != '' ? thisEvent['subject'] + ': ' : '') + thisEvent['title']);break;
         case 'assessment':
-          eventsToAdd.push(thisEvent['assessment']);break;
+          eventsToAdd.push('(Assessment) ' + thisEvent['assessment']);break;
         case 'moodle':
-          eventsToAdd.push(thisEvent['title']);break;
+          eventsToAdd.push('(Moodle) ' + (thisEvent['subject'] != '' ? thisEvent['subject'] + ': ' : '') + thisEvent['title']);break;
         case 'personal':
-          eventsToAdd.push(thisEvent['title']);break;
+          eventsToAdd.push('(Personal) ' + thisEvent['title']);break;
         default:
-          console.log('not found');break;
+          break;
       }
     }
-    //console.log(eventsToAdd)
+
     this.setState(() => ({
       eventsToShow: eventsToAdd
     }));
@@ -55910,12 +55919,18 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     this.changeMonth(1);
   }
 
+  // diff is either 1 or -1
   changeMonth(diff) {
+
     var curMonth = this.state.selectedMonth;
     var curYear = this.state.selectedYear;
+
+    // back past January
     if (curMonth == 0 && diff == -1) {
       curMonth = 11;
       curYear -= 1;
+
+      // forward past December
     } else if (curMonth == 11 && diff == 1) {
       curMonth = 0;
       curYear += 1;
@@ -55923,15 +55938,19 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       curMonth += diff;
     }
 
-    this.setDaysForMonth(curMonth);
+    this.setDaysForMonth(curMonth, curYear);
 
-    // Authenticated calendar
+    // Get calendar data for the next month
     let promise1 = new Promise(function (resolve, reject) {
+
       const year = curYear;
       const month = curMonth + 1;
 
+      // create parameters:   from=YYYY-MM-DD   to=YYYY-MM-DD
       var from = year + '-' + (month > 9 ? month : '0' + month) + '-01';
       var to = year + '-' + (month > 9 ? month : '0' + month) + '-' + new Date(year, month, 0).getDate();
+
+      // make http request
       http.get('/getdata?url=diarycalendar/events.json?from=' + from + '&to=' + to, res => {
         res.setEncoding('utf8');
         let d = '';
@@ -55944,10 +55963,12 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       });
     });
 
+    // process data from http requests
     promise1.then(result => {
       this.setState(() => ({
         selectedMonth: curMonth,
         selectedYear: curYear,
+        selectedDayIndex: -1,
         calData: result
       }));
 
@@ -55956,34 +55977,53 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     });
   }
 
+  // converts a number to a month e.g. 0 -> 'January', 1 -> 'February'
   monthNumToText(num) {
     const arr = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     return arr[num];
   }
 
+  // highlights newDay on the calendar
   highlightSelectedDay(newDay) {
     let days = this.state.days;
     let prevDay = this.state.selectedDay;
-    days[prevDay - 1] = prevDay;
-    days[newDay - 1] = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'span',
-      { className: 'active' },
-      newDay
-    );
+
+    // unselect selected day
+    if (this.state.selectedDayIndex != -1) {
+      days[this.state.selectedDayIndex] = prevDay;
+    }
+
+    // select new day
+    for (var i = 0; i < days.length; i++) {
+      if (days[i] == newDay) {
+        days[i] = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'span',
+          { className: 'active' },
+          newDay
+        );
+        this.setState(() => ({
+          selectedDayIndex: i
+        }));
+        break;
+      }
+    }
+
     this.setState(() => ({
       selectedDay: newDay,
       days: days
     }));
   }
 
-  setDaysForMonth(curMonth) {
+  // get the number of days for the month for UI
+  setDaysForMonth(month, year) {
+
     var days = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28];
-    console.log(curMonth);
-    switch (curMonth + 1) {
+
+    switch (month + 1) {
 
       // 28/29 days
       case 2:
-        if (new Date().getFullYear % 4 == 0) {
+        if (year % 4 == 0) {
           days.push(29);
         };break;
 
@@ -55997,6 +56037,12 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       // 31 days
       default:
         days = days.concat([29, 30, 31]);
+    }
+
+    // offset first day so it starts on the correct day of week e.g. 1st of month starts on Friday or Tuesday
+    const firstOfMonth = new Date(year, month, 1);
+    for (var i = 0; i < firstOfMonth.getDay(); i++) {
+      days.unshift('');
     }
 
     this.setState(() => ({
@@ -56013,7 +56059,7 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         { className: 'uk-grid-collapse uk-child-width-expand@s uk-grid two uk-margin-top', 'uk-grid': 'true' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
-          { className: 'uk-card uk-card-default uk-animation-slide-top-small' },
+          { className: 'cal uk-card uk-card-default uk-animation-slide-top-small' },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'div',
             { className: 'month' },
@@ -56049,6 +56095,11 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'li',
               null,
+              'Su'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              null,
               'M'
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -56075,11 +56126,6 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
               'li',
               null,
               'Sa'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'li',
-              null,
-              'Su'
             )
           ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -56102,7 +56148,7 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
           ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'ul',
-            { className: 'uk-list uk-list-striped' },
+            { className: 'events uk-list uk-list-striped' },
             this.state.eventsToShow.map((item, i) => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(ListItem, { key: i, value: item }))
           )
         )
@@ -56153,7 +56199,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, ".flex-container {\n  justify-content: center;\n  display: flex;\n}\n\n.two {\n  width: 750px;\n}\n\n.flex-child {\n  margin-top: 20px!important;\n}\n\n.month {\n  padding: 70px 25px;\n  background: #2dc0d5;\n  text-align: center;\n}\n\n.month ul {\n  margin: 0;\n  padding: 0;\n}\n\n.month ul li {\n  color: white;\n  font-size: 20px;\n  text-transform: uppercase;\n  letter-spacing: 3px;\n}\n\n.month .prev {\n  float: left;\n  padding-top: 10px;\n}\n\n.month .next {\n  float: right;\n  padding-top: 10px;\n}\n\n.weekdays {\n  margin: 0;\n  padding: 10px 0;\n  background-color: #f8f8f8;\n}\n\n.weekdays li {\n  display: inline-block;\n  width: 14.2%;\n  color: #666;\n  text-align: center;\n}\n\n.days {\n  padding: 10px 0;\n  background: #fff;\n  margin: 0;\n}\n\n.month li {\n  list-style-type: none;\n}\n\n.days li {\n  list-style-type: none;\n  display: inline-block;\n  width: 14.2%;\n  text-align: center;\n  margin-bottom: 5px;\n  font-size:12px;\n  color: #777;\n}\n\n.weekdays li{\n  font-weight: 700;\n}\n\n.days li .active {\n  padding: 5px;\n  background: #2dc0d5;\n  color: white !important\n}\n\n/* Add media queries for smaller screens */\n@media screen and (max-width:720px) {\n  /*.weekdays li, .days li {width: 13.1%;}*/\n}\n\n@media screen and (max-width: 420px) {\n/*  .weekdays li, .days li {width: 12.5%;}*/\n  .days li .active {padding: 2px;}\n}\n\n@media screen and (max-width: 290px) {\n/*  .weekdays li, .days li {width: 12.2%;}*/\n}", ""]);
+exports.push([module.i, ".flex-container {\n  justify-content: center;\n  display: flex;\n}\n\n.two {\n  width: 750px;\n}\n\n.flex-child {\n  margin-top: 20px!important;\n}\n\n.month {\n  padding: 70px 25px;\n  background: #2dc0d5;\n  text-align: center;\n}\n\n.month ul {\n  margin: 0;\n  padding: 0;\n}\n\n.month ul li {\n  color: white;\n  font-size: 20px;\n  text-transform: uppercase;\n  letter-spacing: 3px;\n}\n\n.month .prev {\n  float: left;\n  padding-top: 10px;\n}\n\n.month .next {\n  float: right;\n  padding-top: 10px;\n}\n\n.weekdays {\n  margin: 0;\n  padding: 10px 0;\n  background-color: #f8f8f8;\n}\n\n.weekdays li {\n  display: inline-block;\n  width: 14.2%;\n  color: #666;\n  text-align: center;\n}\n\n.days {\n  padding: 10px 0;\n  background: #fff;\n  margin: 0;\n}\n\n.month li {\n  list-style-type: none;\n}\n\n.days li {\n  list-style-type: none;\n  display: inline-block;\n  width: 14.2%;\n  text-align: center;\n  margin-bottom: 5px;\n  font-size:12px;\n  color: #777;\n}\n\n.weekdays li{\n  font-weight: 700;\n}\n\n.events {\n  text-align: left;\n}\n\n.days li .active {\n  padding: 5px;\n  background: #2dc0d5;\n  color: white !important\n}\n\n.days {\n  text-align: left!important;\n}\n\n.cal {\n  height: min-content!important;\n}\n\n\n\n@media screen and (max-width: 420px) {\n/*  .weekdays li, .days li {width: 12.5%;}*/\n  .days li .active {padding: 2px;}\n}\n", ""]);
 
 // exports
 
