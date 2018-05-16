@@ -211,38 +211,60 @@ class Calendar extends Component {
   render() {
     return (
       <div className='flex-container uk-width-1-1 vcNavbarCard'>
-        <div className="uk-grid-collapse uk-child-width-expand@s uk-grid two uk-margin-top" uk-grid='true'>
-          <div className='cal uk-card uk-card-default uk-animation-slide-top-small'>
-            <div className="month">      
-              <ul>
-                <li onClick={this.prevMonth.bind(this)} className="prev">&#10094;</li>
-                <li onClick={this.nextMonth.bind(this)} className="next">&#10095;</li>
-                <li>
-                  {this.monthNumToText(this.state.selectedMonth)}<br/>
-                  <span>{this.state.selectedYear}</span>
-                </li>
+        <div className="uk-grid-collapse uk-grid two uk-margin-top uk-grid-match" uk-grid='true'>
+          <div  className='cal uk-card uk-card-default uk-animation-slide-top-small uk-width-expand'>
+            <div>
+              <div className="month">      
+                <ul>
+                  <li onClick={this.prevMonth.bind(this)} className="prev">&#10094;</li>
+                  <li onClick={this.nextMonth.bind(this)} className="next">&#10095;</li>
+                  <li>
+                    {this.monthNumToText(this.state.selectedMonth)}<br/>
+                    <span>{this.state.selectedYear}</span>
+                  </li>
+                </ul>
+              </div>
+              <ul className="weekdays">
+                <li>SUN</li>
+                <li>MON</li>
+                <li>TUE</li>
+                <li>WED</li>
+                <li>THU</li>
+                <li>FRI</li>
+                <li>SAT</li>
               </ul>
-            </div>
-            <ul className="weekdays">
-              <li>Su</li>
-              <li>M</li>
-              <li>Tu</li>
-              <li>W</li>
-              <li>Th</li>
-              <li>F</li>
-              <li>Sa</li>
-            </ul>
-            <div onClick={this.displayCal.bind(this)}>
-              <ul className="days" onClick={this.monthInput}>
-                { (this.state.days).map((item, i) => <ListItem key={i} value={item} />) }
-              </ul>
+              <div onClick={this.displayCal.bind(this)}>
+                <ul className="days" onClick={this.monthInput}>
+                  { (this.state.days).map((item, i) => <ListItem key={i} value={item} />) }
+                </ul>
+              </div>
             </div>
           </div>
-          <div className='uk-card uk-card-default uk-card-body uk-animation-slide-top-small'>
-            <p className='uk-text-center uk-text-large'>Calendar Events</p>
-            <ul className="events uk-list uk-list-striped">
-                { (this.state.eventsToShow).map((item, i) => <ListItem key={i} value={item} />) }
-            </ul>
+          <div  className='events uk-card uk-card-default uk-card-body uk-animation-slide-top-small uk-width-2-5@s'>
+            <div>
+              <p className='uk-text-center uk-text-large'>Calendar Events</p>
+              <ul className="eventsList uk-list uk-list-striped">
+                  { (this.state.eventsToShow).map((item, i) => <ListItem key={i} value={item} />) }
+              </ul>
+              <table className="uk-table uk-table-divider">
+                  <thead>
+                      <tr>
+                          <th className="uk-table-shrink">Time</th>
+                          <th className="uk-table-auto">Title</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td>Table Data</td>
+                          <td>Table Data</td>
+                      </tr>
+                      <tr>
+                          <td>Table Data</td>
+                          <td>Table Data</td>
+                      </tr>
+                  </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
