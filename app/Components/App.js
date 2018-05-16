@@ -82,29 +82,108 @@ class App extends Component {
   }
   
   componentDidMount() {
-    http.get('/getsession', (res) => {
-      console.log('starting getsession req.')
-      res.setEncoding('utf8')
-      res.on('data', (data) => {
-        console.log('getsession req. returned ' + data)
+    
+    const mainApp = this
+    
+    console.log('checking tokens')
+    
+      // check existence of refresh token
+      if (localStorage.getItem('refreshToken') == null) {
+        http.get('/gettoken', (res) => {
+          console.log('starting gettoken req.')
+          res.setEncoding('utf8')
+          
+          var d
+          res.on('data', (data) => {
+            console.log('res data')
+            d = data
+          })
+          
+          res.on('end', () => {
+            console.log('res end')
+            if (d != 'false') {
+              console.log(d)
+              localStorage.setItem('accessToken', JSON.parse(d)[0])
+              localStorage.setItem('refreshToken', JSON.parse(d)[1])
+              localStorage.setItem('refreshTokenExpiry', JSON.parse(d)[2])
+            } else {
+              this.showLogin()
+            }
+          })
+        })
+      }
+    
+      // check existence of access token
+      if (localStorage.getItem('accessToken') == null) {
+      
+        // if access token doesn't exist, check refresh token expiry
         
-        if (data === 'true' || data === 'tru') {
-          console.log('getting data')
-          try {
-            this.getData()
-          } catch (e) {
-            console.log('Error receiving data')
-            this.showLogin()
-          }
+        // refresh token expired
+        if (localStorage.getItem('refreshTokenExpiry') < new Date()) {
+          console.log('show login')
+          localStorage.clear()
+          mainApp.showLogin()
+        
+        // refresh token valid, get access token
         } else {
-          this.showLogin()
+        
+          const querystring = require('querystring');
+          
+          const postData = querystring.stringify({
+            refresh_token: req.session.token.token.refresh_token,
+            grant_type: 'refresh_token',
+            client_id: cred.client.id,
+            client_secret: cred.client.secret
+          })
+          
+          const httpsOptions = {
+            hostname: 'student.sbhs.net.au',
+            path: '/api/token',
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              'Content-Length': Buffer.byteLength(postData)
+            }
+          }
+          
+          let promise = new Promise( function (resolve, reject) {
+            const req1 = https.request(httpsOptions, (res1) => {
+              res1.setEncoding('utf8')
+              var body = ''
+              res1.on('data', (data)=>{
+                body += data
+              })
+              
+              res1.on('end', ()=> {
+                resolve(body)
+              })
+            })
+            req1.write(postData)
+            req1.end()
+          })
+          
+          promise.then(function(result) {
+            // set access token
+            console.log('access token refreshed: ' + result)
+            localStorage.setItem('accessToken', result.token.token)
+            mainApp.getData()
+          })
         }
-      })
-    })
+      
+      // access token exists, get data
+      } else {
+        console.log('access token exists')
+        mainApp.getData()
+      }
   }
   
   getData() {
-    http.get('/getdata?url=timetable/daytimetable.json', (res) => {
+    console.log('ACCESS: ' + localStorage.getItem('accessToken'))
+    console.log('REFRESH: ' + localStorage.getItem('refreshToken'))
+    console.log('R_EXPIRY: ' + localStorage.getItem('refreshTokenExpiry'))
+    
+    const token = localStorage.getItem('accessToken')
+    http.get('/getdata?token=' + token + '&url=timetable/daytimetable.json', (res) => {
       res.setEncoding('utf8')
       let data = ''
       res.on('data', (body) => {
@@ -146,7 +225,7 @@ class App extends Component {
         "groups"    : []              // array of network group memberships
       }
     */
-    http.get('/getdata?url=details/userinfo.json', (res) => {
+    http.get('/getdata?token=' + token + '&url=details/userinfo.json', (res) => {
       res.setEncoding('utf8')
 
       let a = ''
@@ -169,7 +248,7 @@ class App extends Component {
     })
 
     // Get daily notices from SBHS API
-    http.get('/getdata?url=dailynews/list.json', (res) => {
+    http.get('/getdata?token=' + token + '&url=dailynews/list.json', (res) => {
       res.setEncoding('utf8')
       let d = ''
       res.on('data', (body) => {
@@ -188,7 +267,7 @@ class App extends Component {
     })
 
     // Get timetable data from SBHS API
-    http.get('/getdata?url=timetable/timetable.json', (res) => {
+    http.get('/getdata?token=' + token + '&url=timetable/timetable.json', (res) => {
       res.setEncoding('utf8')
       let b = ''
       res.on('data', (body) => {
@@ -207,7 +286,7 @@ class App extends Component {
       })
     })
 
-    http.get('/getdata?url=timetable/bells.json', (res) => {
+    http.get('/getdata?token=' + token + '&url=timetable/bells.json', (res) => {
       res.setEncoding('utf8')
       let c = ''
       res.on('data', (body) => {
@@ -234,7 +313,7 @@ class App extends Component {
     var from = year + '-' + (month > 9 ? month : '0' + month) + '-01'
     var to = year + '-' + (month > 9 ? month : '0' + month) + '-' + (new Date(year, month, 0).getDate())
     
-    http.get('/getdata?url=diarycalendar/events.json?from=' + from + '&to=' + to, (res) => {
+    http.get('/getdata?token=' + token + '&url=diarycalendar/events.json?from=' + from + '&to=' + to, (res) => {
       res.setEncoding('utf8')
       let d = ''
       res.on('data', (body) => {
@@ -284,7 +363,7 @@ class App extends Component {
           ...
       ]
     */
-    http.get('/getdata?url=details/participation.json', (res) => {
+    http.get('/getdata?token=' + token + '&url=details/participation.json', (res) => {
       res.setEncoding('utf8')
       let data = ''
       res.on('data', (body) => {
@@ -420,15 +499,17 @@ class App extends Component {
 
   logout() {
     window.location.href = '/logout'
+    localStorage.clear()
     localStorage.setItem('clicked',false)
   }
 
   logo() {
     //console.log('logo click')
     counter++
-    if (counter === 5) {
-      alert('spif')
-      window.location.href = '/test'
+    if (counter == 3) {
+      alert('localstorage cleared')
+      localStorage.clear()
+      //window.location.href = '/test'
       counter = 0
     }
   }

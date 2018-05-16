@@ -86,26 +86,28 @@ module.exports = (app) => {
     promise.then(function(result) {
       // store token in user's session
       req.session.token = result
-      console.log('token stored')
+      // 90 days expiry
+      req.session.refreshTokenExpiry = new Date((new Date).getTime() + 90*24*60*60*1000)
+      console.log('token stored, redirecting')
 
       // Login done, redirect back
       res.redirect(siteURL)
     })
   })
-
-  // This is called by client to obtain resources
-  // use a query to specify URL e.g. /getdata?url=dailynews/list.json
-  // Returns undefined if no token exists
-  /*============================================================*
-   |   Acceptable URLs:                                         |
-   |------------------------------*-----------------------------|
-   |  dailynews/list.json         |  diarycalendar/events.json  |
-   |  timetable/daytimetable.json |  timetable/timetable.json   |
-   |  details/participation.json  |  details/userinfo.json      |
-   |  timetable/bells.json        |  calendar/days.json         |
-   |  calendar/terms.json         |                             |
-   *==============================*=============================*/
-
+  
+  // returns access and refresh tokens with expiry
+  app.get('/gettoken', (req, res) => {
+    console.log('gettoken: ' + req.session.token)
+    if ((req.session.token != undefined) && (req.session.refreshTokenExpiry != undefined)) {
+      console.log('gettoken: sending data')
+      res.send([req.session.token.token.access_token, req.session.token.token.refresh_token, req.session.refreshTokenExpiry])
+    } else {
+      console.log('gettoken: sending false')
+      res.send(false)
+    }
+  })
+  
+  /*
   // checks the client's session to determine the presence of valid tokens
   app.get('/getsession', (req, res) => {
     console.log('validating session')
@@ -116,18 +118,19 @@ module.exports = (app) => {
       
       // validate session, inc. tokens
       
-      /*
       // check refresh token
       console.log(req.session.token)
-      const refreshTokenExpiry = req.session.token.token.expires_at
-      console.log(new Date() + ' ' + new Date(refreshTokenExpiry))
-      if (new Date() > refreshTokenExpiry) {
-        req.session.destroy()
-        res.send(false)
-      }*/
+      if (req.session.refreshTokenExpiry != undefined) {
+        const refreshTokenExpiry = req.session.refreshTokenExpiry
+        console.log(new Date() + ' ' + new Date(refreshTokenExpiry))
+        if (new Date() > refreshTokenExpiry) {
+          req.session.destroy()
+          res.send(false)
+        }
+      }
       
-      console.log(req.session.token)
-      console.log(new Date() + ' ' + new Date(req.session.token.token.expires_at))
+      // refresh token is valid from here
+      
       // check access token
       if (new Date() > new Date(req.session.token.token.expires_at)) {
         console.log('refreshing access token')
@@ -170,25 +173,40 @@ module.exports = (app) => {
           console.log(result)
           // store token in user's session
           req.session.token.token.access_token = result
-          console.log('token refreshed')
+          console.log('token refreshed, valid access token')
           // set access token expiry date
           var now = new Date()
           req.session.accessTokenExpiry = now.setHours(now.getHours() + 1)
-          res.send(true)
+          res.send([req.session.token.token.refresh_token, req.session.refreshTokenExpiry])
         })
       } else {
         console.log('valid access token')
-        res.send(true)
+        res.send([req.session.token.token.refresh_token, req.session.refreshTokenExpiry])
       }
     }
     
   })
-
-  // used to retrieve data from API
+  */
+  
+  /*
+      This is called by client to obtain resources.
+      Use a query to specify URL e.g. /getdata?url=dailynews/list.json
+   
+      (returns undefined if no token exists)
+   
+  /*============================================================*
+   |   Acceptable URLs:                                         |
+   |------------------------------*-----------------------------|
+   |  dailynews/list.json         |  diarycalendar/events.json  |
+   |  timetable/daytimetable.json |  timetable/timetable.json   |
+   |  details/participation.json  |  details/userinfo.json      |
+   |  timetable/bells.json        |  calendar/days.json         |
+   |  calendar/terms.json         |                             |
+   *==============================*=============================*/
+  
   app.get('/getdata', (req1, res1) => {
-    console.log('Token getdata')
-    console.log('Token exists: ' + (req1.session.token != undefined))
-    var token = req1.session.token.token.access_token
+    console.log('getdata: ' + req1.query.url + (req1.query.to != undefined ? '&to=' + req1.query.to : ''))
+    var token = req1.query.token
     const httpsOptions = {
       hostname: 'student.sbhs.net.au',
       path: '/api/' + req1.query.url + (req1.query.to != undefined ? '&to=' + req1.query.to : ''),
@@ -239,7 +257,6 @@ module.exports = (app) => {
 
   // for testing
   app.get('/test', (req, res) => {
-    console.log(req.session.token)
     let returnVal =
        ' <p style="line-height:1">\
         &nbsp;∛3<br>\
