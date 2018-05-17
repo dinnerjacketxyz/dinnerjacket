@@ -97,96 +97,64 @@ module.exports = (app) => {
   
   // returns access and refresh tokens with expiry
   app.get('/gettoken', (req, res) => {
-    console.log('gettoken: ' + req.session.token)
-    if ((req.session.token != undefined) && (req.session.refreshTokenExpiry != undefined)) {
+    const token = req.session.token
+    console.log('gettoken: ' + token)
+    if ((token != undefined) && (req.session.refreshTokenExpiry != undefined)) {
       console.log('gettoken: sending data')
-      res.send([req.session.token.token.access_token, req.session.token.token.refresh_token, req.session.refreshTokenExpiry])
+      res.send([token.token.access_token, token.token.refresh_token, req.session.refreshTokenExpiry])
     } else {
       console.log('gettoken: sending false')
       res.send(false)
     }
   })
   
-  /*
-  // checks the client's session to determine the presence of valid tokens
-  app.get('/getsession', (req, res) => {
-    console.log('validating session')
-    if (req.session.token === undefined || req.session.token.token === undefined) {
-      console.log('no token found')
-      res.send(false)
-    } else {
-      
-      // validate session, inc. tokens
-      
-      // check refresh token
-      console.log(req.session.token)
-      if (req.session.refreshTokenExpiry != undefined) {
-        const refreshTokenExpiry = req.session.refreshTokenExpiry
-        console.log(new Date() + ' ' + new Date(refreshTokenExpiry))
-        if (new Date() > refreshTokenExpiry) {
-          req.session.destroy()
-          res.send(false)
-        }
-      }
-      
-      // refresh token is valid from here
-      
-      // check access token
-      if (new Date() > new Date(req.session.token.token.expires_at)) {
-        console.log('refreshing access token')
-        const querystring = require('querystring');
-        
-        const postData = querystring.stringify({
-          refresh_token: req.session.token.token.refresh_token,
-          grant_type: 'refresh_token',
-          client_id: cred.client.id,
-          client_secret: cred.client.secret
-        })
-        
-        const httpsOptions = {
-          hostname: 'student.sbhs.net.au',
-          path: '/api/token',
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Content-Length': Buffer.byteLength(postData)
-          }
-        }
-        
-        let promise = new Promise( function (resolve, reject) {
-          const req1 = https.request(httpsOptions, (res1) => {
-            res1.setEncoding('utf8')
-            var body = ''
-            res1.on('data', (data)=>{
-              body += data
-            })
-            
-            res1.on('end', ()=> {
-              resolve(body)
-            })
-          })
-          req1.write(postData)
-          req1.end()
-        })
-        
-        promise.then(function(result) {
-          console.log(result)
-          // store token in user's session
-          req.session.token.token.access_token = result
-          console.log('token refreshed, valid access token')
-          // set access token expiry date
-          var now = new Date()
-          req.session.accessTokenExpiry = now.setHours(now.getHours() + 1)
-          res.send([req.session.token.token.refresh_token, req.session.refreshTokenExpiry])
-        })
-      } else {
-        console.log('valid access token')
-        res.send([req.session.token.token.refresh_token, req.session.refreshTokenExpiry])
+  // called by client to use refresh token to get a new access token
+  app.get('/getnewaccesstoken', (req, res) => {
+    console.log('getting new access token')
+    console.log(req.query.url)
+    const querystring = require('querystring');
+    
+    const postData = querystring.stringify({
+                       refresh_token: req.query.rt,
+                       grant_type: 'refresh_token',
+                       client_id: cred.client.id,
+                       client_secret: cred.client.secret
+                     })
+          
+    const httpsOptions = {
+      hostname: 'student.sbhs.net.au',
+      path: '/api/token',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': Buffer.byteLength(postData)
       }
     }
     
+    let promise = new Promise( function (resolve, reject) {
+      const req1 = https.request(httpsOptions, (res1) => {
+        res1.setEncoding('utf8')
+        var body = ''
+        res1.on('data', (data)=>{
+          body += data
+        })
+        
+        res1.on('end', ()=> {
+          resolve(body)
+        })
+      })
+      
+      // write post data to req.
+      req1.write(postData)
+      
+      req1.end()
+    })
+    
+    promise.then(function(result) {
+      console.log('access token refreshed')
+      res.send(JSON.parse(result).access_token)
+    })
   })
-  */
   
   /*
       This is called by client to obtain resources.
@@ -207,6 +175,7 @@ module.exports = (app) => {
   app.get('/getdata', (req1, res1) => {
     console.log('getdata: ' + req1.query.url + (req1.query.to != undefined ? '&to=' + req1.query.to : ''))
     var token = req1.query.token
+    console.log(token)
     const httpsOptions = {
       hostname: 'student.sbhs.net.au',
       path: '/api/' + req1.query.url + (req1.query.to != undefined ? '&to=' + req1.query.to : ''),
@@ -235,15 +204,6 @@ module.exports = (app) => {
     })
 
     promise.then(function(result) {
-      
-      /* Use this to save API data to file (pretty printed)
-      const fs = require('fs')
-      let jason = JSON.parse(result)
-      fs.writeFile("test.txt", JSON.stringify(jason, null, 2), function(err) {
-        console.log('saved, ' + err)
-      });
-      */
-
       res1.send(result)
     })
   })

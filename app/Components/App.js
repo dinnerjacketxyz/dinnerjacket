@@ -82,103 +82,73 @@ class App extends Component {
   }
   
   componentDidMount() {
-    
+
     const mainApp = this
-    
+  
     console.log('checking tokens')
+  
+    // if refresh token doesn't exist (i.e. not logged on)
+    if (localStorage.getItem('refreshToken') == null) {
+      http.get('/gettoken', (res) => {
+        console.log('starting gettoken req.')
+        res.setEncoding('utf8')
+        
+        var d
+        res.on('data', (data) => {
+          console.log('res data')
+          d = data
+        })
+        
+        res.on('end', () => {
+          console.log('res end: ' + d)
+          if (d != 'false') {
+            localStorage.setItem('accessToken', JSON.parse(d)[0])
+            // 1 hour
+            localStorage.setItem('accessTokenExpiry', new Date((new Date()).getTime() + 60*60*1000))
+            localStorage.setItem('refreshToken', JSON.parse(d)[1])
+            localStorage.setItem('refreshTokenExpiry', JSON.parse(d)[2])
+            mainApp.getData()
+          } else {
+            mainApp.showLogin()
+          }
+        })
+      })
+    // if refresh token exists, check its expiry
+    } else if (localStorage.getItem('refreshTokenExpiry') < new Date()) {
+        console.log('refresh token expired')
+        localStorage.clear()
+        mainApp.showLogin()
+    } else {
+      // refresh token is valid at this point
+      // now check the access token
+      console.log('refresh token valid')
     
-      // check existence of refresh token
-      if (localStorage.getItem('refreshToken') == null) {
-        http.get('/gettoken', (res) => {
-          console.log('starting gettoken req.')
-          res.setEncoding('utf8')
-          
+      console.log('checking access token')
+      if (localStorage.getItem('accessTokenExpiry') < new Date()) {
+        console.log('getting new access token')
+        http.get('/getnewaccesstoken?rt=' + localStorage.getItem('refreshToken'), (res) => {
           var d
           res.on('data', (data) => {
-            console.log('res data')
             d = data
           })
-          
           res.on('end', () => {
-            console.log('res end')
-            if (d != 'false') {
-              console.log(d)
-              localStorage.setItem('accessToken', JSON.parse(d)[0])
-              localStorage.setItem('refreshToken', JSON.parse(d)[1])
-              localStorage.setItem('refreshTokenExpiry', JSON.parse(d)[2])
-            } else {
-              this.showLogin()
-            }
-          })
-        })
-      }
-    
-      // check existence of access token
-      if (localStorage.getItem('accessToken') == null) {
-      
-        // if access token doesn't exist, check refresh token expiry
-        
-        // refresh token expired
-        if (localStorage.getItem('refreshTokenExpiry') < new Date()) {
-          console.log('show login')
-          localStorage.clear()
-          mainApp.showLogin()
-        
-        // refresh token valid, get access token
-        } else {
-        
-          const querystring = require('querystring');
-          
-          const postData = querystring.stringify({
-            refresh_token: req.session.token.token.refresh_token,
-            grant_type: 'refresh_token',
-            client_id: cred.client.id,
-            client_secret: cred.client.secret
-          })
-          
-          const httpsOptions = {
-            hostname: 'student.sbhs.net.au',
-            path: '/api/token',
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-              'Content-Length': Buffer.byteLength(postData)
-            }
-          }
-          
-          let promise = new Promise( function (resolve, reject) {
-            const req1 = https.request(httpsOptions, (res1) => {
-              res1.setEncoding('utf8')
-              var body = ''
-              res1.on('data', (data)=>{
-                body += data
-              })
-              
-              res1.on('end', ()=> {
-                resolve(body)
-              })
-            })
-            req1.write(postData)
-            req1.end()
-          })
-          
-          promise.then(function(result) {
-            // set access token
-            console.log('access token refreshed: ' + result)
-            localStorage.setItem('accessToken', result.token.token)
+            localStorage.setItem('accessToken', d)
+            localStorage.setItem('accessTokenExpiry', new Date((new Date()).getTime() + 60*60*1000))
             mainApp.getData()
           })
-        }
-      
+        })
+        
       // access token exists, get data
       } else {
         console.log('access token exists')
         mainApp.getData()
       }
+    }
   }
   
   getData() {
     console.log('ACCESS: ' + localStorage.getItem('accessToken'))
+    console.log('A_EXPIRY: ' + localStorage.getItem('accessTokenExpiry'))
     console.log('REFRESH: ' + localStorage.getItem('refreshToken'))
     console.log('R_EXPIRY: ' + localStorage.getItem('refreshTokenExpiry'))
     
