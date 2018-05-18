@@ -27837,19 +27837,20 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         });
 
         res.on('end', () => {
-          console.log('res end: ' + d);
+          console.log('res end');
           if (d != 'false') {
             localStorage.setItem('accessToken', JSON.parse(d)[0]);
             // 1 hour
             localStorage.setItem('accessTokenExpiry', new Date(new Date().getTime() + 60 * 60 * 1000));
             localStorage.setItem('refreshToken', JSON.parse(d)[1]);
-            localStorage.setItem('refreshTokenExpiry', JSON.parse(d)[2]);
+            localStorage.setItem('refreshTokenExpiry', new Date(JSON.parse(d)[2]));
             mainApp.getData();
           } else {
             mainApp.showLogin();
           }
         });
       });
+
       // if refresh token exists, check its expiry
     } else if (localStorage.getItem('refreshTokenExpiry') < new Date()) {
       console.log('refresh token expired');
@@ -27858,11 +27859,10 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     } else {
       // refresh token is valid at this point
       // now check the access token
-      console.log('refresh token valid');
+      console.log('refresh token valid, checking access token');
 
-      console.log('checking access token');
       if (localStorage.getItem('accessTokenExpiry') < new Date()) {
-        console.log('getting new access token');
+        console.log('access token expired, getting new access token');
         http.get('/getnewaccesstoken?rt=' + localStorage.getItem('refreshToken'), res => {
           var d;
           res.on('data', data => {
@@ -27884,12 +27884,14 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   }
 
   getData() {
-    console.log('ACCESS: ' + localStorage.getItem('accessToken'));
+    console.log('ACCESS: ' + localStorage.getItem('accessToken').substring(0, 5) + '...');
     console.log('A_EXPIRY: ' + localStorage.getItem('accessTokenExpiry'));
-    console.log('REFRESH: ' + localStorage.getItem('refreshToken'));
+    console.log('REFRESH: ' + localStorage.getItem('refreshToken').substring(0, 5) + '...');
     console.log('R_EXPIRY: ' + localStorage.getItem('refreshTokenExpiry'));
 
     const token = localStorage.getItem('accessToken');
+
+    // Daily timetable
     http.get('/getdata?token=' + token + '&url=timetable/daytimetable.json', res => {
       res.setEncoding('utf8');
       let data = '';
@@ -27932,6 +27934,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         "groups"    : []              // array of network group memberships
       }
     */
+
     http.get('/getdata?token=' + token + '&url=details/userinfo.json', res => {
       res.setEncoding('utf8');
 
@@ -28037,26 +28040,6 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         }
       });
     });
-
-    /*
-    http.get('/getdata?url=calendar/terms.json?from=' + from + '&to=' + to, (res) => {
-      res.setEncoding('utf8')
-      let d = ''
-      res.on('data', (body) => {
-        d += body
-      })
-      res.on('end', () => {
-        try {
-          window.publicCal = JSON.parse(d)
-        } catch (e) {
-          console.log(e)
-          console.log(d)
-          this.showLogin()
-          return
-        }
-      })
-    })
-    */
 
     /* Participation
       [                              // array of participation information
@@ -56002,7 +55985,8 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       var to = year + '-' + (month > 9 ? month : '0' + month) + '-' + new Date(year, month, 0).getDate();
 
       // make http request
-      http.get('/getdata?url=diarycalendar/events.json?from=' + from + '&to=' + to, res => {
+      const token = localStorage.getItem('accessToken');
+      http.get('/getdata?token=' + token + '&url=diarycalendar/events.json?from=' + from + '&to=' + to, res => {
         res.setEncoding('utf8');
         let d = '';
         res.on('data', body => {
@@ -56149,37 +56133,37 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'li',
                 null,
-                'SUN'
+                'Su'
               ),
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'li',
                 null,
-                'MON'
+                'M'
               ),
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'li',
                 null,
-                'TUE'
+                'Tu'
               ),
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'li',
                 null,
-                'WED'
+                'W'
               ),
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'li',
                 null,
-                'THU'
+                'Th'
               ),
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'li',
                 null,
-                'FRI'
+                'F'
               ),
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'li',
                 null,
-                'SAT'
+                'Sa'
               )
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -56208,60 +56192,6 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
               'ul',
               { className: 'eventsList uk-list uk-list-striped' },
               this.state.eventsToShow.map((item, i) => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(ListItem, { key: i, value: item }))
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'table',
-              { className: 'uk-table uk-table-divider' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'thead',
-                null,
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'tr',
-                  null,
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'th',
-                    { className: 'uk-table-shrink' },
-                    'Time'
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'th',
-                    { className: 'uk-table-auto' },
-                    'Title'
-                  )
-                )
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'tbody',
-                null,
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'tr',
-                  null,
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'td',
-                    null,
-                    'Table Data'
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'td',
-                    null,
-                    'Table Data'
-                  )
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'tr',
-                  null,
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'td',
-                    null,
-                    'Table Data'
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'td',
-                    null,
-                    'Table Data'
-                  )
-                )
-              )
             )
           )
         )

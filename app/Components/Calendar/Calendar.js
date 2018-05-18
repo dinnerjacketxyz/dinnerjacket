@@ -117,7 +117,8 @@ class Calendar extends Component {
       var to = year + '-' + (month > 9 ? month : '0' + month) + '-' + (new Date(year, month, 0).getDate())
       
       // make http request
-      http.get('/getdata?url=diarycalendar/events.json?from=' + from + '&to=' + to, (res) => {
+      const token = localStorage.getItem('accessToken')
+      http.get('/getdata?token=' + token + '&url=diarycalendar/events.json?from=' + from + '&to=' + to, (res) => {
         res.setEncoding('utf8')
         let d = ''
         res.on('data', (body) => {
@@ -225,13 +226,13 @@ class Calendar extends Component {
                 </ul>
               </div>
               <ul className="weekdays">
-                <li>SUN</li>
-                <li>MON</li>
-                <li>TUE</li>
-                <li>WED</li>
-                <li>THU</li>
-                <li>FRI</li>
-                <li>SAT</li>
+                <li>Su</li>
+                <li>M</li>
+                <li>Tu</li>
+                <li>W</li>
+                <li>Th</li>
+                <li>F</li>
+                <li>Sa</li>
               </ul>
               <div onClick={this.displayCal.bind(this)}>
                 <ul className="days" onClick={this.monthInput}>
@@ -246,10 +247,11 @@ class Calendar extends Component {
               <ul className="eventsList uk-list uk-list-striped">
                   { (this.state.eventsToShow).map((item, i) => <ListItem key={i} value={item} />) }
               </ul>
-              <table className="uk-table uk-table-divider">
+              {/*}<table className="uk-table uk-table-divider">
                   <thead>
                       <tr>
                           <th className="uk-table-shrink">Time</th>
+                          <th className="uk-table-auto">Subject</th>
                           <th className="uk-table-auto">Title</th>
                       </tr>
                   </thead>
@@ -257,13 +259,15 @@ class Calendar extends Component {
                       <tr>
                           <td>Table Data</td>
                           <td>Table Data</td>
+                          <td>Table Data</td>
                       </tr>
                       <tr>
                           <td>Table Data</td>
                           <td>Table Data</td>
+                          <td>Table Data</td>
                       </tr>
                   </tbody>
-              </table>
+              </table>*/}
             </div>
           </div>
         </div>

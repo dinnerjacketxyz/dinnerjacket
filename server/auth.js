@@ -1,91 +1,77 @@
-const oauth2module = require('simple-oauth2')
 const https = require('https')
+const querystring = require('querystring')
 
 const siteURL = 'http://localhost:3000'
 
 module.exports = (app) => {
   'use strict'
-
-  // Set up OAuth2 parameters
-  const cred = {
-    client: {
-      id: 'DinnerJacket_dev',
-
-      /*
-          *==================================================*
-          |   REPLACE THIS WITH CLIENT SECRET WHEN RUNNING   |
-          *==================================================*
-                                                                */
-      secret: 'lve26aPJH_zzKPHBUrVAcpIGhjQ'
-
-      /*
-          *==================================================*
-          |   REMEMBER TO REMOVE IT AGAIN BEFORE YOU PUSH    |
-          *==================================================*
-                                                                */
-    },
-
-    auth: {
-      tokenHost: 'https://student.sbhs.net.au',
-      tokenPath: '/api/token',
-      authorizePath: '/api/authorize'
-    }
-  }
-  const oauth2 = oauth2module.create(cred)
-
-  const authorizationURI = oauth2.authorizationCode.authorizeURL({
-    // The redirect URI used by the SBHS API for OAuth2
-    redirect_uri: siteURL + '/callback',
-    scope: 'all-ro',
-    state: 'abc'
-  })
-
+  
+  const redirect_uri = siteURL + '/callback'
+  const client_id = 'DinnerJacket_dev'
+  const client_secret = 'lve26aPJH_zzKPHBUrVAcpIGhjQ'
+  
   // redirect to SBHS API to start OAuth2 dance
   app.get('/login', (req, res) => {
-    res.redirect(authorizationURI)
+    console.log('redirecting to SBHS API')
+    res.redirect('https://student.sbhs.net.au/api/authorize?response_type=code&scope=all-ro&state=abc&client_id='+client_id+'&client_secret='+client_secret+'&redirect_uri='+redirect_uri)
   })
 
   /* === TOKEN FORMAT =================================================================*
   |                                                                                    |
-  |  { token:                                                                          |
-  |   { access_token: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',  (40 char alphanum.) |
+  |   {                                                                                |
+  |     access_token: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',  (40 char alphanum.) |
   |     expires_in: 3600,                                                              |
   |     token_type: 'Bearer',                                                          |
   |     scope: 'all-ro',                                                               |
   |     refresh_token: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX', (40 char alphanum.) |
   |     expires_at: '2018-02-24T02:54:54.925Z'                                         |
   |   }                                                                                |
-  |  }                                                                                 |
   |                                                                                    |
   *====================================================================================*/
 
   // SBHS API will redirect to this URL with code
   app.get('/callback', (req, res) => {
-    const code = req.query.code;
-    const options = {
-      code: code,
-      redirect_uri: siteURL + '/callback'
-    }
-    
+    console.log('exchanging auth code for tokens')
     let promise = new Promise( function (resolve, reject) {
-
-      // exchange code for token
-      oauth2.authorizationCode.getToken(options, (error, result) => {
-
-        // handle error
-        if (error) {
-          console.log(error)
-          return res.json(error)
+      const postData = querystring.stringify({
+                        code: req.query.code,
+                        grant_type: 'authorization_code',
+                        client_id: client_id,
+                        client_secret: client_secret,
+                        redirect_uri: siteURL + '/callback'
+                      })
+          
+      const httpsOptions = {
+        hostname: 'student.sbhs.net.au',
+        path: '/api/token',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Length': Buffer.byteLength(postData)
         }
-
-        // use token
-        resolve(oauth2.accessToken.create(result))
+      }
+      
+      const req1 = https.request(httpsOptions, (res1) => {
+        res1.setEncoding('utf8')
+        var body = ''
+        res1.on('data', (data) => {
+          body += data
+        })
+        
+        res1.on('end', ()=> {
+          resolve(body)
+        })
       })
+    
+      // write post data to req.
+      req1.write(postData)
+      req1.end()
+
     })
 
     promise.then(function(result) {
       // store token in user's session
-      req.session.token = result
+      req.session.token = JSON.parse(result)
       // 90 days expiry
       req.session.refreshTokenExpiry = new Date((new Date).getTime() + 90*24*60*60*1000)
       console.log('token stored, redirecting')
@@ -101,7 +87,7 @@ module.exports = (app) => {
     console.log('gettoken: ' + token)
     if ((token != undefined) && (req.session.refreshTokenExpiry != undefined)) {
       console.log('gettoken: sending data')
-      res.send([token.token.access_token, token.token.refresh_token, req.session.refreshTokenExpiry])
+      res.send([token.access_token, token.refresh_token, req.session.refreshTokenExpiry])
     } else {
       console.log('gettoken: sending false')
       res.send(false)
@@ -111,14 +97,12 @@ module.exports = (app) => {
   // called by client to use refresh token to get a new access token
   app.get('/getnewaccesstoken', (req, res) => {
     console.log('getting new access token')
-    console.log(req.query.url)
-    const querystring = require('querystring');
     
     const postData = querystring.stringify({
                        refresh_token: req.query.rt,
                        grant_type: 'refresh_token',
-                       client_id: cred.client.id,
-                       client_secret: cred.client.secret
+                       client_id: client_id,
+                       client_secret: client_secret
                      })
           
     const httpsOptions = {
@@ -175,7 +159,6 @@ module.exports = (app) => {
   app.get('/getdata', (req1, res1) => {
     console.log('getdata: ' + req1.query.url + (req1.query.to != undefined ? '&to=' + req1.query.to : ''))
     var token = req1.query.token
-    console.log(token)
     const httpsOptions = {
       hostname: 'student.sbhs.net.au',
       path: '/api/' + req1.query.url + (req1.query.to != undefined ? '&to=' + req1.query.to : ''),

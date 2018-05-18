@@ -100,32 +100,33 @@ class App extends Component {
         })
         
         res.on('end', () => {
-          console.log('res end: ' + d)
+          console.log('res end')
           if (d != 'false') {
             localStorage.setItem('accessToken', JSON.parse(d)[0])
             // 1 hour
             localStorage.setItem('accessTokenExpiry', new Date((new Date()).getTime() + 60*60*1000))
             localStorage.setItem('refreshToken', JSON.parse(d)[1])
-            localStorage.setItem('refreshTokenExpiry', JSON.parse(d)[2])
+            localStorage.setItem('refreshTokenExpiry', new Date(JSON.parse(d)[2]))
             mainApp.getData()
           } else {
             mainApp.showLogin()
           }
         })
       })
+      
     // if refresh token exists, check its expiry
     } else if (localStorage.getItem('refreshTokenExpiry') < new Date()) {
         console.log('refresh token expired')
         localStorage.clear()
         mainApp.showLogin()
+      
     } else {
       // refresh token is valid at this point
       // now check the access token
-      console.log('refresh token valid')
-    
-      console.log('checking access token')
+      console.log('refresh token valid, checking access token')
+      
       if (localStorage.getItem('accessTokenExpiry') < new Date()) {
-        console.log('getting new access token')
+        console.log('access token expired, getting new access token')
         http.get('/getnewaccesstoken?rt=' + localStorage.getItem('refreshToken'), (res) => {
           var d
           res.on('data', (data) => {
@@ -147,12 +148,14 @@ class App extends Component {
   }
   
   getData() {
-    console.log('ACCESS: ' + localStorage.getItem('accessToken'))
+    console.log('ACCESS: '   + localStorage.getItem('accessToken').substring(0, 5) + '...')
     console.log('A_EXPIRY: ' + localStorage.getItem('accessTokenExpiry'))
-    console.log('REFRESH: ' + localStorage.getItem('refreshToken'))
+    console.log('REFRESH: '  + localStorage.getItem('refreshToken').substring(0, 5) + '...')
     console.log('R_EXPIRY: ' + localStorage.getItem('refreshTokenExpiry'))
     
     const token = localStorage.getItem('accessToken')
+    
+    // Daily timetable
     http.get('/getdata?token=' + token + '&url=timetable/daytimetable.json', (res) => {
       res.setEncoding('utf8')
       let data = ''
@@ -195,6 +198,7 @@ class App extends Component {
         "groups"    : []              // array of network group memberships
       }
     */
+    
     http.get('/getdata?token=' + token + '&url=details/userinfo.json', (res) => {
       res.setEncoding('utf8')
 
@@ -301,26 +305,6 @@ class App extends Component {
       })
     })
     
-    /*
-    http.get('/getdata?url=calendar/terms.json?from=' + from + '&to=' + to, (res) => {
-      res.setEncoding('utf8')
-      let d = ''
-      res.on('data', (body) => {
-        d += body
-      })
-      res.on('end', () => {
-        try {
-          window.publicCal = JSON.parse(d)
-        } catch (e) {
-          console.log(e)
-          console.log(d)
-          this.showLogin()
-          return
-        }
-      })
-    })
-    */
-
     /* Participation
       [                              // array of participation information
         {"year" : "2014",            // year of activity
