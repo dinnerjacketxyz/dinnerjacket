@@ -4,7 +4,7 @@ const http = require('http')
 let input = ''
 
 const ListItem = ({ value }) => (
-  <li>{value}</li>
+  <li id={value}>{value}</li>
 );
 
 class Calendar extends Component {
@@ -200,7 +200,7 @@ class Calendar extends Component {
     // offset first day so it starts on the correct day of week e.g. 1st of month starts on Friday or Tuesday
     const firstOfMonth = new Date(year, month, 1)
     for (var i=0; i < firstOfMonth.getDay(); i++) {
-      days.unshift('')
+      days.unshift(' ')
     }
     
     this.setState( ()=> ({
