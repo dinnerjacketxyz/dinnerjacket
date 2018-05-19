@@ -46,6 +46,7 @@ class Calendar extends Component {
     content.className = 'full vcNavbarParent'
     this.setDaysForMonth((new Date()).getMonth(), (new Date()).getFullYear())
     this.setEvents(this.state.calData[this.state.selectedDay-1])
+    this.highlightSelectedDay(window.d)
   }
  
   componentWillUnmount() {
