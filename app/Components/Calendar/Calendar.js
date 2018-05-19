@@ -102,6 +102,8 @@ class Calendar extends Component {
     } else {
       curMonth += diff
     }
+    let prev = document.getElementById(this.state.days[this.state.selectedDayIndex])
+    prev.className = ''
 
     this.setDaysForMonth(curMonth, curYear)
     
@@ -157,13 +159,21 @@ class Calendar extends Component {
     
     // unselect selected day
     if (this.state.selectedDayIndex != -1) {
+      let prev = document.getElementById(days[this.state.selectedDayIndex])
+      prev.className = ''
+
       days[this.state.selectedDayIndex] = prevDay
+      
     }
     
     // select new day
     for (var i = 0; i < days.length; i++) {
       if (days[i] == newDay) {
         days[i] = (<span className="active">{newDay}</span>)
+
+        let select = document.getElementById(newDay)
+        select.className = 'active'
+        
         this.setState( ()=> ({
           selectedDayIndex: i
         }))

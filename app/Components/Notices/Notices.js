@@ -3,13 +3,17 @@ const http = require('http')
 const css = require('./Notices.css')
 
 let dailyNotices = ''
+window.year = ''
+
 class Notices extends Component {
   constructor(props) {
     super(props)
+  
+    window.year = (window.year = '') ? window.userData['yearGroup']:
 
     this.state = {
       notices: [],
-      year: window.userData['yearGroup'],
+      year: window.year,
       text: 'EXPAND'
     }
     this.init()
