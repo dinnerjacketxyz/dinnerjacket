@@ -19,7 +19,7 @@ class Profile extends Component {
   }
   componentWillUnmount(){
     let content = document.getElementById('content')
-    content.className = 'full vcNavbarParent'
+    content.className = 'full'
   }
 
   componentDidMount() {
@@ -103,7 +103,7 @@ class Profile extends Component {
           <p className='uk-text-center'>{userData.role+' | '+userData.department+' | '+userData.office}</p>
           <ul className='uk-margin-top uk-margin-bottom uk-flex-center' uk-tab='true'>
             <li id='detailsTab' className='uk-active' onClick={() => {this.setState({ content: 'details' })}}><a>Details</a></li>
-            <li id='partTab' onClick={() => {this.setState({ content: 'part' })}} uk-tooltip="title: Experimental; pos: bottom"><a>Participation</a></li>          </ul>
+            <li id='partTab' onClick={() => {this.setState({ content: 'part' })}}><a>Participation</a></li>          </ul>
           <div id='profileContent'>
             {content}
           </div>

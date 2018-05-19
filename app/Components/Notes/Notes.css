@@ -74,6 +74,7 @@ input:focus{
   background: #fff;
   color: #666;
   box-shadow: 0 5px 15px rgba(0,0,0,.08);
+  border-radius: 5px;
   margin-top: 20px!important;
 }
 
