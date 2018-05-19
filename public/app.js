@@ -27861,7 +27861,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       // now check the access token
       console.log('refresh token valid, checking access token');
 
-      if (localStorage.getItem('accessTokenExpiry') < new Date()) {
+      if (new Date(localStorage.getItem('accessTokenExpiry')) < new Date()) {
         console.log('access token expired, getting new access token');
         http.get('/getnewaccesstoken?rt=' + localStorage.getItem('refreshToken'), res => {
           var d;
