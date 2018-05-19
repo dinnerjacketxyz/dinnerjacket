@@ -3,12 +3,6 @@ const http = require('http')
 const css = require('./Notes.css')
 
 let quill
-<<<<<<< HEAD
-=======
-let ref
-let userID
-let interval
->>>>>>> 30bcddb38dc604c12e58ae3f92046d3daf52fb2c
 
 class Notes extends Component {
   constructor(props) {
