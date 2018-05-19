@@ -115,7 +115,7 @@ class App extends Component {
       })
       
     // if refresh token exists, check its expiry
-    } else if (localStorage.getItem('refreshTokenExpiry') < new Date()) {
+    } else if (new Date(localStorage.getItem('refreshTokenExpiry')) < new Date()) {
         console.log('refresh token expired')
         localStorage.clear()
         mainApp.showLogin()
@@ -125,7 +125,7 @@ class App extends Component {
       // now check the access token
       console.log('refresh token valid, checking access token')
       
-      if (localStorage.getItem('accessTokenExpiry') < new Date()) {
+      if (new Date(localStorage.getItem('accessTokenExpiry')) < new Date()) {
         console.log('access token expired, getting new access token')
         http.get('/getnewaccesstoken?rt=' + localStorage.getItem('refreshToken'), (res) => {
           var d
