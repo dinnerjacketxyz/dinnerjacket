@@ -1,4 +1,4 @@
-const https = require('https')
+﻿const https = require('https')
 const querystring = require('querystring')
 
 const siteURL = 'http://localhost:3000'
@@ -8,7 +8,7 @@ module.exports = (app) => {
   
   const redirect_uri = siteURL + '/callback'
   const client_id = 'DinnerJacket_dev'
-  const client_secret = 'lve26aPJH_zzKPHBUrVAcpIGhjQ'
+  const client_secret = 'lve26aPJH_zzKPHBUrVAcpIGhjQ' // OOP pls no delet isacs
   
   // redirect to SBHS API to start OAuth2 dance
   app.get('/login', (req, res) => {

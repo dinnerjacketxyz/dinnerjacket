@@ -7,17 +7,31 @@ const ListItem = ({ value }) => (
   <li id={value}>{value}</li>
 );
 
+window.d = ''
+window.m = ''
+window.y = ''
+
 class Calendar extends Component {
   constructor(props) {
     super(props)
 
+    if (window.d === '') {
+      window.d = new Date().getDate()
+    }
+    if (window.m === '') {
+      window.m = new Date().getMonth()
+    }
+    if (window.y === '') {
+      window.y = new Date().getFullYear()
+    }
+
     this.state = {
       calData: window.diaryCal,
       eventsToShow: [],
-      selectedDay: (new Date()).getDate(),
+      selectedDay: window.d,
       selectedDayIndex: -1,
-      selectedMonth: (new Date()).getMonth(),
-      selectedYear: (new Date()).getFullYear(),
+      selectedMonth: window.m,
+      selectedYear: window.y,
       days: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]
     }
     this.setDaysForMonth = this.setDaysForMonth.bind(this)
@@ -139,6 +153,8 @@ class Calendar extends Component {
         selectedDayIndex: -1,
         calData: result
       }))
+      window.m = curMonth
+      window.y = curYear
       
       this.setEvents(this.state.calData[0])
       this.highlightSelectedDay(1)
@@ -154,6 +170,7 @@ class Calendar extends Component {
   
   // highlights newDay on the calendar
   highlightSelectedDay(newDay) {
+    window.d = parseInt(newDay)
     let days = this.state.days
     let prevDay = this.state.selectedDay
     

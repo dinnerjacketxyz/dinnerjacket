@@ -415,7 +415,7 @@ class App extends Component {
   
   showCalendar() {
     //console.log('Calendar tab clicked')
-    if (window.calendar !== '') {
+    if (window.diaryCal !== '') {
       let visible = this.state.visible
       this.setState({ visible: window.STATES.CALENDAR })
       this.selectedNavbar(window.STATES.CALENDAR)

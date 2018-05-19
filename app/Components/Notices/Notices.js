@@ -9,7 +9,9 @@ class Notices extends Component {
   constructor(props) {
     super(props)
   
-    window.year = (window.year = '') ? window.userData['yearGroup']:
+    if (window.year === '') {
+      window.year = window.userData['yearGroup']
+    }
 
     this.state = {
       notices: [],
@@ -21,7 +23,7 @@ class Notices extends Component {
 
   componentDidMount() {
     let selector = document.getElementById('yearSelector')
-    selector.value = window.userData['yearGroup']
+    selector.value = window.year
   }
 
   strip(html) {
@@ -113,6 +115,7 @@ class Notices extends Component {
   selectYear() {
     let selector = document.getElementById('yearSelector')
     this.state.year = selector.options[selector.selectedIndex].text
+    window.year = this.state.year
     let a = this.state.a
     this.setState({ a: 'test' })
     console.log(this.state.year)
