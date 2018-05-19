@@ -211,7 +211,7 @@ class Calendar extends Component {
   render() {
     return (
       <div className='flex-container uk-width-1-1 vcNavbarCard'>
-        <div className="uk-grid-collapse uk-grid two uk-margin-top uk-grid-match" uk-grid='true'>
+        <div className="uk-grid-collapse uk-grid two uk-grid-match" uk-grid='true'>
           <div  className='cal uk-card uk-card-default uk-animation-slide-top-small uk-width-expand'>
             <div>
               <div className="month">      

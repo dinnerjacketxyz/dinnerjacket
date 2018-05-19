@@ -87,7 +87,8 @@
 }
 
 .events {
-  overflow-y: auto;
+  overflow-y: scroll;
+  height: 482px;
 }
 
 
@@ -113,4 +114,14 @@
 @media screen and (max-width: 420px) {
 /*  .weekdays li, .days li {width: 12.5%;}*/
   .days li .active {padding: 2px;}
+}
+
+@media (max-width: 639px) {
+  .events {
+    overflow-y: visible;
+    height: auto;
+  }
+  .uk-grid{
+    margin-top: 20px!important;
+  }
 }

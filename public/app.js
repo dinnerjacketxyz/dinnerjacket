@@ -30275,10 +30275,7 @@ class Notes extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         toolbar: true
       },
       theme: 'snow', // OK I CHANGED IT FRICKER !
-      placeholder: `Write any notes here! 
-        Notes are encoded and are not visible to anyone else. 
-        Notes are currently stored locally on your device.
-        In future, notes will seamlessly sync across all your devices.`
+      placeholder: "Write any notes here! Notes are encoded and are not visible to anyone else. Notes are currently stored locally on your device. In future, notes will seamlessly sync across all your devices."
     });
 
     if (localStorage.getItem('content') != '') {
@@ -30865,24 +30862,24 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     let prevDay = this.state.selectedDay;
 
     // unselect selected day
-    console.log(newDay);
-    console.log(prevDay);
+    if (this.state.selectedDayIndex != -1) {
+      days[this.state.selectedDayIndex] = prevDay;
+    }
 
     // select new day
     for (var i = 0; i < days.length; i++) {
       if (days[i] == newDay) {
-        console.log(days[i]);
+        days[i] = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'span',
+          { className: 'active' },
+          newDay
+        );
         this.setState(() => ({
           selectedDayIndex: i
         }));
-      } else {
-        let unselect = document.getElementById(days[i]);
-        unselect.className = '';
+        break;
       }
     }
-
-    let select = document.getElementById(newDay);
-    select.className = 'active';
 
     this.setState(() => ({
       selectedDay: newDay,
@@ -30932,7 +30929,7 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       { className: 'flex-container uk-width-1-1 vcNavbarCard' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
-        { className: 'uk-grid-collapse uk-grid two uk-margin-top uk-grid-match', 'uk-grid': 'true' },
+        { className: 'uk-grid-collapse uk-grid two uk-grid-match', 'uk-grid': 'true' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
           { className: 'cal uk-card uk-card-default uk-animation-slide-top-small uk-width-expand' },
@@ -31083,7 +31080,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, ".flex-container {\r\n  justify-content: center;\r\n  display: flex;\r\n}\r\n\r\n.two {\r\n  width: 800px;\r\n}\r\n\r\n.flex-child {\r\n  margin-top: 20px!important;\r\n}\r\n\r\n.month {\r\n  padding: 70px 25px;\r\n  background: #2dc0d5;\r\n  text-align: center;\r\n}\r\n\r\n.month ul {\r\n  margin: 0;\r\n  padding: 0;\r\n}\r\n\r\n.month ul li {\r\n  color: white;\r\n  font-size: 25px;\r\n  text-transform: uppercase;\r\n  letter-spacing: 3px;\r\n}\r\n\r\n.month .prev {\r\n  float: left;\r\n  margin-top: 10px;\r\n}\r\n\r\n.month .next {\r\n  float: right;\r\n  margin-top: 10px;\r\n}\r\n\r\n.weekdays {\r\n  margin: 0;\r\n  padding: 10px;\r\n  background-color: #f8f8f8;\r\n}\r\n\r\n.weekdays li {\r\n  display: inline-block;\r\n  width: 14.2%;\r\n  color: #666;\r\n  text-align: center;\r\n  margin: 10px 0 10px 0;\r\n}\r\n\r\n.days {\r\n  padding: 10px;\r\n  background: #fff;\r\n  margin: 0;\r\n}\r\n\r\n.month li {\r\n  list-style-type: none;\r\n}\r\n\r\n.days li {\r\n  list-style-type: none;\r\n  display: inline-block;\r\n  width: 14.2%;\r\n  text-align: center;\r\n  padding-top: 10px;\r\n  padding-bottom: 10px;\r\n  color: #777;\r\n}\r\n\r\n.days li:hover, .days li:focus, .prev:hover, .prev:focus, .next:hover, .next:focus {\r\n  background-color: #e0e0e0;\r\n  transition: background-color 100ms linear;\r\n}\r\n\r\n.weekdays li{\r\n  font-weight: 700;\r\n}\r\n\r\n.eventsList {\r\n  text-align: left;\r\n}\r\n\r\n.events {\r\n  overflow-y: auto;\r\n}\r\n\r\n\r\n.days .active {\r\n  background: #2dc0d5;\r\n  color: white !important\r\n}\r\n\r\n.days {\r\n  text-align: left!important;\r\n}\r\n\r\n.cal {\r\n  height: min-content!important;\r\n}\r\n\r\n.events td {\r\n  text-align: left;\r\n}\r\n\r\n\r\n\r\n@media screen and (max-width: 420px) {\r\n/*  .weekdays li, .days li {width: 12.5%;}*/\r\n  .days li .active {padding: 2px;}\r\n}\r\n", ""]);
+exports.push([module.i, ".flex-container {\r\n  justify-content: center;\r\n  display: flex;\r\n}\r\n\r\n.two {\r\n  width: 800px;\r\n}\r\n\r\n.flex-child {\r\n  margin-top: 20px!important;\r\n}\r\n\r\n.month {\r\n  padding: 70px 25px;\r\n  background: #2dc0d5;\r\n  text-align: center;\r\n}\r\n\r\n.month ul {\r\n  margin: 0;\r\n  padding: 0;\r\n}\r\n\r\n.month ul li {\r\n  color: white;\r\n  font-size: 25px;\r\n  text-transform: uppercase;\r\n  letter-spacing: 3px;\r\n}\r\n\r\n.month .prev {\r\n  float: left;\r\n  margin-top: 10px;\r\n}\r\n\r\n.month .next {\r\n  float: right;\r\n  margin-top: 10px;\r\n}\r\n\r\n.weekdays {\r\n  margin: 0;\r\n  padding: 10px;\r\n  background-color: #f8f8f8;\r\n}\r\n\r\n.weekdays li {\r\n  display: inline-block;\r\n  width: 14.2%;\r\n  color: #666;\r\n  text-align: center;\r\n  margin: 10px 0 10px 0;\r\n}\r\n\r\n.days {\r\n  padding: 10px;\r\n  background: #fff;\r\n  margin: 0;\r\n}\r\n\r\n.month li {\r\n  list-style-type: none;\r\n}\r\n\r\n.days li {\r\n  list-style-type: none;\r\n  display: inline-block;\r\n  width: 14.2%;\r\n  text-align: center;\r\n  padding-top: 10px;\r\n  padding-bottom: 10px;\r\n  color: #777;\r\n}\r\n\r\n.days li:hover, .days li:focus, .prev:hover, .prev:focus, .next:hover, .next:focus {\r\n  background-color: #e0e0e0;\r\n  transition: background-color 100ms linear;\r\n}\r\n\r\n.weekdays li{\r\n  font-weight: 700;\r\n}\r\n\r\n.eventsList {\r\n  text-align: left;\r\n}\r\n\r\n.events {\r\n  overflow-y: scroll;\r\n  height: 482px;\r\n}\r\n\r\n\r\n.days .active {\r\n  background: #2dc0d5;\r\n  color: white !important\r\n}\r\n\r\n.days {\r\n  text-align: left!important;\r\n}\r\n\r\n.cal {\r\n  height: min-content!important;\r\n}\r\n\r\n.events td {\r\n  text-align: left;\r\n}\r\n\r\n\r\n\r\n@media screen and (max-width: 420px) {\r\n/*  .weekdays li, .days li {width: 12.5%;}*/\r\n  .days li .active {padding: 2px;}\r\n}\r\n\r\n@media (max-width: 639px) {\r\n  .events {\r\n    overflow-y: visible;\r\n    height: auto;\r\n  }\r\n  .uk-grid{\r\n    margin-top: 20px!important;\r\n  }\r\n}\r\n", ""]);
 
 // exports
 

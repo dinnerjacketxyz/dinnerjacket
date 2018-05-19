@@ -23,10 +23,7 @@ class Notes extends Component {
       },
       theme: 'snow', // OK I CHANGED IT FRICKER !
       placeholder:
-        `Write any notes here! 
-        Notes are encoded and are not visible to anyone else. 
-        Notes are currently stored locally on your device.
-        In future, notes will seamlessly sync across all your devices.`
+        "Write any notes here! Notes are encoded and are not visible to anyone else. Notes are currently stored locally on your device. In future, notes will seamlessly sync across all your devices."
     })
 
     if (localStorage.getItem('content') != '') {
