@@ -370,7 +370,7 @@ class App extends Component {
 
     Li.className = 'uk-animation-toggle uk-active'
     P.innerText = ''
-    A.className = 'uk-box-shadow-hover-medium uk-card-primary'
+    A.className = 'uk-box-shadow-hover-medium navbarActive'
     if (nameArray[num]!='Side') {
       B.innerText = nameArray[num]
     } else {

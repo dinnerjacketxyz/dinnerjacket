@@ -17,6 +17,7 @@
   position: relative;
   box-sizing: border-box;
   transition: box-shadow .1s ease-in-out;
+  border-radius: 5px;
   width: 550px;
   margin-top: 20px;
 }

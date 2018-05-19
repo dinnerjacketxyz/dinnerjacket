@@ -2,11 +2,7 @@ import React, { Component } from 'react'
 const http = require('http')
 const css = require('./Notes.css')
 
-const firebase = require('firebase')
-const fb = require('./fb')(firebase)
-
 let quill
-let database = firebase.database()
 let ref
 let userID
 let interval

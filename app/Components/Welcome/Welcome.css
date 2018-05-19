@@ -15,7 +15,8 @@
 #welcomeContent{
   padding: 30px;
   width: 450px!important;
-  box-shadow:0 5px 15px rgba(0,0,0,.08)
+  box-shadow:0 5px 15px rgba(0,0,0,.08);
+  border-radius: 5px;
 }
 #welcomeTitle{
   font-size: 4rem;
@@ -41,6 +42,7 @@
 #loginButton {
   margin-bottom: 20px!important;
   margin-top: 20px!important;
+  border-radius: 5px;
 }
 #welcomelogo {
   pointer-events: none;
