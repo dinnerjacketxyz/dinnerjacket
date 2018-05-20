@@ -726,7 +726,6 @@ function updateLink (link, options, obj) {
 /* 4 */
 /***/ (function(module, exports) {
 
-<<<<<<< HEAD
 var g;
 
 // This works in non-strict mode
@@ -748,29 +747,6 @@ try {
 // easier to handle this case. if(!global) { ...}
 
 module.exports = g;
-=======
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
 
 
 /***/ }),
@@ -807,15 +783,7 @@ if (typeof Object.create === 'function') {
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var ClientRequest = __webpack_require__(55)
-<<<<<<< HEAD
-<<<<<<< HEAD
 var response = __webpack_require__(25)
-=======
-var IncomingMessage = __webpack_require__(25)
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
-var response = __webpack_require__(25)
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 var extend = __webpack_require__(66)
 var statusCodes = __webpack_require__(67)
 var url = __webpack_require__(68)
@@ -862,29 +830,13 @@ http.get = function get (opts, cb) {
 }
 
 http.ClientRequest = ClientRequest
-<<<<<<< HEAD
-<<<<<<< HEAD
 http.IncomingMessage = response.IncomingMessage
-=======
-http.IncomingMessage = IncomingMessage
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
-http.IncomingMessage = response.IncomingMessage
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 
 http.Agent = function () {}
 http.Agent.defaultMaxSockets = 4
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 http.globalAgent = new http.Agent()
 
-=======
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
-http.globalAgent = new http.Agent()
-
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 http.STATUS_CODES = statusCodes
 
 http.METHODS = [
@@ -976,10 +928,6 @@ var Writable = __webpack_require__(31);
 
 util.inherits(Duplex, Readable);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 {
   // avoid scope creep, the keys array can then be collected
   var keys = objectKeys(Writable.prototype);
@@ -987,15 +935,6 @@ util.inherits(Duplex, Readable);
     var method = keys[v];
     if (!Duplex.prototype[method]) Duplex.prototype[method] = Writable.prototype[method];
   }
-<<<<<<< HEAD
-=======
-var keys = objectKeys(Writable.prototype);
-for (var v = 0; v < keys.length; v++) {
-  var method = keys[v];
-  if (!Duplex.prototype[method]) Duplex.prototype[method] = Writable.prototype[method];
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 }
 
 function Duplex(options) {
@@ -1014,10 +953,6 @@ function Duplex(options) {
   this.once('end', onend);
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 Object.defineProperty(Duplex.prototype, 'writableHighWaterMark', {
   // making it explicit this property is not enumerable
   // because otherwise some prototype manipulation in
@@ -1028,11 +963,6 @@ Object.defineProperty(Duplex.prototype, 'writableHighWaterMark', {
   }
 });
 
-<<<<<<< HEAD
-=======
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 // the no-half-open enforcer
 function onend() {
   // if we allow half-open state, or if the writable side ended,
@@ -1076,18 +1006,6 @@ Duplex.prototype._destroy = function (err, cb) {
   pna.nextTick(cb, err);
 };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-function forEach(xs, f) {
-  for (var i = 0, l = xs.length; i < l; i++) {
-    f(xs[i], i);
-  }
-}
-
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 /***/ }),
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -3877,11 +3795,7 @@ var rStates = exports.readyStates = {
 	DONE: 4
 }
 
-<<<<<<< HEAD
 var IncomingMessage = exports.IncomingMessage = function (xhr, response, mode, fetchTimer) {
-=======
-var IncomingMessage = exports.IncomingMessage = function (xhr, response, mode) {
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
 	var self = this
 	stream.Readable.call(self)
 
@@ -3916,11 +3830,7 @@ var IncomingMessage = exports.IncomingMessage = function (xhr, response, mode) {
 				write: function (chunk) {
 					return new Promise(function (resolve, reject) {
 						if (self._destroyed) {
-<<<<<<< HEAD
 							reject()
-=======
-							return
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
 						} else if(self.push(new Buffer(chunk))) {
 							resolve()
 						} else {
@@ -3929,10 +3839,7 @@ var IncomingMessage = exports.IncomingMessage = function (xhr, response, mode) {
 					})
 				},
 				close: function () {
-<<<<<<< HEAD
 					global.clearTimeout(fetchTimer)
-=======
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
 					if (!self._destroyed)
 						self.push(null)
 				},
@@ -3943,15 +3850,11 @@ var IncomingMessage = exports.IncomingMessage = function (xhr, response, mode) {
 			})
 
 			try {
-<<<<<<< HEAD
 				response.body.pipeTo(writable).catch(function (err) {
 					global.clearTimeout(fetchTimer)
 					if (!self._destroyed)
 						self.emit('error', err)
 				})
-=======
-				response.body.pipeTo(writable)
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
 				return
 			} catch (e) {} // pipeTo method isn't defined. Can't find a better way to feature test this
 		}
@@ -3962,21 +3865,14 @@ var IncomingMessage = exports.IncomingMessage = function (xhr, response, mode) {
 				if (self._destroyed)
 					return
 				if (result.done) {
-<<<<<<< HEAD
 					global.clearTimeout(fetchTimer)
-=======
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
 					self.push(null)
 					return
 				}
 				self.push(new Buffer(result.value))
 				read()
-<<<<<<< HEAD
 			}).catch(function (err) {
 				global.clearTimeout(fetchTimer)
-=======
-			}).catch(function(err) {
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
 				if (!self._destroyed)
 					self.emit('error', err)
 			})
@@ -5010,10 +4906,6 @@ Readable.prototype.wrap = function (stream) {
   return this;
 };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 Object.defineProperty(Readable.prototype, 'readableHighWaterMark', {
   // making it explicit this property is not enumerable
   // because otherwise some prototype manipulation in
@@ -5024,11 +4916,6 @@ Object.defineProperty(Readable.prototype, 'readableHighWaterMark', {
   }
 });
 
-<<<<<<< HEAD
-=======
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 // exposed for testing purposes only.
 Readable._fromList = fromList;
 
@@ -5154,18 +5041,6 @@ function endReadableNT(state, stream) {
   }
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-function forEach(xs, f) {
-  for (var i = 0, l = xs.length; i < l; i++) {
-    f(xs[i], i);
-  }
-}
-
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 function indexOf(xs, x) {
   for (var i = 0, l = xs.length; i < l; i++) {
     if (xs[i] === x) return i;
@@ -5944,10 +5819,6 @@ function decodeChunk(state, chunk, encoding) {
   return chunk;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 Object.defineProperty(Writable.prototype, 'writableHighWaterMark', {
   // making it explicit this property is not enumerable
   // because otherwise some prototype manipulation in
@@ -5958,11 +5829,6 @@ Object.defineProperty(Writable.prototype, 'writableHighWaterMark', {
   }
 });
 
-<<<<<<< HEAD
-=======
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 // if we're already writing something, then just put this
 // in the queue, and wait our turn.  Otherwise, call _write
 // If we return false, then we need a drain event, so set that flag.
@@ -6277,10 +6143,6 @@ Writable.prototype._destroy = function (err, cb) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -6308,14 +6170,6 @@ Writable.prototype._destroy = function (err, cb) {
 
 var Buffer = __webpack_require__(14).Buffer;
 /*</replacement>*/
-<<<<<<< HEAD
-=======
-
-
-var Buffer = __webpack_require__(14).Buffer;
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 
 var isEncoding = Buffer.isEncoding || function (encoding) {
   encoding = '' + encoding;
@@ -6427,24 +6281,10 @@ StringDecoder.prototype.fillLast = function (buf) {
 };
 
 // Checks the type of a UTF-8 byte, whether it's ASCII, a leading byte, or a
-<<<<<<< HEAD
-<<<<<<< HEAD
 // continuation byte. If an invalid byte is detected, -2 is returned.
 function utf8CheckByte(byte) {
   if (byte <= 0x7F) return 0;else if (byte >> 5 === 0x06) return 2;else if (byte >> 4 === 0x0E) return 3;else if (byte >> 3 === 0x1E) return 4;
   return byte >> 6 === 0x02 ? -1 : -2;
-=======
-// continuation byte.
-function utf8CheckByte(byte) {
-  if (byte <= 0x7F) return 0;else if (byte >> 5 === 0x06) return 2;else if (byte >> 4 === 0x0E) return 3;else if (byte >> 3 === 0x1E) return 4;
-  return -1;
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
-// continuation byte. If an invalid byte is detected, -2 is returned.
-function utf8CheckByte(byte) {
-  if (byte <= 0x7F) return 0;else if (byte >> 5 === 0x06) return 2;else if (byte >> 4 === 0x0E) return 3;else if (byte >> 3 === 0x1E) return 4;
-  return byte >> 6 === 0x02 ? -1 : -2;
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 }
 
 // Checks at most 3 bytes at the end of a Buffer in order to detect an
@@ -6458,29 +6298,13 @@ function utf8CheckIncomplete(self, buf, i) {
     if (nb > 0) self.lastNeed = nb - 1;
     return nb;
   }
-<<<<<<< HEAD
-<<<<<<< HEAD
   if (--j < i || nb === -2) return 0;
-=======
-  if (--j < i) return 0;
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
-  if (--j < i || nb === -2) return 0;
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
   nb = utf8CheckByte(buf[j]);
   if (nb >= 0) {
     if (nb > 0) self.lastNeed = nb - 2;
     return nb;
   }
-<<<<<<< HEAD
-<<<<<<< HEAD
   if (--j < i || nb === -2) return 0;
-=======
-  if (--j < i) return 0;
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
-  if (--j < i || nb === -2) return 0;
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
   nb = utf8CheckByte(buf[j]);
   if (nb >= 0) {
     if (nb > 0) {
@@ -6494,15 +6318,7 @@ function utf8CheckIncomplete(self, buf, i) {
 // Validates as many continuation bytes for a multi-byte UTF-8 character as
 // needed or are available. If we see a non-continuation byte where we expect
 // one, we "replace" the validated continuation bytes we've seen so far with
-<<<<<<< HEAD
-<<<<<<< HEAD
 // a single UTF-8 replacement character ('\ufffd'), to match v8's UTF-8 decoding
-=======
-// UTF-8 replacement characters ('\ufffd'), to match v8's UTF-8 decoding
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
-// a single UTF-8 replacement character ('\ufffd'), to match v8's UTF-8 decoding
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 // behavior. The continuation byte check is included three times in the case
 // where all of the continuation bytes for a character exist in the same buffer.
 // It is also done this way as a slight performance increase instead of using a
@@ -6510,41 +6326,17 @@ function utf8CheckIncomplete(self, buf, i) {
 function utf8CheckExtraBytes(self, buf, p) {
   if ((buf[0] & 0xC0) !== 0x80) {
     self.lastNeed = 0;
-<<<<<<< HEAD
-<<<<<<< HEAD
     return '\ufffd';
-=======
-    return '\ufffd'.repeat(p);
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
-    return '\ufffd';
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
   }
   if (self.lastNeed > 1 && buf.length > 1) {
     if ((buf[1] & 0xC0) !== 0x80) {
       self.lastNeed = 1;
-<<<<<<< HEAD
-<<<<<<< HEAD
       return '\ufffd';
-=======
-      return '\ufffd'.repeat(p + 1);
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
-      return '\ufffd';
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
     }
     if (self.lastNeed > 2 && buf.length > 2) {
       if ((buf[2] & 0xC0) !== 0x80) {
         self.lastNeed = 2;
-<<<<<<< HEAD
-<<<<<<< HEAD
         return '\ufffd';
-=======
-        return '\ufffd'.repeat(p + 2);
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
-        return '\ufffd';
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
       }
     }
   }
@@ -6575,27 +6367,11 @@ function utf8Text(buf, i) {
   return buf.toString('utf8', i, end);
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 // For UTF-8, a replacement character is added when ending on a partial
 // character.
 function utf8End(buf) {
   var r = buf && buf.length ? this.write(buf) : '';
   if (this.lastNeed) return r + '\ufffd';
-=======
-// For UTF-8, a replacement character for each buffered byte of a (partial)
-// character needs to be added to the output.
-function utf8End(buf) {
-  var r = buf && buf.length ? this.write(buf) : '';
-  if (this.lastNeed) return r + '\ufffd'.repeat(this.lastTotal - this.lastNeed);
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
-// For UTF-8, a replacement character is added when ending on a partial
-// character.
-function utf8End(buf) {
-  var r = buf && buf.length ? this.write(buf) : '';
-  if (this.lastNeed) return r + '\ufffd';
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
   return r;
 }
 
@@ -26008,6 +25784,10 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
   logout() {
     window.location.href = '/logout';
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('accessTokenExpiry');
+    localStorage.removeItem('refreshTokenExpiry');
     //DONTCLEARLOCALSTORAGEPK
     //REMOVEITEMSINDIVIDUALLYIFYOUNEEDTO
     localStorage.setItem('clicked', false);
@@ -26359,15 +26139,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-<<<<<<< HEAD
-<<<<<<< HEAD
-exports.push([module.i, "/*Vertical centering welcome card*/\r\n.vcWelcomeParent {\r\n  display: flex;\r\n  margin: 0 auto;\r\n  min-height: 100%;\r\n}\r\n.vcWelcomeCard {\r\n  margin: auto;\r\n  justify-content: center;\r\n  display: flex;\r\n  text-align: center!important;\r\n}\r\n\r\n/*Onscreen elements of the welcome page*/\r\n#welcomeContent{\r\n  padding: 30px;\r\n  width: 450px!important;\r\n  box-shadow:0 5px 15px rgba(0,0,0,.08);\r\n  border-radius: 5px;\r\n}\r\n#welcomeTitle{\r\n  font-size: 4rem;\r\n  line-height: 1.2;\r\n}\r\n#welcomeLabel{\r\n  background-color: #f0506e;\r\n  color: #fff;\r\n  display: inline-block;\r\n  padding: 0 10px;\r\n  line-height: 1.5;\r\n  font-size: .875rem;\r\n  color: #fff;\r\n  vertical-align: middle;\r\n  white-space: nowrap;\r\n  border-radius: 2px;\r\n  text-transform: uppercase;\r\n}\r\n#welcomeText{\r\n  margin-top: 20px!important;\r\n  margin-bottom: 20px!important\r\n}\r\n#loginButton {\r\n  margin-bottom: 20px!important;\r\n  margin-top: 20px!important;\r\n  border-radius: 5px;\r\n}\r\n#welcomelogo {\r\n  pointer-events: none;\r\n}\r\n\r\n/*Media rules*/\r\n@media screen and (max-width: 510px) {\r\n  .vcWelcomeCard{\r\n    width:100%;\r\n  }\r\n  #welcomeContent{\r\n    padding: 0px;\r\n    box-shadow: none;\r\n  }\r\n  #welcomeText {\r\n    margin-left: 30px;\r\n    margin-right: 30px;\r\n  }\r\n  #welcomeTitle{\r\n    font-size:3rem;\r\n    line-height:1.3\r\n  }\r\n  #welcomelogo{\r\n    width: 100px;\r\n  }\r\n  #welcomeLabel,#loginButton,#welcomeContent{\r\n    font-size: 13px;\r\n  }\r\n}\r\n@media screen and (max-width: 310px) {\r\n  #welcomeTitle{\r\n    font-size:2.5rem;line-height:1.4 \r\n  }\r\n  #welcomeLabel,#loginButton,#welcomeContent{\r\n    font-size: 12px;\r\n  }\r\n  #welcomelogo{\r\n    width: 90px;\r\n  }\r\n}\r\n@media screen and (max-width: 255px) {\r\n  #welcomeTitle{\r\n    font-size:1.5rem;line-height:1.4\r\n  }\r\n  #welcomeLabel,#loginButton,#welcomeContent{\r\n    font-size: 10px;\r\n  }\r\n  #welcomelogo{\r\n    width: 80px;\r\n  }\r\n}\r\n\r\n@media screen and (max-height: 490px) {\r\n  #welcomeContent{\r\n    padding: 0px;\r\n    box-shadow: none;\r\n  }\r\n  #welcomeText {\r\n    margin-top: 10px!important;\r\n    margin-bottom: 10px!important;\r\n  }\r\n  #welcomeTitle{\r\n    font-size:3rem;\r\n    line-height:1.3\r\n  }\r\n  #welcomelogo{\r\n    width: 100px;\r\n  }\r\n  #welcomeLabel,#loginButton,#welcomeContent{\r\n    font-size: 13px;\r\n  }\r\n  #loginButton {\r\n    margin-top: 10px!important;\r\n    margin-bottom: 10px!important;\r\n  }\r\n}\r\n\r\n", ""]);
-=======
-exports.push([module.i, "/*Vertical centering welcome card*/\n.vcWelcomeParent {\n  display: flex;\n  margin: 0 auto;\n  min-height: 100%;\n}\n.vcWelcomeCard {\n  margin: auto;\n  justify-content: center;\n  display: flex;\n  text-align: center!important;\n}\n\n/*Onscreen elements of the welcome page*/\n#welcomeContent{\n  padding: 30px;\n  width: 450px!important;\n  box-shadow:0 5px 15px rgba(0,0,0,.08);\n  border-radius: 5px;\n}\n#welcomeTitle{\n  font-size: 4rem;\n  line-height: 1.2;\n}\n#welcomeLabel{\n  background-color: #f0506e;\n  color: #fff;\n  display: inline-block;\n  padding: 0 10px;\n  line-height: 1.5;\n  font-size: .875rem;\n  color: #fff;\n  vertical-align: middle;\n  white-space: nowrap;\n  border-radius: 2px;\n  text-transform: uppercase;\n}\n#welcomeText{\n  margin-top: 20px!important;\n  margin-bottom: 20px!important\n}\n#loginButton {\n  margin-bottom: 20px!important;\n  margin-top: 20px!important;\n  border-radius: 5px;\n}\n#welcomelogo {\n  pointer-events: none;\n}\n\n/*Media rules*/\n@media screen and (max-width: 510px) {\n  .vcWelcomeCard{\n    width:100%;\n  }\n  #welcomeContent{\n    padding: 0px;\n    box-shadow: none;\n  }\n  #welcomeText {\n    margin-left: 30px;\n    margin-right: 30px;\n  }\n  #welcomeTitle{\n    font-size:3rem;\n    line-height:1.3\n  }\n  #welcomelogo{\n    width: 100px;\n  }\n  #welcomeLabel,#loginButton,#welcomeContent{\n    font-size: 13px;\n  }\n}\n@media screen and (max-width: 310px) {\n  #welcomeTitle{\n    font-size:2.5rem;line-height:1.4 \n  }\n  #welcomeLabel,#loginButton,#welcomeContent{\n    font-size: 12px;\n  }\n  #welcomelogo{\n    width: 90px;\n  }\n}\n@media screen and (max-width: 255px) {\n  #welcomeTitle{\n    font-size:1.5rem;line-height:1.4\n  }\n  #welcomeLabel,#loginButton,#welcomeContent{\n    font-size: 10px;\n  }\n  #welcomelogo{\n    width: 80px;\n  }\n}\n\n@media screen and (max-height: 490px) {\n  #welcomeContent{\n    padding: 0px;\n    box-shadow: none;\n  }\n  #welcomeText {\n    margin-top: 10px!important;\n    margin-bottom: 10px!important;\n  }\n  #welcomeTitle{\n    font-size:3rem;\n    line-height:1.3\n  }\n  #welcomelogo{\n    width: 100px;\n  }\n  #welcomeLabel,#loginButton,#welcomeContent{\n    font-size: 13px;\n  }\n  #loginButton {\n    margin-top: 10px!important;\n    margin-bottom: 10px!important;\n  }\n}\n\n", ""]);
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
 exports.push([module.i, "/*Vertical centering welcome card*/\r\n.vcWelcomeParent {\r\n  display: flex;\r\n  margin: 0 auto;\r\n  min-height: 100%;\r\n}\r\n.vcWelcomeCard {\r\n  margin: auto;\r\n  justify-content: center;\r\n  display: flex;\r\n  text-align: center!important;\r\n}\r\n\r\n/*Onscreen elements of the welcome page*/\r\n#welcomeContent{\r\n  padding: 30px;\r\n  width: 450px!important;\r\n  box-shadow:0 5px 15px rgba(0,0,0,.08);\r\n  border-radius: 5px;\r\n}\r\n#welcomeTitle{\r\n  font-size: 4rem;\r\n  line-height: 1.2;\r\n}\r\n#welcomeLabel{\r\n  background-color: #faa05a;\r\n  color: #fff;\r\n  display: inline-block;\r\n  padding: 0 10px;\r\n  line-height: 1.5;\r\n  font-size: .875rem;\r\n  color: #fff;\r\n  vertical-align: middle;\r\n  white-space: nowrap;\r\n  border-radius: 2px;\r\n  text-transform: uppercase;\r\n}\r\n#welcomeText{\r\n  margin-top: 20px!important;\r\n  margin-bottom: 20px!important\r\n}\r\n#loginButton {\r\n  margin-bottom: 20px!important;\r\n  margin-top: 20px!important;\r\n  border-radius: 5px;\r\n}\r\n#welcomelogo {\r\n  pointer-events: none;\r\n}\r\n\r\n/*Media rules*/\r\n@media screen and (max-width: 510px) {\r\n  .vcWelcomeCard{\r\n    width:100%;\r\n  }\r\n  #welcomeContent{\r\n    padding: 0px;\r\n    box-shadow: none;\r\n  }\r\n  #welcomeText {\r\n    margin-left: 30px;\r\n    margin-right: 30px;\r\n  }\r\n  #welcomeTitle{\r\n    font-size:3rem;\r\n    line-height:1.3\r\n  }\r\n  #welcomelogo{\r\n    width: 100px;\r\n  }\r\n  #welcomeLabel,#loginButton,#welcomeContent{\r\n    font-size: 13px;\r\n  }\r\n}\r\n@media screen and (max-width: 310px) {\r\n  #welcomeTitle{\r\n    font-size:2.5rem;line-height:1.4 \r\n  }\r\n  #welcomeLabel,#loginButton,#welcomeContent{\r\n    font-size: 12px;\r\n  }\r\n  #welcomelogo{\r\n    width: 90px;\r\n  }\r\n}\r\n@media screen and (max-width: 255px) {\r\n  #welcomeTitle{\r\n    font-size:1.5rem;line-height:1.4\r\n  }\r\n  #welcomeLabel,#loginButton,#welcomeContent{\r\n    font-size: 10px;\r\n  }\r\n  #welcomelogo{\r\n    width: 80px;\r\n  }\r\n}\r\n\r\n@media screen and (max-height: 490px) {\r\n  #welcomeContent{\r\n    padding: 0px;\r\n    box-shadow: none;\r\n  }\r\n  #welcomeText {\r\n    margin-top: 10px!important;\r\n    margin-bottom: 10px!important;\r\n  }\r\n  #welcomeTitle{\r\n    font-size:3rem;\r\n    line-height:1.3\r\n  }\r\n  #welcomelogo{\r\n    width: 100px;\r\n  }\r\n  #welcomeLabel,#loginButton,#welcomeContent{\r\n    font-size: 13px;\r\n  }\r\n  #loginButton {\r\n    margin-top: 10px!important;\r\n    margin-bottom: 10px!important;\r\n  }\r\n}\r\n\r\n", ""]);
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 
 // exports
 
@@ -27181,15 +26953,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-<<<<<<< HEAD
-<<<<<<< HEAD
-exports.push([module.i, ".name {\r\n  margin-bottom: 0px\r\n}\r\n\r\n.uk-table-hover tbody tr:hover,.uk-table-hover>tr:hover{\r\n  background: #00ddff2c;\r\n}\r\n\r\n.meta {\r\n  font-size: .875rem;\r\n  line-height: 1.4;\r\n  color: #666;\r\n  vertical-align: top!important;\r\n  text-align: left!important;\r\n  font-family: \"Open Sans\",sans-serif;\r\n}\r\n\r\n.lead {\r\n  font-size: 1.5rem;\r\n  font-weight: 300;\r\n  vertical-align: middle!important;\r\n  font-family: 'Roboto', sans-serif;\r\n}\r\n\r\n.room {\r\n  font-size: 1.5rem;\r\n  font-weight: 300;\r\n  vertical-align: middle!important;\r\n  width: 1px;\r\n  font-family: 'Roboto', sans-serif;\r\n}\r\n\r\n.nextClass {\r\n  font-weight: 300!important\r\n}\r\n\r\n.countdown {\r\n  margin-bottom: 20px;\r\n}\r\n\r\n.dashCard {\r\n  width: 400px;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  padding: 30px 30px;\r\n  border-radius: 5px;\r\n}\r\n\r\n.dashTable {\r\n  border-collapse: collapse;\r\n  border-spacing: 0;\r\n  width: 100%;\r\n  display: table;\r\n  border-color: grey;\r\n}\r\n\r\n@media (max-height: 747px),(max-width: 400px) {\r\n  .lead,.room{\r\n    font-size: 1.3rem;\r\n  }\r\n  .countdown{\r\n    font-size: 3.5rem;\r\n    margin-bottom: 10px;\r\n  }\r\n  .in{\r\n    font-size: 13px;\r\n    margin: 0 0 0 0;\r\n  }\r\n  .nextClass{\r\n    font-size: 1.25rem;\r\n  }\r\n  .dashTable td{\r\n    padding: 7px 7px!important\r\n  }\r\n  .dashCard{\r\n    width: 375px\r\n  }\r\n}\r\n\r\n@media (max-height: 620px),(max-width: 300px) {\r\n  .lead,.room{\r\n    font-size: 1.25rem;\r\n  }\r\n  .countdown{\r\n    font-size: 3rem;\r\n    margin-bottom: 5px;\r\n  }\r\n  .in{\r\n    font-size: 11px;\r\n  }\r\n  .nextClass{\r\n    font-size: 1.2rem!important;\r\n  }\r\n  .dashTable td{\r\n    padding: 5px 5px!important\r\n  }\r\n  .dashCard{\r\n    width: 300px;\r\n    padding: 15px 15px;\r\n  }\r\n  .meta{\r\n    font-size: 0.75rem;\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 460px) {\r\n  .dashCard{\r\n    width: 100vw;\r\n    max-width: 100%;\r\n    box-shadow: none;\r\n  }\r\n}\r\n", ""]);
-=======
-exports.push([module.i, ".name {\n  margin-bottom: 0px\n}\n\n.uk-table-hover tbody tr:hover,.uk-table-hover>tr:hover{\n  background: #00ddff2c;\n}\n\n.meta {\n  font-size: .875rem;\n  line-height: 1.4;\n  color: #666;\n  vertical-align: top!important;\n  text-align: left!important;\n  font-family: \"Open Sans\",sans-serif;\n}\n\n.lead {\n  font-size: 1.5rem;\n  font-weight: 300;\n  vertical-align: middle!important;\n  font-family: 'Roboto', sans-serif;\n}\n\n.room {\n  font-size: 1.5rem;\n  font-weight: 300;\n  vertical-align: middle!important;\n  width: 1px;\n  font-family: 'Roboto', sans-serif;\n}\n\n.nextClass {\n  font-weight: 300!important\n}\n\n.countdown {\n  margin-bottom: 20px;\n}\n\n.dashCard {\n  width: 400px;\n  background: #fff;\n  color: #666;\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\n  padding: 30px 30px;\n  border-radius: 5px;\n}\n\n.dashTable {\n  border-collapse: collapse;\n  border-spacing: 0;\n  width: 100%;\n  display: table;\n  border-color: grey;\n}\n\n@media (max-height: 747px),(max-width: 400px) {\n  .lead,.room{\n    font-size: 1.3rem;\n  }\n  .countdown{\n    font-size: 3.5rem;\n    margin-bottom: 10px;\n  }\n  .in{\n    font-size: 13px;\n    margin: 0 0 0 0;\n  }\n  .nextClass{\n    font-size: 1.25rem;\n  }\n  .dashTable td{\n    padding: 7px 7px!important\n  }\n  .dashCard{\n    width: 375px\n  }\n}\n\n@media (max-height: 620px),(max-width: 300px) {\n  .lead,.room{\n    font-size: 1.25rem;\n  }\n  .countdown{\n    font-size: 3rem;\n    margin-bottom: 5px;\n  }\n  .in{\n    font-size: 11px;\n  }\n  .nextClass{\n    font-size: 1.2rem!important;\n  }\n  .dashTable td{\n    padding: 5px 5px!important\n  }\n  .dashCard{\n    width: 300px;\n    padding: 15px 15px;\n  }\n  .meta{\n    font-size: 0.75rem;\n  }\n}\n\n@media screen and (max-width: 460px) {\n  .dashCard{\n    width: 100vw;\n    max-width: 100%;\n    box-shadow: none;\n  }\n}\n", ""]);
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
 exports.push([module.i, ".name {\r\n  margin-bottom: 0px\r\n}\r\n\r\n.uk-table-hover tbody tr:hover,.uk-table-hover>tr:hover, .eventsList>li:hover{\r\n  background: #effdff;\r\n  color: #2dc0d5!important;\r\n  border-radius: 5px;\r\n}\r\n\r\n.meta {\r\n  font-size: .875rem;\r\n  line-height: 1.4;\r\n  color: #666;\r\n  vertical-align: top!important;\r\n  text-align: left!important;\r\n  font-family: \"Open Sans\",sans-serif;\r\n}\r\n\r\n.lead {\r\n  font-size: 1.5rem;\r\n  font-weight: 300;\r\n  vertical-align: middle!important;\r\n  font-family: 'Roboto', sans-serif;\r\n}\r\n\r\n.room {\r\n  font-size: 1.5rem;\r\n  font-weight: 300;\r\n  vertical-align: middle!important;\r\n  width: 1px;\r\n  font-family: 'Roboto', sans-serif;\r\n}\r\n\r\n.nextClass {\r\n  font-weight: 300!important\r\n}\r\n\r\n.countdown {\r\n  margin-bottom: 20px;\r\n}\r\n\r\n.dashCard {\r\n  width: 400px;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  padding: 30px 30px;\r\n  border-radius: 5px;\r\n}\r\n\r\n.dashTable {\r\n  border-collapse: collapse;\r\n  border-spacing: 0;\r\n  width: 100%;\r\n  display: table;\r\n  border-color: grey;\r\n}\r\n\r\n@media (max-height: 747px),(max-width: 400px) {\r\n  .lead,.room{\r\n    font-size: 1.3rem;\r\n  }\r\n  .countdown{\r\n    font-size: 3.5rem;\r\n    margin-bottom: 10px;\r\n  }\r\n  .in{\r\n    font-size: 13px;\r\n    margin: 0 0 0 0;\r\n  }\r\n  .nextClass{\r\n    font-size: 1.25rem;\r\n  }\r\n  .dashTable td{\r\n    padding: 7px 7px!important\r\n  }\r\n  .dashCard{\r\n    width: 375px\r\n  }\r\n}\r\n\r\n@media (max-height: 620px),(max-width: 300px) {\r\n  .lead,.room{\r\n    font-size: 1.25rem;\r\n  }\r\n  .countdown{\r\n    font-size: 3rem;\r\n    margin-bottom: 5px;\r\n  }\r\n  .in{\r\n    font-size: 11px;\r\n  }\r\n  .nextClass{\r\n    font-size: 1.2rem!important;\r\n  }\r\n  .dashTable td{\r\n    padding: 5px 5px!important\r\n  }\r\n  .dashCard{\r\n    width: 300px;\r\n    padding: 15px 15px;\r\n  }\r\n  .meta{\r\n    font-size: 0.75rem;\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 460px) {\r\n  .dashCard{\r\n    width: 100vw;\r\n    max-width: 100%;\r\n    box-shadow: none;\r\n  }\r\n}\r\n", ""]);
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 
 // exports
 
@@ -27256,10 +27020,7 @@ var ClientRequest = module.exports = function (opts) {
 		throw new Error('Invalid value for opts.mode')
 	}
 	self._mode = decideMode(preferBinary, useFetch)
-<<<<<<< HEAD
 	self._fetchTimer = null
-=======
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
 
 	self.on('finish', function () {
 		self._onFinish()
@@ -27335,21 +27096,14 @@ ClientRequest.prototype._onFinish = function () {
 
 	if (self._mode === 'fetch') {
 		var signal = null
-<<<<<<< HEAD
 		var fetchTimer = null
-=======
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
 		if (capability.abortController) {
 			var controller = new AbortController()
 			signal = controller.signal
 			self._fetchAbortController = controller
 
 			if ('requestTimeout' in opts && opts.requestTimeout !== 0) {
-<<<<<<< HEAD
 				self._fetchTimer = global.setTimeout(function () {
-=======
-				global.setTimeout(function () {
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
 					self.emit('requestTimeout')
 					if (self._fetchAbortController)
 						self._fetchAbortController.abort()
@@ -27368,13 +27122,9 @@ ClientRequest.prototype._onFinish = function () {
 			self._fetchResponse = response
 			self._connect()
 		}, function (reason) {
-<<<<<<< HEAD
 			global.clearTimeout(self._fetchTimer)
 			if (!self._destroyed)
 				self.emit('error', reason)
-=======
-			self.emit('error', reason)
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
 		})
 	} else {
 		var xhr = self._xhr = new global.XMLHttpRequest()
@@ -27474,11 +27224,7 @@ ClientRequest.prototype._connect = function () {
 	if (self._destroyed)
 		return
 
-<<<<<<< HEAD
 	self._response = new IncomingMessage(self._xhr, self._fetchResponse, self._mode, self._fetchTimer)
-=======
-	self._response = new IncomingMessage(self._xhr, self._fetchResponse, self._mode)
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
 	self._response.on('error', function(err) {
 		self.emit('error', err)
 	})
@@ -27496,10 +27242,7 @@ ClientRequest.prototype._write = function (chunk, encoding, cb) {
 ClientRequest.prototype.abort = ClientRequest.prototype.destroy = function () {
 	var self = this
 	self._destroyed = true
-<<<<<<< HEAD
 	global.clearTimeout(self._fetchTimer)
-=======
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
 	if (self._response)
 		self._response._destroyed = true
 	if (self._xhr)
@@ -27576,28 +27319,13 @@ for (var i = 0, len = code.length; i < len; ++i) {
 revLookup['-'.charCodeAt(0)] = 62
 revLookup['_'.charCodeAt(0)] = 63
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 function getLens (b64) {
   var len = b64.length
 
-=======
-function placeHoldersCount (b64) {
-  var len = b64.length
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
-function getLens (b64) {
-  var len = b64.length
-
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
   if (len % 4 > 0) {
     throw new Error('Invalid string. Length must be a multiple of 4')
   }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
   // Trim off extra bytes after placeholder bytes are found
   // See: https://github.com/beatgammit/base64-js/issues/42
   var validLen = b64.indexOf('=')
@@ -27608,7 +27336,6 @@ function getLens (b64) {
     : 4 - (validLen % 4)
 
   return [validLen, placeHoldersLen]
-<<<<<<< HEAD
 }
 
 // base64 is 4/3 + up to two characters of the original data
@@ -27663,120 +27390,26 @@ function toByteArray (b64) {
       (revLookup[b64.charCodeAt(i + 2)] >> 2)
     arr[curByte++] = (tmp >> 8) & 0xFF
     arr[curByte++] = tmp & 0xFF
-=======
-  // the number of equal signs (place holders)
-  // if there are two placeholders, than the two characters before it
-  // represent one byte
-  // if there is only one, then the three characters before it represent 2 bytes
-  // this is just a cheap hack to not do indexOf twice
-  return b64[len - 2] === '=' ? 2 : b64[len - 1] === '=' ? 1 : 0
-=======
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
-}
-
-// base64 is 4/3 + up to two characters of the original data
-function byteLength (b64) {
-  var lens = getLens(b64)
-  var validLen = lens[0]
-  var placeHoldersLen = lens[1]
-  return ((validLen + placeHoldersLen) * 3 / 4) - placeHoldersLen
-}
-
-function _byteLength (b64, validLen, placeHoldersLen) {
-  return ((validLen + placeHoldersLen) * 3 / 4) - placeHoldersLen
-}
-
-function toByteArray (b64) {
-  var tmp
-  var lens = getLens(b64)
-  var validLen = lens[0]
-  var placeHoldersLen = lens[1]
-
-  var arr = new Arr(_byteLength(b64, validLen, placeHoldersLen))
-
-  var curByte = 0
-
-  // if there are placeholders, only get up to the last complete 4 chars
-  var len = placeHoldersLen > 0
-    ? validLen - 4
-    : validLen
-
-  for (var i = 0; i < len; i += 4) {
-    tmp =
-      (revLookup[b64.charCodeAt(i)] << 18) |
-      (revLookup[b64.charCodeAt(i + 1)] << 12) |
-      (revLookup[b64.charCodeAt(i + 2)] << 6) |
-      revLookup[b64.charCodeAt(i + 3)]
-    arr[curByte++] = (tmp >> 16) & 0xFF
-    arr[curByte++] = (tmp >> 8) & 0xFF
-    arr[curByte++] = tmp & 0xFF
-  }
-
-  if (placeHoldersLen === 2) {
-    tmp =
-      (revLookup[b64.charCodeAt(i)] << 2) |
-      (revLookup[b64.charCodeAt(i + 1)] >> 4)
-    arr[curByte++] = tmp & 0xFF
-  }
-
-<<<<<<< HEAD
-  if (placeHolders === 2) {
-    tmp = (revLookup[b64.charCodeAt(i)] << 2) | (revLookup[b64.charCodeAt(i + 1)] >> 4)
-    arr[L++] = tmp & 0xFF
-  } else if (placeHolders === 1) {
-    tmp = (revLookup[b64.charCodeAt(i)] << 10) | (revLookup[b64.charCodeAt(i + 1)] << 4) | (revLookup[b64.charCodeAt(i + 2)] >> 2)
-    arr[L++] = (tmp >> 8) & 0xFF
-    arr[L++] = tmp & 0xFF
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
-  if (placeHoldersLen === 1) {
-    tmp =
-      (revLookup[b64.charCodeAt(i)] << 10) |
-      (revLookup[b64.charCodeAt(i + 1)] << 4) |
-      (revLookup[b64.charCodeAt(i + 2)] >> 2)
-    arr[curByte++] = (tmp >> 8) & 0xFF
-    arr[curByte++] = tmp & 0xFF
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
   }
 
   return arr
 }
 
 function tripletToBase64 (num) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
   return lookup[num >> 18 & 0x3F] +
     lookup[num >> 12 & 0x3F] +
     lookup[num >> 6 & 0x3F] +
     lookup[num & 0x3F]
-<<<<<<< HEAD
-=======
-  return lookup[num >> 18 & 0x3F] + lookup[num >> 12 & 0x3F] + lookup[num >> 6 & 0x3F] + lookup[num & 0x3F]
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 }
 
 function encodeChunk (uint8, start, end) {
   var tmp
   var output = []
   for (var i = start; i < end; i += 3) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
     tmp =
       ((uint8[i] << 16) & 0xFF0000) +
       ((uint8[i + 1] << 8) & 0xFF00) +
       (uint8[i + 2] & 0xFF)
-<<<<<<< HEAD
-=======
-    tmp = ((uint8[i] << 16) & 0xFF0000) + ((uint8[i + 1] << 8) & 0xFF00) + (uint8[i + 2] & 0xFF)
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
     output.push(tripletToBase64(tmp))
   }
   return output.join('')
@@ -27786,46 +27419,24 @@ function fromByteArray (uint8) {
   var tmp
   var len = uint8.length
   var extraBytes = len % 3 // if we have 1 byte left, pad 2 bytes
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-  var output = ''
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
   var parts = []
   var maxChunkLength = 16383 // must be multiple of 3
 
   // go through the array every three bytes, we'll deal with trailing stuff later
   for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
-<<<<<<< HEAD
-<<<<<<< HEAD
     parts.push(encodeChunk(
       uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)
     ))
-=======
-    parts.push(encodeChunk(uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)))
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
-    parts.push(encodeChunk(
-      uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)
-    ))
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
   }
 
   // pad the end with zeros, but make sure to not forget the extra bytes
   if (extraBytes === 1) {
     tmp = uint8[len - 1]
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
     parts.push(
       lookup[tmp >> 2] +
       lookup[(tmp << 4) & 0x3F] +
       '=='
     )
-<<<<<<< HEAD
   } else if (extraBytes === 2) {
     tmp = (uint8[len - 2] << 8) + uint8[len - 1]
     parts.push(
@@ -27836,28 +27447,6 @@ function fromByteArray (uint8) {
     )
   }
 
-=======
-    output += lookup[tmp >> 2]
-    output += lookup[(tmp << 4) & 0x3F]
-    output += '=='
-=======
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
-  } else if (extraBytes === 2) {
-    tmp = (uint8[len - 2] << 8) + uint8[len - 1]
-    parts.push(
-      lookup[tmp >> 10] +
-      lookup[(tmp >> 4) & 0x3F] +
-      lookup[(tmp << 2) & 0x3F] +
-      '='
-    )
-  }
-
-<<<<<<< HEAD
-  parts.push(output)
-
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
   return parts.join('')
 }
 
@@ -27868,15 +27457,7 @@ function fromByteArray (uint8) {
 
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
-<<<<<<< HEAD
-<<<<<<< HEAD
   var eLen = (nBytes * 8) - mLen - 1
-=======
-  var eLen = nBytes * 8 - mLen - 1
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
-  var eLen = (nBytes * 8) - mLen - 1
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
   var eMax = (1 << eLen) - 1
   var eBias = eMax >> 1
   var nBits = -7
@@ -27889,28 +27470,12 @@ exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   e = s & ((1 << (-nBits)) - 1)
   s >>= (-nBits)
   nBits += eLen
-<<<<<<< HEAD
-<<<<<<< HEAD
   for (; nBits > 0; e = (e * 256) + buffer[offset + i], i += d, nBits -= 8) {}
-=======
-  for (; nBits > 0; e = e * 256 + buffer[offset + i], i += d, nBits -= 8) {}
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
-  for (; nBits > 0; e = (e * 256) + buffer[offset + i], i += d, nBits -= 8) {}
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 
   m = e & ((1 << (-nBits)) - 1)
   e >>= (-nBits)
   nBits += mLen
-<<<<<<< HEAD
-<<<<<<< HEAD
   for (; nBits > 0; m = (m * 256) + buffer[offset + i], i += d, nBits -= 8) {}
-=======
-  for (; nBits > 0; m = m * 256 + buffer[offset + i], i += d, nBits -= 8) {}
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
-  for (; nBits > 0; m = (m * 256) + buffer[offset + i], i += d, nBits -= 8) {}
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 
   if (e === 0) {
     e = 1 - eBias
@@ -27925,15 +27490,7 @@ exports.read = function (buffer, offset, isLE, mLen, nBytes) {
 
 exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   var e, m, c
-<<<<<<< HEAD
-<<<<<<< HEAD
   var eLen = (nBytes * 8) - mLen - 1
-=======
-  var eLen = nBytes * 8 - mLen - 1
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
-  var eLen = (nBytes * 8) - mLen - 1
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
   var eMax = (1 << eLen) - 1
   var eBias = eMax >> 1
   var rt = (mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0)
@@ -27966,15 +27523,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
       m = 0
       e = eMax
     } else if (e + eBias >= 1) {
-<<<<<<< HEAD
-<<<<<<< HEAD
       m = ((value * c) - 1) * Math.pow(2, mLen)
-=======
-      m = (value * c - 1) * Math.pow(2, mLen)
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
-      m = ((value * c) - 1) * Math.pow(2, mLen)
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
       e = e + eBias
     } else {
       m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen)
@@ -28093,42 +27642,18 @@ if (util && util.inspect && util.inspect.custom) {
 /* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 /* WEBPACK VAR INJECTION */(function(global) {var scope = (typeof global !== "undefined" && global) ||
             (typeof self !== "undefined" && self) ||
             window;
 var apply = Function.prototype.apply;
-<<<<<<< HEAD
-=======
-/* WEBPACK VAR INJECTION */(function(global) {var apply = Function.prototype.apply;
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 
 // DOM APIs, for completeness
 
 exports.setTimeout = function() {
-<<<<<<< HEAD
-<<<<<<< HEAD
   return new Timeout(apply.call(setTimeout, scope, arguments), clearTimeout);
 };
 exports.setInterval = function() {
   return new Timeout(apply.call(setInterval, scope, arguments), clearInterval);
-=======
-  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
-};
-exports.setInterval = function() {
-  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
-  return new Timeout(apply.call(setTimeout, scope, arguments), clearTimeout);
-};
-exports.setInterval = function() {
-  return new Timeout(apply.call(setInterval, scope, arguments), clearInterval);
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 };
 exports.clearTimeout =
 exports.clearInterval = function(timeout) {
@@ -28143,15 +27668,7 @@ function Timeout(id, clearFn) {
 }
 Timeout.prototype.unref = Timeout.prototype.ref = function() {};
 Timeout.prototype.close = function() {
-<<<<<<< HEAD
-<<<<<<< HEAD
   this._clearFn.call(scope, this._id);
-=======
-  this._clearFn.call(window, this._id);
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
-  this._clearFn.call(scope, this._id);
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 };
 
 // Does not start the time, just sets up the members needed.
@@ -28179,15 +27696,7 @@ exports._unrefActive = exports.active = function(item) {
 
 // setimmediate attaches itself to the global object
 __webpack_require__(62);
-<<<<<<< HEAD
-<<<<<<< HEAD
 // On some exotic environments, it's not clear which object `setimmediate` was
-=======
-// On some exotic environments, it's not clear which object `setimmeidate` was
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
-// On some exotic environments, it's not clear which object `setimmediate` was
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 // able to install onto.  Search each possibility in the same order as the
 // `setimmediate` library.
 exports.setImmediate = (typeof self !== "undefined" && self.setImmediate) ||
@@ -29929,7 +29438,6 @@ Url.prototype.parseHost = function() {
 /* 70 */
 /***/ (function(module, exports) {
 
-<<<<<<< HEAD
 module.exports = function(module) {
 	if(!module.webpackPolyfill) {
 		module.deprecate = function() {};
@@ -29952,30 +29460,6 @@ module.exports = function(module) {
 	}
 	return module;
 };
-=======
-module.exports = function(module) {
-	if(!module.webpackPolyfill) {
-		module.deprecate = function() {};
-		module.paths = [];
-		// module.parent = undefined by default
-		if(!module.children) module.children = [];
-		Object.defineProperty(module, "loaded", {
-			enumerable: true,
-			get: function() {
-				return module.l;
-			}
-		});
-		Object.defineProperty(module, "id", {
-			enumerable: true,
-			get: function() {
-				return module.i;
-			}
-		});
-		module.webpackPolyfill = 1;
-	}
-	return module;
-};
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
 
 
 /***/ }),
@@ -30772,15 +30256,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-<<<<<<< HEAD
-<<<<<<< HEAD
 exports.push([module.i, ".timetable td {\r\n  font-family: 'Roboto Mono', monospace;\r\n  padding:5px 6px;\r\n  transition: box-shadow .1s ease-in-out;\r\n  transition: background .1s ease-in-out;\r\n}\r\n.heading {\r\n  font-family: 'Roboto' !important;\r\n  font-weight: 300\r\n}\r\n\r\n.uk-text-center th {\r\n  text-align: center;\r\n}\r\n\r\n.highlight {\r\n  background: #2dc0d5;\r\n  color: #fff;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n}\r\n\r\n.ttableCard {\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  border-radius: 5px;\r\n  padding: 30px 30px;\r\n  width: 600px;\r\n}\r\n\r\n.uk-tab>* {\r\n  padding-left: 10px!important;\r\n}\r\n\r\n#ttableName {\r\n  font-weight: 300;\r\n}\r\n\r\n@media (max-height:830px){\r\n  .timetable td{\r\n    padding: 2px 1px;\r\n  }\r\n  .uk-table th {\r\n    padding: 5px 6px;\r\n  }\r\n  .uk-table{\r\n    margin-bottom: 5px;\r\n  }\r\n  #ttableName{\r\n    font-size: 2.25rem;\r\n  }\r\n  #fullTimetable hr{\r\n    margin-top: 15px;\r\n    margin-bottom: 15px;\r\n  }\r\n  .ttableCard {\r\n    width: 525px;\r\n  }\r\n}\r\n\r\n@media (max-height:675px){\r\n  #ttableName{\r\n    visibility: hidden;\r\n    height: 0px;\r\n  }\r\n  #fullTimetable h3{\r\n    height:0px;\r\n  }\r\n}\r\n\r\n@media (max-width:530px), (max-height:620px){\r\n  #fullTimetable {\r\n    visibility: hidden;\r\n    display: none;\r\n  }\r\n  #smallTimetable{\r\n    visibility: visible;\r\n    display: block;\r\n  }\r\n}\r\n\r\n@media (min-width:530px) and (min-height:620px){\r\n  #fullTimetable {\r\n    visibility: visible;\r\n    display: block;\r\n  }\r\n  #smallTimetable{\r\n    visibility: hidden;\r\n    display: none;\r\n  }\r\n}\r\n\r\n@media (max-width:371px){\r\n  #smallTimetable a{\r\n    padding-left: 5px;\r\n    padding-right: 5px;\r\n  }\r\n  .uk-tab>* {\r\n    padding-left: 5px!important;\r\n  }\r\n}\r\n\r\n@media (max-width:600px){\r\n  .ttableCard{\r\n    box-shadow: none;\r\n  }\r\n}", ""]);
-=======
-exports.push([module.i, ".timetable td {\n  font-family: 'Roboto Mono', monospace;\n  padding:5px 6px;\n  transition: box-shadow .1s ease-in-out;\n  transition: background .1s ease-in-out;\n}\n.heading {\n  font-family: 'Roboto' !important;\n  font-weight: 300\n}\n\n.uk-text-center th {\n  text-align: center;\n}\n\n.highlight {\n  background: #2dc0d5;\n  color: #fff;\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\n}\n\n.ttableCard {\n  position: relative;\n  box-sizing: border-box;\n  transition: box-shadow .1s ease-in-out;\n  background: #fff;\n  color: #666;\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\n  border-radius: 5px;\n  padding: 30px 30px;\n  width: 600px;\n}\n\n.uk-tab>* {\n  padding-left: 10px!important;\n}\n\n#ttableName {\n  font-weight: 300;\n}\n\n@media (max-height:830px){\n  .timetable td{\n    padding: 2px 1px;\n  }\n  .uk-table th {\n    padding: 5px 6px;\n  }\n  .uk-table{\n    margin-bottom: 5px;\n  }\n  #ttableName{\n    font-size: 2.25rem;\n  }\n  #fullTimetable hr{\n    margin-top: 15px;\n    margin-bottom: 15px;\n  }\n  .ttableCard {\n    width: 525px;\n  }\n}\n\n@media (max-height:675px){\n  #ttableName{\n    visibility: hidden;\n    height: 0px;\n  }\n  #fullTimetable h3{\n    height:0px;\n  }\n}\n\n@media (max-width:530px), (max-height:620px){\n  #fullTimetable {\n    visibility: hidden;\n    display: none;\n  }\n  #smallTimetable{\n    visibility: visible;\n    display: block;\n  }\n}\n\n@media (min-width:530px) and (min-height:620px){\n  #fullTimetable {\n    visibility: visible;\n    display: block;\n  }\n  #smallTimetable{\n    visibility: hidden;\n    display: none;\n  }\n}\n\n@media (max-width:371px){\n  #smallTimetable a{\n    padding-left: 5px;\n    padding-right: 5px;\n  }\n  .uk-tab>* {\n    padding-left: 5px!important;\n  }\n}\n\n@media (max-width:600px){\n  .ttableCard{\n    box-shadow: none;\n  }\n}", ""]);
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
-exports.push([module.i, ".timetable td {\r\n  font-family: 'Roboto Mono', monospace;\r\n  padding:5px 6px;\r\n  transition: box-shadow .1s ease-in-out;\r\n  transition: background .1s ease-in-out;\r\n}\r\n.heading {\r\n  font-family: 'Roboto' !important;\r\n  font-weight: 300\r\n}\r\n\r\n.uk-text-center th {\r\n  text-align: center;\r\n}\r\n\r\n.highlight {\r\n  background: #2dc0d5;\r\n  color: #fff;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n}\r\n\r\n.ttableCard {\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  border-radius: 5px;\r\n  padding: 30px 30px;\r\n  width: 600px;\r\n}\r\n\r\n.uk-tab>* {\r\n  padding-left: 10px!important;\r\n}\r\n\r\n#ttableName {\r\n  font-weight: 300;\r\n}\r\n\r\n@media (max-height:830px){\r\n  .timetable td{\r\n    padding: 2px 1px;\r\n  }\r\n  .uk-table th {\r\n    padding: 5px 6px;\r\n  }\r\n  .uk-table{\r\n    margin-bottom: 5px;\r\n  }\r\n  #ttableName{\r\n    font-size: 2.25rem;\r\n  }\r\n  #fullTimetable hr{\r\n    margin-top: 15px;\r\n    margin-bottom: 15px;\r\n  }\r\n  .ttableCard {\r\n    width: 525px;\r\n  }\r\n}\r\n\r\n@media (max-height:675px){\r\n  #ttableName{\r\n    visibility: hidden;\r\n    height: 0px;\r\n  }\r\n  #fullTimetable h3{\r\n    height:0px;\r\n  }\r\n}\r\n\r\n@media (max-width:530px), (max-height:620px){\r\n  #fullTimetable {\r\n    visibility: hidden;\r\n    display: none;\r\n  }\r\n  #smallTimetable{\r\n    visibility: visible;\r\n    display: block;\r\n  }\r\n}\r\n\r\n@media (min-width:530px) and (min-height:620px){\r\n  #fullTimetable {\r\n    visibility: visible;\r\n    display: block;\r\n  }\r\n  #smallTimetable{\r\n    visibility: hidden;\r\n    display: none;\r\n  }\r\n}\r\n\r\n@media (max-width:371px){\r\n  #smallTimetable a{\r\n    padding-left: 5px;\r\n    padding-right: 5px;\r\n  }\r\n  .uk-tab>* {\r\n    padding-left: 5px!important;\r\n  }\r\n}\r\n\r\n@media (max-width:600px){\r\n  .ttableCard{\r\n    box-shadow: none;\r\n  }\r\n}", ""]);
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 
 // exports
 
@@ -30894,15 +30370,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-<<<<<<< HEAD
-<<<<<<< HEAD
 exports.push([module.i, ".ql-editor p{\r\n  font-family: 'Open Sans', sans-serif!important;\r\n  font-weight: 400!important;\r\n}\r\n\r\n.ql-editor ol li:not(.ql-direction-rtl), .ql-editor ul li:not(.ql-direction-rtl) {\r\n  padding-left: 1.5em;\r\n  padding-right: 1.5em;\r\n}\r\n\r\n.ql-snow.ql-toolbar button:hover, .ql-snow .ql-toolbar button:hover, .ql-snow.ql-toolbar button:focus, .ql-snow .ql-toolbar button:focus, .ql-snow.ql-toolbar button.ql-active, .ql-snow .ql-toolbar button.ql-active, .ql-snow.ql-toolbar .ql-picker-label:hover, .ql-snow .ql-toolbar .ql-picker-label:hover, .ql-snow.ql-toolbar .ql-picker-label.ql-active, .ql-snow .ql-toolbar .ql-picker-label.ql-active, .ql-snow.ql-toolbar .ql-picker-item:hover, .ql-snow .ql-toolbar .ql-picker-item:hover, .ql-snow.ql-toolbar .ql-picker-item.ql-selected, .ql-snow .ql-toolbar .ql-picker-item.ql-selected {\r\n  color: #2dc0d5!important;\r\n}\r\n\r\n.ql-snow.ql-toolbar button:hover .ql-stroke, .ql-snow .ql-toolbar button:hover .ql-stroke, .ql-snow.ql-toolbar button:focus .ql-stroke, .ql-snow .ql-toolbar button:focus .ql-stroke, .ql-snow.ql-toolbar button.ql-active .ql-stroke, .ql-snow .ql-toolbar button.ql-active .ql-stroke, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke, .ql-snow.ql-toolbar button:hover .ql-stroke-miter, .ql-snow .ql-toolbar button:hover .ql-stroke-miter, .ql-snow.ql-toolbar button:focus .ql-stroke-miter, .ql-snow .ql-toolbar button:focus .ql-stroke-miter, .ql-snow.ql-toolbar button.ql-active .ql-stroke-miter, .ql-snow .ql-toolbar button.ql-active .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter {\r\n  stroke: #2dc0d5!important;\r\n}\r\n\r\n.ql-snow.ql-toolbar button:hover .ql-fill, .ql-snow .ql-toolbar button:hover .ql-fill, .ql-snow.ql-toolbar button:focus .ql-fill, .ql-snow .ql-toolbar button:focus .ql-fill, .ql-snow.ql-toolbar button.ql-active .ql-fill, .ql-snow .ql-toolbar button.ql-active .ql-fill, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-fill, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-fill, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-fill, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-fill, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-fill, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-fill, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-fill, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-fill, .ql-snow.ql-toolbar button:hover .ql-stroke.ql-fill, .ql-snow .ql-toolbar button:hover .ql-stroke.ql-fill, .ql-snow.ql-toolbar button:focus .ql-stroke.ql-fill, .ql-snow .ql-toolbar button:focus .ql-stroke.ql-fill, .ql-snow.ql-toolbar button.ql-active .ql-stroke.ql-fill, .ql-snow .ql-toolbar button.ql-active .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill {\r\n  fill: #2dc0d5!important;\r\n}\r\n\r\n::selection{\r\nbackground: #2dc0d5!important;\r\n}\r\n\r\n::-moz-selection {\r\nbackground: #2dc0d5!important;\r\n}\r\n\r\ninput:focus{\r\n  outline-color: #2dc0d5!important;\r\n}\r\n\r\n.pad {\r\n  margin: 30px 30px 30px 30px;\r\n}\r\n\r\n.ql-container.ql-snow {\r\n  border:none!important;\r\n}\r\n.ql-toolbar.ql-snow {\r\n  border-bottom: 1px solid #ccc!important;\r\n  border: none;\r\n}\r\n\r\n.ql-editor p strong,.ql-editor h1 ,.ql-editor h2 ,.ql-editor h3 {\r\n  font-family: 'Open Sans', sans-serif!important;\r\n  font-weight: 700!important;\r\n}\r\n\r\n.ql-editor li:not(.ql-direction-rtl)::before {\r\n  margin-right: 1em!important;\r\n}\r\n\r\n.ql-snow a {\r\n  color: #2dc0d5;\r\n}\r\n\r\n.notesParent {\r\n  justify-content: center;\r\n  display: flex;\r\n}\r\n\r\n#editor {\r\n  height:300px;\r\n}\r\n\r\n.notesChild {\r\n  width: 650px;\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  border-radius: 5px;\r\n  margin-top: 20px!important;\r\n}\r\n\r\n@media (max-width: 650px) {\r\n  #editor {\r\n    width: 100%;\r\n  }\r\n  .notesChild {\r\n    box-shadow: none;\r\n  }\r\n  .pad {\r\n    margin: 10px 10px 10px 10px;\r\n  }\r\n}\r\n\r\n@media (max-height: 650px) {\r\n\r\n}", ""]);
-=======
-exports.push([module.i, ".ql-editor p{\n  font-family: 'Open Sans', sans-serif!important;\n  font-weight: 400!important;\n}\n\n.ql-editor ol li:not(.ql-direction-rtl), .ql-editor ul li:not(.ql-direction-rtl) {\n  padding-left: 1.5em;\n  padding-right: 1.5em;\n}\n\n.ql-snow.ql-toolbar button:hover, .ql-snow .ql-toolbar button:hover, .ql-snow.ql-toolbar button:focus, .ql-snow .ql-toolbar button:focus, .ql-snow.ql-toolbar button.ql-active, .ql-snow .ql-toolbar button.ql-active, .ql-snow.ql-toolbar .ql-picker-label:hover, .ql-snow .ql-toolbar .ql-picker-label:hover, .ql-snow.ql-toolbar .ql-picker-label.ql-active, .ql-snow .ql-toolbar .ql-picker-label.ql-active, .ql-snow.ql-toolbar .ql-picker-item:hover, .ql-snow .ql-toolbar .ql-picker-item:hover, .ql-snow.ql-toolbar .ql-picker-item.ql-selected, .ql-snow .ql-toolbar .ql-picker-item.ql-selected {\n  color: #2dc0d5!important;\n}\n\n.ql-snow.ql-toolbar button:hover .ql-stroke, .ql-snow .ql-toolbar button:hover .ql-stroke, .ql-snow.ql-toolbar button:focus .ql-stroke, .ql-snow .ql-toolbar button:focus .ql-stroke, .ql-snow.ql-toolbar button.ql-active .ql-stroke, .ql-snow .ql-toolbar button.ql-active .ql-stroke, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke, .ql-snow.ql-toolbar button:hover .ql-stroke-miter, .ql-snow .ql-toolbar button:hover .ql-stroke-miter, .ql-snow.ql-toolbar button:focus .ql-stroke-miter, .ql-snow .ql-toolbar button:focus .ql-stroke-miter, .ql-snow.ql-toolbar button.ql-active .ql-stroke-miter, .ql-snow .ql-toolbar button.ql-active .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter {\n  stroke: #2dc0d5!important;\n}\n\n.ql-snow.ql-toolbar button:hover .ql-fill, .ql-snow .ql-toolbar button:hover .ql-fill, .ql-snow.ql-toolbar button:focus .ql-fill, .ql-snow .ql-toolbar button:focus .ql-fill, .ql-snow.ql-toolbar button.ql-active .ql-fill, .ql-snow .ql-toolbar button.ql-active .ql-fill, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-fill, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-fill, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-fill, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-fill, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-fill, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-fill, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-fill, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-fill, .ql-snow.ql-toolbar button:hover .ql-stroke.ql-fill, .ql-snow .ql-toolbar button:hover .ql-stroke.ql-fill, .ql-snow.ql-toolbar button:focus .ql-stroke.ql-fill, .ql-snow .ql-toolbar button:focus .ql-stroke.ql-fill, .ql-snow.ql-toolbar button.ql-active .ql-stroke.ql-fill, .ql-snow .ql-toolbar button.ql-active .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill {\n  fill: #2dc0d5!important;\n}\n\n::selection{\nbackground: #2dc0d5!important;\n}\n\n::-moz-selection {\nbackground: #2dc0d5!important;\n}\n\ninput:focus{\n  outline-color: #2dc0d5!important;\n}\n\n.pad {\n  margin: 30px 30px 30px 30px;\n}\n\n.ql-container.ql-snow {\n  border:none!important;\n}\n.ql-toolbar.ql-snow {\n  border-bottom: 1px solid #ccc!important;\n  border: none;\n}\n\n.ql-editor p strong,.ql-editor h1 ,.ql-editor h2 ,.ql-editor h3 {\n  font-family: 'Open Sans', sans-serif!important;\n  font-weight: 700!important;\n}\n\n.ql-editor li:not(.ql-direction-rtl)::before {\n  margin-right: 1em!important;\n}\n\n.ql-snow a {\n  color: #2dc0d5;\n}\n\n.notesParent {\n  justify-content: center;\n  display: flex;\n}\n\n#editor {\n  height:300px;\n}\n\n.notesChild {\n  width: 650px;\n  position: relative;\n  box-sizing: border-box;\n  transition: box-shadow .1s ease-in-out;\n  background: #fff;\n  color: #666;\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\n  border-radius: 5px;\n  margin-top: 20px!important;\n}\n\n@media (max-width: 650px) {\n  #editor {\n    width: 100%;\n  }\n  .notesChild {\n    box-shadow: none;\n  }\n  .pad {\n    margin: 10px 10px 10px 10px;\n  }\n}\n\n@media (max-height: 650px) {\n\n}", ""]);
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
-exports.push([module.i, ".ql-editor p{\r\n  font-family: 'Open Sans', sans-serif!important;\r\n  font-weight: 400!important;\r\n}\r\n\r\n.ql-editor ol li:not(.ql-direction-rtl), .ql-editor ul li:not(.ql-direction-rtl) {\r\n  padding-left: 1.5em;\r\n  padding-right: 1.5em;\r\n}\r\n\r\n.ql-snow.ql-toolbar button:hover, .ql-snow .ql-toolbar button:hover, .ql-snow.ql-toolbar button:focus, .ql-snow .ql-toolbar button:focus, .ql-snow.ql-toolbar button.ql-active, .ql-snow .ql-toolbar button.ql-active, .ql-snow.ql-toolbar .ql-picker-label:hover, .ql-snow .ql-toolbar .ql-picker-label:hover, .ql-snow.ql-toolbar .ql-picker-label.ql-active, .ql-snow .ql-toolbar .ql-picker-label.ql-active, .ql-snow.ql-toolbar .ql-picker-item:hover, .ql-snow .ql-toolbar .ql-picker-item:hover, .ql-snow.ql-toolbar .ql-picker-item.ql-selected, .ql-snow .ql-toolbar .ql-picker-item.ql-selected {\r\n  color: #2dc0d5!important;\r\n}\r\n\r\n.ql-snow.ql-toolbar button:hover .ql-stroke, .ql-snow .ql-toolbar button:hover .ql-stroke, .ql-snow.ql-toolbar button:focus .ql-stroke, .ql-snow .ql-toolbar button:focus .ql-stroke, .ql-snow.ql-toolbar button.ql-active .ql-stroke, .ql-snow .ql-toolbar button.ql-active .ql-stroke, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke, .ql-snow.ql-toolbar button:hover .ql-stroke-miter, .ql-snow .ql-toolbar button:hover .ql-stroke-miter, .ql-snow.ql-toolbar button:focus .ql-stroke-miter, .ql-snow .ql-toolbar button:focus .ql-stroke-miter, .ql-snow.ql-toolbar button.ql-active .ql-stroke-miter, .ql-snow .ql-toolbar button.ql-active .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke-miter, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter {\r\n  stroke: #2dc0d5!important;\r\n}\r\n\r\n.ql-snow.ql-toolbar button:hover .ql-fill, .ql-snow .ql-toolbar button:hover .ql-fill, .ql-snow.ql-toolbar button:focus .ql-fill, .ql-snow .ql-toolbar button:focus .ql-fill, .ql-snow.ql-toolbar button.ql-active .ql-fill, .ql-snow .ql-toolbar button.ql-active .ql-fill, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-fill, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-fill, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-fill, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-fill, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-fill, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-fill, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-fill, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-fill, .ql-snow.ql-toolbar button:hover .ql-stroke.ql-fill, .ql-snow .ql-toolbar button:hover .ql-stroke.ql-fill, .ql-snow.ql-toolbar button:focus .ql-stroke.ql-fill, .ql-snow .ql-toolbar button:focus .ql-stroke.ql-fill, .ql-snow.ql-toolbar button.ql-active .ql-stroke.ql-fill, .ql-snow .ql-toolbar button.ql-active .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill, .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill, .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill {\r\n  fill: #2dc0d5!important;\r\n}\r\n\r\n::selection{\r\nbackground: #2dc0d5!important;\r\n}\r\n\r\n::-moz-selection {\r\nbackground: #2dc0d5!important;\r\n}\r\n\r\ninput:focus{\r\n  outline-color: #2dc0d5!important;\r\n}\r\n\r\n.pad {\r\n  margin: 30px 30px 30px 30px;\r\n}\r\n\r\n.ql-container.ql-snow {\r\n  border:none!important;\r\n}\r\n.ql-toolbar.ql-snow {\r\n  border-bottom: 1px solid #ccc!important;\r\n  border: none;\r\n}\r\n\r\n.ql-editor p strong,.ql-editor h1 ,.ql-editor h2 ,.ql-editor h3 {\r\n  font-family: 'Open Sans', sans-serif!important;\r\n  font-weight: 700!important;\r\n}\r\n\r\n.ql-editor li:not(.ql-direction-rtl)::before {\r\n  margin-right: 1em!important;\r\n}\r\n\r\n.ql-snow a {\r\n  color: #2dc0d5;\r\n}\r\n\r\n.notesParent {\r\n  justify-content: center;\r\n  display: flex;\r\n}\r\n\r\n#editor {\r\n  height:300px;\r\n}\r\n\r\n.notesChild {\r\n  width: 650px;\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  border-radius: 5px;\r\n  margin-top: 20px!important;\r\n}\r\n\r\n@media (max-width: 650px) {\r\n  #editor {\r\n    width: 100%;\r\n  }\r\n  .notesChild {\r\n    box-shadow: none;\r\n  }\r\n  .pad {\r\n    margin: 10px 10px 10px 10px;\r\n  }\r\n}\r\n\r\n@media (max-height: 650px) {\r\n\r\n}", ""]);
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 
 // exports
 
@@ -31242,15 +30710,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-<<<<<<< HEAD
-<<<<<<< HEAD
 exports.push([module.i, ".under {\r\n  margin-top: 70px!important\r\n}\r\n\r\n#noticesList .uk-accordion>:nth-child(n+2) {\r\n  margin-top: 20px;\r\n}\r\n\r\n#noticesList .uk-accordion-content {\r\n  margin-top: 8px;\r\n}\r\n\r\n.noticesParent {\r\n  display: flex;\r\n  justify-content: center;\r\n}\r\n\r\n.uk-button, .uk-select {\r\n  border-radius: 5px;\r\n}\r\n\r\n.noticesChild {\r\n  margin-top: 20px!important;\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  border-radius: 5px;\r\n  width: 750px;\r\n  padding: 30px 30px;\r\n}\r\n\r\n.yearSelect {\r\n  float: right;\r\n  width: 60px!important;\r\n}\r\n\r\n@media (max-width:750px) {\r\n  .noticesChild {\r\n    box-shadow: none;\r\n  }\r\n  .noticesChild .uk-accordion-title {\r\n    font-size: 1.25rem;\r\n  }\r\n}", ""]);
-=======
-exports.push([module.i, ".under {\n  margin-top: 70px!important\n}\n\n#noticesList .uk-accordion>:nth-child(n+2) {\n  margin-top: 20px;\n}\n\n#noticesList .uk-accordion-content {\n  margin-top: 8px;\n}\n\n.noticesParent {\n  display: flex;\n  justify-content: center;\n}\n\n.uk-button, .uk-select {\n  border-radius: 5px;\n}\n\n.noticesChild {\n  margin-top: 20px!important;\n  position: relative;\n  box-sizing: border-box;\n  transition: box-shadow .1s ease-in-out;\n  background: #fff;\n  color: #666;\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\n  border-radius: 5px;\n  width: 750px;\n  padding: 30px 30px;\n}\n\n.yearSelect {\n  float: right;\n  width: 60px!important;\n}\n\n@media (max-width:750px) {\n  .noticesChild {\n    box-shadow: none;\n  }\n  .noticesChild .uk-accordion-title {\n    font-size: 1.25rem;\n  }\n}", ""]);
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
-exports.push([module.i, ".under {\r\n  margin-top: 70px!important\r\n}\r\n\r\n#noticesList .uk-accordion>:nth-child(n+2) {\r\n  margin-top: 20px;\r\n}\r\n\r\n#noticesList .uk-accordion-content {\r\n  margin-top: 8px;\r\n}\r\n\r\n.noticesParent {\r\n  display: flex;\r\n  justify-content: center;\r\n}\r\n\r\n.uk-button, .uk-select {\r\n  border-radius: 5px;\r\n}\r\n\r\n.noticesChild {\r\n  margin-top: 20px!important;\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  border-radius: 5px;\r\n  width: 750px;\r\n  padding: 30px 30px;\r\n}\r\n\r\n.yearSelect {\r\n  float: right;\r\n  width: 60px!important;\r\n}\r\n\r\n@media (max-width:750px) {\r\n  .noticesChild {\r\n    box-shadow: none;\r\n  }\r\n  .noticesChild .uk-accordion-title {\r\n    font-size: 1.25rem;\r\n  }\r\n}", ""]);
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 
 // exports
 
@@ -31267,7 +30727,6 @@ exports.push([module.i, ".under {\r\n  margin-top: 70px!important\r\n}\r\n\r\n#n
 
 
 const http = __webpack_require__(6);
-<<<<<<< HEAD
 
 window.date = [];
 let date;
@@ -31287,24 +30746,10 @@ const MONTHS = {
   10: 'November',
   11: 'December'
 };
-=======
-let input = '';
-
-const ListItem = ({ value }) => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-  'li',
-  { id: value },
-  value
-);
-
-window.d = '';
-window.m = '';
-window.y = '';
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
 
 class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   constructor(props) {
     super(props);
-<<<<<<< HEAD
     date = new Date();
 
     if (window.date.length === 0) {
@@ -31318,50 +30763,17 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       day: 0,
       month: '',
       year: 0,
-      eventsToShow: [],
+      events: [],
       diaryCal: window.diaryCal
     };
   }
 
   componentDidMount() {
     this.changeMonth(0);
-    this.setEvents(this.state.diaryCal[window.date[0] - 1]);
-    this.highlightSelectedDay(window.date[0]);
+    input = window.date[0];
+    this.displayCal();
   }
 
-  /*// highlights newDay on the calendar
-  highlightSelectedDay(newDay) {
-    window.d = parseInt(newDay)
-    let days = this.state.days
-    let prevDay = this.state.selectedDay
-    
-    // unselect selected day
-    if (this.state.selectedDayIndex != -1) {
-      let prev = document.getElementById(days[this.state.selectedDayIndex])
-      prev.className = ''
-        days[this.state.selectedDayIndex] = prevDay
-      
-    }
-    
-    // select new day
-    for (var i = 0; i < days.length; i++) {
-      if (days[i] == newDay) {
-        let select = document.getElementById(newDay)
-        select.className = 'active'
-        
-        this.setState( ()=> ({
-          selectedDayIndex: i
-        }))
-        break
-      }
-    }
-      this.setState( ()=> ({
-      selectedDay: newDay,
-      days: days
-    }))
-  }*/
-
-  // events is a JSON of { info: {}, items: {} }
   setEvents(events) {
     let eventsToAdd = [];
     let items = events.items;
@@ -31370,78 +30782,6 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       let thisEvent = items[i];
 
       switch (thisEvent.type) {
-=======
-
-    if (window.d === '') {
-      window.d = new Date().getDate();
-    }
-    if (window.m === '') {
-      window.m = new Date().getMonth();
-    }
-    if (window.y === '') {
-      window.y = new Date().getFullYear();
-    }
-
-    this.setDaysForMonth = this.setDaysForMonth.bind(this);
-
-    this.state = {
-      calData: window.diaryCal,
-      eventsToShow: [],
-      selectedDay: window.d,
-      selectedDayIndex: -1,
-      selectedMonth: window.m,
-      selectedYear: window.y,
-      days: this.setDaysForMonth(window.m, window.y)
-    };
-
-    this.highlightSelectedDay = this.highlightSelectedDay.bind(this);
-    this.setEvents = this.setEvents.bind(this);
-    this.changeMonth = this.changeMonth.bind(this);
-  }
-
-  // setup
-  componentDidMount() {
-    let content = document.getElementById('content');
-    content.className = 'full vcNavbarParentCal';
-    this.setDaysForMonth(this.state.selectedMonth, this.state.selectedYear);
-    this.setEvents(this.state.calData[this.state.selectedDay - 1]);
-    this.highlightSelectedDay(this.state.selectedDay);
-  }
-
-  componentWillUnmount() {
-    let content = document.getElementById('content');
-    content.className = 'full';
-
-    window.d = this.state.selectedDay;
-    window.m = this.state.selectedMonth;
-    window.y = this.state.selectedYear;
-  }
-
-  //this sub must process your click input - careful sometimes you can click on the ul element - the onclick returns the innerHTML of child nodes, but it can return any DOM property
-  monthInput(e) {
-    input = e.target.innerHTML;
-  }
-
-  //this sub is simultaneously fired and can do your processing - good luck
-  displayCal() {
-    if (!isNaN(input)) {
-      if (input != this.state.selectedDay) {
-        this.highlightSelectedDay(input);
-        this.setEvents(this.state.calData[input - 1]);
-      }
-    }
-  }
-
-  // events is a JSON of { info: {}, items: {} }
-  setEvents(events) {
-    var eventsToAdd = [];
-    const items = events['items'];
-
-    for (var i = 0; i < items.length; i++) {
-      const thisEvent = items[i];
-
-      switch (thisEvent['type']) {
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
         case 'school':
           eventsToAdd.push((thisEvent['subject'] != '' ? thisEvent['subject'] + ': ' : '') + thisEvent['title']);break;
         case 'assessment':
@@ -31455,8 +30795,7 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       }
     }
 
-<<<<<<< HEAD
-    this.state.eventsToShow = eventsToAdd;
+    this.state.events = eventsToAdd;
   }
 
   highlightSelectedDay(newDay) {
@@ -31476,6 +30815,23 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     this.setState({ day: window.date[0] });
   }
 
+  changeYear(dir) {
+    if (dir === 1) {
+      window.date[2]++;
+    } else if (dir === -1) {
+      window.date[2]--;
+    }
+
+    let year = this.state.year;
+    this.setState({ year: window.date[2] });
+
+    this.fillDates(date);
+
+    if (dir !== 0) {
+      this.getData();
+    }
+  }
+
   changeMonth(dir) {
     if (dir === 1) {
       if (window.date[1] == 11) {
@@ -31492,10 +30848,6 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         window.date[1]--;
       }
     }
-    /*window.date[1] %= 12
-    if (window.date[1] < 0) {
-      window.date[1] += 12
-    }*/
 
     let month = this.state.month;
     this.setState({ month: MONTHS[window.date[1]] });
@@ -31505,40 +30857,48 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     this.fillDates(date);
 
     if (dir !== 0) {
-      //data
-      let promise1 = new Promise((resolve, reject) => {
-        const YEAR = window.date[2];
-        const MONTH = window.date[1] + 1;
+      this.getData();
+    }
+  }
 
-        let from = YEAR + '-' + (MONTH > 9 ? MONTH : '0' + MONTH) + '-01';
-        let to = YEAR + '-' + (MONTH > 9 ? MONTH : '0' + MONTH) + '-' + new Date(YEAR, MONTH, 0).getDate();
+  getData() {
+    //data
+    let promise1 = new Promise((resolve, reject) => {
+      const YEAR = window.date[2];
+      const MONTH = window.date[1] + 1;
 
-        const TOKEN = localStorage.getItem('accessToken');
-        http.get('/getdata?token=' + TOKEN + '&url=diarycalendar/events.json?from=' + from + '&to=' + to, res => {
-          res.setEncoding('utf8');
-          let data = '';
-          res.on('data', body => {
-            data += body;
-          });
-          res.on('end', () => {
-            resolve(JSON.parse(data));
-          });
+      let from = YEAR + '-' + (MONTH > 9 ? MONTH : '0' + MONTH) + '-01';
+      let to = YEAR + '-' + (MONTH > 9 ? MONTH : '0' + MONTH) + '-' + new Date(YEAR, MONTH, 0).getDate();
+
+      const TOKEN = localStorage.getItem('accessToken');
+      http.get('/getdata?token=' + TOKEN + '&url=diarycalendar/events.json?from=' + from + '&to=' + to, res => {
+        res.setEncoding('utf8');
+        let data = '';
+        res.on('data', body => {
+          data += body;
+        });
+        res.on('end', () => {
+          resolve(JSON.parse(data));
         });
       });
+    });
 
-      promise1.then(result => {
-        //let diaryCal = this.state.diaryCal
-        //this.setState({ diaryCal: result })
-        this.state.diaryCal = result;
-      });
-    }
+    promise1.then(result => {
+      this.state.diaryCal = result;
+    });
 
-    let dayToSelect = 1;
-    if (window.date[1] == new Date().getMonth() && window.date[2] == new Date().getFullYear()) {
-      dayToSelect = new Date().getDate();
+    let dayToSelect;
+    if (window.date[0] == undefined) {
+      dayToSelect = 1;
+      if (window.date[1] == new Date().getMonth() && window.date[2] == new Date().getFullYear()) {
+        dayToSelect = new Date().getDate();
+      }
+    } else {
+      dayToSelect = window.date[0];
     }
 
     console.log(this.state.diaryCal);
+    console.log(dayToSelect);
     this.setEvents(this.state.diaryCal[dayToSelect - 1]);
     this.highlightSelectedDay(dayToSelect);
   }
@@ -31577,141 +30937,6 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
           length = 29;
         } else {
           length = 28;
-=======
-    this.setState(() => ({
-      eventsToShow: eventsToAdd
-    }));
-  }
-
-  prevMonth() {
-    this.changeMonth(-1);
-  }
-
-  nextMonth() {
-    this.changeMonth(1);
-  }
-
-  // diff is either 1 or -1
-  changeMonth(diff) {
-
-    var curMonth = this.state.selectedMonth;
-    var curYear = this.state.selectedYear;
-
-    // back past January
-    if (curMonth == 0 && diff == -1) {
-      curMonth = 11;
-      curYear -= 1;
-
-      // forward past December
-    } else if (curMonth == 11 && diff == 1) {
-      curMonth = 0;
-      curYear += 1;
-    } else {
-      curMonth += diff;
-    }
-    let prev = document.getElementById(this.state.days[this.state.selectedDayIndex]);
-    prev.className = '';
-
-    this.setState(() => ({
-      selectedMonth: curMonth,
-      selectedYear: curYear,
-      selectedDayIndex: -1,
-      days: this.setDaysForMonth(curMonth, curYear)
-    }));
-
-    // Get calendar data for the next month
-    let promise1 = new Promise(function (resolve, reject) {
-
-      const year = curYear;
-      const month = curMonth + 1;
-
-      // create parameters:   from=YYYY-MM-DD   to=YYYY-MM-DD
-      var from = year + '-' + (month > 9 ? month : '0' + month) + '-01';
-      var to = year + '-' + (month > 9 ? month : '0' + month) + '-' + new Date(year, month, 0).getDate();
-
-      // make http request
-      const token = localStorage.getItem('accessToken');
-      http.get('/getdata?token=' + token + '&url=diarycalendar/events.json?from=' + from + '&to=' + to, res => {
-        res.setEncoding('utf8');
-        let d = '';
-        res.on('data', body => {
-          d += body;
-        });
-        res.on('end', () => {
-          resolve(JSON.parse(d));
-        });
-      });
-    });
-
-    // process data from http requests
-    promise1.then(result => {
-      this.setState(() => ({
-        calData: result
-      }));
-      window.m = curMonth;
-      window.y = curYear;
-
-      let dayToSelect = 1;
-      if (window.m == new Date().getMonth() && window.y == new Date().getFullYear()) {
-        dayToSelect = new Date().getDate();
-      }
-
-      this.setEvents(this.state.calData[dayToSelect - 1]);
-      this.highlightSelectedDay(dayToSelect);
-    });
-  }
-
-  // converts a number to a month e.g. 0 -> 'January', 1 -> 'February'
-  monthNumToText(num) {
-    const arr = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    return arr[num];
-  }
-
-  // highlights newDay on the calendar
-  highlightSelectedDay(newDay) {
-    window.d = parseInt(newDay);
-    let days = this.state.days;
-    let prevDay = this.state.selectedDay;
-
-    // unselect selected day
-    if (this.state.selectedDayIndex != -1) {
-      let prev = document.getElementById(days[this.state.selectedDayIndex]);
-      prev.className = '';
-
-      days[this.state.selectedDayIndex] = prevDay;
-    }
-
-    // select new day
-    for (var i = 0; i < days.length; i++) {
-      if (days[i] == newDay) {
-        let select = document.getElementById(newDay);
-        select.className = 'active';
-
-        this.setState(() => ({
-          selectedDayIndex: i
-        }));
-        break;
-      }
-    }
-
-    this.setState(() => ({
-      selectedDay: newDay,
-      days: days
-    }));
-  }
-
-  // get the number of days for the month for UI
-  setDaysForMonth(month, year) {
-
-    var days = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28];
-
-    switch (month + 1) {
-
-      // 28/29 days
-      case 2:
-        if (year % 4 == 0) {
-          days.push(29);
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
         };break;
 
       // 30 days
@@ -31719,7 +30944,6 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       case 6:
       case 9:
       case 11:
-<<<<<<< HEAD
         length = 30;break;
 
       // 31 days
@@ -31730,15 +30954,20 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     return length;
   }
 
-  //{ (this.state.days).map((item, i) => <ListItem key={i} value={item} />) }
-  //{ (this.state.eventsToShow).map((item, i) => <ListItem key={i} value={item} />) }
-
   prevMonth() {
     this.changeMonth(-1);
   }
 
   nextMonth() {
     this.changeMonth(1);
+  }
+
+  prevYear() {
+    this.changeYear(-1);
+  }
+
+  nextYear() {
+    this.changeYear(1);
   }
 
   monthInput(e) {
@@ -31752,22 +30981,6 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         this.setEvents(this.state.diaryCal[input - 1]);
       }
     }
-=======
-        days = days.concat([29, 30]);break;
-
-      // 31 days
-      default:
-        days = days.concat([29, 30, 31]);
-    }
-
-    // offset first day so it starts on the correct day of week e.g. 1st of month starts on Friday or Tuesday
-    const firstOfMonth = new Date(year, month, 1);
-    for (var i = 0; i < firstOfMonth.getDay(); i++) {
-      days.unshift(' ');
-    }
-
-    return days;
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
   }
 
   render() {
@@ -31785,13 +30998,13 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             null,
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'p',
-              { className: 'uk-float-left' },
-              '2017'
+              { className: 'uk-float-left', onClick: this.prevYear.bind(this) },
+              this.state.year - 1
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'p',
-              { className: 'uk-float-right' },
-              '2019'
+              { className: 'uk-float-right', onClick: this.nextYear.bind(this) },
+              this.state.year + 1
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'div',
@@ -31801,25 +31014,16 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                 null,
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                   'li',
-<<<<<<< HEAD
                   { className: 'prev', onClick: this.prevMonth.bind(this) },
-=======
-                  { onClick: this.prevMonth.bind(this), className: 'prev' },
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
                   '\u276E'
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                   'li',
-<<<<<<< HEAD
                   { className: 'next', onClick: this.nextMonth.bind(this) },
-=======
-                  { onClick: this.nextMonth.bind(this), className: 'next' },
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
                   '\u276F'
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                   'li',
-<<<<<<< HEAD
                   { id: 'month' },
                   this.state.month,
                   __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
@@ -31827,15 +31031,6 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                     'span',
                     { id: 'year' },
                     this.state.year
-=======
-                  null,
-                  this.monthNumToText(this.state.selectedMonth),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'span',
-                    null,
-                    this.state.selectedYear
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
                   )
                 )
               )
@@ -31884,11 +31079,7 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
               { onClick: this.displayCal.bind(this) },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'ul',
-<<<<<<< HEAD
                 { className: 'days', onClick: this.monthInput.bind(this) },
-=======
-                { className: 'days', onClick: this.monthInput },
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
                 this.state.days.map((item, i) => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(ListItem, { key: i, value: item }))
               )
             )
@@ -31908,7 +31099,7 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'ul',
               { className: 'eventsList uk-list uk-list-striped' },
-              this.state.eventsToShow.map((item, i) => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(ListItem, { key: i, value: item }))
+              this.state.events.map((item, i) => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(ListItem, { key: i, value: item }))
             )
           )
         )
@@ -31917,16 +31108,11 @@ class Calendar extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   }
 }
 
-<<<<<<< HEAD
 const ListItem = ({ value }) => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
   'li',
   { id: value },
   value
 );
-=======
-//add this and remove the days class
-/*<div className="daysOverlay uk-inline"><div className="uk-position-center"><div uk-spinner="ratio: 1" className="uk-spinner uk-icon"></div></div></div> */
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
 
 /* harmony default export */ __webpack_exports__["a"] = (Calendar);
 
@@ -31970,15 +31156,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-<<<<<<< HEAD
-<<<<<<< HEAD
-exports.push([module.i, ".flex-container {\r\n  justify-content: center;\r\n  display: flex;\r\n}\r\n\r\n.two {\r\n  width: 800px;\r\n}\r\n\r\n.flex-child {\r\n  margin-top: 20px!important;\r\n}\r\n\r\n.month {\r\n  padding: 70px 25px;\r\n  background: #2dc0d5;\r\n  text-align: center;\r\n  border-radius: 5px 0 0 0;\r\n}\r\n\r\n.month ul {\r\n  margin: 0;\r\n  padding: 0;\r\n}\r\n\r\n.month ul li {\r\n  color: white;\r\n  font-size: 25px;\r\n  text-transform: uppercase;\r\n  letter-spacing: 3px;\r\n}\r\n\r\n.month .prev {\r\n  float: left;\r\n  padding: 20px;\r\n}\r\n\r\n.month .next {\r\n  float: right;\r\n  padding: 20px;\r\n}\r\n\r\n.weekdays {\r\n  margin: 0;\r\n  padding: 10px;\r\n  background-color: #f8f8f8;\r\n}\r\n\r\n.weekdays li {\r\n  display: inline-block;\r\n  width: 14.2%;\r\n  color: #666;\r\n  text-align: center;\r\n  margin: 10px 0 10px 0;\r\n}\r\n\r\n.days {\r\n  padding: 10px;\r\n  background: #fff;\r\n  margin: 0;\r\n  border-radius: 0 0 0 5px;\r\n}\r\n\r\n.month li {\r\n  list-style-type: none;\r\n}\r\n\r\n.days li {\r\n  list-style-type: none;\r\n  display: inline-block;\r\n  width: 14.2%;\r\n  text-align: center;\r\n  padding-top: 10px;\r\n  padding-bottom: 10px;\r\n  color: #777;\r\n}\r\n\r\n.days li:hover, .prev:hover, .next:hover {\r\n  background-color: #e0e0e0;\r\n  transition: background-color 100ms linear;\r\n}\r\n\r\n.weekdays li{\r\n  font-weight: 700;\r\n}\r\n\r\n.eventsList {\r\n  text-align: left;\r\n}\r\n\r\n.events {\r\n  overflow-y: scroll;\r\n}\r\n\r\n.eventsBorder{\r\n  border-radius: 0 5px 5px 0;\r\n  height: 522px;\r\n}\r\n\r\n.daysOverlay {\r\n  height: 260px;\r\n  width: 100%;\r\n}\r\n\r\n.days .active {\r\n  background: #2dc0d5;\r\n  color: white !important\r\n}\r\n\r\n.days {\r\n  text-align: left!important;\r\n}\r\n\r\n.cal {\r\n  height: 522px!important;\r\n  border-radius: 5px 0 0 5px;\r\n}\r\n\r\n.events td {\r\n  text-align: left;\r\n}\r\n\r\n.events p {\r\n  margin-bottom: 20px;\r\n}\r\n\r\n.vcNavbarParentCal {\r\n  display: flex;\r\n}\r\n\r\n@media screen and (max-width: 420px) {\r\n/*  .weekdays li, .days li {width: 12.5%;}*/\r\n  .days li .active {padding: 2px;}\r\n}\r\n\r\n@media (max-width: 639px) {\r\n  .events {\r\n    overflow-y: visible;\r\n    height: auto;\r\n  }\r\n  .uk-grid{\r\n    margin-top: 20px!important;\r\n  }\r\n  .cal {\r\n    border-radius: 5px 5px 0 0 ;\r\n    height: auto!important;\r\n  }\r\n  .eventsBorder{\r\n    border-radius: 0 0 5px 5px;\r\n    height: auto!important;\r\n  }\r\n  .month {\r\n    border-radius: 5px 5px 0 0 ;\r\n    padding: 40px 25px;\r\n  }\r\n  .days {\r\n    border-radius: 0;\r\n  }\r\n  .days li {\r\n    padding-top: 5px;\r\n    padding-bottom: 5px;\r\n    font-size: 12px;\r\n  }\r\n  .weekdays li {\r\n    margin: 0px;\r\n    font-size: 12px;\r\n  }\r\n  .vcNavbarParentCal {\r\n    display: block!important;\r\n  }\r\n  .daysOverlay {\r\n    height: 170px;\r\n  }\r\n}\r\n", ""]);
-=======
-exports.push([module.i, ".flex-container {\n  justify-content: center;\n  display: flex;\n}\n\n.two {\n  width: 800px;\n}\n\n.flex-child {\n  margin-top: 20px!important;\n}\n\n.month {\n  padding: 70px 25px;\n  background: #2dc0d5;\n  text-align: center;\n  border-radius: 5px 0 0 0;\n}\n\n.month ul {\n  margin: 0;\n  padding: 0;\n}\n\n.month ul li {\n  color: white;\n  font-size: 25px;\n  text-transform: uppercase;\n  letter-spacing: 3px;\n}\n\n.month .prev {\n  float: left;\n  padding: 20px;\n}\n\n.month .next {\n  float: right;\n  padding: 20px;\n}\n\n.weekdays {\n  margin: 0;\n  padding: 10px;\n  background-color: #f8f8f8;\n}\n\n.weekdays li {\n  display: inline-block;\n  width: 14.2%;\n  color: #666;\n  text-align: center;\n  margin: 10px 0 10px 0;\n}\n\n.days {\n  padding: 10px;\n  background: #fff;\n  margin: 0;\n  border-radius: 0 0 0 5px;\n}\n\n.month li {\n  list-style-type: none;\n}\n\n.days li {\n  list-style-type: none;\n  display: inline-block;\n  width: 14.2%;\n  text-align: center;\n  padding-top: 10px;\n  padding-bottom: 10px;\n  color: #777;\n}\n\n.days li:hover, .prev:hover, .next:hover {\n  background-color: #e0e0e0;\n  transition: background-color 100ms linear;\n}\n\n.weekdays li{\n  font-weight: 700;\n}\n\n.eventsList {\n  text-align: left;\n}\n\n.events {\n  overflow-y: scroll;\n}\n\n.eventsBorder{\n  border-radius: 0 5px 5px 0;\n  height: 522px;\n}\n\n.daysOverlay {\n  height: 260px;\n  width: 100%;\n}\n\n.days .active {\n  background: #2dc0d5;\n  color: white !important\n}\n\n.days {\n  text-align: left!important;\n}\n\n.cal {\n  height: 522px!important;\n  border-radius: 5px 0 0 5px;\n}\n\n.events td {\n  text-align: left;\n}\n\n.events p {\n  margin-bottom: 20px;\n}\n\n.vcNavbarParentCal {\n  display: flex;\n}\n\n@media screen and (max-width: 420px) {\n/*  .weekdays li, .days li {width: 12.5%;}*/\n  .days li .active {padding: 2px;}\n}\n\n@media (max-width: 639px) {\n  .events {\n    overflow-y: visible;\n    height: auto;\n  }\n  .uk-grid{\n    margin-top: 20px!important;\n  }\n  .cal {\n    border-radius: 5px 5px 0 0 ;\n    height: auto!important;\n  }\n  .eventsBorder{\n    border-radius: 0 0 5px 5px;\n    height: auto!important;\n  }\n  .month {\n    border-radius: 5px 5px 0 0 ;\n    padding: 40px 25px;\n  }\n  .days {\n    border-radius: 0;\n  }\n  .days li {\n    padding-top: 5px;\n    padding-bottom: 5px;\n    font-size: 12px;\n  }\n  .weekdays li {\n    margin: 0px;\n    font-size: 12px;\n  }\n  .vcNavbarParentCal {\n    display: block!important;\n  }\n  .daysOverlay {\n    height: 170px;\n  }\n}\n", ""]);
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
 exports.push([module.i, ".flex-container {\r\n  justify-content: center;\r\n  display: flex;\r\n}\r\n\r\n.two {\r\n  width: 800px;\r\n}\r\n\r\n.flex-child {\r\n  margin-top: 20px!important;\r\n}\r\n\r\n.month {\r\n  padding: 70px 25px;\r\n  background: #2dc0d5;\r\n  text-align: center;\r\n  border-radius: 5px 0 0 0;\r\n}\r\n\r\n.month ul {\r\n  margin: 0;\r\n  padding: 0;\r\n}\r\n\r\n.month ul li {\r\n  color: white;\r\n  font-size: 25px;\r\n  text-transform: uppercase;\r\n  letter-spacing: 3px;\r\n}\r\n\r\n.month .prev {\r\n  float: left;\r\n  padding: 20px;\r\n}\r\n\r\n.month .next {\r\n  float: right;\r\n  padding: 20px;\r\n}\r\n\r\n.weekdays {\r\n  margin: 0;\r\n  padding: 10px;\r\n  background-color: #f8f8f8;\r\n}\r\n\r\n.weekdays li {\r\n  display: inline-block;\r\n  width: 14.2%;\r\n  color: #666;\r\n  text-align: center;\r\n  margin: 10px 0 10px 0;\r\n}\r\n\r\n.days {\r\n  padding: 10px;\r\n  background: #fff;\r\n  margin: 0;\r\n  border-radius: 0 0 0 5px;\r\n}\r\n\r\n.month li {\r\n  list-style-type: none;\r\n}\r\n\r\n.days li {\r\n  list-style-type: none;\r\n  display: inline-block;\r\n  width: 14.2%;\r\n  text-align: center;\r\n  padding-top: 10px;\r\n  padding-bottom: 10px;\r\n  color: #777;\r\n}\r\n\r\n.days li:hover, .prev:hover, .next:hover, .cal .uk-float-right:hover, .cal .uk-float-left:hover {\r\n  background-color: #e0e0e0;\r\n  color: #777!important;\r\n  transition: background-color 100ms linear;\r\n}\r\n\r\n.cal .uk-float-right, .cal .uk-float-left {\r\n  padding: 20px;\r\n  color: white;\r\n  margin: 0px!important;\r\n}\r\n\r\n.weekdays li{\r\n  font-weight: 700;\r\n}\r\n\r\n.eventsList {\r\n  text-align: left;\r\n}\r\n\r\n.events {\r\n  overflow-y: scroll;\r\n}\r\n\r\n.eventsBorder{\r\n  border-radius: 0 5px 5px 0;\r\n  height: 522px;\r\n}\r\n\r\n.daysOverlay {\r\n  height: 260px;\r\n  width: 100%;\r\n}\r\n\r\n.days .active {\r\n  background: #2dc0d5;\r\n  color: white !important;\r\n  border-radius: 2px;\r\n}\r\n\r\n.days {\r\n  text-align: left!important;\r\n}\r\n\r\n.cal {\r\n  height: 522px!important;\r\n  border-radius: 5px 0 0 5px;\r\n}\r\n\r\n.events td {\r\n  text-align: left;\r\n}\r\n\r\n.events p {\r\n  margin-bottom: 20px;\r\n}\r\n\r\n.vcNavbarParentCal {\r\n  display: flex;\r\n}\r\n\r\n@media screen and (max-width: 420px) {\r\n/*  .weekdays li, .days li {width: 12.5%;}*/\r\n  .days li .active {padding: 2px;}\r\n}\r\n\r\n@media (max-width: 639px) {\r\n  .events {\r\n    overflow-y: visible;\r\n    height: auto;\r\n  }\r\n  .uk-grid{\r\n    margin-top: 20px!important;\r\n  }\r\n  .cal {\r\n    border-radius: 5px 5px 0 0 ;\r\n    height: auto!important;\r\n  }\r\n  .eventsBorder{\r\n    border-radius: 0 0 5px 5px;\r\n    height: auto!important;\r\n  }\r\n  .month {\r\n    border-radius: 5px 5px 0 0 ;\r\n    padding: 40px 25px;\r\n  }\r\n  .days {\r\n    border-radius: 0;\r\n  }\r\n  .days li {\r\n    padding-top: 5px;\r\n    padding-bottom: 5px;\r\n    font-size: 12px;\r\n  }\r\n  .weekdays li {\r\n    margin: 0px;\r\n    font-size: 12px;\r\n  }\r\n  .vcNavbarParentCal {\r\n    display: block!important;\r\n  }\r\n  .daysOverlay {\r\n    height: 170px;\r\n  }\r\n}\r\n", ""]);
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 
 // exports
 
@@ -32142,15 +31320,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-<<<<<<< HEAD
-<<<<<<< HEAD
 exports.push([module.i, ".aboutContainer {\r\n  margin-top: 20px!important;\r\n  margin-bottom: 20px!important;\r\n  justify-content: center;\r\n  display: flex;\r\n  text-align: center!important;\r\n}\r\n\r\n.aboutCard{\r\n  width: 600px;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  border-radius: 5px;\r\n  padding: 30px 30px;\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n}\r\n\r\nh4 {\r\n  font-weight: 300!important;\r\n}\r\n\r\n@media (max-width:600px){\r\n  .aboutCard{\r\n    box-shadow: none;\r\n  }\r\n}\r\n\r\n@media (max-width:420px){\r\n  .aboutCard h1{\r\n    font-size: 3.5rem;\r\n  }\r\n  .aboutCard h2{\r\n    font-size: 2.5rem;\r\n    font-weight: 300\r\n  }\r\n  #aboutlogo{\r\n    width: 125px;\r\n  }\r\n}\r\n@media (max-width:375px){\r\n  .aboutCard h1{\r\n    font-size: 3rem;\r\n    font-weight: 300\r\n  }\r\n  .aboutCard h2{\r\n    font-size: 2rem;\r\n  }\r\n  #aboutlogo{\r\n    width: 100px;\r\n  }\r\n}\r\n@media (max-width:335px){\r\n  .aboutCard h1{\r\n    font-size: 2.5rem;\r\n  }\r\n  .aboutCard h2{\r\n    font-size: 1.5rem;\r\n  }\r\n  #aboutlogo{\r\n    width: 75px;\r\n  }\r\n}\r\n\r\n", ""]);
-=======
-exports.push([module.i, ".aboutContainer {\n  margin-top: 20px!important;\n  margin-bottom: 20px!important;\n  justify-content: center;\n  display: flex;\n  text-align: center!important;\n}\n\n.aboutCard{\n  width: 600px;\n  background: #fff;\n  color: #666;\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\n  border-radius: 5px;\n  padding: 30px 30px;\n  position: relative;\n  box-sizing: border-box;\n  transition: box-shadow .1s ease-in-out;\n}\n\nh4 {\n  font-weight: 300!important;\n}\n\n@media (max-width:600px){\n  .aboutCard{\n    box-shadow: none;\n  }\n}\n\n@media (max-width:420px){\n  .aboutCard h1{\n    font-size: 3.5rem;\n  }\n  .aboutCard h2{\n    font-size: 2.5rem;\n    font-weight: 300\n  }\n  #aboutlogo{\n    width: 125px;\n  }\n}\n@media (max-width:375px){\n  .aboutCard h1{\n    font-size: 3rem;\n    font-weight: 300\n  }\n  .aboutCard h2{\n    font-size: 2rem;\n  }\n  #aboutlogo{\n    width: 100px;\n  }\n}\n@media (max-width:335px){\n  .aboutCard h1{\n    font-size: 2.5rem;\n  }\n  .aboutCard h2{\n    font-size: 1.5rem;\n  }\n  #aboutlogo{\n    width: 75px;\n  }\n}\n\n", ""]);
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
-exports.push([module.i, ".aboutContainer {\r\n  margin-top: 20px!important;\r\n  margin-bottom: 20px!important;\r\n  justify-content: center;\r\n  display: flex;\r\n  text-align: center!important;\r\n}\r\n\r\n.aboutCard{\r\n  width: 600px;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  border-radius: 5px;\r\n  padding: 30px 30px;\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n}\r\n\r\nh4 {\r\n  font-weight: 300!important;\r\n}\r\n\r\n@media (max-width:600px){\r\n  .aboutCard{\r\n    box-shadow: none;\r\n  }\r\n}\r\n\r\n@media (max-width:420px){\r\n  .aboutCard h1{\r\n    font-size: 3.5rem;\r\n  }\r\n  .aboutCard h2{\r\n    font-size: 2.5rem;\r\n    font-weight: 300\r\n  }\r\n  #aboutlogo{\r\n    width: 125px;\r\n  }\r\n}\r\n@media (max-width:375px){\r\n  .aboutCard h1{\r\n    font-size: 3rem;\r\n    font-weight: 300\r\n  }\r\n  .aboutCard h2{\r\n    font-size: 2rem;\r\n  }\r\n  #aboutlogo{\r\n    width: 100px;\r\n  }\r\n}\r\n@media (max-width:335px){\r\n  .aboutCard h1{\r\n    font-size: 2.5rem;\r\n  }\r\n  .aboutCard h2{\r\n    font-size: 1.5rem;\r\n  }\r\n  #aboutlogo{\r\n    width: 75px;\r\n  }\r\n}\r\n\r\n", ""]);
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 
 // exports
 
@@ -32533,15 +31703,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-<<<<<<< HEAD
-<<<<<<< HEAD
 exports.push([module.i, ".profileParent {\r\n  display: flex;\r\n  justify-content: center;\r\n}\r\n\r\n#profileContent {\r\n  text-align: left;\r\n}\r\n\r\n\r\n\r\n.profileChild {\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  padding: 30px 30px;\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n  border-radius: 5px;\r\n  width: 550px;\r\n  margin-top: 20px;\r\n}\r\n\r\n.big {\r\n  margin-top: 70px!important\r\n}\r\n\r\n.profileChild .uk-align-left{\r\n  margin-top: 0px;\r\n  margin-bottom: 0px;\r\n}\r\n\r\n.uk-table-small button ::selection {\r\n    background: #39f;\r\n    color: #fff;\r\n    text-shadow: none;\r\n}\r\n\r\n.width-small {\r\n  width:80px;\r\n}\r\n\r\n.profileChild td code {\r\n  word-wrap: break-word;\r\n  user-select: text;\r\n  font-size: .875rem;\r\n  color: #666;\r\n  white-space: initial!important;\r\n  padding: 2px 6px;\r\n  background: #f8f8f8;\r\n}\r\n\r\n#detailsTable {\r\n  width: 100%!important;\r\n  table-layout: fixed!important;\r\n}\r\n\r\n@media (max-width:550px){\r\n  .profileChild {\r\n    width: 100%;\r\n    box-shadow: none;\r\n  }\r\n  #profileContent .uk-accordion-title {\r\n    font-size: 1.25rem;\r\n  }\r\n  .profileParent h2 {\r\n    font-size: 2.5rem;\r\n  }\r\n}", ""]);
-=======
-exports.push([module.i, ".profileParent {\n  display: flex;\n  justify-content: center;\n}\n\n#profileContent {\n  text-align: left;\n}\n\n\n\n.profileChild {\n  background: #fff;\n  color: #666;\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\n  padding: 30px 30px;\n  position: relative;\n  box-sizing: border-box;\n  transition: box-shadow .1s ease-in-out;\n  border-radius: 5px;\n  width: 550px;\n  margin-top: 20px;\n}\n\n.big {\n  margin-top: 70px!important\n}\n\n.profileChild .uk-align-left{\n  margin-top: 0px;\n  margin-bottom: 0px;\n}\n\n.uk-table-small button ::selection {\n    background: #39f;\n    color: #fff;\n    text-shadow: none;\n}\n\n.width-small {\n  width:80px;\n}\n\n.profileChild td code {\n  word-wrap: break-word;\n  user-select: text;\n  font-size: .875rem;\n  color: #666;\n  white-space: initial!important;\n  padding: 2px 6px;\n  background: #f8f8f8;\n}\n\n#detailsTable {\n  width: 100%!important;\n  table-layout: fixed!important;\n}\n\n@media (max-width:550px){\n  .profileChild {\n    width: 100%;\n    box-shadow: none;\n  }\n  #profileContent .uk-accordion-title {\n    font-size: 1.25rem;\n  }\n  .profileParent h2 {\n    font-size: 2.5rem;\n  }\n}", ""]);
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
-exports.push([module.i, ".profileParent {\r\n  display: flex;\r\n  justify-content: center;\r\n}\r\n\r\n#profileContent {\r\n  text-align: left;\r\n}\r\n\r\n\r\n\r\n.profileChild {\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  padding: 30px 30px;\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n  border-radius: 5px;\r\n  width: 550px;\r\n  margin-top: 20px;\r\n}\r\n\r\n.big {\r\n  margin-top: 70px!important\r\n}\r\n\r\n.profileChild .uk-align-left{\r\n  margin-top: 0px;\r\n  margin-bottom: 0px;\r\n}\r\n\r\n.uk-table-small button ::selection {\r\n    background: #39f;\r\n    color: #fff;\r\n    text-shadow: none;\r\n}\r\n\r\n.width-small {\r\n  width:80px;\r\n}\r\n\r\n.profileChild td code {\r\n  word-wrap: break-word;\r\n  user-select: text;\r\n  font-size: .875rem;\r\n  color: #666;\r\n  white-space: initial!important;\r\n  padding: 2px 6px;\r\n  background: #f8f8f8;\r\n}\r\n\r\n#detailsTable {\r\n  width: 100%!important;\r\n  table-layout: fixed!important;\r\n}\r\n\r\n@media (max-width:550px){\r\n  .profileChild {\r\n    width: 100%;\r\n    box-shadow: none;\r\n  }\r\n  #profileContent .uk-accordion-title {\r\n    font-size: 1.25rem;\r\n  }\r\n  .profileParent h2 {\r\n    font-size: 2.5rem;\r\n  }\r\n}", ""]);
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 
 // exports
 
@@ -32633,15 +31795,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-<<<<<<< HEAD
-<<<<<<< HEAD
 exports.push([module.i, ".embed {\r\n  width: 100%;\r\n  height: 100vh;\r\n  position: absolute;\r\n  display: block;\r\n}\r\n\r\n.container {\r\n  position: relative;\r\n  z-index: 1;\r\n}\r\n\r\n.behind {\r\n  z-index: -1;\r\n}\r\n\r\n.loadingParent {\r\n  display: flex;\r\n  height: auto;\r\n  margin: 0 auto;\r\n  min-height: calc(100vh - 80px);\r\n  min-height: -o-calc(100vh - 80px);\r\n  min-height: -webkit-calc(100vh - 80px);\r\n  min-height: -moz-calc(100vh - 80px)\r\n}\r\n.loadingChild {\r\n  margin: auto;\r\n  justify-content: center;\r\n  display: flex;\r\n  text-align: center!important;\r\n  max-width: 100%;\r\n}\r\n@media (max-width: 880px), (max-height: 620px) {\r\n  .loadingParent{\r\n    min-height: calc(100vh - 60px);\r\n    min-height: -o-calc(100vh - 60px);\r\n    min-height: -webkit-calc(100vh - 60px);\r\n    min-height: -moz-calc(100vh - 60px)\r\n  }\r\n}\r\n", ""]);
-=======
-exports.push([module.i, ".embed {\n  width: 100%;\n  height: 100vh;\n  position: absolute;\n  display: block;\n}\n\n.container {\n  position: relative;\n  z-index: 1;\n}\n\n.behind {\n  z-index: -1;\n}\n\n.loadingParent {\n  display: flex;\n  height: auto;\n  margin: 0 auto;\n  min-height: calc(100vh - 80px);\n  min-height: -o-calc(100vh - 80px);\n  min-height: -webkit-calc(100vh - 80px);\n  min-height: -moz-calc(100vh - 80px)\n}\n.loadingChild {\n  margin: auto;\n  justify-content: center;\n  display: flex;\n  text-align: center!important;\n  max-width: 100%;\n}\n@media (max-width: 880px), (max-height: 620px) {\n  .loadingParent{\n    min-height: calc(100vh - 60px);\n    min-height: -o-calc(100vh - 60px);\n    min-height: -webkit-calc(100vh - 60px);\n    min-height: -moz-calc(100vh - 60px)\n  }\n}\n", ""]);
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
-exports.push([module.i, ".embed {\r\n  width: 100%;\r\n  height: 100vh;\r\n  position: absolute;\r\n  display: block;\r\n}\r\n\r\n.container {\r\n  position: relative;\r\n  z-index: 1;\r\n}\r\n\r\n.behind {\r\n  z-index: -1;\r\n}\r\n\r\n.loadingParent {\r\n  display: flex;\r\n  height: auto;\r\n  margin: 0 auto;\r\n  min-height: calc(100vh - 80px);\r\n  min-height: -o-calc(100vh - 80px);\r\n  min-height: -webkit-calc(100vh - 80px);\r\n  min-height: -moz-calc(100vh - 80px)\r\n}\r\n.loadingChild {\r\n  margin: auto;\r\n  justify-content: center;\r\n  display: flex;\r\n  text-align: center!important;\r\n  max-width: 100%;\r\n}\r\n@media (max-width: 880px), (max-height: 620px) {\r\n  .loadingParent{\r\n    min-height: calc(100vh - 60px);\r\n    min-height: -o-calc(100vh - 60px);\r\n    min-height: -webkit-calc(100vh - 60px);\r\n    min-height: -moz-calc(100vh - 60px)\r\n  }\r\n}\r\n", ""]);
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 
 // exports
 
@@ -32955,15 +32109,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-<<<<<<< HEAD
-<<<<<<< HEAD
 exports.push([module.i, ".clContainer {\r\n  margin-top: 20px!important;\r\n  margin-bottom: 20px!important;\r\n  justify-content: center;\r\n  display: flex;\r\n}\r\n\r\n.clCard{\r\n  width: 600px;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  border-radius: 5px;\r\n  padding: 40px 60px;\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n}\r\n\r\n@media (max-width:600px){\r\n  .clCard{\r\n    box-shadow: none;\r\n  }\r\n}\r\n\r\n@media (max-width:440px){\r\n  .clCard{\r\n    padding: 30px 30px;\r\n  }\r\n}\r\n\r\n", ""]);
-=======
-exports.push([module.i, ".clContainer {\n  margin-top: 20px!important;\n  margin-bottom: 20px!important;\n  justify-content: center;\n  display: flex;\n}\n\n.clCard{\n  width: 600px;\n  background: #fff;\n  color: #666;\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\n  border-radius: 5px;\n  padding: 40px 60px;\n  position: relative;\n  box-sizing: border-box;\n  transition: box-shadow .1s ease-in-out;\n}\n\n@media (max-width:600px){\n  .clCard{\n    box-shadow: none;\n  }\n}\n\n@media (max-width:440px){\n  .clCard{\n    padding: 30px 30px;\n  }\n}\n\n", ""]);
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
-exports.push([module.i, ".clContainer {\r\n  margin-top: 20px!important;\r\n  margin-bottom: 20px!important;\r\n  justify-content: center;\r\n  display: flex;\r\n}\r\n\r\n.clCard{\r\n  width: 600px;\r\n  background: #fff;\r\n  color: #666;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  border-radius: 5px;\r\n  padding: 40px 60px;\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  transition: box-shadow .1s ease-in-out;\r\n}\r\n\r\n@media (max-width:600px){\r\n  .clCard{\r\n    box-shadow: none;\r\n  }\r\n}\r\n\r\n@media (max-width:440px){\r\n  .clCard{\r\n    padding: 30px 30px;\r\n  }\r\n}\r\n\r\n", ""]);
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 
 // exports
 
@@ -33008,15 +32154,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-<<<<<<< HEAD
-<<<<<<< HEAD
 exports.push([module.i, ".uk-navbar-nav>li>a {\r\n  -webkit-font-smoothing: antialiased!important;\r\n  -moz-osx-font-smoothing: grayscale!important;\r\n}\r\n\r\nhtml, body, #main, #app {\r\n  height: 100%;\r\n  width: 100%;\r\n}\r\n\r\n#content {\r\n  z-index: 1;\r\n}\r\n\r\n.navbarActive {\r\n  background: #2dc0d5;\r\n  color: #fff!important;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  border-radius: 0 0 5px 5px;\r\n}\r\n\r\n.uk-navbar-nav>li>a {\r\n  border-radius: 0 0 5px 5px;\r\n}\r\n\r\n.mouseLoad{\r\n  cursor: wait;\r\n}\r\n\r\n.uk-tooltip {\r\n  background-color: #2dc0d5;\r\n  z-index: 2;\r\n}\r\n\r\nh1,h2,h3,h4,h5,h6,h7,.uk-h1,.uk-accordion-title,.uk-text-lead {\r\n  font-family: 'Roboto', sans-serif\r\n}\r\n\r\nb {\r\n  font-family: 'Open Sans', sans-serif;\r\n  font-weight: 700\r\n}\r\n\r\n.spinner {\r\n  display: flex;\r\n  align-items: center;\r\n  align-content: center;\r\n  justify-content: center;\r\n}\r\n\r\nbody {\r\n  user-select: none\r\n}\r\n\r\n.uk-accordion-title,.uk-text-lead {\r\n  font-size: 1.5rem;\r\n  font-weight: 300\r\n}\r\n\r\n.welcomeNav {\r\n  position: fixed;\r\n  visibility: hidden\r\n}\r\n\r\n.main {\r\n  transition: 150ms linear;\r\n}\r\n\r\n.djLogo {\r\n  width: 50px;\r\n  height: 50px;\r\n  transition: width 0.1s;\r\n  transition: height 0.1s\r\n}\r\n\r\n.name {\r\n  margin-bottom: 0px;\r\n  margin-right: 5px;\r\n}\r\n\r\n.uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n  transition: height 0.1s\r\n}\r\n\r\n.uk-sticky-placeholder {\r\n  height: 80px!important;\r\n}\r\n\r\n.content {\r\n  align-content: center;\r\n  margin-left: 10px;\r\n  background: white;\r\n  transition: 150ms linear;\r\n}\r\n\r\n.background {\r\n  background-color: #2a2c31;\r\n}\r\n\r\n/*Vertical centering content with a navbar above*/\r\n.vcNavbarParent {\r\n  display: flex;\r\n}\r\n\r\n.full {\r\n  min-height: calc(100% - 80px);\r\n  min-height: -o-calc(100% - 80px);\r\n  min-height: -webkit-calc(100% - 80px);\r\n  min-height: -moz-calc(100% - 80px);\r\n}\r\n\r\n.vcNavbarCard {\r\n  margin: auto;\r\n  justify-content: center;\r\n  display: flex;\r\n  text-align: center!important;\r\n  max-width: 100%;\r\n}\r\n\r\n@media (max-width: 960px) {\r\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n    height:60px\r\n  }\r\n  .uk-sticky-placeholder {\r\n    height:60px!important\r\n  }\r\n  .full {\r\n    min-height: calc(100% - 60px);\r\n    min-height: -o-calc(100% - 60px);\r\n    min-height: -webkit-calc(100% - 60px);\r\n    min-height: -moz-calc(100% - 60px)\r\n  }\r\n  .djLogo {\r\n    width: 40px;\r\n    height: 40px\r\n  }\r\n  .collapseText {\r\n    font-size: 0\r\n  }\r\n  .collapseSpan {\r\n    margin-right: 0px!important\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 580px) {\r\n  .djLogo {\r\n    width: 0px!important;\r\n    height: 0px!important;\r\n    margin: 0 0 0 0!important;\r\n  }\r\n  .name{\r\n    font-size: 0px;\r\n    margin-right: 0px\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 300px){\r\n  .uk-navbar-item, .uk-navbar-nav>li>a, .uk-navbar-toggle {\r\n    padding: 0 10px;\r\n  }\r\n}\r\n\r\n@media (max-height: 700px) {\r\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n    height:60px\r\n  }\r\n  .uk-sticky-placeholder {\r\n    height:60px!important\r\n  }\r\n  .djLogo{\r\n    width: 40px;\r\n    height: 40px;\r\n  }\r\n  .full {\r\n    min-height: calc(100% - 60px);\r\n    min-height: -o-calc(100% - 60px);\r\n    min-height: -webkit-calc(100% - 60px);\r\n    min-height: -moz-calc(100% - 60px)\r\n  }\r\n  .collapseText {\r\n    font-size: 0\r\n  }\r\n  .collapseSpan {\r\n    margin-right: 0px!important\r\n  }\r\n}", ""]);
-=======
-exports.push([module.i, ".uk-navbar-nav>li>a {\n  -webkit-font-smoothing: antialiased!important;\n  -moz-osx-font-smoothing: grayscale!important;\n}\n\nhtml, body, #main, #app {\n  height: 100%;\n  width: 100%;\n}\n\n#content {\n  z-index: 1;\n}\n\n.navbarActive {\n  background: #2dc0d5;\n  color: #fff!important;\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\n  border-radius: 0 0 5px 5px;\n}\n\n.uk-navbar-nav>li>a {\n  border-radius: 0 0 5px 5px;\n}\n\n.mouseLoad{\n  cursor: wait;\n}\n\n.uk-tooltip {\n  background-color: #2dc0d5;\n  z-index: 2;\n}\n\nh1,h2,h3,h4,h5,h6,h7,.uk-h1,.uk-accordion-title,.uk-text-lead {\n  font-family: 'Roboto', sans-serif\n}\n\nb {\n  font-family: 'Open Sans', sans-serif;\n  font-weight: 700\n}\n\n.spinner {\n  display: flex;\n  align-items: center;\n  align-content: center;\n  justify-content: center;\n}\n\nbody {\n  user-select: none\n}\n\n.uk-accordion-title,.uk-text-lead {\n  font-size: 1.5rem;\n  font-weight: 300\n}\n\n.welcomeNav {\n  position: fixed;\n  visibility: hidden\n}\n\n.main {\n  transition: 150ms linear;\n}\n\n.djLogo {\n  width: 50px;\n  height: 50px;\n  transition: width 0.1s;\n  transition: height 0.1s\n}\n\n.name {\n  margin-bottom: 0px;\n  margin-right: 5px;\n}\n\n.uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\n  transition: height 0.1s\n}\n\n.uk-sticky-placeholder {\n  height: 80px!important;\n}\n\n.content {\n  align-content: center;\n  margin-left: 10px;\n  background: white;\n  transition: 150ms linear;\n}\n\n.background {\n  background-color: #2a2c31;\n}\n\n/*Vertical centering content with a navbar above*/\n.vcNavbarParent {\n  display: flex;\n}\n\n.full {\n  min-height: calc(100% - 80px);\n  min-height: -o-calc(100% - 80px);\n  min-height: -webkit-calc(100% - 80px);\n  min-height: -moz-calc(100% - 80px);\n}\n\n.vcNavbarCard {\n  margin: auto;\n  justify-content: center;\n  display: flex;\n  text-align: center!important;\n  max-width: 100%;\n}\n\n@media (max-width: 960px) {\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\n    height:60px\n  }\n  .uk-sticky-placeholder {\n    height:60px!important\n  }\n  .full {\n    min-height: calc(100% - 60px);\n    min-height: -o-calc(100% - 60px);\n    min-height: -webkit-calc(100% - 60px);\n    min-height: -moz-calc(100% - 60px)\n  }\n  .djLogo {\n    width: 40px;\n    height: 40px\n  }\n  .collapseText {\n    font-size: 0\n  }\n  .collapseSpan {\n    margin-right: 0px!important\n  }\n}\n\n@media screen and (max-width: 580px) {\n  .djLogo {\n    width: 0px!important;\n    height: 0px!important;\n    margin: 0 0 0 0!important;\n  }\n  .name{\n    font-size: 0px;\n    margin-right: 0px\n  }\n}\n\n@media screen and (max-width: 300px){\n  .uk-navbar-item, .uk-navbar-nav>li>a, .uk-navbar-toggle {\n    padding: 0 10px;\n  }\n}\n\n@media (max-height: 700px) {\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\n    height:60px\n  }\n  .uk-sticky-placeholder {\n    height:60px!important\n  }\n  .djLogo{\n    width: 40px;\n    height: 40px;\n  }\n  .full {\n    min-height: calc(100% - 60px);\n    min-height: -o-calc(100% - 60px);\n    min-height: -webkit-calc(100% - 60px);\n    min-height: -moz-calc(100% - 60px)\n  }\n  .collapseText {\n    font-size: 0\n  }\n  .collapseSpan {\n    margin-right: 0px!important\n  }\n}", ""]);
->>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
-=======
-exports.push([module.i, ".uk-navbar-nav>li>a {\r\n  -webkit-font-smoothing: antialiased!important;\r\n  -moz-osx-font-smoothing: grayscale!important;\r\n}\r\n\r\nhtml, body, #main, #app {\r\n  height: 100%;\r\n  width: 100%;\r\n}\r\n\r\n#content {\r\n  z-index: 1;\r\n}\r\n\r\n.navbarActive {\r\n  background: #2dc0d5;\r\n  color: #fff!important;\r\n  box-shadow: 0 5px 15px rgba(0,0,0,.08);\r\n  border-radius: 0 0 5px 5px;\r\n}\r\n\r\n.uk-navbar-nav>li>a {\r\n  border-radius: 0 0 5px 5px;\r\n}\r\n\r\n.mouseLoad{\r\n  cursor: wait;\r\n}\r\n\r\n.uk-tooltip {\r\n  background-color: #2dc0d5;\r\n  z-index: 2;\r\n}\r\n\r\nh1,h2,h3,h4,h5,h6,h7,.uk-h1,.uk-accordion-title,.uk-text-lead {\r\n  font-family: 'Roboto', sans-serif\r\n}\r\n\r\nb {\r\n  font-family: 'Open Sans', sans-serif;\r\n  font-weight: 700\r\n}\r\n\r\n.spinner {\r\n  display: flex;\r\n  align-items: center;\r\n  align-content: center;\r\n  justify-content: center;\r\n}\r\n\r\nbody {\r\n  user-select: none\r\n}\r\n\r\n.uk-accordion-title,.uk-text-lead {\r\n  font-size: 1.5rem;\r\n  font-weight: 300\r\n}\r\n\r\n.welcomeNav {\r\n  position: fixed;\r\n  visibility: hidden\r\n}\r\n\r\n.main {\r\n  transition: 150ms linear;\r\n}\r\n\r\n.djLogo {\r\n  width: 50px;\r\n  height: 50px;\r\n  transition: width 0.1s;\r\n  transition: height 0.1s\r\n}\r\n\r\n.name {\r\n  margin-bottom: 0px;\r\n  margin-right: 5px;\r\n}\r\n\r\n.uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n  transition: height 0.1s\r\n}\r\n\r\n.uk-sticky-placeholder {\r\n  height: 80px!important;\r\n}\r\n\r\n.content {\r\n  align-content: center;\r\n  margin-left: 10px;\r\n  background: white;\r\n  transition: 150ms linear;\r\n}\r\n\r\n.background {\r\n  background-color: #2a2c31;\r\n}\r\n\r\n/*Vertical centering content with a navbar above*/\r\n.vcNavbarParent {\r\n  display: flex;\r\n}\r\n\r\n.full {\r\n  min-height: calc(100% - 80px);\r\n  min-height: -o-calc(100% - 80px);\r\n  min-height: -webkit-calc(100% - 80px);\r\n  min-height: -moz-calc(100% - 80px);\r\n}\r\n\r\n.vcNavbarCard {\r\n  margin: auto;\r\n  justify-content: center;\r\n  display: flex;\r\n  text-align: center!important;\r\n  max-width: 100%;\r\n}\r\n\r\n@media (max-width: 960px) {\r\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n    height:60px\r\n  }\r\n  .uk-sticky-placeholder {\r\n    height:60px!important\r\n  }\r\n  .full {\r\n    min-height: calc(100% - 60px);\r\n    min-height: -o-calc(100% - 60px);\r\n    min-height: -webkit-calc(100% - 60px);\r\n    min-height: -moz-calc(100% - 60px)\r\n  }\r\n  .djLogo {\r\n    width: 40px;\r\n    height: 40px\r\n  }\r\n  .collapseText {\r\n    font-size: 0\r\n  }\r\n  .collapseSpan {\r\n    margin-right: 0px!important\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 580px) {\r\n  .djLogo {\r\n    width: 0px!important;\r\n    height: 0px!important;\r\n    margin: 0 0 0 0!important;\r\n  }\r\n  .name{\r\n    font-size: 0px;\r\n    margin-right: 0px\r\n  }\r\n}\r\n\r\n@media screen and (max-width: 300px){\r\n  .uk-navbar-item, .uk-navbar-nav>li>a, .uk-navbar-toggle {\r\n    padding: 0 10px;\r\n  }\r\n}\r\n\r\n@media (max-height: 700px) {\r\n  .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {\r\n    height:60px\r\n  }\r\n  .uk-sticky-placeholder {\r\n    height:60px!important\r\n  }\r\n  .djLogo{\r\n    width: 40px;\r\n    height: 40px;\r\n  }\r\n  .full {\r\n    min-height: calc(100% - 60px);\r\n    min-height: -o-calc(100% - 60px);\r\n    min-height: -webkit-calc(100% - 60px);\r\n    min-height: -moz-calc(100% - 60px)\r\n  }\r\n  .collapseText {\r\n    font-size: 0\r\n  }\r\n  .collapseSpan {\r\n    margin-right: 0px!important\r\n  }\r\n}", ""]);
->>>>>>> 616599d106b00735f65c16d6cb9931d279cc905c
 
 // exports
 
