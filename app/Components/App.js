@@ -453,17 +453,18 @@ class App extends Component {
 
   logout() {
     window.location.href = '/logout'
-    localStorage.clear()
+    //DONTCLEARLOCALSTORAGEPK
+    //REMOVEITEMSINDIVIDUALLYIFYOUNEEDTO
     localStorage.setItem('clicked',false)
   }
 
   logo() {
     //console.log('logo click')
     counter++
-    if (counter == 3) {
-      alert('localstorage cleared')
-      localStorage.clear()
-      //window.location.href = '/test'
+    if (counter >= 3) {
+      //DONTCLEARLOCALSTORAGEPK
+      alert('spif')
+      window.location.href = '/test'
       counter = 0
     }
   }

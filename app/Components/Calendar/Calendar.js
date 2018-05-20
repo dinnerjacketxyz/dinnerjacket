@@ -44,14 +44,18 @@ class Calendar extends Component {
   componentDidMount() {
     let content = document.getElementById('content')
     content.className = 'full vcNavbarParentCal'
-    this.setDaysForMonth((new Date()).getMonth(), (new Date()).getFullYear())
+    this.setDaysForMonth(this.state.selectedMonth, this.state.selectedYear)
     this.setEvents(this.state.calData[this.state.selectedDay-1])
-    this.highlightSelectedDay(window.d)
+    this.highlightSelectedDay(this.state.selectedDay)
   }
  
   componentWillUnmount() {
     let content = document.getElementById('content')
     content.className = 'full'
+
+    window.d = this.state.selectedDay
+    window.m = this.state.selectedMonth
+    window.y = this.state.selectedYear
   }
 
   //this sub must process your click input - careful sometimes you can click on the ul element - the onclick returns the innerHTML of child nodes, but it can return any DOM property
@@ -157,8 +161,13 @@ class Calendar extends Component {
       window.m = curMonth
       window.y = curYear
       
-      this.setEvents(this.state.calData[0])
-      this.highlightSelectedDay(1)
+      let dayToSelect = 1
+      if (window.m == new Date().getMonth() && window.y == new Date().getFullYear()) {
+        dayToSelect = new Date().getDate()
+      }
+
+      this.setEvents(this.state.calData[dayToSelect-1])
+      this.highlightSelectedDay(dayToSelect)
     })
     
   }
