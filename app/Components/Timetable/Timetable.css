@@ -95,8 +95,8 @@
 
 @media (max-width:371px){
   #smallTimetable a{
-    padding-left: 2px;
-    padding-right: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
   }
   .uk-tab>* {
     padding-left: 5px!important;

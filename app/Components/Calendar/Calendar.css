@@ -15,6 +15,7 @@
   padding: 70px 25px;
   background: #2dc0d5;
   text-align: center;
+  border-radius: 5px 0 0 0;
 }
 
 .month ul {
@@ -31,12 +32,12 @@
 
 .month .prev {
   float: left;
-  margin-top: 10px;
+  padding: 20px;
 }
 
 .month .next {
   float: right;
-  margin-top: 10px;
+  padding: 20px;
 }
 
 .weekdays {
@@ -57,6 +58,7 @@
   padding: 10px;
   background: #fff;
   margin: 0;
+  border-radius: 0 0 0 5px;
 }
 
 .month li {
@@ -73,7 +75,7 @@
   color: #777;
 }
 
-.days li:hover, .days li:focus, .prev:hover, .prev:focus, .next:hover, .next:focus {
+.days li:hover, .prev:hover, .next:hover {
   background-color: #e0e0e0;
   transition: background-color 100ms linear;
 }
@@ -88,7 +90,11 @@
 
 .events {
   overflow-y: scroll;
-  height: 482px;
+  height: 412px;
+}
+
+.eventsBorder{
+  border-radius: 0 5px 5px 0;
 }
 
 
@@ -103,13 +109,20 @@
 
 .cal {
   height: min-content!important;
+  border-radius: 5px 0 0 5px;
 }
 
 .events td {
   text-align: left;
 }
 
+.events p {
+  margin-bottom: 20px;
+}
 
+.vcNavbarParentCal {
+  display: flex;
+}
 
 @media screen and (max-width: 420px) {
 /*  .weekdays li, .days li {width: 12.5%;}*/
@@ -123,5 +136,30 @@
   }
   .uk-grid{
     margin-top: 20px!important;
+  }
+  .cal {
+    border-radius: 5px 5px 0 0 ;
+  }
+  .eventsBorder{
+    border-radius: 0 0 5px 5px;
+  }
+  .month {
+    border-radius: 5px 5px 0 0 ;
+    padding: 40px 25px;
+  }
+  .days {
+    border-radius: 0;
+  }
+  .days li {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 12px;
+  }
+  .weekdays li {
+    margin: 0px;
+    font-size: 12px;
+  }
+  .vcNavbarParentCal {
+    display: block!important;
   }
 }

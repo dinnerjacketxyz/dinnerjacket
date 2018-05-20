@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-const css = require('./Calendar.css')
+import styles from './Calendar.css'
 const http = require('http')
 let input = ''
 
@@ -43,7 +43,7 @@ class Calendar extends Component {
   // setup
   componentDidMount() {
     let content = document.getElementById('content')
-    content.className = 'full vcNavbarParent'
+    content.className = 'full vcNavbarParentCal'
     this.setDaysForMonth((new Date()).getMonth(), (new Date()).getFullYear())
     this.setEvents(this.state.calData[this.state.selectedDay-1])
     this.highlightSelectedDay(window.d)
@@ -187,8 +187,6 @@ class Calendar extends Component {
     // select new day
     for (var i = 0; i < days.length; i++) {
       if (days[i] == newDay) {
-        days[i] = (<span className="active">{newDay}</span>)
-
         let select = document.getElementById(newDay)
         select.className = 'active'
         
@@ -268,8 +266,8 @@ class Calendar extends Component {
               </div>
             </div>
           </div>
-          <div  className='events uk-card uk-card-default uk-card-body uk-animation-slide-top-small uk-width-2-5@s'>
-            <div>
+          <div className='eventsBorder uk-card uk-card-default uk-card-body uk-animation-slide-top-small uk-width-2-5@s'>
+            <div className='events'>
               <p className='uk-text-center uk-text-large'>Calendar Events</p>
               <ul className="eventsList uk-list uk-list-striped">
                   { (this.state.eventsToShow).map((item, i) => <ListItem key={i} value={item} />) }

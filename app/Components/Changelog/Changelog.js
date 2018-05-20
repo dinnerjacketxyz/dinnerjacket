@@ -19,6 +19,22 @@ class Changelog extends Component {
             <hr />
 
             <article className="uk-article">
+              <h1 className="uk-article-title">Beta v1.0.0</h1>
+              <p className="uk-article-meta">20 May 2018</p>
+              <p>Mid-Term 2 update addressing existing issues and bugs, and adding new functionality.</p>
+              <ul>
+                <li>Round corners</li>
+                <li>SBHS Calendar integration</li>
+                <li>Notices remembers your filter</li>
+                <li>Notes are kept to the local device</li>
+                <li>Buggy animations removed</li>
+                <li>Removed a render blocking script</li>
+              </ul>
+            </article>
+
+            <hr />
+
+            <article className="uk-article">
               <h1 className="uk-article-title">Alpha v0.1.2</h1>
               <p className="uk-article-meta">29 April 2018</p>
               <p>Term 2 update addressing existing issues and bugs, and adding new functionality.</p>
