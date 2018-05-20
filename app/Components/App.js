@@ -453,6 +453,10 @@ class App extends Component {
 
   logout() {
     window.location.href = '/logout'
+    localStorage.removeItem('accessToken')
+    localStorage.removeItem('refreshToken')
+    localStorage.removeItem('accessTokenExpiry')
+    localStorage.removeItem('refreshTokenExpiry')
     //DONTCLEARLOCALSTORAGEPK
     //REMOVEITEMSINDIVIDUALLYIFYOUNEEDTO
     localStorage.setItem('clicked',false)
