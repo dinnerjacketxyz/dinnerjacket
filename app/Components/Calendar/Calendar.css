@@ -90,13 +90,17 @@
 
 .events {
   overflow-y: scroll;
-  height: 412px;
 }
 
 .eventsBorder{
   border-radius: 0 5px 5px 0;
+  height: 522px;
 }
 
+.daysOverlay {
+  height: 260px;
+  width: 100%;
+}
 
 .days .active {
   background: #2dc0d5;
@@ -108,7 +112,7 @@
 }
 
 .cal {
-  height: min-content!important;
+  height: 522px!important;
   border-radius: 5px 0 0 5px;
 }
 
@@ -139,9 +143,11 @@
   }
   .cal {
     border-radius: 5px 5px 0 0 ;
+    height: auto!important;
   }
   .eventsBorder{
     border-radius: 0 0 5px 5px;
+    height: auto!important;
   }
   .month {
     border-radius: 5px 5px 0 0 ;
@@ -161,5 +167,8 @@
   }
   .vcNavbarParentCal {
     display: block!important;
+  }
+  .daysOverlay {
+    height: 170px;
   }
 }

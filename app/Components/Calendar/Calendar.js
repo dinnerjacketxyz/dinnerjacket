@@ -310,4 +310,7 @@ class Calendar extends Component {
   }
 }
 
+//add this and remove the days class
+/*<div className="daysOverlay uk-inline"><div className="uk-position-center"><div uk-spinner="ratio: 1" className="uk-spinner uk-icon"></div></div></div> */
+
 export default Calendar
