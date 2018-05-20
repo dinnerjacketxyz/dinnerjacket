@@ -379,7 +379,9 @@ class Calendar extends Component {
         <div className="uk-grid-collapse uk-grid two uk-grid-match" uk-grid='true'>
           <div  className='cal uk-card uk-card-default uk-animation-slide-top-small uk-width-expand'>
             <div>
-              <div className="month">      
+              <p className="uk-float-left">2017</p>
+              <p className="uk-float-right">2019</p>   
+              <div className="month">
                 <ul>
                   <li className="prev" onClick={this.prevMonth.bind(this)}>&#10094;</li>
                   <li className="next" onClick={this.nextMonth.bind(this)}>&#10095;</li>
@@ -407,7 +409,7 @@ class Calendar extends Component {
           </div>
           <div className='eventsBorder uk-card uk-card-default uk-card-body uk-animation-slide-top-small uk-width-2-5@s'>
             <div className='events'>
-              <p className='uk-text-center uk-text-large'>Calendar Events</p>
+              <p className='uk-text-center uk-text-large'>Events</p>
               <ul className="eventsList uk-list uk-list-striped">
                 { (this.state.eventsToShow).map((item, i) => <ListItem key={i} value={item} />) }
               </ul>
