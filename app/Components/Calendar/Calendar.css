@@ -75,10 +75,16 @@
   color: #777;
 }
 
-.days li:hover, .prev:hover, .next:hover {
+.days li:hover, .prev:hover, .next:hover, .cal .uk-float-right:hover, .cal .uk-float-left:hover {
   background-color: #e0e0e0;
   color: #777!important;
   transition: background-color 100ms linear;
+}
+
+.cal .uk-float-right, .cal .uk-float-left {
+  padding: 20px;
+  color: white;
+  margin: 0px!important;
 }
 
 .weekdays li{
