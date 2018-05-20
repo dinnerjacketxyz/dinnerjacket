@@ -64,4 +64,7 @@
   #profileContent .uk-accordion-title {
     font-size: 1.25rem;
   }
+  .profileParent h2 {
+    font-size: 2.5rem;
+  }
 }
