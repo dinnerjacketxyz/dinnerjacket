@@ -31,6 +31,8 @@ class Calendar extends Component {
       window.date.push(date.getMonth())
       window.date.push(date.getFullYear())
     }
+    
+    this.setDaysForMonth = this.setDaysForMonth.bind(this)
 
     this.state = {
       days: [],
@@ -38,13 +40,127 @@ class Calendar extends Component {
       month: '',
       year: 0,
       eventsToShow: [],
+<<<<<<< HEAD
       diaryCal: window.diaryCal
+=======
+      selectedDay: window.d,
+      selectedDayIndex: -1,
+      selectedMonth: window.m,
+      selectedYear: window.y,
+      days: this.setDaysForMonth(window.m, window.y)
+    }
+    
+    this.highlightSelectedDay = this.highlightSelectedDay.bind(this)
+    this.setEvents = this.setEvents.bind(this)
+    this.changeMonth = this.changeMonth.bind(this)
+  }
+  
+  // setup
+  componentDidMount() {
+    let content = document.getElementById('content')
+    content.className = 'full vcNavbarParentCal'
+    this.setDaysForMonth(this.state.selectedMonth, this.state.selectedYear)
+    this.setEvents(this.state.calData[this.state.selectedDay-1])
+    this.highlightSelectedDay(this.state.selectedDay)
+  }
+ 
+  componentWillUnmount() {
+    let content = document.getElementById('content')
+    content.className = 'full'
+
+    window.d = this.state.selectedDay
+    window.m = this.state.selectedMonth
+    window.y = this.state.selectedYear
+  }
+
+  //this sub must process your click input - careful sometimes you can click on the ul element - the onclick returns the innerHTML of child nodes, but it can return any DOM property
+  monthInput(e) {
+    input = e.target.innerHTML
+  }
+
+  //this sub is simultaneously fired and can do your processing - good luck
+  displayCal() {
+    if (!isNaN(input)) {
+      if (input != this.state.selectedDay) {
+        this.highlightSelectedDay(input)
+        this.setEvents(this.state.calData[input-1])
+      }
+>>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
     }
   }
 
   componentDidMount() {
     this.changeMonth(0)
   }
+<<<<<<< HEAD
+=======
+  
+  // diff is either 1 or -1
+  changeMonth(diff) {
+  
+    var curMonth = this.state.selectedMonth
+    var curYear = this.state.selectedYear
+    
+    // back past January
+    if ((curMonth == 0) && (diff == -1)) {
+      curMonth = 11
+      curYear -= 1
+  
+    // forward past December
+    } else if ((curMonth == 11) && (diff == 1)) {
+      curMonth = 0
+      curYear += 1
+    } else {
+      curMonth += diff
+    }
+    let prev = document.getElementById(this.state.days[this.state.selectedDayIndex])
+    prev.className = ''
+    
+    this.setState( ()=> ({
+      selectedMonth: curMonth,
+      selectedYear: curYear,
+      selectedDayIndex: -1,
+      days: this.setDaysForMonth(curMonth, curYear)
+    }))
+    
+    
+    // Get calendar data for the next month
+    let promise1 = new Promise( function (resolve, reject) {
+      
+      const year = curYear
+      const month = curMonth + 1
+      
+      // create parameters:   from=YYYY-MM-DD   to=YYYY-MM-DD
+      var from = year + '-' + (month > 9 ? month : '0' + month) + '-01'
+      var to = year + '-' + (month > 9 ? month : '0' + month) + '-' + (new Date(year, month, 0).getDate())
+      
+      // make http request
+      const token = localStorage.getItem('accessToken')
+      http.get('/getdata?token=' + token + '&url=diarycalendar/events.json?from=' + from + '&to=' + to, (res) => {
+        res.setEncoding('utf8')
+        let d = ''
+        res.on('data', (body) => {
+          d += body
+        })
+        res.on('end', () => {
+          resolve(JSON.parse(d))
+        })
+      })
+    })
+    
+    // process data from http requests
+    promise1.then( (result) => {
+      this.setState( ()=> ({
+        calData: result
+      }))
+      window.m = curMonth
+      window.y = curYear
+      
+      let dayToSelect = 1
+      if (window.m == new Date().getMonth() && window.y == new Date().getFullYear()) {
+        dayToSelect = new Date().getDate()
+      }
+>>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
 
   /*// highlights newDay on the calendar
   highlightSelectedDay(newDay) {
@@ -250,6 +366,11 @@ class Calendar extends Component {
         this.setEvents(this.state.diaryCal[input-1])
       }
     }
+<<<<<<< HEAD
+=======
+    
+    return days
+>>>>>>> 7820b5fac07fb5a21b27be81b7af34e0bedebf1f
   }
 
   render() {
