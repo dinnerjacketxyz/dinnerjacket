@@ -24,6 +24,8 @@ class Calendar extends Component {
     if (window.y === '') {
       window.y = new Date().getFullYear()
     }
+    
+    this.setDaysForMonth = this.setDaysForMonth.bind(this)
 
     this.state = {
       calData: window.diaryCal,
@@ -32,9 +34,9 @@ class Calendar extends Component {
       selectedDayIndex: -1,
       selectedMonth: window.m,
       selectedYear: window.y,
-      days: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]
+      days: this.setDaysForMonth(window.m, window.y)
     }
-    this.setDaysForMonth = this.setDaysForMonth.bind(this)
+    
     this.highlightSelectedDay = this.highlightSelectedDay.bind(this)
     this.setEvents = this.setEvents.bind(this)
     this.changeMonth = this.changeMonth.bind(this)
@@ -123,8 +125,14 @@ class Calendar extends Component {
     }
     let prev = document.getElementById(this.state.days[this.state.selectedDayIndex])
     prev.className = ''
-
-    this.setDaysForMonth(curMonth, curYear)
+    
+    this.setState( ()=> ({
+      selectedMonth: curMonth,
+      selectedYear: curYear,
+      selectedDayIndex: -1,
+      days: this.setDaysForMonth(curMonth, curYear)
+    }))
+    
     
     // Get calendar data for the next month
     let promise1 = new Promise( function (resolve, reject) {
@@ -153,9 +161,6 @@ class Calendar extends Component {
     // process data from http requests
     promise1.then( (result) => {
       this.setState( ()=> ({
-        selectedMonth: curMonth,
-        selectedYear: curYear,
-        selectedDayIndex: -1,
         calData: result
       }))
       window.m = curMonth
@@ -238,9 +243,7 @@ class Calendar extends Component {
       days.unshift(' ')
     }
     
-    this.setState( ()=> ({
-      days: days
-    }))
+    return days
   }
   
   render() {
