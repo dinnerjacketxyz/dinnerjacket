@@ -9,8 +9,7 @@ class Changelog extends Component {
             <article className="uk-article">
               <h1 className="uk-article-title">Unreleased features</h1>
               <ul>
-                <li>Bugfixes for participation tab</li>
-                <li>School calendar</li>
+                <li>SBHS Calendar integration</li>
                 <li>Personal calendar integration</li>
                 <li>Themes and additional cosmetic options</li>
               </ul>
@@ -20,15 +19,20 @@ class Changelog extends Component {
 
             <article className="uk-article">
               <h1 className="uk-article-title">Beta v1.0.0</h1>
-              <p className="uk-article-meta">20 May 2018</p>
+              <p className="uk-article-meta">21 May 2018</p>
               <p>Mid-Term 2 update addressing existing issues and bugs, and adding new functionality.</p>
               <ul>
+                <li>Bugfixes for participation tab</li>
                 <li>Round corners</li>
-                <li>SBHS Calendar integration</li>
                 <li>Notices remembers your filter</li>
-                <li>Notes are kept to the local device</li>
+                <li>Notes are kept to the local device (temporary)</li>
                 <li>Buggy animations removed</li>
-                <li>Removed a render blocking script</li>
+                <li>Improved load times</li>
+                <ul>
+                  <li>Removed render blocking scripts</li>
+                  <li>Preloading images, scripts, and styles</li>
+                  <li>You stay logged in</li>
+                </ul>
               </ul>
             </article>
 

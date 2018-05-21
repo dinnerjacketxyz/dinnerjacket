@@ -3,6 +3,13 @@
   -moz-osx-font-smoothing: grayscale!important;
 }
 
+#CalendarA {
+  color: #999!important;
+  pointer-events: all;
+  opacity: 0.25;
+  cursor: default;
+}
+
 html, body, #main, #app {
   height: 100%;
   width: 100%;
