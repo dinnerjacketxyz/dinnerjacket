@@ -1,5 +1,21 @@
 import React, { Component } from 'react'
-import styles from './Calendar.css'
+
+class Calendar extends Component {
+  constructor(props) {
+    super(props)
+  }
+
+  componentDidMount() { }
+
+  render() {
+    return ( )
+  }
+}
+
+// Crage Code
+// In progress
+
+/*import styles from './Calendar.css'
 const http = require('http')
 
 window.date = []
@@ -298,3 +314,4 @@ const ListItem = ({ value }) => (
 )
 
 export default Calendar
+*/

@@ -4,7 +4,7 @@ import Dashboard from './Dashboard/Dashboard'
 import Timetable from './Timetable/Timetable'
 import Notes from './Notes/Notes'
 import Notices from './Notices/Notices'
-import Calendar from './Calendar/Calendar'
+//import Calendar from './Calendar/Calendar'
 import About from './About/About'
 import Profile from './Profile/Profile'
 import Feedback from './Feedback/Feedback'
@@ -23,7 +23,7 @@ window.timetable = ''
 window.dashboard = ''
 window.bells = ''
 //window.publicCal = ''
-window.diaryCal = ''
+//window.diaryCal = ''
 window.participation = ''
 window.userInfo = ''
 
@@ -44,7 +44,7 @@ window.STATES = {
   TIMETABLE: 1,
   NOTES: 2,
   NOTICES: 3,
-  CALENDAR: 4,
+  //CALENDAR: 4,
   ABOUT: 5,
   PROFILE: 9999,
   CHANGELOG: 6,
@@ -93,20 +93,21 @@ class App extends Component {
         console.log('starting gettoken req.')
         res.setEncoding('utf8')
         
-        var d
-        res.on('data', (data) => {
+        let data = ''
+        res.on('data', (body) => {
           console.log('res data')
-          d = data
+          data += body
+          console.log(data)
         })
         
         res.on('end', () => {
           console.log('res end')
-          if (d != 'false') {
-            localStorage.setItem('accessToken', JSON.parse(d)[0])
+          if (data != 'false') {
+            localStorage.setItem('accessToken', JSON.parse(data)[0])
             // 1 hour
             localStorage.setItem('accessTokenExpiry', new Date((new Date()).getTime() + 60*60*1000))
-            localStorage.setItem('refreshToken', JSON.parse(d)[1])
-            localStorage.setItem('refreshTokenExpiry', new Date(JSON.parse(d)[2]))
+            localStorage.setItem('refreshToken', JSON.parse(data)[1])
+            localStorage.setItem('refreshTokenExpiry', new Date(JSON.parse(data)[2]))
             mainApp.getData()
           } else {
             mainApp.showLogin()
@@ -128,12 +129,12 @@ class App extends Component {
       if (new Date(localStorage.getItem('accessTokenExpiry')) < new Date()) {
         console.log('access token expired, getting new access token')
         http.get('/getnewaccesstoken?rt=' + localStorage.getItem('refreshToken'), (res) => {
-          var d
-          res.on('data', (data) => {
-            d = data
+          let data = ''
+          res.on('data', (body) => {
+            data += body
           })
           res.on('end', () => {
-            localStorage.setItem('accessToken', d)
+            localStorage.setItem('accessToken', data)
             localStorage.setItem('accessTokenExpiry', new Date((new Date()).getTime() + 60*60*1000))
             mainApp.getData()
           })
@@ -281,7 +282,7 @@ class App extends Component {
     
     // get data for the whole month
     
-    const year = (new Date()).getFullYear()
+    /*const year = (new Date()).getFullYear()
     const month = (new Date()).getMonth() + 1
 
     var from = year + '-' + (month > 9 ? month : '0' + month) + '-01'
@@ -303,7 +304,7 @@ class App extends Component {
           return
         }
       })
-    })
+    })*/
     
     /* Participation
       [                              // array of participation information
@@ -412,15 +413,14 @@ class App extends Component {
     }
   }
 
-  
-  showCalendar() {
+  /*showCalendar() {
     //console.log('Calendar tab clicked')
     if (window.diaryCal !== '') {
       let visible = this.state.visible
       this.setState({ visible: window.STATES.CALENDAR })
       this.selectedNavbar(window.STATES.CALENDAR)
     }
-  }
+  }*/
 
   showAbout() {
     //console.log('About tab clicked')
@@ -523,7 +523,7 @@ class App extends Component {
                 </a>
               </li>
 
-              <li id='CalendarLi' className='uk-animation-toggle' onClick={this.showCalendar.bind(this)}>
+              <li id='CalendarLi' className='uk-animation-toggle'>
                 <a id='CalendarA' className='uk-box-shadow-hover-small'>
                   <span id='CalendarS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: calendar' />
                   <p className='collapseText' id='CalendarP'>{nameArray[4]}</p>
@@ -591,7 +591,6 @@ class App extends Component {
           {this.state.visible === window.STATES.TIMETABLE && <Timetable />}
           {this.state.visible === window.STATES.NOTES && <Notes />}
           {this.state.visible === window.STATES.NOTICES && <Notices />}
-          {this.state.visible === window.STATES.CALENDAR && <Calendar />}
           {this.state.visible === window.STATES.ABOUT && <About />}
           {this.state.visible === window.STATES.PROFILE && <Profile />}
           {this.state.visible === window.STATES.CHANGELOG && <Changelog />}
