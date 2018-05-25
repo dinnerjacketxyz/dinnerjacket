@@ -135,6 +135,10 @@ class Notices extends Component {
     this.setState({ text: newText })
   }
 
+  search() {
+    
+  }
+
   render() {
     let text = this.state.text
     let rows
