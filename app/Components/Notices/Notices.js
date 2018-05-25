@@ -174,7 +174,11 @@ class Notices extends Component {
                 <option>12</option>
               </select>
             </div>
-            <button onClick={this.toggleNotices.bind(this)} className='uk-button uk-button-default uk-align-left'>
+            <form className="uk-search uk-search-default uk-align-right">
+                <span uk-search-icon='true' uk-icon='icon:search'></span>
+                <input className="uk-search-input" type="search" placeholder="Search..."/>
+            </form>
+            <button onClick={this.toggleNotices.bind(this)} className='uk-button uk-align-left uk-button-default'>
               {this.state.text}
             </button>
           </div>
