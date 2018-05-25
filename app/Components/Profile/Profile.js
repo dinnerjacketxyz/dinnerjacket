@@ -96,19 +96,19 @@ class Profile extends Component {
 
     return (
       <div className='vcNavbarCard'>
-      <div className='profileParent'>
-        <div className='profileChild uk-animation-slide-top-small'>
-          <span className='profileParent' uk-icon='icon: user; ratio:2'></span>
-          <h2 className='uk-text-center'>{userData.givenName+' '+userData.surname}</h2>
-          <p className='uk-text-center'>{userData.role+' | '+userData.department+' | '+userData.office}</p>
-          <ul className='uk-margin-top uk-margin-bottom uk-flex-center' uk-tab='true'>
-            <li id='detailsTab' className='uk-active' onClick={() => {this.setState({ content: 'details' })}}><a>Details</a></li>
-            <li id='partTab' onClick={() => {this.setState({ content: 'part' })}}><a>Participation</a></li>          </ul>
-          <div id='profileContent'>
-            {content}
+        <div className='profileParent'>
+          <div className='profileChild uk-animation-slide-top-small'>
+            <span className='profileParent' uk-icon='icon: user; ratio:2'></span>
+            <h2 className='uk-text-center'>{userData.givenName+' '+userData.surname}</h2>
+            <p className='uk-text-center'>{userData.role+' | '+userData.department+' | '+userData.office}</p>
+            <ul className='uk-margin-top uk-margin-bottom uk-flex-center' uk-tab='true'>
+              <li id='detailsTab' className='uk-active' onClick={() => {this.setState({ content: 'details' })}}><a>Details</a></li>
+              <li id='partTab' onClick={() => {this.setState({ content: 'part' })}}><a>Participation</a></li>          </ul>
+            <div id='profileContent'>
+              {content}
+            </div>
           </div>
         </div>
-      </div>
       </div>
     )
   }

@@ -1,0 +1,72 @@
+.profileParent {
+  display: flex;
+  justify-content: center;
+}
+
+.uk-button-group {
+  margin-top: 20px;
+}
+
+#profileContent {
+  text-align: left;
+}
+
+.profileChild {
+  background: #fff;
+  color: #666;
+  box-shadow: 0 5px 15px rgba(0,0,0,.08);
+  padding: 30px 30px;
+  position: relative;
+  box-sizing: border-box;
+  transition: box-shadow .1s ease-in-out;
+  border-radius: 5px;
+  width: 550px;
+  margin-top: 20px;
+}
+
+.big {
+  margin-top: 70px!important
+}
+
+.profileChild .uk-align-left{
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.uk-table-small button ::selection {
+    background: #39f;
+    color: #fff;
+    text-shadow: none;
+}
+
+.width-small {
+  width:80px;
+}
+
+.profileChild td code {
+  word-wrap: break-word;
+  user-select: text;
+  font-size: .875rem;
+  color: #666;
+  white-space: initial!important;
+  padding: 2px 6px;
+  background: #f8f8f8;
+}
+
+#detailsTable {
+  width: 100%!important;
+  table-layout: fixed!important;
+}
+
+@media (max-width:550px){
+  .profileChild {
+    width: 100%;
+    box-shadow: none;
+  }
+  #profileContent .uk-accordion-title {
+    font-size: 1.25rem;
+  }
+  .profileParent h2 {
+    font-size: 2.5rem;
+  }
+}

@@ -8,7 +8,7 @@ class Calendar extends Component {
   componentDidMount() { }
 
   render() {
-    return ( )
+    return (<div></div>)
   }
 }
 
