@@ -121,9 +121,9 @@ class App extends Component {
         localStorage.clear()
         mainApp.showLogin()
       
+    // refresh token is valid at this point
     } else {
-      // refresh token is valid at this point
-      // now check the access token
+      
       console.log('refresh token valid, checking access token')
       
       if (new Date(localStorage.getItem('accessTokenExpiry')) < new Date()) {
@@ -156,6 +156,10 @@ class App extends Component {
     
     const token = localStorage.getItem('accessToken')
     
+    document.getElementById('navbar').className = 'uk-navbar uk-navbar-container'
+    let visible = this.state.visible
+    this.setState({ visible: window.STATES.DASHBOARD })
+    /*
     // Daily timetable
     http.get('/getdata?token=' + token + '&url=timetable/daytimetable.json', (res) => {
       res.setEncoding('utf8')
@@ -174,13 +178,14 @@ class App extends Component {
           return
         }
         if (window.dashboard != '') {
-          //let visible = this.state.visible
+          /et visible = this.state.visible
           document.getElementById('navbar').className = 'uk-navbar uk-navbar-container'
           let visible = this.state.visible
           this.setState({ visible: window.STATES.DASHBOARD })
         }
       })
     })
+    */
     
     /* User Info
        {"username" : "436345789",     

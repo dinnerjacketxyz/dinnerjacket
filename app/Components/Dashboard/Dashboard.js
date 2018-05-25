@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 const css = require('./Dashboard.css')
 const http = require('http')
 
-
 class Dashboard extends Component {
   constructor(props) {
     super(props)
@@ -10,6 +9,7 @@ class Dashboard extends Component {
     this.state = { htmlClasses: (<b></b>),
                    shouldUpdatetimetable: true,
                    schedule: '',
+                   periods: '',
                    timer: 0,
                    nextClass: 'Loading' }
 
@@ -19,8 +19,8 @@ class Dashboard extends Component {
   
   // setup
   componentDidMount() {
+  
     // set up timer
-
     let ID = setInterval(this.timerTick.bind(this), 1000)
 
     // save timer ID so we can remove the timer later
@@ -30,13 +30,31 @@ class Dashboard extends Component {
     this.updateTimetableDisplay(window.dashboard)
 
     this.timerTick = this.timerTick.bind(this)
+    this.processHTML = this.processHTML.bind(this)
 
     let content = document.getElementById('content')
     content.className = 'full vcNavbarParent'
+    
+    // Daily timetable
+    http.get('/getdata?token=' + localStorage.getItem('accessToken') + '&url=timetable/daytimetable.json', (res) => {
+      res.setEncoding('utf8')
+      let data = ''
+      res.on('data', (body) => {
+        data += body
+      })
+      
+      res.on('end', () => {
+        console.log('new timetable data received')
+        let timetable = JSON.parse(data)
+        window.dashboard = timetable
+        this.updateTimetableDisplay(timetable)
+      })
+    })
   }
 
   // deconstructor
   componentWillUnmount() {
+  
     // remove timer after unmount
     clearInterval(this.state.timerID)
 
@@ -46,7 +64,8 @@ class Dashboard extends Component {
   
   // this is called each time the timer executes
   timerTick() {
-
+    
+    // this is called to update clases when the timer runs out
     function updateCountdown() {
       const date = new Date()
       const secDifference = Math.floor((this.state.nextClass.time.getTime() - date.getTime())/1000)
@@ -92,32 +111,32 @@ class Dashboard extends Component {
       case 6:
       case 7:
       case 1:
-      case 2: return [{name: 'Period 1', teacher: '', room: '', time: '09:05'},
-                      {name: 'Period 2', teacher: '', room: '', time: '10:10'},
-                      {name: 'Lunch',    teacher: '', room: '', time: '11:10'},
-                      {name: 'Period 3', teacher: '', room: '', time: '11:50'},
-                      {name: 'Period 4', teacher: '', room: '', time: '12:55'},
-                      {name: 'Recess',   teacher: '', room: '', time: '13:55'},
-                      {name: 'Period 5', teacher: '', room: '', time: '14:15'}]
+      case 2: return [{name: 'Period 1', teacher: '', room: '', time: '09:05', changed: []},
+                      {name: 'Period 2', teacher: '', room: '', time: '10:10', changed: []},
+                      {name: 'Lunch',    teacher: '', room: '', time: '11:10', changed: []},
+                      {name: 'Period 3', teacher: '', room: '', time: '11:50', changed: []},
+                      {name: 'Period 4', teacher: '', room: '', time: '12:55', changed: []},
+                      {name: 'Recess',   teacher: '', room: '', time: '13:55', changed: []},
+                      {name: 'Period 5', teacher: '', room: '', time: '14:15', changed: []}]
 
       // return periods for wednesday/thursday
       case 3:
-      case 4: return [{name: 'Period 1', teacher: '', room: '', time: '09:05'},
-                      {name: 'Period 2', teacher: '', room: '', time: '10:10'},
-                      {name: 'Recess',   teacher: '', room: '', time: '11:10'},
-                      {name: 'Period 3', teacher: '', room: '', time: '11:30'},
-                      {name: 'Lunch',    teacher: '', room: '', time: '12:30'},
-                      {name: 'Period 4', teacher: '', room: '', time: '13:10'},
-                      {name: 'Period 5', teacher: '', room: '', time: '14:15'}]
+      case 4: return [{name: 'Period 1', teacher: '', room: '', time: '09:05', changed: []},
+                      {name: 'Period 2', teacher: '', room: '', time: '10:10', changed: []},
+                      {name: 'Recess',   teacher: '', room: '', time: '11:10', changed: []},
+                      {name: 'Period 3', teacher: '', room: '', time: '11:30', changed: []},
+                      {name: 'Lunch',    teacher: '', room: '', time: '12:30', changed: []},
+                      {name: 'Period 4', teacher: '', room: '', time: '13:10', changed: []},
+                      {name: 'Period 5', teacher: '', room: '', time: '14:15', changed: []}]
 
       // return periods for friday
-      case 5: return [{name: 'Period 1', teacher: '', room: '', time: '09:30'},
-                      {name: 'Period 2', teacher: '', room: '', time: '10:30'},
-                      {name: 'Recess',   teacher: '', room: '', time: '11:25'},
-                      {name: 'Period 3', teacher: '', room: '', time: '11:45'},
-                      {name: 'Lunch',    teacher: '', room: '', time: '12:40'},
-                      {name: 'Period 4', teacher: '', room: '', time: '13:20'},
-                      {name: 'Period 5', teacher: '', room: '', time: '14:20'}]
+      case 5: return [{name: 'Period 1', teacher: '', room: '', time: '09:30', changed: []},
+                      {name: 'Period 2', teacher: '', room: '', time: '10:30', changed: []},
+                      {name: 'Recess',   teacher: '', room: '', time: '11:25', changed: []},
+                      {name: 'Period 3', teacher: '', room: '', time: '11:45', changed: []},
+                      {name: 'Lunch',    teacher: '', room: '', time: '12:40', changed: []},
+                      {name: 'Period 4', teacher: '', room: '', time: '13:20', changed: []},
+                      {name: 'Period 5', teacher: '', room: '', time: '14:20', changed: []}]
 
     }
   }
@@ -227,7 +246,7 @@ class Dashboard extends Component {
 
     let subjects = daytimetable['timetable']['subjects']
 
-    // periods is a JSON, not an array - starts from '1'
+    // periods is a JSON, not an array - therefore it starts from '1'
     let periods = daytimetable['timetable']['timetable']['periods']
     
     // loop through periods to set data
@@ -292,10 +311,9 @@ class Dashboard extends Component {
     return returnVar
   }
 
-  // get room and teacher changes for today
+  // Get room and teacher changes for today and push them to the periods array
   getChanges(periods, timetable) {
 
-    // Get room variations
     const roomVariations = timetable['roomVariations']
   
     if (timetable['roomVariations'] !== undefined) {
@@ -309,7 +327,6 @@ class Dashboard extends Component {
       }
     }
 
-    // Get class variations
     const classVariations = timetable['classVariations']
     if (timetable['classVariations'] !== undefined) {
 
@@ -332,7 +349,6 @@ class Dashboard extends Component {
           periods[periodNo-1].teacher = classVariations[periodNo]['casualSurname']
           periods[periodNo-1].changed.push('teacher')
         }
-
       }
     }
   }
@@ -341,7 +357,8 @@ class Dashboard extends Component {
   processHTML(periods) {
 
     const numPeriods = Object.keys(periods).length
-
+    
+    // these change the
     const nameTextClass = 'lead '
     const teacherTextClass = 'meta '
     const roomTextClass = 'room '
@@ -349,7 +366,7 @@ class Dashboard extends Component {
     for (var i = 0; i < numPeriods; i++) {
 
       let thisPeriod = periods[i]
-
+      
       const noClass = thisPeriod.changed.includes('noclass')
       const roomChange = thisPeriod.changed.includes('room')
       const teacherChange = thisPeriod.changed.includes('teacher')
@@ -372,7 +389,6 @@ class Dashboard extends Component {
       
         thisPeriod.room = (<td className={roomTextClass + (roomChange ? 'uk-text-primary' : '')}>{thisPeriod.room}</td>)
       }
-
     }
 
     return (<div className='uk-flex uk-flex-center'>
@@ -385,7 +401,6 @@ class Dashboard extends Component {
                   </td>
                   {periods[0].room}
                 </tr>
-
                 <tr>
                   <td className='uk-text-left'>
                     {periods[1].name}
@@ -393,7 +408,6 @@ class Dashboard extends Component {
                   </td>
                   {periods[1].room}
                 </tr>
-
                 <tr>
                   <td className='uk-text-left'>
                     {periods[2].name}
@@ -401,7 +415,6 @@ class Dashboard extends Component {
                   </td>
                   {periods[2].room}
                 </tr>
-
                 <tr>
                   <td className='uk-text-left'>
                     {periods[3].name}
@@ -409,7 +422,6 @@ class Dashboard extends Component {
                   </td>
                   {periods[3].room}
                 </tr>
-
                 <tr>
                   <td className='uk-text-left'>
                     {periods[4].name}
@@ -417,7 +429,6 @@ class Dashboard extends Component {
                   </td>
                   {periods[4].room}
                 </tr>
-
                 <tr>
                   <td className='uk-text-left'>
                     {periods[5].name}
@@ -425,7 +436,6 @@ class Dashboard extends Component {
                   </td>
                   {periods[5].room}
                 </tr>
-
                 <tr>
                   <td className='uk-text-left'>
                     {periods[6].name}
@@ -433,7 +443,6 @@ class Dashboard extends Component {
                   </td>
                   {periods[6].room}
                 </tr>
-
               </tbody>
             </table>
             <h1> </h1>
@@ -446,12 +455,27 @@ class Dashboard extends Component {
     let schedule
     let periods
     let date = new Date()
-
+    
+    let y = date.getFullYear()
+    let m = (date.getMonth()+1).toString()
+    let d = date.getDate().toString()
+    
+    let today = y + '-' + (m.length == 1 ? '0' + m : m) + '-' + (d.length == 1 ? '0' + d : d)
+    
+    // check if cached timetable out of date
+    if (new Date(localStorage.getItem('timetablePeriodsDate')) < new Date(today)) {
+      console.log(new Date(localStorage.getItem('timetablePeriodsDate')))
+      console.log(new Date(today))
+      localStorage.removeItem('timetableBells')
+      localStorage.removeItem('timetablePeriods')
+      localStorage.removeItem('timetablePeriodsDate')
+    }
 
     // if timetable exists and is current (i.e. it is not past 3:15pm), use the timetable periods
+    
     // nested if's are used for readability
-    if (timetable !== '') {
-
+    if (timetable != '') {
+      console.log('loading fresh periods')
       let timetableDate = new Date(timetable['date'])
 
       let timetableIsTodayBefore315 = ((date.getDay() === timetableDate.getDay()) && (date.getHours() < 15 || (date.getHours() === 15 && date.getMinutes() < 15)))
@@ -463,10 +487,22 @@ class Dashboard extends Component {
         periods = this.getDailyTimetable(timetable)
         let bells = timetable['bells']
         schedule = this.getSchedule(periods, timetableDate, bells)
+        localStorage.setItem('timetableBells', JSON.stringify(bells))
+        localStorage.setItem('timetablePeriods', JSON.stringify(periods))
+        localStorage.setItem('timetablePeriodsDate', timetable['date'])
       }
-      // otherwise, use default periods
+    
+    // check for cached timetable data
+    } else if (localStorage.getItem('timetablePeriods') != undefined) {
+      console.log('loading cached periods')
+      periods = JSON.parse(localStorage.getItem('timetablePeriods'))
+      let bells = JSON.parse(localStorage.getItem('timetableBells'))
+      let timetableDate = localStorage.getItem('timetablePeriodsDate')
+      schedule = this.getSchedule(periods, timetableDate, bells)
+      
     } else {
-
+      
+      console.log('loading default periods')
       periods = this.getDefaultPeriods()
 
       // the next school date
@@ -487,7 +523,7 @@ class Dashboard extends Component {
 
       schedule = this.getSchedule(this.getDefaultPeriods(), nextDate, this.getDefaultBells())
     }
-
+    
     this.setState( ()=> ({
       htmlClasses: this.processHTML(periods),
       schedule: schedule
@@ -518,7 +554,7 @@ class Dashboard extends Component {
     let periodsCopy = periods.slice(0)
 
     // remove any non-period time blocks
-    for (var i=0; i < periodsCopy.length; i++) {
+    for (var i = 0; i < periodsCopy.length; i++) {
 
       if (periodsCopy[i].name.startsWith('Recess') || periodsCopy[i].name.startsWith('Lunch')) {
         periodsCopy.splice(i, 1)
@@ -599,13 +635,13 @@ class Dashboard extends Component {
   render() {
     // get timer
     const timeLeft = this.formatTime(this.state.timer)
-
+    
     // for whatever reason React keeps changing JSON fields from 'string' to 'object', so this changes them back
     let nextClass = this.state.nextClass.name
     if (typeof(this.state.nextClass.name) === 'object') {
       nextClass = nextClass.props.children
     }
-
+    
     return (
         <div className='vcNavbarCard'>
           <div className='uk-animation-slide-top-small dashCard'>
