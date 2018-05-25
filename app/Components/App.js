@@ -9,6 +9,7 @@ import About from './About/About'
 import Profile from './Profile/Profile'
 import Feedback from './Feedback/Feedback'
 import Changelog from './Changelog/Changelog'
+import Settings from './Settings/Settings'
 const css = require('./App.css')
 const icons = require('../uikit-icons.min')
 const http = require('http')
@@ -47,6 +48,7 @@ window.STATES = {
   //CALENDAR: 4,
   ABOUT: 5,
   PROFILE: 9999,
+  SETINGS: -123,
   CHANGELOG: 6,
   FEEDBACK: 7
 }
@@ -437,6 +439,12 @@ class App extends Component {
     }
   }
 
+  showSettings() {
+    let visible = this.state.visible
+    this.setState({ visible: window.STATES.SETTINGS })
+    this.selectedNavbar(5)
+  }
+
   showChangelog() {
     //console.log('Changelog tab clicked')
     let visible = this.state.visible
@@ -560,6 +568,13 @@ class App extends Component {
                     </li>
 
                     <li>
+                      <a onClick={this.showSettings.bind(this)}>
+                        <span className='uk-icon uk-margin-small-right' uk-icon='icon: cog' />
+                        Settings
+                      </a>
+                    </li>
+
+                    <li>
                       <a onClick={this.showChangelog.bind(this)}>
                         <span className='uk-icon uk-margin-small-right' uk-icon='icon: code' />
                         Changelog
@@ -593,6 +608,7 @@ class App extends Component {
           {this.state.visible === window.STATES.NOTICES && <Notices />}
           {this.state.visible === window.STATES.ABOUT && <About />}
           {this.state.visible === window.STATES.PROFILE && <Profile />}
+          {this.state.visible === window.STATES.SETTINGS && <Settings />}
           {this.state.visible === window.STATES.CHANGELOG && <Changelog />}
           {this.state.visible === window.STATES.FEEDBACK && <Feedback />}
         </div>
