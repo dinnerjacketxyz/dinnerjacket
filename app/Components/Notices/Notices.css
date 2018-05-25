@@ -37,6 +37,18 @@
   width: 60px!important;
 }
 
+.uk-search-default {
+  width: 120px!important;
+}
+
+.uk-search > .uk-search-input {
+  border-radius: 5px 0 0 5px!important;
+}
+
+#yearSelector {
+  border-radius: 0 5px 5px 0!important;
+}
+
 @media (max-width:750px) {
   .noticesChild {
     box-shadow: none;

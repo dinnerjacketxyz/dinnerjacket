@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+const css = require('./Settings.css')
 
 let dark = false
 
@@ -9,7 +10,11 @@ class Settings extends Component {
     dark = localStorage.getItem('dark')
   }
 
-  componentWillMount() {}
+  componentDidMount() {let content = document.getElementById('content')
+  content.className = 'full vcNavbarParent'}
+
+  componentWillUnmount() {let content = document.getElementById('content')
+  content.className = 'full'}
 
   toggleTheme() {
     console.log('toggle theme')
@@ -30,8 +35,33 @@ class Settings extends Component {
 
   render() {
     return (
-      <div>
-        <button onClick={this.toggleTheme.bind(this)}>dark</button>
+      <div className='vcNavbarCard'>
+        <div className='profileParent'>
+          <div className='profileChild uk-animation-slide-top-small'>
+            <span className='profileParent' uk-icon='icon: cog; ratio:2'></span>
+            <h2 className='uk-text-center'>Settings</h2>
+            <div id='profileContent'>
+              <hr/>
+              <p>Colour option</p>
+              <select className='uk-select'>
+                <option>Light</option>
+                <option>Dark</option>
+              </select>
+              <hr/>
+              <p>Theme option</p>
+              <select className='uk-select'>
+                <option>Material</option>
+                <option>Clean</option>
+              </select>
+              <hr/>
+              <p>Timetable option</p>
+              <select className='uk-select'>
+                <option>Big</option>
+                <option>Small</option>
+              </select>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }
