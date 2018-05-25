@@ -3,6 +3,8 @@ const css = require('./Settings.css')
 
 let dark = false
 
+let selector
+
 class Settings extends Component {
   constructor(props) {
     super(props)
@@ -10,11 +12,24 @@ class Settings extends Component {
     dark = localStorage.getItem('dark')
   }
 
-  componentDidMount() {let content = document.getElementById('content')
-  content.className = 'full vcNavbarParent'}
+  componentDidMount() {
+    let content = document.getElementById('content')
+    content.className = 'full vcNavbarParent'
 
-  componentWillUnmount() {let content = document.getElementById('content')
-  content.className = 'full'}
+    selector = document.getElementById('timetableSelect')
+    /*if (localStorage.getItem('forceSmallTable') === 'true') {
+      selector.value = 'Small'
+    } else {
+      selector.value = 'Full'
+    }*/
+
+    selector.value = (localStorage.getItem('forceSmallTable') === 'true') ? 'Small' : 'Full'
+  }
+
+  componentWillUnmount() {
+    let content = document.getElementById('content')
+    content.className = 'full'
+  }
 
   toggleTheme() {
     console.log('toggle theme')
@@ -31,6 +46,14 @@ class Settings extends Component {
     }
     dark = !dark
     localStorage.setItem('dark', dark)
+  }
+
+  timetable() {
+    let forceSmall = false
+    if (selector.options[selector.selectedIndex].text !== 'Default') {
+      forceSmall = true
+    }
+    localStorage.setItem('forceSmallTable', forceSmall)
   }
 
   render() {
@@ -54,9 +77,9 @@ class Settings extends Component {
                 <option>Clean</option>
               </select>
               <hr/>
-              <p>Timetable option</p>
-              <select className='uk-select'>
-                <option>Big</option>
+              <p>Timetable</p>
+              <select id='timetableSelect' onChange={this.timetable.bind(this)} className='uk-select'>
+                <option>Full</option>
                 <option>Small</option>
               </select>
             </div>

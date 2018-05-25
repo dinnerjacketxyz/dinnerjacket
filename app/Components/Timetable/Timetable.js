@@ -19,14 +19,34 @@ let posArray = []
 let fadeArray = []
 let subjectOnly = []
 
-class Timetable extends Component {
- constructor(props) {
-   super(props)
-   week = window.bells.weekType
-   day = window.bells.day.substring(0,3).toUpperCase()
- }
+let width = 0
+let height = 0
 
- componentDidMount() {
+let fullTable
+let smallTable
+
+class Timetable extends Component {
+  constructor(props) {
+    super(props)
+    week = window.bells.weekType
+    day = window.bells.day.substring(0,3).toUpperCase()
+
+    width = window.innerWidth
+    height = window.innerHeight
+  }
+
+  componentDidMount() {
+    fullTable = document.getElementById('fullTimetable')
+    smallTable = document.getElementById('smallTimetable')
+
+    if (width < 530 || height < 620 || localStorage.getItem('forceSmallTable') === 'true') {
+      console.log('small timetable')
+      fullTable.hidden = true
+    } else {
+      console.log('full timetable')
+      smallTable.hidden = true
+    }
+
    this.initialise()
    let content = document.getElementById('content')
     content.className = 'full vcNavbarParent'
@@ -248,16 +268,16 @@ class Timetable extends Component {
 
  fade(){
   setTimeout(function() { //TODO MAKE SURE THIS ONLY EXECUTES WHEN TIMETABLE IS OPEN
-        for (let u = 0; u < fadeArray.length; u++){
-          let highlight = document.getElementById(fadeArray[u])
-          highlight.className = ''
-        }
-  }, 2000)
+    for (let u = 0; u < fadeArray.length; u++){
+      let highlight = document.getElementById(fadeArray[u])
+      highlight.className = ''
+     }
+   }, 2000)
  }
 
- // <button onClick={this.initialise.bind(this)}>Test</button>
+  // <button onClick={this.initialise.bind(this)}>Test</button>
 
- render() {
+  render() {
    //this.initialise()
    return (
         <div className='vcNavbarCard'>
@@ -267,22 +287,22 @@ class Timetable extends Component {
             </h3>
             <div className='uk-padding-top uk-text-center'>
               <table className="uk-table uk-table-small">
-                  <thead>
-                      <tr>
-                          <th>MON A</th>
-                          <th>TUE A</th>
-                          <th>WED A</th>
-                          <th>THU A</th>
-                          <th>FRI A</th>
-                      </tr>
-                  </thead>
-                  <tbody className='timetable' onMouseOver={this.subjectHighlight.bind(this)}>
-                    <tr id='r0' onMouseOver={this.bigInput}></tr>
-                    <tr id='r1' onMouseOver={this.bigInput}></tr>
-                    <tr id='r2' onMouseOver={this.bigInput}></tr>
-                    <tr id='r3' onMouseOver={this.bigInput}></tr>
-                    <tr id='r4' onMouseOver={this.bigInput}></tr>
-                  </tbody>
+                <thead>
+                  <tr>
+                    <th>MON A</th>
+                    <th>TUE A</th>
+                    <th>WED A</th>
+                    <th>THU A</th>
+                    <th>FRI A</th>
+                  </tr>
+                </thead>
+                <tbody className='timetable' onMouseOver={this.subjectHighlight.bind(this)}>
+                  <tr id='r0' onMouseOver={this.bigInput}></tr>
+                  <tr id='r1' onMouseOver={this.bigInput}></tr>
+                  <tr id='r2' onMouseOver={this.bigInput}></tr>
+                  <tr id='r3' onMouseOver={this.bigInput}></tr>
+                  <tr id='r4' onMouseOver={this.bigInput}></tr>
+                </tbody>
               </table>
             </div>
             <hr/>
@@ -345,10 +365,9 @@ class Timetable extends Component {
               <tbody id='smallTable'></tbody>
             </table>
           </div>
-        </div>
-       
-   )
- }
+        </div> 
+    )
+  }
 }
 
 export default Timetable
