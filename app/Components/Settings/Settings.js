@@ -17,12 +17,6 @@ class Settings extends Component {
     content.className = 'full vcNavbarParent'
 
     selector = document.getElementById('timetableSelect')
-    /*if (localStorage.getItem('forceSmallTable') === 'true') {
-      selector.value = 'Small'
-    } else {
-      selector.value = 'Full'
-    }*/
-
     selector.value = (localStorage.getItem('forceSmallTable') === 'true') ? 'Small' : 'Full'
   }
 
