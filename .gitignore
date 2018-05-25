@@ -2,6 +2,7 @@
 
 # dependencies
 app/Components/Notes/fb.js
+public/app.js
 node_modules
 
 # testing
