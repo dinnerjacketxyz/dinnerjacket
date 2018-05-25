@@ -44,10 +44,11 @@ class Settings extends Component {
 
   timetable() {
     let forceSmall = false
-    if (selector.options[selector.selectedIndex].text !== 'Default') {
+    if (selector.options[selector.selectedIndex].text === 'Small') {
       forceSmall = true
     }
     localStorage.setItem('forceSmallTable', forceSmall)
+    console.log(localStorage.getItem('forceSmallTable'))
   }
 
   render() {
