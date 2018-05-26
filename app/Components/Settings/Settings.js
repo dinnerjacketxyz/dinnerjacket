@@ -3,6 +3,8 @@ const css = require('./Settings.css')
 
 let selector
 let color
+let theme
+let bodyArray = ['', '']
 
 class Settings extends Component {
   constructor(props) {
@@ -17,6 +19,8 @@ class Settings extends Component {
 
     selector = document.getElementById('timetableSelect')
     selector.value = (localStorage.getItem('forceSmallTable') === 'true') ? 'Small' : 'Full'
+  
+    
   }
 
   componentWillUnmount() {
@@ -35,7 +39,6 @@ class Settings extends Component {
 
   colorInit() {
     color = document.getElementById('colorSelect')
-    color.value = (localStorage.getItem('color') === 'true') ? 'Light' : 'Dark'
     if (localStorage.getItem('color')==='true') {
       color.options.selectedIndex = 1
     } else if (localStorage.getItem('color')==='false') {
@@ -45,32 +48,57 @@ class Settings extends Component {
 
   color() {
     //the select element
-    selector = document.getElementById('colorSelect')
-    selector.value = (localStorage.getItem('color') === 'true') ? 'Light' : 'Dark'
+    color = document.getElementById('colorSelect')
+    color.value = (localStorage.getItem('color') === 'true') ? 'Light' : 'Dark'
 
     //light is false and dark is true
 
     let bool
 
-    if (selector.options[selector.selectedIndex].text === 'Dark') {
+    if (color.options[color.selectedIndex].text === 'Dark') {
       bool = true
-      selector.options.selectedIndex = 1
-      this.changeColor(bool)
-    } else if (selector.options[selector.selectedIndex].text === 'Light') {
+      color.options.selectedIndex = 1
+      this.changeBody(color.options[color.selectedIndex].text)
+    } else if (color.options[color.selectedIndex].text === 'Light') {
       bool = false
-      selector.options.selectedIndex = 0
+      color.options.selectedIndex = 0
+      this.changeBody(color.options[color.selectedIndex].text)
     }
 
     localStorage.setItem('color', bool)
-    this.changeColor(bool)
+    this.changeBody(bool, color.options[color.selectedIndex].text)
   }
 
-  changeColor(bool) {
-    if (bool == true) {
-      document.body.className = 'uk-light' //dark
-    } else if (bool == false) {
-      document.body.className = 'uk-dark' //light
+  theme() {
+    //the select element
+    theme = document.getElementById('themeSelect')
+    theme.value = (localStorage.getItem('theme') === 'true') ? 'Material' : 'Clean'
+
+    let bool
+
+    if (theme.options[theme.selectedIndex].text === 'Clean') {
+      bool = true
+      theme.options.selectedIndex = 1
+    } else if (theme.options[theme.selectedIndex].text === 'Material') {
+      bool = false
+      theme.options.selectedIndex = 0
     }
+
+    localStorage.setItem('theme', bool)
+    this.changeBody(theme.options[theme.selectedIndex].text)
+  }
+
+  changeBody(text) {
+    if (text == 'Clean') {
+      bodyArray[1] = 'clean' //Clean
+    } else if (text == 'Material') {
+      bodyArray[1] = 'material' //Material
+    } else if (text == 'Dark') {
+      bodyArray[0] = 'uk-light' //dark
+    } else if (text == 'Light') {
+      bodyArray[0] = 'uk-dark' //light
+    }
+    document.body.className = bodyArray.join(' ')
   }
 
   render() {
@@ -89,7 +117,7 @@ class Settings extends Component {
               </select>
               <hr/>
               <p>Theme</p>
-              <select className='uk-select'>
+              <select id='themeSelect' className='uk-select' onChange={this.theme.bind(this)}>
                 <option>Material</option>
                 <option>Clean</option>
               </select>
