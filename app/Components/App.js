@@ -148,6 +148,17 @@ class App extends Component {
         mainApp.getData()
       }
     }
+
+    this.color(localStorage.getItem('color'))
+  }
+
+  color(bool){
+    console.log(bool)
+    if (bool == 'true') {
+      document.body.className = 'uk-light' //dark
+    } else if (bool == 'false') {
+      document.body.className = 'uk-dark' //light
+    }
   }
   
   getData() {
