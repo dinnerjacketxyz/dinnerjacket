@@ -54,7 +54,11 @@
 }
 
 .uk-light {
-  background-color: #2f3136;
+  background-color: #2f3136!important;
+}
+
+.ql-snow .ql-stroke {
+  stroke: #e8e8e8;
 }
 
 .uk-light .uk-select option:hover {
