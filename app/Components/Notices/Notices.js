@@ -4,6 +4,7 @@ const css = require('./Notices.css')
 
 let dailyNotices = ''
 window.year = ''
+let search
 
 class Notices extends Component {
   constructor(props) {
@@ -16,7 +17,8 @@ class Notices extends Component {
     this.state = {
       notices: [],
       year: window.year,
-      text: 'EXPAND'
+      text: 'EXPAND',
+      keyword: ''
     }
     this.init()
   }
@@ -24,6 +26,8 @@ class Notices extends Component {
   componentDidMount() {
     let selector = document.getElementById('yearSelector')
     selector.value = window.year
+
+    search = document.getElementById('search')
   }
 
   strip(html) {
@@ -38,64 +42,71 @@ class Notices extends Component {
 
     for (let i = 0; i < dailyNotices.notices.length; i++) {
       if (this.state.year == 'ALL' || this.yearInNotice(this.state.year, dailyNotices.notices[i])) {
-        // TEMP - proper solotion later (TODO)
-        //let content = dailyNotices.notices[i].content.replace(/(<([^>]+)>)/ig,'')
-        let content = this.strip(dailyNotices.notices[i].content)
+        if (this.state.keyword === '' || this.keywordInNotice(this.state.keyword, dailyNotices.notices[i])) {
+          let content = this.strip(dailyNotices.notices[i].content)
 
-        let years = ''
-        if (dailyNotices.notices[i].years.length >= 6) {
-          years = 'ALL'
-        } else {
-          let c = false
-          for (let j = 0; j < dailyNotices.notices[i].years.length; j++) {
-            let start = 0
-            if (!c) {
-              if (years.length > 0) {
-                years += ', '
+          let years = ''
+          if (dailyNotices.notices[i].years.length >= 6) {
+            years = 'ALL'
+          } else {
+            let c = false
+            for (let j = 0; j < dailyNotices.notices[i].years.length; j++) {
+              let start = 0
+              if (!c) {
+                if (years.length > 0) {
+                  years += ', '
+                }
+                start = dailyNotices.notices[i].years[j]
+                years += start + ' '
               }
-              start = dailyNotices.notices[i].years[j]
-              years += start + ' '
-            }
 
-            if (parseInt(dailyNotices.notices[i].years[j]) + 1 === parseInt(dailyNotices.notices[i].years[j+1]) && j < dailyNotices.notices[i].years.length - 1) {
-              c = true
-            } else {
-              c = false
-              if (dailyNotices.notices[i].years[j] !== start) {
-                years += ' - ' + dailyNotices.notices[i].years[j] + ' '
+              if (parseInt(dailyNotices.notices[i].years[j]) + 1 === parseInt(dailyNotices.notices[i].years[j+1]) && j < dailyNotices.notices[i].years.length - 1) {
+                c = true
+              } else {
+                c = false
+                if (dailyNotices.notices[i].years[j] !== start) {
+                  years += ' - ' + dailyNotices.notices[i].years[j] + ' '
+                }
               }
             }
           }
-        }
 
-        let date = ''
-        const MONTHS = [
-          'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-          'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
-        ]
+          let date = ''
+          const MONTHS = [
+            'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+          ]
 
-        if (dailyNotices.notices[i].isMeeting) {
-          let dd = dailyNotices.notices[i].meetingDate.substr(-2)
-          if (dd[0] === '0') {
-            dd = dd.substr(-1)
+          if (dailyNotices.notices[i].isMeeting) {
+            let dd = dailyNotices.notices[i].meetingDate.substr(-2)
+            if (dd[0] === '0') {
+              dd = dd.substr(-1)
+            }
+            let mm = dailyNotices.notices[i].meetingDate.substr(-5, 2)
+            if (mm[0] === '0') {
+              mm = mm.substr(-1)
+            }
+            date = MONTHS[mm] + ' ' + dd + ' at ' + dailyNotices.notices[i].meetingTime
           }
-          let mm = dailyNotices.notices[i].meetingDate.substr(-5, 2)
-          if (mm[0] === '0') {
-            mm = mm.substr(-1)
-          }
-          date = MONTHS[mm] + ' ' + dd + ' at ' + dailyNotices.notices[i].meetingTime
-        }
 
-        let obj = {
-          title: dailyNotices.notices[i].title,
-          date: date,
-          content: content,
-          years: years,
-          author: dailyNotices.notices[i].authorName
+          let obj = {
+            title: dailyNotices.notices[i].title,
+            date: date,
+            content: content,
+            years: years,
+            author: dailyNotices.notices[i].authorName
+          }
+          this.state.notices.push(obj)
         }
-        this.state.notices.push(obj)
       }
     }
+  }
+
+  keywordInNotice(keyword, notice) {
+    keyword = keyword.toLowerCase()
+    return (notice.title.toLowerCase().includes(keyword) || 
+      notice.content.toLowerCase().includes(keyword ||
+      notice.authorName.toLowerCase().includes(keyword)))
   }
 
   yearInNotice(year, notice) {
@@ -126,17 +137,14 @@ class Notices extends Component {
   toggleNotices() {
     let text = this.state.text
     let newText = ''
-    if (text === 'EXPAND') {
-      newText = 'COLLAPSE'
-    } else {
-      newText = 'EXPAND'
-    }
-
+    newText = (text === 'EXPAND') ? 'COLLAPSE' : 'EXPAND'
     this.setState({ text: newText })
   }
 
   search() {
-    
+    let keyword = this.state.keyword
+    this.setState({ keyword: search.value.toLowerCase() })
+    this.init()
   }
 
   render() {
@@ -180,7 +188,7 @@ class Notices extends Component {
             </div>
             <form className="uk-search uk-search-default uk-align-right">
                 <span uk-search-icon='true' uk-icon='icon:search'></span>
-                <input className="uk-search-input" type="search" placeholder="Search..."/>
+                <input id='search' className="uk-search-input" onInput={this.search.bind(this)} type="search" placeholder="Search..."/>
             </form>
             <button onClick={this.toggleNotices.bind(this)} className='uk-button uk-align-left uk-button-default'>
               {this.state.text}
@@ -224,5 +232,3 @@ const ExpandedNotices = (props) => {
 }
 
 export default Notices
-
-//<i>{props.notices.date}</i>
