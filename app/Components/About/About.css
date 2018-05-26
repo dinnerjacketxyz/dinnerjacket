@@ -8,10 +8,6 @@
 
 .aboutCard{
   width: 600px;
-  background: #fff;
-  color: #666;
-  box-shadow: 0 5px 15px rgba(0,0,0,.08);
-  border-radius: 5px;
   padding: 30px 30px;
   position: relative;
   box-sizing: border-box;

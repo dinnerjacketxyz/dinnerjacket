@@ -16,8 +16,11 @@
   color: #666;
 }
 
-.card {
+.material .card {
   box-shadow: 0 5px 15px rgba(0,0,0,.08);
+}
+
+.card {
   padding: 30px 30px;
   border-radius: 5px;
 }
@@ -58,7 +61,7 @@
 }
 
 .uk-light.ql-editor.ql-blank::before {
-  color: rgba(255, 255, 255, 0.6);
+  color: white!important;
 }
 
 .ql-snow .ql-stroke {

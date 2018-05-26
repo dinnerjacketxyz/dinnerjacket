@@ -149,16 +149,10 @@ class App extends Component {
       }
     }
 
-    this.color(localStorage.getItem('color'))
-  }
+    let temp = localStorage.getItem('bodyArray').split(',')
 
-  color(bool){
-    console.log(bool)
-    if (bool == 'true') {
-      document.body.className = 'uk-light' //dark
-    } else if (bool == 'false') {
-      document.body.className = 'uk-dark' //light
-    }
+    console.log(localStorage.getItem('bodyArray'))
+    document.body.className = temp.join(' ')
   }
   
   getData() {

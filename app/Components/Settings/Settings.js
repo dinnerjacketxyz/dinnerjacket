@@ -4,7 +4,7 @@ const css = require('./Settings.css')
 let selector
 let color
 let theme
-let bodyArray = ['', '']
+let bodyArray = ['uk-dark','material']
 
 class Settings extends Component {
   constructor(props) {
@@ -98,7 +98,9 @@ class Settings extends Component {
     } else if (text == 'Light') {
       bodyArray[0] = 'uk-dark' //light
     }
+    console.log(bodyArray)
     document.body.className = bodyArray.join(' ')
+    localStorage.setItem('bodyArray',bodyArray)
   }
 
   render() {
