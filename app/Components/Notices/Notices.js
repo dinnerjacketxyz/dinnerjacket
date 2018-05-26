@@ -18,7 +18,7 @@ class Notices extends Component {
       notices: [],
       year: window.year,
       text: 'EXPAND',
-      keyword: ''
+      keywords: []
     }
     this.init()
   }
@@ -39,10 +39,11 @@ class Notices extends Component {
   init() {
     dailyNotices = window.dailyNotices
     this.state.notices = []
+    let lowRelavence = []
 
     for (let i = 0; i < dailyNotices.notices.length; i++) {
       if (this.state.year == 'ALL' || this.yearInNotice(this.state.year, dailyNotices.notices[i])) {
-        if (this.state.keyword === '' || this.keywordInNotice(this.state.keyword, dailyNotices.notices[i])) {
+        if (this.state.keywords.length === 0 || this.keywordsInNotice(this.state.keywords, dailyNotices.notices[i])[0]) {
           let content = this.strip(dailyNotices.notices[i].content)
 
           let years = ''
@@ -96,17 +97,33 @@ class Notices extends Component {
             years: years,
             author: dailyNotices.notices[i].authorName
           }
-          this.state.notices.push(obj)
+          if (this.state.keywords.length === 0 || this.keywordsInNotice(this.state.keywords, dailyNotices.notices[i])[1]) {
+            this.state.notices.push(obj)
+          } else {
+            lowRelavence.push(obj)
+          }
         }
       }
     }
+
+    for (let x = 0; x < lowRelavence.length; x++) {
+      this.state.notices.push(lowRelavence[x])
+    }
   }
 
-  keywordInNotice(keyword, notice) {
-    keyword = keyword.toLowerCase()
-    return (notice.title.toLowerCase().includes(keyword) || 
-      notice.content.toLowerCase().includes(keyword ||
-      notice.authorName.toLowerCase().includes(keyword)))
+  keywordsInNotice(keywords, notice) {
+    let all = true
+    let or = false
+    for (let i = 0; i < keywords.length; i++) {
+      if (notice.title.toLowerCase().includes(keywords[i]) || 
+          notice.content.toLowerCase().includes(keywords[i]) ||
+          notice.authorName.toLowerCase().includes(keywords[i])) {
+        or = true
+      } else {
+        all = false
+      }
+    }
+    return [or, all]
   }
 
   yearInNotice(year, notice) {
@@ -142,8 +159,9 @@ class Notices extends Component {
   }
 
   search() {
-    let keyword = this.state.keyword
-    this.setState({ keyword: search.value.toLowerCase() })
+    let keywords = this.state.keywords
+    this.setState({ keywords: search.value.toLowerCase().split(/[\s,;]+/) })
+    this.state.keywords = search.value.toLowerCase().split(/[\s,;]+/)
     this.init()
   }
 
