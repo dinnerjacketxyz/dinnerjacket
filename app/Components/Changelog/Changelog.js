@@ -5,7 +5,7 @@ class Changelog extends Component {
   render() {
     return (
         <div className='clContainer'>
-          <div className='clCard uk-animation-slide-top-small'>
+          <div className='clCard card uk-animation-slide-top-small'>
             <article className="uk-article">
               <h1 className="uk-article-title">Unreleased features</h1>
               <ul>

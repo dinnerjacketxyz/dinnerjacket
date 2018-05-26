@@ -165,7 +165,7 @@ class Notices extends Component {
     }
     return (
       <div className='noticesParent'>
-        <div className='noticesChild uk-animation-slide-top-small'>
+        <div className='noticesChild card uk-animation-slide-top-small'>
           <div className='uk-margin-large-bottom'>
             <div className='yearSelect'>
               <select id='yearSelector' onChange={this.selectYear.bind(this)} className='yearSelect uk-select'>

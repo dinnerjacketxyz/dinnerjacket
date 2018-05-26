@@ -45,7 +45,7 @@ class Notes extends Component {
   render() {
     return (
       <div className='vcNavbarCard notesParent'>
-        <div className='notesChild uk-animation-slide-top-small'>
+        <div className='notesChild card uk-animation-slide-top-small'>
           <div className='pad'>
             <div id='editor' onInput={this.updateDB.bind(this)}/>
           </div>

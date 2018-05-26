@@ -644,7 +644,7 @@ class Dashboard extends Component {
     
     return (
         <div className='vcNavbarCard'>
-          <div className='uk-animation-slide-top-small dashCard'>
+          <div className='uk-animation-slide-top-small dashCard card'>
             <h4 className='nextClass'>{nextClass}</h4>
             <p className='in'>in</p>
             <h1 className='uk-heading-line countdown'><span>{timeLeft}</span></h1>

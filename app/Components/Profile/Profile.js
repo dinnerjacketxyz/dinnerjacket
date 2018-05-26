@@ -97,7 +97,7 @@ class Profile extends Component {
     return (
       <div className='vcNavbarCard'>
         <div className='profileParent'>
-          <div className='profileChild uk-animation-slide-top-small'>
+          <div className='profileChild card uk-animation-slide-top-small'>
             <span className='profileParent' uk-icon='icon: user; ratio:2'></span>
             <h2 className='uk-text-center'>{userData.givenName+' '+userData.surname}</h2>
             <p className='uk-text-center'>{userData.role+' | '+userData.department+' | '+userData.office}</p>

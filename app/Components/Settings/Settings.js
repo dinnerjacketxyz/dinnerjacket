@@ -1,23 +1,18 @@
 import React, { Component } from 'react'
 const css = require('./Settings.css')
 
-let dark = false
-
 let selector
 
 class Settings extends Component {
   constructor(props) {
     super(props)
-    
-    dark = localStorage.getItem('dark')
   }
 
   componentDidMount() {
     let content = document.getElementById('content')
     content.className = 'full vcNavbarParent'
 
-    selector = document.getElementById('timetableSelect')
-    selector.value = (localStorage.getItem('forceSmallTable') === 'true') ? 'Small' : 'Full'
+    this.colorInit()
   }
 
   componentWillUnmount() {
@@ -25,24 +20,9 @@ class Settings extends Component {
     content.className = 'full'
   }
 
-  toggleTheme() {
-    console.log('toggle theme')
-
-    let main = document.getElementById('main')
-    //let navbar = document.getElementById('navbar')
-
-    if (dark) {
-      main.style.backgroundColor = '#FFFFFF'
-      main.style.color = '#000000'
-    } else {
-      main.style.backgroundColor = '#2a2c31'
-      main.style.color = '#FFFFFF'
-    }
-    dark = !dark
-    localStorage.setItem('dark', dark)
-  }
-
   timetable() {
+    selector = document.getElementById('timetableSelect')
+    selector.value = (localStorage.getItem('forceSmallTable') === 'true') ? 'Small' : 'Full'
     let forceSmall = false
     if (selector.options[selector.selectedIndex].text === 'Small') {
       forceSmall = true
@@ -51,22 +31,62 @@ class Settings extends Component {
     console.log(localStorage.getItem('forceSmallTable'))
   }
 
+  colorInit() {
+    selector = document.getElementById('colorSelect')
+    selector.value = (localStorage.getItem('color') === 'true') ? 'Light' : 'Dark'
+    if (localStorage.getItem('color')==='true') {
+      selector.options.selectedIndex = 1
+    } else if (localStorage.getItem('color')==='false') {
+      selector.options.selectedIndex = 0
+    }
+  }
+
+  color() {
+    //the select element
+    selector = document.getElementById('colorSelect')
+    selector.value = (localStorage.getItem('color') === 'true') ? 'Light' : 'Dark'
+
+    //light is false and dark is true
+
+    let bool
+
+    if (selector.options[selector.selectedIndex].text === 'Dark') {
+      bool = true
+      selector.options.selectedIndex = 1
+      this.changeColor(bool)
+    } else if (selector.options[selector.selectedIndex].text === 'Light') {
+      bool = false
+      selector.options.selectedIndex = 0
+    }
+
+    localStorage.setItem('color', bool)
+    this.changeColor(bool)
+  }
+
+  changeColor(bool) {
+    if (bool == true) {
+      document.body.className = 'uk-light' //dark
+    } else if (bool == false) {
+      document.body.className = 'uk-dark' //light
+    }
+  }
+
   render() {
     return (
       <div className='vcNavbarCard'>
-        <div className='profileParent'>
-          <div className='profileChild uk-animation-slide-top-small'>
-            <span className='profileParent' uk-icon='icon: cog; ratio:2'></span>
+        <div className='settingsParent'>
+          <div className='settingsChild card uk-animation-slide-top-small'>
+            <span className='settingsParent' uk-icon='icon: cog; ratio:2'></span>
             <h2 className='uk-text-center'>Settings</h2>
-            <div id='profileContent'>
+            <div id='settingsContent'>
               <hr/>
-              <p>Colour option</p>
-              <select className='uk-select'>
+              <p>Colour</p>
+              <select id='colorSelect' className='uk-select' onChange={this.color.bind(this)}>
                 <option>Light</option>
                 <option>Dark</option>
               </select>
               <hr/>
-              <p>Theme option</p>
+              <p>Theme</p>
               <select className='uk-select'>
                 <option>Material</option>
                 <option>Clean</option>

@@ -1,4 +1,4 @@
-.profileParent {
+.settingsParent {
   display: flex;
   justify-content: center;
 }
@@ -7,28 +7,59 @@
   margin-top: 20px;
 }
 
-#profileContent {
+#settingsContent {
   text-align: left;
 }
 
-.profileChild {
+.uk-dark .card {
   background: #fff;
   color: #666;
   box-shadow: 0 5px 15px rgba(0,0,0,.08);
   padding: 30px 30px;
+  border-radius: 5px;
+}
+
+.uk-light .card {
+  background: #36393e;
+  color: white;
+  box-shadow: 0 5px 15px rgba(0,0,0,.08);
+  padding: 30px 30px;
+  border-radius: 5px;
+}
+
+.uk-light .ql-snow .ql-picker {
+  color: white;
+}
+
+.uk-light .ql-snow .ql-stroke {
+  stroke: white;
+}
+
+.uk-light #content {
+  background: #2f3136;
+}
+
+.uk-light .uk-navbar-container:not(.uk-navbar-transparent) {
+  background: #36393f;
+}
+
+.uk-dark .settingsChild {
+  background: #fff;
+  color: #666;
+}
+
+.settingsChild {
   position: relative;
   box-sizing: border-box;
   transition: box-shadow .1s ease-in-out;
-  border-radius: 5px;
   width: 550px;
-  margin-top: 20px;
 }
 
 .big {
   margin-top: 70px!important
 }
 
-.profileChild .uk-align-left{
+.settingsChild .uk-align-left{
   margin-top: 0px;
   margin-bottom: 0px;
 }
@@ -43,7 +74,7 @@
   width:80px;
 }
 
-.profileChild td code {
+.settingsChild td code {
   word-wrap: break-word;
   user-select: text;
   font-size: .875rem;
@@ -59,14 +90,14 @@
 }
 
 @media (max-width:550px){
-  .profileChild {
+  .settingsChild {
     width: 100%;
     box-shadow: none;
   }
-  #profileContent .uk-accordion-title {
+  #settingsContent .uk-accordion-title {
     font-size: 1.25rem;
   }
-  .profileParent h2 {
+  .settingsParent h2 {
     font-size: 2.5rem;
   }
 }

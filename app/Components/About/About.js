@@ -5,7 +5,7 @@ class About extends Component {
   render() {
     return (
       <div className='aboutContainer'>
-        <div className='aboutCard uk-animation-slide-top-small'>
+        <div className='aboutCard card uk-animation-slide-top-small'>
           <img id='aboutLogo'
             className='uk-disabled'
             alt='logo' src='./icons/256.png' width='150px' height='150px'>

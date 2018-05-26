@@ -281,7 +281,7 @@ class Timetable extends Component {
    //this.initialise()
    return (
         <div className='vcNavbarCard'>
-          <div id='fullTimetable' className='ttableCard uk-animation-slide-top-small' onMouseLeave={this.fade.bind(this)}>
+          <div id='fullTimetable' className='ttableCard card uk-animation-slide-top-small' onMouseLeave={this.fade.bind(this)}>
             <h3 className='uk-heading-line uk-text-center'>
               <span id='ttableName'/>
             </h3>
@@ -348,7 +348,7 @@ class Timetable extends Component {
               </table>
             </div>
             </div>
-          <div id='smallTimetable' className='ttableCard uk-animation-slide-top-small' onClick={this.activeTab.bind(this)}>
+          <div id='smallTimetable' className='ttableCard card uk-animation-slide-top-small' onClick={this.activeTab.bind(this)}>
             <ul className='uk-flex-center uk-tab' onClick={this.smallInput}>
               <li id='A'><a>A</a></li>
               <li id='B'><a>B</a></li>

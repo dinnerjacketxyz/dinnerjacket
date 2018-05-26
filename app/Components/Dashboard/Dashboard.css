@@ -42,11 +42,7 @@
 
 .dashCard {
   width: 400px;
-  background: #fff;
-  color: #666;
-  box-shadow: 0 5px 15px rgba(0,0,0,.08);
-  padding: 30px 30px;
-  border-radius: 5px;
+  
 }
 
 .dashTable {
