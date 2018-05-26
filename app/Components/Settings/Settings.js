@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 const css = require('./Settings.css')
 
 let selector
+let color
 
 class Settings extends Component {
   constructor(props) {
@@ -13,6 +14,9 @@ class Settings extends Component {
     content.className = 'full vcNavbarParent'
 
     this.colorInit()
+
+    selector = document.getElementById('timetableSelect')
+    selector.value = (localStorage.getItem('forceSmallTable') === 'true') ? 'Small' : 'Full'
   }
 
   componentWillUnmount() {
@@ -21,8 +25,6 @@ class Settings extends Component {
   }
 
   timetable() {
-    selector = document.getElementById('timetableSelect')
-    selector.value = (localStorage.getItem('forceSmallTable') === 'true') ? 'Small' : 'Full'
     let forceSmall = false
     if (selector.options[selector.selectedIndex].text === 'Small') {
       forceSmall = true
@@ -32,12 +34,12 @@ class Settings extends Component {
   }
 
   colorInit() {
-    selector = document.getElementById('colorSelect')
-    selector.value = (localStorage.getItem('color') === 'true') ? 'Light' : 'Dark'
+    color = document.getElementById('colorSelect')
+    color.value = (localStorage.getItem('color') === 'true') ? 'Light' : 'Dark'
     if (localStorage.getItem('color')==='true') {
-      selector.options.selectedIndex = 1
+      color.options.selectedIndex = 1
     } else if (localStorage.getItem('color')==='false') {
-      selector.options.selectedIndex = 0
+      color.options.selectedIndex = 0
     }
   }
 
