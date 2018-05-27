@@ -17,10 +17,24 @@ class Settings extends Component {
 
     this.colorInit()
     this.themeInit()
+    this.loadBodyArray()
 
     selector = document.getElementById('timetableSelect')
     selector.value = (localStorage.getItem('forceSmallTable') === 'true') ? 'Small' : 'Full'
-    let bodyArray = ['uk-dark','material']  
+    let bodyArray = ['uk-dark','material']
+  }
+
+  loadBodyArray() {
+    if (localStorage.getItem('theme') === 'true') {
+      bodyArray[1] = 'clean' //Clean
+    } else if (localStorage.getItem('theme') === 'false') {
+      bodyArray[1] = 'material' //Material
+    } else if (localStorage.getItem('color') === 'true') {
+      bodyArray[0] = 'uk-light' //dark
+    } else if (localStorage.getItem('color') ==='false') {
+      bodyArray[0] = 'uk-dark' //light
+    }
+    localStorage.setItem('bodyArray',bodyArray)
   }
 
   componentWillUnmount() {

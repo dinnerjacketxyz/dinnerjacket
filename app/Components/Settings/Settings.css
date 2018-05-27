@@ -101,8 +101,8 @@
 .uk-dark .uk-button-default:hover, .uk-dark .uk-search-input:hover, .uk-dark .uk-select:hover {
   border-color: #2dc0d5;
 }
-.uk-light.ql-editor.ql-blank::before {
-  color: white!important;
+.uk-light .ql-editor.ql-blank::before {
+  color: #e8e8e8!important;
 }
 .uk-light .ql-snow .ql-stroke {
   stroke: #e8e8e8;
