@@ -161,7 +161,7 @@
 
 @media (max-width:550px){
   .settingsChild {
-    width: 100%;
+    width: 100vw;
     box-shadow: none;
   }
   #settingsContent .uk-accordion-title {

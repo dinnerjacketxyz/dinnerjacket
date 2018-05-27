@@ -31,6 +31,7 @@ class Settings extends Component {
       bodyArray[1] = 'material' //Material
     } else if (localStorage.getItem('color') === 'true') {
       bodyArray[0] = 'uk-light' //dark
+      
     } else if (localStorage.getItem('color') ==='false') {
       bodyArray[0] = 'uk-dark' //light
     }
