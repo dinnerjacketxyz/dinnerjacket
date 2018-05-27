@@ -97,7 +97,7 @@ class Notices extends Component {
             years: years,
             author: dailyNotices.notices[i].authorName
           }
-          if (this.state.keywords.length === 0 || this.keywordsInNotice(this.state.keywords, dailyNotices.notices[i])[1]) {
+          if (this.state.keywords.length <= 1 || this.keywordsInNotice(this.state.keywords, dailyNotices.notices[i])[1]) {
             this.state.notices.push(obj)
           } else {
             lowRelavence.push(obj)
@@ -106,12 +106,19 @@ class Notices extends Component {
       }
     }
 
+    console.log(this.state.notices)
+    console.log(lowRelavence)
+
     for (let x = 0; x < lowRelavence.length; x++) {
       this.state.notices.push(lowRelavence[x])
     }
+
+    let a = this.state.a
+    this.setState({ a: true })
   }
 
   keywordsInNotice(keywords, notice) {
+    console.log(keywords)
     let all = true
     let or = false
     for (let i = 0; i < keywords.length; i++) {
@@ -159,8 +166,8 @@ class Notices extends Component {
   }
 
   search() {
-    let keywords = this.state.keywords
-    this.setState({ keywords: search.value.toLowerCase().split(/[\s,;]+/) })
+    //let keywords = this.state.keywords
+    //this.setState({ keywords: search.value.toLowerCase().split(/[\s,;]+/) })
     this.state.keywords = search.value.toLowerCase().split(/[\s,;]+/)
     this.init()
   }
@@ -171,7 +178,7 @@ class Notices extends Component {
     if (text === 'EXPAND') {
       rows = this.state.notices.map(notice => {
         return <CollapsedNotices key = {
-          notice.title
+          notice.title+notice.year
         }
         notices = {
           notice
@@ -181,7 +188,7 @@ class Notices extends Component {
     } else {
       rows = this.state.notices.map(notice => {
         return <ExpandedNotices key = {
-          notice.title
+          notice.title+notice.year
         }
         notices = {
           notice

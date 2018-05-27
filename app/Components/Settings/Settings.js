@@ -93,6 +93,7 @@ class Settings extends Component {
 
     localStorage.setItem('color', bool)
     this.changeBody(bool, color.options[color.selectedIndex].text)
+    this.changeBody(theme.options[theme.selectedIndex].text)
   }
 
   theme() {
@@ -105,16 +106,20 @@ class Settings extends Component {
     if (theme.options[theme.selectedIndex].text === 'Clean') {
       bool = true
       theme.options.selectedIndex = 1
+      this.changeBody(theme.options[theme.selectedIndex].text)
     } else if (theme.options[theme.selectedIndex].text === 'Material') {
       bool = false
       theme.options.selectedIndex = 0
+      this.changeBody(theme.options[theme.selectedIndex].text)
     }
 
     localStorage.setItem('theme', bool)
-    this.changeBody(theme.options[theme.selectedIndex].text)
+    this.changeBody(bool, theme.options[theme.selectedIndex].text)
+    this.changeBody(color.options[color.selectedIndex].text)
   }
 
-  changeBody(text) {
+  changeBody(text) { 
+    console.log(bodyArray)
     if (text == 'Clean') {
       bodyArray[1] = 'clean' //Clean
     } else if (text == 'Material') {

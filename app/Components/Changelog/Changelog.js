@@ -18,8 +18,8 @@ class Changelog extends Component {
             <hr />
 
             <article className="uk-article">
-              <h1 className="uk-article-title">Beta v1.0.0</h1>
-              <p className="uk-article-meta">21 May 2018</p>
+              <h1 className="uk-article-title">Beta v1.0.1</h1>
+              <p className="uk-article-meta">28 May 2018</p>
               <p>Mid-Term 2 update addressing existing issues and bugs, and adding new functionality.</p>
               <ul>
                 <li>Bugfixes for participation tab</li>
@@ -33,6 +33,21 @@ class Changelog extends Component {
                   <li>Preloading images, scripts, and styles</li>
                   <li>You stay logged in</li>
                 </ul>
+              </ul>
+            </article>
+
+            <hr />
+
+            <article className="uk-article">
+              <h1 className="uk-article-title">Beta v1.0.0</h1>
+              <p className="uk-article-meta">21 May 2018</p>
+              <p>Minor term 2 update adding cosmetic options and increasing performance.</p>
+              <ul>
+                <li>App caches dashboard data for improved load times</li>
+                <li>Added setting for timetable style</li>
+                <li>Added optional dark mode</li>
+                <li>Added optional clean theme</li>
+                <li>Revised style of existing themes</li>
               </ul>
             </article>
 
