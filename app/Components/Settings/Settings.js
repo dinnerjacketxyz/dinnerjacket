@@ -16,11 +16,10 @@ class Settings extends Component {
     content.className = 'full vcNavbarParent'
 
     this.colorInit()
+    this.themeInit()
 
     selector = document.getElementById('timetableSelect')
-    selector.value = (localStorage.getItem('forceSmallTable') === 'true') ? 'Small' : 'Full'
-  
-    
+    selector.value = (localStorage.getItem('forceSmallTable') === 'true') ? 'Small' : 'Full'    
   }
 
   componentWillUnmount() {
@@ -37,11 +36,22 @@ class Settings extends Component {
     console.log(localStorage.getItem('forceSmallTable'))
   }
 
+  themeInit() {
+    theme = document.getElementById('themeSelect')
+    let bool = localStorage.getItem('theme')
+    if (bool==='true') {
+      theme.options.selectedIndex = 1
+    } else if (bool==='false') {
+      theme.options.selectedIndex = 0
+    }
+  }
+
   colorInit() {
     color = document.getElementById('colorSelect')
-    if (localStorage.getItem('color')==='true') {
+    let bool = localStorage.getItem('color')
+    if (bool==='true') {
       color.options.selectedIndex = 1
-    } else if (localStorage.getItem('color')==='false') {
+    } else if (bool==='false') {
       color.options.selectedIndex = 0
     }
   }

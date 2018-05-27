@@ -149,9 +149,10 @@ class App extends Component {
       }
     }
 
-    let temp = localStorage.getItem('bodyArray').split(',')
+    //applies appearance settings from localstorage
 
-    console.log(localStorage.getItem('bodyArray'))
+    let temp = localStorage.getItem('bodyArray').split(',')
+    console.log(temp)
     document.body.className = temp.join(' ')
   }
   
