@@ -19,7 +19,8 @@ class Settings extends Component {
     this.themeInit()
 
     selector = document.getElementById('timetableSelect')
-    selector.value = (localStorage.getItem('forceSmallTable') === 'true') ? 'Small' : 'Full'    
+    selector.value = (localStorage.getItem('forceSmallTable') === 'true') ? 'Small' : 'Full'
+    let bodyArray = ['uk-dark','material']  
   }
 
   componentWillUnmount() {
