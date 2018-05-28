@@ -1,3 +1,8 @@
+.currentDay {
+  color: #2dc0d5!important;
+}
+
+
 .timetable td {
   font-family: 'Roboto Mono', monospace;
   padding:5px 6px;
@@ -17,6 +22,8 @@
   background: #2dc0d5;
   color: #fff;
   box-shadow: 0 5px 15px rgba(0,0,0,.08);
+  border-right: 1px solid #e5e5e5;
+  border-left: 1px solid #e5e5e5;
 }
 
 .ttableCard {
