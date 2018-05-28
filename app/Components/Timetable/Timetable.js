@@ -28,9 +28,13 @@ let smallTable
 class Timetable extends Component {
   constructor(props) {
     super(props)
-    week = window.bells.weekType
-    day = window.bells.day.substring(0,3).toUpperCase()
+    //week = window.bells.weekType
+    //day = window.bells.day.substring(0,3).toUpperCase()
     
+    console.log(window.day, window.week)
+
+    day = (window.day == undefined) ? window.bells.day.substring(0, 3).toUpperCase() : window.day
+    week = (window.week == undefined) ? window.bells.weekType : window.week
 
     width = window.innerWidth
     height = window.innerHeight
@@ -176,8 +180,10 @@ class Timetable extends Component {
    if (document.getElementById(e.target.innerHTML)!=null) {
     if(e.target.innerHTML.length == 1) {
        week = e.target.innerHTML
+       window.week = week
      } else {
        day = e.target.innerHTML
+       window.day = day
      }
    }
  }

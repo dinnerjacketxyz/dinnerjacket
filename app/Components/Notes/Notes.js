@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import Quill from 'quill'
+const quillCSS = require('./quill.snow.css')
 const http = require('http')
 const css = require('./Notes.css')
 

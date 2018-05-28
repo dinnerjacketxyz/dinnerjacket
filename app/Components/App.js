@@ -228,7 +228,7 @@ class App extends Component {
         } catch (e) {
           console.log(e)
           console.log(a)
-          this.showLogin()
+          //this.showLogin()
           return
         }
 
@@ -250,7 +250,7 @@ class App extends Component {
         } catch (e) {
           console.log(e)
           console.log(d)
-          this.showLogin()
+          //this.showLogin()
           return
         }
       })
@@ -270,7 +270,7 @@ class App extends Component {
         } catch (e) {
           console.log(e)
           console.log(b)
-          this.showLogin()
+          //this.showLogin()
           return
         }
       })
@@ -289,7 +289,7 @@ class App extends Component {
         } catch (e) {
           console.log(e)
           console.log(c)
-          this.showLogin()
+          //this.showLogin()
           return
         }
       })
@@ -346,7 +346,7 @@ class App extends Component {
         } catch (e) {
           console.log(e)
           console.log(data)
-          this.showLogin()
+          //this.showLogin()
           return
         }
       })
