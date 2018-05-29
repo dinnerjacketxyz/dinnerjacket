@@ -150,12 +150,15 @@ class App extends Component {
     }
 
     //applies appearance settings from localstorage
-
-    if (localStorage.getItem('bodyArray')!=null) {
-      let temp = localStorage.getItem('bodyArray').split(',')
-      document.body.className = temp.join(' ')
-    }
-    
+    try {
+      if (localStorage.getItem('bodyArray')!=null) {
+        let temp = localStorage.getItem('bodyArray').split(',')
+        document.body.className = temp.join(' ')
+      }
+    } catch(err) {
+      console.log('error loading cosmetic settings')
+      localStorage.removeItem('bodyArray')
+    } 
   }
   
   getData() {
