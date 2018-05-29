@@ -158,6 +158,8 @@ class App extends Component {
     } catch(err) {
       console.log('error loading cosmetic settings')
       localStorage.removeItem('bodyArray')
+      localStorage.removeItem('theme')
+      localStorage.removeItem('color')
     } 
   }
   
@@ -417,9 +419,11 @@ class App extends Component {
 
   showNotes() {
     //console.log('User notes tab clicked')
-    let visible = this.state.visible
-    this.setState({ visible: window.STATES.NOTES })
-    this.selectedNavbar(window.STATES.NOTES)
+    if (Quill != undefined) {
+      let visible = this.state.visible
+      this.setState({ visible: window.STATES.NOTES })
+      this.selectedNavbar(window.STATES.NOTES)
+    }
   }
 
   showNotices() {

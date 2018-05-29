@@ -38,35 +38,3 @@
 #ttableName {
   font-weight: 300;
 }
-
-@media (max-height:675px){
-  #ttableName{
-    visibility: hidden;
-    height: 0px;
-  }
-  #fullTimetable h3{
-    height:0px;
-  }
-}
-
-@media (max-width:530px), (max-height:620px){
-  #fullTimetable {
-    visibility: hidden;
-    display: none;
-  }
-  #smallTimetable{
-    visibility: visible;
-    display: block;
-  }
-}
-
-@media (min-width:530px) and (min-height:620px){
-  #fullTimetable {
-    visibility: visible;
-    display: block;
-  }
-  #smallTimetable{
-    visibility: hidden;
-    display: none;
-  }
-}

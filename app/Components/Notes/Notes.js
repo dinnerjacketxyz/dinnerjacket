@@ -1,6 +1,4 @@
-/*import React, { Component } from 'react'
-import Quill from 'quill'
-const quillCSS = require('./quill.snow.css')
+import React, { Component } from 'react'
 const http = require('http')
 const css = require('./Notes.css')
 
@@ -57,4 +55,4 @@ class Notes extends Component {
   }
 }
 
-export default Notes*/
+export default Notes
