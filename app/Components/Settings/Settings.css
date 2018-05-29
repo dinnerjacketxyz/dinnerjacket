@@ -35,7 +35,10 @@
 .material.uk-light .uk-navbar-container {
   background: #36393e;
 }
-.material.uk-light .card:not {
+.material.uk-light .card {
+  box-shadow: 0 5px 15px rgba(0,0,0,.08);
+}
+.material.uk-dark .card {
   box-shadow: 0 5px 15px rgba(0,0,0,.08);
 }
 
@@ -59,7 +62,7 @@
   ;
 }
 .clean.uk-dark .uk-navbar-container:not(.uk-navbar-transparent) {
-  background: #fbfbfb;
+  background: #f9f9f9;
 }
 
 
@@ -73,7 +76,7 @@
   color: #666;
 }
 .uk-dark {
-  background-color: #e8e8e8;
+  background-color: #f9f9f9;
 }
 
 /*Dark color*/

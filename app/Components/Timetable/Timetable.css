@@ -22,8 +22,6 @@
   background: #2dc0d5;
   color: #fff;
   box-shadow: 0 5px 15px rgba(0,0,0,.08);
-  border-right: 1px solid #e5e5e5;
-  border-left: 1px solid #e5e5e5;
 }
 
 .ttableCard {
@@ -39,4 +37,36 @@
 
 #ttableName {
   font-weight: 300;
+}
+
+@media (max-height:675px){
+  #ttableName{
+    visibility: hidden;
+    height: 0px;
+  }
+  #fullTimetable h3{
+    height:0px;
+  }
+}
+
+@media (max-width:530px), (max-height:620px){
+  #fullTimetable {
+    visibility: hidden;
+    display: none;
+  }
+  #smallTimetable{
+    visibility: visible;
+    display: block;
+  }
+}
+
+@media (min-width:530px) and (min-height:620px){
+  #fullTimetable {
+    visibility: visible;
+    display: block;
+  }
+  #smallTimetable{
+    visibility: hidden;
+    display: none;
+  }
 }
