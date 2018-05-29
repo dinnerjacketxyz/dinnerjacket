@@ -227,9 +227,7 @@ class Timetable extends Component {
 
  bigInput(e){
     subject = e.target.innerHTML.slice(0,3)
-    console.log(subject.split(2,3))
-    if (subject!='&nb'){subject = e.target.innerHTML.slice(0,2)}
-    else if (subject.split(2,3)=='&'){subject = e.target.innerHTML.slice(0,3)}
+    if (e.target.innerHTML.slice(0,3)!='&nb'){subject = e.target.innerHTML.slice(0,3)}
     else {subject=''}
  }
 
@@ -237,7 +235,7 @@ class Timetable extends Component {
   if (subject != '') {
     let start = 0
     let indexArray = []
-    console.log(subjectOnly)
+
     while (subjectOnly.indexOf(subject,start)!=-1) {
       //if (subjectOnly.indexOf(subject,start)!=-1) {}
       indexArray.push(subjectOnly.indexOf(subject,start))
