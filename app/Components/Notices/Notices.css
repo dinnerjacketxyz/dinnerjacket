@@ -42,7 +42,7 @@
 }
 
 #yearSelector {
-  border-radius: 0 5px 5px 0!important;
+  border-radius: 5px!important;
 }
 
 @media (max-width:750px) {

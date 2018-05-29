@@ -211,10 +211,6 @@ class Notices extends Component {
                 <option>12</option>
               </select>
             </div>
-            <form className="uk-search uk-search-default uk-align-right">
-                <span uk-search-icon='true' uk-icon='icon:search'></span>
-                <input id='search' className="uk-search-input" onInput={this.search.bind(this)} type="search" placeholder="Search..."/>
-            </form>
             <button onClick={this.toggleNotices.bind(this)} className='uk-button uk-align-left uk-button-default'>
               {this.state.text}
             </button>
@@ -257,3 +253,8 @@ const ExpandedNotices = (props) => {
 }
 
 export default Notices
+
+/*            <form className="uk-search uk-search-default uk-align-right">
+                <span uk-search-icon='true' uk-icon='icon:search'></span>
+                <input id='search' className="uk-search-input" onInput={this.search.bind(this)} type="search" placeholder="Search..."/>
+            </form> */
