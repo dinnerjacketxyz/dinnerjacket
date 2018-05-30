@@ -11,11 +11,11 @@ class About extends Component {
             alt='logo' src='./icons/256.png' width='150px' height='150px'>
           </img>
           <h1 className=''>DinnerJacket</h1>
-          <p id='welcomeLabel'>beta v1.0.0</p>
+          <p id='welcomeLabel'>beta v1.0.1</p>
           <p className='uk-text-small'>licensed under GNU GPL v3</p>
 
           <hr/>
-            <p>DinnerJacket is a website developed by SBHS students. We do not store your personal information bar your notes which are encrypted end-to-end.</p>
+            <p>DinnerJacket is a website developed by SBHS students.</p>
           <hr/>
 
           <h2 className='uk-h2'>Developers</h2>

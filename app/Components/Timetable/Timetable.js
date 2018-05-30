@@ -28,14 +28,27 @@ let smallTable
 class Timetable extends Component {
   constructor(props) {
     super(props)
-    week = window.bells.weekType
-    day = window.bells.day.substring(0,3).toUpperCase()
+    //week = window.bells.weekType
+    //day = window.bells.day.substring(0,3).toUpperCase()
+    
+    console.log(window.day, window.week)
+
+    day = (window.day == undefined) ? window.bells.day.substring(0, 3).toUpperCase() : window.day
+    week = (window.week == undefined) ? window.bells.weekType : window.week
 
     width = window.innerWidth
     height = window.innerHeight
   }
 
+  highlightBigDay(week, day) {
+    let temp = day.toLowerCase().substring(0,2) + week
+    let dayHeading = document.getElementById(temp)
+    dayHeading.className = 'currentDay'
+  }
+
   componentDidMount() {
+    
+
     fullTable = document.getElementById('fullTimetable')
     smallTable = document.getElementById('smallTimetable')
 
@@ -50,6 +63,7 @@ class Timetable extends Component {
    this.initialise()
    let content = document.getElementById('content')
     content.className = 'full vcNavbarParent'
+    this.highlightBigDay(week,day)
  }
 
  componentWillUnmount() {
@@ -166,8 +180,10 @@ class Timetable extends Component {
    if (document.getElementById(e.target.innerHTML)!=null) {
     if(e.target.innerHTML.length == 1) {
        week = e.target.innerHTML
+       window.week = week
      } else {
        day = e.target.innerHTML
+       window.day = day
      }
    }
  }
@@ -289,14 +305,14 @@ class Timetable extends Component {
               <table className="uk-table uk-table-small">
                 <thead>
                   <tr>
-                    <th>MON A</th>
-                    <th>TUE A</th>
-                    <th>WED A</th>
-                    <th>THU A</th>
-                    <th>FRI A</th>
+                    <th id='moA'>MON A</th>
+                    <th id='tuA'>TUE A</th>
+                    <th id='weA'>WED A</th>
+                    <th id='thA'>THU A</th>
+                    <th id='frA'>FRI A</th>
                   </tr>
                 </thead>
-                <tbody className='timetable' onMouseOver={this.subjectHighlight.bind(this)}>
+                <tbody id='wA' className='timetable' onMouseOver={this.subjectHighlight.bind(this)}>
                   <tr id='r0' onMouseOver={this.bigInput}></tr>
                   <tr id='r1' onMouseOver={this.bigInput}></tr>
                   <tr id='r2' onMouseOver={this.bigInput}></tr>
@@ -310,14 +326,14 @@ class Timetable extends Component {
               <table className="uk-table uk-table-small">
                   <thead>
                       <tr>
-                          <th>MON B</th>
-                          <th>TUE B</th>
-                          <th>WED B</th>
-                          <th>THU B</th>
-                          <th>FRI B</th>
+                          <th id='moB'>MON B</th>
+                          <th id='tuB'>TUE B</th>
+                          <th id='weB'>WED B</th>
+                          <th id='thB'>THU B</th>
+                          <th id='frB'>FRI B</th>
                       </tr>
                   </thead>
-                  <tbody className='timetable'onMouseOver={this.subjectHighlight.bind(this)}>
+                  <tbody id='wB' className='timetable'onMouseOver={this.subjectHighlight.bind(this)}>
                     <tr id='r5' onMouseOver={this.bigInput}></tr>
                     <tr id='r6' onMouseOver={this.bigInput}></tr>
                     <tr id='r7' onMouseOver={this.bigInput}></tr>
@@ -331,14 +347,14 @@ class Timetable extends Component {
               <table className="uk-table uk-table-small">
                   <thead>
                       <tr>
-                          <th>MON C</th>
-                          <th>TUE C</th>
-                          <th>WED C</th>
-                          <th>THU C</th>
-                          <th>FRI C</th>
+                          <th id='moC'>MON C</th>
+                          <th id='tuC'>TUE C</th>
+                          <th id='weC'>WED C</th>
+                          <th id='thC'>THU C</th>
+                          <th id='frC'>FRI C</th>
                       </tr>
                   </thead>
-                  <tbody className='timetable' onMouseOver={this.subjectHighlight.bind(this)} >
+                  <tbody id='wC' className='timetable' onMouseOver={this.subjectHighlight.bind(this)} >
                     <tr id='r10' onMouseOver={this.bigInput}></tr>
                     <tr id='r11' onMouseOver={this.bigInput}></tr>
                     <tr id='r12' onMouseOver={this.bigInput}></tr>
@@ -348,6 +364,7 @@ class Timetable extends Component {
               </table>
             </div>
             </div>
+          
           <div id='smallTimetable' className='ttableCard card uk-animation-slide-top-small' onClick={this.activeTab.bind(this)}>
             <ul className='uk-flex-center uk-tab' onClick={this.smallInput}>
               <li id='A'><a>A</a></li>

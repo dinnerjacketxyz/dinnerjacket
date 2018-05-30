@@ -163,6 +163,10 @@ const DETAILS = () => {
             <td><code>{userData.username}</code></td>
         </tr>
         <tr>
+            <td className='width-small'>NESA</td>
+            <td><code>{window.timetable.student.BoSNumber}</code></td>
+        </tr>
+        <tr>
             <td className='width-small'>Email</td>
             <td><code>{userData.email}</code></td>
         </tr>

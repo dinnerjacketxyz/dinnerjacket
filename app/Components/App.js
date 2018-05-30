@@ -150,12 +150,17 @@ class App extends Component {
     }
 
     //applies appearance settings from localstorage
-
-    if (localStorage.getItem('bodyArray')!=null) {
-      let temp = localStorage.getItem('bodyArray').split(',')
-      document.body.className = temp.join(' ')
-    }
-    
+    try {
+      if (localStorage.getItem('bodyArray')!=null) {
+        let temp = localStorage.getItem('bodyArray').split(',')
+        document.body.className = temp.join(' ')
+      }
+    } catch(err) {
+      console.log('error loading cosmetic settings')
+      localStorage.removeItem('bodyArray')
+      localStorage.removeItem('theme')
+      localStorage.removeItem('color')
+    } 
   }
   
   getData() {
@@ -228,7 +233,7 @@ class App extends Component {
         } catch (e) {
           console.log(e)
           console.log(a)
-          this.showLogin()
+          //this.showLogin()
           return
         }
 
@@ -250,7 +255,7 @@ class App extends Component {
         } catch (e) {
           console.log(e)
           console.log(d)
-          this.showLogin()
+          //this.showLogin()
           return
         }
       })
@@ -270,7 +275,7 @@ class App extends Component {
         } catch (e) {
           console.log(e)
           console.log(b)
-          this.showLogin()
+          //this.showLogin()
           return
         }
       })
@@ -289,7 +294,7 @@ class App extends Component {
         } catch (e) {
           console.log(e)
           console.log(c)
-          this.showLogin()
+          //this.showLogin()
           return
         }
       })
@@ -346,7 +351,7 @@ class App extends Component {
         } catch (e) {
           console.log(e)
           console.log(data)
-          this.showLogin()
+          //this.showLogin()
           return
         }
       })
@@ -414,9 +419,11 @@ class App extends Component {
 
   showNotes() {
     //console.log('User notes tab clicked')
-    let visible = this.state.visible
-    this.setState({ visible: window.STATES.NOTES })
-    this.selectedNavbar(window.STATES.NOTES)
+    if (Quill != undefined) {
+      let visible = this.state.visible
+      this.setState({ visible: window.STATES.NOTES })
+      this.selectedNavbar(window.STATES.NOTES)
+    }
   }
 
   showNotices() {

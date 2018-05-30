@@ -1,3 +1,8 @@
+.currentDay {
+  color: #2dc0d5!important;
+}
+
+
 .timetable td {
   font-family: 'Roboto Mono', monospace;
   padding:5px 6px;
