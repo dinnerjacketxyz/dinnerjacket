@@ -31,25 +31,12 @@ class Dashboard extends Component {
 
     this.timerTick = this.timerTick.bind(this)
     this.processHTML = this.processHTML.bind(this)
+    this.getAPIData = this.getAPIData.bind(this)
 
     let content = document.getElementById('content')
     content.className = 'full vcNavbarParent'
     
-    // Daily timetable
-    http.get('/getdata?token=' + localStorage.getItem('accessToken') + '&url=timetable/daytimetable.json', (res) => {
-      res.setEncoding('utf8')
-      let data = ''
-      res.on('data', (body) => {
-        data += body
-      })
-      
-      res.on('end', () => {
-        console.log('new timetable data received')
-        let timetable = JSON.parse(data)
-        window.dashboard = timetable
-        this.updateTimetableDisplay(timetable)
-      })
-    })
+    this.getAPIData()
   }
 
   // deconstructor
@@ -90,6 +77,10 @@ class Dashboard extends Component {
     } else {
       updateCountdown()
     }
+  }
+  
+  getAPIData() {
+  
   }
 
   // get default periods if not authenticated
@@ -546,6 +537,10 @@ class Dashboard extends Component {
         return schedule[i]
       }
     }
+    
+    // if loop finishes, it is past 3:15, get new timetable data
+    this.getAPIData()
+    
   }
 
   // gets schedule of periods for timer, including class names (assumes timetable is valid)
