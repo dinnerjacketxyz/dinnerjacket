@@ -401,11 +401,11 @@ class App extends Component {
 
   showDashboard() {
     //console.log('Dashboard tab clicked')
-    if (window.dashboard !== '') {
+    //if (window.dashboard !== '') {
       let visible = this.state.visible
       this.setState({ visible: window.STATES.DASHBOARD })
       this.selectedNavbar(window.STATES.DASHBOARD)
-    }
+    //}
   }
 
   showTimetable() {

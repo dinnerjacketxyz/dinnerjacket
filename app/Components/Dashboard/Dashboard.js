@@ -26,17 +26,33 @@ class Dashboard extends Component {
     // save timer ID so we can remove the timer later
     this.setState({timerID: ID})
 
-    // get API data here
-    this.updateTimetableDisplay(window.dashboard)
+    // initial update
+    this.updateTimetableDisplay('')
 
     this.timerTick = this.timerTick.bind(this)
     this.processHTML = this.processHTML.bind(this)
-    this.getAPIData = this.getAPIData.bind(this)
 
     let content = document.getElementById('content')
     content.className = 'full vcNavbarParent'
     
-    this.getAPIData()
+    // check if cached timetable out of date
+    let date = new Date()
+    let y = date.getFullYear()
+    let m = (date.getMonth()+1).toString()
+    let d = date.getDate().toString()
+    
+    let today = y + '-' + (m.length == 1 ? '0' + m : m) + '-' + (d.length == 1 ? '0' + d : d)
+    if (new Date(localStorage.getItem('timetablePeriodsDate')) < new Date(today)) {
+      localStorage.removeItem('timetableBells')
+      localStorage.removeItem('timetablePeriods')
+      localStorage.removeItem('timetablePeriodsDate')
+    }
+    
+    // if cache empty then fill it
+    if (localStorage.getItem('timetableBells') == undefined) {
+      this.getAPIData = this.getAPIData.bind(this)
+      this.getAPIData()
+    }
   }
 
   // deconstructor
@@ -80,7 +96,18 @@ class Dashboard extends Component {
   }
   
   getAPIData() {
-  
+    // Daily timetable
+    http.get('/getdata?token=' + localStorage.getItem('accessToken') + '&url=timetable/daytimetable.json', (res) => {
+      res.setEncoding('utf8')
+      let data = ''
+      res.on('data', (body) => {
+        data += body
+      })
+      
+      res.on('end', () => {
+        this.updateTimetableDisplay(JSON.parse(data))
+      })
+    })
   }
 
   // get default periods if not authenticated
@@ -446,21 +473,6 @@ class Dashboard extends Component {
     let schedule
     let periods
     let date = new Date()
-    
-    let y = date.getFullYear()
-    let m = (date.getMonth()+1).toString()
-    let d = date.getDate().toString()
-    
-    let today = y + '-' + (m.length == 1 ? '0' + m : m) + '-' + (d.length == 1 ? '0' + d : d)
-    
-    // check if cached timetable out of date
-    if (new Date(localStorage.getItem('timetablePeriodsDate')) < new Date(today)) {
-      console.log(new Date(localStorage.getItem('timetablePeriodsDate')))
-      console.log(new Date(today))
-      localStorage.removeItem('timetableBells')
-      localStorage.removeItem('timetablePeriods')
-      localStorage.removeItem('timetablePeriodsDate')
-    }
 
     // if timetable exists and is current (i.e. it is not past 3:15pm), use the timetable periods
     
