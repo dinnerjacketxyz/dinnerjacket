@@ -116,7 +116,7 @@ body {
   min-height: -moz-calc(100% - 80px);
 }
 
-.vcNavbarCard {
+.vcNavbarCard, #vcNavbarCard {
   margin: auto;
   justify-content: center;
   display: flex;

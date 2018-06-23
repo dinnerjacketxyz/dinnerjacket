@@ -19,9 +19,6 @@ let posArray = []
 let fadeArray = []
 let subjectOnly = []
 
-let width = 0
-let height = 0
-
 let fullTable
 let smallTable
 
@@ -35,9 +32,6 @@ class Timetable extends Component {
 
     day = (window.day == undefined) ? window.bells.day.substring(0, 3).toUpperCase() : window.day
     week = (window.week == undefined) ? window.bells.weekType : window.week
-
-    width = window.innerWidth
-    height = window.innerHeight
   }
 
   highlightBigDay(week, day) {
@@ -47,17 +41,10 @@ class Timetable extends Component {
   }
 
   componentDidMount() {
-    
-
-    fullTable = document.getElementById('fullTimetable')
-    smallTable = document.getElementById('smallTimetable')
-
-    if (width < 530 || height < 620 || localStorage.getItem('forceSmallTable') === 'true') {
+    if (localStorage.getItem('forceSmallTable') === 'true') {
       console.log('small timetable')
-      fullTable.hidden = true
-    } else {
-      console.log('full timetable')
-      smallTable.hidden = true
+      let card = document.getElementById('vcNavbarCard')
+      card.className = 'forcedSmall'
     }
 
    this.initialise()
@@ -296,7 +283,7 @@ class Timetable extends Component {
   render() {
    //this.initialise()
    return (
-        <div className='vcNavbarCard'>
+        <div id='vcNavbarCard'>
           <div id='fullTimetable' className='ttableCard card uk-animation-slide-top-small' onMouseLeave={this.fade.bind(this)}>
             <h3 className='uk-heading-line uk-text-center'>
               <span id='ttableName'/>
