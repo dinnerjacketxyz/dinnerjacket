@@ -6,12 +6,23 @@ let color
 let theme
 let bodyArray = ['uk-dark','material']
 
+let width = 0
+let height = 0
+let timetable
+
 class Settings extends Component {
   constructor(props) {
     super(props)
+    width = window.innerWidth
+    height = window.innerHeight
   }
 
   componentDidMount() {
+    timetable = document.getElementById('timetableSelect')
+    if (width < 530 || height < 620) {
+      timetable.setAttribute('disabled', true)
+    }
+
     let content = document.getElementById('content')
     content.className = 'full vcNavbarParent'
 
@@ -155,7 +166,9 @@ class Settings extends Component {
                 <option>Clean</option>
               </select>
               <hr/>
-              <p>Timetable</p>
+              <div>
+                <p className='uk-align-left'>Timetable</p><a id='ttableInfo' uk-icon="info" className='uk-align-right' uk-tooltip="title: Allows you to choose to display single-day timetable regardless of screen size; pos: top-right; delay: 500"></a>
+              </div>
               <select id='timetableSelect' onChange={this.timetable.bind(this)} className='uk-select'>
                 <option>Full</option>
                 <option>Small</option>

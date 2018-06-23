@@ -157,6 +157,11 @@
   background: #f8f8f8;
 }
 
+#ttableInfo {
+  margin-bottom: 5px!important;
+  margin-left: 5px!important;
+}
+
 #detailsTable {
   width: 100%!important;
   table-layout: fixed!important;
