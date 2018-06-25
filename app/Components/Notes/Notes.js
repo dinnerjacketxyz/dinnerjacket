@@ -27,7 +27,11 @@ class Notes extends Component {
     })
 
     if (localStorage.getItem('content') != '') {
-      quill.setContents(JSON.parse(atob(localStorage.getItem('content'))))
+      try {
+        quill.setContents(JSON.parse(atob(localStorage.getItem('content'))))
+      } catch (e) {
+        console.log(e)
+      }
     }
   }
 
