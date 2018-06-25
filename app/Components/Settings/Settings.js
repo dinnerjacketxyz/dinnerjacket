@@ -60,7 +60,7 @@ class Settings extends Component {
       forceSmall = true
     }
     localStorage.setItem('forceSmallTable', forceSmall)
-    console.log(localStorage.getItem('forceSmallTable'))
+    //(localStorage.getItem('forceSmallTable'))
   }
 
   themeInit() {
@@ -130,7 +130,7 @@ class Settings extends Component {
   }
 
   changeBody(text) { 
-    console.log(bodyArray)
+    //(bodyArray)
     if (text == 'Clean') {
       bodyArray[1] = 'clean' //Clean
     } else if (text == 'Material') {
@@ -140,7 +140,7 @@ class Settings extends Component {
     } else if (text == 'Light') {
       bodyArray[0] = 'uk-dark' //light
     }
-    console.log(bodyArray)
+    //(bodyArray)
     document.body.className = bodyArray.join(' ')
     localStorage.setItem('bodyArray',bodyArray)
   }

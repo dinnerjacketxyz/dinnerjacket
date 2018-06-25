@@ -478,7 +478,7 @@ class Dashboard extends Component {
     
     // nested if's are used for readability
     if (timetable != '') {
-      console.log('loading fresh periods')
+      //('loading fresh periods')
       let timetableDate = new Date(timetable['date'])
 
       let timetableIsTodayBefore315 = ((date.getDay() === timetableDate.getDay()) && (date.getHours() < 15 || (date.getHours() === 15 && date.getMinutes() < 15)))
@@ -497,7 +497,7 @@ class Dashboard extends Component {
     
     // check for cached timetable data
     } else if (localStorage.getItem('timetablePeriods') != undefined) {
-      console.log('loading cached periods')
+      //('loading cached periods')
       periods = JSON.parse(localStorage.getItem('timetablePeriods'))
       let bells = JSON.parse(localStorage.getItem('timetableBells'))
       let timetableDate = localStorage.getItem('timetablePeriodsDate')
@@ -505,7 +505,7 @@ class Dashboard extends Component {
       
     } else {
       
-      console.log('loading default periods')
+      //('loading default periods')
       periods = this.getDefaultPeriods()
 
       // the next school date
