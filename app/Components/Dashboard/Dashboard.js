@@ -25,6 +25,37 @@ class Dashboard extends Component {
 
     // save timer ID so we can remove the timer later
     this.setState({timerID: ID})
+    
+    // check if cached timetable out of date
+    console.log('checking timetable cache validity')
+    let date = new Date()
+    /*
+    let y = date.getFullYear()
+    let m = (date.getMonth()+1).toString()
+    let d = date.getDate().toString()
+    
+    let today = y + '-' + (m.length == 1 ? '0' + m : m) + '-' + (d.length == 1 ? '0' + d : d)
+    */
+    let cachedTimetableDate = new Date(localStorage.getItem('timetablePeriodsDate'))
+    
+    let timetableIsTodayBefore315 = ((date.getDay() === cachedTimetableDate.getDay()) && (date.getHours() < 15 || (date.getHours() === 15 && date.getMinutes() < 15)))
+
+    let timetableIsForTheFuture = (date < cachedTimetableDate && !(date.getDay() === cachedTimetableDate.getDay))
+    
+    if (!timetableIsTodayBefore315 && !timetableIsForTheFuture)  {
+      localStorage.removeItem('timetableBells')
+      localStorage.removeItem('timetablePeriods')
+      localStorage.removeItem('timetablePeriodsDate')
+      console.log('timetable cache invalid')
+    } else {
+      console.log('timetable cache valid')
+    }
+    
+    // if cache empty then fill it
+    if (localStorage.getItem('timetableBells') == undefined) {
+      this.getAPIData = this.getAPIData.bind(this)
+      this.getAPIData()
+    }
 
     // initial update
     this.updateTimetableDisplay('')
@@ -35,24 +66,6 @@ class Dashboard extends Component {
     let content = document.getElementById('content')
     content.className = 'full vcNavbarParent'
     
-    // check if cached timetable out of date
-    let date = new Date()
-    let y = date.getFullYear()
-    let m = (date.getMonth()+1).toString()
-    let d = date.getDate().toString()
-    
-    let today = y + '-' + (m.length == 1 ? '0' + m : m) + '-' + (d.length == 1 ? '0' + d : d)
-    if (new Date(localStorage.getItem('timetablePeriodsDate')) < new Date(today)) {
-      localStorage.removeItem('timetableBells')
-      localStorage.removeItem('timetablePeriods')
-      localStorage.removeItem('timetablePeriodsDate')
-    }
-    
-    // if cache empty then fill it
-    if (localStorage.getItem('timetableBells') == undefined) {
-      this.getAPIData = this.getAPIData.bind(this)
-      this.getAPIData()
-    }
   }
 
   // deconstructor
@@ -96,6 +109,7 @@ class Dashboard extends Component {
   }
   
   getAPIData() {
+    console.log('getAPIData()')
     // Daily timetable
     http.get('/getdata?token=' + localStorage.getItem('accessToken') + '&url=timetable/daytimetable.json', (res) => {
       res.setEncoding('utf8')
@@ -470,6 +484,7 @@ class Dashboard extends Component {
   // process the HTML to render timetable to screen
   // also process the timer display
   updateTimetableDisplay(timetable) {
+    console.log('updateTimetableDisplay()')
     let schedule
     let periods
     let date = new Date()
@@ -502,6 +517,9 @@ class Dashboard extends Component {
       let bells = JSON.parse(localStorage.getItem('timetableBells'))
       let timetableDate = localStorage.getItem('timetablePeriodsDate')
       schedule = this.getSchedule(periods, timetableDate, bells)
+      console.log(periods)
+      console.log(bells)
+      console.log(timetableDate)
       
     } else {
       
@@ -527,6 +545,11 @@ class Dashboard extends Component {
       schedule = this.getSchedule(this.getDefaultPeriods(), nextDate, this.getDefaultBells())
     }
     
+    if (schedule === undefined) {
+      console.log('schedule undefined')
+    } else {
+      console.log(schedule)
+    }
     this.setState( ()=> ({
       htmlClasses: this.processHTML(periods),
       schedule: schedule
@@ -540,10 +563,13 @@ class Dashboard extends Component {
 
   // returns next class (or next bell)
   getNextClass() {
+    console.log('getNextClass()')
     // get date
     let date = new Date()
     let schedule = this.state.schedule
-
+    console.log('Schedule:')
+    console.log(schedule)
+    
     for (var i=0; i<schedule.length; i++) {
       if (schedule[i].time > date) {
         return schedule[i]
@@ -551,12 +577,14 @@ class Dashboard extends Component {
     }
     
     // if loop finishes, it is past 3:15, get new timetable data
+    console.log('getNextClass(): loop ended - 3:15')
     this.getAPIData()
     
   }
 
   // gets schedule of periods for timer, including class names (assumes timetable is valid)
   getSchedule(periods, dateOfPeriods, bells) {
+    console.log('getSchedule()')
     let returnVar = []
     let periodsCopy = periods.slice(0)
 
