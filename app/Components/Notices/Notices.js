@@ -18,7 +18,7 @@ class Notices extends Component {
       notices: [],
       year: window.year,
       text: 'EXPAND',
-      keywords: []
+      keyword: ''
     }
     this.init()
   }
@@ -40,11 +40,13 @@ class Notices extends Component {
     dailyNotices = window.dailyNotices
     this.state.notices = []
     let lowRelavence = []
+    let count = 0
 
     for (let i = 0; i < dailyNotices.notices.length; i++) {
       if (this.state.year == 'ALL' || this.yearInNotice(this.state.year, dailyNotices.notices[i])) {
-        if (this.state.keywords.length === 0 || this.keywordsInNotice(this.state.keywords, dailyNotices.notices[i])[0]) {
+        if (this.state.keyword === '' || this.keywordInNotice(this.state.keyword, dailyNotices.notices[i])) {
           let content = this.strip(dailyNotices.notices[i].content)
+          count++
 
           let years = ''
           if (dailyNotices.notices[i].years.length >= 6) {
@@ -87,7 +89,7 @@ class Notices extends Component {
             if (mm[0] === '0') {
               mm = mm.substr(-1)
             }
-            date = MONTHS[mm] + ' ' + dd + ' at ' + dailyNotices.notices[i].meetingTime
+            date = MONTHS[mm] + ' ' + dd + ', ' + dailyNotices.notices[i].meetingTime
           }
 
           let obj = {
@@ -95,42 +97,22 @@ class Notices extends Component {
             date: date,
             content: content,
             years: years,
-            author: dailyNotices.notices[i].authorName
+            author: dailyNotices.notices[i].authorName,
+            ID: count
           }
-          if (this.state.keywords.length <= 1 || this.keywordsInNotice(this.state.keywords, dailyNotices.notices[i])[1]) {
-            this.state.notices.push(obj)
-          } else {
-            lowRelavence.push(obj)
-          }
+          this.state.notices.push(obj)
+          //if (this.state.keyword === '' || this.keywordInNotice(this.state.keyword, dailyNotices.notices[i])) {
+          //  this.state.notices.push(obj)
+          //}
         }
       }
     }
-
-    //(this.state.notices)
-    //(lowRelavence)
-
-    for (let x = 0; x < lowRelavence.length; x++) {
-      this.state.notices.push(lowRelavence[x])
-    }
-
-    let a = this.state.a
-    this.setState({ a: true })
   }
 
-  keywordsInNotice(keywords, notice) {
-    //(keywords)
-    let all = true
-    let or = false
-    for (let i = 0; i < keywords.length; i++) {
-      if (notice.title.toLowerCase().includes(keywords[i]) || 
-          notice.content.toLowerCase().includes(keywords[i]) ||
-          notice.authorName.toLowerCase().includes(keywords[i])) {
-        or = true
-      } else {
-        all = false
-      }
-    }
-    return [or, all]
+  keywordInNotice(keyword, notice) {
+    return (notice.title.toLowerCase().includes(keyword) ||
+      notice.content.toLowerCase().includes(keyword) ||
+      notice.authorName.toLowerCase().includes(keyword))
   }
 
   yearInNotice(year, notice) {
@@ -138,10 +120,10 @@ class Notices extends Component {
 
     for (let i = 0; i < notice.years.length; i++) {
       if (year == notice.years[i]) {
-        //(year)
-        //(notice.years[i])
+        //console.log(year)
+        //console.log(notice.years[i])
         found = true
-        //(found)
+        //console.log(found)
       }
     }
     return found
@@ -153,7 +135,7 @@ class Notices extends Component {
     window.year = this.state.year
     let a = this.state.a
     this.setState({ a: 'test' })
-    //(this.state.year)
+    //console.log(this.state.year)
 
     this.init()
   }
@@ -166,9 +148,9 @@ class Notices extends Component {
   }
 
   search() {
-    //let keywords = this.state.keywords
-    //this.setState({ keywords: search.value.toLowerCase().split(/[\s,;]+/) })
-    this.state.keywords = search.value.toLowerCase().split(/[\s,;]+/)
+    let keyword = this.state.keyword
+    this.setState({ keyword: search.value.toLowerCase() })
+    this.state.keyword = search.value.toLowerCase()
     this.init()
   }
 
@@ -177,23 +159,11 @@ class Notices extends Component {
     let rows
     if (text === 'EXPAND') {
       rows = this.state.notices.map(notice => {
-        return <CollapsedNotices key = {
-          notice.title+notice.year
-        }
-        notices = {
-          notice
-        }
-        />
+        return <CollapsedNotices key={notice.ID} notices={notice} />
       })
     } else {
       rows = this.state.notices.map(notice => {
-        return <ExpandedNotices key = {
-          notice.title+notice.year
-        }
-        notices = {
-          notice
-        }
-        />
+        return <ExpandedNotices key={notice.ID} notices={notice} />
       })
     }
     return (
@@ -211,6 +181,10 @@ class Notices extends Component {
                 <option>12</option>
               </select>
             </div>
+            <form className="uk-search uk-search-default uk-align-right">
+                <span uk-search-icon='true' uk-icon='icon:search'></span>
+                <input id='search' className="uk-search-input" onInput={this.search.bind(this)} type="search" placeholder="Search..."/>
+            </form>
             <button onClick={this.toggleNotices.bind(this)} className='uk-button uk-align-left uk-button-default'>
               {this.state.text}
             </button>
@@ -253,8 +227,3 @@ const ExpandedNotices = (props) => {
 }
 
 export default Notices
-
-/*            <form className="uk-search uk-search-default uk-align-right">
-                <span uk-search-icon='true' uk-icon='icon:search'></span>
-                <input id='search' className="uk-search-input" onInput={this.search.bind(this)} type="search" placeholder="Search..."/>
-            </form> */
