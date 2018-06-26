@@ -70,7 +70,7 @@ class App extends Component {
   constructor(props) {
     super(props)
 
-    console.log('Server Updated 3')
+    //('Server Updated 3')
 
     // Set default state on open to Welcome page
     this.state = {
@@ -87,23 +87,23 @@ class App extends Component {
 
     const mainApp = this
   
-    console.log('checking tokens')
+    //('checking tokens')
   
     // if refresh token doesn't exist (i.e. not logged on)
     if (localStorage.getItem('refreshToken') == null) {
       http.get('/gettoken', (res) => {
-        console.log('starting gettoken req.')
+        //('starting gettoken req.')
         res.setEncoding('utf8')
         
         let data = ''
         res.on('data', (body) => {
-          console.log('res data')
+          //('res data')
           data += body
-          console.log(data)
+          //(data)
         })
         
         res.on('end', () => {
-          console.log('res end')
+          //('res end')
           if (data != 'false') {
             localStorage.setItem('accessToken', JSON.parse(data)[0])
             // 1 hour
@@ -119,17 +119,17 @@ class App extends Component {
       
     // if refresh token exists, check its expiry
     } else if (new Date(localStorage.getItem('refreshTokenExpiry')) < new Date()) {
-        console.log('refresh token expired')
+        //('refresh token expired')
         localStorage.clear()
         mainApp.showLogin()
       
     // refresh token is valid at this point
     } else {
       
-      console.log('refresh token valid, checking access token')
+      //('refresh token valid, checking access token')
       
       if (new Date(localStorage.getItem('accessTokenExpiry')) < new Date()) {
-        console.log('access token expired, getting new access token')
+        //('access token expired, getting new access token')
         http.get('/getnewaccesstoken?rt=' + localStorage.getItem('refreshToken'), (res) => {
           let data = ''
           res.on('data', (body) => {
@@ -144,7 +144,7 @@ class App extends Component {
         
       // access token exists, get data
       } else {
-        console.log('access token exists')
+        //('access token exists')
         mainApp.getData()
       }
     }
@@ -156,7 +156,7 @@ class App extends Component {
         document.body.className = temp.join(' ')
       }
     } catch(err) {
-      console.log('error loading cosmetic settings')
+      //('error loading cosmetic settings')
       localStorage.removeItem('bodyArray')
       localStorage.removeItem('theme')
       localStorage.removeItem('color')
@@ -164,10 +164,10 @@ class App extends Component {
   }
   
   getData() {
-    console.log('ACCESS: '   + localStorage.getItem('accessToken').substring(0, 5) + '...')
-    console.log('A_EXPIRY: ' + localStorage.getItem('accessTokenExpiry'))
-    console.log('REFRESH: '  + localStorage.getItem('refreshToken').substring(0, 5) + '...')
-    console.log('R_EXPIRY: ' + localStorage.getItem('refreshTokenExpiry'))
+    //('ACCESS: '   + localStorage.getItem('accessToken').substring(0, 5) + '...')
+    //('A_EXPIRY: ' + localStorage.getItem('accessTokenExpiry'))
+    //('REFRESH: '  + localStorage.getItem('refreshToken').substring(0, 5) + '...')
+    //('R_EXPIRY: ' + localStorage.getItem('refreshTokenExpiry'))
     
     const token = localStorage.getItem('accessToken')
     
@@ -187,8 +187,8 @@ class App extends Component {
         try {
           window.dashboard = JSON.parse(data)
         } catch (e) {
-          console.log(e)
-          console.log(data)
+          //(e)
+          //(data)
           this.showLogin()
           return
         }
@@ -231,8 +231,8 @@ class App extends Component {
         try {
           window.userData = JSON.parse(a)
         } catch (e) {
-          console.log(e)
-          console.log(a)
+          //(e)
+          //(a)
           //this.showLogin()
           return
         }
@@ -253,8 +253,8 @@ class App extends Component {
         try {
           window.dailyNotices = JSON.parse(d)
         } catch (e) {
-          console.log(e)
-          console.log(d)
+          //(e)
+          //(d)
           //this.showLogin()
           return
         }
@@ -273,8 +273,8 @@ class App extends Component {
         try {
           window.timetable = JSON.parse(b)
         } catch (e) {
-          console.log(e)
-          console.log(b)
+          //(e)
+          //(b)
           //this.showLogin()
           return
         }
@@ -292,8 +292,8 @@ class App extends Component {
         try {
           window.bells = JSON.parse(c)
         } catch (e) {
-          console.log(e)
-          console.log(c)
+          //(e)
+          //(c)
           //this.showLogin()
           return
         }
@@ -318,8 +318,8 @@ class App extends Component {
         try {
           window.diaryCal = JSON.parse(d)
         } catch (e) {
-          console.log(e)
-          console.log(d)
+          //(e)
+          //(d)
           this.showLogin()
           return
         }
@@ -349,8 +349,8 @@ class App extends Component {
         try {
           window.participation = JSON.parse(data)
         } catch (e) {
-          console.log(e)
-          console.log(data)
+          //(e)
+          //(data)
           //this.showLogin()
           return
         }
@@ -361,7 +361,7 @@ class App extends Component {
   blankNavbar() {
     //makes all navbar <li> look unselected
     for (let i = 0; i < nameArray.length; i++) {
-      //console.log(i)
+      ////(i)
       let Li = document.getElementById(nameArray[i] + 'Li')
       let A = document.getElementById(nameArray[i] + 'A')
       let B = document.getElementById(nameArray[i] + 'B')
@@ -379,7 +379,7 @@ class App extends Component {
 
   selectedNavbar(num) {
     //makes all navbar <li> look unselected
-    //console.log(num)
+    ////(num)
     this.blankNavbar()
 
     //makes one specific <li> look selected
@@ -400,7 +400,7 @@ class App extends Component {
   }
 
   showDashboard() {
-    //console.log('Dashboard tab clicked')
+    ////('Dashboard tab clicked')
     //if (window.dashboard !== '') {
       let visible = this.state.visible
       this.setState({ visible: window.STATES.DASHBOARD })
@@ -409,7 +409,7 @@ class App extends Component {
   }
 
   showTimetable() {
-    //console.log('Timetable tab clicked')
+    ////('Timetable tab clicked')
     if (window.timetable !== '') {
       let visible = this.state.visible
       this.setState({ visible: window.STATES.TIMETABLE })
@@ -418,7 +418,7 @@ class App extends Component {
   }
 
   showNotes() {
-    //console.log('User notes tab clicked')
+    ////('User notes tab clicked')
     if (Quill != undefined) {
       let visible = this.state.visible
       this.setState({ visible: window.STATES.NOTES })
@@ -427,7 +427,7 @@ class App extends Component {
   }
 
   showNotices() {
-    //console.log('Daily notices tab clicked')
+    ////('Daily notices tab clicked')
     if (window.dailyNotices !== '') {
       let visible = this.state.visible
       this.setState({ visible: window.STATES.NOTICES })
@@ -436,7 +436,7 @@ class App extends Component {
   }
 
   /*showCalendar() {
-    //console.log('Calendar tab clicked')
+    ////('Calendar tab clicked')
     if (window.diaryCal !== '') {
       let visible = this.state.visible
       this.setState({ visible: window.STATES.CALENDAR })
@@ -445,7 +445,7 @@ class App extends Component {
   }*/
 
   showAbout() {
-    //console.log('About tab clicked')
+    ////('About tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.ABOUT })
     this.selectedNavbar(5)
@@ -466,14 +466,14 @@ class App extends Component {
   }
 
   showChangelog() {
-    //console.log('Changelog tab clicked')
+    ////('Changelog tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.CHANGELOG })
     this.selectedNavbar(5)
   }
 
   showFeedback() {
-    //console.log('Feedback tab clicked')
+    ////('Feedback tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.FEEDBACK })
     this.selectedNavbar(5)
@@ -491,7 +491,7 @@ class App extends Component {
   }
 
   logo() {
-    //console.log('logo click')
+    ////('logo click')
     counter++
     if (counter >= 3) {
       //DONTCLEARLOCALSTORAGEPK

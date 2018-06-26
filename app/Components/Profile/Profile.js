@@ -50,20 +50,20 @@ class Profile extends Component {
       })
     }
 
-    console.log(part)
-    console.log(yearList)
+    //(part)
+    //(yearList)
 
     for (let j = 0; j < yearList.length; j++) {
       let year = yearList[j].year
 
-      console.log(year)
+      //(year)
       
       /*yearList[j].push({
         target: ' | Target: ' + part[year].event.shift().points,
         total: ' | Total: ' + part[year].event.pop().points
       })*/
       let eventOne = part[year].event[0].points
-      console.log(eventOne)
+      //(eventOne)
       yearList[j].target = ' | Target: '
       if (eventOne == 0) {
         part[year].event.shift()
@@ -73,7 +73,7 @@ class Profile extends Component {
       yearList[j].total = ', Total: ' + part[year].event.pop().points
     }
 
-    console.log(yearList)
+    //(yearList)
 
     //target = ' | Target: ' + part[props.years.year].event.shift().points
     //total = ' | Total: ' + part[props.years.year].event.pop().points
@@ -119,7 +119,7 @@ const YearList = (props) => {
     return <TableRow key={event.activity} part={event} />
   })
 
-  //console.log(part[props.years.year].event)
+  ////(part[props.years.year].event)
   /*let target = part[props.years.year].event[0]
   let total = part[props.years.year].event[part[props.years.year].event.length - 1]*/
 

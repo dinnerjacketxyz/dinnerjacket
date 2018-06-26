@@ -28,7 +28,7 @@ class Timetable extends Component {
     //week = window.bells.weekType
     //day = window.bells.day.substring(0,3).toUpperCase()
     
-    console.log(window.day, window.week)
+    //(window.day, window.week)
 
     day = (window.day == undefined) ? window.bells.day.substring(0, 3).toUpperCase() : window.day
     week = (window.week == undefined) ? window.bells.weekType : window.week
@@ -42,7 +42,7 @@ class Timetable extends Component {
 
   componentDidMount() {
     if (localStorage.getItem('forceSmallTable') === 'true') {
-      console.log('small timetable')
+      //('small timetable')
       let card = document.getElementById('vcNavbarCard')
       card.className = 'forcedSmall'
     }
@@ -130,7 +130,7 @@ class Timetable extends Component {
    //Puts your name at the top
    let name = document.getElementById('ttableName')
    name.innerHTML = `${timetableData.student.givenname}&nbsp;${timetableData.student.surname}`
-   ////console.log(timetableData.subjects)
+   //////(timetableData.subjects)
    this.activeTab()
    this.subjectOnly()
  }
@@ -213,8 +213,9 @@ class Timetable extends Component {
  }
 
  bigInput(e){
-    subject = e.target.innerHTML.slice(0,3)
-    if (e.target.innerHTML.slice(0,3)!='&nb'){subject = e.target.innerHTML.slice(0,3)}
+    subject = e.target.innerHTML.slice(0,4)
+    if (subject.slice(2,3)=='&'){subject = e.target.innerHTML.slice(0,2)}
+    else if (subject.slice(3,4)=='&'){subject = e.target.innerHTML.slice(0,3)}
     else {subject=''}
  }
 
@@ -222,7 +223,6 @@ class Timetable extends Component {
   if (subject != '') {
     let start = 0
     let indexArray = []
-
     while (subjectOnly.indexOf(subject,start)!=-1) {
       //if (subjectOnly.indexOf(subject,start)!=-1) {}
       indexArray.push(subjectOnly.indexOf(subject,start))

@@ -1,6 +1,6 @@
 {
   "name": "dinnerjacket",
-  "version": "0.1.1",
+  "version": "1.0.2",
   "description": "SBHS organiser",
   "main": "server/server.js",
   "scripts": {
@@ -28,6 +28,6 @@
     "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.11",
     "style-loader": "^0.19.1",
-    "webpack": "^3.12.0"
+    "webpack": "^3.10.0"
   }
 }

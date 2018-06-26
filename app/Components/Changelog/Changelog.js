@@ -11,7 +11,20 @@ class Changelog extends Component {
               <ul>
                 <li>SBHS Calendar integration</li>
                 <li>Personal calendar integration</li>
-                <li>Themes and additional cosmetic options</li>
+                <li>Morning/after school class support</li>
+              </ul>
+            </article>
+
+            <hr />
+
+            <article className="uk-article">
+              <h1 className="uk-article-title">Beta v1.0.2</h1>
+              <p className="uk-article-meta">25 June 2018</p>
+              <p>End of Term 2 update addressing existing bugs</p>
+              <ul>
+                <li>Fixed notes crashing on first load</li>
+                <li>Set default theme to light, clean</li>
+                <li>Addressed issues displaying certain timetabled classes</li>
               </ul>
             </article>
 

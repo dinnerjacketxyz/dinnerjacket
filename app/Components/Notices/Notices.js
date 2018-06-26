@@ -106,8 +106,8 @@ class Notices extends Component {
       }
     }
 
-    console.log(this.state.notices)
-    console.log(lowRelavence)
+    //(this.state.notices)
+    //(lowRelavence)
 
     for (let x = 0; x < lowRelavence.length; x++) {
       this.state.notices.push(lowRelavence[x])
@@ -118,7 +118,7 @@ class Notices extends Component {
   }
 
   keywordsInNotice(keywords, notice) {
-    console.log(keywords)
+    //(keywords)
     let all = true
     let or = false
     for (let i = 0; i < keywords.length; i++) {
@@ -138,10 +138,10 @@ class Notices extends Component {
 
     for (let i = 0; i < notice.years.length; i++) {
       if (year == notice.years[i]) {
-        console.log(year)
-        console.log(notice.years[i])
+        //(year)
+        //(notice.years[i])
         found = true
-        console.log(found)
+        //(found)
       }
     }
     return found
@@ -153,7 +153,7 @@ class Notices extends Component {
     window.year = this.state.year
     let a = this.state.a
     this.setState({ a: 'test' })
-    console.log(this.state.year)
+    //(this.state.year)
 
     this.init()
   }
