@@ -204,7 +204,7 @@ const CollapsedNotices = (props) => {
   return (
     <li className=''>
       <span className='uk-label'>{props.notices.years}</span>
-      <a className='uk-accordion-title'>{props.notices.title}</a>
+      <a className='uk-accordion-title'>{props.notices.title + props.notices.date}</a>
       <div className='uk-accordion-content'>
         {props.notices.content}
         <p className='uk-margin-small-top'><b>{props.notices.author}</b></p>
