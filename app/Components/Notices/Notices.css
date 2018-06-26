@@ -31,6 +31,9 @@
 .yearSelect {
   float: right;
   width: 60px!important;
+}
+
+.uk-light .yearSelect {
   border-color: rgba(255,255,255,.7)!important;
 }
 
