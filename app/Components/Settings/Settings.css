@@ -11,18 +11,10 @@
   text-align: left;
 }
 
-
-
-
 .card {
   padding: 30px 30px;
   border-radius: 5px;
 }
-
-
-
-
-
 
 /*Theme (affects the background color and the border shadow)*/
 /*Dark Material*/
@@ -53,7 +45,7 @@
 .clean.uk-light .uk-navbar-container:not(.uk-navbar-transparent) {
   background: #2f3136;
 }
-/*Light Clean*/
+/*Light clean*/
 .clean.uk-dark {
   background-color: white!important;
 }

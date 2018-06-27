@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
 const css = require('./Settings.css')
 
-let selector
+let timetable
 let color
 let theme
-let bodyArray = ['uk-dark','material']
+let bodyArray = ['uk-dark','Clean']
 
 let width = 0
 let height = 0
-let timetable
 
 class Settings extends Component {
   constructor(props) {
@@ -26,25 +25,57 @@ class Settings extends Component {
     let content = document.getElementById('content')
     content.className = 'full vcNavbarParent'
 
+    this.loadBodyArray()
     this.colorInit()
     this.themeInit()
-    this.loadBodyArray()
+    this.ttableInit()
+  }
 
-    selector = document.getElementById('timetableSelect')
-    selector.value = (localStorage.getItem('forceSmallTable') === 'true') ? 'Small' : 'Full'
-    let bodyArray = ['uk-dark','material']
+  ttableInit() { //Default, Full, Small
+    timetable = document.getElementById('timetableSelect')
+    if (typeof localStorage.getItem('forceSmallTable') !== 'undefined' 
+        && localStorage.getItem('forceSmallTable') !== null 
+        && localStorage.getItem('forceSmallTable') !== 'true'
+        && localStorage.getItem('forceSmallTable') !== 'false') {
+      timetable.value = localStorage.getItem('forceSmallTable')
+    } else {
+      localStorage.setItem('forceSmallTable', 'Default')
+      theme.value = 'Default'
+    }
+  }
+
+  themeInit() { //Clean, Material
+    theme = document.getElementById('themeSelect')
+    if (typeof localStorage.getItem('theme') !== 'undefined' 
+        && localStorage.getItem('theme') !== null 
+        && localStorage.getItem('theme') !== 'true'
+        && localStorage.getItem('theme') !== 'false') {
+      theme.value = localStorage.getItem('theme')
+    } else { //first time load
+      localStorage.setItem('theme', 'Clean')
+      theme.value = 'Clean'
+    }
+  }
+
+  colorInit() { //light, dark
+    color = document.getElementById('colorSelect')
+    if (typeof localStorage.getItem('color') !== 'undefined' 
+        && localStorage.getItem('color') !== null 
+        && localStorage.getItem('color') !== 'true'
+        && localStorage.getItem('color') !== 'false') {
+      color.value = localStorage.getItem('color')
+    } else { //first time load
+      localStorage.setItem('color', 'Light')
+      color.value = 'Light'
+    }
   }
 
   loadBodyArray() {
-    if (localStorage.getItem('theme') === 'true') {
-      bodyArray[1] = 'clean' //Clean
-    } else if (localStorage.getItem('theme') === 'false') {
-      bodyArray[1] = 'material' //Material
-    } else if (localStorage.getItem('color') === 'true') {
-      bodyArray[0] = 'uk-light' //dark
-      
-    } else if (localStorage.getItem('color') ==='false') {
-      bodyArray[0] = 'uk-dark' //light
+    bodyArray[1] = localStorage.getItem('theme') 
+    if (localStorage.getItem('color') === 'Dark') {
+      bodyArray[0] = 'uk-light'
+    } else if (localStorage.getItem('color') ==='Light') {
+      bodyArray[0] = 'uk-dark' 
     }
     localStorage.setItem('bodyArray',bodyArray)
   }
@@ -55,82 +86,24 @@ class Settings extends Component {
   }
 
   timetable() {
-    let forceSmall = false
-    if (selector.options[selector.selectedIndex].text === 'Small') {
-      forceSmall = true
-    }
-    localStorage.setItem('forceSmallTable', forceSmall)
-    //(localStorage.getItem('forceSmallTable'))
-  }
-
-  themeInit() {
-    theme = document.getElementById('themeSelect')
-    let bool = localStorage.getItem('theme')
-    if (bool==='true') {
-      theme.options.selectedIndex = 1
-    } else if (bool==='false') {
-      theme.options.selectedIndex = 0
-    }
-  }
-
-  colorInit() {
-    color = document.getElementById('colorSelect')
-    let bool = localStorage.getItem('color')
-    if (bool==='true') {
-      color.options.selectedIndex = 1
-    } else if (bool==='false') {
-      color.options.selectedIndex = 0
-    }
+    timetable = document.getElementById('timetableSelect')
+    localStorage.setItem('forceSmallTable', timetable.value)
+    console.log(localStorage.getItem('forceSmallTable'))
   }
 
   color() {
-    //the select element
     color = document.getElementById('colorSelect')
-    color.value = (localStorage.getItem('color') === 'true') ? 'Light' : 'Dark'
-
-    //light is false and dark is true
-
-    let bool
-
-    if (color.options[color.selectedIndex].text === 'Dark') {
-      bool = true
-      color.options.selectedIndex = 1
-      this.changeBody(color.options[color.selectedIndex].text)
-    } else if (color.options[color.selectedIndex].text === 'Light') {
-      bool = false
-      color.options.selectedIndex = 0
-      this.changeBody(color.options[color.selectedIndex].text)
-    }
-
-    localStorage.setItem('color', bool)
-    this.changeBody(bool, color.options[color.selectedIndex].text)
-    this.changeBody(theme.options[theme.selectedIndex].text)
+    localStorage.setItem('color',color.value)
+    this.changeBody(color.value)
   }
 
   theme() {
-    //the select element
     theme = document.getElementById('themeSelect')
-    theme.value = (localStorage.getItem('theme') === 'true') ? 'Material' : 'Clean'
-
-    let bool
-
-    if (theme.options[theme.selectedIndex].text === 'Clean') {
-      bool = true
-      theme.options.selectedIndex = 1
-      this.changeBody(theme.options[theme.selectedIndex].text)
-    } else if (theme.options[theme.selectedIndex].text === 'Material') {
-      bool = false
-      theme.options.selectedIndex = 0
-      this.changeBody(theme.options[theme.selectedIndex].text)
-    }
-
-    localStorage.setItem('theme', bool)
-    this.changeBody(bool, theme.options[theme.selectedIndex].text)
-    this.changeBody(color.options[color.selectedIndex].text)
+    localStorage.setItem('theme',theme.value)
+    this.changeBody(theme.value)
   }
 
   changeBody(text) { 
-    //(bodyArray)
     if (text == 'Clean') {
       bodyArray[1] = 'clean' //Clean
     } else if (text == 'Material') {
@@ -140,7 +113,6 @@ class Settings extends Component {
     } else if (text == 'Light') {
       bodyArray[0] = 'uk-dark' //light
     }
-    //(bodyArray)
     document.body.className = bodyArray.join(' ')
     localStorage.setItem('bodyArray',bodyArray)
   }
@@ -162,14 +134,15 @@ class Settings extends Component {
               <hr/>
               <p>Theme</p>
               <select id='themeSelect' className='uk-select' onChange={this.theme.bind(this)}>
-                <option>Material</option>
                 <option>Clean</option>
+                <option>Material</option>
               </select>
               <hr/>
               <div>
                 <p className='uk-align-left'>Timetable</p><a id='ttableInfo' uk-icon="info" className='uk-align-right' uk-tooltip="title: Allows you to choose to display single-day timetable regardless of screen size; pos: top-right; delay: 500"></a>
               </div>
               <select id='timetableSelect' onChange={this.timetable.bind(this)} className='uk-select'>
+                <option>Default</option>
                 <option>Full</option>
                 <option>Small</option>
               </select>
