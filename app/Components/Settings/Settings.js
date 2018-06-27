@@ -105,9 +105,9 @@ class Settings extends Component {
 
   changeBody(text) { 
     if (text == 'Clean') {
-      bodyArray[1] = 'clean' //Clean
+      bodyArray[1] = 'Clean' //Clean
     } else if (text == 'Material') {
-      bodyArray[1] = 'material' //Material
+      bodyArray[1] = 'Material' //Material
     } else if (text == 'Dark') {
       bodyArray[0] = 'uk-light' //dark
     } else if (text == 'Light') {
