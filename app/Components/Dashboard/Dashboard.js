@@ -262,13 +262,17 @@ class Dashboard extends Component {
     // use routine to determine where to put lunch and recess
     let routine = timetable['timetable']['timetable']['routine']
     switch (routine) {
-      // Monday, Tuesday, Friday
+      // Monday, Tuesday
       case 'R1T2=3T4=5': periods.splice(2, 0, lunch); periods.splice(5, 0, recess); break
-      // Wednesday, Thursdays
+      // Wednesday, Thursday, Friday
       case 'R1T2=3=4T5': periods.splice(2, 0, recess); periods.splice(4, 0, lunch); break
+      // Mon, Tue for Teacher?
+      case 'R1T2AB3T4C5': periods.splice(2, 0, lunch); periods.splice(5, 0, recess); break
+      // Wed, Thu, Fri for Teacher?
+      case 'R1T2A3BC4T5': periods.splice(2, 0, recess); periods.splice(4, 0, lunch); break
       default: break
     }
-
+    console.log('Get daily timetable')
     return periods
   }
 
@@ -291,7 +295,7 @@ class Dashboard extends Component {
 
         // handles an API bug where the teacher name is empty
         let teacherName = thisPeriod['fullTeacher']
-        if (teacherName == '') {
+        if (teacherName == '' || teacherName == undefined) {
           teacherName = thisPeriod['teacher']
         }
 
@@ -310,7 +314,6 @@ class Dashboard extends Component {
                           time: bells[i][0],
                           changed: [] }
       }
-      
       // so we know later if a bell was changed
       if (bells[i][1]) {
         returnData[i].changed.push('bells')
@@ -493,7 +496,7 @@ class Dashboard extends Component {
     
     // nested if's are used for readability
     if (timetable != '') {
-      //('loading fresh periods')
+      console.log('loading fresh periods')
       let timetableDate = new Date(timetable['date'])
 
       let timetableIsTodayBefore315 = ((date.getDay() === timetableDate.getDay()) && (date.getHours() < 15 || (date.getHours() === 15 && date.getMinutes() < 15)))
@@ -517,9 +520,6 @@ class Dashboard extends Component {
       let bells = JSON.parse(localStorage.getItem('timetableBells'))
       let timetableDate = localStorage.getItem('timetablePeriodsDate')
       schedule = this.getSchedule(periods, timetableDate, bells)
-      console.log(periods)
-      console.log(bells)
-      console.log(timetableDate)
       
     } else {
       
@@ -548,7 +548,7 @@ class Dashboard extends Component {
     if (schedule === undefined) {
       console.log('schedule undefined')
     } else {
-      console.log(schedule)
+      console.log('schedule made')
     }
     this.setState( ()=> ({
       htmlClasses: this.processHTML(periods),
@@ -567,8 +567,6 @@ class Dashboard extends Component {
     // get date
     let date = new Date()
     let schedule = this.state.schedule
-    console.log('Schedule:')
-    console.log(schedule)
     
     for (var i=0; i<schedule.length; i++) {
       if (schedule[i].time > date) {
