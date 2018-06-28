@@ -23,6 +23,8 @@ let uniqueSubjects = []
 let fullTable
 let smallTable
 
+let mcArr = ['','','','','','','','','','','','','','','',]
+
 class Timetable extends Component {
   constructor(props) {
     super(props)
@@ -284,7 +286,7 @@ class Timetable extends Component {
    }, 2000)
  }
 
- addClass() {
+ initForm() {
   let temp = []
   for (let u = 0; u<=25; u++) {
     if (subjectOnly[u]!=' '){
@@ -300,8 +302,67 @@ class Timetable extends Component {
   for (let v = 0; v<uniqueSubjects.length; v++) {
     options+= '<option>' + uniqueSubjects[v] + '</option>'
   }
-  let dropdown = document.getElementById('addClassSelect')
+  let dropdown = document.getElementById('acSubject')
   dropdown.innerHTML = options
+ }
+
+ processForm(){
+  let room = document.getElementById('acRoom')
+  let subject = document.getElementById('acSubject')
+  let day = document.getElementById('acDay')
+  let week = document.getElementById('acWeek')
+  let repeat = document.getElementById('acRepeat')
+
+  if (repeat.checked == false){
+    let dayNum = tabArray.indexOf(`${day.value}`)
+    if (week.value == 'B') {
+      dayNum += 5
+    } else if (week.value === 'C') {
+      dayNum += 10
+    }
+    mcArr[dayNum] = subject.value+','+room.value+','+week.value+','+day.value
+  } else {
+    let temp = tabArray.indexOf(`${day.value}`)
+    mcArr[temp] = subject.value+','+room.value+','+'A'+','+day.value
+    mcArr[temp+5] = subject.value+','+room.value+','+'B'+','+day.value
+    mcArr[temp+10] = subject.value+','+room.value+','+'C'+','+day.value
+  }
+  console.log(mcArr)
+  this.displayMorningClass()
+ }
+
+ displayMorningClass() {
+  console.log(mcArr.length)
+  for (let i = 0; i < mcArr.length; i++) {
+    if (mcArr[i]!='') {
+      console.log(i)
+      let temp = mcArr[i].split(',')
+      let temp2 = ''
+      if (temp[2]=='A') {
+        console.log('A')
+        temp2 = '-1'
+      } else if (temp[2]=='B') {
+        console.log('B')
+        temp2 = '-2'
+      } else if (temp[2]=='C') {
+        console.log('C')
+        temp2 = '-3'
+      }
+      console.log(`${tabArray.indexOf(`${temp[3]}`)},${temp2}`)
+      let day = document.getElementById(`${tabArray.indexOf(`${temp[3]}`)},${temp2}`)
+      day.innerHTML = temp[0] + '&nbsp;&nbsp;' + temp[1] 
+    }
+  }
+ }
+
+ repeatCheckbox() {
+  let week = document.getElementById('acWeek')
+  let repeat = document.getElementById('acRepeat')
+  if (repeat.checked == true) {
+    week.setAttribute('disabled', true)
+  } else {
+    week.removeAttribute('disabled')
+  }
  }
 
   // <button onClick={this.initialise.bind(this)}>Test</button>
@@ -326,6 +387,13 @@ class Timetable extends Component {
                   </tr>
                 </thead>
                 <tbody id='wA' className='timetable' onMouseOver={this.subjectHighlight.bind(this)}>
+                  <tr id='r-1' onMouseOver={this.bigInput}>
+                    <td id="0,-1" className=""></td>
+                    <td id="1,-1" className=""></td>
+                    <td id="2,-1" className=""></td>
+                    <td id="3,-1" className=""></td>
+                    <td id="4,-1" className=""></td>
+                  </tr>
                   <tr id='r0' onMouseOver={this.bigInput}></tr>
                   <tr id='r1' onMouseOver={this.bigInput}></tr>
                   <tr id='r2' onMouseOver={this.bigInput}></tr>
@@ -347,6 +415,13 @@ class Timetable extends Component {
                       </tr>
                   </thead>
                   <tbody id='wB' className='timetable'onMouseOver={this.subjectHighlight.bind(this)}>
+                    <tr id='r-2' onMouseOver={this.bigInput}>
+                      <td id="0,-2" className=""></td>
+                      <td id="1,-2" className=""></td>
+                      <td id="2,-2" className=""></td>
+                      <td id="3,-2" className=""></td>
+                      <td id="4,-2" className=""></td>
+                    </tr>
                     <tr id='r5' onMouseOver={this.bigInput}></tr>
                     <tr id='r6' onMouseOver={this.bigInput}></tr>
                     <tr id='r7' onMouseOver={this.bigInput}></tr>
@@ -368,6 +443,13 @@ class Timetable extends Component {
                       </tr>
                   </thead>
                   <tbody id='wC' className='timetable' onMouseOver={this.subjectHighlight.bind(this)} >
+                    <tr id='r-3' onMouseOver={this.bigInput}>
+                      <td id="0,-3" className=""></td>
+                      <td id="1,-3" className=""></td>
+                      <td id="2,-3" className=""></td>
+                      <td id="3,-3" className=""></td>
+                      <td id="4,-3" className=""></td>
+                    </tr>
                     <tr id='r10' onMouseOver={this.bigInput}></tr>
                     <tr id='r11' onMouseOver={this.bigInput}></tr>
                     <tr id='r12' onMouseOver={this.bigInput}></tr>
@@ -377,45 +459,44 @@ class Timetable extends Component {
               </table>
             </div>
             <div className="uk-inline">
-                <a onClick={this.addClass.bind(this)} uk-icon="plus-circle" uk-tooltip="title: Add morning classes; pos: top;"></a>
+                <a onClick={this.initForm.bind(this)} uk-icon="plus-circle" uk-tooltip="title: Add morning classes; pos: top;"></a>
                 <div uk-dropdown="mode: click;pos: top">
                   <form className="uk-form-horizontal">
                   <p className='uk-margin-bottom-small'>Subject</p>
-                  <select id='addClassSelect' className='uk-select'>
-                    <option>Maths</option>
-                    <option>English</option>
+                  <select id='acSubject' className='uk-select'>
                   </select>
 
                   <hr/>
                   
                   <p className='uk-margin-bottom-small'>Room</p>
-                  <select className='uk-select'>
+                  <select id='acRoom' className='uk-select'>
                     <option>101</option>
                   </select>
 
                   <hr/>
 
                   <p className='uk-margin-bottom-small'>Weekday</p>
-                  <select className='uk-select'>
-                    <option>Monday</option>
-                    <option>Tuesday</option>
-                    <option>Wednesday</option>
-                    <option>Thursday</option>
-                    <option>Friday</option>
+                  <select id='acDay' className='uk-select'>
+                    <option>MON</option>
+                    <option>TUE</option>
+                    <option>WED</option>
+                    <option>THU</option>
+                    <option>FRI</option>
                   </select>
 
                   <hr/>
 
                   <p className='uk-margin-bottom-small'>Week</p>
-                  <select className='uk-select uk-margin-bottom'>
+                  <select id='acWeek' className='uk-select uk-margin-bottom'>
                     <option>A</option>
                     <option>B</option>
                     <option>C</option>
                   </select>
 
-                  <label><input className="uk-checkbox" type="checkbox"/> Every week</label>
+                  <label><input id='acRepeat' className="uk-checkbox" type="checkbox" onChange={this.repeatCheckbox.bind(this)}/> Every week</label>
 
-                  <button className="uk-button uk-button-primary uk-margin-top">Add</button>
+                  <a onClick={this.processForm.bind(this)} className="uk-button uk-button-primary uk-margin-top">Add</a>
+
                   </form>
                 </div>
             </div>
