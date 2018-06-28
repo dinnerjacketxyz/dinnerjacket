@@ -18,6 +18,7 @@ let leave = ''
 let posArray = []
 let fadeArray = []
 let subjectOnly = []
+let uniqueSubjects = []
 
 let fullTable
 let smallTable
@@ -42,9 +43,15 @@ class Timetable extends Component {
 
   componentDidMount() {
     let card = document.getElementById('vcNavbarCard')
-    console.log(localStorage.getItem('forceSmallTable'))
-    card.className = localStorage.getItem('forceSmallTable')
-
+    if (typeof localStorage.getItem('forceSmallTable') !== 'undefined' 
+        && localStorage.getItem('forceSmallTable') !== null 
+        && localStorage.getItem('forceSmallTable') !== 'true'
+        && localStorage.getItem('forceSmallTable') !== 'false') {
+      card.className = localStorage.getItem('forceSmallTable')
+    } else {
+      localStorage.setItem('forceSmallTable', 'Default')
+      card.className = 'Default'
+    }
 
    this.initialise()
    let content = document.getElementById('content')
@@ -277,6 +284,26 @@ class Timetable extends Component {
    }, 2000)
  }
 
+ addClass() {
+  let temp = []
+  for (let u = 0; u<=25; u++) {
+    if (subjectOnly[u]!=' '){
+      temp.push(subjectOnly[u])
+    }
+  }
+  for (let i = 0; i<temp.length; i++) {
+    if (uniqueSubjects.indexOf(temp[i])==-1){
+      uniqueSubjects.push(temp[i])
+    }
+  }
+  let options = ''
+  for (let v = 0; v<uniqueSubjects.length; v++) {
+    options+= '<option>' + uniqueSubjects[v] + '</option>'
+  }
+  let dropdown = document.getElementById('addClassSelect')
+  dropdown.innerHTML = options
+ }
+
   // <button onClick={this.initialise.bind(this)}>Test</button>
 
   render() {
@@ -349,7 +376,50 @@ class Timetable extends Component {
                   </tbody>
               </table>
             </div>
+            <div className="uk-inline">
+                <a onClick={this.addClass.bind(this)} uk-icon="plus-circle" uk-tooltip="title: Add morning classes; pos: top;"></a>
+                <div uk-dropdown="mode: click;pos: top">
+                  <form className="uk-form-horizontal">
+                  <p className='uk-margin-bottom-small'>Subject</p>
+                  <select id='addClassSelect' className='uk-select'>
+                    <option>Maths</option>
+                    <option>English</option>
+                  </select>
+
+                  <hr/>
+                  
+                  <p className='uk-margin-bottom-small'>Room</p>
+                  <select className='uk-select'>
+                    <option>101</option>
+                  </select>
+
+                  <hr/>
+
+                  <p className='uk-margin-bottom-small'>Weekday</p>
+                  <select className='uk-select'>
+                    <option>Monday</option>
+                    <option>Tuesday</option>
+                    <option>Wednesday</option>
+                    <option>Thursday</option>
+                    <option>Friday</option>
+                  </select>
+
+                  <hr/>
+
+                  <p className='uk-margin-bottom-small'>Week</p>
+                  <select className='uk-select uk-margin-bottom'>
+                    <option>A</option>
+                    <option>B</option>
+                    <option>C</option>
+                  </select>
+
+                  <label><input className="uk-checkbox" type="checkbox"/> Every week</label>
+
+                  <button className="uk-button uk-button-primary uk-margin-top">Add</button>
+                  </form>
+                </div>
             </div>
+          </div>
           
           <div id='smallTimetable' className='ttableCard card uk-animation-slide-top-small' onClick={this.activeTab.bind(this)}>
             <ul className='uk-flex-center uk-tab' onClick={this.smallInput}>

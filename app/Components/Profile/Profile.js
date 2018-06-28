@@ -119,7 +119,7 @@ class Profile extends Component {
 
     return (
       <div className='vcNavbarCard'>
-        <input id='search' onInpnut={this.search.bind(this)}></input>
+        <input id='search' onInput={this.search.bind(this)}></input>
         <div className='profileParent'>
           <div className='profileChild card uk-animation-slide-top-small'>
             <span className='profileParent' uk-icon='icon: user; ratio:2'></span>

@@ -33,7 +33,7 @@
   width: 60px!important;
 }
 
-.uk-light .yearSelect {
+.uk-light .yearSelect, .uk-light .uk-search-default .uk-search-input {
   border-color: rgba(255,255,255,.7)!important;
 }
 
