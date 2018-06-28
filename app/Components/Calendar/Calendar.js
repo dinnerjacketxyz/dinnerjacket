@@ -1,21 +1,5 @@
 import React, { Component } from 'react'
-
-class Calendar extends Component {
-  constructor(props) {
-    super(props)
-  }
-
-  componentDidMount() { }
-
-  render() {
-    return (<div></div>)
-  }
-}
-
-// Crage Code
-// In progress
-
-/*import styles from './Calendar.css'
+import styles from './Calendar.css'
 const http = require('http')
 
 window.date = []
@@ -52,9 +36,7 @@ class Calendar extends Component {
       days: [],
       day: 0,
       month: '',
-      year: 0,
-      events: [],
-      diaryCal: window.diaryCal
+      year: 0
     }
   }
 
@@ -62,42 +44,6 @@ class Calendar extends Component {
     this.changeMonth(0)
     input = window.date[0]
     this.displayCal()
-  }
-
-  setEvents(events) {
-    let eventsToAdd = []
-    let items = events.items
-
-    for (let i = 0; i < items.length; i++) {
-      let thisEvent = items[i]
-
-      switch (thisEvent.type) {
-        case 'school':     eventsToAdd.push((thisEvent['subject'] != '' ? thisEvent['subject'] + ': ' : '') + thisEvent['title']); break
-        case 'assessment': eventsToAdd.push('(Assessment) ' + thisEvent['assessment']); break
-        case 'moodle':     eventsToAdd.push('(Moodle) ' + (thisEvent['subject'] != '' ? thisEvent['subject'] + ': ' : '') + thisEvent['title']); break
-        case 'personal':   eventsToAdd.push('(Personal) ' + thisEvent['title']); break
-        default: break
-      }
-    }
-  
-    this.state.events = eventsToAdd
-  }
-
-  highlightSelectedDay(newDay) {
-    let days = this.state.days
-    window.date[0] = parseInt(newDay)
-    let select = document.getElementById(newDay)
-
-    for (let i = 0; i < days.length; i++) {
-      if (days[i] == newDay) {
-        select.className = 'active'  
-      } else {
-        select.className = ''
-      }
-    }
-
-    let day = this.state.day
-    this.setState({ day: window.date[0] })
   }
 
   changeYear(dir) {
@@ -113,7 +59,7 @@ class Calendar extends Component {
     this.fillDates(date)
 
     if (dir !== 0) {
-      this.getData()
+      //this.getData()
     }
   }
 
@@ -142,51 +88,10 @@ class Calendar extends Component {
     this.fillDates(date)
 
     if (dir !== 0) {
-      this.getData()
+      //this.getData()
     }
   }
 
-  getData() {
-    //data
-    let promise1 = new Promise((resolve, reject) => {
-      const YEAR = window.date[2]
-      const MONTH = window.date[1] + 1
-
-      let from = YEAR + '-' + (MONTH > 9 ? MONTH: '0' + MONTH) + '-01'
-      let to = YEAR + '-' + (MONTH > 9 ? MONTH: '0' + MONTH) + '-' + (new Date(YEAR, MONTH, 0).getDate())
-
-      const TOKEN = localStorage.getItem('accessToken')
-      http.get('/getdata?token=' + TOKEN + '&url=diarycalendar/events.json?from=' + from + '&to=' + to, (res) => {
-        res.setEncoding('utf8')
-        let data = ''
-        res.on('data', (body) => {
-          data += body
-        })
-        res.on('end', () => {
-          resolve(JSON.parse(data))
-        })
-      })
-    })
-
-    promise1.then((result) => {
-      this.state.diaryCal = result
-    })
-
-    let dayToSelect
-    if (window.date[0] == undefined) {
-      dayToSelect = 1
-      if (window.date[1] == new Date().getMonth() && window.date[2] == new Date().getFullYear()) {
-        dayToSelect = new Date().getDate()
-      }
-    } else {
-      dayToSelect = window.date[0]
-    }
-
-    console.log(this.state.diaryCal)
-    console.log(dayToSelect)
-    this.setEvents(this.state.diaryCal[dayToSelect-1])
-    this.highlightSelectedDay(dayToSelect)
-  }
 
   fillDates(date) {
     let firstDay = new Date(window.date[2], window.date[1], 1).getDay()
@@ -255,8 +160,8 @@ class Calendar extends Component {
   displayCal() {
     if (!isNaN(input)) {
       if (input != window.date[0]) {
-        this.highlightSelectedDay(input)
-        this.setEvents(this.state.diaryCal[input-1])
+        //this.highlightSelectedDay(input)
+        //this.setEvents(this.state.diaryCal[input-1])
       }
     }
   }
@@ -314,4 +219,3 @@ const ListItem = ({ value }) => (
 )
 
 export default Calendar
-*/

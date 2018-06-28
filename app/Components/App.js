@@ -4,7 +4,7 @@ import Dashboard from './Dashboard/Dashboard'
 import Timetable from './Timetable/Timetable'
 import Notes from './Notes/Notes'
 import Notices from './Notices/Notices'
-//import Calendar from './Calendar/Calendar'
+import Calendar from './Calendar/Calendar'
 import About from './About/About'
 import Profile from './Profile/Profile'
 import Feedback from './Feedback/Feedback'
@@ -45,7 +45,7 @@ window.STATES = {
   TIMETABLE: 1,
   NOTES: 2,
   NOTICES: 3,
-  //CALENDAR: 4,
+  CALENDAR: 4,
   ABOUT: 5,
   PROFILE: 9999,
   SETINGS: -123,
@@ -435,14 +435,14 @@ class App extends Component {
     }
   }
 
-  /*showCalendar() {
+  showCalendar() {
     ////('Calendar tab clicked')
-    if (window.diaryCal !== '') {
+  //  if (window.diaryCal !== '') {
       let visible = this.state.visible
       this.setState({ visible: window.STATES.CALENDAR })
       this.selectedNavbar(window.STATES.CALENDAR)
-    }
-  }*/
+   // }
+  }
 
   showAbout() {
     ////('About tab clicked')
@@ -551,8 +551,8 @@ class App extends Component {
                 </a>
               </li>
 
-              <li id='CalendarLi' className='uk-animation-toggle'>
-                <a id='CalendarA' className='uk-box-shadow-hover-small' uk-tooltip="title: Coming Soon; pos: bottom">
+              <li id='CalendarLi' className='uk-animation-toggle' onClick={this.showCalendar.bind(this)}>
+                <a id='CalendarA' className='uk-box-shadow-hover-small'>
                   <span id='CalendarS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: calendar' />
                   <p className='collapseText' id='CalendarP'>{nameArray[4]}</p>
                   <b className='collapseText' id='CalendarB'></b>
@@ -626,6 +626,7 @@ class App extends Component {
           {this.state.visible === window.STATES.TIMETABLE && <Timetable />}
           {this.state.visible === window.STATES.NOTES && <Notes />}
           {this.state.visible === window.STATES.NOTICES && <Notices />}
+          {this.state.visible === window.STATES.CALENDAR && <Calendar />}
           {this.state.visible === window.STATES.ABOUT && <About />}
           {this.state.visible === window.STATES.PROFILE && <Profile />}
           {this.state.visible === window.STATES.SETTINGS && <Settings />}
