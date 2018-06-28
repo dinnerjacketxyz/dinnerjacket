@@ -41,11 +41,10 @@ class Timetable extends Component {
   }
 
   componentDidMount() {
-    if (localStorage.getItem('forceSmallTable') === 'true') {
-      //('small timetable')
-      let card = document.getElementById('vcNavbarCard')
-      card.className = 'forcedSmall'
-    }
+    let card = document.getElementById('vcNavbarCard')
+    console.log(localStorage.getItem('forceSmallTable'))
+    card.className = localStorage.getItem('forceSmallTable')
+
 
    this.initialise()
    let content = document.getElementById('content')

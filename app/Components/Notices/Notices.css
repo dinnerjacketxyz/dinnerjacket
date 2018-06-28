@@ -46,7 +46,12 @@
 }
 
 #yearSelector {
-  border-radius: 5px!important;
+  border-radius: 0 5px 5px 0!important;
+  border-left-width: 0px!important;
+}
+
+.noticesChild .uk-align-right {
+  margin-left: 0!important
 }
 
 @media (max-width:750px) {
@@ -56,4 +61,12 @@
   .noticesChild .uk-accordion-title {
     font-size: 1.25rem;
   }
+}
+
+@media (max-width:404px) {
+  .uk-button {
+    padding-left: 10px!important;
+    padding-right: 10px!important;
+  }
+  
 }

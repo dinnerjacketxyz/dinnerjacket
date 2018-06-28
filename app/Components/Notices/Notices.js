@@ -183,7 +183,7 @@ class Notices extends Component {
             </div>
             <form className="uk-search uk-search-default uk-align-right">
                 <span uk-search-icon='true' uk-icon='icon:search'></span>
-                <input id='search' className="uk-search-input" onInput={this.search.bind(this)} type="search" placeholder="Search..."/>
+                <input id='search' className="uk-search-input" onInput={this.search.bind(this)} type="search" placeholder="Search"/>
             </form>
             <button onClick={this.toggleNotices.bind(this)} className='uk-button uk-align-left uk-button-default'>
               {this.state.text}
@@ -205,7 +205,11 @@ const CollapsedNotices = (props) => {
   return (
     <li className=''>
       <span className='uk-label'>{props.notices.years}</span>
+<<<<<<< HEAD
       <a className='uk-accordion-title'>{props.notices.title + ' - ' + props.notices.date}</a>
+=======
+      <a className='uk-accordion-title'>{props.notices.title + ' ' + props.notices.date}</a>
+>>>>>>> e0d11eb6b539195a68c25fc051593e8c996ad373
       <div className='uk-accordion-content'>
         {props.notices.content}
         <p className='uk-margin-small-top'><b>{props.notices.author}</b></p>

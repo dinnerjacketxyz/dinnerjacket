@@ -11,57 +11,49 @@
   text-align: left;
 }
 
-
-
-
 .card {
   padding: 30px 30px;
   border-radius: 5px;
 }
 
-
-
-
-
-
 /*Theme (affects the background color and the border shadow)*/
 /*Dark Material*/
-.material.uk-light {
+.Material.uk-light {
   background-color: #2f3136!important;
 }
-.material.uk-light #content {
+.Material.uk-light #content {
   background: #2f3136;
 }
-.material.uk-light .uk-navbar-container {
+.Material.uk-light .uk-navbar-container {
   background: #36393e;
 }
-.material.uk-light .card {
+.Material.uk-light .card {
   box-shadow: 0 5px 15px rgba(0,0,0,.08);
 }
-.material.uk-dark .card {
+.Material.uk-dark .card {
   box-shadow: 0 5px 15px rgba(0,0,0,.08);
 }
 
 /*Dark Clean*/
-.clean.uk-light {
+.Clean.uk-light {
   background-color: #36393e!important;
 }
-.clean.uk-light #content {
+.Clean.uk-light #content {
   background: #36393e
   ;
 }
-.clean.uk-light .uk-navbar-container:not(.uk-navbar-transparent) {
+.Clean.uk-light .uk-navbar-container:not(.uk-navbar-transparent) {
   background: #2f3136;
 }
-/*Light Clean*/
-.clean.uk-dark {
+/*Light clean*/
+.Clean.uk-dark {
   background-color: white!important;
 }
-.clean.uk-dark #content {
+.Clean.uk-dark #content {
   background: white
   ;
 }
-.clean.uk-dark .uk-navbar-container:not(.uk-navbar-transparent) {
+.Clean.uk-dark .uk-navbar-container:not(.uk-navbar-transparent) {
   background: #f9f9f9;
 }
 
