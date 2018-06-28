@@ -18,6 +18,19 @@ class Changelog extends Component {
             <hr />
 
             <article className="uk-article">
+              <h1 className="uk-article-title">Beta v1.0.3</h1>
+              <p className="uk-article-meta">28 June 2018</p>
+              <p>Another end of Term 2 update addressing existing bugs</p>
+              <ul>
+                <li>Fixed notes crashing on first load</li>
+                <li>Set default theme to light, clean</li>
+                <li>Addressed issues displaying certain timetabled classes</li>
+              </ul>
+            </article>
+
+            <hr />
+
+            <article className="uk-article">
               <h1 className="uk-article-title">Beta v1.0.2</h1>
               <p className="uk-article-meta">25 June 2018</p>
               <p>End of Term 2 update addressing existing bugs</p>
