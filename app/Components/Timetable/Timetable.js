@@ -17,6 +17,7 @@ let subject = ''
 let leave = ''
 let posArray = []
 let fadeArray = []
+let mcFadeArr = []
 let subjectOnly = []
 let uniqueSubjects = []
 
@@ -59,11 +60,21 @@ class Timetable extends Component {
    let content = document.getElementById('content')
     content.className = 'full vcNavbarParent'
     this.highlightBigDay(week,day)
+
+    if(localStorage.getItem('morningClasses')!=null
+    &&localStorage.getItem('morningClasses')!=undefined
+    &&localStorage.getItem('morningClasses')!='undefined'){
+      mcArr = localStorage.getItem('morningClasses').split(',')
+    }
+
+    this.displayMorningClass()
  }
 
  componentWillUnmount() {
   let content = document.getElementById('content')
   content.className = 'full'
+
+  
  }
 
  //does pretty much everything for the big timetable
@@ -231,12 +242,47 @@ class Timetable extends Component {
   if (subject != '') {
     let start = 0
     let indexArray = []
+    let relevant = []
     while (subjectOnly.indexOf(subject,start)!=-1) {
-      //if (subjectOnly.indexOf(subject,start)!=-1) {}
       indexArray.push(subjectOnly.indexOf(subject,start))
       start = subjectOnly.indexOf(subject,start)+1
     }
+    for (let i=0;i<mcArr.length;i++) {
+      if (subject == mcArr[i].split('!')[0]){
+        relevant.push(mcArr[i])
+      }
+    }
+    this.highlightMC(relevant)
     this.calcPos(indexArray)
+  }
+ }
+
+ highlightMC(array) {
+  this.mcBlank()
+  for (let i = 0; i < array.length; i++) {
+    if (array[i]!='') {
+      let temp = array[i].split('!')
+      let temp2 = ''
+      if (temp[2]=='A') {
+        temp2 = '-1'
+      } else if (temp[2]=='B') {
+        temp2 = '-2'
+      } else if (temp[2]=='C') {
+        temp2 = '-3'
+      }
+      let day = document.getElementById(`${tabArray.indexOf(`${temp[3]}`)},${temp2}`)
+      mcFadeArr.push(`${tabArray.indexOf(`${temp[3]}`)},${temp2}`)
+      day.className = 'highlight'
+    }
+  }
+ }
+
+ mcBlank(){
+  for (let u = -1; u > -4; u-=1) {
+    for (let i = 0; i <= 4; i++) {
+      let highlight = document.getElementById(i+','+u)
+      highlight.className = ''
+    }
   }
  }
 
@@ -283,6 +329,10 @@ class Timetable extends Component {
       let highlight = document.getElementById(fadeArray[u])
       highlight.className = ''
      }
+     for (let u = 0; u < mcFadeArr.length; u++){
+      let highlight = document.getElementById(mcFadeArr[u])
+      highlight.className = ''
+     }
    }, 2000)
  }
 
@@ -320,35 +370,29 @@ class Timetable extends Component {
     } else if (week.value === 'C') {
       dayNum += 10
     }
-    mcArr[dayNum] = subject.value+','+room.value+','+week.value+','+day.value
+    mcArr[dayNum] = subject.value+'!'+room.value+'!'+week.value+'!'+day.value
   } else {
     let temp = tabArray.indexOf(`${day.value}`)
-    mcArr[temp] = subject.value+','+room.value+','+'A'+','+day.value
-    mcArr[temp+5] = subject.value+','+room.value+','+'B'+','+day.value
-    mcArr[temp+10] = subject.value+','+room.value+','+'C'+','+day.value
+    mcArr[temp] = subject.value+'!'+room.value+'!'+'A'+'!'+day.value
+    mcArr[temp+5] = subject.value+'!'+room.value+'!'+'B'+'!'+day.value
+    mcArr[temp+10] = subject.value+'!'+room.value+'!'+'C'+'!'+day.value
   }
-  console.log(mcArr)
+  localStorage.setItem('morningClasses', mcArr)
   this.displayMorningClass()
  }
 
  displayMorningClass() {
-  console.log(mcArr.length)
   for (let i = 0; i < mcArr.length; i++) {
     if (mcArr[i]!='') {
-      console.log(i)
-      let temp = mcArr[i].split(',')
+      let temp = mcArr[i].split('!')
       let temp2 = ''
       if (temp[2]=='A') {
-        console.log('A')
         temp2 = '-1'
       } else if (temp[2]=='B') {
-        console.log('B')
         temp2 = '-2'
       } else if (temp[2]=='C') {
-        console.log('C')
         temp2 = '-3'
       }
-      console.log(`${tabArray.indexOf(`${temp[3]}`)},${temp2}`)
       let day = document.getElementById(`${tabArray.indexOf(`${temp[3]}`)},${temp2}`)
       day.innerHTML = temp[0] + '&nbsp;&nbsp;' + temp[1] 
     }
