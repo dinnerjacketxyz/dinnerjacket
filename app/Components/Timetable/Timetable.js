@@ -352,6 +352,7 @@ class Timetable extends Component {
   for (let v = 0; v<uniqueSubjects.length; v++) {
     options+= '<option>' + uniqueSubjects[v] + '</option>'
   }
+  //options+= '<option>Remove</option>'
   let dropdown = document.getElementById('acSubject')
   dropdown.innerHTML = options
  }
@@ -362,7 +363,7 @@ class Timetable extends Component {
   let day = document.getElementById('acDay')
   let week = document.getElementById('acWeek')
   let repeat = document.getElementById('acRepeat')
-
+  
   if (repeat.checked == false){
     let dayNum = tabArray.indexOf(`${day.value}`)
     if (week.value == 'B') {
@@ -377,6 +378,7 @@ class Timetable extends Component {
     mcArr[temp+5] = subject.value+'!'+room.value+'!'+'B'+'!'+day.value
     mcArr[temp+10] = subject.value+'!'+room.value+'!'+'C'+'!'+day.value
   }
+  
   localStorage.setItem('morningClasses', mcArr)
   this.displayMorningClass()
  }
@@ -503,7 +505,7 @@ class Timetable extends Component {
               </table>
             </div>
             <div className="uk-inline">
-                <a onClick={this.initForm.bind(this)} uk-icon="plus-circle" uk-tooltip="title: Add morning classes; pos: top;"></a>
+                <a onClick={this.initForm.bind(this)} uk-icon="plus-circle" uk-tooltip="title: Add morning classes; pos: bottom;"></a>
                 <div uk-dropdown="mode: click;pos: top">
                   <form className="uk-form-horizontal">
                   <p className='uk-margin-bottom-small'>Subject</p>
@@ -515,6 +517,12 @@ class Timetable extends Component {
                   <p className='uk-margin-bottom-small'>Room</p>
                   <select id='acRoom' className='uk-select'>
                     <option>101</option>
+                    <option>102</option>
+                    <option>103</option>
+                    <option>104</option>
+                    <option>105</option>
+                    <option>106</option>
+                    <option>107</option>
                   </select>
 
                   <hr/>
