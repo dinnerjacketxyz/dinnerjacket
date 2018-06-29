@@ -24,6 +24,8 @@ let uniqueSubjects = []
 let fullTable
 let smallTable
 
+let remArr = []
+let mcNum = 0
 let mcArr = ['','','','','','','','','','','','','','','',]
 let validRoom = ['101','102','103','104','105','106','107','108',
                  '201','202','203','204','205','206','207','208','209','210','211','212','213','214','215',
@@ -434,6 +436,52 @@ class Timetable extends Component {
   }
  }
 
+ initRemove() {
+  let counter = 0
+  let body = ''
+  for (let i = 0; i<mcArr.length; i++){
+    if (mcArr[i]!=''){
+      let temp = mcArr[i].split('!')
+      body+=(`<tr><td><input id='remove${counter}'  class="uk-checkbox" type="checkbox"/></td><td>${temp[3]} ${temp[2]}</td><td>${temp[0]} ${temp[1]}</td></tr>`)
+      remArr.push(mcArr[i])
+      counter++
+    }
+  }
+  mcNum = counter
+  if (body=='') {
+    let div = document.getElementById('rmTableDiv')
+    div.innerHTML = 'No morning classes'
+  } else {
+    let addTo = document.getElementById('removeBody')
+    addTo.innerHTML = body
+  }
+ }
+
+ processRem() {
+  let tempArr = []
+  for(let i = 0;i<mcNum;i++){
+    let temp = document.getElementById('remove'+i)
+    tempArr.push(i)
+    if(temp.checked){
+      let temp1 = remArr[i].split('!')
+      let temp2 = ''
+      if (temp1[2]=='A') {
+        temp2 = '-1'
+      } else if (temp1[2]=='B') {
+        temp2 = '-2'
+      } else if (temp1[2]=='C') {
+        temp2 = '-3'
+      }
+      let remove = document.getElementById(`${tabArray.indexOf(`${temp1[3]}`)},${temp2}`)
+      remove.innerHTML = ''
+      mcArr[mcArr.indexOf(remArr[i])] = ''
+    }
+  }
+  localStorage.setItem('morningClasses', mcArr)
+  remArr.splice(tempArr[0],tempArr.length)
+  this.initRemove()
+ }
+
   // <button onClick={this.initialise.bind(this)}>Test</button>
 
   render() {
@@ -527,9 +575,9 @@ class Timetable extends Component {
                   </tbody>
               </table>
             </div>
-            <div className="uk-inline">
-                <a onClick={this.initForm.bind(this)} uk-icon="plus-circle" uk-tooltip="title: Add morning classes; pos: bottom;"></a>
-                <div uk-dropdown="mode: click;pos: top">
+            <div className="uk-align-left uk-inline">
+                <a onClick={this.initForm.bind(this)} uk-icon="plus-circle" uk-tooltip="title: Add morning classes; pos: bottom-left;"></a>
+                <div uk-dropdown="mode: click;pos: top-right">
                   <p className='uk-align-left uk-margin-bottom-small'>Subject</p>
                   <select id='acSubject' className='uk-select'>
                   </select>
@@ -565,6 +613,25 @@ class Timetable extends Component {
                   <label><input id='acRepeat' className="uk-checkbox" type="checkbox" onChange={this.repeatCheckbox.bind(this)}/> Every week</label>
                   <div onClick={this.processForm.bind(this)}>
                     <button id='acAdd' className="uk-button uk-button-default uk-margin-top" disabled='true'>Add</button>
+                  </div>
+                </div>
+            </div>
+            <div className="uk-align-right uk-inline">
+                <a uk-icon="minus-circle" onClick={this.initRemove.bind(this)} uk-tooltip="title: Remove morning classes; pos: bottom-right;"></a>
+                <div id='rmTableDiv' uk-dropdown="mode: click;pos: top-left">
+                  <table className="uk-table uk-table-hover uk-table-middle uk-table-divider">
+                      <thead>
+                          <tr>
+                              <th className="uk-table-shrink"></th>
+                              <th>Date</th>
+                              <th>Class</th>
+                          </tr>
+                      </thead>
+                      <tbody id='removeBody'>
+                      </tbody>
+                  </table>
+                  <div onClick={this.processRem.bind(this)}>
+                    <button id='rmcButton' className="uk-button uk-button-default uk-margin-top">Remove</button>
                   </div>
                 </div>
             </div>
