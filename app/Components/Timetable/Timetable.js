@@ -448,10 +448,11 @@ class Timetable extends Component {
     }
   }
   mcNum = counter
+  let div = document.getElementById('rmTableDiv')
   if (body=='') {
-    let div = document.getElementById('rmTableDiv')
-    div.innerHTML = 'No morning classes'
+    div.hidden = true
   } else {
+    div.hidden = false
     let addTo = document.getElementById('removeBody')
     addTo.innerHTML = body
   }
@@ -618,20 +619,22 @@ class Timetable extends Component {
             </div>
             <div className="uk-align-right uk-inline">
                 <a uk-icon="minus-circle" onClick={this.initRemove.bind(this)} uk-tooltip="title: Remove morning classes; pos: bottom-right;"></a>
-                <div id='rmTableDiv' uk-dropdown="mode: click;pos: top-left">
-                  <table className="uk-table uk-table-hover uk-table-middle uk-table-divider">
-                      <thead>
-                          <tr>
-                              <th className="uk-table-shrink"></th>
-                              <th>Date</th>
-                              <th>Class</th>
-                          </tr>
-                      </thead>
-                      <tbody id='removeBody'>
-                      </tbody>
-                  </table>
-                  <div onClick={this.processRem.bind(this)}>
-                    <button id='rmcButton' className="uk-button uk-button-default uk-margin-top">Remove</button>
+                <div id='rmDropDiv' uk-dropdown="mode: click;pos: top-left">
+                  <div id='rmTableDiv' >
+                    <table className="uk-table uk-table-hover uk-table-middle uk-table-divider">
+                        <thead>
+                            <tr>
+                                <th className="uk-table-shrink"></th>
+                                <th>Date</th>
+                                <th>Class</th>
+                            </tr>
+                        </thead>
+                        <tbody id='removeBody'>
+                        </tbody>
+                    </table>
+                    <div onClick={this.processRem.bind(this)}>
+                      <button id='rmcButton' className="uk-button uk-button-default uk-margin-top">Remove</button>
+                    </div>
                   </div>
                 </div>
             </div>
