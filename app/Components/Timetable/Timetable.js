@@ -25,6 +25,17 @@ let fullTable
 let smallTable
 
 let mcArr = ['','','','','','','','','','','','','','','',]
+let validRoom = ['101','102','103','104','105','106','107','108',
+                 '201','202','203','204','205','206','207','208','209','210','211','212','213','214','215',
+                 '301','302','303','304',
+                 '401','402','403','404',
+                 '501','502','503','504','505','506','507',
+                 '601','602','603','604','605','606','607','608','609','610','611',
+                 '701','702','703','704','705',
+                 '801','802',
+                 '900','901','902','903',
+                 'MPW','JLB','SLB'
+                ]
 
 class Timetable extends Component {
   constructor(props) {
@@ -411,6 +422,16 @@ class Timetable extends Component {
   }
  }
 
+ verifyRoom() {
+  let room = document.getElementById('acRoom')
+  let button = document.getElementById('acAdd')
+  if(room.value.length==3 && validRoom.indexOf(room.value)!=-1){
+    button.removeAttribute('disabled')
+  } else {
+    button.setAttribute('disabled', true)
+  }
+ }
+
   // <button onClick={this.initialise.bind(this)}>Test</button>
 
   render() {
@@ -507,27 +528,21 @@ class Timetable extends Component {
             <div className="uk-inline">
                 <a onClick={this.initForm.bind(this)} uk-icon="plus-circle" uk-tooltip="title: Add morning classes; pos: bottom;"></a>
                 <div uk-dropdown="mode: click;pos: top">
-                  <form className="uk-form-horizontal">
-                  <p className='uk-margin-bottom-small'>Subject</p>
+                  <p className='uk-align-left uk-margin-bottom-small'>Subject</p>
                   <select id='acSubject' className='uk-select'>
                   </select>
 
                   <hr/>
                   
-                  <p className='uk-margin-bottom-small'>Room</p>
-                  <select id='acRoom' className='uk-select'>
-                    <option>101</option>
-                    <option>102</option>
-                    <option>103</option>
-                    <option>104</option>
-                    <option>105</option>
-                    <option>106</option>
-                    <option>107</option>
-                  </select>
+                  <div>
+                    <p className='uk-align-left uk-margin-bottom-small'>Room</p>
+                    <a id='ttableInfo' uk-icon="info" className='uk-align-right' uk-tooltip="title: You can include locations such as the Junior and Senior Library (JLB,SLB), and Moore Park West (MPW).; pos: top; delay: 500"></a>
+                  </div>
+                  <input onChange={this.verifyRoom.bind(this)} id='acRoom' className="uk-input" type="text" placeholder="Room" maxLength='3'/>
 
                   <hr/>
 
-                  <p className='uk-margin-bottom-small'>Weekday</p>
+                  <p className='uk-align-left uk-margin-bottom-small'>Weekday</p>
                   <select id='acDay' className='uk-select'>
                     <option>MON</option>
                     <option>TUE</option>
@@ -538,7 +553,7 @@ class Timetable extends Component {
 
                   <hr/>
 
-                  <p className='uk-margin-bottom-small'>Week</p>
+                  <p className='uk-align-left uk-margin-bottom-small'>Week</p>
                   <select id='acWeek' className='uk-select uk-margin-bottom'>
                     <option>A</option>
                     <option>B</option>
@@ -547,9 +562,7 @@ class Timetable extends Component {
 
                   <label><input id='acRepeat' className="uk-checkbox" type="checkbox" onChange={this.repeatCheckbox.bind(this)}/> Every week</label>
 
-                  <a onClick={this.processForm.bind(this)} className="uk-button uk-button-primary uk-margin-top">Add</a>
-
-                  </form>
+                  <button id='acAdd' onClick={this.processForm.bind(this)} className="uk-button uk-button-default uk-margin-top" disabled='true'>Add</button>
                 </div>
             </div>
           </div>
