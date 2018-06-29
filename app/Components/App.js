@@ -24,7 +24,7 @@ window.timetable = ''
 window.dashboard = ''
 window.bells = ''
 //window.publicCal = ''
-//window.diaryCal = ''
+window.diaryCal = ''
 window.participation = ''
 window.userInfo = ''
 
@@ -302,7 +302,7 @@ class App extends Component {
     
     // get data for the whole month
     
-    /*const year = (new Date()).getFullYear()
+    const year = (new Date()).getFullYear()
     const month = (new Date()).getMonth() + 1
 
     var from = year + '-' + (month > 9 ? month : '0' + month) + '-01'
@@ -324,7 +324,7 @@ class App extends Component {
           return
         }
       })
-    })*/
+    })
     
     /* Participation
       [                              // array of participation information
