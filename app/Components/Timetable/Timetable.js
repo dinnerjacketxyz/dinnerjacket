@@ -449,9 +449,12 @@ class Timetable extends Component {
   }
   mcNum = counter
   let div = document.getElementById('rmTableDiv')
+  let p = document.getElementById('noText')
   if (body=='') {
     div.hidden = true
+    p.hidden = false
   } else {
+    p.hidden = true
     div.hidden = false
     let addTo = document.getElementById('removeBody')
     addTo.innerHTML = body
@@ -578,7 +581,7 @@ class Timetable extends Component {
             </div>
             <div className="uk-align-left uk-inline">
                 <a onClick={this.initForm.bind(this)} uk-icon="plus-circle" uk-tooltip="title: Add morning classes; pos: bottom-left;"></a>
-                <div uk-dropdown="mode: click;pos: top-right">
+                <div uk-dropdown="mode: click;pos: top-left">
                   <p className='uk-align-left uk-margin-bottom-small'>Subject</p>
                   <select id='acSubject' className='uk-select'>
                   </select>
@@ -619,7 +622,8 @@ class Timetable extends Component {
             </div>
             <div className="uk-align-right uk-inline">
                 <a uk-icon="minus-circle" onClick={this.initRemove.bind(this)} uk-tooltip="title: Remove morning classes; pos: bottom-right;"></a>
-                <div id='rmDropDiv' uk-dropdown="mode: click;pos: top-left">
+                <div id='rmDropDiv' uk-dropdown="mode: click;pos: top-right">
+                  <p id='noText' hidden='true'>No morning classes</p>
                   <div id='rmTableDiv' >
                     <table className="uk-table uk-table-hover uk-table-middle uk-table-divider">
                         <thead>
