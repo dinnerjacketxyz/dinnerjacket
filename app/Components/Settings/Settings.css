@@ -3,6 +3,12 @@
   justify-content: center;
 }
 
+#timetableSelect:disabled {
+  background-color: #f8f8f8!important;
+  border-color: #e5e5e5!important;
+  color: #999!important;
+}
+
 .uk-button-group {
   margin-top: 20px;
 }

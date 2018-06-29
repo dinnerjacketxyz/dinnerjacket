@@ -50,8 +50,10 @@ class Settings extends Component {
         && localStorage.getItem('theme') !== null 
         && localStorage.getItem('theme') !== 'true'
         && localStorage.getItem('theme') !== 'false') {
+      console.log('theme previously set')
       theme.value = localStorage.getItem('theme')
     } else { //first time load
+      console.log('theme not previously set')
       localStorage.setItem('theme', 'Clean')
       theme.value = 'Clean'
     }
@@ -103,15 +105,22 @@ class Settings extends Component {
     this.changeBody(theme.value)
   }
 
-  changeBody(text) { 
-    if (text == 'Clean') {
-      bodyArray[1] = 'Clean' //Clean
-    } else if (text == 'Material') {
-      bodyArray[1] = 'Material' //Material
+  changeBody(text) {
+    theme = document.getElementById('themeSelect')
+    if (text == 'Clean' || text == 'Material') {
+      bodyArray[1] = text
+      color = document.getElementById('colorSelect')
+      if (color.value == 'Dark') {
+        bodyArray[0] = 'uk-light' //dark
+      } else if (color.va == 'Light') {
+        bodyArray[0] = 'uk-dark' //light
+      }
     } else if (text == 'Dark') {
       bodyArray[0] = 'uk-light' //dark
+      bodyArray[1] = theme.value
     } else if (text == 'Light') {
       bodyArray[0] = 'uk-dark' //light
+      bodyArray[1] = theme.value
     }
     document.body.className = bodyArray.join(' ')
     localStorage.setItem('bodyArray',bodyArray)
