@@ -40,13 +40,19 @@
   padding: 20px;
 }
 
-.weekdays {
+.uk-dark .weekdays {
   margin: 0;
   padding: 10px;
   background-color: #f8f8f8;
 }
 
-.weekdays li {
+.uk-light .weekdays {
+  margin: 0;
+  padding: 10px;
+  background-color: rgba(0,0,0,.1);
+}
+
+.uk-dark .weekdays li {
   display: inline-block;
   width: 14.2%;
   color: #666;
@@ -54,9 +60,24 @@
   margin: 10px 0 10px 0;
 }
 
-.days {
+.uk-light .weekdays li {
+  display: inline-block;
+  width: 14.2%;
+  color: white;
+  text-align: center;
+  margin: 10px 0 10px 0;
+}
+
+.uk-dark .days {
   padding: 10px;
   background: #fff;
+  margin: 0;
+  border-radius: 0 0 0 5px;
+}
+
+.uk-light .days {
+  padding: 10px;
+  background: #36393e;
   margin: 0;
   border-radius: 0 0 0 5px;
 }
@@ -65,7 +86,7 @@
   list-style-type: none;
 }
 
-.days li {
+.uk-dark .days li {
   list-style-type: none;
   display: inline-block;
   width: 14.2%;
@@ -75,8 +96,18 @@
   color: #777;
 }
 
+.uk-light .days li {
+  list-style-type: none;
+  display: inline-block;
+  width: 14.2%;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: #e8e8e8;
+}
+
 .days li:hover, .prev:hover, .next:hover {
-  background-color: #e0e0e0;
+  background-color: rgba(255,255,255,0.2);;
   transition: background-color 100ms linear;
 }
 
@@ -114,6 +145,7 @@
 .cal {
   height: 522px!important;
   border-radius: 5px 0 0 5px;
+  padding: 0!important;
 }
 
 .events td {

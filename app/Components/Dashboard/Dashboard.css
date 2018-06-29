@@ -3,7 +3,7 @@
 }
 
 .uk-table-hover tbody tr:hover,.uk-table-hover>tr:hover, .eventsList>li:hover{
-  background: #effdff;
+  background: rgba(255,255,255,.08);
   color: #2dc0d5!important;
   border-radius: 5px;
 }

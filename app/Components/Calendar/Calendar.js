@@ -250,7 +250,7 @@ class Calendar extends Component {
     return (
       <div className='flex-container uk-width-1-1 vcNavbarCard'>
         <div className="uk-grid-collapse uk-grid two uk-grid-match" uk-grid='true'>
-          <div  className='cal uk-card uk-card-default uk-animation-slide-top-small uk-width-expand'>
+          <div  className='cal card uk-animation-slide-top-small uk-width-expand'>
             <div>
               <div className="month">      
                 <ul>
@@ -278,7 +278,7 @@ class Calendar extends Component {
               </div>
             </div>
           </div>
-          <div className='eventsBorder uk-card uk-card-default uk-card-body uk-animation-slide-top-small uk-width-2-5@s'>
+          <div className='eventsBorder card uk-animation-slide-top-small uk-width-2-5@s'>
             <div className='events'>
               <p className='uk-text-center uk-text-large'>Calendar Events</p>
               <ul className="eventsList uk-list uk-list-striped">

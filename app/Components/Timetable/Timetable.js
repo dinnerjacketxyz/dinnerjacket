@@ -346,7 +346,7 @@ class Timetable extends Component {
       let highlight = document.getElementById(mcFadeArr[u])
       highlight.className = ''
      }
-   }, 2000)
+   }, 1000)
  }
 
  initForm() {
