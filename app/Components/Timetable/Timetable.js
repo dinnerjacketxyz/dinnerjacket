@@ -374,24 +374,26 @@ class Timetable extends Component {
   let day = document.getElementById('acDay')
   let week = document.getElementById('acWeek')
   let repeat = document.getElementById('acRepeat')
-  
-  if (repeat.checked == false){
-    let dayNum = tabArray.indexOf(`${day.value}`)
-    if (week.value == 'B') {
-      dayNum += 5
-    } else if (week.value === 'C') {
-      dayNum += 10
+  let button = document.getElementById('acAdd')
+  if (button.getAttribute('disabled')!=true){
+    if (repeat.checked == false){
+      let dayNum = tabArray.indexOf(`${day.value}`)
+      if (week.value == 'B') {
+        dayNum += 5
+      } else if (week.value === 'C') {
+        dayNum += 10
+      }
+      mcArr[dayNum] = subject.value+'!'+room.value+'!'+week.value+'!'+day.value
+    } else {
+      let temp = tabArray.indexOf(`${day.value}`)
+      mcArr[temp] = subject.value+'!'+room.value+'!'+'A'+'!'+day.value
+      mcArr[temp+5] = subject.value+'!'+room.value+'!'+'B'+'!'+day.value
+      mcArr[temp+10] = subject.value+'!'+room.value+'!'+'C'+'!'+day.value
     }
-    mcArr[dayNum] = subject.value+'!'+room.value+'!'+week.value+'!'+day.value
-  } else {
-    let temp = tabArray.indexOf(`${day.value}`)
-    mcArr[temp] = subject.value+'!'+room.value+'!'+'A'+'!'+day.value
-    mcArr[temp+5] = subject.value+'!'+room.value+'!'+'B'+'!'+day.value
-    mcArr[temp+10] = subject.value+'!'+room.value+'!'+'C'+'!'+day.value
+    
+    localStorage.setItem('morningClasses', mcArr)
+    this.displayMorningClass()
   }
-  
-  localStorage.setItem('morningClasses', mcArr)
-  this.displayMorningClass()
  }
 
  displayMorningClass() {
@@ -561,8 +563,9 @@ class Timetable extends Component {
                   </select>
 
                   <label><input id='acRepeat' className="uk-checkbox" type="checkbox" onChange={this.repeatCheckbox.bind(this)}/> Every week</label>
-
-                  <button id='acAdd' onClick={this.processForm.bind(this)} className="uk-button uk-button-default uk-margin-top" disabled='true'>Add</button>
+                  <div onClick={this.processForm.bind(this)}>
+                    <button id='acAdd' className="uk-button uk-button-default uk-margin-top" disabled='true'>Add</button>
+                  </div>
                 </div>
             </div>
           </div>
