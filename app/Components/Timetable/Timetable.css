@@ -8,6 +8,10 @@
   color: #999!important;
 }
 
+#rmDropDiv {
+  min-width: 275px;
+}
+
 #fullTimetable [class*=uk-align] {
   display: block;
   margin-bottom: 5px;

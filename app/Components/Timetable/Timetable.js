@@ -670,8 +670,8 @@ class Timetable extends Component {
                 <a uk-icon="minus-circle" onClick={this.initRemove.bind(this)} uk-tooltip="title: Remove morning classes; pos: bottom-right;"></a>
                 <div id='rmDropDiv' uk-dropdown="mode: click;pos: top-right">
                   <p id='noText' hidden='true'>No morning classes</p>
-                  <a id='btnSelectall' onClick={this.selectAll.bind(this)} className="uk-button uk-button-default uk-margin-bottom">Select all</a>
                   <div id='rmTableDiv' >
+                    <a id='btnSelectall' onClick={this.selectAll.bind(this)} className="uk-button uk-button-default uk-margin-bottom">Select all</a>
                     <table className="uk-table uk-table-hover uk-table-middle uk-table-divider">
                         <thead>
                             <tr>
