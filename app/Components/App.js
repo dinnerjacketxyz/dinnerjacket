@@ -76,6 +76,47 @@ class App extends Component {
     this.state = {
       visible: window.STATES.LOADING
     }
+
+    document.addEventListener('touchstart', handleTouchStart, false)     
+    document.addEventListener('touchmove', handleTouchMove, false)
+    
+    let xDown, yDown
+
+    function handleTouchStart(evt) {                                         
+      xDown = evt.touches[0].clientX
+      yDown = evt.touches[0].clientY
+    }                  
+  
+    function handleTouchMove(evt) {
+      if (!xDown || !yDown) return
+  
+      let xUp = evt.touches[0].clientX
+      let yUp = evt.touches[0].clientY
+  
+      let xDiff = xDown - xUp
+      let yDiff = yDown - yUp
+  
+      if (Math.abs(xDiff) > Math.abs(yDiff)) {
+        if (xDiff > 0) {
+          /* left swipe */ 
+          console.log('left swipe')
+        } else {
+          /* right swipe */
+          console.log('right swipe')
+        }                       
+      } else {
+        if ( yDiff > 0 ) {
+          /* up swipe */ 
+          console.log('up swipe')
+        } else { 
+          /* down swipe */
+          console.log('down swipe')
+        }                                                                 
+      }
+
+      // reset values
+      xDown, yDown = null                                             
+    }
   }
 
   showLogin() {
@@ -437,11 +478,11 @@ class App extends Component {
 
   showCalendar() {
     ////('Calendar tab clicked')
-  //  if (window.diaryCal !== '') {
+    if (window.diaryCal !== '') {
       let visible = this.state.visible
       this.setState({ visible: window.STATES.CALENDAR })
       this.selectedNavbar(window.STATES.CALENDAR)
-   // }
+    }
   }
 
   showAbout() {
