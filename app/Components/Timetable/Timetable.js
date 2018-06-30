@@ -486,6 +486,24 @@ class Timetable extends Component {
   this.initRemove()
  }
 
+ selectAll() {
+  let button = document.getElementById('btnSelectall')
+  if (button.innerText=='SELECT ALL') {
+    button.innerText = 'Deselect all'
+    this.changeCheckbox(true)
+  } else {
+    button.innerText = 'Select all'
+    this.changeCheckbox(false)
+  }
+ }
+
+ changeCheckbox(bool) {
+  for (let i=0;i<mcNum;i++){
+    let temp = document.getElementById('remove'+i)
+    temp.checked = bool
+  }
+ }
+
   // <button onClick={this.initialise.bind(this)}>Test</button>
 
   render() {
@@ -624,6 +642,7 @@ class Timetable extends Component {
                 <a uk-icon="minus-circle" onClick={this.initRemove.bind(this)} uk-tooltip="title: Remove morning classes; pos: bottom-right;"></a>
                 <div id='rmDropDiv' uk-dropdown="mode: click;pos: top-right">
                   <p id='noText' hidden='true'>No morning classes</p>
+                  <a id='btnSelectall' onClick={this.selectAll.bind(this)} className="uk-button uk-button-default uk-margin-bottom">Select all</a>
                   <div id='rmTableDiv' >
                     <table className="uk-table uk-table-hover uk-table-middle uk-table-divider">
                         <thead>

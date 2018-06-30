@@ -50,7 +50,7 @@
   font-weight: 300;
 }
 
-@media (max-height:830px){
+@media (max-height:1000px){
   .Default .timetable td{
     padding: 2px 1px;
   }
@@ -72,7 +72,7 @@
   }
 }
 
-@media (max-height:675px){
+@media (max-height:810px){
   #ttableName{
     visibility: hidden;
     height: 0px;
@@ -82,7 +82,7 @@
   }
 }
 
-@media (max-width:530px), (max-height:620px){
+@media (max-width:530px), (max-height:750px){
   .Default #fullTimetable {
     visibility: hidden;
     display: none;
@@ -109,7 +109,7 @@
   }
 }
 
-@media (min-width:530px) and (min-height:620px){
+@media (min-width:530px) and (min-height:750px){
   .Small>#fullTimetable {
     visibility: hidden;
     display: none;
