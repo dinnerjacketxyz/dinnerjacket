@@ -2,7 +2,7 @@
   color: #2dc0d5!important;
 }
 
-#acAdd:disabled {
+#acAdd:disabled, #acWeek:disabled {
   background-color: #f8f8f8!important;
   border-color: #e5e5e5!important;
   color: #999!important;

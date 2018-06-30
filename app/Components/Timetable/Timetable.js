@@ -459,6 +459,7 @@ class Timetable extends Component {
     let addTo = document.getElementById('removeBody')
     addTo.innerHTML = body
   }
+  this.initSelectAll()
  }
 
  processRem() {
@@ -486,14 +487,41 @@ class Timetable extends Component {
   this.initRemove()
  }
 
+ initSelectAll() {
+  let button = document.getElementById('btnSelectall')
+  button.innerText = this.ifChecked()
+ }
+
+
  selectAll() {
   let button = document.getElementById('btnSelectall')
-  if (button.innerText=='SELECT ALL') {
+  console.log(this.ifChecked())
+  if (this.ifChecked()=='SELECT ALL') {
     button.innerText = 'Deselect all'
     this.changeCheckbox(true)
   } else {
     button.innerText = 'Select all'
     this.changeCheckbox(false)
+  }
+ }
+
+ ifChecked() {
+  let falseCount = 0
+  let trueCount = 0
+  for (let i=0;i<mcNum;i++){
+    let temp = document.getElementById('remove'+i)
+    if (temp.checked==false){
+      falseCount++
+    } else {
+      trueCount++
+    }
+  }
+  if (trueCount == mcNum) {
+    return 'DESELECT ALL'
+  } else if (falseCount == mcNum) {
+    return 'SELECT ALL'
+  } else {
+    return 'SELECT ALL'
   }
  }
 
