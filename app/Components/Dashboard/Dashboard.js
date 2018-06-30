@@ -20,6 +20,7 @@ class Dashboard extends Component {
   // setup
   componentDidMount() {
   
+    console.log('component mounted')
     // set up timer
     let ID = setInterval(this.timerTick.bind(this), 1000)
 

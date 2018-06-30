@@ -28,6 +28,8 @@ class Calendar extends Component {
     this.setDaysForMonth = this.setDaysForMonth.bind(this)
 
     this.state = {
+      prevMonthData: '',
+      nextMonthData: '',
       calData: window.diaryCal,
       eventsToShow: [],
       selectedDay: window.d,
@@ -44,11 +46,64 @@ class Calendar extends Component {
   
   // setup
   componentDidMount() {
+    console.log('component mount')
     let content = document.getElementById('content')
     content.className = 'full vcNavbarParentCal'
-    this.setDaysForMonth(this.state.selectedMonth, this.state.selectedYear)
     this.setEvents(this.state.calData[this.state.selectedDay-1])
     this.highlightSelectedDay(this.state.selectedDay)
+    
+    // preload data for prev and next months
+    
+    const curMonth = window.m
+    const year = window.y
+    const token = localStorage.getItem('accessToken')
+    var from
+    var to
+    
+    
+    console.log('preloading next month')
+    
+    const monthN = (curMonth + 1) + 1
+  
+    // create parameters:   from=YYYY-MM-DD   to=YYYY-MM-DD
+    from = year + '-' + (monthN > 9 ? monthN : '0' + monthN) + '-01'
+    to = year + '-' + (monthN > 9 ? monthN : '0' + monthN) + '-' + (new Date(year, monthN, 0).getDate())
+  
+    // make http request
+    http.get('/getdata?token=' + token + '&url=diarycalendar/events.json?from=' + from + '&to=' + to, (res) => {
+      res.setEncoding('utf8')
+      let d = ''
+      res.on('data', (body) => {
+        d += body
+      })
+      res.on('end', () => {
+        this.setState( ()=> ({
+          nextMonthData: JSON.parse(d)
+        }))
+      })
+    })
+
+    console.log('preloading prev month')
+    
+    const monthP = (curMonth + 1) - 1
+    
+    // create parameters:   from=YYYY-MM-DD   to=YYYY-MM-DD
+    from = year + '-' + (monthP > 9 ? monthP : '0' + monthP) + '-01'
+    to = year + '-' + (monthP > 9 ? monthP : '0' + monthP) + '-' + (new Date(year, monthP, 0).getDate())
+    
+    // make http request
+    http.get('/getdata?token=' + token + '&url=diarycalendar/events.json?from=' + from + '&to=' + to, (res) => {
+      res.setEncoding('utf8')
+      let d = ''
+      res.on('data', (body) => {
+        d += body
+      })
+      res.on('end', () => {
+        this.setState( ()=> ({
+          prevMonthData: JSON.parse(d)
+        }))
+      })
+    })
   }
  
   componentWillUnmount() {
@@ -59,7 +114,7 @@ class Calendar extends Component {
     window.m = this.state.selectedMonth
     window.y = this.state.selectedYear
   }
-
+  
   //this sub must process your click input - careful sometimes you can click on the ul element - the onclick returns the innerHTML of child nodes, but it can return any DOM property
   monthInput(e) {
     input = e.target.innerHTML
@@ -107,7 +162,7 @@ class Calendar extends Component {
   
   // diff is either 1 or -1
   changeMonth(diff) {
-  
+    console.log('changeMonth()')
     var curMonth = this.state.selectedMonth
     var curYear = this.state.selectedYear
     
@@ -126,43 +181,196 @@ class Calendar extends Component {
     let prev = document.getElementById(this.state.days[this.state.selectedDayIndex])
     prev.className = ''
     
-    this.setState( ()=> ({
-      selectedMonth: curMonth,
-      selectedYear: curYear,
-      selectedDayIndex: -1,
-      days: this.setDaysForMonth(curMonth, curYear)
-    }))
+    console.log('Switching to ' + (curMonth+1))
     
-    
-    // Get calendar data for the next month
-    let promise1 = new Promise( function (resolve, reject) {
+    // Next month
+    if ((diff == 1) && this.state.nextMonthData != '') {
+      console.log('preloading data from nextMonth')
+      console.log(this.state.nextMonthData)
+      this.setState( ()=> ({
+        prevMonthData: this.state.calData,
+        calData: this.state.nextMonthData,
+        nextMonthData: '',
+        selectedMonth: curMonth,
+        selectedYear: curYear,
+        selectedDayIndex: -1,
+        days: this.setDaysForMonth(curMonth, curYear)
+      }), ()=> {
+        window.m = curMonth
+        window.y = curYear
+        
+        let dayToSelect = 1
+        if (window.m == new Date().getMonth() && window.y == new Date().getFullYear()) {
+          dayToSelect = new Date().getDate()
+        }
+        this.setEvents(this.state.calData[dayToSelect-1])
+        this.highlightSelectedDay(dayToSelect)
+        
+        window.diaryCal = this.state.calData
+      })
       
-      const year = curYear
-      const month = curMonth + 1
+    // Prev month
+    } else if ((diff == -1) && this.state.prevMonthData != '') {
+      console.log('preloading data from prevMonth')
+      console.log(this.state.prevMonthData)
       
-      // create parameters:   from=YYYY-MM-DD   to=YYYY-MM-DD
-      var from = year + '-' + (month > 9 ? month : '0' + month) + '-01'
-      var to = year + '-' + (month > 9 ? month : '0' + month) + '-' + (new Date(year, month, 0).getDate())
+      this.setState( ()=> ({
+        nextMonthData: this.state.calData,
+        calData: this.state.prevMonthData,
+        prevMonthData: '',
+        selectedMonth: curMonth,
+        selectedYear: curYear,
+        selectedDayIndex: -1,
+        days: this.setDaysForMonth(curMonth, curYear)
+      }), ()=> {
+        window.m = curMonth
+        window.y = curYear
+        
+        let dayToSelect = 1
+        if (window.m == new Date().getMonth() && window.y == new Date().getFullYear()) {
+          dayToSelect = new Date().getDate()
+        }
+        this.setEvents(this.state.calData[dayToSelect-1])
+        this.highlightSelectedDay(dayToSelect)
+        window.diaryCal = this.state.calData
+      })
       
-      // make http request
-      const token = localStorage.getItem('accessToken')
-      http.get('/getdata?token=' + token + '&url=diarycalendar/events.json?from=' + from + '&to=' + to, (res) => {
-        res.setEncoding('utf8')
-        let d = ''
-        res.on('data', (body) => {
-          d += body
-        })
-        res.on('end', () => {
-          resolve(JSON.parse(d))
+    // if preloaded data isn't available for some reason
+    } else {
+      /*
+      // Get calendar data for the next month to be displayed
+      let promise1 = new Promise( function (resolve, reject) {
+        
+        const year = curYear
+        const month = curMonth + 1
+        
+        // create parameters:   from=YYYY-MM-DD   to=YYYY-MM-DD
+        var from = year + '-' + (month > 9 ? month : '0' + month) + '-01'
+        var to = year + '-' + (month > 9 ? month : '0' + month) + '-' + (new Date(year, month, 0).getDate())
+        
+        // make http request
+        const token = localStorage.getItem('accessToken')
+        http.get('/getdata?token=' + token + '&url=diarycalendar/events.json?from=' + from + '&to=' + to, (res) => {
+          res.setEncoding('utf8')
+          let d = ''
+          res.on('data', (body) => {
+            d += body
+          })
+          res.on('end', () => {
+            resolve(JSON.parse(d))
+          })
         })
       })
+      
+      // process data from http requests
+      promise1.then( (result) => {
+      
+        // cache used calendar data
+        if (diff == 1) {
+          console.log('caching used data into prevMonth')
+          this.setState( ()=> ({
+            prevMonthData: this.state.calData
+          }))
+        } else if (diff == -1){
+          console.log('caching used data into nextMonth')
+          this.setState( ()=> ({
+            nextMonthData: this.state.calData
+          }))
+        }
+        
+        this.setState( ()=> ({
+          calData: result,
+          selectedMonth: curMonth,
+          selectedYear: curYear,
+          selectedDayIndex: -1,
+          days: this.setDaysForMonth(curMonth, curYear)
+        }))
+        
+        window.m = curMonth
+        window.y = curYear
+        
+        let dayToSelect = 1
+        if (window.m == new Date().getMonth() && window.y == new Date().getFullYear()) {
+          dayToSelect = new Date().getDate()
+        }
+
+        this.setEvents(this.state.calData[dayToSelect-1])
+        this.highlightSelectedDay(dayToSelect)
+      })
+      */
+    }
+    
+    
+    // diff == 1, preload next month and store the month that was switched away from
+    
+    // preload data for prev and next months
+    // Get calendar data for the next month to be displayed
+    
+    let promise1 = new Promise( function (resolve, reject) {
+      const year = curYear
+      const token = localStorage.getItem('accessToken')
+      var from
+      var to
+      
+      if (diff == 1) {
+        console.log('preloading next month')
+        
+        const monthN = (curMonth + 1) + 1
+      
+        // create parameters:   from=YYYY-MM-DD   to=YYYY-MM-DD
+        from = year + '-' + (monthN > 9 ? monthN : '0' + monthN) + '-01'
+        to = year + '-' + (monthN > 9 ? monthN : '0' + monthN) + '-' + (new Date(year, monthN, 0).getDate())
+      
+        // make http request
+        
+        http.get('/getdata?token=' + token + '&url=diarycalendar/events.json?from=' + from + '&to=' + to, (res) => {
+          res.setEncoding('utf8')
+          let d = ''
+          res.on('data', (body) => {
+            d += body
+          })
+          res.on('end', () => {
+            resolve([1, JSON.parse(d)])
+          })
+        })
+
+      } else if (diff == -1) {
+      
+        console.log('preloading prev month')
+        
+        const monthP = (curMonth + 1) - 1
+        
+        // create parameters:   from=YYYY-MM-DD   to=YYYY-MM-DD
+        from = year + '-' + (monthP > 9 ? monthP : '0' + monthP) + '-01'
+        to = year + '-' + (monthP > 9 ? monthP : '0' + monthP) + '-' + (new Date(year, monthP, 0).getDate())
+        
+        // make http request
+        http.get('/getdata?token=' + token + '&url=diarycalendar/events.json?from=' + from + '&to=' + to, (res) => {
+          res.setEncoding('utf8')
+          let d = ''
+          res.on('data', (body) => {
+            d += body
+          })
+          res.on('end', () => {
+          
+            
+            resolve([-1, JSON.parse(d)])
+          })
+        })
+      }
     })
     
-    // process data from http requests
     promise1.then( (result) => {
-      this.setState( ()=> ({
-        calData: result
-      }))
+      if (result[0] == 1) {
+        this.setState( ()=> ({
+          nextMonthData: result[1]
+        }))
+      } else {
+        this.setState( ()=> ({
+          prevMonthData: result[1]
+        }))
+      }
+      
       window.m = curMonth
       window.y = curYear
       
@@ -170,11 +378,7 @@ class Calendar extends Component {
       if (window.m == new Date().getMonth() && window.y == new Date().getFullYear()) {
         dayToSelect = new Date().getDate()
       }
-
-      this.setEvents(this.state.calData[dayToSelect-1])
-      this.highlightSelectedDay(dayToSelect)
     })
-    
   }
   
   // converts a number to a month e.g. 0 -> 'January', 1 -> 'February'
@@ -219,6 +423,8 @@ class Calendar extends Component {
   
   // get the number of days for the month for UI
   setDaysForMonth(month, year) {
+  
+    console.log('getting days for: ' + (month +1))
     
     var days = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]
 
@@ -242,11 +448,11 @@ class Calendar extends Component {
     for (var i=0; i < firstOfMonth.getDay(); i++) {
       days.unshift(' ')
     }
-    
     return days
   }
   
   render() {
+    console.log('render')
     return (
       <div className='flex-container uk-width-1-1 vcNavbarCard'>
         <div className="uk-grid-collapse uk-grid two uk-grid-match" uk-grid='true'>
