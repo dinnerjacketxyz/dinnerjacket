@@ -1,3 +1,8 @@
+// TIMETABLE NOT INCLUDING THE NOT FINISHED MRONING CLASSES
+// FIX BEFORE P5 MONDAY:
+// - small timetable is blank (error multiple objects with same key)
+// - full timetable is bigger than default (if this is intended the option should be changed to Compact)
+
 import React, { Component } from 'react'
 const http = require('http')
 const css= require('./Timetable.css')
