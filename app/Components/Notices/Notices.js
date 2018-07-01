@@ -18,7 +18,7 @@ class Notices extends Component {
       notices: [],
       year: window.year,
       text: 'EXPAND',
-      keyword: ''
+      keywords: []
     }
     this.init()
   }
@@ -44,7 +44,7 @@ class Notices extends Component {
 
     for (let i = 0; i < dailyNotices.notices.length; i++) {
       if (this.state.year == 'ALL' || this.yearInNotice(this.state.year, dailyNotices.notices[i])) {
-        if (this.state.keyword === '' || this.keywordInNotice(this.state.keyword, dailyNotices.notices[i])) {
+        if (this.state.keywords.length === 0 || this.keywordsInNotice(this.state.keywords, dailyNotices.notices[i])) {
           let content = this.strip(dailyNotices.notices[i].content)
           count++
 
@@ -109,10 +109,18 @@ class Notices extends Component {
     }
   }
 
-  keywordInNotice(keyword, notice) {
-    return (notice.title.toLowerCase().includes(keyword) ||
-      notice.content.toLowerCase().includes(keyword) ||
-      notice.authorName.toLowerCase().includes(keyword))
+  keywordsInNotice(keywords, notice) {
+    let match = true
+    for (let i = 0; i < keywords.length; i++) {
+      if (!(notice.title.toLowerCase().includes(keywords[i]) ||
+        notice.content.toLowerCase().includes(keywords[i]) ||
+        notice.authorName.toLowerCase().includes(keywords[i]))) {
+
+        match = false
+        return match
+      }
+    }
+    return match
   }
 
   yearInNotice(year, notice) {
@@ -148,9 +156,9 @@ class Notices extends Component {
   }
 
   search() {
-    let keyword = this.state.keyword
-    this.setState({ keyword: search.value.toLowerCase() })
-    this.state.keyword = search.value.toLowerCase()
+    let keywords = this.state.keywords
+    this.setState({ keywords: search.value.toLowerCase().split(/[\s,;]+/) })
+    this.state.keywords = search.value.toLowerCase().split(/[\s,;]+/)
     this.init()
   }
 
@@ -205,7 +213,7 @@ const CollapsedNotices = (props) => {
   return (
     <li className=''>
       <span className='uk-label'>{props.notices.years}</span>
-      <a className='uk-accordion-title'>{props.notices.title}</a>
+      <a className='uk-accordion-title'>{props.notices.title + ' ' + props.notices.date}</a>
       <b>{props.notices.date}</b>
       <div className='uk-accordion-content'>
         {props.notices.content}

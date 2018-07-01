@@ -46,7 +46,7 @@ class Calendar extends Component {
   
   // setup
   componentDidMount() {
-    console.log('component mount')
+    //console.log('component mount')
     let content = document.getElementById('content')
     content.className = 'full vcNavbarParentCal'
     this.setEvents(this.state.calData[this.state.selectedDay-1])
@@ -61,7 +61,7 @@ class Calendar extends Component {
     var to
     
     
-    console.log('preloading next month')
+    //console.log('preloading next month')
     
     const monthN = (curMonth + 1) + 1
   
@@ -83,7 +83,7 @@ class Calendar extends Component {
       })
     })
 
-    console.log('preloading prev month')
+    //console.log('preloading prev month')
     
     const monthP = (curMonth + 1) - 1
     
@@ -162,7 +162,7 @@ class Calendar extends Component {
   
   // diff is either 1 or -1
   changeMonth(diff) {
-    console.log('changeMonth()')
+    //console.log('changeMonth()')
     var curMonth = this.state.selectedMonth
     var curYear = this.state.selectedYear
     
@@ -181,12 +181,12 @@ class Calendar extends Component {
     let prev = document.getElementById(this.state.days[this.state.selectedDayIndex])
     prev.className = ''
     
-    console.log('Switching to ' + (curMonth+1))
+    //console.log('Switching to ' + (curMonth+1))
     
     // Next month
     if ((diff == 1) && this.state.nextMonthData != '') {
-      console.log('preloading data from nextMonth')
-      console.log(this.state.nextMonthData)
+      //console.log('preloading data from nextMonth')
+      //console.log(this.state.nextMonthData)
       this.setState( ()=> ({
         prevMonthData: this.state.calData,
         calData: this.state.nextMonthData,
@@ -211,8 +211,8 @@ class Calendar extends Component {
       
     // Prev month
     } else if ((diff == -1) && this.state.prevMonthData != '') {
-      console.log('preloading data from prevMonth')
-      console.log(this.state.prevMonthData)
+      //console.log('preloading data from prevMonth')
+      //console.log(this.state.prevMonthData)
       
       this.setState( ()=> ({
         nextMonthData: this.state.calData,
@@ -267,12 +267,12 @@ class Calendar extends Component {
       
         // cache used calendar data
         if (diff == 1) {
-          console.log('caching used data into prevMonth')
+          //console.log('caching used data into prevMonth')
           this.setState( ()=> ({
             prevMonthData: this.state.calData
           }))
         } else if (diff == -1){
-          console.log('caching used data into nextMonth')
+          //console.log('caching used data into nextMonth')
           this.setState( ()=> ({
             nextMonthData: this.state.calData
           }))
@@ -313,7 +313,7 @@ class Calendar extends Component {
       var to
       
       if (diff == 1) {
-        console.log('preloading next month')
+        //console.log('preloading next month')
         
         const monthN = (curMonth + 1) + 1
       
@@ -336,7 +336,7 @@ class Calendar extends Component {
 
       } else if (diff == -1) {
       
-        console.log('preloading prev month')
+        //console.log('preloading prev month')
         
         const monthP = (curMonth + 1) - 1
         
@@ -424,7 +424,7 @@ class Calendar extends Component {
   // get the number of days for the month for UI
   setDaysForMonth(month, year) {
   
-    console.log('getting days for: ' + (month +1))
+    //console.log('getting days for: ' + (month +1))
     
     var days = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]
 
@@ -452,7 +452,7 @@ class Calendar extends Component {
   }
   
   render() {
-    console.log('render')
+    //console.log('render')
     return (
       <div className='flex-container uk-width-1-1 vcNavbarCard'>
         <div className="uk-grid-collapse uk-grid two uk-grid-match" uk-grid='true'>
@@ -486,31 +486,10 @@ class Calendar extends Component {
           </div>
           <div className='eventsBorder card uk-animation-slide-top-small uk-width-2-5@s'>
             <div className='events'>
-              <p className='uk-text-center uk-text-large'>Calendar Events</p>
+              <p className='uk-text-center uk-text-large'>Events</p>
               <ul className="eventsList uk-list uk-list-striped">
                   { (this.state.eventsToShow).map((item, i) => <ListItem key={i} value={item} />) }
               </ul>
-              {/*}<table className="uk-table uk-table-divider">
-                  <thead>
-                      <tr>
-                          <th className="uk-table-shrink">Time</th>
-                          <th className="uk-table-auto">Subject</th>
-                          <th className="uk-table-auto">Title</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      <tr>
-                          <td>Table Data</td>
-                          <td>Table Data</td>
-                          <td>Table Data</td>
-                      </tr>
-                      <tr>
-                          <td>Table Data</td>
-                          <td>Table Data</td>
-                          <td>Table Data</td>
-                      </tr>
-                  </tbody>
-              </table>*/}
             </div>
           </div>
         </div>

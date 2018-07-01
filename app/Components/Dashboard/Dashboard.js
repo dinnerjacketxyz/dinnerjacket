@@ -20,7 +20,7 @@ class Dashboard extends Component {
   // setup
   componentDidMount() {
   
-    console.log('component mounted')
+    //console.log('component mounted')
     // set up timer
     let ID = setInterval(this.timerTick.bind(this), 1000)
 
@@ -28,7 +28,7 @@ class Dashboard extends Component {
     this.setState({timerID: ID})
     
     // check if cached timetable out of date
-    console.log('checking timetable cache validity')
+    //console.log('checking timetable cache validity')
     let date = new Date()
     /*
     let y = date.getFullYear()
@@ -47,9 +47,9 @@ class Dashboard extends Component {
       localStorage.removeItem('timetableBells')
       localStorage.removeItem('timetablePeriods')
       localStorage.removeItem('timetablePeriodsDate')
-      console.log('timetable cache invalid')
+      //console.log('timetable cache invalid')
     } else {
-      console.log('timetable cache valid')
+      //console.log('timetable cache valid')
     }
     
     // if cache empty then fill it
@@ -110,7 +110,7 @@ class Dashboard extends Component {
   }
   
   getAPIData() {
-    console.log('getAPIData()')
+    //console.log('getAPIData()')
     // Daily timetable
     http.get('/getdata?token=' + localStorage.getItem('accessToken') + '&url=timetable/daytimetable.json', (res) => {
       res.setEncoding('utf8')
@@ -273,7 +273,7 @@ class Dashboard extends Component {
       case 'R1T2A3BC4T5': periods.splice(2, 0, recess); periods.splice(4, 0, lunch); break
       default: break
     }
-    console.log('Get daily timetable')
+    //console.log('Get daily timetable')
     return periods
   }
 
@@ -488,7 +488,7 @@ class Dashboard extends Component {
   // process the HTML to render timetable to screen
   // also process the timer display
   updateTimetableDisplay(timetable) {
-    console.log('updateTimetableDisplay()')
+    //console.log('updateTimetableDisplay()')
     let schedule
     let periods
     let date = new Date()
@@ -497,7 +497,7 @@ class Dashboard extends Component {
     
     // nested if's are used for readability
     if (timetable != '') {
-      console.log('loading fresh periods')
+      //console.log('loading fresh periods')
       let timetableDate = new Date(timetable['date'])
 
       let timetableIsTodayBefore315 = ((date.getDay() === timetableDate.getDay()) && (date.getHours() < 15 || (date.getHours() === 15 && date.getMinutes() < 15)))
@@ -547,9 +547,9 @@ class Dashboard extends Component {
     }
     
     if (schedule === undefined) {
-      console.log('schedule undefined')
+      //console.log('schedule undefined')
     } else {
-      console.log('schedule made')
+      //console.log('schedule made')
     }
     this.setState( ()=> ({
       htmlClasses: this.processHTML(periods),
@@ -564,7 +564,7 @@ class Dashboard extends Component {
 
   // returns next class (or next bell)
   getNextClass() {
-    console.log('getNextClass()')
+    //console.log('getNextClass()')
     // get date
     let date = new Date()
     let schedule = this.state.schedule
@@ -576,14 +576,14 @@ class Dashboard extends Component {
     }
     
     // if loop finishes, it is past 3:15, get new timetable data
-    console.log('getNextClass(): loop ended - 3:15')
+    //console.log('getNextClass(): loop ended - 3:15')
     this.getAPIData()
     
   }
 
   // gets schedule of periods for timer, including class names (assumes timetable is valid)
   getSchedule(periods, dateOfPeriods, bells) {
-    console.log('getSchedule()')
+    //console.log('getSchedule()')
     let returnVar = []
     let periodsCopy = periods.slice(0)
 

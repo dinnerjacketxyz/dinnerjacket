@@ -105,7 +105,7 @@ class App extends Component {
           console.log('right swipe')
         }                       
       } else {
-        if ( yDiff > 0 ) {
+        if (yDiff > 0) {
           /* up swipe */ 
           console.log('up swipe')
         } else { 
@@ -272,10 +272,6 @@ class App extends Component {
         try {
           window.userData = JSON.parse(a)
         } catch (e) {
-          //(e)
-          //(a)
-          //this.showLogin()
-          return
         }
 
         let name = document.getElementById('SideP')
@@ -294,10 +290,6 @@ class App extends Component {
         try {
           window.dailyNotices = JSON.parse(d)
         } catch (e) {
-          //(e)
-          //(d)
-          //this.showLogin()
-          return
         }
       })
     })
@@ -314,10 +306,6 @@ class App extends Component {
         try {
           window.timetable = JSON.parse(b)
         } catch (e) {
-          //(e)
-          //(b)
-          //this.showLogin()
-          return
         }
       })
     })
@@ -333,10 +321,6 @@ class App extends Component {
         try {
           window.bells = JSON.parse(c)
         } catch (e) {
-          //(e)
-          //(c)
-          //this.showLogin()
-          return
         }
       })
     })
@@ -359,10 +343,6 @@ class App extends Component {
         try {
           window.diaryCal = JSON.parse(d)
         } catch (e) {
-          //(e)
-          //(d)
-          this.showLogin()
-          return
         }
       })
     })
@@ -390,10 +370,6 @@ class App extends Component {
         try {
           window.participation = JSON.parse(data)
         } catch (e) {
-          //(e)
-          //(data)
-          //this.showLogin()
-          return
         }
       })
     })

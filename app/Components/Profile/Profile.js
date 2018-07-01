@@ -9,14 +9,13 @@ let profileContent
 let detailsTab
 let partTab
 let content
-let search
 
 // part is participation innit too long innit
 
 class Profile extends Component {
   constructor(props) {
     super(props)
-    this.state = { loading: true, content: 'details', keyword: '' }
+    this.state = { loading: true, content: 'details' }
   }
   componentWillUnmount(){
     let content = document.getElementById('content')
@@ -24,12 +23,7 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    content = document.getElementById('content')
-    search = document.getElementById('search')
-    
-  }
-
-  init() {
+    let content = document.getElementById('content')
     content.className = 'full vcNavbarParent'
     content = this.state.content
     profileContent = document.getElementById('profileContent')
@@ -42,20 +36,18 @@ class Profile extends Component {
     part = {}
 
     for (let i = 0; i < apiPart.length; i++) {
-      if (this.state.keyword === '' || this.keywordInProfile(this.state.keyword, apiPart[i])) {
-        if (!(apiPart[i].year in part)) {
-          part[apiPart[i].year] = {
-            event: []
-          }
-          yearList.push({ year: apiPart[i].year })
+      if (!(apiPart[i].year in part)) {
+        part[apiPart[i].year] = {
+          event: []
         }
-  
-        part[apiPart[i].year].event.push({
-          activity: apiPart[i].activity,
-          category: apiPart[i].categoryName,
-          points: apiPart[i].points
-        })
+        yearList.push({ year: apiPart[i].year })
       }
+
+      part[apiPart[i].year].event.push({
+        activity: apiPart[i].activity,
+        category: apiPart[i].categoryName,
+        points: apiPart[i].points
+      })
     }
 
     //(part)
@@ -90,21 +82,6 @@ class Profile extends Component {
     this.setState({ loading: false })
   }
 
-  keywordInProfile(keyword, event) {
-    return (
-      event.activity.toLowerCase().includes(keyword) ||
-      event.category.toLowerCase().includes(keyword) ||
-      event.points.toLowerCase().includes(keyword)
-    )
-  }
-
-  search() {
-    let keyword = this.state.keyword
-    this.setState({ keyword: search.value.toLowerCase() })
-    this.state.keyword = search.value.toLowerCase()
-    this.init()
-  }
-
   render() {
     let rows = yearList.map(year => {
       return <YearList key={year} years={year} />
@@ -119,7 +96,6 @@ class Profile extends Component {
 
     return (
       <div className='vcNavbarCard'>
-        <input id='search' onInput={this.search.bind(this)}></input>
         <div className='profileParent'>
           <div className='profileChild card uk-animation-slide-top-small'>
             <span className='profileParent' uk-icon='icon: user; ratio:2'></span>

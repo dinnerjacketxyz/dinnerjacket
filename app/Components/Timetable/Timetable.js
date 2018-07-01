@@ -625,7 +625,33 @@ class Timetable extends Component {
                   </tbody>
               </table>
             </div>
-            <div className="uk-align-left uk-inline">
+            
+          <div id='smallTimetable' className='ttableCard card uk-animation-slide-top-small' onClick={this.activeTab.bind(this)}>
+            <ul className='uk-flex-center uk-tab' onClick={this.smallInput}>
+              <li id='A'><a>A</a></li>
+              <li id='B'><a>B</a></li>
+              <li id='C'><a>C</a></li>
+            </ul>
+            <ul className='uk-flex-center uk-tab' onClick={this.smallInput}>
+              <li id='MON'><a>MON</a></li>
+              <li id='TUE'><a>TUE</a></li>
+              <li id='WED'><a>WED</a></li>
+              <li id='THU'><a>THU</a></li>
+              <li id='FRI'><a>FRI</a></li>
+            </ul>
+            <table className='uk-table uk-table-hover timetable uk-text-center'>
+              <tbody id='smallTable'></tbody>
+            </table>
+          </div>
+        </div> 
+      </div>
+    )
+  }
+}
+
+export default Timetable
+
+{/* <div className="uk-align-left uk-inline">
                 <a onClick={this.initForm.bind(this)} uk-icon="plus-circle" uk-tooltip="title: Add morning classes; pos: bottom-left;"></a>
                 <div uk-dropdown="mode: click;pos: top-left">
                   <p className='uk-align-left uk-margin-bottom-small'>Subject</p>
@@ -689,28 +715,4 @@ class Timetable extends Component {
                   </div>
                 </div>
             </div>
-          </div>
-          
-          <div id='smallTimetable' className='ttableCard card uk-animation-slide-top-small' onClick={this.activeTab.bind(this)}>
-            <ul className='uk-flex-center uk-tab' onClick={this.smallInput}>
-              <li id='A'><a>A</a></li>
-              <li id='B'><a>B</a></li>
-              <li id='C'><a>C</a></li>
-            </ul>
-            <ul className='uk-flex-center uk-tab' onClick={this.smallInput}>
-              <li id='MON'><a>MON</a></li>
-              <li id='TUE'><a>TUE</a></li>
-              <li id='WED'><a>WED</a></li>
-              <li id='THU'><a>THU</a></li>
-              <li id='FRI'><a>FRI</a></li>
-            </ul>
-            <table className='uk-table uk-table-hover timetable uk-text-center'>
-              <tbody id='smallTable'></tbody>
-            </table>
-          </div>
-        </div> 
-    )
-  }
-}
-
-export default Timetable
+          </div> */}

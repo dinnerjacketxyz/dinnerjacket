@@ -125,7 +125,8 @@
 
 .eventsBorder{
   border-radius: 0 5px 5px 0;
-  height: 522px;
+  height: 532px;
+  margin: -30px;
 }
 
 .daysOverlay {
@@ -146,6 +147,7 @@
   height: 522px!important;
   border-radius: 5px 0 0 5px;
   padding: 0!important;
+  margin-right: 30px;
 }
 
 .events td {
@@ -176,10 +178,12 @@
   .cal {
     border-radius: 5px 5px 0 0 ;
     height: auto!important;
+    margin-right: 0px;
   }
   .eventsBorder{
     border-radius: 0 0 5px 5px;
     height: auto!important;
+    margin: 0px;
   }
   .month {
     border-radius: 5px 5px 0 0 ;

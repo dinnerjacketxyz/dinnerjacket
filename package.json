@@ -4,7 +4,9 @@
   "description": "SBHS organiser",
   "main": "server/server.js",
   "scripts": {
-    "start": "node server/server"
+    "start": "node server/server",
+    "build": "webpack",
+    "dev": "webpack && node server/server"
   },
   "author": "",
   "license": "GPL-3.0",
