@@ -2,8 +2,13 @@
   margin-bottom: 0px
 }
 
-.uk-table-hover tbody tr:hover,.uk-table-hover>tr:hover, .eventsList>li:hover{
-  background: rgba(255,255,255,.08);
+.uk-light .uk-table-hover tbody tr:hover, .uk-light .uk-table-hover>tr:hover, .uk-light .eventsList>li:hover{
+  background: rgba(255,255,255,.05);
+  border-radius: 5px;
+}
+
+.uk-dark .uk-table-hover tbody tr:hover, .uk-dark .uk-table-hover>tr:hover, .uk-dark .eventsList>li:hover{
+  background: #effdff;
   border-radius: 5px;
 }
 
