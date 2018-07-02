@@ -486,7 +486,7 @@ class Calendar extends Component {
           </div>
           <div className='eventsBorder card uk-animation-slide-top-small uk-width-2-5@s'>
             <div className='events'>
-              <p className='uk-text-center uk-text-large'>Events</p>
+              <p className='uk-text-center uk-text-large uk-margin-top-none'>Events</p>
               <ul className="eventsList uk-list uk-list-striped">
                   { (this.state.eventsToShow).map((item, i) => <ListItem key={i} value={item} />) }
               </ul>
