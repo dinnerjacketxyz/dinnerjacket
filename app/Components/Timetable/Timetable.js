@@ -227,17 +227,25 @@ class Timetable extends Component {
    } else if (week === 'C') {
      dayNum += 11
    }
+   let xyzz = dayNum-1
 
+   
    let smallOutput = ''
    let smallDay = timetableData.days[dayNum].periods
+   
+   let x = mcArr[xyzz].split('!')
+   if (x!=''){
+    smallOutput += `<tr><td class='periodIndicator'>0</td><td>${x[0]}</td><td>${x[1]}</td></tr>`
+   }
+
 
    for (let u = 1; u <= 5; u++) {
      if (smallDay[`${u}`] == undefined) {
-       smallOutput += `<tr><td>-</td><td>-</td></tr>`
+       smallOutput += `<tr><td class='periodIndicator'>${u}</td><td>-</td><td>-</td></tr>`
      } else if (smallDay[`${u}`].room == '') {
-       smallOutput += `<tr><td>${smallDay[`${u}`].title}</td><td>-</td></tr>`
+       smallOutput += `<tr><td class='periodIndicator'>${u}</td><td>${smallDay[`${u}`].title}</td><td>-</td></tr>`
      } else {
-       smallOutput += `<tr><td>${smallDay[`${u}`].title}</td><td>${smallDay[`${u}`].room}</td></tr>`
+       smallOutput += `<tr><td class='periodIndicator'>${u}</td><td>${smallDay[`${u}`].title}</td><td>${smallDay[`${u}`].room}</td></tr>`
      }
    }
    let small = document.getElementById('smallTable')
@@ -367,6 +375,8 @@ class Timetable extends Component {
   }
   //options+= '<option>Remove</option>'
   let dropdown = document.getElementById('acSubject')
+  let dropdown1 = document.getElementById('acSubject2')
+  dropdown1.innerHTML = options
   dropdown.innerHTML = options
  }
 
@@ -377,26 +387,59 @@ class Timetable extends Component {
   let week = document.getElementById('acWeek')
   let repeat = document.getElementById('acRepeat')
   let button = document.getElementById('acAdd')
-  if (button.getAttribute('disabled')!=true){
-    if (repeat.checked == false){
-      let dayNum = tabArray.indexOf(`${day.value}`)
-      if (week.value == 'B') {
-        dayNum += 5
-      } else if (week.value === 'C') {
-        dayNum += 10
+
+  let room2 = document.getElementById('acRoom2')
+  let subject2 = document.getElementById('acSubject2')
+  let day2 = document.getElementById('acDay2')
+  let week2 = document.getElementById('acWeek2')
+  let repeat2 = document.getElementById('acRepeat2')
+  let button2 = document.getElementById('acAdd2')
+
+  let temp = document.getElementById('vcNavbarCard')
+
+  let width = window.innerWidth
+  let height = window.innerHeight
+
+  if ((temp.className=='Default'&&width<=530||height<=750)||(temp.className=='Small')) { //smallttable
+    if (button2.getAttribute('disabled')!=true){
+      if (repeat2.checked == false){
+        let dayNum = tabArray.indexOf(`${day2.value}`)
+        if (week2.value == 'B') {
+          dayNum += 5
+        } else if (week2.value === 'C') {
+          dayNum += 10
+        }
+        mcArr[dayNum] = subject2.value+'!'+room2.value+'!'+week2.value+'!'+day2.value
+      } else {
+        let temp = tabArray.indexOf(`${day2.value}`)
+        mcArr[temp] = subject2.value+'!'+room2.value+'!'+'A'+'!'+day2.value
+        mcArr[temp+5] = subject2.value+'!'+room2.value+'!'+'B'+'!'+day2.value
+        mcArr[temp+10] = subject2.value+'!'+room2.value+'!'+'C'+'!'+day2.value
       }
-      mcArr[dayNum] = subject.value+'!'+room.value+'!'+week.value+'!'+day.value
-    } else {
-      let temp = tabArray.indexOf(`${day.value}`)
-      mcArr[temp] = subject.value+'!'+room.value+'!'+'A'+'!'+day.value
-      mcArr[temp+5] = subject.value+'!'+room.value+'!'+'B'+'!'+day.value
-      mcArr[temp+10] = subject.value+'!'+room.value+'!'+'C'+'!'+day.value
     }
-    
-    localStorage.setItem('morningClasses', mcArr)
-    this.displayMorningClass()
+  } else {
+    if (button.getAttribute('disabled')!=true){
+      if (repeat.checked == false){
+        let dayNum = tabArray.indexOf(`${day.value}`)
+        if (week.value == 'B') {
+          dayNum += 5
+        } else if (week.value === 'C') {
+          dayNum += 10
+        }
+        mcArr[dayNum] = subject.value+'!'+room.value+'!'+week.value+'!'+day.value
+      } else {
+        let temp = tabArray.indexOf(`${day.value}`)
+        mcArr[temp] = subject.value+'!'+room.value+'!'+'A'+'!'+day.value
+        mcArr[temp+5] = subject.value+'!'+room.value+'!'+'B'+'!'+day.value
+        mcArr[temp+10] = subject.value+'!'+room.value+'!'+'C'+'!'+day.value
+      }
+    }
   }
+  localStorage.setItem('morningClasses', mcArr)
+  this.displayMorningClass()
  }
+
+ 
 
  displayMorningClass() {
   for (let i = 0; i < mcArr.length; i++) {
@@ -429,20 +472,36 @@ class Timetable extends Component {
  verifyRoom() {
   let room = document.getElementById('acRoom')
   let button = document.getElementById('acAdd')
-  if(room.value.length==3 && validRoom.indexOf(room.value)!=-1){
-    button.removeAttribute('disabled')
+  let room2 = document.getElementById('acRoom2')
+  let button2 = document.getElementById('acAdd2')
+  let temp = document.getElementById('vcNavbarCard')
+  let width = window.innerWidth
+  let height = window.innerHeight
+
+  if ((temp.className=='Default'&&width<=530||height<=750)||(temp.className=='Small')) {
+    if(room2.value.length==3 && validRoom.indexOf(room2.value)!=-1){
+      button2.removeAttribute('disabled')
+    } else {
+      button2.setAttribute('disabled', true)
+    }
   } else {
-    button.setAttribute('disabled', true)
+    if(room.value.length==3 && validRoom.indexOf(room.value)!=-1){
+      button.removeAttribute('disabled')
+    } else {
+      button.setAttribute('disabled', true)
+    }
   }
  }
 
  initRemove() {
   let counter = 0
   let body = ''
+  let body2 = ''
   for (let i = 0; i<mcArr.length; i++){
     if (mcArr[i]!=''){
       let temp = mcArr[i].split('!')
       body+=(`<tr><td><input id='remove${counter}'  class="uk-checkbox" type="checkbox"/></td><td>${temp[3]} ${temp[2]}</td><td>${temp[0]} ${temp[1]}</td></tr>`)
+      body2+=(`<tr><td><input id='remove${counter}2'  class="uk-checkbox" type="checkbox"/></td><td>${temp[3]} ${temp[2]}</td><td>${temp[0]} ${temp[1]}</td></tr>`)
       remArr.push(mcArr[i])
       counter++
     }
@@ -450,14 +509,22 @@ class Timetable extends Component {
   mcNum = counter
   let div = document.getElementById('rmTableDiv')
   let p = document.getElementById('noText')
+  let div2 = document.getElementById('rmTableDiv2')
+  let p2 = document.getElementById('noText2')
   if (body=='') {
     div.hidden = true
     p.hidden = false
+    div2.hidden = true
+    p2.hidden = false
   } else {
     p.hidden = true
     div.hidden = false
+    p2.hidden = true
+    div2.hidden = false
     let addTo = document.getElementById('removeBody')
+    let addTo2 = document.getElementById('removeBody2')
     addTo.innerHTML = body
+    addTo2.innerHTML = body2
   }
   this.initSelectAll()
  }
@@ -495,12 +562,14 @@ class Timetable extends Component {
 
  selectAll() {
   let button = document.getElementById('btnSelectall')
-  console.log(this.ifChecked())
+  let button2 = document.getElementById('btnSelectall2')
   if (this.ifChecked()=='SELECT ALL') {
     button.innerText = 'Deselect all'
+    button2.innerText = 'Deselect all'
     this.changeCheckbox(true)
   } else {
     button.innerText = 'Select all'
+    button2.innerText = 'Select all'
     this.changeCheckbox(false)
   }
  }
@@ -528,7 +597,9 @@ class Timetable extends Component {
  changeCheckbox(bool) {
   for (let i=0;i<mcNum;i++){
     let temp = document.getElementById('remove'+i)
+    let temp2 = document.getElementById('remove'+i+'2')
     temp.checked = bool
+    temp2.checked = bool
   }
  }
 
@@ -546,6 +617,7 @@ class Timetable extends Component {
               <table className="uk-table uk-table-small">
                 <thead>
                   <tr>
+                    <th id=''></th>
                     <th id='moA'>MON A</th>
                     <th id='tuA'>TUE A</th>
                     <th id='weA'>WED A</th>
@@ -555,17 +627,18 @@ class Timetable extends Component {
                 </thead>
                 <tbody id='wA' className='timetable' onMouseOver={this.subjectHighlight.bind(this)}>
                   <tr id='r-1' onMouseOver={this.bigInput}>
+                    <td id="" className=""></td>
                     <td id="0,-1" className=""></td>
                     <td id="1,-1" className=""></td>
                     <td id="2,-1" className=""></td>
                     <td id="3,-1" className=""></td>
                     <td id="4,-1" className=""></td>
                   </tr>
-                  <tr id='r0' onMouseOver={this.bigInput}></tr>
-                  <tr id='r1' onMouseOver={this.bigInput}></tr>
-                  <tr id='r2' onMouseOver={this.bigInput}></tr>
-                  <tr id='r3' onMouseOver={this.bigInput}></tr>
-                  <tr id='r4' onMouseOver={this.bigInput}></tr>
+                  <tr id='r0' onMouseOver={this.bigInput}><td id="" className="periodIndicator">1</td></tr>
+                  <tr id='r1' onMouseOver={this.bigInput}><td id="" className="periodIndicator">2</td></tr>
+                  <tr id='r2' onMouseOver={this.bigInput}><td id="" className="periodIndicator">3</td></tr>
+                  <tr id='r3' onMouseOver={this.bigInput}><td id="" className="periodIndicator">4</td></tr>
+                  <tr id='r4' onMouseOver={this.bigInput}><td id="" className="periodIndicator">5</td></tr>
                 </tbody>
               </table>
             </div>
@@ -574,6 +647,7 @@ class Timetable extends Component {
               <table className="uk-table uk-table-small">
                   <thead>
                       <tr>
+                          <th id=''></th>
                           <th id='moB'>MON B</th>
                           <th id='tuB'>TUE B</th>
                           <th id='weB'>WED B</th>
@@ -583,17 +657,18 @@ class Timetable extends Component {
                   </thead>
                   <tbody id='wB' className='timetable'onMouseOver={this.subjectHighlight.bind(this)}>
                     <tr id='r-2' onMouseOver={this.bigInput}>
+                      <td id="" className=""></td>
                       <td id="0,-2" className=""></td>
                       <td id="1,-2" className=""></td>
                       <td id="2,-2" className=""></td>
                       <td id="3,-2" className=""></td>
                       <td id="4,-2" className=""></td>
                     </tr>
-                    <tr id='r5' onMouseOver={this.bigInput}></tr>
-                    <tr id='r6' onMouseOver={this.bigInput}></tr>
-                    <tr id='r7' onMouseOver={this.bigInput}></tr>
-                    <tr id='r8' onMouseOver={this.bigInput}></tr>
-                    <tr id='r9' onMouseOver={this.bigInput}></tr>
+                    <tr id='r5' onMouseOver={this.bigInput}><td id="" className="periodIndicator">1</td></tr>
+                    <tr id='r6' onMouseOver={this.bigInput}><td id="" className="periodIndicator">2</td></tr>
+                    <tr id='r7' onMouseOver={this.bigInput}><td id="" className="periodIndicator">3</td></tr>
+                    <tr id='r8' onMouseOver={this.bigInput}><td id="" className="periodIndicator">4</td></tr>
+                    <tr id='r9' onMouseOver={this.bigInput}><td id="" className="periodIndicator">5</td></tr>
                   </tbody>
               </table>
             </div>
@@ -602,6 +677,7 @@ class Timetable extends Component {
               <table className="uk-table uk-table-small">
                   <thead>
                       <tr>
+                          <th id=''></th>
                           <th id='moC'>MON C</th>
                           <th id='tuC'>TUE C</th>
                           <th id='weC'>WED C</th>
@@ -611,17 +687,18 @@ class Timetable extends Component {
                   </thead>
                   <tbody id='wC' className='timetable' onMouseOver={this.subjectHighlight.bind(this)} >
                     <tr id='r-3' onMouseOver={this.bigInput}>
+                      <td id="" className=""></td>
                       <td id="0,-3" className=""></td>
                       <td id="1,-3" className=""></td>
                       <td id="2,-3" className=""></td>
                       <td id="3,-3" className=""></td>
                       <td id="4,-3" className=""></td>
                     </tr>
-                    <tr id='r10' onMouseOver={this.bigInput}></tr>
-                    <tr id='r11' onMouseOver={this.bigInput}></tr>
-                    <tr id='r12' onMouseOver={this.bigInput}></tr>
-                    <tr id='r13' onMouseOver={this.bigInput}></tr>
-                    <tr id='r14' onMouseOver={this.bigInput}></tr>
+                    <tr id='r10' onMouseOver={this.bigInput}><td id="" className="periodIndicator">1</td></tr>
+                    <tr id='r11' onMouseOver={this.bigInput}><td id="" className="periodIndicator">2</td></tr>
+                    <tr id='r12' onMouseOver={this.bigInput}><td id="" className="periodIndicator">3</td></tr>
+                    <tr id='r13' onMouseOver={this.bigInput}><td id="" className="periodIndicator">4</td></tr>
+                    <tr id='r14' onMouseOver={this.bigInput}><td id="" className="periodIndicator">5</td></tr>
                   </tbody>
               </table>
             </div>
@@ -707,6 +784,70 @@ class Timetable extends Component {
             <table className='uk-table uk-table-hover timetable uk-text-center'>
               <tbody id='smallTable'></tbody>
             </table>
+            <div className="uk-align-left uk-inline">
+                <a onClick={this.initForm.bind(this)} uk-icon="plus-circle" uk-tooltip="title: Add morning classes; pos: bottom-left;"></a>
+                <div uk-dropdown="mode: click;pos: right-center">
+                  <p className='uk-align-left uk-margin-bottom-small'>Subject</p>
+                  <select id='acSubject2' className='uk-select'>
+                  </select>
+
+                  <hr/>
+                  
+                  <div>
+                    <p className='uk-align-left uk-margin-bottom-small'>Room</p>
+                    <a id='ttableInfo' uk-icon="info" className='uk-align-right' uk-tooltip="title: You can include locations such as the Junior and Senior Library (JLB,SLB), and Moore Park West (MPW).; pos: top; delay: 500"></a>
+                  </div>
+                  <input onChange={this.verifyRoom.bind(this)} id='acRoom2' className="uk-input" type="text" placeholder="Room" maxLength='3'/>
+
+                  <hr/>
+
+                  <p className='uk-align-left uk-margin-bottom-small'>Weekday</p>
+                  <select id='acDay2' className='uk-select'>
+                    <option>MON</option>
+                    <option>TUE</option>
+                    <option>WED</option>
+                    <option>THU</option>
+                    <option>FRI</option>
+                  </select>
+
+                  <hr/>
+
+                  <p className='uk-align-left uk-margin-bottom-small'>Week</p>
+                  <select id='acWeek2' className='uk-select uk-margin-bottom'>
+                    <option>A</option>
+                    <option>B</option>
+                    <option>C</option>
+                  </select>
+
+                  <label><input id='acRepeat2' className="uk-checkbox" type="checkbox" onChange={this.repeatCheckbox.bind(this)}/> Every week</label>
+                  <div onClick={this.processForm.bind(this)}>
+                    <button id='acAdd2' className="uk-button uk-button-default uk-margin-top" disabled='true'>Add</button>
+                  </div>
+                </div>
+            </div>
+            <div className="uk-align-right uk-inline">
+                <a uk-icon="minus-circle" onClick={this.initRemove.bind(this)} uk-tooltip="title: Remove morning classes; pos: bottom-right;"></a>
+                <div id='rmDropDiv' uk-dropdown="mode: click;pos: left-center">
+                  <p id='noText2' hidden='true'>No morning classes</p>
+                  <div id='rmTableDiv2' >
+                    <a id='btnSelectall2' onClick={this.selectAll.bind(this)} className="uk-button uk-button-default uk-margin-bottom">Select all</a>
+                    <table className="uk-table uk-table-hover uk-table-middle uk-table-divider">
+                        <thead>
+                            <tr>
+                                <th className="uk-table-shrink"></th>
+                                <th>Date</th>
+                                <th>Class</th>
+                            </tr>
+                        </thead>
+                        <tbody id='removeBody2'>
+                        </tbody>
+                    </table>
+                    <div onClick={this.processRem.bind(this)}>
+                      <button id='rmcButton' className="uk-button uk-button-default uk-margin-top">Remove</button>
+                    </div>
+                  </div>
+                </div>
+            </div>
           </div>
         </div> 
     )

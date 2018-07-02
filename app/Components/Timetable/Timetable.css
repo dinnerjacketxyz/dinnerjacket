@@ -2,6 +2,16 @@
   color: #2dc0d5!important;
 }
 
+#acAdd:disabled, #acWeek:disabled, #acAdd2:disabled, #acWeek2:disabled {
+  background-color: #f8f8f8!important;
+  border-color: #e5e5e5!important;
+  color: #999!important;
+}
+
+#fullTimetable [class*=uk-align], #smallTimetable [class*=uk-align] {
+  display: block;
+  margin-bottom: 5px;
+}
 
 .timetable td {
   font-family: 'Roboto Mono', monospace;
@@ -12,6 +22,10 @@
 .heading {
   font-family: 'Roboto' !important;
   font-weight: 300
+}
+
+.periodIndicator {
+  opacity: 0.5;
 }
 
 .uk-text-center th {
@@ -40,29 +54,29 @@
   font-weight: 300;
 }
 
-@media (max-height:830px){
-  .timetable td{
+@media (max-height:1000px){
+  .Default .timetable td{
     padding: 2px 1px;
   }
-  .uk-table th {
+  .Default .uk-table th {
     padding: 5px 6px;
   }
-  .uk-table{
+  .Default .uk-table{
     margin-bottom: 5px;
   }
-  #ttableName{
+  .Default #ttableName{
     font-size: 2.25rem;
   }
-  #fullTimetable hr{
+  .Default #fullTimetable hr{
     margin-top: 15px;
     margin-bottom: 15px;
   }
-  .ttableCard {
+  .Default .ttableCard {
     width: 525px;
   }
 }
 
-@media (max-height:675px){
+@media (max-height:810px){
   #ttableName{
     visibility: hidden;
     height: 0px;
@@ -72,31 +86,55 @@
   }
 }
 
-@media (max-width:530px), (max-height:620px){
-  #fullTimetable {
+@media (max-width:530px), (max-height:750px){
+  .Default #fullTimetable {
     visibility: hidden;
     display: none;
   }
-  #smallTimetable{
+  .Default #smallTimetable{
+    visibility: visible;
+    display: block;
+  }
+  .Full #fullTimetable {
+    visibility: visible;
+    display: block;
+  }
+  .Full #smallTimetable{
+    visibility: hidden;
+    display: none;
+  }
+  .Small #fullTimetable {
+    visibility: hidden;
+    display: none;
+  }
+  .Small #smallTimetable{
     visibility: visible;
     display: block;
   }
 }
 
-@media (min-width:530px) and (min-height:620px){
-  .forcedSmall>#fullTimetable {
+@media (min-width:530px) and (min-height:750px){
+  .Small>#fullTimetable {
     visibility: hidden;
     display: none;
   }
-  .forcedSmall>#smallTimetable{
+  .Small>#smallTimetable{
     visibility: visible;
     display: block;
   }
-  #fullTimetable {
+  .Default #fullTimetable {
     visibility: visible;
     display: block;
   }
-  #smallTimetable{
+  .Default #smallTimetable{
+    visibility: hidden;
+    display: none;
+  }
+  .Full #fullTimetable {
+    visibility: visible;
+    display: block;
+  }
+  .Full #smallTimetable{
     visibility: hidden;
     display: none;
   }

@@ -3,6 +3,12 @@
   justify-content: center;
 }
 
+#timetableSelect:disabled {
+  background-color: #f8f8f8!important;
+  border-color: #e5e5e5!important;
+  color: #999!important;
+}
+
 .uk-button-group {
   margin-top: 20px;
 }
@@ -11,21 +17,28 @@
   text-align: left;
 }
 
-
-
-
 .card {
   padding: 30px 30px;
   border-radius: 5px;
 }
 
-
-
-
-
-
 /*Theme (affects the background color and the border shadow)*/
 /*Dark Material*/
+.Material.uk-light {
+  background-color: #2f3136!important;
+}
+.Material.uk-light #content {
+  background: #2f3136;
+}
+.Material.uk-light .uk-navbar-container {
+  background: #36393e;
+}
+.Material.uk-light .card {
+  box-shadow: 0 5px 15px rgba(0,0,0,.08);
+}
+.Material.uk-dark .card {
+  box-shadow: 0 5px 15px rgba(0,0,0,.08);
+}
 .material.uk-light {
   background-color: #2f3136!important;
 }
@@ -43,6 +56,28 @@
 }
 
 /*Dark Clean*/
+.Clean.uk-light {
+  background-color: #36393e!important;
+}
+.Clean.uk-light #content {
+  background: #36393e
+  ;
+}
+.Clean.uk-light .uk-navbar-container:not(.uk-navbar-transparent) {
+  background: #2f3136;
+}
+/*Light clean*/
+.Clean.uk-dark {
+  background-color: white!important;
+}
+.Clean.uk-dark #content {
+  background: white
+  ;
+}
+.Clean.uk-dark .uk-navbar-container:not(.uk-navbar-transparent) {
+  background: #f9f9f9;
+}
+/*Dark Clean*/
 .clean.uk-light {
   background-color: #36393e!important;
 }
@@ -53,7 +88,7 @@
 .clean.uk-light .uk-navbar-container:not(.uk-navbar-transparent) {
   background: #2f3136;
 }
-/*Light Clean*/
+/*Light clean*/
 .clean.uk-dark {
   background-color: white!important;
 }
