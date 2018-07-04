@@ -439,9 +439,8 @@ class Timetable extends Component {
   this.displayMorningClass()
  }
 
- 
-
  displayMorningClass() {
+  let count = 0
   for (let i = 0; i < mcArr.length; i++) {
     if (mcArr[i]!='') {
       let temp = mcArr[i].split('!')
@@ -454,9 +453,24 @@ class Timetable extends Component {
         temp2 = '-3'
       }
       let day = document.getElementById(`${tabArray.indexOf(`${temp[3]}`)},${temp2}`)
-      day.innerHTML = temp[0] + '&nbsp;&nbsp;' + temp[1] 
+      day.innerHTML = temp[0] + '&nbsp;&nbsp;' + temp[1]
+    } else {
+      count++
     }
   }
+  let day = document.getElementById('zeroIndicator1')
+  let day1 = document.getElementById('zeroIndicator2')
+  let day2 = document.getElementById('zeroIndicator3')
+  if (count == 15) {
+    day.innerHTML = ''
+    day1.innerHTML = ''
+    day2.innerHTML = ''
+  } else {
+    day.innerHTML = '0'
+    day1.innerHTML = '0'
+    day2.innerHTML = '0'
+  }
+  console.log(mcArr)
  }
 
  repeatCheckbox() {
@@ -627,7 +641,7 @@ class Timetable extends Component {
                 </thead>
                 <tbody id='wA' className='timetable' onMouseOver={this.subjectHighlight.bind(this)}>
                   <tr id='r-1' onMouseOver={this.bigInput}>
-                    <td id="" className=""></td>
+                    <td id="zeroIndicator1" className="periodIndicator"></td>
                     <td id="0,-1" className=""></td>
                     <td id="1,-1" className=""></td>
                     <td id="2,-1" className=""></td>
@@ -657,7 +671,7 @@ class Timetable extends Component {
                   </thead>
                   <tbody id='wB' className='timetable'onMouseOver={this.subjectHighlight.bind(this)}>
                     <tr id='r-2' onMouseOver={this.bigInput}>
-                      <td id="" className=""></td>
+                      <td id="zeroIndicator2" className="periodIndicator"></td>
                       <td id="0,-2" className=""></td>
                       <td id="1,-2" className=""></td>
                       <td id="2,-2" className=""></td>
@@ -687,7 +701,7 @@ class Timetable extends Component {
                   </thead>
                   <tbody id='wC' className='timetable' onMouseOver={this.subjectHighlight.bind(this)} >
                     <tr id='r-3' onMouseOver={this.bigInput}>
-                      <td id="" className=""></td>
+                      <td id="zeroIndicator3" className="periodIndicator">0</td>
                       <td id="0,-3" className=""></td>
                       <td id="1,-3" className=""></td>
                       <td id="2,-3" className=""></td>
@@ -743,9 +757,9 @@ class Timetable extends Component {
                   </div>
                 </div>
             </div>
-            <div className="uk-align-right uk-inline">
-                <a uk-icon="minus-circle" onClick={this.initRemove.bind(this)} uk-tooltip="title: Remove morning classes; pos: bottom-right;"></a>
-                <div id='rmDropDiv' uk-dropdown="mode: click;pos: top-right">
+            <div className="uk-align-left uk-inline">
+                <a uk-icon="minus-circle" onClick={this.initRemove.bind(this)} uk-tooltip="title: Remove morning classes; pos: bottom-left;"></a>
+                <div id='rmDropDiv' uk-dropdown="mode: click;pos: top-left">
                   <p id='noText' hidden='true'>No morning classes</p>
                   <div id='rmTableDiv' >
                     <a id='btnSelectall' onClick={this.selectAll.bind(this)} className="uk-button uk-button-default uk-margin-bottom">Select all</a>
@@ -786,7 +800,7 @@ class Timetable extends Component {
             </table>
             <div className="uk-align-left uk-inline">
                 <a onClick={this.initForm.bind(this)} uk-icon="plus-circle" uk-tooltip="title: Add morning classes; pos: bottom-left;"></a>
-                <div uk-dropdown="mode: click;pos: right-center">
+                <div uk-dropdown="mode: click">
                   <p className='uk-align-left uk-margin-bottom-small'>Subject</p>
                   <select id='acSubject2' className='uk-select'>
                   </select>
@@ -825,9 +839,9 @@ class Timetable extends Component {
                   </div>
                 </div>
             </div>
-            <div className="uk-align-right uk-inline">
-                <a uk-icon="minus-circle" onClick={this.initRemove.bind(this)} uk-tooltip="title: Remove morning classes; pos: bottom-right;"></a>
-                <div id='rmDropDiv' uk-dropdown="mode: click;pos: left-center">
+            <div className="uk-align-left uk-inline">
+                <a uk-icon="minus-circle" onClick={this.initRemove.bind(this)} uk-tooltip="title: Remove morning classes; pos: bottom-left;"></a>
+                <div id='rmDropDiv' uk-dropdown="mode: click">
                   <p id='noText2' hidden='true'>No morning classes</p>
                   <div id='rmTableDiv2' >
                     <a id='btnSelectall2' onClick={this.selectAll.bind(this)} className="uk-button uk-button-default uk-margin-bottom">Select all</a>

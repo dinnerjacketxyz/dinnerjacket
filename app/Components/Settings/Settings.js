@@ -42,7 +42,7 @@ class Settings extends Component {
     this.loadBodyArray()
     this.init('colorSelect', 'color', 'Light')
     this.init('themeSelect', 'theme', 'Clean')
-    this.init('timetableSelect', 'forceSmallTimetable', 'Default')
+    this.init('timetableSelect', 'forceSmallTable', 'Dynamic')
   }
 
   init(elementID, option, defaultValue) {
@@ -52,7 +52,12 @@ class Settings extends Component {
         && localStorage.getItem(option) !== 'true'
         && localStorage.getItem(option) !== 'false') {
 
-      element.value = localStorage.getItem(option)
+      if (option === 'forceSmallTable') {
+        element.value = 'Force '+ localStorage.getItem(option)
+      } else {
+        element.value = localStorage.getItem(option)
+      }
+      console.log(localStorage.getItem(option))
     } else { // first time load
       localStorage.setItem(option, defaultValue)
       element.value = defaultValue
@@ -76,8 +81,12 @@ class Settings extends Component {
 
   timetable() {
     timetable = document.getElementById('timetableSelect')
-    localStorage.setItem('forceSmallTable', timetable.value)
-    console.log(localStorage.getItem('forceSmallTable'))
+    if(timetable.value.split(' ').length==2){
+      localStorage.setItem('forceSmallTable', timetable.value.split(' ')[1])
+      console.log(localStorage.getItem('forceSmallTable'))
+    } else {
+      localStorage.setItem('forceSmallTable', timetable.value)
+    }
   }
 
   color() {
@@ -185,9 +194,9 @@ class Settings extends Component {
                 <p className='uk-align-left'>Timetable</p><a id='ttableInfo' uk-icon="info" className='uk-align-right' uk-tooltip="title: Allows you to choose to display single-day timetable regardless of screen size; pos: top-right; delay: 500"></a>
               </div>
               <select id='timetableSelect' onChange={this.timetable.bind(this)} className='uk-select'>
-                <option>Default</option>
-                <option>Full</option>
-                <option>Small</option>
+                <option>Dynamic</option>
+                <option>Force Full</option>
+                <option>Force Small</option>
               </select>
               <button onClick={this.generateParentAccess.bind(this)}>{this.state.parentText}</button>
               <p>{this.state.ptText}</p>
