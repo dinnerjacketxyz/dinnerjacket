@@ -155,3 +155,7 @@
     box-shadow: none;
   }
 }
+
+#removeBody td, #removeBody2 td {
+  padding: 5px 5px!important;
+}
