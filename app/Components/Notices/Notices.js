@@ -10,8 +10,10 @@ class Notices extends Component {
   constructor(props) {
     super(props)
   
-    if (window.year === '') {
+    if (window.year === '' && window.userData.role === 'Student') {
       window.year = window.userData['yearGroup']
+    } else {
+      window.year = 'ALL'
     }
 
     this.state = {
@@ -213,7 +215,7 @@ const CollapsedNotices = (props) => {
   return (
     <li className=''>
       <span className='uk-label'>{props.notices.years}</span>
-      <a className='uk-accordion-title'>{props.notices.title + ' ' + props.notices.date}</a>
+      <a className='uk-accordion-title'>{props.notices.title}</a>
       <b>{props.notices.date}</b>
       <div className='uk-accordion-content'>
         {props.notices.content}
@@ -227,7 +229,7 @@ const ExpandedNotices = (props) => {
   return (
     <li className='uk-open'>
       <span className='uk-label'>{props.notices.years}</span>
-      <a className='uk-accordion-title'>{props.notices.title + ' ' + props.notices.date}</a>
+      <a className='uk-accordion-title'>{props.notices.title}</a>
       <div className='uk-accordion-content'>
         {props.notices.content}
         <p className='uk-margin-small-top'><b>{props.notices.author}</b></p>

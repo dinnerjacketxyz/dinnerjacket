@@ -10,6 +10,8 @@ let detailsTab
 let partTab
 let content
 
+let id = 0
+
 // part is participation innit too long innit
 
 class Profile extends Component {
@@ -83,8 +85,9 @@ class Profile extends Component {
   }
 
   render() {
+    id++
     let rows = yearList.map(year => {
-      return <YearList key={year} years={year} />
+      return <YearList key={year+id} years={year} />
     })
 
     let content
@@ -92,6 +95,11 @@ class Profile extends Component {
       content = DETAILS()
     } else if (this.state.content === 'part') {
       content = PARTICIPATION(rows)
+    }
+
+    let pptOption
+    if (window.userData.role === 'Student') {
+      pptOption = (<li id='partTab' onClick={() => {this.setState({ content: 'part' })}}><a>Participation</a></li>)
     }
 
     return (
@@ -103,7 +111,8 @@ class Profile extends Component {
             <p className='uk-text-center'>{userData.role+' | '+userData.department+' | '+userData.office}</p>
             <ul className='uk-margin-top uk-margin-bottom uk-flex-center' uk-tab='true'>
               <li id='detailsTab' className='uk-active' onClick={() => {this.setState({ content: 'details' })}}><a>Details</a></li>
-              <li id='partTab' onClick={() => {this.setState({ content: 'part' })}}><a>Participation</a></li>          </ul>
+              {pptOption}
+            </ul>
             <div id='profileContent'>
               {content}
             </div>

@@ -1,6 +1,7 @@
 // Sync notes (list detailed modules this file covers later)
 // George
 
+// localstorage only - below is the WIP firebase code
 import React, { Component } from 'react'
 const http = require('http')
 const css = require('./Notes.css')
@@ -71,6 +72,9 @@ class Notes extends Component {
 }
 
 export default Notes
+
+
+//fb code innit
 
 /*// Sync notes (list detailed modules this file covers later)
 // George
