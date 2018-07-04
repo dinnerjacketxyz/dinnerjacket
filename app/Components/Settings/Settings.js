@@ -9,16 +9,30 @@ let bodyArray = ['uk-dark','Clean']
 let width = 0
 let height = 0
 
+let validParentKey = false
+
+const KEY_TIMEOUT = 120 // 2 Minutes
+const KEY_LENGTH = 6
+const MIN_WIDTH = 530
+const MIN_HEIGHT = 620
+
+let validKey
+
 class Settings extends Component {
   constructor(props) {
     super(props)
     width = window.innerWidth
     height = window.innerHeight
+
+    this.state = {
+      parentText: 'Generate Parent Access Key',
+      ptText: ''
+    }
   }
 
   componentDidMount() {
     timetable = document.getElementById('timetableSelect')
-    if (width < 530 || height < 620) {
+    if (width < MIN_WIDTH || height < MIN_HEIGHT) {
       timetable.setAttribute('disabled', true)
     }
 
@@ -26,49 +40,22 @@ class Settings extends Component {
     content.className = 'full vcNavbarParent'
 
     this.loadBodyArray()
-    this.colorInit()
-    this.themeInit()
-    this.ttableInit()
+    this.init('colorSelect', 'color', 'Light')
+    this.init('themeSelect', 'theme', 'Clean')
+    this.init('timetableSelect', 'forceSmallTimetable', 'Default')
   }
 
-  ttableInit() { //Default, Full, Small
-    timetable = document.getElementById('timetableSelect')
-    if (typeof localStorage.getItem('forceSmallTable') !== 'undefined' 
-        && localStorage.getItem('forceSmallTable') !== null 
-        && localStorage.getItem('forceSmallTable') !== 'true'
-        && localStorage.getItem('forceSmallTable') !== 'false') {
-      timetable.value = localStorage.getItem('forceSmallTable')
-    } else {
-      localStorage.setItem('forceSmallTable', 'Default')
-      theme.value = 'Default'
-    }
-  }
+  init(elementID, option, defaultValue) {
+    let element = document.getElementById(elementID)
+    if (localStorage.getItem(option) !== undefined
+        && localStorage.getItem(option) !== null
+        && localStorage.getItem(option) !== 'true'
+        && localStorage.getItem(option) !== 'false') {
 
-  themeInit() { //Clean, Material
-    theme = document.getElementById('themeSelect')
-    if (typeof localStorage.getItem('theme') !== 'undefined' 
-        && localStorage.getItem('theme') !== null 
-        && localStorage.getItem('theme') !== 'true'
-        && localStorage.getItem('theme') !== 'false') {
-      console.log('theme previously set')
-      theme.value = localStorage.getItem('theme')
-    } else { //first time load
-      console.log('theme not previously set')
-      localStorage.setItem('theme', 'Clean')
-      theme.value = 'Clean'
-    }
-  }
-
-  colorInit() { //light, dark
-    color = document.getElementById('colorSelect')
-    if (typeof localStorage.getItem('color') !== 'undefined' 
-        && localStorage.getItem('color') !== null 
-        && localStorage.getItem('color') !== 'true'
-        && localStorage.getItem('color') !== 'false') {
-      color.value = localStorage.getItem('color')
-    } else { //first time load
-      localStorage.setItem('color', 'Light')
-      color.value = 'Light'
+      element.value = localStorage.getItem(option)
+    } else { // first time load
+      localStorage.setItem(option, defaultValue)
+      element.value = defaultValue
     }
   }
 
@@ -137,8 +124,40 @@ class Settings extends Component {
   }
 
   generateParentAccess() {
-    let key = this.generateId(6)
-    console.log(key)
+    if (validParentKey) {
+      console.log(validKey)
+    } else {
+      validKey = this.generateId(KEY_LENGTH)
+      console.log(validKey)
+
+      validParentKey = true
+      let parentText = this.state.parentText
+      this.setState({ parentText: 'View Parent Access Key' })
+      this.parentTimer()
+
+      let ptText = this.state.ptText
+      this.setState({ ptText: 'Current key valid for ' + KEY_TIMEOUT + ' seconds'})
+    }
+  }
+
+  parentTimer() {
+    let seconds = KEY_TIMEOUT
+    let parentInterval = setInterval(() => {
+      console.log('interval')
+
+      seconds--
+      let ptText = this.state.ptText
+      this.setState({ ptText: 'Current key valid for ' + seconds + ' seconds'})
+      
+      if (seconds <= 0) {
+        validParentKey = false
+        let parentText = this.state.parentText
+        this.setState({ parentText: 'Generate Parent Access Key' })
+        this.setState({ ptText: '' })
+        seconds = KEY_TIMEOUT
+        clearInterval(parentInterval)
+      }
+    }, 1000)
   }
 
   render() {
@@ -170,7 +189,8 @@ class Settings extends Component {
                 <option>Full</option>
                 <option>Small</option>
               </select>
-              <button onClick={this.generateParentAccess.bind(this)}>Generate Parent Access Key</button>
+              <button onClick={this.generateParentAccess.bind(this)}>{this.state.parentText}</button>
+              <p>{this.state.ptText}</p>
             </div>
           </div>
         </div>
