@@ -59,7 +59,7 @@ class Timetable extends Component {
 
   componentDidMount() {
     let card = document.getElementById('vcNavbarCard')
-    if (typeof localStorage.getItem('forceSmallTable') !== 'undefined' 
+    if (localStorage.getItem('forceSmallTable') !== undefined 
         && localStorage.getItem('forceSmallTable') !== null 
         && localStorage.getItem('forceSmallTable') !== 'true'
         && localStorage.getItem('forceSmallTable') !== 'false') {
@@ -702,8 +702,8 @@ class Timetable extends Component {
                   </tbody>
               </table>
             </div>
-            <div className="uk-align-left uk-inline">
-                <a onClick={this.initForm.bind(this)} uk-icon="plus-circle" uk-tooltip="title: Add morning classes; pos: bottom-left;"></a>
+            <div className="uk-align-left uk-inline addMC">
+                <a className='addMC' onClick={this.initForm.bind(this)} uk-icon="plus-circle" uk-tooltip="title: Add morning classes; pos: bottom-left;"></a>
                 <div uk-dropdown="mode: click;pos: top-left">
                   <p className='uk-align-left uk-margin-bottom-small'>Subject</p>
                   <select id='acSubject' className='uk-select'>
@@ -743,8 +743,8 @@ class Timetable extends Component {
                   </div>
                 </div>
             </div>
-            <div className="uk-align-right uk-inline">
-                <a uk-icon="minus-circle" onClick={this.initRemove.bind(this)} uk-tooltip="title: Remove morning classes; pos: bottom-right;"></a>
+            <div className="uk-align-right uk-inline removeMC">
+                <a className='removeMC' uk-icon="minus-circle" onClick={this.initRemove.bind(this)} uk-tooltip="title: Remove morning classes; pos: bottom-right;"></a>
                 <div id='rmDropDiv' uk-dropdown="mode: click;pos: top-right">
                   <p id='noText' hidden='true'>No morning classes</p>
                   <div id='rmTableDiv' >
@@ -784,8 +784,8 @@ class Timetable extends Component {
             <table className='uk-table uk-table-hover timetable uk-text-center'>
               <tbody id='smallTable'></tbody>
             </table>
-            <div className="uk-align-left uk-inline">
-                <a onClick={this.initForm.bind(this)} uk-icon="plus-circle" uk-tooltip="title: Add morning classes; pos: bottom-left;"></a>
+            <div id='addMC' className="uk-align-left uk-inline addMC">
+                <a className='addMC' onClick={this.initForm.bind(this)} uk-icon="plus-circle" uk-tooltip="title: Add morning classes; pos: bottom-left;"></a>
                 <div uk-dropdown="mode: click;pos: right-center">
                   <p className='uk-align-left uk-margin-bottom-small'>Subject</p>
                   <select id='acSubject2' className='uk-select'>
@@ -825,8 +825,8 @@ class Timetable extends Component {
                   </div>
                 </div>
             </div>
-            <div className="uk-align-right uk-inline">
-                <a uk-icon="minus-circle" onClick={this.initRemove.bind(this)} uk-tooltip="title: Remove morning classes; pos: bottom-right;"></a>
+            <div id='removeMC' className="uk-align-right uk-inline removeMC">
+                <a className='removeMC' uk-icon="minus-circle" onClick={this.initRemove.bind(this)} uk-tooltip="title: Remove morning classes; pos: bottom-right;"></a>
                 <div id='rmDropDiv' uk-dropdown="mode: click;pos: left-center">
                   <p id='noText2' hidden='true'>No morning classes</p>
                   <div id='rmTableDiv2' >
