@@ -14,6 +14,7 @@ class Dashboard extends Component {
                    nextClass: 'Loading' }
 
     this.updateTimetableDisplay = this.updateTimetableDisplay.bind(this)
+    this.addMorningClass = this.addMorningClass.bind(this)
     this.getNextClass = this.getNextClass.bind(this)
   }
   
@@ -30,27 +31,22 @@ class Dashboard extends Component {
     // check if cached timetable out of date
     //console.log('checking timetable cache validity')
     let date = new Date()
-    /*
-    let y = date.getFullYear()
-    let m = (date.getMonth()+1).toString()
-    let d = date.getDate().toString()
-    
-    let today = y + '-' + (m.length == 1 ? '0' + m : m) + '-' + (d.length == 1 ? '0' + d : d)
-    */
+
     let cachedTimetableDate = new Date(localStorage.getItem('timetablePeriodsDate'))
     
     let timetableIsTodayBefore315 = ((date.getDay() === cachedTimetableDate.getDay()) && (date.getHours() < 15 || (date.getHours() === 15 && date.getMinutes() < 15)))
 
     let timetableIsForTheFuture = (date < cachedTimetableDate && !(date.getDay() === cachedTimetableDate.getDay))
     
+    // check this is correct?
     if (!timetableIsTodayBefore315 && !timetableIsForTheFuture)  {
       localStorage.removeItem('timetableBells')
       localStorage.removeItem('timetablePeriods')
       localStorage.removeItem('timetablePeriodsDate')
       //console.log('timetable cache invalid')
-    } else {
+    } /*else {
       //console.log('timetable cache valid')
-    }
+    }*/
     
     // if cache empty then fill it
     if (localStorage.getItem('timetableBells') == undefined) {
@@ -91,7 +87,7 @@ class Dashboard extends Component {
       }))
       this.render()
     }
-
+    
     updateCountdown = updateCountdown.bind(this)
     
     // update display if timer runs out
@@ -183,9 +179,13 @@ class Dashboard extends Component {
 
     // use next day if school day is over
     if (date.getHours() > 15 || (date.getHours() == 15 && date.getMinutes() >= 15)) {
-      day += 1
+      if (day == 6) {
+        day = 0
+      } else {
+        day += 1
+      }
     }
-
+    
     switch (day) {
 
       // return bells for monday/tuesday
@@ -237,14 +237,55 @@ class Dashboard extends Component {
     }
     return returnData
   }
+  
+  addMorningClass(timetable, periods, bells) {
+    // add morning classes
+    console.log('add morning class')
+    const morningClasses = localStorage.getItem('morningClasses').split(',')
+    if (morningClasses != undefined) {
+      for (var i = 0; i < 15; i++) {
+        // create dayname to compare with today
+        var dayname = ''
+        const thisDay = morningClasses[i].split('!')
+        switch (thisDay[3]) {
+          case 'MON': dayname += 'Monday '; break
+          case 'TUE': dayname += 'Tuesday '; break
+          case 'WED': dayname += 'Wednesday '; break
+          case 'THU': dayname += 'Thursday '; break
+          case 'FRI': dayname += 'Friday '; break
+        }
+        dayname += thisDay[2]
+        
+        // check if this morning class is for today
+        if (dayname == timetable['timetable']['timetable']['dayname']) {
+          // add to periods
+          //const studentYear = window.timetable['student']['year']
+          const className = timetable['timetable']['subjects']['12' + thisDay[0]]['title']
+          const fullClassName = timetable['timetable']['subjects']['12' + thisDay[0]]['subject']
+          const teacherName = timetable['timetable']['subjects']['12' + thisDay[0]]['fullTeacher']
+          const morningClass = { name: className,
+                                 teacher: teacherName,
+                                 room: thisDay[1],
+                                 time: '08:00',
+                                 fullName: fullClassName,
+                                 changed: [] }
+          periods.splice(0, 0, morningClass)
+          
+          // add to bells
+          const morningClassBell = { bell: fullClassName,
+                                     time: '08:00' }
+          bells.splice(0, 0, morningClassBell)
+          break
+        }
+      }
+    }
+  }
 
   // get the timetable for today
   getDailyTimetable(timetable) {
-
+    console.log('Get daily timetable')
     let bells = this.getBelltimes(timetable)
-
     let periods = this.getClasses(timetable, bells)
-
     this.getChanges(periods, timetable)
 
     // Lunch is 5, Recess is 6
@@ -273,7 +314,6 @@ class Dashboard extends Component {
       case 'R1T2A3BC4T5': periods.splice(2, 0, recess); periods.splice(4, 0, lunch); break
       default: break
     }
-    //console.log('Get daily timetable')
     return periods
   }
 
@@ -320,6 +360,7 @@ class Dashboard extends Component {
         returnData[i].changed.push('bells')
       }
     }
+    console.log('Getclasses')
     return returnData
   }
 
@@ -391,6 +432,8 @@ class Dashboard extends Component {
 
   // create the HTML for displaying classes
   processHTML(periods) {
+    console.log('PHTML Periods: ')
+    console.log(periods)
 
     const numPeriods = Object.keys(periods).length
     
@@ -426,59 +469,26 @@ class Dashboard extends Component {
         thisPeriod.room = (<td className={roomTextClass + (roomChange ? 'uk-text-primary' : '')}>{thisPeriod.room}</td>)
       }
     }
-
+    
+    // adjust how many periods need to be shown
+    const PeriodItem = ({ value }) => (
+                        <tr>
+                          <td className='uk-text-left'>
+                            {periods[value].name}
+                            {periods[value].teacher}
+                          </td>
+                          {periods[value].room}
+                        </tr>
+                      )
+    var periodArr = [0, 1, 2, 3, 4, 5, 6]
+    if (periods.length == 8) {
+      periodArr.push(7)
+    }
+    
     return (<div className='uk-flex uk-flex-center'>
             <table className='dashTable uk-table-hover uk-table-small'>
               <tbody>
-                <tr>
-                  <td className='uk-text-left'>
-                    {periods[0].name}
-                    {periods[0].teacher}
-                  </td>
-                  {periods[0].room}
-                </tr>
-                <tr>
-                  <td className='uk-text-left'>
-                    {periods[1].name}
-                    {periods[1].teacher}
-                  </td>
-                  {periods[1].room}
-                </tr>
-                <tr>
-                  <td className='uk-text-left'>
-                    {periods[2].name}
-                    {periods[2].teacher}
-                  </td>
-                  {periods[2].room}
-                </tr>
-                <tr>
-                  <td className='uk-text-left'>
-                    {periods[3].name}
-                    {periods[3].teacher}
-                  </td>
-                  {periods[3].room}
-                </tr>
-                <tr>
-                  <td className='uk-text-left'>
-                    {periods[4].name}
-                    {periods[4].teacher}
-                  </td>
-                  {periods[4].room}
-                </tr>
-                <tr>
-                  <td className='uk-text-left'>
-                    {periods[5].name}
-                    {periods[5].teacher}
-                  </td>
-                  {periods[5].room}
-                </tr>
-                <tr>
-                  <td className='uk-text-left'>
-                    {periods[6].name}
-                    {periods[6].teacher}
-                  </td>
-                  {periods[6].room}
-                </tr>
+                { (periodArr).map((item, i) => <PeriodItem key={i} value={item} />) }
               </tbody>
             </table>
             <h1> </h1>
@@ -497,7 +507,7 @@ class Dashboard extends Component {
     
     // nested if's are used for readability
     if (timetable != '') {
-      //console.log('loading fresh periods')
+      console.log('loading fresh periods')
       let timetableDate = new Date(timetable['date'])
 
       let timetableIsTodayBefore315 = ((date.getDay() === timetableDate.getDay()) && (date.getHours() < 15 || (date.getHours() === 15 && date.getMinutes() < 15)))
@@ -508,6 +518,7 @@ class Dashboard extends Component {
 
         periods = this.getDailyTimetable(timetable)
         let bells = timetable['bells']
+        this.addMorningClass(timetable, periods, bells)
         schedule = this.getSchedule(periods, timetableDate, bells)
         localStorage.setItem('timetableBells', JSON.stringify(bells))
         localStorage.setItem('timetablePeriods', JSON.stringify(periods))
@@ -516,7 +527,7 @@ class Dashboard extends Component {
     
     // check for cached timetable data
     } else if (localStorage.getItem('timetablePeriods') != undefined) {
-      //('loading cached periods')
+      console.log('loading cached periods')
       periods = JSON.parse(localStorage.getItem('timetablePeriods'))
       let bells = JSON.parse(localStorage.getItem('timetableBells'))
       let timetableDate = localStorage.getItem('timetablePeriodsDate')
@@ -524,7 +535,7 @@ class Dashboard extends Component {
       
     } else {
       
-      //('loading default periods')
+      console.log('loading default periods')
       periods = this.getDefaultPeriods()
 
       // the next school date
@@ -542,20 +553,28 @@ class Dashboard extends Component {
       } else if (nextDate.getDay === 0) {
         nextDate = new Date(nextDate.getTime() + (1000 * 60 * 60 * 24))
       }
-
       schedule = this.getSchedule(this.getDefaultPeriods(), nextDate, this.getDefaultBells())
     }
     
     if (schedule === undefined) {
-      //console.log('schedule undefined')
+      console.log('schedule undefined')
     } else {
-      //console.log('schedule made')
+      console.log('schedule made')
     }
     this.setState( ()=> ({
       htmlClasses: this.processHTML(periods),
       schedule: schedule
     }), () => {
-      this.timerTick()
+      this.setState( ()=> ({
+        nextClass: this.getNextClass()
+      }), () => {
+        this.timerTick()
+        const secDifference = Math.floor((this.state.nextClass.time.getTime() - date.getTime())/1000)
+        this.setState( ()=> ({
+          timer: secDifference
+        }))
+        this.render()
+      })
     })
     
     // is this needed?
@@ -583,13 +602,12 @@ class Dashboard extends Component {
 
   // gets schedule of periods for timer, including class names (assumes timetable is valid)
   getSchedule(periods, dateOfPeriods, bells) {
-    //console.log('getSchedule()')
+    console.log('getSchedule()')
     let returnVar = []
     let periodsCopy = periods.slice(0)
 
     // remove any non-period time blocks
     for (var i = 0; i < periodsCopy.length; i++) {
-
       if (periodsCopy[i].name.startsWith('Recess') || periodsCopy[i].name.startsWith('Lunch')) {
         periodsCopy.splice(i, 1)
       }

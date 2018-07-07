@@ -502,8 +502,9 @@ class App extends Component {
     localStorage.removeItem('refreshToken')
     localStorage.removeItem('accessTokenExpiry')
     localStorage.removeItem('refreshTokenExpiry')
-    //DONTCLEARLOCALSTORAGEPK
-    //REMOVEITEMSINDIVIDUALLYIFYOUNEEDTO
+    localStorage.removeItem('timetableBells')
+    localStorage.removeItem('timetablePeriods')
+    localStorage.removeItem('timetablePeriodsDate')
     localStorage.setItem('clicked',false)
   }
 

@@ -436,6 +436,10 @@ class Timetable extends Component {
     }
   }
   localStorage.setItem('morningClasses', mcArr)
+  localStorage.removeItem('timetableBells')
+  localStorage.removeItem('timetablePeriods')
+  localStorage.removeItem('timetablePeriodsDate')
+
   this.displayMorningClass()
  }
 
@@ -564,6 +568,10 @@ class Timetable extends Component {
     }
   }
   localStorage.setItem('morningClasses', mcArr)
+  localStorage.removeItem('timetableBells')
+  localStorage.removeItem('timetablePeriods')
+  localStorage.removeItem('timetablePeriodsDate')
+
   remArr.splice(tempArr[0],tempArr.length)
   this.initRemove()
   this.displayMorningClass()
