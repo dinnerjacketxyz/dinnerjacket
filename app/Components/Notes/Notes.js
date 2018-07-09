@@ -8,9 +8,31 @@ const css = require('./Notes.css')
 
 let quill
 
+let currentID = 0
+let noteTabID = 0
+let firstLoad = false
+
 class Notes extends Component {
   constructor(props) {
     super(props)
+
+    this.state = {
+      notes: [],
+      selected: 0
+    }
+  
+    //restore notes from localstorage and selection from window var
+    if (localStorage.getItem('notesDB') === null) {
+      this.state.notes.push(this.noteStruct('My Notes', '', currentID))
+    } else {
+      this.state.notes = JSON.parse(atob(localStorage.getItem('notesDB')))
+      if (localStorage.getItem('content') !== null) {
+        firstLoad = true
+        this.state.notes[0].content = atob(localStorage.getItem('content'))
+        localStorage.removeItem('content')
+      }
+    }
+  
 
     // questionable innit
     window.addEventListener('beforeunload', (event) => {
@@ -22,7 +44,7 @@ class Notes extends Component {
   componentDidMount() {
     let content = document.getElementById('content')
     content.className = 'full vcNavbarParent'
-
+    
     // Initialise quill editor
     quill = new Quill('#editor', {
       modules: {
@@ -31,17 +53,10 @@ class Notes extends Component {
       // Snow theme displays formatting options above text box
       theme: 'snow', // OK I CHANGED IT FRICKER !
       placeholder:
-        "Write any notes here! Notes are encoded and are not visible to anyone else. Notes are currently stored locally on your device. In future, notes will seamlessly sync across all your devices."
+      'Write any notes here! Notes are encoded and are not visible to anyone else. Notes are currently stored locally on your device. In future, notes will seamlessly sync across all your devices.'
     })
 
-    // Add previously saved text into quill editor
-    if (localStorage.getItem('content') != '') {
-      try {
-        quill.setContents(JSON.parse(atob(localStorage.getItem('content'))))
-      } catch (e) {
-        console.log(e)
-      }
-    }
+    this.initNote()
   }
 
   componentWillUnmount() {
@@ -53,30 +68,77 @@ class Notes extends Component {
 
   updateDB() {
     // Save notes in localStorage in unreadable format
-    let content = btoa(JSON.stringify(quill.getContents()))
-    localStorage.setItem('content', content)
+    //let content = btoa(JSON.stringify(quill.getContents()))
+    //localStorage.setItem('content', content)
+
+
+    let content = quill.getContents()
+    this.state.notes[this.state.selected].content = JSON.stringify(content)
+
+    localStorage.setItem('notesDB', btoa(JSON.stringify(this.state.notes)))
+  }
+
+  noteStruct(ttl, cnt, ID) {
+    let note = {
+      title: ttl,
+      content: cnt,
+      id: ID
+    }
+    return note
+  }
+
+  /*rows = this.state.notices.map(notice => {
+    return <CollapsedNotices key={notice.ID} notices={notice} />
+  })*/
+
+  initNote() {
+    let content = this.state.notes[this.state.selected].content
+    if (firstLoad || content !== '') {
+      quill.setContents(JSON.parse(content))
+      firstLoad = false
+    }
+  }
+
+  createNote(e) {
+    this.updateDB()
+    currentID++
+    let n = this.state.notes
+    this.setState({ n: n.push(this.noteStruct(e.target.title, '', this.state.notes.length)) })
+    console.log(this.state.notes)
+  }
+
+  selectNote(e) {
+    this.updateDB()
+    //console.log(e.target.id)
+    this.state.selected = e.target.id
+    
+    let content = this.state.notes[this.state.selected].content
+    if (content === '') {
+      quill.setText('')
+    } else {
+      quill.setContents(JSON.parse(content))
+    }
   }
 
   // Render uikit card and quill editor
   render() {
+    let key = 0
+    let notes = this.state.notes.map(note => {
+      key++
+      return <li key={key} onClick={this.selectNote.bind(this)}><a id={note.id}>{note.title}</a></li>
+    })
+
     return (
       <div className='vcNavbarCard notesParent'>
         <div className='notesChild card uk-animation-slide-top-small'>
-          <ul className="uk-subnav uk-subnav-pill uk-flex-center" uk-switcher="animation: uk-animation-fade">
-              <li><a>Item</a></li>
-              <li><a>Item</a></li>
-              <li><a>Item</a></li>
-              <li>
-                <a>Add <span className="uk-margin-small-left" uk-icon="icon: plus-circle"></span></a>
-                <div uk-dropdown="mode: click">
-                  <p>Item</p>
-                </div>
-              </li>
-          </ul>
-          <ul className="uk-switcher uk-margin">
-              <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
-              <li>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
-              <li>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, sed do eiusmod.</li>
+          <ul className='uk-subnav uk-subnav-pill uk-flex-center' uk-switcher='animation: uk-animation-fade'>
+            {notes}
+            <li>
+              <a><span className='uk-margin-small-left' uk-icon='icon: plus-circle'></span></a>
+              <div uk-dropdown='mode: click'>
+                <p id='77' title='Item' onClick={this.createNote.bind(this)}>Item</p>
+              </div>
+            </li>
           </ul>
           <div className='pad'>
             <div id='editor' onInput={this.updateDB.bind(this)}/>
@@ -88,6 +150,15 @@ class Notes extends Component {
 }
 
 export default Notes
+
+/*
+<ul className='uk-switcher uk-margin'>
+              <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+              <li>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
+              <li>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, sed do eiusmod.</li>
+          </ul>
+
+*/
 
 
 //fb code innit
@@ -159,7 +230,7 @@ class Notes extends Component {
       // Snow theme displays formatting options above text box
       theme: 'snow', // OK I CHANGED IT FRICKER !
       placeholder:
-        "Write any notes here! Notes are encrypted and are not visible to anyone else. Notes are currently stored locally on your device. In future, notes will seamlessly sync across all your devices."
+        'Write any notes here! Notes are encrypted and are not visible to anyone else. Notes are currently stored locally on your device. In future, notes will seamlessly sync across all your devices.'
     })
 
     // Add previously saved text into quill editor
