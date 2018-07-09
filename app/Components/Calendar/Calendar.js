@@ -455,41 +455,55 @@ class Calendar extends Component {
     //console.log('render')
     return (
       <div className='flex-container uk-width-1-1 vcNavbarCard'>
-        <div className="uk-grid-collapse uk-grid two uk-grid-match" uk-grid='true'>
-          <div  className='cal card uk-animation-slide-top-small uk-width-expand'>
-            <div>
-              <div className="month">      
-                <ul>
-                  <li onClick={this.prevMonth.bind(this)} className="prev">&#10094;</li>
-                  <li onClick={this.nextMonth.bind(this)} className="next">&#10095;</li>
-                  <li>
-                    {this.monthNumToText(this.state.selectedMonth)}<br/>
-                    <span>{this.state.selectedYear}</span>
-                  </li>
+        <div id='parentCalCard' className='two uk-animation-slide-top-small'>
+          <div id='aaa' className='uk-inline uk-width-1-1'>
+            <div className="uk-margin uk-align-left">
+                <form id='ccc' className="uk-search uk-search-default">
+                    <span uk-search-icon=''></span>
+                    <input id='bbb' className="uk-search-input" type="search" placeholder="Search"/>
+                </form>
+                <button className="uk-button uk-button-default"><a uk-icon="icon: chevron-left"></a></button>
+                <button className="uk-button uk-button-default"><a uk-icon="icon: chevron-right"></a></button>
+            </div>
+            
+            <div className='uk-align-right' className='uk-text-muted'>x matches</div>
+          </div>
+          <div className="uk-grid-collapse uk-grid  uk-grid-match" uk-grid='true'>
+            <div className='cal card uk-width-expand'>
+              <div>
+                <div className="month">      
+                  <ul>
+                    <li onClick={this.prevMonth.bind(this)} className="prev">&#10094;</li>
+                    <li onClick={this.nextMonth.bind(this)} className="next">&#10095;</li>
+                    <li>
+                      {this.monthNumToText(this.state.selectedMonth)}<br/>
+                      <span>{this.state.selectedYear}</span>
+                    </li>
+                  </ul>
+                </div>
+                <ul className="weekdays">
+                  <li>Su</li>
+                  <li>M</li>
+                  <li>Tu</li>
+                  <li>W</li>
+                  <li>Th</li>
+                  <li>F</li>
+                  <li>Sa</li>
                 </ul>
-              </div>
-              <ul className="weekdays">
-                <li>Su</li>
-                <li>M</li>
-                <li>Tu</li>
-                <li>W</li>
-                <li>Th</li>
-                <li>F</li>
-                <li>Sa</li>
-              </ul>
-              <div onClick={this.displayCal.bind(this)}>
-                <ul className="days" onClick={this.monthInput}>
-                  { (this.state.days).map((item, i) => <ListItem key={i} value={item} />) }
-                </ul>
+                <div onClick={this.displayCal.bind(this)}>
+                  <ul className="days" onClick={this.monthInput}>
+                    { (this.state.days).map((item, i) => <ListItem key={i} value={item} />) }
+                  </ul>
+                </div>
               </div>
             </div>
-          </div>
-          <div className='eventsBorder card uk-animation-slide-top-small uk-width-2-5@s'>
-            <div className='events'>
-              <p className='uk-text-center uk-text-large uk-margin-top-none'>Events</p>
-              <ul className="eventsList uk-list uk-list-divider">
-                  { (this.state.eventsToShow).map((item, i) => <ListItem key={i} value={item} />) }
-              </ul>
+            <div className='eventsBorder card uk-width-2-5@s'>
+              <div className='events'>
+                <p className='uk-text-center uk-text-large uk-margin-top-none'>Events</p>
+                <ul className="eventsList uk-list uk-list-divider">
+                    { (this.state.eventsToShow).map((item, i) => <ListItem key={i} value={item} />) }
+                </ul>
+              </div>
             </div>
           </div>
         </div>
