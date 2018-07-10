@@ -436,7 +436,7 @@ class App extends Component {
 
   showNotes() {
     ////('User notes tab clicked')
-    if (Quill != undefined) {
+    if (Quill != undefined && window.timetable !== '') {
       let visible = this.state.visible
       this.setState({ visible: window.STATES.NOTES })
       this.selectedNavbar(window.STATES.NOTES)

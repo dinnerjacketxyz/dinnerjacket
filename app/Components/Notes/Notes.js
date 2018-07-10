@@ -12,15 +12,19 @@ let currentID = 0
 let noteTabID = 0
 let firstLoad = false
 
+const MAX_CLASSES = 12
+
 class Notes extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
       notes: [],
+      classes: [],
       selected: 0
     }
-  
+
+    
     //restore notes from localstorage and selection from window var
     if (localStorage.getItem('notesDB') === null) {
       this.state.notes.push(this.noteStruct('My Notes', '', currentID))
@@ -32,13 +36,32 @@ class Notes extends Component {
         localStorage.removeItem('content')
       }
     }
-  
-
+    
+    for (let i = 1; i < MAX_CLASSES + 1; i++) {
+      if (window.timetable.subjects[i] !== -1 && window.timetable.subjects[i].shortTitle[0] !== '_') {      
+        let subject = window.timetable.subjects[i].year + window.timetable.subjects[i].shortTitle
+        console.log(this.classUnused(subject))
+        if (this.classUnused(subject)) {
+          this.state.classes.push(subject)
+        }
+      }
+    }
+    console.log(this.state.classes)
+    
     // questionable innit
     window.addEventListener('beforeunload', (event) => {
       // Autosaves before enduser exits notes
       this.updateDB()
     }, false)
+  }
+
+  classUnused(subject) {
+    for (let i = 0; i < this.state.notes.length; i++) {
+      if (subject == this.state.notes[i].title) {
+        return false
+      }
+    }
+    return true
   }
 
   componentDidMount() {
@@ -99,8 +122,24 @@ class Notes extends Component {
     }
   }
 
+  createCustomNote() {
+    this.updateDB()
+    let title = document.getElementById('customTitle').value
+    currentID++
+    let n = this.state.notes
+    this.setState({ n: n.push(this.noteStruct(title, '', this.state.notes.length)) })
+    console.log(this.state.notes)
+  }
+
   createNote(e) {
     this.updateDB()
+
+    for (let i = this.state.classes.length-1; i >= 0; i--) {
+      if (this.state.classes[i] === e.target.title) {
+        this.state.classes.splice(i, 1)
+      }
+    }
+
     currentID++
     let n = this.state.notes
     this.setState({ n: n.push(this.noteStruct(e.target.title, '', this.state.notes.length)) })
@@ -108,6 +147,7 @@ class Notes extends Component {
   }
 
   selectNote(e) {
+    console.log(this.state.notes)
     this.updateDB()
     //console.log(e.target.id)
     this.state.selected = e.target.id
@@ -128,6 +168,11 @@ class Notes extends Component {
       return <li key={key} onClick={this.selectNote.bind(this)}><a id={note.id}>{note.title}</a></li>
     })
 
+    let key2 = 0
+    let classList = this.state.classes.map(cls => {
+      return <p key={key2} title={cls} onClick={this.createNote.bind(this)}>{cls}</p>
+    })
+
     return (
       <div className='vcNavbarCard notesParent'>
         <div className='notesChild card uk-animation-slide-top-small'>
@@ -137,13 +182,13 @@ class Notes extends Component {
           <div className='pad'>
             <div id='editor' onInput={this.updateDB.bind(this)}/>
           </div>
-          <div className="">
-            <a uk-icon="plus-circle" uk-tooltip="title: Add custom notes; pos: bottom-center;"></a>
-            <div uk-dropdown="mode: click;pos: top-center">
-              <p id='77' title='Item' onClick={this.createNote.bind(this)}>Item</p>
-              <p className='uk-text-left'>Title</p>
-              <input className="uk-input" type="text" placeholder="Title" maxLength='10'/>
-              <button className="uk-margin-top uk-button uk-button-default">Add</button>
+          <div className=''>
+            <a uk-icon='plus-circle' uk-tooltip='title: Add custom notes; pos: bottom-center;'></a>
+            <div uk-dropdown='mode: click;pos: top-center'>
+              {classList}
+              <p className='uk-text-left'>Custom</p>
+              <input id='customTitle' className='uk-input' type='text' placeholder='Title' maxLength='10'/>
+              <button onClick={this.createCustomNote.bind(this)} className='uk-margin-top uk-button uk-button-default'>Add</button>
             </div>
           </div>
         </div>
