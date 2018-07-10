@@ -133,15 +133,17 @@ class Notes extends Component {
         <div className='notesChild card uk-animation-slide-top-small'>
           <ul className='uk-subnav uk-subnav-pill uk-flex-center' uk-switcher='animation: uk-animation-fade'>
             {notes}
-            <li>
-              <a><span className='uk-margin-small-left' uk-icon='icon: plus-circle'></span></a>
-              <div uk-dropdown='mode: click'>
-                <p id='77' title='Item' onClick={this.createNote.bind(this)}>Item</p>
-              </div>
-            </li>
           </ul>
           <div className='pad'>
             <div id='editor' onInput={this.updateDB.bind(this)}/>
+          </div>
+          <div className="">
+            <a uk-icon="plus-circle" uk-tooltip="title: Add custom notes; pos: bottom-center;"></a>
+            <div uk-dropdown="mode: click;pos: top-center">
+              <p className='uk-text-left'>Title</p>
+              <input className="uk-input" type="text" placeholder="Room" maxLength='5'/>
+              <button className="uk-margin-top uk-button uk-button-default">Add</button>
+            </div>
           </div>
         </div>
       </div>
