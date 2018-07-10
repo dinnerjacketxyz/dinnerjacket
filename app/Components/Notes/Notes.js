@@ -140,8 +140,9 @@ class Notes extends Component {
           <div className="">
             <a uk-icon="plus-circle" uk-tooltip="title: Add custom notes; pos: bottom-center;"></a>
             <div uk-dropdown="mode: click;pos: top-center">
+              <p id='77' title='Item' onClick={this.createNote.bind(this)}>Item</p>
               <p className='uk-text-left'>Title</p>
-              <input className="uk-input" type="text" placeholder="Room" maxLength='5'/>
+              <input className="uk-input" type="text" placeholder="Title" maxLength='10'/>
               <button className="uk-margin-top uk-button uk-button-default">Add</button>
             </div>
           </div>
