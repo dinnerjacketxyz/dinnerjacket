@@ -176,7 +176,7 @@ class Notes extends Component {
     return (
       <div className='vcNavbarCard notesParent'>
         <div className='notesChild card uk-animation-slide-top-small'>
-          <ul className='uk-subnav uk-subnav-pill uk-flex-center' uk-switcher='animation: uk-animation-fade'>
+          <ul className='uk-subnav uk-subnav-pill uk-flex-center' uk-switcher='animation: uk-animation-fade' uk-sortable="cls-custom: uk-box-shadow-small uk-flex uk-flex-middle uk-background">
             {notes}
           </ul>
           <div className='pad'>
