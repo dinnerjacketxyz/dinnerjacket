@@ -37,6 +37,7 @@ class Calendar extends Component {
       eventsToShow: [],
       selectedDay: window.d,
       selectedDayIndex: -1,
+      selectedDayWeekOfCycle: '',
       selectedMonth: window.m,
       selectedYear: window.y,
       days: this.setDaysForMonth(window.m, window.y),
@@ -102,7 +103,7 @@ class Calendar extends Component {
           nextMonthData: JSON.parse(d)
         }), ()=> {
           pMonthLoaded = true
-          monthChanging = pMonthLoaded && nMonthLoaded
+          monthChanging = !(pMonthLoaded && nMonthLoaded)
         })
       })
     })
@@ -127,7 +128,7 @@ class Calendar extends Component {
           prevMonthData: JSON.parse(d)
         }), ()=> {
           nMonthLoaded = true
-          monthChanging = pMonthLoaded && nMonthLoaded
+          monthChanging = !(pMonthLoaded && nMonthLoaded)
         })
       })
     })
@@ -164,9 +165,13 @@ class Calendar extends Component {
         default: break
       }
     }
-  
+    
+    // if holidays, this will be '0'
+    const weekOfCycle = events['info']['week'] + events['info']['weekType']
+    
     this.setState( ()=> ({
-      eventsToShow: eventsToAdd
+      eventsToShow: eventsToAdd,
+      selectedDayWeekOfCycle: events['info']['week'] + events['info']['weekType']
     }))
   }
   
@@ -417,10 +422,6 @@ class Calendar extends Component {
     window.d = parseInt(newDay)
     let days = this.state.days
     let prevDay = this.state.selectedDay
-    
-    console.log(this.state.days)
-    console.log(this.state.selectedDay)
-    console.log(this.state.selectedDayIndex)
     
     // unselect selected day
     if (this.state.selectedDayIndex != -1) {
@@ -717,7 +718,7 @@ class Calendar extends Component {
             </div>
             <div className='eventsBorder card uk-width-2-5@s'>
               <div className='events'>
-                <p className='uk-text-center uk-text-large uk-margin-top-none'>Events</p>
+                <p className='uk-text-center uk-text-large uk-margin-top-none'>Events for {(this.state.selectedDayWeekOfCycle == '0') ? 'holidays' : 'Week ' + this.state.selectedDayWeekOfCycle}</p>
                 <ul className="eventsList uk-list uk-list-divider">
                     { (this.state.eventsToShow).map((item, i) => <ListItem key={i} value={item} />) }
                 </ul>
