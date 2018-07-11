@@ -52,14 +52,13 @@ class Calendar extends Component {
     this.setEvents(this.state.calData[this.state.selectedDay-1])
     this.highlightSelectedDay(this.state.selectedDay)
     
-    // preload data for prev and next months
+    // preload prev and next months
     
     const curMonth = window.m
     const year = window.y
     const token = localStorage.getItem('accessToken')
     var from
     var to
-    
     
     //console.log('preloading next month')
     
@@ -451,6 +450,67 @@ class Calendar extends Component {
     return days
   }
   
+  search() {
+    const terms = keywords.value.split(' ')
+    
+     const token = localStorage.getItem('accessToken')
+     const year = (new Date()).getFullYear()
+    // make http request for entire year
+    // 01-01 to 09-04
+    // 10-04 to 18-07
+    // 19-07 to 26-10
+    // 27-10 to 31-12
+    
+    var cal = []
+    http.get('/getdata?token=' + token + '&url=diarycalendar/events.json?from=01-01-' + year + '&to=09-04-' + year, (res) => {
+      res.setEncoding('utf8')
+      let d = ''
+      res.on('data', (body) => {
+        d += body
+      })
+      res.on('end', () => {
+        cal = JSON.parse(d)
+
+        http.get('/getdata?token=' + token + '&url=diarycalendar/events.json?from=10-04-' + year + '&to=18-07-' + year, (res) => {
+          res.setEncoding('utf8')
+          let d1 = ''
+          res.on('data', (body) => {
+            d1 += body
+          })
+          res.on('end', () => {
+            cal = cal.concat(JSON.parse(d1))
+            
+            http.get('/getdata?token=' + token + '&url=diarycalendar/events.json?from=19-07-' + year + '&to=26-10-' + year, (res) => {
+              res.setEncoding('utf8')
+              let d2 = ''
+              res.on('data', (body) => {
+                d2 += body
+              })
+              res.on('end', () => {
+                cal = cal.concat(JSON.parse(d2))
+                
+                http.get('/getdata?token=' + token + '&url=diarycalendar/events.json?from=27-10-' + year + '&to=31-12-' + year, (res) => {
+                  res.setEncoding('utf8')
+                  let d3 = ''
+                  res.on('data', (body) => {
+                    d3 += body
+                  })
+                  res.on('end', () => {
+                    cal = cal.concat(JSON.parse(d3))
+                    console.log(cal)
+                  })
+                })
+                
+              })
+            })
+            
+          })
+        })
+        
+      })
+    })
+  }
+  
   render() {
     //console.log('render')
     return (
@@ -460,7 +520,7 @@ class Calendar extends Component {
             <div className="uk-margin uk-align-left">
                 <form id='ccc' className="uk-search uk-search-default">
                     <span uk-search-icon=''></span>
-                    <input id='bbb' className="uk-search-input" type="search" placeholder="Search"/>
+                    <input id='keywords' className="uk-search-input" onInput={this.search.bind(this)} type="search" placeholder="Search"/>
                 </form>
                 <button className="uk-button uk-button-default"><a uk-icon="icon: chevron-left"></a></button>
                 <button className="uk-button uk-button-default"><a uk-icon="icon: chevron-right"></a></button>
