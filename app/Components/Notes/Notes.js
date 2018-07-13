@@ -85,6 +85,7 @@ class Notes extends Component {
   componentWillUnmount() {
     // Autosaves before enduser exits notes
     this.updateDB()
+
     let content = document.getElementById('content')
     content.className = 'full'
   }
@@ -125,10 +126,25 @@ class Notes extends Component {
   createCustomNote() {
     this.updateDB()
     let title = document.getElementById('customTitle').value
-    currentID++
-    let n = this.state.notes
-    this.setState({ n: n.push(this.noteStruct(title, '', this.state.notes.length)) })
-    console.log(this.state.notes)
+    if (this.titleInUse(title)) {
+      // QUIGLEY
+      // I would keep the alert message contents but maybe present it in some uikit element that looks better innit
+      alert('The note \'' + title.toUpperCase() + '\' already exists.')
+    } else {
+      currentID++
+      let n = this.state.notes
+      this.setState({ n: n.push(this.noteStruct(title, '', this.state.notes.length)) })
+      console.log(this.state.notes)
+    }
+  }
+
+  titleInUse(title) {
+    for (let i = 0; i < this.state.notes.length; i++) {
+      if (title.toLowerCase() === this.state.notes[i].title.toLowerCase()) {
+        return true
+      }
+    }
+    return false
   }
 
   createNote(e) {
@@ -149,14 +165,27 @@ class Notes extends Component {
   selectNote(e) {
     console.log(this.state.notes)
     this.updateDB()
-    //console.log(e.target.id)
-    this.state.selected = e.target.id
-    
-    let content = this.state.notes[this.state.selected].content
-    if (content === '') {
+
+    let content// = this.state.notes[this.state.selected].content
+    for (let i = 0; i < this.state.notes.length; i++) {
+      if (this.state.notes[i].title === e.target.text) {
+        this.state.selected = i
+        content = this.state.notes[i].content
+      }
+    }
+
+    console.log(this.state.selected)
+    console.log(content)
+
+    if (content === '' || content === undefined) {
       quill.setText('')
     } else {
-      quill.setContents(JSON.parse(content))
+      try {
+        quill.setContents(JSON.parse(content))
+      } catch (e) {
+        console.log(content)
+        console.log(e)
+      }
     }
   }
 
@@ -165,7 +194,7 @@ class Notes extends Component {
     let key = 0
     let notes = this.state.notes.map(note => {
       key++
-      return <li key={key} onClick={this.selectNote.bind(this)}><a id={note.id}>{note.title}</a></li>
+      return <li key={key} text={note.title} onClick={this.selectNote.bind(this)}><a id={note.id}>{note.title}</a></li>
     })
 
     let key2 = 0
@@ -176,9 +205,9 @@ class Notes extends Component {
     return (
       <div className='vcNavbarCard notesParent'>
         <div className='notesChild card uk-animation-slide-top-small'>
-          <ul className='uk-subnav uk-subnav-pill uk-flex-center' uk-switcher='animation: uk-animation-fade' uk-sortable="cls-custom: uk-box-shadow-small uk-flex uk-flex-middle uk-background">
-            {notes}
-          </ul>
+        <ul id='notesLayout' className='uk-subnav uk-subnav-pill uk-flex-center' uk-switcher='animation: uk-animation-fade' uk-sortable='cls-custom: uk-box-shadow-small uk-flex uk-flex-middle uk-background'>
+          {notes}
+        </ul>
           <div className='pad'>
             <div id='editor' onInput={this.updateDB.bind(this)}/>
           </div>
