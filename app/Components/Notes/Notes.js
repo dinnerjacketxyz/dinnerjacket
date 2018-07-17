@@ -12,6 +12,10 @@ let currentID = 0
 let noteTabID = 0
 let firstLoad = false
 
+let mouseX, mouseY = 0
+
+let contextMenu
+
 const MAX_CLASSES = 12
 
 class Notes extends Component {
@@ -21,7 +25,9 @@ class Notes extends Component {
     this.state = {
       notes: [],
       classes: [],
-      selected: 0
+      selected: 0,
+      onContext: '',
+      mousePos: {x: 0, y: 0}
     }
 
     
@@ -37,22 +43,27 @@ class Notes extends Component {
       }
     }
     
-    for (let i = 1; i < MAX_CLASSES + 1; i++) {
-      if (window.timetable.subjects[i] !== -1 && window.timetable.subjects[i].shortTitle[0] !== '_') {      
-        let subject = window.timetable.subjects[i].year + window.timetable.subjects[i].shortTitle
-        console.log(this.classUnused(subject))
-        if (this.classUnused(subject)) {
-          this.state.classes.push(subject)
-        }
-      }
-    }
-    console.log(this.state.classes)
+    this.generateClasses()
     
     // questionable innit
     window.addEventListener('beforeunload', (event) => {
       // Autosaves before enduser exits notes
       this.updateDB()
     }, false)
+  }
+  
+  generateClasses() {
+    this.state.classes = []
+    for (let i = 1; i < MAX_CLASSES + 1; i++) {
+      if (window.timetable.subjects[i] !== -1 && window.timetable.subjects[i].shortTitle[0] !== '_') {      
+        let subject = window.timetable.subjects[i].year + window.timetable.subjects[i].shortTitle
+        //console.log(this.classUnused(subject))
+        if (this.classUnused(subject)) {
+          this.state.classes.push(subject)
+        }
+      }
+    }
+    //console.log(this.state.classes)
   }
 
   classUnused(subject) {
@@ -67,6 +78,8 @@ class Notes extends Component {
   componentDidMount() {
     let content = document.getElementById('content')
     content.className = 'full vcNavbarParent'
+
+    contextMenu = document.getElementById('contextMenu')
     
     // Initialise quill editor
     quill = new Quill('#editor', {
@@ -134,7 +147,7 @@ class Notes extends Component {
       currentID++
       let n = this.state.notes
       this.setState({ n: n.push(this.noteStruct(title, '', this.state.notes.length)) })
-      console.log(this.state.notes)
+      //console.log(this.state.notes)
     }
   }
 
@@ -159,11 +172,86 @@ class Notes extends Component {
     currentID++
     let n = this.state.notes
     this.setState({ n: n.push(this.noteStruct(e.target.title, '', this.state.notes.length)) })
-    console.log(this.state.notes)
+    //console.log(this.state.notes)
+  }
+
+  onMouseMove(e) {
+    //this.setState({ mousePos: { x: e.screenX, y: e.screenY } })
+    mouseX = e.screenX
+    mouseY = e.screenY
+
+    this.state.mousePos.x = e.screenX
+    this.state.mousePos.y = e.screenY
+  }
+
+  notesContextMenu(e) {
+    contextMenu.style.visibility = 'visible'
+
+    this.state.onContext = e.target.text
+    console.log(this.state.onContext)
+    
+    e.preventDefault()
+  }
+
+  removeNote() {
+    if (this.state.notes.length > 1) {
+      contextMenu.style.visibility = 'hidden'
+      if (confirm('r u sure innit')) {
+
+        for (let i = 0; i < this.state.notes.length; i++) {
+          if (this.state.notes[i].title === this.state.onContext) {
+            this.state.notes.splice(i, 1)
+
+            if (i === this.state.selected && this.state.selected === this.state.notes.length) {
+              this.state.selected--
+            }
+
+            this.displayContent(this.state.notes[this.state.selected].content)
+            this.refreshNotesList()
+            this.generateClasses()
+            break
+          }
+        }
+      }
+    } else {
+      alert('No!')
+    }
+  }
+
+  clearContents() {
+    contextMenu.style.visibility = 'hidden'
+    if (confirm('r u sure innit')) {
+      for (let i = 0; i < this.state.notes.length; i++) {
+        if (this.state.notes[i].title === this.state.onContext) {
+          this.state.notes[i].content = ''
+          quill.setText('')
+          this.refreshNotesList()
+          break
+        }
+      }
+    }
+  }
+
+  rename() {
+    contextMenu.style.visibility = 'hidden'
+
+    for (let i = 0; i < this.state.notes.length; i++) {
+      if (this.state.notes[i].title === this.state.onContext) {
+        this.state.notes[i].title = prompt('name')
+        this.refreshNotesList()
+        break
+      }
+    }
+  }
+
+  refreshNotesList() {
+    let notes = this.state.notes
+    this.setState({ notes: notes })
+    this.updateDB()
   }
 
   selectNote(e) {
-    console.log(this.state.notes)
+    //console.log(this.state.notes)
     this.updateDB()
 
     let content// = this.state.notes[this.state.selected].content
@@ -174,9 +262,13 @@ class Notes extends Component {
       }
     }
 
-    console.log(this.state.selected)
-    console.log(content)
+    //console.log(this.state.selected)
+    //console.log(content)
 
+    this.displayContent(content)
+  }
+
+  displayContent(content) {
     if (content === '' || content === undefined) {
       quill.setText('')
     } else {
@@ -194,7 +286,7 @@ class Notes extends Component {
     let key = 0
     let notes = this.state.notes.map(note => {
       key++
-      return <li key={key} text={note.title} onClick={this.selectNote.bind(this)}><a id={note.id}>{note.title}</a></li>
+      return <li key={key} text={note.title} onContextMenu={this.notesContextMenu.bind(this)} onClick={this.selectNote.bind(this)}><a id={note.id}>{note.title}</a></li>
     })
 
     let key2 = 0
@@ -203,8 +295,15 @@ class Notes extends Component {
     })
 
     return (
-      <div className='vcNavbarCard notesParent'>
+      <div className='vcNavbarCard notesParent' onMouseMove={this.onMouseMove.bind(this)}>
         <div className='notesChild card uk-animation-slide-top-small'>
+        <button onClick={() => {alert('tooltip! right click innit!')}}>Tooltip</button>
+        <div id='contextMenu' className='contextMenu' style={{visibility: 'hidden'}}>
+          test constext menu loll
+          <p onClick={this.removeNote.bind(this)}>remover</p>
+          <p onClick={this.clearContents.bind(this)}>cler</p>
+          <p onClick={this.rename.bind(this)}>rename</p>
+        </div>
         <ul id='notesLayout' className='uk-subnav uk-subnav-pill uk-flex-center' uk-switcher='animation: uk-animation-fade' uk-sortable='cls-custom: uk-box-shadow-small uk-flex uk-flex-middle uk-background'>
           {notes}
         </ul>
