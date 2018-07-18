@@ -179,6 +179,7 @@ class Notes extends Component {
     //this.setState({ mousePos: { x: e.screenX, y: e.screenY } })
     mouseX = e.screenX
     mouseY = e.screenY
+    console.log(mouseX,mouseY)
 
     this.state.mousePos.x = e.screenX
     this.state.mousePos.y = e.screenY
@@ -189,6 +190,9 @@ class Notes extends Component {
 
     this.state.onContext = e.target.text
     console.log(this.state.onContext)
+
+    let dropdown = document.getElementById('contextMenu')
+    UIkit.dropdown(dropdown).show()
     
     e.preventDefault()
   }
@@ -298,11 +302,12 @@ class Notes extends Component {
       <div className='vcNavbarCard notesParent' onMouseMove={this.onMouseMove.bind(this)}>
         <div className='notesChild card uk-animation-slide-top-small'>
         <button onClick={() => {alert('tooltip! right click innit!')}}>Tooltip</button>
-        <div id='contextMenu' className='contextMenu' style={{visibility: 'hidden'}}>
-          test constext menu loll
-          <p onClick={this.removeNote.bind(this)}>remover</p>
-          <p onClick={this.clearContents.bind(this)}>cler</p>
-          <p onClick={this.rename.bind(this)}>rename</p>
+        <div id='contextMenu' className='contextMenu uk-dropdown' style={{visibility: 'hidden'}}>
+          <ul class="uk-list">
+            <li onClick={this.rename.bind(this)}><span className='uk-margin-right uk-icon' uk-icon='pencil'/>Rename</li>
+            <li onClick={this.clearContents.bind(this)}><span className='uk-margin-right uk-icon' uk-icon='ban'/>Clear</li>
+            <li onClick={this.removeNote.bind(this)}><span className='uk-margin-right uk-icon' uk-icon='trash'/>Remove</li>
+          </ul>
         </div>
         <ul id='notesLayout' className='uk-subnav uk-subnav-pill uk-flex-center' uk-switcher='animation: uk-animation-fade' uk-sortable='cls-custom: uk-box-shadow-small uk-flex uk-flex-middle uk-background'>
           {notes}
