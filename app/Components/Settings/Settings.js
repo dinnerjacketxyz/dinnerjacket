@@ -122,52 +122,7 @@ class Settings extends Component {
     localStorage.setItem('bodyArray',bodyArray)
   }
   
-  dec2hex(dec) {
-    return ('0' + dec.toString(16)).substr(-2)
-  }
-
-  generateId(len) {
-    let arr = new Uint8Array((len || 40) / 2)
-    window.crypto.getRandomValues(arr)
-    return Array.from(arr, this.dec2hex).join('')
-  }
-
-  generateParentAccess() {
-    if (validParentKey) {
-      console.log(validKey)
-    } else {
-      validKey = this.generateId(KEY_LENGTH)
-      console.log(validKey)
-
-      validParentKey = true
-      let parentText = this.state.parentText
-      this.setState({ parentText: 'View Parent Access Key' })
-      this.parentTimer()
-
-      let ptText = this.state.ptText
-      this.setState({ ptText: 'Current key valid for ' + KEY_TIMEOUT + ' seconds'})
-    }
-  }
-
-  parentTimer() {
-    let seconds = KEY_TIMEOUT
-    let parentInterval = setInterval(() => {
-      console.log('interval')
-
-      seconds--
-      let ptText = this.state.ptText
-      this.setState({ ptText: 'Current key valid for ' + seconds + ' seconds'})
-      
-      if (seconds <= 0) {
-        validParentKey = false
-        let parentText = this.state.parentText
-        this.setState({ parentText: 'Generate Parent Access Key' })
-        this.setState({ ptText: '' })
-        seconds = KEY_TIMEOUT
-        clearInterval(parentInterval)
-      }
-    }, 1000)
-  }
+  
 
   render() {
     return (
@@ -198,8 +153,6 @@ class Settings extends Component {
                 <option>Force Full</option>
                 <option>Force Small</option>
               </select>
-              <button onClick={this.generateParentAccess.bind(this)}>{this.state.parentText}</button>
-              <p>{this.state.ptText}</p>
             </div>
           </div>
         </div>
@@ -209,3 +162,55 @@ class Settings extends Component {
 }
 
 export default Settings
+
+// PARENT ACCESS KEY
+
+/*dec2hex(dec) {
+  return ('0' + dec.toString(16)).substr(-2)
+}
+
+generateId(len) {
+  let arr = new Uint8Array((len || 40) / 2)
+  window.crypto.getRandomValues(arr)
+  return Array.from(arr, this.dec2hex).join('')
+}
+
+generateParentAccess() {
+  if (validParentKey) {
+    console.log(validKey)
+  } else {
+    validKey = this.generateId(KEY_LENGTH)
+    console.log(validKey)
+
+    validParentKey = true
+    let parentText = this.state.parentText
+    this.setState({ parentText: 'View Parent Access Key' })
+    this.parentTimer()
+
+    let ptText = this.state.ptText
+    this.setState({ ptText: 'Current key valid for ' + KEY_TIMEOUT + ' seconds'})
+  }
+}
+
+parentTimer() {
+  let seconds = KEY_TIMEOUT
+  let parentInterval = setInterval(() => {
+    console.log('interval')
+
+    seconds--
+    let ptText = this.state.ptText
+    this.setState({ ptText: 'Current key valid for ' + seconds + ' seconds'})
+    
+    if (seconds <= 0) {
+      validParentKey = false
+      let parentText = this.state.parentText
+      this.setState({ parentText: 'Generate Parent Access Key' })
+      this.setState({ ptText: '' })
+      seconds = KEY_TIMEOUT
+      clearInterval(parentInterval)
+    }
+  }, 1000)
+}*/
+
+/*<button onClick={this.generateParentAccess.bind(this)}>{this.state.parentText}</button>
+<p>{this.state.ptText}</p>*/

@@ -241,8 +241,11 @@ class Notes extends Component {
 
     for (let i = 0; i < this.state.notes.length; i++) {
       if (this.state.notes[i].title === this.state.onContext) {
-        this.state.notes[i].title = prompt('name')
-        this.refreshNotesList()
+        let title = prompt('name')
+        if (title !== null && /\S/.test(title)) {
+          this.state.notes[i].title = title
+          this.refreshNotesList()
+        }
         break
       }
     }
