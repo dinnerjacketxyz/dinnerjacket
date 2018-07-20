@@ -302,7 +302,7 @@ class Notes extends Component {
     })
 
     return (
-      <div className='vcNavbarCard notesParent' onMouseMove={this.onMouseMove.bind(this)}>
+      <div className='vcNavbarCard notesParent'>
         <div className='notesChild card uk-animation-slide-top-small'>
         <button onClick={() => {alert('tooltip! right click innit!')}}>Tooltip</button>
         <div id='contextMenu' className='contextMenu uk-dropdown' style={{visibility: 'hidden'}}>
@@ -316,7 +316,7 @@ class Notes extends Component {
           {notes}
         </ul>
           <div className='pad'>
-            <div id='editor' onInput={this.updateDB.bind(this)}/>
+            <div id='editor' onInput={this.updateDB.bind(this)} onMouseMove={this.onMouseMove.bind(this)}/>
           </div>
           <div className=''>
             <a uk-icon='plus-circle' uk-tooltip='title: Add custom notes; pos: bottom-center;'></a>
