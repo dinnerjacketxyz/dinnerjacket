@@ -27,7 +27,8 @@ class Notes extends Component {
       classes: [],
       selected: 0,
       onContext: '',
-      mousePos: {x: 0, y: 0}
+      mousePos: {x: 0, y: 0},
+      posSaved: false
     }
 
     
@@ -48,7 +49,7 @@ class Notes extends Component {
     // questionable innit
     window.addEventListener('beforeunload', (event) => {
       // Autosaves before enduser exits notes
-      this.updateDB()
+      console.log('ISTHISEVERUSEDBEFOREUNLEAD?')
     }, false)
   }
   
@@ -93,11 +94,68 @@ class Notes extends Component {
     })
 
     this.initNote()
+
+
+
+    //HELP BUSTOR
+    console.log(window.selectedNote)
+    let notesLayout = document.getElementById('notesLayout')
+    for (let i = 0; i < notesLayout.childNodes; i++) {
+      if (i === window.selectedNote) {
+        console.log('At ' + i + ' TRUE')
+        notesLayout.childNodes[i].setAttribute('aria-expanded', 'true')
+        notesLayout.childNodes[i].className = 'uk-active'
+      } else {
+        console.log('At ' + i + ' FALSE')
+        notesLayout.childNodes[i].setAttribute('aria-expanded', 'false')
+        notesLayout.childNodes[i].className = ''
+      }
+    }
+
+    console.log(notesLayout.childNodes)
+
+    let posSaved = this.state.posSaved
+    this.setState({ posSaved: true })
   }
 
   componentWillUnmount() {
     // Autosaves before enduser exits notes
     this.updateDB()
+    console.log(document.getElementById('notesLayout'))
+    let notesLayout = document.getElementById('notesLayout')
+    
+    let oldNotes = this.state.notes
+    let notes = []
+
+    console.log(this.state.notes)
+
+    // IMPROVE EFFICIENCY
+    for (let i = 0; i < notesLayout.childNodes.length; i++) {
+      let title = notesLayout.childNodes[i].getAttribute('text')
+      console.log(title)
+      console.log(this.state.notes[i].title)
+      
+      if (this.state.notes[i].title !== title) {
+        for (let j = 0; j < this.state.notes.length; j++) {
+          if (this.state.notes[j].title === title) {
+            notes.push(this.state.notes[j])
+          }
+        }
+      } else {
+        notes.push(this.state.notes[i])
+      }
+
+      // CURRENT SELECTION
+      //if (notesLayout.childNodes[i].getAttribute('aria-expanded') === 'true') {
+      //  window.selectedNote = 
+      //}
+    }
+
+    window.selectedNote = this.state.selected
+
+    this.state.notes = notes
+
+    localStorage.setItem('notesDB', btoa(JSON.stringify(this.state.notes)));
 
     let content = document.getElementById('content')
     content.className = 'full'
@@ -111,6 +169,8 @@ class Notes extends Component {
 
     let content = quill.getContents()
     this.state.notes[this.state.selected].content = JSON.stringify(content)
+
+    
 
     localStorage.setItem('notesDB', btoa(JSON.stringify(this.state.notes)))
   }
@@ -179,7 +239,7 @@ class Notes extends Component {
     //this.setState({ mousePos: { x: e.screenX, y: e.screenY } })
     mouseX = e.screenX
     mouseY = e.screenY
-    console.log(mouseX,mouseY)
+    //console.log(mouseX,mouseY)
 
     this.state.mousePos.x = e.screenX
     this.state.mousePos.y = e.screenY
@@ -189,7 +249,7 @@ class Notes extends Component {
     contextMenu.style.visibility = 'visible'
 
     this.state.onContext = e.target.text
-    console.log(this.state.onContext)
+    //console.log(this.state.onContext)
 
     let dropdown = document.getElementById('contextMenu')
     UIkit.dropdown(dropdown).show()
