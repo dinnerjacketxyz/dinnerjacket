@@ -252,7 +252,10 @@ class Notes extends Component {
     //console.log(this.state.onContext)
 
     let dropdown = document.getElementById('contextMenu')
-    UIkit.dropdown(dropdown).show()
+    //UIkit.dropdown(dropdown).show()
+
+    contextMenu.style.top = e.clientY+'px'
+    contextMenu.style.left = e.clientX+'px'
     
     e.preventDefault()
   }
@@ -363,15 +366,15 @@ class Notes extends Component {
 
     return (
       <div className='vcNavbarCard notesParent'>
-        <div className='notesChild card uk-animation-slide-top-small'>
-        <button onClick={() => {alert('tooltip! right click innit!')}}>Tooltip</button>
-        <div id='contextMenu' className='contextMenu uk-dropdown' style={{visibility: 'hidden'}}>
+        <div id='contextMenu' className='contextMenu card' style={{visibility: 'hidden', minHeight: '50px',minWidth:'50px',position:'absolute',zIndex:1000}}>
           <ul className='uk-list'>
             <li onClick={this.rename.bind(this)}><span className='uk-margin-right uk-icon' uk-icon='pencil'/>Rename</li>
             <li onClick={this.clearContents.bind(this)}><span className='uk-margin-right uk-icon' uk-icon='ban'/>Clear</li>
             <li onClick={this.removeNote.bind(this)}><span className='uk-margin-right uk-icon' uk-icon='trash'/>Remove</li>
           </ul>
         </div>
+        <div className='notesChild card uk-animation-slide-top-small'>
+        <a uk-icon='icon: info' uk-tooltip='title: Right click to rename, clear, or delete notes' className='uk-float-right'/>
         <ul id='notesLayout' className='uk-subnav uk-subnav-pill uk-flex-center' uk-switcher='animation: uk-animation-fade' uk-sortable='cls-custom: uk-box-shadow-small uk-flex uk-flex-middle uk-background'>
           {notes}
         </ul>
@@ -381,6 +384,7 @@ class Notes extends Component {
           <div className=''>
             <a uk-icon='plus-circle' uk-tooltip='title: Add custom notes; pos: bottom-center;'></a>
             <div uk-dropdown='mode: click;pos: top-center'>
+              <p className='uk-text-left'>Classes</p>
               {classList}
               <p className='uk-text-left'>Custom</p>
               <input id='customTitle' className='uk-input' type='text' placeholder='Title' maxLength='10'/>
