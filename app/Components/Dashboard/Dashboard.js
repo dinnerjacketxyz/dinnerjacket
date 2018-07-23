@@ -518,7 +518,9 @@ class Dashboard extends Component {
 
         periods = this.getDailyTimetable(timetable)
         let bells = timetable['bells']
-        this.addMorningClass(timetable, periods, bells)
+        if (localStorage.getItem('morningClasses') != null) {
+          this.addMorningClass(timetable, periods, bells)
+        }
         schedule = this.getSchedule(periods, timetableDate, bells)
         localStorage.setItem('timetableBells', JSON.stringify(bells))
         localStorage.setItem('timetablePeriods', JSON.stringify(periods))
