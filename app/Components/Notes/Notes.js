@@ -366,7 +366,7 @@ class Notes extends Component {
         <div className='notesChild card uk-animation-slide-top-small'>
         <button onClick={() => {alert('tooltip! right click innit!')}}>Tooltip</button>
         <div id='contextMenu' className='contextMenu uk-dropdown' style={{visibility: 'hidden'}}>
-          <ul class="uk-list">
+          <ul className='uk-list'>
             <li onClick={this.rename.bind(this)}><span className='uk-margin-right uk-icon' uk-icon='pencil'/>Rename</li>
             <li onClick={this.clearContents.bind(this)}><span className='uk-margin-right uk-icon' uk-icon='ban'/>Clear</li>
             <li onClick={this.removeNote.bind(this)}><span className='uk-margin-right uk-icon' uk-icon='trash'/>Remove</li>

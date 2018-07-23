@@ -58,8 +58,6 @@ class Notices extends Component {
     let lowRelavence = []
     let count = 0
 
-    document.getElementById('noticeCount').style.visibility = 'hidden'
-
     for (let i = 0; i < dailyNotices.notices.length; i++) {
       if (this.state.year == 'ALL' || this.yearInNotice(this.state.year, dailyNotices.notices[i])) {
         if (this.state.keywords.length === 0 || this.keywordsInNotice(this.state.keywords, dailyNotices.notices[i])) {
@@ -128,7 +126,7 @@ class Notices extends Component {
     }
 
     if (this.state.notices.length <= 0) {
-      document.getElementById('noticeCount').style.visibility = 'visible'
+      // NO NOTICES
     }
   }
 
@@ -241,7 +239,6 @@ class Notices extends Component {
                 <input id='search' className="uk-search-input" onInput={this.search.bind(this)} type="search" placeholder="Search"/>
             </form>
             <button onClick={this.toggleNotices.bind(this)} className='uk-button uk-align-left uk-button-default'>
-              <p id='noticeCount'>No notices</p>
               {this.state.text}
             </button>
           </div>
