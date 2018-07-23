@@ -246,6 +246,7 @@ class Notes extends Component {
   }
 
   notesContextMenu(e) {
+    console.log('context opened')
     contextMenu.style.visibility = 'visible'
 
     this.state.onContext = e.target.text
@@ -324,6 +325,15 @@ class Notes extends Component {
     //console.log(this.state.notes)
     this.updateDB()
 
+    ///////////////////////////////////////
+    //let contentaaa = quill.getContents()
+    //this.state.notes[this.state.selected].content = JSON.stringify(contentaaa)
+
+    //localStorage.setItem('notesDB', btoa(JSON.stringify(this.state.notes)))
+    ///////////////////////////////////////
+
+    console.log(this.state.notes)
+
     let content// = this.state.notes[this.state.selected].content
     for (let i = 0; i < this.state.notes.length; i++) {
       if (this.state.notes[i].title === e.target.text) {
@@ -361,6 +371,7 @@ class Notes extends Component {
 
     let key2 = 0
     let classList = this.state.classes.map(cls => {
+      key2++
       return <p key={key2} title={cls} onClick={this.createNote.bind(this)}>{cls}</p>
     })
 
