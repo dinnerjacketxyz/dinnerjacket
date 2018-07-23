@@ -50,5 +50,13 @@
   <body id='body' class="uk-dark Clean">
     <main id="app"></main>
     <script src="app.js"></script>
+    <script type='text/javascript'>
+      window.onclick = hideContextMenu
+      
+      function hideContextMenu () {
+        var x = document.getElementById('contextMenu')
+				x.style.visibility = 'hidden';
+			}
+    </script>
   </body>
 </html>

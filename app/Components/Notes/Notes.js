@@ -251,8 +251,7 @@ class Notes extends Component {
     this.state.onContext = e.target.text
     //console.log(this.state.onContext)
 
-    //let dropdown = document.getElementById('contextMenu')
-    //UIkit.dropdown(dropdown).show()
+    
     contextMenu.style.top = e.clientY+'px'
     contextMenu.style.left = e.clientX+'px'
     
@@ -373,8 +372,8 @@ class Notes extends Component {
           </ul>
         </div>
         <div className='notesChild card uk-animation-slide-top-small'>
-        <a uk-icon='icon: info' uk-tooltip='title: Right click to rename, clear, or delete notes' className='uk-align-right'></a>
-        <ul id='notesLayout' className='uk-subnav uk-subnav-pill uk-flex-center' uk-switcher='animation: uk-animation-fade' uk-sortable='cls-custom: uk-box-shadow-small uk-flex uk-flex-middle uk-background'>
+        <a uk-icon='icon: info' uk-tooltip='title: Right click to rename, clear, or delete notes' className='uk-float-right'></a>
+        <ul id='notesLayout' className='uk-margin-large-top uk-subnav uk-subnav-pill uk-flex-center' uk-switcher='animation: uk-animation-fade' uk-sortable='cls-custom: uk-box-shadow-small uk-flex uk-flex-middle uk-background'>
           {notes}
         </ul>
           <div className='pad'>
@@ -383,6 +382,7 @@ class Notes extends Component {
           <div className=''>
             <a uk-icon='plus-circle' uk-tooltip='title: Add custom notes; pos: bottom-center;'></a>
             <div uk-dropdown='mode: click;pos: top-center'>
+              <p className='uk-text-left'>Classes</p>
               {classList}
               <p className='uk-text-left'>Custom</p>
               <input id='customTitle' className='uk-input' type='text' placeholder='Title' maxLength='10'/>
