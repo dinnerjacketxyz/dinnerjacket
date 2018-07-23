@@ -671,11 +671,8 @@ class Calendar extends Component {
   
   render() {
     //console.log('render')
-    
-    return (
-      <div className='flex-container uk-width-1-1 vcNavbarCard'>
-        <div id='parentCalCard' className='two uk-animation-slide-top-small'>
-          <div id='aaa' className='uk-inline uk-width-1-1'>
+    /*under parent cal card
+    <div id='aaa' className='uk-inline uk-width-1-1'>
             <div className="uk-margin uk-align-left">
                 <form id='ccc' className="uk-search uk-search-default">
                     <span uk-search-icon=''></span>
@@ -687,6 +684,11 @@ class Calendar extends Component {
             
             <div className='uk-align-right' className='uk-text-muted'>{this.state.searchHits.length} matches</div>
           </div>
+    */
+    
+    return (
+      <div className='flex-container uk-width-1-1 vcNavbarCard'>
+        <div id='parentCalCard' className='two uk-animation-slide-top-small'>
           <div className="uk-grid-collapse uk-grid  uk-grid-match" uk-grid='true'>
             <div className='cal card uk-width-expand'>
               <div>

@@ -17,6 +17,19 @@ class Changelog extends Component {
             <hr />
 
             <article className="uk-article">
+              <h1 className="uk-article-title">Beta v1.2.0</h1>
+              <p className="uk-article-meta">1 July 2018</p>
+              <p>Start of Term 3 update improving existing features and adding more</p>
+              <ul>
+                <li>Custom morning classes on the timetable and dashboard</li>
+                <li>Multiple, sortable notes</li>
+                <li>Custom notes or class notes</li>
+              </ul>
+            </article>
+
+            <hr />
+
+            <article className="uk-article">
               <h1 className="uk-article-title">Beta v1.1.0</h1>
               <p className="uk-article-meta">1 July 2018</p>
               <p>End of Term 2 update improving existing features and adding more</p>
