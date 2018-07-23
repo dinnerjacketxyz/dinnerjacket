@@ -250,6 +250,7 @@ class Notices extends Component {
               {rows}
             </ul>
           </div>
+          <h1 className='uk-heading-line uk-text-center uk-margin-top uk-margin-bottom'><span>No notices</span></h1>
         </div>
       </div>
     )
