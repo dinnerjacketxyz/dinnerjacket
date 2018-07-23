@@ -247,11 +247,14 @@ class Notices extends Component {
               {rows}
             </ul>
           </div>
+          
         </div>
       </div>
     )
   }
 }
+
+// goes above the two /div <h1 className='uk-heading-line uk-text-center uk-margin-top uk-margin-bottom'><span>No notices</span></h1>
 
 /**
  * Render mapped notices in their collapsed state
