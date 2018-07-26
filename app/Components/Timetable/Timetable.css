@@ -59,23 +59,23 @@
 }
 
 @media (max-height:1000px){
-  .Default .timetable td{
+  .Dynamic .timetable td, .Full .timetable td{
     padding: 2px 1px;
   }
-  .Default .uk-table th {
+  .Dynamic .uk-table th, .Full .uk-table th  {
     padding: 5px 6px;
   }
-  .Default .uk-table{
+  .Dynamic .uk-table, .Full .uk-table{
     margin-bottom: 5px;
   }
-  .Default #ttableName{
+  .Dynamic #ttableName, .Full #ttableName{
     font-size: 2.25rem;
   }
-  .Default #fullTimetable hr{
+  .Dynamic #fullTimetable hr, .Full #fullTimetable hr{
     margin-top: 15px;
     margin-bottom: 15px;
   }
-  .Default .ttableCard {
+  .Dynamic .ttableCard, .Full .ttableCard {
     width: 525px;
   }
 }
@@ -91,11 +91,11 @@
 }
 
 @media (max-width:530px), (max-height:750px){
-  .Default #fullTimetable {
+  .Dynamic #fullTimetable {
     visibility: hidden;
     display: none;
   }
-  .Default #smallTimetable{
+  .Dynamic #smallTimetable{
     visibility: visible;
     display: block;
   }
@@ -126,11 +126,11 @@
     visibility: visible;
     display: block;
   }
-  .Default #fullTimetable {
+  .Dynamic #fullTimetable {
     visibility: visible;
     display: block;
   }
-  .Default #smallTimetable{
+  .Dynamic #smallTimetable{
     visibility: hidden;
     display: none;
   }
@@ -158,4 +158,8 @@
   .ttableCard{
     box-shadow: none;
   }
+}
+
+#removeBody td, #removeBody2 td {
+  padding: 5px 5px!important;
 }

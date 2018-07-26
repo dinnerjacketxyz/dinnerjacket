@@ -85,8 +85,8 @@ class Profile extends Component {
   }
 
   render() {
-    id++
     let rows = yearList.map(year => {
+      id++
       return <YearList key={year+id} years={year} />
     })
 
@@ -102,13 +102,18 @@ class Profile extends Component {
       pptOption = (<li id='partTab' onClick={() => {this.setState({ content: 'part' })}}><a>Participation</a></li>)
     }
 
+    let subtitle = userData.role
+    if (window.userData.role === 'Student') {
+      subtitle += ' | ' + userData.department + ' | ' + userData.office
+    }
+
     return (
       <div className='vcNavbarCard'>
         <div className='profileParent'>
           <div className='profileChild card uk-animation-slide-top-small'>
             <span className='profileParent' uk-icon='icon: user; ratio:2'></span>
             <h2 className='uk-text-center'>{userData.givenName+' '+userData.surname}</h2>
-            <p className='uk-text-center'>{userData.role+' | '+userData.department+' | '+userData.office}</p>
+            <p className='uk-text-center'>{subtitle}</p>
             <ul className='uk-margin-top uk-margin-bottom uk-flex-center' uk-tab='true'>
               <li id='detailsTab' className='uk-active' onClick={() => {this.setState({ content: 'details' })}}><a>Details</a></li>
               {pptOption}
@@ -164,17 +169,17 @@ const TableRow = (props) => {
 }
 
 const DETAILS = () => {
+  let ID = (window.userData.role === 'Student') ? 'ID' : 'Username'
+  let nesa = NESA()
+
   return (
     <table id='detailsTable' className='uk-table uk-table-small'>
       <tbody>
         <tr>
-            <td className='width-small'>ID</td>
+            <td className='width-small'>{ID}</td>
             <td><code>{userData.username}</code></td>
         </tr>
-        <tr>
-            <td className='width-small'>NESA</td>
-            <td><code>{window.timetable.student.BoSNumber}</code></td>
-        </tr>
+        {nesa}
         <tr>
             <td className='width-small'>Email</td>
             <td><code>{userData.email}</code></td>
@@ -194,6 +199,17 @@ const DETAILS = () => {
       </tbody>
     </table>
   )
+}
+
+const NESA = () => {
+  if (window.timetable.student.BoSNumber !== '' && window.userData.role === 'Student') {
+    return (
+      <tr>
+        <td className='width-small'>NESA</td>
+        <td><code>{window.timetable.student.BoSNumber}</code></td>
+      </tr>
+    )
+  }
 }
 
 const PARTICIPATION = (rows) => {

@@ -65,8 +65,8 @@ class Timetable extends Component {
         && localStorage.getItem('forceSmallTable') !== 'false') {
       card.className = localStorage.getItem('forceSmallTable')
     } else {
-      localStorage.setItem('forceSmallTable', 'Default')
-      card.className = 'Default'
+      localStorage.setItem('forceSmallTable', 'Dynamic')
+      card.className = 'Dynamic'
     }
 
    this.initialise()
@@ -439,9 +439,8 @@ class Timetable extends Component {
   this.displayMorningClass()
  }
 
- 
-
  displayMorningClass() {
+  let count = 0
   for (let i = 0; i < mcArr.length; i++) {
     if (mcArr[i]!='') {
       let temp = mcArr[i].split('!')
@@ -454,9 +453,24 @@ class Timetable extends Component {
         temp2 = '-3'
       }
       let day = document.getElementById(`${tabArray.indexOf(`${temp[3]}`)},${temp2}`)
-      day.innerHTML = temp[0] + '&nbsp;&nbsp;' + temp[1] 
+      day.innerHTML = temp[0] + '&nbsp;&nbsp;' + temp[1]
+    } else {
+      count++
     }
   }
+  let day = document.getElementById('zeroIndicator1')
+  let day1 = document.getElementById('zeroIndicator2')
+  let day2 = document.getElementById('zeroIndicator3')
+  if (count == 15) {
+    day.innerHTML = ''
+    day1.innerHTML = ''
+    day2.innerHTML = ''
+  } else {
+    day.innerHTML = '0'
+    day1.innerHTML = '0'
+    day2.innerHTML = '0'
+  }
+  console.log(mcArr)
  }
 
  repeatCheckbox() {
@@ -552,6 +566,7 @@ class Timetable extends Component {
   localStorage.setItem('morningClasses', mcArr)
   remArr.splice(tempArr[0],tempArr.length)
   this.initRemove()
+  this.displayMorningClass()
  }
 
  initSelectAll() {
@@ -627,7 +642,7 @@ class Timetable extends Component {
                 </thead>
                 <tbody id='wA' className='timetable' onMouseOver={this.subjectHighlight.bind(this)}>
                   <tr id='r-1' onMouseOver={this.bigInput}>
-                    <td id="" className=""></td>
+                    <td id="zeroIndicator1" className="periodIndicator"></td>
                     <td id="0,-1" className=""></td>
                     <td id="1,-1" className=""></td>
                     <td id="2,-1" className=""></td>
@@ -657,7 +672,7 @@ class Timetable extends Component {
                   </thead>
                   <tbody id='wB' className='timetable'onMouseOver={this.subjectHighlight.bind(this)}>
                     <tr id='r-2' onMouseOver={this.bigInput}>
-                      <td id="" className=""></td>
+                      <td id="zeroIndicator2" className="periodIndicator"></td>
                       <td id="0,-2" className=""></td>
                       <td id="1,-2" className=""></td>
                       <td id="2,-2" className=""></td>
@@ -687,7 +702,7 @@ class Timetable extends Component {
                   </thead>
                   <tbody id='wC' className='timetable' onMouseOver={this.subjectHighlight.bind(this)} >
                     <tr id='r-3' onMouseOver={this.bigInput}>
-                      <td id="" className=""></td>
+                      <td id="zeroIndicator3" className="periodIndicator">0</td>
                       <td id="0,-3" className=""></td>
                       <td id="1,-3" className=""></td>
                       <td id="2,-3" className=""></td>
@@ -738,8 +753,8 @@ class Timetable extends Component {
                   </select>
 
                   <label><input id='acRepeat' className="uk-checkbox" type="checkbox" onChange={this.repeatCheckbox.bind(this)}/> Every week</label>
-                  <div onClick={this.processForm.bind(this)}>
-                    <button id='acAdd' className="uk-button uk-button-default uk-margin-top" disabled='true'>Add</button>
+                  <div className='uk-margin-top' onClick={this.processForm.bind(this)}>
+                    <button id='acAdd' className="uk-button uk-button-default " disabled='true'>Add</button>
                   </div>
                 </div>
             </div>
@@ -747,7 +762,7 @@ class Timetable extends Component {
                 <a className='removeMC' uk-icon="minus-circle" onClick={this.initRemove.bind(this)} uk-tooltip="title: Remove morning classes; pos: bottom-right;"></a>
                 <div id='rmDropDiv' uk-dropdown="mode: click;pos: top-right">
                   <p id='noText' hidden='true'>No morning classes</p>
-                  <div id='rmTableDiv' >
+                  <div id='rmTableDiv' className='uk-overflow-auto'>
                     <a id='btnSelectall' onClick={this.selectAll.bind(this)} className="uk-button uk-button-default uk-margin-bottom">Select all</a>
                     <table className="uk-table uk-table-hover uk-table-middle uk-table-divider">
                         <thead>
@@ -760,8 +775,8 @@ class Timetable extends Component {
                         <tbody id='removeBody'>
                         </tbody>
                     </table>
-                    <div onClick={this.processRem.bind(this)}>
-                      <button id='rmcButton' className="uk-button uk-button-default uk-margin-top">Remove</button>
+                    <div className='uk-margin-top' onClick={this.processRem.bind(this)}>
+                      <button id='rmcButton' className="uk-button uk-button-default">Remove</button>
                     </div>
                   </div>
                 </div>
@@ -820,8 +835,8 @@ class Timetable extends Component {
                   </select>
 
                   <label><input id='acRepeat2' className="uk-checkbox" type="checkbox" onChange={this.repeatCheckbox.bind(this)}/> Every week</label>
-                  <div onClick={this.processForm.bind(this)}>
-                    <button id='acAdd2' className="uk-button uk-button-default uk-margin-top" disabled='true'>Add</button>
+                  <div className='uk-margin-top' onClick={this.processForm.bind(this)}>
+                    <button id='acAdd2' className="uk-button uk-button-default" disabled='true'>Add</button>
                   </div>
                 </div>
             </div>
@@ -842,8 +857,8 @@ class Timetable extends Component {
                         <tbody id='removeBody2'>
                         </tbody>
                     </table>
-                    <div onClick={this.processRem.bind(this)}>
-                      <button id='rmcButton' className="uk-button uk-button-default uk-margin-top">Remove</button>
+                    <div className='uk-margin-top' onClick={this.processRem.bind(this)}>
+                      <button id='rmcButton' className="uk-button uk-button-default">Remove</button>
                     </div>
                   </div>
                 </div>
