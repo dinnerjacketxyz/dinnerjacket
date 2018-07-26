@@ -16,6 +16,8 @@ let mouseX, mouseY = 0
 
 let contextMenu
 
+
+
 const MAX_CLASSES = 12
 
 class Notes extends Component {
@@ -43,6 +45,8 @@ class Notes extends Component {
         localStorage.removeItem('content')
       }
     }
+
+    
     
     this.generateClasses()
     
@@ -95,11 +99,15 @@ class Notes extends Component {
 
     this.initNote()
 
-
+    console.log(window.selectedNote)
 
     //HELP BUSTOR
     console.log(window.selectedNote)
     let notesLayout = document.getElementById('notesLayout')
+
+    UIkit.switcher(notesLayout).show(window.selectedNote)
+    
+    /*
     for (let i = 0; i < notesLayout.childNodes; i++) {
       if (i === window.selectedNote) {
         console.log('At ' + i + ' TRUE')
@@ -111,8 +119,8 @@ class Notes extends Component {
         notesLayout.childNodes[i].className = ''
       }
     }
-
     console.log(notesLayout.childNodes)
+    */
 
     let posSaved = this.state.posSaved
     this.setState({ posSaved: true })
