@@ -202,7 +202,7 @@ class Notes extends Component {
     if (this.titleInUse(title)) {
       // QUIGLEY
       // I would keep the alert message contents but maybe present it in some uikit element that looks better innit
-      alert('The note \'' + title.toUpperCase() + '\' already exists.')
+      UIkit.modal.alert('The note \'' + title.toUpperCase() + '\' already exists.')
     } else {
       currentID++
       let n = this.state.notes
@@ -246,7 +246,6 @@ class Notes extends Component {
   }
 
   notesContextMenu(e) {
-    console.log('context opened')
     contextMenu.style.visibility = 'visible'
 
     this.state.onContext = e.target.text
@@ -264,8 +263,7 @@ class Notes extends Component {
   removeNote() {
     if (this.state.notes.length > 1) {
       contextMenu.style.visibility = 'hidden'
-      if (confirm('r u sure innit')) {
-
+      UIkit.modal.confirm('r u sure innit').then(_ => {
         for (let i = 0; i < this.state.notes.length; i++) {
           if (this.state.notes[i].title === this.state.onContext) {
             this.state.notes.splice(i, 1)
@@ -280,15 +278,15 @@ class Notes extends Component {
             break
           }
         }
-      }
-    } else {
-      alert('No!')
+      }, _ => {
+        UIkit.modal.alert('No!')
+      })
     }
   }
 
   clearContents() {
     contextMenu.style.visibility = 'hidden'
-    if (confirm('r u sure innit')) {
+    UIkit.modal.confirm('r u sure innit').then(_=> {
       for (let i = 0; i < this.state.notes.length; i++) {
         if (this.state.notes[i].title === this.state.onContext) {
           this.state.notes[i].content = ''
@@ -297,7 +295,7 @@ class Notes extends Component {
           break
         }
       }
-    }
+    })
   }
 
   rename() {
@@ -305,11 +303,12 @@ class Notes extends Component {
 
     for (let i = 0; i < this.state.notes.length; i++) {
       if (this.state.notes[i].title === this.state.onContext) {
-        let title = prompt('name')
-        if (title !== null && /\S/.test(title)) {
-          this.state.notes[i].title = title
-          this.refreshNotesList()
-        }
+        UIkit.modal.prompt('Name:', 'Your name').then(title => {
+          if (title !== null && /\S/.test(title)) {
+            this.state.notes[i].title = title
+            this.refreshNotesList()
+          }
+        })
         break
       }
     }
@@ -324,15 +323,6 @@ class Notes extends Component {
   selectNote(e) {
     //console.log(this.state.notes)
     this.updateDB()
-
-    ///////////////////////////////////////
-    //let contentaaa = quill.getContents()
-    //this.state.notes[this.state.selected].content = JSON.stringify(contentaaa)
-
-    //localStorage.setItem('notesDB', btoa(JSON.stringify(this.state.notes)))
-    ///////////////////////////////////////
-
-    console.log(this.state.notes)
 
     let content// = this.state.notes[this.state.selected].content
     for (let i = 0; i < this.state.notes.length; i++) {
@@ -366,13 +356,12 @@ class Notes extends Component {
     let key = 0
     let notes = this.state.notes.map(note => {
       key++
-      return <li key={key} text={note.title} onContextMenu={this.notesContextMenu.bind(this)} onClick={this.selectNote.bind(this)}><a id={note.id}>{note.title}</a></li>
+      return <li key={key} text={note.title}  onContextMenu={this.notesContextMenu.bind(this)} onClick={this.selectNote.bind(this)}><a id={note.id}>{note.title}</a></li>
     })
 
     let key2 = 0
     let classList = this.state.classes.map(cls => {
-      key2++
-      return <p key={key2} title={cls} onClick={this.createNote.bind(this)}>{cls}</p>
+      return <tr><td className='uk-text-middle'>{cls}</td><td><button key={key2} title={cls} onClick={this.createNote.bind(this)} className="uk-button uk-button-default uk-button-small" type="button">Add</button></td></tr>
     })
 
     return (
@@ -396,7 +385,12 @@ class Notes extends Component {
             <a uk-icon='plus-circle' uk-tooltip='title: Add custom notes; pos: bottom-center;'></a>
             <div uk-dropdown='mode: click;pos: top-center'>
               <p className='uk-text-left'>Classes</p>
-              {classList}
+              
+              <table className="uk-table uk-table-small uk-table-divider uk-table-hover">
+                <tbody>
+                  {classList}
+                </tbody>
+              </table>
               <p className='uk-text-left'>Custom</p>
               <input id='customTitle' className='uk-input' type='text' placeholder='Title' maxLength='10'/>
               <button onClick={this.createCustomNote.bind(this)} className='uk-margin-top uk-button uk-button-default'>Add</button>

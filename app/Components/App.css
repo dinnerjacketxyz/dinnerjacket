@@ -122,6 +122,10 @@ body {
   max-width: 100%;
 }
 
+#rightDropdown {
+  min-width: 200px;
+}
+
 @media (max-width: 960px) {
   .uk-navbar-item,.uk-navbar-nav>li>a,.uk-navbar-toggle {
     height:60px

@@ -672,7 +672,7 @@ class Calendar extends Component {
   render() {
     //console.log('render')
     /*under parent cal card
-    <div id='aaa' className='uk-inline uk-width-1-1'>
+          <div id='aaa' className='uk-inline uk-width-1-1'>
             <div className="uk-margin uk-align-left">
                 <form id='ccc' className="uk-search uk-search-default">
                     <span uk-search-icon=''></span>
@@ -689,6 +689,28 @@ class Calendar extends Component {
     return (
       <div className='flex-container uk-width-1-1 vcNavbarCard'>
         <div id='parentCalCard' className='two uk-animation-slide-top-small'>
+          <div id='aaa' className='uk-inline uk-width-1-1'>
+            <div className="uk-margin uk-align-left">
+                <div id='ccc' className="uk-search uk-search-default">
+                    <span uk-search-icon=''></span>
+                    <input id='keywords' className="uk-search-input" onInput={this.onSearchClick.bind(this)} type="search" placeholder="Search"/>
+                </div>
+                <button id='calPrev' onClick={this.prevSearchResult.bind(this)} className="uk-button uk-button-default"><a uk-icon="icon: chevron-left"></a></button>
+                <button id='calNext' onClick={this.nextSearchResult.bind(this)} className="uk-button uk-button-default"><a uk-icon="icon: chevron-right"></a></button>
+                <div className='uk-text-muted uk-align-right'>{this.state.searchHits.length} matches</div>
+            </div>
+            
+            <div className="uk-align-right">
+              <div className="uk-inline">
+                <a uk-icon="icon: plus-circle"></a>
+                <div uk-dropdown="mode: click">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>
+              </div>
+              <div className="uk-inline">
+                <a uk-icon="icon: minus-circle"></a>
+                <div uk-dropdown="mode: click">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>
+              </div>
+            </div>
+          </div>
           <div className="uk-grid-collapse uk-grid  uk-grid-match" uk-grid='true'>
             <div className='cal card uk-width-expand'>
               <div>
@@ -725,6 +747,7 @@ class Calendar extends Component {
                     { (this.state.eventsToShow).map((item, i) => <ListItem key={i} value={item} />) }
                 </ul>
               </div>
+              
             </div>
           </div>
         </div>

@@ -137,8 +137,14 @@
   border-radius: 5px!important;
 }
 
-#ccc {
-  margin-right: 30px;
+#calPrev {
+  border-radius: 0;
+  border-left-width: 0px;
+  border-right-width: 0px;
+}
+
+#calNext {
+  border-radius: 0 5px 5px 0;
 }
 
 .daysOverlay {
