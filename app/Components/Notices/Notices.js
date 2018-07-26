@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-const http = require('http')
 const css = require('./Notices.css')
 
 let dailyNotices = ''
@@ -10,6 +9,9 @@ class Notices extends Component {
   constructor(props) {
     super(props)
   
+    // Checks for student access level
+    // Sets notice filter to student year if student is logged in
+    // If a teacher is logged in, default filter is set to ALL
     if (window.year === '' && window.userData.role === 'Student') {
       window.year = window.userData['yearGroup']
     } else {
@@ -17,27 +19,39 @@ class Notices extends Component {
     }
 
     this.state = {
-      notices: [],
-      year: window.year,
-      text: 'EXPAND',
-      keywords: []
+      notices: [], // Array containing all notices to be rendered
+      year: window.year, // Value in year filter dropdown
+      text: 'EXPAND', // State indicating whether all notices are expanded or collapsed
+      keywords: [] // Current search keywords entered into input box
     }
+  }
+  
+  componentDidMount() {
+    // Updates the year selector UI element
+    // Displays appropriate year group as selected in lines 16-20
+    let selector = document.getElementById('yearSelector')
+    selector.value = window.year
+    
+    search = document.getElementById('search')
     this.init()
   }
 
-  componentDidMount() {
-    let selector = document.getElementById('yearSelector')
-    selector.value = window.year
-
-    search = document.getElementById('search')
-  }
-
+  /**
+   * Removes tags from notice content
+   * @param {*} html - original notice content to be formatted
+   */
   strip(html) {
     var tmp = document.createElement('DIV')
     tmp.innerHTML = html
     return tmp.textContent || tmp.innerText || ''
   }
 
+  /**
+   * Runs through all notices returned by the API
+   * Checks whether they match search keywords
+   * Formats room, date, teacher, title, content etc. of notice
+   * Pushes all notices to be rendered in this.state.notices
+   */
   init() {
     dailyNotices = window.dailyNotices
     this.state.notices = []
@@ -102,6 +116,7 @@ class Notices extends Component {
             author: dailyNotices.notices[i].authorName,
             ID: count
           }
+          this.state.numNotices++
           this.state.notices.push(obj)
           //if (this.state.keyword === '' || this.keywordInNotice(this.state.keyword, dailyNotices.notices[i])) {
           //  this.state.notices.push(obj)
@@ -109,8 +124,18 @@ class Notices extends Component {
         }
       }
     }
+
+    if (this.state.notices.length <= 0) {
+      // NO NOTICES
+    }
   }
 
+  /**
+   * Checks if ALL search keywords are present within a notice
+   * @param {array of strings} keywords - keywords entered into the search field
+   * @param {obj} notice - notice to be searched
+   * @returns {boolean} - whether or not the keywords are present
+   */
   keywordsInNotice(keywords, notice) {
     let match = true
     for (let i = 0; i < keywords.length; i++) {
@@ -125,20 +150,26 @@ class Notices extends Component {
     return match
   }
 
+  /**
+   * Checks if notice is relevant to selected year
+   * @param {string} year - selected year
+   * @param {obj} notice - notice to be filtered
+   * @returns {boolean} - whether or not the keywords are present
+   */
   yearInNotice(year, notice) {
     let found = false
 
     for (let i = 0; i < notice.years.length; i++) {
       if (year == notice.years[i]) {
-        //console.log(year)
-        //console.log(notice.years[i])
         found = true
-        //console.log(found)
       }
     }
     return found
   }
 
+  /**
+   * Set selected year to the value chosen in the year selector dropdown
+   */
   selectYear() {
     let selector = document.getElementById('yearSelector')
     this.state.year = selector.options[selector.selectedIndex].text
@@ -150,6 +181,9 @@ class Notices extends Component {
     this.init()
   }
 
+  /**
+   * Switch toggle text between EXPAND and COLLAPSE upon [toggle] button click
+   */
   toggleNotices() {
     let text = this.state.text
     let newText = ''
@@ -157,6 +191,11 @@ class Notices extends Component {
     this.setState({ text: newText })
   }
 
+  /**
+   * Save keywords as they are entered into the search field
+   * Regex is used to seperate entries by spaces, commas and semi-colons
+   * Each word is saved in this.state.keywords - an array of strings
+   */
   search() {
     let keywords = this.state.keywords
     this.setState({ keywords: search.value.toLowerCase().split(/[\s,;]+/) })
@@ -164,6 +203,10 @@ class Notices extends Component {
     this.init()
   }
 
+  /**
+   * Map notices in the correct layout depending on EXPAND/COLLAPSE status
+   * Render all notices together with other UI element - search field, year selector etc.
+   */
   render() {
     let text = this.state.text
     let rows
@@ -204,13 +247,21 @@ class Notices extends Component {
               {rows}
             </ul>
           </div>
+          
         </div>
       </div>
     )
   }
 }
 
-// TEMPORARY - displays meeting date in title currently
+// goes above the two /div <h1 className='uk-heading-line uk-text-center uk-margin-top uk-margin-bottom'><span>No notices</span></h1>
+
+/**
+ * Render mapped notices in their collapsed state
+ * _____ always displayed
+ * Content ... displayed and toggled on click
+ * @param {*} props 
+ */
 const CollapsedNotices = (props) => {
   return (
     <li className=''>
@@ -225,6 +276,11 @@ const CollapsedNotices = (props) => {
   )
 }
 
+/**
+ * Render mapped notices in their expanded state
+ * Accordions are open by default and all fields are displayed
+ * @param {*} props 
+ */
 const ExpandedNotices = (props) => {
   return (
     <li className='uk-open'>

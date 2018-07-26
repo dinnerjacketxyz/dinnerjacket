@@ -106,8 +106,8 @@
   color: #e8e8e8;
 }
 
-.uk-light .days li:hover, .uk-light .prev:hover, .uk-light .next:hover {
-  background-color: rgba(255,255,255,0.08);;
+.uk-light .days li:hover:not(.active), .uk-light .prev:hover:not(.active), .uk-light .next:hover:not(.active) {
+  background-color: rgba(255,255,255,0.08);
   transition: background-color 100ms linear;
 }
 
@@ -130,13 +130,24 @@
 
 .eventsBorder{
   border-radius: 0 5px 5px 0;
-  height: 532px;
-  margin: -30px;
+  height: 522px;
+}
+
+#bbb {
+  border-radius: 5px!important;
+}
+
+#ccc {
+  margin-right: 30px;
 }
 
 .daysOverlay {
   height: 260px;
   width: 100%;
+}
+
+#aaa button{
+  padding: 0 15px;
 }
 
 .days .active {
@@ -152,7 +163,6 @@
   height: 522px!important;
   border-radius: 5px 0 0 5px;
   padding: 0!important;
-  margin-right: 30px;
 }
 
 .events td {
@@ -211,5 +221,8 @@
   }
   .daysOverlay {
     height: 170px;
+  }
+  #parentCalCard {
+    margin-top: 30px;
   }
 }

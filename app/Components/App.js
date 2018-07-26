@@ -436,7 +436,7 @@ class App extends Component {
 
   showNotes() {
     ////('User notes tab clicked')
-    if (Quill != undefined) {
+    if (Quill != undefined && window.timetable !== '') {
       let visible = this.state.visible
       this.setState({ visible: window.STATES.NOTES })
       this.selectedNavbar(window.STATES.NOTES)
@@ -502,8 +502,9 @@ class App extends Component {
     localStorage.removeItem('refreshToken')
     localStorage.removeItem('accessTokenExpiry')
     localStorage.removeItem('refreshTokenExpiry')
-    //DONTCLEARLOCALSTORAGEPK
-    //REMOVEITEMSINDIVIDUALLYIFYOUNEEDTO
+    localStorage.removeItem('timetableBells')
+    localStorage.removeItem('timetablePeriods')
+    localStorage.removeItem('timetablePeriodsDate')
     localStorage.setItem('clicked',false)
   }
 

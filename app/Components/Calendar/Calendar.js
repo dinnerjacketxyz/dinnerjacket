@@ -7,6 +7,9 @@ const ListItem = ({ value }) => (
   <li id={value}>{value}</li>
 );
 
+// set to true when month is changing to ensure user doesn't try to change months before everything is ready
+var monthChanging = false
+
 window.d = ''
 window.m = ''
 window.y = ''
@@ -34,14 +37,21 @@ class Calendar extends Component {
       eventsToShow: [],
       selectedDay: window.d,
       selectedDayIndex: -1,
+      selectedDayWeekOfCycle: '',
       selectedMonth: window.m,
       selectedYear: window.y,
-      days: this.setDaysForMonth(window.m, window.y)
+      days: this.setDaysForMonth(window.m, window.y),
+      searchHits: [],
+      searchTimer: null,
+      searchResultIndex: 0
     }
     
     this.highlightSelectedDay = this.highlightSelectedDay.bind(this)
     this.setEvents = this.setEvents.bind(this)
     this.changeMonth = this.changeMonth.bind(this)
+    this.search = this.search.bind(this)
+    this.changeSelectedSearchResult = this.changeSelectedSearchResult.bind(this)
+    this.preloadAdjacentMonths = this.preloadAdjacentMonths.bind(this)
   }
   
   // setup
@@ -52,18 +62,30 @@ class Calendar extends Component {
     this.setEvents(this.state.calData[this.state.selectedDay-1])
     this.highlightSelectedDay(this.state.selectedDay)
     
-    // preload data for prev and next months
-    
-    const curMonth = window.m
-    const year = window.y
+    this.preloadAdjacentMonths(window.m, window.y)
+  }
+ 
+  componentWillUnmount() {
+    let content = document.getElementById('content')
+    content.className = 'full'
+
+    window.d = this.state.selectedDay
+    window.m = this.state.selectedMonth
+    window.y = this.state.selectedYear
+  }
+  
+  preloadAdjacentMonths(month, year) {
+    monthChanging = true
     const token = localStorage.getItem('accessToken')
     var from
     var to
     
+    var pMonthLoaded = false
+    var nMonthLoaded = false
     
     //console.log('preloading next month')
     
-    const monthN = (curMonth + 1) + 1
+    const monthN = (month + 1) + 1
   
     // create parameters:   from=YYYY-MM-DD   to=YYYY-MM-DD
     from = year + '-' + (monthN > 9 ? monthN : '0' + monthN) + '-01'
@@ -79,13 +101,16 @@ class Calendar extends Component {
       res.on('end', () => {
         this.setState( ()=> ({
           nextMonthData: JSON.parse(d)
-        }))
+        }), ()=> {
+          pMonthLoaded = true
+          monthChanging = !(pMonthLoaded && nMonthLoaded)
+        })
       })
     })
 
     //console.log('preloading prev month')
     
-    const monthP = (curMonth + 1) - 1
+    const monthP = (month + 1) - 1
     
     // create parameters:   from=YYYY-MM-DD   to=YYYY-MM-DD
     from = year + '-' + (monthP > 9 ? monthP : '0' + monthP) + '-01'
@@ -101,18 +126,12 @@ class Calendar extends Component {
       res.on('end', () => {
         this.setState( ()=> ({
           prevMonthData: JSON.parse(d)
-        }))
+        }), ()=> {
+          nMonthLoaded = true
+          monthChanging = !(pMonthLoaded && nMonthLoaded)
+        })
       })
     })
-  }
- 
-  componentWillUnmount() {
-    let content = document.getElementById('content')
-    content.className = 'full'
-
-    window.d = this.state.selectedDay
-    window.m = this.state.selectedMonth
-    window.y = this.state.selectedYear
   }
   
   //this sub must process your click input - careful sometimes you can click on the ul element - the onclick returns the innerHTML of child nodes, but it can return any DOM property
@@ -146,18 +165,28 @@ class Calendar extends Component {
         default: break
       }
     }
-  
+    
+    // if holidays, this will be '0'
+    const weekOfCycle = events['info']['week'] + events['info']['weekType']
+    
     this.setState( ()=> ({
-      eventsToShow: eventsToAdd
+      eventsToShow: eventsToAdd,
+      selectedDayWeekOfCycle: events['info']['week'] + events['info']['weekType']
     }))
   }
   
   prevMonth() {
-    this.changeMonth(-1)
+    if (!monthChanging) {
+      this.changeMonth(-1)
+      monthChanging = true
+    }
   }
   
   nextMonth() {
-    this.changeMonth(1)
+    if (!monthChanging) {
+      this.changeMonth(1)
+      monthChanging = true
+    }
   }
   
   // diff is either 1 or -1
@@ -378,6 +407,7 @@ class Calendar extends Component {
       if (window.m == new Date().getMonth() && window.y == new Date().getFullYear()) {
         dayToSelect = new Date().getDate()
       }
+      monthChanging = false
     })
   }
   
@@ -451,45 +481,250 @@ class Calendar extends Component {
     return days
   }
   
+  // waits for 500 ms for user to change input before starting the (lengthy) search
+  onSearchClick() {
+    if (keywords != '') {
+      if (this.state.searchTimer != null) {
+        clearTimeout(this.state.searchTimer)
+      }
+      this.setState( ()=> ({
+        searchTimer: setTimeout(this.search, 500)
+      }))
+    }
+  }
+  
+  search() {
+    console.log('search initiated')
+    const terms = keywords.value.split(' ')
+    
+    const token = localStorage.getItem('accessToken')
+    const year = (new Date()).getFullYear()
+    // make http request for entire year
+    // 01-01 to 09-04
+    // 10-04 to 18-07
+    // 19-07 to 26-10
+    // 27-10 to 31-12
+    
+    const promise = new Promise( function (resolve, reject) {
+      var cal = []
+      http.get('/getdata?token=' + token + '&url=diarycalendar/events.json?from=01-01-' + year + '&to=09-04-' + year, (res) => {
+        res.setEncoding('utf8')
+        let d = ''
+        res.on('data', (body) => {
+          d += body
+        })
+        res.on('end', () => {
+          cal = JSON.parse(d)
+
+          http.get('/getdata?token=' + token + '&url=diarycalendar/events.json?from=10-04-' + year + '&to=18-07-' + year, (res) => {
+            res.setEncoding('utf8')
+            let d1 = ''
+            res.on('data', (body) => {
+              d1 += body
+            })
+            res.on('end', () => {
+              cal = cal.concat(JSON.parse(d1))
+              
+              http.get('/getdata?token=' + token + '&url=diarycalendar/events.json?from=19-07-' + year + '&to=26-10-' + year, (res) => {
+                res.setEncoding('utf8')
+                let d2 = ''
+                res.on('data', (body) => {
+                  d2 += body
+                })
+                res.on('end', () => {
+                  cal = cal.concat(JSON.parse(d2))
+                  
+                  http.get('/getdata?token=' + token + '&url=diarycalendar/events.json?from=27-10-' + year + '&to=31-12-' + year, (res) => {
+                    res.setEncoding('utf8')
+                    let d3 = ''
+                    res.on('data', (body) => {
+                      d3 += body
+                    })
+                    res.on('end', () => {
+                      cal = cal.concat(JSON.parse(d3))
+                      resolve(cal)
+                    })
+                  })
+
+                })
+              })
+              
+            })
+          })
+          
+        })
+      })
+    })
+    
+    var results = []
+    
+    function searchCaseInsensitive(searchTerm, searchString) {
+      if (searchString.toUpperCase().includes(searchTerm.toUpperCase())) {
+        return true
+      } else {
+        return false
+      }
+    }
+    
+    promise.then( (result) => {
+      const cal = result
+      
+      // loop through each day
+      for (var i = 0; i < cal.length; i++) {
+      
+        // create a string to represent all the events of each day
+        // if we were to search the whole JSON by each field this would be an O(n³) algorithm
+        var events = JSON.stringify(cal[i]['items'])
+        
+        // remove field names from string
+        const fieldNames = ['type', 'subtype', 'subject', 'title', 'time', 'description', 'data', 'index', 'user', 'activity', 'venue', 'displayVenue', 'start', 'end', 'notes', 'date', 'venueDisplay']
+        for (var j = 0; j < fieldNames.length; j++) {
+          const expression = new RegExp('"' + fieldNames[j] + '"', 'g')
+          events = events.replace(expression, '')
+        }
+        // remove punctuation from string
+        events = events.replace(/[:",\[\]\{\}]/g, '')
+        
+        // loop through each keyword
+        for (var j = 0; j < terms.length; j++) {
+          if (searchCaseInsensitive(terms[j], events)) {
+            results.push(cal[i]['info']['date'])
+            break
+          }
+        }
+      }
+      //console.log('search done')
+      console.log(results)
+      this.setState( ()=> ({
+        searchHits: results
+      }), ()=> {
+        this.changeSelectedSearchResult(0)
+      })
+    })
+    
+  }
+  
+  nextSearchResult() {
+    this.changeSelectedSearchResult(1)
+  }
+  
+  prevSearchResult() {
+    this.changeSelectedSearchResult(-1)
+  }
+  
+  // change is 1, 0 or -1
+  changeSelectedSearchResult(change) {
+    var newIndex
+    if (this.state.searchResultIndex == 0 && change == -1) {
+      newIndex = this.state.searchHits.length - 1
+    } else if (this.state.searchResultIndex == (this.state.searchHits.length - 1) && change == 1) {
+      newIndex = 0
+    } else {
+      newIndex = this.state.searchResultIndex + change
+    }
+    
+    this.setState( ()=> ({
+      searchResultIndex: newIndex
+    }))
+    
+    // jump to the next result
+    
+    // [YYYY, MM, DD]
+    const resultDate = this.state.searchHits[newIndex].split('-')
+    const month = Number(resultDate[1]) - 1
+    const year = Number(resultDate[0])
+    const token = localStorage.getItem('accessToken')
+    
+    // get data for the month to be jumped to
+     
+    // create parameters:   from=YYYY-MM-DD   to=YYYY-MM-DD
+    var from = year + '-' + resultDate[1] + '-01'
+    var to = year + '-' + resultDate[1] + '-' + (new Date(year, (resultDate[1] - 1), 0).getDate())
+
+    // make http request
+    http.get('/getdata?token=' + token + '&url=diarycalendar/events.json?from=' + from + '&to=' + to, (res) => {
+      res.setEncoding('utf8')
+      let d = ''
+      res.on('data', (body) => {
+        d += body
+      })
+      res.on('end', () => {
+        this.setState( ()=> ({
+          calData: JSON.parse(d),
+          selectedMonth: month,
+          selectedYear: year,
+          days: this.setDaysForMonth(month, year)
+        }), ()=> {
+          window.m = month
+          window.y = year
+          
+          const dayToSelect = Number(resultDate[2])
+          this.setEvents(this.state.calData[dayToSelect-1])
+          this.highlightSelectedDay(dayToSelect)
+          
+          window.diaryCal = this.state.calData
+        })
+        this.preloadAdjacentMonths(month, year)
+      })
+    })
+  }
+  
   render() {
     //console.log('render')
+    /*under parent cal card
+    <div id='aaa' className='uk-inline uk-width-1-1'>
+            <div className="uk-margin uk-align-left">
+                <form id='ccc' className="uk-search uk-search-default">
+                    <span uk-search-icon=''></span>
+                    <input id='keywords' className="uk-search-input" onInput={this.onSearchClick.bind(this)} type="search" placeholder="Search"/>
+                </form>
+                <button onClick={this.prevSearchResult.bind(this)} className="uk-button uk-button-default"><a uk-icon="icon: chevron-left"></a></button>
+                <button onClick={this.nextSearchResult.bind(this)} className="uk-button uk-button-default"><a uk-icon="icon: chevron-right"></a></button>
+            </div>
+            
+            <div className='uk-align-right' className='uk-text-muted'>{this.state.searchHits.length} matches</div>
+          </div>
+    */
+    
     return (
       <div className='flex-container uk-width-1-1 vcNavbarCard'>
-        <div className="uk-grid-collapse uk-grid two uk-grid-match" uk-grid='true'>
-          <div  className='cal card uk-animation-slide-top-small uk-width-expand'>
-            <div>
-              <div className="month">      
-                <ul>
-                  <li onClick={this.prevMonth.bind(this)} className="prev">&#10094;</li>
-                  <li onClick={this.nextMonth.bind(this)} className="next">&#10095;</li>
-                  <li>
-                    {this.monthNumToText(this.state.selectedMonth)}<br/>
-                    <span>{this.state.selectedYear}</span>
-                  </li>
+        <div id='parentCalCard' className='two uk-animation-slide-top-small'>
+          <div className="uk-grid-collapse uk-grid  uk-grid-match" uk-grid='true'>
+            <div className='cal card uk-width-expand'>
+              <div>
+                <div className="month">      
+                  <ul>
+                    <li onClick={this.prevMonth.bind(this)} className="prev">&#10094;</li>
+                    <li onClick={this.nextMonth.bind(this)} className="next">&#10095;</li>
+                    <li>
+                      {this.monthNumToText(this.state.selectedMonth)}<br/>
+                      <span>{this.state.selectedYear}</span>
+                    </li>
+                  </ul>
+                </div>
+                <ul className="weekdays">
+                  <li>Su</li>
+                  <li>M</li>
+                  <li>Tu</li>
+                  <li>W</li>
+                  <li>Th</li>
+                  <li>F</li>
+                  <li>Sa</li>
                 </ul>
-              </div>
-              <ul className="weekdays">
-                <li>Su</li>
-                <li>M</li>
-                <li>Tu</li>
-                <li>W</li>
-                <li>Th</li>
-                <li>F</li>
-                <li>Sa</li>
-              </ul>
-              <div onClick={this.displayCal.bind(this)}>
-                <ul className="days" onClick={this.monthInput}>
-                  { (this.state.days).map((item, i) => <ListItem key={i} value={item} />) }
-                </ul>
+                <div onClick={this.displayCal.bind(this)}>
+                  <ul className="days" onClick={this.monthInput}>
+                    { (this.state.days).map((item, i) => <ListItem key={i} value={item} />) }
+                  </ul>
+                </div>
               </div>
             </div>
-          </div>
-          <div className='eventsBorder card uk-animation-slide-top-small uk-width-2-5@s'>
-            <div className='events'>
-              <p className='uk-text-center uk-text-large uk-margin-top-none'>Events</p>
-              <ul className="eventsList uk-list uk-list-divider">
-                  { (this.state.eventsToShow).map((item, i) => <ListItem key={i} value={item} />) }
-              </ul>
+            <div className='eventsBorder card uk-width-2-5@s'>
+              <div className='events'>
+                <p className='uk-text-center uk-text-large uk-margin-top-none'>Events for {(this.state.selectedDayWeekOfCycle == '0') ? 'holidays' : 'Week ' + this.state.selectedDayWeekOfCycle}</p>
+                <ul className="eventsList uk-list uk-list-divider">
+                    { (this.state.eventsToShow).map((item, i) => <ListItem key={i} value={item} />) }
+                </ul>
+              </div>
             </div>
           </div>
         </div>
