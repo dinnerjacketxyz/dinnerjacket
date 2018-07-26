@@ -340,7 +340,7 @@ class Timetable extends Component {
 
  specialRound(num){
   let divide = (num/5).toString()
-  if (divide>10) { return divide.slice(0,2)}
+  if (divide>=10) { return divide.slice(0,2)}
   else{return (divide[0])}
  }
 
