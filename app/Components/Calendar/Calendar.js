@@ -43,7 +43,8 @@ class Calendar extends Component {
       days: this.setDaysForMonth(window.m, window.y),
       searchHits: [],
       searchTimer: null,
-      searchResultIndex: 0
+      searchResultIndex: 0,
+      searchDataCache: {}
     }
     
     this.highlightSelectedDay = this.highlightSelectedDay.bind(this)
@@ -483,7 +484,13 @@ class Calendar extends Component {
   
   // waits for 500 ms for user to change input before starting the (lengthy) search
   onSearchClick() {
-    if (keywords != '') {
+    var searchwords = keywords.value
+    
+    // remove punctuation from string
+    searchwords = searchwords.replace(/[:",\[\]\{\}]/g, '')
+    searchwords = searchwords.trim()
+    
+    if (searchwords != '') {
       if (this.state.searchTimer != null) {
         clearTimeout(this.state.searchTimer)
       }
@@ -505,56 +512,66 @@ class Calendar extends Component {
     // 19-07 to 26-10
     // 27-10 to 31-12
     
+    
+    const cacheCheck = this.state.searchDataCache[year.toString()]
     const promise = new Promise( function (resolve, reject) {
-      var cal = []
-      http.get('/getdata?token=' + token + '&url=diarycalendar/events.json?from=01-01-' + year + '&to=09-04-' + year, (res) => {
-        res.setEncoding('utf8')
-        let d = ''
-        res.on('data', (body) => {
-          d += body
-        })
-        res.on('end', () => {
-          cal = JSON.parse(d)
-
-          http.get('/getdata?token=' + token + '&url=diarycalendar/events.json?from=10-04-' + year + '&to=18-07-' + year, (res) => {
-            res.setEncoding('utf8')
-            let d1 = ''
-            res.on('data', (body) => {
-              d1 += body
-            })
-            res.on('end', () => {
-              cal = cal.concat(JSON.parse(d1))
-              
-              http.get('/getdata?token=' + token + '&url=diarycalendar/events.json?from=19-07-' + year + '&to=26-10-' + year, (res) => {
-                res.setEncoding('utf8')
-                let d2 = ''
-                res.on('data', (body) => {
-                  d2 += body
-                })
-                res.on('end', () => {
-                  cal = cal.concat(JSON.parse(d2))
-                  
-                  http.get('/getdata?token=' + token + '&url=diarycalendar/events.json?from=27-10-' + year + '&to=31-12-' + year, (res) => {
-                    res.setEncoding('utf8')
-                    let d3 = ''
-                    res.on('data', (body) => {
-                      d3 += body
-                    })
-                    res.on('end', () => {
-                      cal = cal.concat(JSON.parse(d3))
-                      resolve(cal)
-                    })
-                  })
-
-                })
-              })
-              
-            })
+    
+      // check if cached data exists so we don't need to download it again
+      if (cacheCheck != null) {
+        resolve(cacheCheck)
+      } else {
+      
+        var cal = []
+        http.get('/getdata?token=' + token + '&url=diarycalendar/events.json?from=01-01-' + year + '&to=09-04-' + year, (res) => {
+          res.setEncoding('utf8')
+          let d = ''
+          res.on('data', (body) => {
+            d += body
           })
-          
+          res.on('end', () => {
+            cal = JSON.parse(d)
+
+            http.get('/getdata?token=' + token + '&url=diarycalendar/events.json?from=10-04-' + year + '&to=18-07-' + year, (res) => {
+              res.setEncoding('utf8')
+              let d1 = ''
+              res.on('data', (body) => {
+                d1 += body
+              })
+              res.on('end', () => {
+                cal = cal.concat(JSON.parse(d1))
+                
+                http.get('/getdata?token=' + token + '&url=diarycalendar/events.json?from=19-07-' + year + '&to=26-10-' + year, (res) => {
+                  res.setEncoding('utf8')
+                  let d2 = ''
+                  res.on('data', (body) => {
+                    d2 += body
+                  })
+                  res.on('end', () => {
+                    cal = cal.concat(JSON.parse(d2))
+                    
+                    http.get('/getdata?token=' + token + '&url=diarycalendar/events.json?from=27-10-' + year + '&to=31-12-' + year, (res) => {
+                      res.setEncoding('utf8')
+                      let d3 = ''
+                      res.on('data', (body) => {
+                        d3 += body
+                      })
+                      res.on('end', () => {
+                        cal = cal.concat(JSON.parse(d3))
+                        resolve(cal)
+                      })
+                    })
+
+                  })
+                })
+                
+              })
+            })
+            
+          })
         })
-      })
+      }
     })
+      
     
     var results = []
     
@@ -568,6 +585,16 @@ class Calendar extends Component {
     
     promise.then( (result) => {
       const cal = result
+      
+      // save event data for year for future searches
+      var cache = this.state.searchDataCache
+      if (cache[year.toString()] == null) {
+        cache[year.toString()] = result
+        this.setState( ()=> ({
+          searchDataCache: cache
+        }))
+        console.log('search cache updated')
+      }
       
       // loop through each day
       for (var i = 0; i < cal.length; i++) {
@@ -598,18 +625,24 @@ class Calendar extends Component {
       this.setState( ()=> ({
         searchHits: results
       }), ()=> {
-        this.changeSelectedSearchResult(0)
+        if (this.state.searchHits.length > 0) {
+          this.changeSelectedSearchResult(0)
+        }
       })
     })
     
   }
   
   nextSearchResult() {
-    this.changeSelectedSearchResult(1)
+    if (this.state.searchHits.length > 0) {
+      this.changeSelectedSearchResult(1)
+    }
   }
   
   prevSearchResult() {
-    this.changeSelectedSearchResult(-1)
+    if (this.state.searchHits.length > 0) {
+      this.changeSelectedSearchResult(-1)
+    }
   }
   
   // change is 1, 0 or -1
