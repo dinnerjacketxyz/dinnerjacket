@@ -58,8 +58,6 @@ class Notices extends Component {
     let lowRelavence = []
     let count = 0
 
-    document.getElementById('noticeCount').style.visibility = 'hidden'
-
     for (let i = 0; i < dailyNotices.notices.length; i++) {
       if (this.state.year == 'ALL' || this.yearInNotice(this.state.year, dailyNotices.notices[i])) {
         if (this.state.keywords.length === 0 || this.keywordsInNotice(this.state.keywords, dailyNotices.notices[i])) {
@@ -128,7 +126,7 @@ class Notices extends Component {
     }
 
     if (this.state.notices.length <= 0) {
-      document.getElementById('noticeCount').style.visibility = 'visible'
+      // NO NOTICES
     }
   }
 
@@ -236,12 +234,11 @@ class Notices extends Component {
                 <option>12</option>
               </select>
             </div>
-            <form className="uk-search uk-search-default uk-align-right">
+            <div className="uk-search uk-search-default uk-align-right">
                 <span uk-search-icon='true' uk-icon='icon:search'></span>
                 <input id='search' className="uk-search-input" onInput={this.search.bind(this)} type="search" placeholder="Search"/>
-            </form>
+            </div>
             <button onClick={this.toggleNotices.bind(this)} className='uk-button uk-align-left uk-button-default'>
-              <p id='noticeCount'>No notices</p>
               {this.state.text}
             </button>
           </div>
@@ -250,11 +247,14 @@ class Notices extends Component {
               {rows}
             </ul>
           </div>
+          
         </div>
       </div>
     )
   }
 }
+
+// goes above the two /div <h1 className='uk-heading-line uk-text-center uk-margin-top uk-margin-bottom'><span>No notices</span></h1>
 
 /**
  * Render mapped notices in their collapsed state

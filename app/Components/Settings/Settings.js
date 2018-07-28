@@ -52,7 +52,8 @@ class Settings extends Component {
         && localStorage.getItem(option) !== 'true'
         && localStorage.getItem(option) !== 'false') {
 
-      if (option === 'forceSmallTable') {
+      if (localStorage.getItem(option) !== 'Dynamic' && option==='forceSmallTable') {
+        console.log(option)
         element.value = 'Force '+ localStorage.getItem(option)
       } else {
         element.value = localStorage.getItem(option)

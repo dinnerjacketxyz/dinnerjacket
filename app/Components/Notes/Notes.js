@@ -16,6 +16,8 @@ let mouseX, mouseY = 0
 
 let contextMenu
 
+
+
 const MAX_CLASSES = 12
 
 class Notes extends Component {
@@ -43,6 +45,8 @@ class Notes extends Component {
         localStorage.removeItem('content')
       }
     }
+
+    
     
     this.generateClasses()
     
@@ -95,11 +99,15 @@ class Notes extends Component {
 
     this.initNote()
 
-
+    console.log(window.selectedNote)
 
     //HELP BUSTOR
     console.log(window.selectedNote)
     let notesLayout = document.getElementById('notesLayout')
+
+    UIkit.switcher(notesLayout).show(window.selectedNote)
+    
+    /*
     for (let i = 0; i < notesLayout.childNodes; i++) {
       if (i === window.selectedNote) {
         console.log('At ' + i + ' TRUE')
@@ -111,8 +119,8 @@ class Notes extends Component {
         notesLayout.childNodes[i].className = ''
       }
     }
-
     console.log(notesLayout.childNodes)
+    */
 
     let posSaved = this.state.posSaved
     this.setState({ posSaved: true })
@@ -202,7 +210,7 @@ class Notes extends Component {
     if (this.titleInUse(title)) {
       // QUIGLEY
       // I would keep the alert message contents but maybe present it in some uikit element that looks better innit
-      alert('The note \'' + title.toUpperCase() + '\' already exists.')
+      UIkit.modal.alert('The note \'' + title.toUpperCase() + '\' already exists.')
     } else {
       currentID++
       let n = this.state.notes
@@ -252,7 +260,10 @@ class Notes extends Component {
     //console.log(this.state.onContext)
 
     let dropdown = document.getElementById('contextMenu')
-    UIkit.dropdown(dropdown).show()
+    //UIkit.dropdown(dropdown).show()
+
+    contextMenu.style.top = e.clientY+'px'
+    contextMenu.style.left = e.clientX+'px'
     
     e.preventDefault()
   }
@@ -260,8 +271,7 @@ class Notes extends Component {
   removeNote() {
     if (this.state.notes.length > 1) {
       contextMenu.style.visibility = 'hidden'
-      if (confirm('r u sure innit')) {
-
+      UIkit.modal.confirm('r u sure innit').then(_ => {
         for (let i = 0; i < this.state.notes.length; i++) {
           if (this.state.notes[i].title === this.state.onContext) {
             this.state.notes.splice(i, 1)
@@ -276,15 +286,15 @@ class Notes extends Component {
             break
           }
         }
-      }
-    } else {
-      alert('No!')
+      }, _ => {
+        UIkit.modal.alert('No!')
+      })
     }
   }
 
   clearContents() {
     contextMenu.style.visibility = 'hidden'
-    if (confirm('r u sure innit')) {
+    UIkit.modal.confirm('r u sure innit').then(_=> {
       for (let i = 0; i < this.state.notes.length; i++) {
         if (this.state.notes[i].title === this.state.onContext) {
           this.state.notes[i].content = ''
@@ -293,7 +303,7 @@ class Notes extends Component {
           break
         }
       }
-    }
+    })
   }
 
   rename() {
@@ -301,11 +311,12 @@ class Notes extends Component {
 
     for (let i = 0; i < this.state.notes.length; i++) {
       if (this.state.notes[i].title === this.state.onContext) {
-        let title = prompt('name')
-        if (title !== null && /\S/.test(title)) {
-          this.state.notes[i].title = title
-          this.refreshNotesList()
-        }
+        UIkit.modal.prompt('Name:', 'Your name').then(title => {
+          if (title !== null && /\S/.test(title)) {
+            this.state.notes[i].title = title
+            this.refreshNotesList()
+          }
+        })
         break
       }
     }
@@ -353,25 +364,25 @@ class Notes extends Component {
     let key = 0
     let notes = this.state.notes.map(note => {
       key++
-      return <li key={key} text={note.title} onContextMenu={this.notesContextMenu.bind(this)} onClick={this.selectNote.bind(this)}><a id={note.id}>{note.title}</a></li>
+      return <li key={key} text={note.title}  onContextMenu={this.notesContextMenu.bind(this)} onClick={this.selectNote.bind(this)}><a id={note.id}>{note.title}</a></li>
     })
 
     let key2 = 0
     let classList = this.state.classes.map(cls => {
-      return <p key={key2} title={cls} onClick={this.createNote.bind(this)}>{cls}</p>
+      return <tr><td className='uk-text-middle'>{cls}</td><td><button key={key2} title={cls} onClick={this.createNote.bind(this)} className="uk-button uk-button-default uk-button-small" type="button">Add</button></td></tr>
     })
 
     return (
       <div className='vcNavbarCard notesParent'>
-        <div className='notesChild card uk-animation-slide-top-small'>
-        <button onClick={() => {alert('tooltip! right click innit!')}}>Tooltip</button>
-        <div id='contextMenu' className='contextMenu uk-dropdown' style={{visibility: 'hidden'}}>
-          <ul class="uk-list">
+        <div id='contextMenu' className='contextMenu card' style={{visibility: 'hidden', minHeight: '50px',minWidth:'50px',position:'absolute',zIndex:1000}}>
+          <ul className='uk-list'>
             <li onClick={this.rename.bind(this)}><span className='uk-margin-right uk-icon' uk-icon='pencil'/>Rename</li>
             <li onClick={this.clearContents.bind(this)}><span className='uk-margin-right uk-icon' uk-icon='ban'/>Clear</li>
             <li onClick={this.removeNote.bind(this)}><span className='uk-margin-right uk-icon' uk-icon='trash'/>Remove</li>
           </ul>
         </div>
+        <div className='notesChild card uk-animation-slide-top-small'>
+        <a uk-icon='icon: info' uk-tooltip='title: Right click to rename, clear, or delete notes' className='uk-float-right'/>
         <ul id='notesLayout' className='uk-subnav uk-subnav-pill uk-flex-center' uk-switcher='animation: uk-animation-fade' uk-sortable='cls-custom: uk-box-shadow-small uk-flex uk-flex-middle uk-background'>
           {notes}
         </ul>
@@ -381,7 +392,13 @@ class Notes extends Component {
           <div className=''>
             <a uk-icon='plus-circle' uk-tooltip='title: Add custom notes; pos: bottom-center;'></a>
             <div uk-dropdown='mode: click;pos: top-center'>
-              {classList}
+              <p className='uk-text-left'>Classes</p>
+              
+              <table className="uk-table uk-table-small uk-table-divider uk-table-hover">
+                <tbody>
+                  {classList}
+                </tbody>
+              </table>
               <p className='uk-text-left'>Custom</p>
               <input id='customTitle' className='uk-input' type='text' placeholder='Title' maxLength='10'/>
               <button onClick={this.createCustomNote.bind(this)} className='uk-margin-top uk-button uk-button-default'>Add</button>

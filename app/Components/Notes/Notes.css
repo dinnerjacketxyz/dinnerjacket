@@ -1,7 +1,41 @@
 
 .contextMenu {
   text-align: left!important;
-  min-width: 20px!important;
+  min-width: 50px!important;
+  padding: 0px!important;
+}
+
+.contextMenu ul {
+  padding: 16px 0px 16px 0px;
+}
+
+.uk-list>li:nth-child(n+2) {
+  margin-top: 0px!important;
+}
+
+.contextMenu li{
+  padding: 8px 16px 8px 16px;
+  vertical-align: middle;
+}
+
+.uk-light .contextMenu li:hover {
+  background-color: rgba(255,255,255,0.08);
+  transition: background-color 100ms linear;
+  border-left: 4px solid #2dc0d5;
+}
+
+.uk-light .contextMenu li {
+  border-left: 4px solid #36393e;
+}
+
+.uk-dark .contextMenu li {
+  border-left: 4px solid #fff;
+}
+
+.uk-dark .contextMenu li:hover {
+  background-color: #effdff;
+  transition: background-color 100ms linear;
+  border-left: 4px solid #2dc0d5;
 }
 
 .ql-editor p{
@@ -50,6 +84,8 @@ input:focus{
   border: none;
 }
 
+.ql-snow .ql-fill
+
 .ql-editor p strong,.ql-editor h1 ,.ql-editor h2 ,.ql-editor h3 {
   font-family: 'Open Sans', sans-serif!important;
   font-weight: 700!important;
@@ -89,8 +125,4 @@ input:focus{
   .pad {
     margin: 10px 10px 10px 10px;
   }
-}
-
-@media (max-height: 650px) {
-
 }
