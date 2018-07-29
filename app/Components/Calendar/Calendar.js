@@ -11,6 +11,9 @@ const ListItem = ({ value }) => (
 // set to true when month is changing to ensure user doesn't try to change months before everything is ready
 var monthChanging = false
 
+// used to record which personal event is being right clicked on
+var personalEventOfContextMenu = ''
+
 window.d = ''
 window.m = ''
 window.y = ''
@@ -36,9 +39,10 @@ class Calendar extends Component {
       nextMonthData: '',
       calData: window.diaryCal,
       eventsToShow: [],
+      personalEventsToShow: [],
       selectedDay: window.d,
       selectedDayIndex: -1,
-      selectedDayWeekOfCycle: '',
+      selectedDayWeekOfCycle: 0,
       selectedMonth: window.m,
       selectedYear: window.y,
       days: this.setDaysForMonth(window.m, window.y),
@@ -50,8 +54,11 @@ class Calendar extends Component {
     
     this.highlightSelectedDay = this.highlightSelectedDay.bind(this)
     this.setEvents = this.setEvents.bind(this)
+    this.setPersonalEvents = this.setPersonalEvents.bind(this)
     this.changeMonth = this.changeMonth.bind(this)
     this.search = this.search.bind(this)
+    this.addPersonalEvent = this.addPersonalEvent.bind(this)
+    this.removePersonalEvent = this.removePersonalEvent.bind(this)
     this.changeSelectedSearchResult = this.changeSelectedSearchResult.bind(this)
     this.preloadAdjacentMonths = this.preloadAdjacentMonths.bind(this)
   }
@@ -62,6 +69,7 @@ class Calendar extends Component {
     let content = document.getElementById('content')
     content.className = 'full vcNavbarParentCal'
     this.setEvents(this.state.calData[this.state.selectedDay-1])
+    this.setPersonalEvents(this.state.selectedDay + '-' + (this.state.selectedMonth + 1) + '-' + this.state.selectedYear)
     this.highlightSelectedDay(this.state.selectedDay)
     contextMenu = document.getElementById('contextMenu')
     this.preloadAdjacentMonths(window.m, window.y)
@@ -147,6 +155,9 @@ class Calendar extends Component {
       if (input != this.state.selectedDay) {
         this.highlightSelectedDay(input)
         this.setEvents(this.state.calData[input-1])
+        
+        const date = input + '-' + (this.state.selectedMonth + 1) + '-' + this.state.selectedYear
+        this.setPersonalEvents(date)
       }
     }
   }
@@ -169,12 +180,28 @@ class Calendar extends Component {
     }
     
     // if holidays, this will be '0'
-    const weekOfCycle = events['info']['week'] + events['info']['weekType']
+    var weekOfCycle = events['info']['week'] + events['info']['weekType']
+    if (weekOfCycle == '') { weekOfCycle = 0 }
     
     this.setState( ()=> ({
       eventsToShow: eventsToAdd,
-      selectedDayWeekOfCycle: events['info']['week'] + events['info']['weekType']
+      selectedDayWeekOfCycle: weekOfCycle
     }))
+  }
+  
+  // date is 'DD-MM-YYYY' e.g. 1-1-2018
+  setPersonalEvents(date) {
+    const personalEvents = JSON.parse(localStorage.getItem('calPersonalEvents'))
+
+    if (personalEvents[date] == null) {
+      this.setState( ()=> ({
+        personalEventsToShow: []
+      }))
+    } else {
+      this.setState( ()=> ({
+        personalEventsToShow: personalEvents[date]
+      }))
+    }
   }
   
   prevMonth() {
@@ -235,6 +262,9 @@ class Calendar extends Component {
           dayToSelect = new Date().getDate()
         }
         this.setEvents(this.state.calData[dayToSelect-1])
+        
+        const selectedDate = '1-' + (curMonth + 1) + curYear
+        this.setPersonalEvents(selectedDate)
         this.highlightSelectedDay(dayToSelect)
         
         window.diaryCal = this.state.calData
@@ -262,6 +292,9 @@ class Calendar extends Component {
           dayToSelect = new Date().getDate()
         }
         this.setEvents(this.state.calData[dayToSelect-1])
+        
+        const selectedDate = '1-' + (curMonth + 1) + curYear
+        this.setPersonalEvents(selectedDate)
         this.highlightSelectedDay(dayToSelect)
         window.diaryCal = this.state.calData
       })
@@ -600,6 +633,8 @@ class Calendar extends Component {
       // loop through each day
       for (var i = 0; i < cal.length; i++) {
       
+        // STANDARD EVENTS
+        
         // create a string to represent all the events of each day
         // if we were to search the whole JSON by each field this would be an O(n³) algorithm
         var events = JSON.stringify(cal[i]['items'])
@@ -621,6 +656,39 @@ class Calendar extends Component {
           }
         }
       }
+      
+      // PERSONAL EVENTS
+      const personalEvents = JSON.parse(localStorage.getItem('calPersonalEvents'))
+      console.log(Object.keys(personalEvents))
+      if (personalEvents != null) {
+        // loop through each date
+        // two nested loops OK here because students are not likely to have a ton of events
+        
+        // loop through each date
+        for (var key in Object.keys(personalEvents)) {
+          const keyName = Object.keys(personalEvents)[key]
+          const dayEvents = personalEvents[keyName]
+          var matchFound = false
+          // loop through each event in date
+          for (var i = 0; i < dayEvents.length; i++) {
+            for (var j = 0; j < terms.length; j++) {
+              if (searchCaseInsensitive(dayEvents[i], terms[j])) {
+                matchFound = true
+                break
+              }
+            }
+            if (matchFound) {
+              const month = keyName.split('-')[1]
+              const day = keyName.split('-')[0]
+              const date = year + '-' + (month > 9 ? month : '0' + month) + '-' + (day > 9 ? day : '0' + day)
+              console.log(date)
+              results.push(date)
+              break
+            }
+          }
+        }
+      }
+        
       //console.log('search done')
       console.log(results)
       this.setState( ()=> ({
@@ -645,9 +713,10 @@ class Calendar extends Component {
       this.changeSelectedSearchResult(-1)
     }
   }
-
+  
+  // handles right click menu for personal events
   calContextMenu(e){
-    console.log(e.target.innerHTML) //you can refer to any DOM property
+    personalEventOfContextMenu = e.target.innerHTML //you can refer to any DOM property
     contextMenu.style.visibility = 'visible'
     contextMenu.style.top = e.clientY+'px'
     contextMenu.style.left = e.clientX+'px'
@@ -702,6 +771,7 @@ class Calendar extends Component {
           
           const dayToSelect = Number(resultDate[2])
           this.setEvents(this.state.calData[dayToSelect-1])
+          this.setPersonalEvents(dayToSelect + '-' + (month + 1) + '-' + year)
           this.highlightSelectedDay(dayToSelect)
           
           window.diaryCal = this.state.calData
@@ -709,6 +779,73 @@ class Calendar extends Component {
         this.preloadAdjacentMonths(month, year)
       })
     })
+  }
+  
+  /*  JSON structure:
+      {
+        1-1-2018: [Event 1, Event 2],
+        31-1-2018: [Event 3, Event 4],
+        ... etc.
+      }
+  */
+  addPersonalEvent() {
+    var eventDate = this.state.selectedDay + '-' + (this.state.selectedMonth + 1) + '-' + this.state.selectedYear
+    var eventName = personalEventName.value
+
+    if (localStorage.getItem('calPersonalEvents') == null) {
+      localStorage.setItem('calPersonalEvents', '{}')
+    }
+    
+    var calPersonalEvents = JSON.parse(localStorage.getItem('calPersonalEvents'))
+    
+    // if date exists, merge new event with existing ones
+    if (calPersonalEvents[eventDate] != null) {
+      calPersonalEvents[eventDate].push(eventName)
+      
+    // otherwise create a new date field
+    } else {
+      calPersonalEvents[eventDate] = [eventName]
+    }
+    
+    var personalEventsArray = this.state.personalEventsToShow
+    personalEventsArray.push(eventName)
+    
+    this.setState( ()=> ({
+      personalEventsToShow: personalEventsArray
+    }))
+    
+    localStorage.setItem('calPersonalEvents', JSON.stringify(calPersonalEvents))
+    
+  }
+  
+  removePersonalEvent() {
+    var eventDate = this.state.selectedDay + '-' + (this.state.selectedMonth + 1) + '-' + this.state.selectedYear
+    var eventName = personalEventOfContextMenu
+    
+    var personalEvents = JSON.parse(localStorage.getItem('calPersonalEvents'))
+    var eventArrayForToday = personalEvents[eventDate] // ooo, that rhymed
+    
+    for (var i = 0; i < eventArrayForToday.length; i++) {
+      if (eventArrayForToday[i] == eventName) {
+        eventArrayForToday.splice(i, 1)
+      }
+    }
+    
+    // save changes
+    personalEvents[eventDate] = eventArrayForToday
+    localStorage.setItem('calPersonalEvents', JSON.stringify(personalEvents))
+    personalEventOfContextMenu = ''
+    
+    // update changes in UI
+    var statePersonalEvents = this.state.personalEventsToShow
+    for (var i = 0; i < statePersonalEvents.length; i++) {
+      if (statePersonalEvents[i] == eventName) {
+        statePersonalEvents.splice(i, 1)
+      }
+    }
+    this.setState( ()=> ({
+        personalEventsToShow: statePersonalEvents
+    }))
   }
   
   render() {
@@ -727,18 +864,12 @@ class Calendar extends Component {
             <div className='uk-align-right' className='uk-text-muted'>{this.state.searchHits.length} matches</div>
           </div>
     */
-
-    let renameThisVincent = (this.state.eventsToShow).map((item, i) => { 
-      return <li onContextMenu={this.calContextMenu.bind(this)} key={i}>{item}</li> 
-    })
     
     return (
       <div className='flex-container uk-width-1-1 vcNavbarCard'>
         <div id='contextMenu' className='contextMenu card' style={{visibility: 'hidden', minHeight: '50px',minWidth:'50px',position:'absolute',zIndex:1000}}>
           <ul className='uk-list'>
-            <li ><span className='uk-margin-right uk-icon' uk-icon='pencil'/>Rename</li>
-            <li ><span className='uk-margin-right uk-icon' uk-icon='ban'/>Clear</li>
-            <li ><span className='uk-margin-right uk-icon' uk-icon='trash'/>Remove</li>
+            <li onClick={this.removePersonalEvent.bind(this)}><span className='uk-margin-right uk-icon' uk-icon='trash'/>Remove</li>
           </ul>
         </div>
         <div id='parentCalCard' className='two uk-animation-slide-top-small'>
@@ -755,14 +886,14 @@ class Calendar extends Component {
             
             <div className="uk-align-right">
               <div className="uk-inline">
-                <a uk-icon="icon: plus-circle" uk-tooltip='title: Add event today'></a>
+                <a uk-icon="icon: plus-circle" uk-tooltip='title: Add event for this day'></a>
                 <div uk-dropdown="mode: click">
                   <p className='uk-text-left'>Add personal event</p>
-                  <input className="uk-input" type="text" placeholder="Event"/>  
-                  <button className='uk-margin-top uk-button uk-button-default'>Add</button>
+                  <input id='personalEventName' className="uk-input" type="text" placeholder="Event"/>
+                  <button onClick={this.addPersonalEvent.bind(this)} className='uk-margin-top uk-button uk-button-default'>Add</button>
                 </div>
               </div>
-              <a uk-icon="icon: info" uk-tooltip='title: Right click to remove personal events'></a>
+              <a uk-icon="icon: info" uk-tooltip='title: Right click a personal event to remove it'></a>
             </div>
           </div>
           <div className="uk-grid-collapse uk-grid  uk-grid-match" uk-grid='true'>
@@ -796,9 +927,17 @@ class Calendar extends Component {
             </div>
             <div className='eventsBorder card uk-width-2-5@s'>
               <div className='events'>
-                <p className='uk-text-center uk-text-large uk-margin-top-none'>Events {(this.state.selectedDayWeekOfCycle == '0') ? '' : 'for Week ' + this.state.selectedDayWeekOfCycle}</p>
+                 <p className='uk-text-center uk-text-large uk-margin-top-none uk-heading-line'><span>Events {(this.state.selectedDayWeekOfCycle == '0') ? '' : 'for Week ' + this.state.selectedDayWeekOfCycle}</span></p>
+                <p className='uk-text-center uk-text-large uk-margin-top-none'></p>
                 <ul className="eventsList uk-list uk-list-divider">
-                    { renameThisVincent }
+                    { this.state.eventsToShow.map((item, i) => <ListItem key={i} value={item} />) }
+            
+                </ul>
+                <p className='uk-text-center uk-text-large uk-margin-top-none'></p>
+                <p className='uk-text-center uk-text-large uk-margin-top-none uk-heading-line'><span>Personal Events</span></p>
+                <p className='uk-text-center uk-text-large uk-margin-top-none'></p>
+                <ul className="eventsList uk-list uk-list-divider">
+                    { this.state.personalEventsToShow.map((item, i) => { return <li onContextMenu={this.calContextMenu.bind(this)} key={i}>{item}</li>})}
                 </ul>
               </div>
             </div>
