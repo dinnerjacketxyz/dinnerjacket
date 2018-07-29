@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styles from './Calendar.css'
 const http = require('http')
 let input = ''
+let contextMenu
 
 const ListItem = ({ value }) => (
   <li id={value}>{value}</li>
@@ -62,7 +63,7 @@ class Calendar extends Component {
     content.className = 'full vcNavbarParentCal'
     this.setEvents(this.state.calData[this.state.selectedDay-1])
     this.highlightSelectedDay(this.state.selectedDay)
-    
+    contextMenu = document.getElementById('contextMenu')
     this.preloadAdjacentMonths(window.m, window.y)
   }
  
@@ -644,6 +645,14 @@ class Calendar extends Component {
       this.changeSelectedSearchResult(-1)
     }
   }
+
+  calContextMenu(e){
+    console.log(e.target.innerHTML) //you can refer to any DOM property
+    contextMenu.style.visibility = 'visible'
+    contextMenu.style.top = e.clientY+'px'
+    contextMenu.style.left = e.clientX+'px'
+    e.preventDefault()
+  }
   
   // change is 1, 0 or -1
   changeSelectedSearchResult(change) {
@@ -718,9 +727,20 @@ class Calendar extends Component {
             <div className='uk-align-right' className='uk-text-muted'>{this.state.searchHits.length} matches</div>
           </div>
     */
+
+    let renameThisVincent = (this.state.eventsToShow).map((item, i) => { 
+      return <li onContextMenu={this.calContextMenu.bind(this)} key={i}>{item}</li> 
+    })
     
     return (
       <div className='flex-container uk-width-1-1 vcNavbarCard'>
+        <div id='contextMenu' className='contextMenu card' style={{visibility: 'hidden', minHeight: '50px',minWidth:'50px',position:'absolute',zIndex:1000}}>
+          <ul className='uk-list'>
+            <li ><span className='uk-margin-right uk-icon' uk-icon='pencil'/>Rename</li>
+            <li ><span className='uk-margin-right uk-icon' uk-icon='ban'/>Clear</li>
+            <li ><span className='uk-margin-right uk-icon' uk-icon='trash'/>Remove</li>
+          </ul>
+        </div>
         <div id='parentCalCard' className='two uk-animation-slide-top-small'>
           <div id='aaa' className='uk-inline uk-width-1-1'>
             <div className="uk-margin uk-align-left">
@@ -735,13 +755,14 @@ class Calendar extends Component {
             
             <div className="uk-align-right">
               <div className="uk-inline">
-                <a uk-icon="icon: plus-circle"></a>
-                <div uk-dropdown="mode: click">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>
+                <a uk-icon="icon: plus-circle" uk-tooltip='title: Add event today'></a>
+                <div uk-dropdown="mode: click">
+                  <p className='uk-text-left'>Add personal event</p>
+                  <input className="uk-input" type="text" placeholder="Event"/>  
+                  <button className='uk-margin-top uk-button uk-button-default'>Add</button>
+                </div>
               </div>
-              <div className="uk-inline">
-                <a uk-icon="icon: minus-circle"></a>
-                <div uk-dropdown="mode: click">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>
-              </div>
+              <a uk-icon="icon: info" uk-tooltip='title: Right click to remove personal events'></a>
             </div>
           </div>
           <div className="uk-grid-collapse uk-grid  uk-grid-match" uk-grid='true'>
@@ -768,7 +789,7 @@ class Calendar extends Component {
                 </ul>
                 <div onClick={this.displayCal.bind(this)}>
                   <ul className="days" onClick={this.monthInput}>
-                    { (this.state.days).map((item, i) => <ListItem key={i} value={item} />) }
+                  { (this.state.days).map((item, i) => <ListItem key={i} value={item} />) }
                   </ul>
                 </div>
               </div>
@@ -777,10 +798,9 @@ class Calendar extends Component {
               <div className='events'>
                 <p className='uk-text-center uk-text-large uk-margin-top-none'>Events for {(this.state.selectedDayWeekOfCycle == '0') ? 'holidays' : 'Week ' + this.state.selectedDayWeekOfCycle}</p>
                 <ul className="eventsList uk-list uk-list-divider">
-                    { (this.state.eventsToShow).map((item, i) => <ListItem key={i} value={item} />) }
+                    { renameThisVincent }
                 </ul>
               </div>
-              
             </div>
           </div>
         </div>

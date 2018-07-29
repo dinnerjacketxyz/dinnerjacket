@@ -259,9 +259,6 @@ class Notes extends Component {
     this.state.onContext = e.target.text
     //console.log(this.state.onContext)
 
-    let dropdown = document.getElementById('contextMenu')
-    //UIkit.dropdown(dropdown).show()
-
     contextMenu.style.top = e.clientY+'px'
     contextMenu.style.left = e.clientX+'px'
     
