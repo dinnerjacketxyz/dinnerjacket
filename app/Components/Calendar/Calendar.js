@@ -689,7 +689,7 @@ class Calendar extends Component {
         }
       }
         
-      //console.log('search done')
+      console.log('search done')
       console.log(results)
       this.setState( ()=> ({
         searchHits: results
