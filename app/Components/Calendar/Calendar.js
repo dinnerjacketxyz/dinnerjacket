@@ -191,16 +191,18 @@ class Calendar extends Component {
   
   // date is 'DD-MM-YYYY' e.g. 1-1-2018
   setPersonalEvents(date) {
-    const personalEvents = JSON.parse(localStorage.getItem('calPersonalEvents'))
+    if (localStorage.getItem('calPersonalEvents') != null) {
+      const personalEvents = JSON.parse(localStorage.getItem('calPersonalEvents'))
 
-    if (personalEvents[date] == null) {
-      this.setState( ()=> ({
-        personalEventsToShow: []
-      }))
-    } else {
-      this.setState( ()=> ({
-        personalEventsToShow: personalEvents[date]
-      }))
+      if (personalEvents[date] == null) {
+        this.setState( ()=> ({
+          personalEventsToShow: []
+        }))
+      } else {
+        this.setState( ()=> ({
+          personalEventsToShow: personalEvents[date]
+        }))
+      }
     }
   }
   
