@@ -775,7 +775,7 @@ class Calendar extends Component {
             </div>
             <div className='eventsBorder card uk-width-2-5@s'>
               <div className='events'>
-                <p className='uk-text-center uk-text-large uk-margin-top-none'>Events for {(this.state.selectedDayWeekOfCycle == '0') ? 'holidays' : 'Week ' + this.state.selectedDayWeekOfCycle}</p>
+                <p className='uk-text-center uk-text-large uk-margin-top-none'>Events {(this.state.selectedDayWeekOfCycle == '0') ? '' : 'for Week ' + this.state.selectedDayWeekOfCycle}</p>
                 <ul className="eventsList uk-list uk-list-divider">
                     { (this.state.eventsToShow).map((item, i) => <ListItem key={i} value={item} />) }
                 </ul>

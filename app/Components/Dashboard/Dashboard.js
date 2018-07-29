@@ -606,7 +606,7 @@ class Dashboard extends Component {
   getSchedule(periods, dateOfPeriods, bells) {
     console.log('getSchedule()')
     let returnVar = []
-    let periodsCopy = periods.slice(0)
+    let periodsCopy = [].concat(periods)
 
     // remove any non-period time blocks
     for (var i = 0; i < periodsCopy.length; i++) {
