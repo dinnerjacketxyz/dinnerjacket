@@ -30,8 +30,7 @@ class Notes extends Component {
       mousePos: {x: 0, y: 0},
       posSaved: false
     }
-
-    
+   
     //restore notes from localstorage and selection from window var
     if (localStorage.getItem('notesDB') === null) {
       this.state.notes.push(this.noteStruct('My Notes', '', currentID))
@@ -82,7 +81,7 @@ class Notes extends Component {
 
     contextMenu = document.getElementById('contextMenu')
     
-    // Initialise quill editor
+    // Initialise quil
     quill = new Quill('#editor', {
       modules: {
         toolbar: true
@@ -161,19 +160,7 @@ class Notes extends Component {
     content.className = 'full'
   }
 
-  updateDB() {
-    // Save notes in localStorage in unreadable format
-    //let content = btoa(JSON.stringify(quill.getContents()))
-    //localStorage.setItem('content', content)
-
-
-    let content = quill.getContents()
-    this.state.notes[this.state.selected].content = JSON.stringify(content)
-
-    
-
-    localStorage.setItem('notesDB', btoa(JSON.stringify(this.state.notes)))
-  }
+  
 
   noteStruct(ttl, cnt, ID) {
     let note = {
@@ -321,16 +308,14 @@ class Notes extends Component {
     this.updateDB()
   }
 
+  updateDB() {
+    this.state.notes[this.state.selected].content = JSON.stringify(content)
+    localStorage.setItem('notesDB', btoa(JSON.stringify(this.state.notes)))
+  }
+
   selectNote(e) {
-    //console.log(this.state.notes)
-    this.updateDB()
-
-    ///////////////////////////////////////
-    //let contentaaa = quill.getContents()
-    //this.state.notes[this.state.selected].content = JSON.stringify(contentaaa)
-
-    //localStorage.setItem('notesDB', btoa(JSON.stringify(this.state.notes)))
-    ///////////////////////////////////////
+    this.state.notes[this.state.selected].content = JSON.stringify(content)
+    localStorage.setItem('notesDB', btoa(JSON.stringify(this.state.notes)))
 
     console.log(this.state.notes)
 
@@ -341,9 +326,6 @@ class Notes extends Component {
         content = this.state.notes[i].content
       }
     }
-
-    //console.log(this.state.selected)
-    //console.log(content)
 
     this.displayContent(content)
   }
