@@ -22,8 +22,7 @@ class Changelog extends Component {
               <p>Start of Term 3 update improving existing features and adding more</p>
               <ul>
                 <li>Custom morning classes on the timetable and dashboard</li>
-                <li>Multiple, sortable notes</li>
-                <li>Custom notes or class notes</li>
+                <li>The ability to create, edit and sort multiple notes</li>
               </ul>
             </article>
 

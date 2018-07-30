@@ -84,6 +84,8 @@ input:focus{
   border: none;
 }
 
+.ql-snow .ql-fill
+
 .ql-editor p strong,.ql-editor h1 ,.ql-editor h2 ,.ql-editor h3 {
   font-family: 'Open Sans', sans-serif!important;
   font-weight: 700!important;
@@ -123,8 +125,4 @@ input:focus{
   .pad {
     margin: 10px 10px 10px 10px;
   }
-}
-
-@media (max-height: 650px) {
-
 }

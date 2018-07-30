@@ -102,9 +102,9 @@
 
 
 /*Light color*/
-.uk-dark .card {
-  background: #fff;
-  color: #666;
+.uk-dark .card, .uk-dark .uk-modal-dialog,.uk-dark .uk-modal-footer {
+  background: #fff!important;
+  color: #666!important;
 }
 .uk-dark .settingsChild {
   background: #fff;
@@ -118,9 +118,9 @@
 .uk-light .uk-select {
   background-color: #36393e;
 }
-.uk-light .card {
-  background: #36393e;
-  color: white;
+.uk-light .card, .uk-light .uk-modal-dialog,.uk-light .uk-modal-footer {
+  background: #36393e!important;
+  color: white!important;
 }
 .uk-light .uk-dropdown {
   color: white;
