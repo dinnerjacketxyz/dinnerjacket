@@ -10,6 +10,9 @@ import Profile from './Profile/Profile'
 import Feedback from './Feedback/Feedback'
 import Changelog from './Changelog/Changelog'
 import Settings from './Settings/Settings'
+import NotesSwitcher from './Notes/NotesSwitcher'
+
+
 const css = require('./App.css')
 const icons = require('../uikit-icons.min')
 const http = require('http')
@@ -642,7 +645,7 @@ class App extends Component {
         <div id='content' className = ''>
           {this.state.visible === window.STATES.DASHBOARD && <Dashboard />}
           {this.state.visible === window.STATES.TIMETABLE && <Timetable />}
-          {this.state.visible === window.STATES.NOTES && <Notes />}
+          {this.state.visible === window.STATES.NOTES && <NotesSwitcher />}
           {this.state.visible === window.STATES.NOTICES && <Notices />}
           {this.state.visible === window.STATES.CALENDAR && <Calendar />}
           {this.state.visible === window.STATES.ABOUT && <About />}
