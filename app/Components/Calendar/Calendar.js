@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import styles from './Calendar.css'
 const http = require('http')
+
 let input = ''
 let contextMenu
 
+// used in the UI display
 const ListItem = ({ value }) => (
   <li id={value}>{value}</li>
-);
+)
 
 // set to true when month is changing to ensure user doesn't try to change months before everything is ready
 var monthChanging = false
@@ -19,6 +21,7 @@ window.m = ''
 window.y = ''
 
 class Calendar extends Component {
+
   constructor(props) {
     super(props)
 
@@ -301,73 +304,7 @@ class Calendar extends Component {
         window.diaryCal = this.state.calData
       })
       
-    // if preloaded data isn't available for some reason
-    } else {
-      /*
-      // Get calendar data for the next month to be displayed
-      let promise1 = new Promise( function (resolve, reject) {
-        
-        const year = curYear
-        const month = curMonth + 1
-        
-        // create parameters:   from=YYYY-MM-DD   to=YYYY-MM-DD
-        var from = year + '-' + (month > 9 ? month : '0' + month) + '-01'
-        var to = year + '-' + (month > 9 ? month : '0' + month) + '-' + (new Date(year, month, 0).getDate())
-        
-        // make http request
-        const token = localStorage.getItem('accessToken')
-        http.get('/getdata?token=' + token + '&url=diarycalendar/events.json?from=' + from + '&to=' + to, (res) => {
-          res.setEncoding('utf8')
-          let d = ''
-          res.on('data', (body) => {
-            d += body
-          })
-          res.on('end', () => {
-            resolve(JSON.parse(d))
-          })
-        })
-      })
-      
-      // process data from http requests
-      promise1.then( (result) => {
-      
-        // cache used calendar data
-        if (diff == 1) {
-          //console.log('caching used data into prevMonth')
-          this.setState( ()=> ({
-            prevMonthData: this.state.calData
-          }))
-        } else if (diff == -1){
-          //console.log('caching used data into nextMonth')
-          this.setState( ()=> ({
-            nextMonthData: this.state.calData
-          }))
-        }
-        
-        this.setState( ()=> ({
-          calData: result,
-          selectedMonth: curMonth,
-          selectedYear: curYear,
-          selectedDayIndex: -1,
-          days: this.setDaysForMonth(curMonth, curYear)
-        }))
-        
-        window.m = curMonth
-        window.y = curYear
-        
-        let dayToSelect = 1
-        if (window.m == new Date().getMonth() && window.y == new Date().getFullYear()) {
-          dayToSelect = new Date().getDate()
-        }
-
-        this.setEvents(this.state.calData[dayToSelect-1])
-        this.highlightSelectedDay(dayToSelect)
-      })
-      */
     }
-    
-    
-    // diff == 1, preload next month and store the month that was switched away from
     
     // preload data for prev and next months
     // Get calendar data for the next month to be displayed
@@ -418,8 +355,6 @@ class Calendar extends Component {
             d += body
           })
           res.on('end', () => {
-          
-            
             resolve([-1, JSON.parse(d)])
           })
         })
@@ -488,7 +423,7 @@ class Calendar extends Component {
     }))
   }
   
-  // get the number of days for the month for UI
+  // get the number of days for the month for UI e.g. 28, 29, 30, 31
   setDaysForMonth(month, year) {
   
     //console.log('getting days for: ' + (month +1))
@@ -518,7 +453,9 @@ class Calendar extends Component {
     return days
   }
   
+  // called when user enters search term
   // waits for 500 ms for user to change input before starting the (lengthy) search
+  
   onSearchClick() {
     var searchwords = keywords.value
     
@@ -542,6 +479,7 @@ class Calendar extends Component {
     
     const token = localStorage.getItem('accessToken')
     const year = (new Date()).getFullYear()
+    
     // make http request for entire year
     // 01-01 to 09-04
     // 10-04 to 18-07
@@ -550,8 +488,9 @@ class Calendar extends Component {
     
     
     const cacheCheck = this.state.searchDataCache[year.toString()]
-    const promise = new Promise( function (resolve, reject) {
     
+    // get data to search in
+    const promise = new Promise( function (resolve, reject) {
       // check if cached data exists so we don't need to download it again
       if (cacheCheck != null) {
         resolve(cacheCheck)
@@ -650,18 +589,21 @@ class Calendar extends Component {
         // remove punctuation from string
         events = events.replace(/[:",\[\]\{\}]/g, '')
         
+        var allKeywordsFound = true
         // loop through each keyword
         for (var j = 0; j < terms.length; j++) {
-          if (searchCaseInsensitive(terms[j], events)) {
-            results.push(cal[i]['info']['date'])
+          if (!searchCaseInsensitive(terms[j], events)) {
+            allKeywordsFound = false
             break
           }
+        }
+        if (allKeywordsFound) {
+          results.push(cal[i]['info']['date'])
         }
       }
       
       // PERSONAL EVENTS
       const personalEvents = JSON.parse(localStorage.getItem('calPersonalEvents'))
-      console.log(Object.keys(personalEvents))
       if (personalEvents != null) {
         // loop through each date
         // two nested loops OK here because students are not likely to have a ton of events
