@@ -2,15 +2,12 @@
   color: #2dc0d5!important;
 }
 
-.addMC, .removeMC {
-  visibility: hidden
-}
-
+/*
 #acAdd:disabled, #acWeek:disabled, #acAdd2:disabled, #acWeek2:disabled {
   background-color: #f8f8f8!important;
   border-color: #e5e5e5!important;
   color: #999!important;
-}
+}*/
 
 #fullTimetable [class*=uk-align], #smallTimetable [class*=uk-align] {
   display: block;

@@ -4,6 +4,7 @@ const http = require('http')
 
 let input = ''
 let contextMenu
+let loading
 
 // used in the UI display
 const ListItem = ({ value }) => (
@@ -70,6 +71,7 @@ class Calendar extends Component {
   componentDidMount() {
     //console.log('component mount')
     let content = document.getElementById('content')
+    loading = document.getElementById('loading')
     content.className = 'full vcNavbarParentCal'
     this.setEvents(this.state.calData[this.state.selectedDay-1])
     this.setPersonalEvents(this.state.selectedDay + '-' + (this.state.selectedMonth + 1) + '-' + this.state.selectedYear)
@@ -475,6 +477,9 @@ class Calendar extends Component {
   
   search() {
     console.log('search initiated')
+
+    loading.style.visibility = 'visible'
+
     const terms = keywords.value.split(' ')
     
     const token = localStorage.getItem('accessToken')
@@ -634,6 +639,9 @@ class Calendar extends Component {
       }
         
       console.log('search done')
+      
+      loading.style.visibility = 'hidden'
+
       console.log(results)
       this.setState( ()=> ({
         searchHits: results
@@ -817,6 +825,7 @@ class Calendar extends Component {
           </ul>
         </div>
         <div id='parentCalCard' className='two uk-animation-slide-top-small'>
+          <div id='loading' style={{position: 'fixed', display: 'block',visibility:'hidden', width: '800px',height: '522px',top: '70px',left: '0', right: '0', bottom: '0', backgroundColor: 'rgba(0,0,0,0.3)', zIndex: '2', cursor: 'pointer', borderRadius:'5px'}}><div className='calLoadingParent'><div className='calLoadingChild uk-flex-center' uk-spinner="ratio: 4"/></div></div>
           <div id='aaa' className='uk-inline uk-width-1-1'>
             <div className="uk-margin uk-align-left">
                 <div id='ccc' className="uk-search uk-search-default">

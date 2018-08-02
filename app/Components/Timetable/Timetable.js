@@ -42,15 +42,16 @@ let validRoom = ['101','102','103','104','105','106','107','108',
 class Timetable extends Component {
   constructor(props) {
     super(props)
-    //week = window.bells.weekType
-    //day = window.bells.day.substring(0,3).toUpperCase()
-    
-    //(window.day, window.week)
-
+    //inputs the current day and week
     day = (window.day == undefined) ? window.bells.day.substring(0, 3).toUpperCase() : window.day
     week = (window.week == undefined) ? window.bells.weekType : window.week
   }
 
+  /**
+   * Highlights the current day
+   * @param {string} week - The current week (A, B or C)
+   * @param {string} day - The current day (MON, TUE, etc.)
+   */
   highlightBigDay(week, day) {
     let temp = day.toLowerCase().substring(0,2) + week
     let dayHeading = document.getElementById(temp)
@@ -490,8 +491,10 @@ class Timetable extends Component {
  verifyRoom() {
   let room = document.getElementById('acRoom')
   let button = document.getElementById('acAdd')
+
   let room2 = document.getElementById('acRoom2')
   let button2 = document.getElementById('acAdd2')
+
   let temp = document.getElementById('vcNavbarCard')
   let width = window.innerWidth
   let height = window.innerHeight
@@ -499,14 +502,19 @@ class Timetable extends Component {
   if ((temp.className=='Default'&&width<=530||height<=750)||(temp.className=='Small')) {
     if(room2.value.length==3 && validRoom.indexOf(room2.value)!=-1){
       button2.removeAttribute('disabled')
+      button2.className = 'uk-button uk-button-primary'
     } else {
       button2.setAttribute('disabled', true)
+      button2.className = 'uk-button uk-button-danger'
     }
   } else {
     if(room.value.length==3 && validRoom.indexOf(room.value)!=-1){
       button.removeAttribute('disabled')
+      button.className = 'uk-button uk-button-primary'
+      
     } else {
       button.setAttribute('disabled', true)
+      button.className = 'uk-button uk-button-danger'
     }
   }
  }
@@ -754,7 +762,7 @@ class Timetable extends Component {
                   <hr/>
 
                   <p className='uk-align-left uk-margin-bottom-small'>Week</p>
-                  <select id='acWeek' className='uk-select uk-margin-bottom'>
+                  <select id='acWeek' className='uk-select'>
                     <option>A</option>
                     <option>B</option>
                     <option>C</option>
@@ -836,7 +844,7 @@ class Timetable extends Component {
                   <hr/>
 
                   <p className='uk-align-left uk-margin-bottom-small'>Week</p>
-                  <select id='acWeek2' className='uk-select uk-margin-bottom'>
+                  <select id='acWeek2' className='uk-select'>
                     <option>A</option>
                     <option>B</option>
                     <option>C</option>
@@ -876,5 +884,4 @@ class Timetable extends Component {
     )
   }
 }
-
 export default Timetable
