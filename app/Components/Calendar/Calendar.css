@@ -3,6 +3,19 @@
   display: flex;
 }
 
+.calLoadingParent {
+  display: flex;
+  height: 100%;
+  margin: 0 auto;
+}
+.calLoadingChild {
+  margin: auto;
+  justify-content: center;
+  display: flex;
+  text-align: center!important;
+  max-width: 100%;
+}
+
 .two {
   width: 800px;
 }

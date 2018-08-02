@@ -84,7 +84,7 @@ class Notes extends Component {
     content.className = 'full vcNavbarParent'
 
     contextMenu = document.getElementById('contextMenu')
-    
+
     // Initialise quil
     quill = new Quill('#editor', {
       modules: {
@@ -280,6 +280,60 @@ class Notes extends Component {
       } catch (e) {
         console.log(content)
         console.log(e)
+      }
+    }
+  }
+
+  removeNote() {
+    if (this.state.notes.length > 1) {
+      contextMenu.style.visibility = 'hidden'
+      UIkit.modal.confirm('r u sure innit').then(_ => {
+        for (let i = 0; i < this.state.notes.length; i++) {
+          if (this.state.notes[i].title === this.state.onContext) {
+            this.state.notes.splice(i, 1)
+
+            if (i === this.state.selected && this.state.selected === this.state.notes.length) {
+              this.state.selected--
+            }
+
+            this.displayContent(this.state.notes[this.state.selected].content)
+            this.refreshNotesList()
+            this.generateClasses()
+            break
+          }
+        }
+      }, _ => {
+        UIkit.modal.alert('No!')
+      })
+    }
+  }
+
+  clearContents() {
+    contextMenu.style.visibility = 'hidden'
+    UIkit.modal.confirm('r u sure innit').then(_=> {
+      for (let i = 0; i < this.state.notes.length; i++) {
+        if (this.state.notes[i].title === this.state.onContext) {
+          this.state.notes[i].content = ''
+          quill.setText('')
+          this.refreshNotesList()
+          break
+        }
+      }
+    })
+  }
+
+  rename() {
+    contextMenu.style.visibility = 'hidden'
+
+    for (let i = 0; i < this.state.notes.length; i++) {
+      if (this.state.notes[i].title === this.state.onContext) {
+        UIkit.modal.prompt('Name:', 'Your name').then(title => {
+          if (title !== null && /\S/.test(title)) {
+            this.state.notes[i].title = title
+            this.refreshNotesList()
+          }
+        })
+        break
       }
     }
   }

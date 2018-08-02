@@ -237,6 +237,7 @@ class Notices extends Component {
                 <span uk-search-icon='true' uk-icon='icon:search'></span>
                 <input id='search' className="uk-search-input" onInput={this.search.bind(this)} type="search" placeholder="Search"/>
             </div>
+            <div className="uk-align-right uk-text-muted uk-margin-right">0 matches</div>
             <button onClick={this.toggleNotices.bind(this)} className='uk-button uk-align-left uk-button-default'>
               {this.state.text}
             </button>
