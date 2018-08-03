@@ -82,10 +82,16 @@ const TeacherNotes = () =>  {
 
 const NotesView = () =>  {
   console.log('notesview: '+classNotesArray)
-  noteID++
-  let rows = classNotesArray.map(note => {
-    return <FillClassNote key={noteID} note={note} />
-  })
+  let rows
+  if (classNotesArray.length == 0) {
+    rows = <h1 className='uk-heading-line uk-text-center'><span>No class notes</span></h1>
+  } else {
+    noteID++
+    rows = classNotesArray.map(note => {
+      return <FillClassNote key={noteID} note={note} />
+    })
+  }
+  
   return(
     <ul id="classNotesList" className="uk-accordion" uk-accordion="multiple: true">
       {rows}
