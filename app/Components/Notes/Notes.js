@@ -32,8 +32,7 @@ class Notes extends Component {
       mousePos: {x: 0, y: 0},
       posSaved: false
     }
-
-    
+   
     //restore notes from localstorage and selection from window var
     if (localStorage.getItem('notesDB') === null) {
       this.state.notes.push(this.noteStruct('My Notes', '', currentID))
@@ -85,8 +84,8 @@ class Notes extends Component {
     content.className = 'full vcNavbarParent'
 
     contextMenu = document.getElementById('contextMenu')
-    
-    // Initialise quill editor
+
+    // Initialise quil
     quill = new Quill('#editor', {
       modules: {
         toolbar: true
@@ -126,6 +125,7 @@ class Notes extends Component {
     this.setState({ posSaved: true })
   }
 
+  /*
   componentWillUnmount() {
     // Autosaves before enduser exits notes
     this.updateDB()
@@ -167,21 +167,9 @@ class Notes extends Component {
 
     let content = document.getElementById('content')
     content.className = 'full'
-  }
+  }*/
 
-  updateDB() {
-    // Save notes in localStorage in unreadable format
-    //let content = btoa(JSON.stringify(quill.getContents()))
-    //localStorage.setItem('content', content)
-
-
-    let content = quill.getContents()
-    this.state.notes[this.state.selected].content = JSON.stringify(content)
-
-    
-
-    localStorage.setItem('notesDB', btoa(JSON.stringify(this.state.notes)))
-  }
+  
 
   noteStruct(ttl, cnt, ID) {
     let note = {
@@ -243,29 +231,57 @@ class Notes extends Component {
     //console.log(this.state.notes)
   }
 
-  onMouseMove(e) {
-    //this.setState({ mousePos: { x: e.screenX, y: e.screenY } })
-    mouseX = e.screenX
-    mouseY = e.screenY
-    //console.log(mouseX,mouseY)
-
-    this.state.mousePos.x = e.screenX
-    this.state.mousePos.y = e.screenY
-  }
-
   notesContextMenu(e) {
     contextMenu.style.visibility = 'visible'
 
     this.state.onContext = e.target.text
     //console.log(this.state.onContext)
 
-    let dropdown = document.getElementById('contextMenu')
-    //UIkit.dropdown(dropdown).show()
-
     contextMenu.style.top = e.clientY+'px'
     contextMenu.style.left = e.clientX+'px'
     
     e.preventDefault()
+  }
+
+  refreshNotesList() {
+    let notes = this.state.notes
+    this.setState({ notes: notes })
+    this.updateDB()
+  }
+
+  updateDB() {
+    this.state.notes[this.state.selected].content = JSON.stringify(content)
+    localStorage.setItem('notesDB', btoa(JSON.stringify(this.state.notes)))
+  }
+
+  selectNote(e) {
+    this.state.notes[this.state.selected].content = JSON.stringify(content)
+    localStorage.setItem('notesDB', btoa(JSON.stringify(this.state.notes)))
+
+    console.log(this.state.notes)
+
+    let content// = this.state.notes[this.state.selected].content
+    for (let i = 0; i < this.state.notes.length; i++) {
+      if (this.state.notes[i].title === e.target.text) {
+        this.state.selected = i
+        content = this.state.notes[i].content
+      }
+    }
+
+    this.displayContent(content)
+  }
+
+  displayContent(content) {
+    if (content === '' || content === undefined) {
+      quill.setText('')
+    } else {
+      try {
+        quill.setContents(JSON.parse(content))
+      } catch (e) {
+        console.log(content)
+        console.log(e)
+      }
+    }
   }
 
   removeNote() {
@@ -322,43 +338,6 @@ class Notes extends Component {
     }
   }
 
-  refreshNotesList() {
-    let notes = this.state.notes
-    this.setState({ notes: notes })
-    this.updateDB()
-  }
-
-  selectNote(e) {
-    //console.log(this.state.notes)
-    this.updateDB()
-
-    let content// = this.state.notes[this.state.selected].content
-    for (let i = 0; i < this.state.notes.length; i++) {
-      if (this.state.notes[i].title === e.target.text) {
-        this.state.selected = i
-        content = this.state.notes[i].content
-      }
-    }
-
-    //console.log(this.state.selected)
-    //console.log(content)
-
-    this.displayContent(content)
-  }
-
-  displayContent(content) {
-    if (content === '' || content === undefined) {
-      quill.setText('')
-    } else {
-      try {
-        quill.setContents(JSON.parse(content))
-      } catch (e) {
-        console.log(content)
-        console.log(e)
-      }
-    }
-  }
-
   // Render uikit card and quill editor
   render() {
     let key = 0
@@ -373,21 +352,13 @@ class Notes extends Component {
     })
 
     return (
-      <div className='vcNavbarCard notesParent'>
-        <div id='contextMenu' className='contextMenu card' style={{visibility: 'hidden', minHeight: '50px',minWidth:'50px',position:'absolute',zIndex:1000}}>
-          <ul className='uk-list'>
-            <li onClick={this.rename.bind(this)}><span className='uk-margin-right uk-icon' uk-icon='pencil'/>Rename</li>
-            <li onClick={this.clearContents.bind(this)}><span className='uk-margin-right uk-icon' uk-icon='ban'/>Clear</li>
-            <li onClick={this.removeNote.bind(this)}><span className='uk-margin-right uk-icon' uk-icon='trash'/>Remove</li>
+        <div>
+          <a uk-icon='icon: info' uk-tooltip='title: Right click to rename, clear, or delete notes' className='uk-float-right'/>
+          <ul id='notesLayout' className='uk-subnav uk-subnav-pill uk-flex-center' uk-switcher='animation: uk-animation-fade' uk-sortable='cls-custom: uk-box-shadow-small uk-flex uk-flex-middle uk-background'>
+            {notes}
           </ul>
-        </div>
-        <div className='notesChild card uk-animation-slide-top-small'>
-        <a uk-icon='icon: info' uk-tooltip='title: Right click to rename, clear, or delete notes' className='uk-float-right'/>
-        <ul id='notesLayout' className='uk-subnav uk-subnav-pill uk-flex-center' uk-switcher='animation: uk-animation-fade' uk-sortable='cls-custom: uk-box-shadow-small uk-flex uk-flex-middle uk-background'>
-          {notes}
-        </ul>
           <div className='pad'>
-            <div id='editor' onInput={this.updateDB.bind(this)} onMouseMove={this.onMouseMove.bind(this)}/>
+            <div id='editor' onInput={this.updateDB.bind(this)}/>
           </div>
           <div className=''>
             <a uk-icon='plus-circle' uk-tooltip='title: Add custom notes; pos: bottom-center;'></a>
@@ -405,7 +376,6 @@ class Notes extends Component {
             </div>
           </div>
         </div>
-      </div>
     )
   }
 }

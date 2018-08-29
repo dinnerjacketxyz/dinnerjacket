@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 const css = require('./Dashboard.css')
 const http = require('http')
 
+var timerRunning = false
+
 class Dashboard extends Component {
   constructor(props) {
     super(props)
@@ -20,10 +22,10 @@ class Dashboard extends Component {
   
   // setup
   componentDidMount() {
-  
-    //console.log('component mounted')
+    console.log('component mounted')
     // set up timer
     let ID = setInterval(this.timerTick.bind(this), 1000)
+    timerRunning = true
 
     // save timer ID so we can remove the timer later
     this.setState({timerID: ID})
@@ -70,7 +72,8 @@ class Dashboard extends Component {
   
     // remove timer after unmount
     clearInterval(this.state.timerID)
-
+    timerRunning = false
+  
     let content = document.getElementById('content')
     content.className = 'full'
   }
@@ -89,14 +92,15 @@ class Dashboard extends Component {
     }
     
     updateCountdown = updateCountdown.bind(this)
-    
     // update display if timer runs out
     if (this.state.timer <= 0) {
-
       this.setState( ()=> ({
         nextClass: this.getNextClass()
       }), ()=> {
-        updateCountdown()
+        console.log('check timer running')
+        if (timerRunning) {
+          updateCountdown()
+        }
       })
       
     // otherwise, decrement timer
@@ -117,6 +121,12 @@ class Dashboard extends Component {
       
       res.on('end', () => {
         this.updateTimetableDisplay(JSON.parse(data))
+        if (!timerRunning) {
+          console.log('starting timer')
+          let ID = setInterval(this.timerTick.bind(this), 1000)
+          timerRunning = true
+          this.setState({timerID: ID})
+        }
       })
     })
   }
@@ -432,8 +442,6 @@ class Dashboard extends Component {
 
   // create the HTML for displaying classes
   processHTML(periods) {
-    console.log('PHTML Periods: ')
-    console.log(periods)
 
     const numPeriods = Object.keys(periods).length
     
@@ -597,16 +605,19 @@ class Dashboard extends Component {
     }
     
     // if loop finishes, it is past 3:15, get new timetable data
-    //console.log('getNextClass(): loop ended - 3:15')
-    this.getAPIData()
+    console.log('getNextClass(): loop ended - 3:15')
     
+    clearInterval(this.state.timerID)
+    timerRunning = false
+    this.getAPIData()
+    return {name: 'Loading', time: date}
   }
 
   // gets schedule of periods for timer, including class names (assumes timetable is valid)
   getSchedule(periods, dateOfPeriods, bells) {
     console.log('getSchedule()')
     let returnVar = []
-    let periodsCopy = periods.slice(0)
+    let periodsCopy = [].concat(periods)
 
     // remove any non-period time blocks
     for (var i = 0; i < periodsCopy.length; i++) {
@@ -689,7 +700,6 @@ class Dashboard extends Component {
   render() {
     // get timer
     const timeLeft = this.formatTime(this.state.timer)
-    
     // for whatever reason React keeps changing JSON fields from 'string' to 'object', so this changes them back
     let nextClass = this.state.nextClass.name
     if (typeof(this.state.nextClass.name) === 'object') {
