@@ -8,7 +8,7 @@ let search
 class Notices extends Component {
   constructor(props) {
     super(props)
-  
+    
     // Checks for student access level
     // Sets notice filter to student year if student is logged in
     // If a teacher is logged in, default filter is set to ALL
@@ -24,6 +24,7 @@ class Notices extends Component {
       text: 'EXPAND', // State indicating whether all notices are expanded or collapsed
       keywords: [] // Current search keywords entered into input box
     }
+    this.init()
   }
   
   componentDidMount() {
@@ -33,7 +34,6 @@ class Notices extends Component {
     selector.value = window.year
     
     search = document.getElementById('search')
-    this.init()
   }
 
   /**
@@ -55,7 +55,6 @@ class Notices extends Component {
   init() {
     dailyNotices = window.dailyNotices
     this.state.notices = []
-    let lowRelavence = []
     let count = 0
 
     for (let i = 0; i < dailyNotices.notices.length; i++) {
