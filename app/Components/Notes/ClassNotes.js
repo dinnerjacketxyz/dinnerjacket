@@ -8,13 +8,12 @@ let noteID = 0
 class ClassNotes extends Component {
   constructor(props) {
     super(props)
-    
   }
 
   render() {
     let classNotes
     if (window.userData.role==='Student') {
-      classNotes = <NotesView/>
+      classNotes = <NotesView array={classNotesArray}/>
     } else if (window.userData.role==='Teacher') {
       classNotes = <TeacherNotes/>
     }
@@ -24,8 +23,15 @@ class ClassNotes extends Component {
 
 export default ClassNotes
 
-const TeacherNotes = () =>  {
-  function submitClassNote() {
+class TeacherNotes extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      array: classNotesArray
+    }
+  }
+
+  submitClassNote() {
     let inputTitle = document.getElementById('classNoteTitle')
     let inputClass = document.getElementById('classNoteClass')
     let inputBody = document.getElementById('classNoteBody')
@@ -33,24 +39,30 @@ const TeacherNotes = () =>  {
     
     let date = today.getHours()+':'+today.getMinutes() +' on '+ today.getDate() + ' ' + (months[today.getMonth()]) + ' ' + today.getFullYear()
     let author = window.userData.givenName + ' ' + window.userData.surname
-    let title = inputTitle.value
-    let cnClass = inputClass.value
-    let body = inputBody.value
-
-    let cn = {
-      title: title, 
-      body: body, 
-      cnClass: cnClass, 
-      date: date, 
-      author: author
-    }
-
     
-    classNotesArray.push(cn)
-    console.log('teachernotes: '+ classNotesArray[0].title)
+    if (inputTitle.value.length > 0 || inputBody.value.length > 0) {
+      let title = inputTitle.value
+      let cnClass = inputClass.value
+      let body = inputBody.value
+
+      let cn = {
+        title: title, 
+        body: body, 
+        cnClass: cnClass, 
+        date: date, 
+        author: author
+      }
+
+      classNotesArray.push(cn)
+      this.setState({array: classNotesArray})
+      console.log('teachernotes: '+ classNotesArray[0].title)
+    } else {
+
+    }
   }
 
-  return(
+  render() {
+    return (
     <div>
       <ul className="uk-subnav uk-subnav-pill uk-flex uk-flex-center" uk-switcher="">
           <li aria-expanded="true" className="uk-active"><a>Post</a></li>
@@ -68,26 +80,27 @@ const TeacherNotes = () =>  {
               <input id='classNoteTitle' className="uk-input uk-form-blank uk-form-large" type="Title" placeholder="Title"/>
             </div>
             <div className="uk-margin">
-              <textarea id='classNoteBody' className="uk-textarea uk-form-blank" rows="5" placeholder="Body" style={{margin: '0px', height: '110px', width: '100%'}}></textarea>
+              <textarea id='classNoteBody' className="uk-textarea uk-form-blank" rows="5" placeholder="Body" style={{margin: '0px', height: '110px', width: '100%', resize: 'none'}}></textarea>
             </div>
             <h3></h3>
-            <a onClick={submitClassNote} className="uk-button uk-button-primary">Submit</a>
+            <a onClick={this.submitClassNote.bind(this)} className="uk-button uk-button-primary">Submit</a>
             <a className="uk-button uk-button-default">Save</a>
           </li>
-          <li><NotesView/></li>
+          <li><NotesView array={this.state.array}/></li>
       </ul>
     </div>
-  )
+    )
+  }
 }
 
-const NotesView = () =>  {
-  console.log('notesview: '+classNotesArray)
+const NotesView = (props) =>  {
+  console.log('notesview: '+props.array)
   let rows
-  if (classNotesArray.length == 0) {
+  if (props.array.length == 0) {
     rows = <h1 className='uk-heading-line uk-text-center'><span>No class notes</span></h1>
   } else {
     noteID++
-    rows = classNotesArray.map(note => {
+    rows = props.array.map(note => {
       return <FillClassNote key={noteID} note={note} />
     })
   }

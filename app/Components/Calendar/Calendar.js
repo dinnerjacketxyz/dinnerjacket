@@ -834,22 +834,22 @@ class Calendar extends Component {
                 </div>
                 <button id='calPrev' onClick={this.prevSearchResult.bind(this)} className="uk-button uk-button-default"><a uk-icon="icon: chevron-left"></a></button>
                 <button id='calNext' onClick={this.nextSearchResult.bind(this)} className="uk-button uk-button-default"><a uk-icon="icon: chevron-right"></a></button>
-                <div className='uk-text-muted uk-align-right'>{this.state.searchHits.length} matches</div>
+                <div id='calMatches' className='uk-text-muted uk-align-right'>{this.state.searchHits.length} matches</div>
             </div>
             
-            <div className="uk-align-right">
+            <div id='calIcons' className="uk-align-right">
               <div className="uk-inline">
-                <a uk-icon="icon: plus-circle" uk-tooltip='title: Add event for this day'></a>
+                <a uk-icon="icon: plus-circle" uk-tooltip='title: Add event for this day;pos:right'></a>
                 <div uk-dropdown="mode: click">
                   <p className='uk-text-left'>Add personal event</p>
                   <input id='personalEventName' className="uk-input" type="text" placeholder="Event"/>
                   <button onClick={this.addPersonalEvent.bind(this)} className='uk-margin-top uk-button uk-button-default'>Add</button>
                 </div>
               </div>
-              <a uk-icon="icon: info" uk-tooltip='title: Right click a personal event to remove it'></a>
+              <a uk-icon="icon: info" uk-tooltip='title: Right click a personal event to remove it;pos:right'></a>
             </div>
           </div>
-          <div className="uk-grid-collapse uk-grid  uk-grid-match" uk-grid='true'>
+          <div className="uk-grid-collapse uk-grid uk-grid-match" uk-grid='true'>
             <div className='cal card uk-width-expand'>
               <div>
                 <div className="month">      
