@@ -1,3 +1,6 @@
+// George
+// Display daily notices
+
 import React, { Component } from 'react'
 const css = require('./Notices.css')
 

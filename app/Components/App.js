@@ -10,7 +10,7 @@ import Profile from './Profile/Profile'
 import Feedback from './Feedback/Feedback'
 import Changelog from './Changelog/Changelog'
 import Settings from './Settings/Settings'
-import NotesSwitcher from './Notes/NotesSwitcher'
+//import NotesSwitcher from './Notes/NotesSwitcher'
 
 
 const css = require('./App.css')
@@ -30,6 +30,10 @@ window.bells = ''
 window.diaryCal = ''
 window.participation = ''
 window.userInfo = ''
+
+const firebase = require('firebase')
+window.firebase = firebase
+
 
 // Requirements for beta release
 // Daily timetable
@@ -645,7 +649,7 @@ class App extends Component {
         <div id='content' className = ''>
           {this.state.visible === window.STATES.DASHBOARD && <Dashboard />}
           {this.state.visible === window.STATES.TIMETABLE && <Timetable />}
-          {this.state.visible === window.STATES.NOTES && <NotesSwitcher />}
+          {this.state.visible === window.STATES.NOTES && <Notes userID={window.userData.username} />}
           {this.state.visible === window.STATES.NOTICES && <Notices />}
           {this.state.visible === window.STATES.CALENDAR && <Calendar />}
           {this.state.visible === window.STATES.ABOUT && <About />}
