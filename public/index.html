@@ -46,11 +46,40 @@
     <!-- Quill.js -->
     <link href="https://cdn.quilljs.com/1.3.5/quill.snow.css" rel="stylesheet">
     <script src="https://cdn.quilljs.com/1.3.5/quill.js"></script>
+
+    <link media="print" href="ui/print.css">
   </head>
   <body id='body' class="uk-dark Clean">
     <main id="app"></main>
     <script src="app.js"></script>
     <script type='text/javascript'>
+      let formattedPrint = false
+      let y
+      let temp
+      let backup
+      let u 
+
+      document.getElementsByTagName("BODY")[0].onbeforeprint = function() {
+        window.u = document.getElementById('fullTimetable')
+        if(window.u!==null){
+          window.backup = window.u
+          window.y = document.getElementById('vcNavbarCard')
+          window.temp = window.y.className
+          window.y.className = 'Full'
+          window.formattedPrint = true
+        } else {
+          window.formattedPrint = false
+        }
+      }
+
+      document.getElementsByTagName("BODY")[0].onafterprint = function() {
+        if (window.formattedPrint == true) {
+          console.log('afterPrint')
+          window.y.className = window.temp
+          window.u = window.backup
+        }
+      }
+
       window.onclick = hideContextMenu
       
       function hideContextMenu() {

@@ -460,7 +460,7 @@ class Timetable extends Component {
 
     let width = window.innerWidth
     let height = window.innerHeight
-
+    console.log('process form')
     if ((temp.className == 'Default' && width <= 530 || height <= 750) || (temp.className == 'Small')) {
       if (button2.getAttribute('disabled') != true) {
         if (repeat2.checked == false) {
@@ -479,6 +479,9 @@ class Timetable extends Component {
           mcArr[temp + 5] = subject2.value + '!' + room2.value + '!' + 'B' + '!' + day2.value
           mcArr[temp + 10] = subject2.value + '!' + room2.value + '!' + 'C' + '!' + day2.value
         }
+      } else {
+        setTimeout(this.displayTooltip(button.parentNode), 2000)
+        console.log('display tooltip')
       }
     } else {
       if (button.getAttribute('disabled') != true) {
@@ -497,6 +500,9 @@ class Timetable extends Component {
           mcArr[temp + 5] = subject.value + '!' + room.value + '!' + 'B' + '!' + day.value
           mcArr[temp + 10] = subject.value + '!' + room.value + '!' + 'C' + '!' + day.value
         }
+      } else {
+        setTimeout(this.displayTooltip(button.parentNode), 2000)
+        console.log('display tooltip')
       }
     }
 
@@ -565,26 +571,27 @@ class Timetable extends Component {
     if ((temp.className == 'Default' && width <= 530 || height <= 750) || (temp.className == 'Small')) {
       if (room2.value.length == 3 && validRoom.indexOf(room2.value) != -1) {
         button2.removeAttribute('disabled')
-        button2.className = 'uk-button uk-button-primary'
+        //button2.className = 'uk-button uk-button-primary'
       } else {
         button2.setAttribute('disabled', true)
-        button2.className = 'uk-button uk-button-danger'
+        //button2.className = 'uk-button uk-button-danger'
       }
     } else {
       if (room.value.length == 3 && validRoom.indexOf(room.value) != -1) {
         button.removeAttribute('disabled')
-        button.className = 'uk-button uk-button-primary'
-        button.parentNode.removeAttribute('uk-tooltip')
+        //button.className = 'uk-button uk-button-primary'
+        //button.parentNode.removeAttribute('uk-tooltip')
       } else {
         button.setAttribute('disabled', true)
-        button.className = 'uk-button uk-button-danger'
-        setTimeout(this.displayTooltip(button.parentNode), 2000)
+        //button.className = 'uk-button uk-button-danger'
+        //setTimeout(this.displayTooltip(button.parentNode), 2000)
       }
     }
   }
 
   displayTooltip(element) {
-    element.setAttribute('uk-tooltip','title:Enter a valid room')
+    console.log('display tooltip')
+    element.setAttribute('uk-tooltip','title: Enter a valid room')
     UIkit.tooltip(element).show()
     setTimeout(function () {UIkit.tooltip(element).hide()}, 10000)
   }
@@ -888,7 +895,7 @@ class Timetable extends Component {
           </table>
           <div id='addMC' className='uk-align-left uk-inline addMC'>
             <a className='addMC' onClick={this.initForm.bind(this)} uk-icon='plus-circle' uk-tooltip='title: Add morning classes; pos: bottom-left;'></a>
-            <div uk-dropdown='mode: click;pos: right-center'>
+            <div uk-dropdown='mode: click;pos: right'>
               <p className='uk-align-left uk-margin-bottom-small'>Subject</p>
               <select id='acSubject2' className='uk-select'>
               </select>
@@ -929,7 +936,7 @@ class Timetable extends Component {
           </div>
           <div id='removeMC' className='uk-align-right uk-inline removeMC'>
             <a className='removeMC' uk-icon='minus-circle' onClick={this.initRemove.bind(this)} uk-tooltip='title: Remove morning classes; pos: bottom-right;'></a>
-            <div id='rmDropDiv' uk-dropdown='mode: click;pos: left-center'>
+            <div id='rmDropDiv' uk-dropdown='mode: click;pos: left'>
               <p id='noText2' hidden='true'>No morning classes</p>
               <div id='rmTableDiv2' >
                 <a id='btnSelectall2' onClick={this.selectAll.bind(this)} className='uk-button uk-button-default uk-margin-bottom'>Select all</a>

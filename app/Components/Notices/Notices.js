@@ -117,15 +117,8 @@ class Notices extends Component {
           }
           this.state.numNotices++
           this.state.notices.push(obj)
-          //if (this.state.keyword === '' || this.keywordInNotice(this.state.keyword, dailyNotices.notices[i])) {
-          //  this.state.notices.push(obj)
-          //}
         }
       }
-    }
-
-    if (this.state.notices.length <= 0) {
-      // NO NOTICES
     }
   }
 
@@ -218,6 +211,15 @@ class Notices extends Component {
         return <ExpandedNotices key={notice.ID} notices={notice} />
       })
     }
+
+    console.log(this.state.keywords.length)
+    let searchValue = ''
+    try {
+      searchValue = document.getElementById('search').value
+    } catch (e) { }
+    let numMatches = (searchValue !== '') ? Matches(this.state.notices.length) : null
+    console.log(numMatches)
+
     return (
       <div className='noticesParent'>
         <div className='noticesChild card uk-animation-slide-top-small'>
@@ -237,7 +239,7 @@ class Notices extends Component {
                 <span uk-search-icon='true' uk-icon='icon:search'></span>
                 <input id='search' className="uk-search-input" onInput={this.search.bind(this)} type="search" placeholder="Search"/>
             </div>
-            <div className="uk-align-right uk-text-muted uk-margin-right">0 matches</div>
+            {numMatches}
             <button onClick={this.toggleNotices.bind(this)} className='uk-button uk-align-left uk-button-default'>
               {this.state.text}
             </button>
@@ -247,11 +249,21 @@ class Notices extends Component {
               {rows}
             </ul>
           </div>
-          
         </div>
       </div>
     )
   }
+}
+
+/**
+ * 
+ * @param {*} matches - eeee
+ */
+const Matches = (matches) => {
+  let text = (matches > 1) ? ' matches' : ' match'
+  return (
+    <div className="uk-align-right uk-text-muted uk-margin-right">{matches}{text}</div>
+  )
 }
 
 // goes above the two /div <h1 className='uk-heading-line uk-text-center uk-margin-top uk-margin-bottom'><span>No notices</span></h1>
