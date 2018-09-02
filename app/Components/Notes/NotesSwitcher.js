@@ -30,11 +30,11 @@ class NotesSwitcher extends Component {
   }
 
   render() {
-    notes = (this.state.tab === 'Notes') ? <Notes /> : <ClassNotes />
+    notes = (this.state.tab === 'Notes') ? <Notes userID={window.userData.username}/> : <ClassNotes />
     return (
         <div className='vcNavbarCard notesParent'>
           <div className='notesChild card uk-animation-slide-top-small'>
-            <ul className='uk-flex-center uk-margin-bottom' onClick={this.tabInput.bind(this)} uk-tab=''>
+            <ul className='doNotPrint uk-flex-center uk-margin-bottom' onClick={this.tabInput.bind(this)} uk-tab=''>
               <li className="uk-active"><a>Notes</a></li>
               <li><a>Class Notes</a></li>
             </ul>

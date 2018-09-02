@@ -4,11 +4,14 @@ const css= require('./ClassNotes.css')
 let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 let classNotesArray = []
 let noteID = 0
+const MAX_CLASSES = 12
 
 class ClassNotes extends Component {
   constructor(props) {
     super(props)
   }
+
+
 
   render() {
     let classNotes
@@ -27,8 +30,25 @@ class TeacherNotes extends Component {
   constructor(props){
     super(props)
     this.state = {
-      array: classNotesArray
+      array: classNotesArray,
+      classes: []
     }
+    this.generateClasses()
+  }
+
+  /**
+   * Loop through all the user's classes
+   * Add valid classes to classes array held in this.state
+   */
+  generateClasses() {
+    this.state.classes = []
+    for (let i = 1; i < MAX_CLASSES + 1; i++) {
+      if (window.timetable.subjects[i] !== -1 && window.timetable.subjects[i].shortTitle[0] !== '_') {      
+        let subject = window.timetable.subjects[i].year + window.timetable.subjects[i].shortTitle
+        this.state.classes.push(subject)
+      }
+    }
+    console.log(this.state.classes)
   }
 
   submitClassNote() {
@@ -62,6 +82,11 @@ class TeacherNotes extends Component {
   }
 
   render() {
+    let classList = this.state.classes.map(cls => {
+      key++
+      return <option key={key} title={cls}>{cls}</option>
+    })
+
     return (
     <div>
       <ul className="uk-subnav uk-subnav-pill uk-flex uk-flex-center" uk-switcher="">
@@ -72,8 +97,7 @@ class TeacherNotes extends Component {
           <li className="uk-active">
             <div className="uk-flex uk-flex-center">
               <select id='classNoteClass' className="uk-select uk-form-small uk-form-width-small">
-                <option>7 ENG 1</option>
-                <option>8 ENG 1</option>
+                {classList}
               </select>
             </div>
             <div className="uk-margin">
@@ -97,7 +121,7 @@ const NotesView = (props) =>  {
   console.log('notesview: '+props.array)
   let rows
   if (props.array.length == 0) {
-    rows = <h1 className='uk-heading-line uk-text-center'><span>No class notes</span></h1>
+    rows = <h1 className='uk-heading-line uk-text-center' style={{marginTop:'50px',marginBottom:'50px'}}><span>No class notes</span></h1>
   } else {
     noteID++
     rows = props.array.map(note => {

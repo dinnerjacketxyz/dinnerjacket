@@ -138,9 +138,6 @@ class Notes extends Component {
    * 
    */
   componentDidMount() {
-    let content = document.getElementById('content')
-    content.className = 'full vcNavbarParent'
-
     contextMenu = document.getElementById('contextMenu')
     
     // Initialise quill editor
@@ -252,9 +249,6 @@ class Notes extends Component {
     localStorage.setItem('notesDB', btoa(JSON.stringify(this.state.notes)))
     // Upload updated notes database to firebase
     this.updateFirebase()
-
-    let content = document.getElementById('content')
-    content.className = 'full'
   }
 
   /**
@@ -574,15 +568,15 @@ class Notes extends Component {
             <li onClick={this.removeNote.bind(this)}><span className='uk-margin-right uk-icon' uk-icon='trash'/>Remove</li>
           </ul>
         </div>
-        <div className='notesChild card uk-animation-slide-top-small'>
-        <a uk-icon='icon: info' uk-tooltip='title: Right click to rename, clear, or delete notes' className='uk-float-right'/>
-        <ul id='notesLayout' className='uk-subnav uk-subnav-pill uk-flex-center' uk-switcher='animation: uk-animation-fade' uk-sortable='cls-custom: uk-box-shadow-small uk-flex uk-flex-middle uk-background'>
+        <div className='notesChild card'>
+        <a uk-icon='icon: info' uk-tooltip='title: Right click to rename, clear, or delete notes' className='doNotPrint uk-float-right'/>
+        <ul id='notesLayout' className='doNotPrint uk-subnav uk-subnav-pill uk-flex-center' uk-switcher='animation: uk-animation-fade' uk-sortable='cls-custom: uk-box-shadow-small uk-flex uk-flex-middle uk-background'>
           {notes}
         </ul>
           <div className='pad'>
             <div id='editor' onInput={this.updateDB.bind(this)} onMouseMove={this.onMouseMove.bind(this)}/>
           </div>
-          <div className=''>
+          <div className='doNotPrint'>
             <a uk-icon='plus-circle' uk-tooltip='title: Add custom notes; pos: bottom-center;'></a>
             <div uk-dropdown='mode: click;pos: top-center'>
               <p className='uk-text-left'>Classes</p>

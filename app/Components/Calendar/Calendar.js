@@ -826,7 +826,7 @@ class Calendar extends Component {
           </ul>
         </div>
         <div id='parentCalCard' className='two uk-animation-slide-top-small'>
-          <div id='loading' style={{position: 'fixed', display: 'block',visibility:'hidden', width: '800px',height: '522px',top: '70px',left: '0', right: '0', bottom: '0', backgroundColor: 'rgba(0,0,0,0.3)', zIndex: '2', cursor: 'pointer', borderRadius:'5px'}}><div className='calLoadingParent'><div className='calLoadingChild uk-flex-center' uk-spinner="ratio: 4"/></div></div>
+          <div id='loading' style={{position: 'fixed', display: 'block',visibility:'hidden', width: '100%',height: '522px',top: '60px',left: '0', right: '0', bottom: '0', backgroundColor: 'rgba(0,0,0,0.3)', zIndex: '2', cursor: 'pointer', borderRadius:'5px'}}><div className='calLoadingParent'><div className='calLoadingChild uk-flex-center' uk-spinner="ratio: 4"/></div></div>
           <div id='aaa' className='uk-inline uk-width-1-1'>
             <div className="uk-margin uk-align-left">
                 <div id='ccc' className="uk-search uk-search-default">

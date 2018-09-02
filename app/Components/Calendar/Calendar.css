@@ -7,6 +7,7 @@
   display: flex;
   height: 100%;
   margin: 0 auto;
+  color: white;
 }
 .calLoadingChild {
   margin: auto;
@@ -210,12 +211,12 @@
   display: flex;
 }
 
-@media screen and (max-width: 420px) {
+@media only screen and (max-width: 420px) {
 /*  .weekdays li, .days li {width: 12.5%;}*/
   .days li .active {padding: 2px;}
 }
 
-@media (max-width: 639px) {
+@media only screen and (max-width: 639px) {
   #calMatches {
     margin-left: 10px;
   }
@@ -225,7 +226,7 @@
   }
   .cal {
     border-radius: 5px 5px 0 0 ;
-    height: auto!important;
+    height: 427px!important;
     margin-right: 0px;
   }
   .eventsBorder{
@@ -258,9 +259,12 @@
   #parentCalCard {
     margin-top: 20px;
   }
+  #loading {
+    height: 427px!important;
+  }
 }
 
-@media (max-width: 349px) {
+@media only screen and (max-width: 349px) {
   #calMatches {
     float: none;
   }

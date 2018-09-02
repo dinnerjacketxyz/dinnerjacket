@@ -1,18 +1,3 @@
-.clContainer {
-  margin-top: 20px!important;
-  padding-bottom: 20px!important;
-  justify-content: center;
-  display: flex;
-}
-
-.clCard{
-  width: 600px;
-  padding: 40px 60px;
-  position: relative;
-  box-sizing: border-box;
-  transition: box-shadow .1s ease-in-out;
-}
-
 @media (max-width:600px){
   .clCard{
     box-shadow: none;

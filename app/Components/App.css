@@ -193,3 +193,19 @@ body {
     margin-right: 0px!important
   }
 }
+
+.offline {
+  position: fixed;
+  color: #f0506e!important;
+  text-align: center;
+  margin: 10px 0 0 0;
+  padding: 10px 0;
+  width: 100%;
+  z-index: 3;
+}
+
+.online {
+  height: 0px;
+  display: none;
+  visibility: hidden;
+}

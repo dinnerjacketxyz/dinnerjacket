@@ -4,8 +4,8 @@ const css = require('./Changelog.css')
 class Changelog extends Component {
   render() {
     return (
-        <div className='clContainer'>
-          <div className='clCard card uk-animation-slide-top-small'>
+        <div id='changelog' className='hCenterOnlyContainer'>
+          <div style={{textAlign:'left'}} className='hCenterOnlyCard card uk-animation-slide-top-small'>
             <article className="uk-article">
               <h1 className="uk-article-title">Unreleased features</h1>
               <ul>
