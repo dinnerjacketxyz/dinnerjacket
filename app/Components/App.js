@@ -223,7 +223,7 @@ class App extends Component {
     let visible = this.state.visible
     this.setState({ visible: window.STATES.DASHBOARD })
     /*
-    // Daily timetable
+    // Daily timetable - moved to other module
     http.get('/getdata?token=' + token + '&url=timetable/daytimetable.json', (res) => {
       res.setEncoding('utf8')
       let data = ''
@@ -505,6 +505,7 @@ class App extends Component {
 
   logout() {
     window.location.href = '/logout'
+    // clear cached data
     localStorage.removeItem('accessToken')
     localStorage.removeItem('refreshToken')
     localStorage.removeItem('accessTokenExpiry')
@@ -512,16 +513,14 @@ class App extends Component {
     localStorage.removeItem('timetableBells')
     localStorage.removeItem('timetablePeriods')
     localStorage.removeItem('timetablePeriodsDate')
-    localStorage.setItem('clicked',false)
+    localStorage.setItem('clicked', false)
   }
 
   logo() {
-    ////('logo click')
     counter++
     if (counter >= 3) {
-      //DONTCLEARLOCALSTORAGEPK
-      alert('spif')
-      window.location.href = '/test'
+      alert('Top secret hidden link activated!')
+      window.location.href = '/secret'
       counter = 0
     }
   }

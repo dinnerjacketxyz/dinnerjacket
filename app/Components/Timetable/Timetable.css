@@ -1,6 +1,9 @@
-.currentDay {
-  color: #2dc0d5!important;
+@media only screen {
+  .currentDay {
+    color: #2dc0d5!important;
+  }
 }
+
 
 /*
 #acAdd:disabled, #acWeek:disabled, #acAdd2:disabled, #acWeek2:disabled {
@@ -55,7 +58,7 @@
   font-weight: 300;
 }
 
-@media (max-height:1000px){
+@media only screen and (max-height:1000px){
   .Dynamic .timetable td, .Full .timetable td{
     padding: 2px 1px;
   }
@@ -77,7 +80,7 @@
   }
 }
 
-@media (max-height:810px){
+@media only screen and (max-height:810px){
   #ttableName{
     visibility: hidden;
     height: 0px;
@@ -87,7 +90,7 @@
   }
 }
 
-@media (max-width:530px), (max-height:750px){
+@media only screen and (max-width:530px), (max-height:750px){
   .Dynamic #fullTimetable {
     visibility: hidden;
     display: none;
@@ -114,7 +117,7 @@
   }
 }
 
-@media (min-width:530px) and (min-height:750px){
+@media only screen and (min-width:530px) and (min-height:750px){
   .Small>#fullTimetable {
     visibility: hidden;
     display: none;
@@ -154,6 +157,17 @@
 @media (max-width:600px){
   .ttableCard{
     box-shadow: none;
+  }
+}
+
+@media print {
+  #fullTimetable {
+    visibility: visible;
+    display: block;
+  }
+  #smallTimetable{
+    visibility: hidden;
+    display: none;
   }
 }
 

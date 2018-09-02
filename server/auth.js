@@ -1,4 +1,4 @@
-﻿const https = require('https')
+const https = require('https')
 const querystring = require('querystring')
 
 const siteURL = 'http://localhost:3000'
@@ -70,13 +70,23 @@ module.exports = (app) => {
     })
 
     promise.then(function(result) {
-      // store token in user's session
-      req.session.token = JSON.parse(result)
-      // 90 days expiry
-      req.session.refreshTokenExpiry = new Date((new Date).getTime() + 90*24*60*60*1000)
-      console.log('token stored, redirecting')
-
-      // Login done, redirect back
+      const data = JSON.parse(result)
+      
+      // make sure no errors
+      if (data['error'] == null) {
+        
+        // store token in user's session
+        req.session.token = JSON.parse(result)
+        
+        // set 90 days expiry
+        req.session.refreshTokenExpiry = new Date((new Date).getTime() + 90*24*60*60*1000)
+        console.log('token stored, redirecting')
+        
+      } else {
+        console.log('an error occurred in the callback process')
+      }
+      
+      // redirect back
       res.redirect(siteURL)
     })
   })
@@ -199,13 +209,13 @@ module.exports = (app) => {
   })
 
   // for testing
-  app.get('/test', (req, res) => {
+  app.get('/secret', (req, res) => {
     let returnVal =
        ' <p style="line-height:1">\
         &nbsp;∛3<br>\
        ⎰<i>t² dt </i> ⋅ cos(3π/9) = log(∛<i>e</i>)<br>\
         1</p>\
-        Integral <i>t²</i><i> dt </i> , <br>\
+        Integral <i>t²</i><i> dt </i>, <br>\
         From 1 to the cube root of 3, <br>\
         Times the cosine <br>\
         of 3π over 9, <br>\
