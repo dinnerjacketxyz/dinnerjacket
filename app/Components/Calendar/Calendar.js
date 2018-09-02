@@ -171,13 +171,14 @@ class Calendar extends Component {
   setEvents(events) {
     var eventsToAdd = []
     const items = events['items']
+    console.log(items)
 
     for (var i = 0; i < items.length; i++) {
       const thisEvent = items[i]
 
       switch (thisEvent['type']) {
         case 'school':     eventsToAdd.push((thisEvent['subject'] != '' ? thisEvent['subject'] + ': ' : '') + thisEvent['title']); break
-        case 'assessment': eventsToAdd.push('(Assessment) ' + thisEvent['assessment']); break
+        case 'assessment': eventsToAdd.push('(Assessment) ' + (thisEvent['assessment'] != '' ? thisEvent['assessment'] : thisEvent['title'])); break
         case 'moodle':     eventsToAdd.push('(Moodle) ' + (thisEvent['subject'] != '' ? thisEvent['subject'] + ': ' : '') + thisEvent['title']); break
         case 'personal':   eventsToAdd.push('(Personal) ' + thisEvent['title']); break
         default: break
