@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
 import styles from './Calendar.css'
 const http = require('http')
+
 let input = ''
 let contextMenu
+let loading
 
+// used in the UI display
 const ListItem = ({ value }) => (
   <li id={value}>{value}</li>
-);
+)
 
 // set to true when month is changing to ensure user doesn't try to change months before everything is ready
 var monthChanging = false
@@ -19,6 +22,7 @@ window.m = ''
 window.y = ''
 
 class Calendar extends Component {
+
   constructor(props) {
     super(props)
 
@@ -67,6 +71,7 @@ class Calendar extends Component {
   componentDidMount() {
     //console.log('component mount')
     let content = document.getElementById('content')
+    loading = document.getElementById('loading')
     content.className = 'full vcNavbarParentCal'
     this.setEvents(this.state.calData[this.state.selectedDay-1])
     this.setPersonalEvents(this.state.selectedDay + '-' + (this.state.selectedMonth + 1) + '-' + this.state.selectedYear)
@@ -166,13 +171,14 @@ class Calendar extends Component {
   setEvents(events) {
     var eventsToAdd = []
     const items = events['items']
+    console.log(items)
 
     for (var i = 0; i < items.length; i++) {
       const thisEvent = items[i]
 
       switch (thisEvent['type']) {
         case 'school':     eventsToAdd.push((thisEvent['subject'] != '' ? thisEvent['subject'] + ': ' : '') + thisEvent['title']); break
-        case 'assessment': eventsToAdd.push('(Assessment) ' + thisEvent['assessment']); break
+        case 'assessment': eventsToAdd.push('(Assessment) ' + (thisEvent['assessment'] != '' ? thisEvent['assessment'] : thisEvent['title'])); break
         case 'moodle':     eventsToAdd.push('(Moodle) ' + (thisEvent['subject'] != '' ? thisEvent['subject'] + ': ' : '') + thisEvent['title']); break
         case 'personal':   eventsToAdd.push('(Personal) ' + thisEvent['title']); break
         default: break
@@ -301,73 +307,7 @@ class Calendar extends Component {
         window.diaryCal = this.state.calData
       })
       
-    // if preloaded data isn't available for some reason
-    } else {
-      /*
-      // Get calendar data for the next month to be displayed
-      let promise1 = new Promise( function (resolve, reject) {
-        
-        const year = curYear
-        const month = curMonth + 1
-        
-        // create parameters:   from=YYYY-MM-DD   to=YYYY-MM-DD
-        var from = year + '-' + (month > 9 ? month : '0' + month) + '-01'
-        var to = year + '-' + (month > 9 ? month : '0' + month) + '-' + (new Date(year, month, 0).getDate())
-        
-        // make http request
-        const token = localStorage.getItem('accessToken')
-        http.get('/getdata?token=' + token + '&url=diarycalendar/events.json?from=' + from + '&to=' + to, (res) => {
-          res.setEncoding('utf8')
-          let d = ''
-          res.on('data', (body) => {
-            d += body
-          })
-          res.on('end', () => {
-            resolve(JSON.parse(d))
-          })
-        })
-      })
-      
-      // process data from http requests
-      promise1.then( (result) => {
-      
-        // cache used calendar data
-        if (diff == 1) {
-          //console.log('caching used data into prevMonth')
-          this.setState( ()=> ({
-            prevMonthData: this.state.calData
-          }))
-        } else if (diff == -1){
-          //console.log('caching used data into nextMonth')
-          this.setState( ()=> ({
-            nextMonthData: this.state.calData
-          }))
-        }
-        
-        this.setState( ()=> ({
-          calData: result,
-          selectedMonth: curMonth,
-          selectedYear: curYear,
-          selectedDayIndex: -1,
-          days: this.setDaysForMonth(curMonth, curYear)
-        }))
-        
-        window.m = curMonth
-        window.y = curYear
-        
-        let dayToSelect = 1
-        if (window.m == new Date().getMonth() && window.y == new Date().getFullYear()) {
-          dayToSelect = new Date().getDate()
-        }
-
-        this.setEvents(this.state.calData[dayToSelect-1])
-        this.highlightSelectedDay(dayToSelect)
-      })
-      */
     }
-    
-    
-    // diff == 1, preload next month and store the month that was switched away from
     
     // preload data for prev and next months
     // Get calendar data for the next month to be displayed
@@ -418,8 +358,6 @@ class Calendar extends Component {
             d += body
           })
           res.on('end', () => {
-          
-            
             resolve([-1, JSON.parse(d)])
           })
         })
@@ -488,7 +426,7 @@ class Calendar extends Component {
     }))
   }
   
-  // get the number of days for the month for UI
+  // get the number of days for the month for UI e.g. 28, 29, 30, 31
   setDaysForMonth(month, year) {
   
     //console.log('getting days for: ' + (month +1))
@@ -518,7 +456,9 @@ class Calendar extends Component {
     return days
   }
   
+  // called when user enters search term
   // waits for 500 ms for user to change input before starting the (lengthy) search
+  
   onSearchClick() {
     var searchwords = keywords.value
     
@@ -538,10 +478,14 @@ class Calendar extends Component {
   
   search() {
     console.log('search initiated')
+
+    loading.style.visibility = 'visible'
+
     const terms = keywords.value.split(' ')
     
     const token = localStorage.getItem('accessToken')
     const year = (new Date()).getFullYear()
+    
     // make http request for entire year
     // 01-01 to 09-04
     // 10-04 to 18-07
@@ -550,8 +494,9 @@ class Calendar extends Component {
     
     
     const cacheCheck = this.state.searchDataCache[year.toString()]
-    const promise = new Promise( function (resolve, reject) {
     
+    // get data to search in
+    const promise = new Promise( function (resolve, reject) {
       // check if cached data exists so we don't need to download it again
       if (cacheCheck != null) {
         resolve(cacheCheck)
@@ -650,18 +595,21 @@ class Calendar extends Component {
         // remove punctuation from string
         events = events.replace(/[:",\[\]\{\}]/g, '')
         
+        var allKeywordsFound = true
         // loop through each keyword
         for (var j = 0; j < terms.length; j++) {
-          if (searchCaseInsensitive(terms[j], events)) {
-            results.push(cal[i]['info']['date'])
+          if (!searchCaseInsensitive(terms[j], events)) {
+            allKeywordsFound = false
             break
           }
+        }
+        if (allKeywordsFound) {
+          results.push(cal[i]['info']['date'])
         }
       }
       
       // PERSONAL EVENTS
       const personalEvents = JSON.parse(localStorage.getItem('calPersonalEvents'))
-      console.log(Object.keys(personalEvents))
       if (personalEvents != null) {
         // loop through each date
         // two nested loops OK here because students are not likely to have a ton of events
@@ -692,6 +640,9 @@ class Calendar extends Component {
       }
         
       console.log('search done')
+      
+      loading.style.visibility = 'hidden'
+
       console.log(results)
       this.setState( ()=> ({
         searchHits: results
@@ -875,6 +826,7 @@ class Calendar extends Component {
           </ul>
         </div>
         <div id='parentCalCard' className='two uk-animation-slide-top-small'>
+          <div id='loading' style={{position: 'fixed', display: 'block',visibility:'hidden', width: '100%',height: '522px',top: '60px',left: '0', right: '0', bottom: '0', backgroundColor: 'rgba(0,0,0,0.3)', zIndex: '2', cursor: 'pointer', borderRadius:'5px'}}><div className='calLoadingParent'><div className='calLoadingChild uk-flex-center' uk-spinner="ratio: 4"/></div></div>
           <div id='aaa' className='uk-inline uk-width-1-1'>
             <div className="uk-margin uk-align-left">
                 <div id='ccc' className="uk-search uk-search-default">
@@ -883,22 +835,22 @@ class Calendar extends Component {
                 </div>
                 <button id='calPrev' onClick={this.prevSearchResult.bind(this)} className="uk-button uk-button-default"><a uk-icon="icon: chevron-left"></a></button>
                 <button id='calNext' onClick={this.nextSearchResult.bind(this)} className="uk-button uk-button-default"><a uk-icon="icon: chevron-right"></a></button>
-                <div className='uk-text-muted uk-align-right'>{this.state.searchHits.length} matches</div>
+                <div id='calMatches' className='uk-text-muted uk-align-right'>{this.state.searchHits.length} matches</div>
             </div>
             
-            <div className="uk-align-right">
+            <div id='calIcons' className="uk-align-right">
               <div className="uk-inline">
-                <a uk-icon="icon: plus-circle" uk-tooltip='title: Add event for this day'></a>
+                <a uk-icon="icon: plus-circle" uk-tooltip='title: Add event for this day;pos:right'></a>
                 <div uk-dropdown="mode: click">
                   <p className='uk-text-left'>Add personal event</p>
                   <input id='personalEventName' className="uk-input" type="text" placeholder="Event"/>
                   <button onClick={this.addPersonalEvent.bind(this)} className='uk-margin-top uk-button uk-button-default'>Add</button>
                 </div>
               </div>
-              <a uk-icon="icon: info" uk-tooltip='title: Right click a personal event to remove it'></a>
+              <a uk-icon="icon: info" uk-tooltip='title: Right click a personal event to remove it;pos:right'></a>
             </div>
           </div>
-          <div className="uk-grid-collapse uk-grid  uk-grid-match" uk-grid='true'>
+          <div className="uk-grid-collapse uk-grid uk-grid-match" uk-grid='true'>
             <div className='cal card uk-width-expand'>
               <div>
                 <div className="month">      

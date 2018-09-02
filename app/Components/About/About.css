@@ -1,61 +1,65 @@
-.aboutContainer {
+.hCenterOnlyContainer {
   margin-top: 20px!important;
   justify-content: center;
   display: flex;
   text-align: center!important;
 }
 
-.aboutCard{
+.hCenterOnlyCard{
   width: 600px;
-  padding: 30px 30px;
-  position: relative;
   box-sizing: border-box;
   transition: box-shadow .1s ease-in-out;
 }
 
-h4 {
-  font-weight: 300!important;
+#aboutLogo {
+  height: 150px;
+  width: 150px;
 }
 
-@media (max-width:600px){
-  .aboutCard{
-    box-shadow: none;
-  }
+#about h4 {
+  font-weight: 300;
 }
 
-@media (max-width:420px){
-  .aboutCard h1{
-    font-size: 3.5rem;
+/**/
+
+@media only screen and (max-width:600px){
+  #about .hCenterOnlyCard{
+    box-shadow: none
   }
-  .aboutCard h2{
+}
+@media only screen and (max-width:420px){
+  #about .hCenterOnlyCard h1{
+    font-size: 3.5rem
+  }
+  #about .hCenterOnlyCard h2{
     font-size: 2.5rem;
     font-weight: 300
   }
-  #aboutlogo{
+  #aboutlogo {
     width: 125px;
   }
 }
-@media (max-width:375px){
-  .aboutCard h1{
+@media only screen and (max-width:375px){
+  #about .hCenterOnlyCard h1{
     font-size: 3rem;
     font-weight: 300
   }
-  .aboutCard h2{
+  #about .hCenterOnlyCard h2{
     font-size: 2rem;
   }
   #aboutlogo{
-    width: 100px;
+    width: 100px
   }
 }
-@media (max-width:335px){
-  .aboutCard h1{
-    font-size: 2.5rem;
+@media only screen and (max-width:335px){
+  #about .hCenterOnlyCard h1{
+    font-size: 2.5rem
   }
-  .aboutCard h2{
-    font-size: 1.5rem;
+  #about .hCenterOnlyCard h2{
+    font-size: 1.5rem
   }
   #aboutlogo{
-    width: 75px;
+    width: 75px
   }
 }
 

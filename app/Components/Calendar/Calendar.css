@@ -3,6 +3,29 @@
   display: flex;
 }
 
+.calLoadingParent {
+  display: flex;
+  height: 100%;
+  margin: 0 auto;
+  color: white;
+}
+.calLoadingChild {
+  margin: auto;
+  justify-content: center;
+  display: flex;
+  text-align: center!important;
+  max-width: 100%;
+}
+
+#ccc {
+  width: 105px!important;
+}
+
+#calMatches {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
 .two {
   width: 800px;
 }
@@ -38,6 +61,10 @@
 .month .next {
   float: right;
   padding: 20px;
+}
+
+#calIcons {
+  margin-left: 0;
 }
 
 .uk-dark .weekdays {
@@ -111,8 +138,9 @@
   transition: background-color 100ms linear;
 }
 
-.uk-dark .days li:hover, .uk-dark .prev:hover, .uk-dark .next:hover {
+.uk-dark .days li:hover:not(.active), .uk-dark .prev:hover:not(.active), .uk-dark .next:hover:not(.active) {
   background-color: #effdff;
+  color: black;
   transition: background-color 100ms linear;
 }
 
@@ -183,22 +211,22 @@
   display: flex;
 }
 
-@media screen and (max-width: 420px) {
+@media only screen and (max-width: 420px) {
 /*  .weekdays li, .days li {width: 12.5%;}*/
   .days li .active {padding: 2px;}
 }
 
-@media (max-width: 639px) {
+@media only screen and (max-width: 639px) {
+  #calMatches {
+    margin-left: 10px;
+  }
   .events {
     overflow-y: visible;
     height: auto;
   }
-  .uk-grid{
-    margin-top: 20px!important;
-  }
   .cal {
     border-radius: 5px 5px 0 0 ;
-    height: auto!important;
+    height: 427px!important;
     margin-right: 0px;
   }
   .eventsBorder{
@@ -229,6 +257,15 @@
     height: 170px;
   }
   #parentCalCard {
-    margin-top: 30px;
+    margin-top: 20px;
+  }
+  #loading {
+    height: 427px!important;
+  }
+}
+
+@media only screen and (max-width: 349px) {
+  #calMatches {
+    float: none;
   }
 }

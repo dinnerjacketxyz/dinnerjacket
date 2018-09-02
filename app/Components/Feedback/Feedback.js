@@ -1,24 +1,16 @@
 import React, { Component } from 'react'
 const css = require('./Feedback.css')
 
-// TODO
-// google forms iframe takes a few secs to Load
-// can we dump a lil spinny wheel underneath the iframe that shows its loading
-// and then the iframe loads on top and hides it innit
-// because if you've read the textbook you'll find that if the ui takes
-// more than one second to load, the user feels as if the computer has taken control
-// and we dont want that
-
 class Feedback extends Component {
   render() {
     return (
       <div>
         <div className='container'>
-          <iframe className='embed' src="https://docs.google.com/forms/d/e/1FAIpQLSds9ueVdjY4UvMM27KrdBoV8JW4cDeJa0vwLrlhviGBEndQDA/viewform?embedded=true">Loading...</iframe>
+          <iframe className='embed' src="https://docs.google.com/forms/d/e/1FAIpQLSds9ueVdjY4UvMM27KrdBoV8JW4cDeJa0vwLrlhviGBEndQDA/viewform?embedded=true"/>
         </div>
-        <div className='loadingParent behind'>
-          <div className='loadingChild'>
-            <div uk-spinner="ratio: 4" className="uk-spinner uk-icon">
+        <div className='loadingParent'> {/*Loading parent and loading child has properties to vertically and horizontally the spinner*/}
+          <div className='loadingChild'> 
+            <div uk-spinner="ratio: 4" className="uk-spinner uk-icon"> {/*Loading spinner*/}
             </div>
           </div>
         </div>

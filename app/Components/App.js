@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Welcome from './Welcome/Welcome'
 import Dashboard from './Dashboard/Dashboard'
 import Timetable from './Timetable/Timetable'
-import Notes from './Notes/Notes'
+//import Notes from './Notes/Notes'
 import Notices from './Notices/Notices'
 import Calendar from './Calendar/Calendar'
 import About from './About/About'
@@ -10,6 +10,12 @@ import Profile from './Profile/Profile'
 import Feedback from './Feedback/Feedback'
 import Changelog from './Changelog/Changelog'
 import Settings from './Settings/Settings'
+import Help from './Help/Help'
+import NotesSwitcher from './Notes/NotesSwitcher'
+
+//import NotesSwitcher from './Notes/NotesSwitcher'
+
+
 const css = require('./App.css')
 const icons = require('../uikit-icons.min')
 const http = require('http')
@@ -27,6 +33,10 @@ window.bells = ''
 window.diaryCal = ''
 window.participation = ''
 window.userInfo = ''
+
+const firebase = require('firebase')
+window.firebase = firebase
+
 
 // Requirements for beta release
 // Daily timetable
@@ -50,7 +60,8 @@ window.STATES = {
   PROFILE: 9999,
   SETINGS: -123,
   CHANGELOG: 6,
-  FEEDBACK: 7
+  FEEDBACK: 7,
+  HELP: 8
 }
 
 let counter = 0
@@ -216,7 +227,7 @@ class App extends Component {
     let visible = this.state.visible
     this.setState({ visible: window.STATES.DASHBOARD })
     /*
-    // Daily timetable
+    // Daily timetable - moved to other module
     http.get('/getdata?token=' + token + '&url=timetable/daytimetable.json', (res) => {
       res.setEncoding('utf8')
       let data = ''
@@ -496,8 +507,15 @@ class App extends Component {
     this.selectedNavbar(5)
   }
 
+  showHelp() {
+    ////('Help tab clicked')
+    this.setState({ visible: window.STATES.HELP })
+    this.selectedNavbar(5)
+  }
+
   logout() {
     window.location.href = '/logout'
+    // clear cached data
     localStorage.removeItem('accessToken')
     localStorage.removeItem('refreshToken')
     localStorage.removeItem('accessTokenExpiry')
@@ -505,16 +523,14 @@ class App extends Component {
     localStorage.removeItem('timetableBells')
     localStorage.removeItem('timetablePeriods')
     localStorage.removeItem('timetablePeriodsDate')
-    localStorage.setItem('clicked',false)
+    localStorage.setItem('clicked', false)
   }
 
   logo() {
-    ////('logo click')
     counter++
     if (counter >= 3) {
-      //DONTCLEARLOCALSTORAGEPK
-      alert('spif')
-      window.location.href = '/test'
+      alert('Top secret hidden link activated!')
+      window.location.href = '/secret'
       counter = 0
     }
   }
@@ -627,6 +643,13 @@ class App extends Component {
                     </li>
 
                     <li>
+                      <a onClick={this.showHelp.bind(this)}>
+                        <span className='uk-icon uk-margin-small-right' uk-icon='icon: question' />
+                        Help
+                      </a>
+                    </li>
+
+                    <li>
                       <a className='uk-text-danger' onClick={this.logout.bind(this)}>
                         <span className='uk-icon uk-margin-small-right' uk-icon='icon: sign-out' />
                         Log Out
@@ -639,10 +662,10 @@ class App extends Component {
           </div>
         </nav>
 
-        <div id='content' className = ''>
+        <div id='content'>
           {this.state.visible === window.STATES.DASHBOARD && <Dashboard />}
           {this.state.visible === window.STATES.TIMETABLE && <Timetable />}
-          {this.state.visible === window.STATES.NOTES && <Notes />}
+          {this.state.visible === window.STATES.NOTES && <NotesSwitcher />}
           {this.state.visible === window.STATES.NOTICES && <Notices />}
           {this.state.visible === window.STATES.CALENDAR && <Calendar />}
           {this.state.visible === window.STATES.ABOUT && <About />}
@@ -650,6 +673,7 @@ class App extends Component {
           {this.state.visible === window.STATES.SETTINGS && <Settings />}
           {this.state.visible === window.STATES.CHANGELOG && <Changelog />}
           {this.state.visible === window.STATES.FEEDBACK && <Feedback />}
+          {this.state.visible === window.STATES.HELP && <Help />}
         </div>
 
       </div>
