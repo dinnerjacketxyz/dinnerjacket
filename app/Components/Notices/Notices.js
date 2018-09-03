@@ -27,7 +27,7 @@ class Notices extends Component {
       text: 'EXPAND', // State indicating whether all notices are expanded or collapsed
       keywords: [] // Current search keywords entered into input box
     }
-    this.init()
+    this.init(props.notices)
   }
   
   componentDidMount() {
@@ -55,8 +55,8 @@ class Notices extends Component {
    * Formats room, date, teacher, title, content etc. of notice
    * Pushes all notices to be rendered in this.state.notices
    */
-  init() {
-    dailyNotices = window.dailyNotices
+  init(apiNotices) {
+    dailyNotices = apiNotices
     this.state.notices = []
     let count = 0
 

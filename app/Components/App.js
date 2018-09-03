@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import Welcome from './Welcome/Welcome'
 import Dashboard from './Dashboard/Dashboard'
 import Timetable from './Timetable/Timetable'
-//import Notes from './Notes/Notes'
+import Notes from './Notes/Notes'
+import ClassNotes from './Notes/ClassNotes'
 import Notices from './Notices/Notices'
 import Calendar from './Calendar/Calendar'
 import About from './About/About'
@@ -11,7 +12,7 @@ import Feedback from './Feedback/Feedback'
 import Changelog from './Changelog/Changelog'
 import Settings from './Settings/Settings'
 import Help from './Help/Help'
-import NotesSwitcher from './Notes/NotesSwitcher'
+//import NotesSwitcher from './Notes/NotesSwitcher'
 
 //import NotesSwitcher from './Notes/NotesSwitcher'
 
@@ -25,17 +26,20 @@ import Loading from './Loading'
 //const retrieveNotices = require('./Notices/RetrieveNotices')
 
 window.userData = ''
-window.dailyNotices = ''
+let dailyNotices = ''
 window.timetable = ''
 window.dashboard = ''
 window.bells = ''
 //window.publicCal = ''
 window.diaryCal = ''
-window.participation = ''
+let participation = ''
 window.userInfo = ''
 
 const firebase = require('firebase')
-window.firebase = firebase
+//window.firebase = firebase
+
+const fb = require('../fb')(firebase)
+const database = firebase.database()
 
 
 // Requirements for beta release
@@ -54,14 +58,15 @@ window.STATES = {
   DASHBOARD: 0,
   TIMETABLE: 1,
   NOTES: 2,
-  NOTICES: 3,
-  CALENDAR: 4,
-  ABOUT: 5,
-  PROFILE: 9999,
-  SETINGS: -123,
-  CHANGELOG: 6,
-  FEEDBACK: 7,
-  HELP: 8
+  CLASSNOTES: 3,
+  NOTICES: 4,
+  CALENDAR: 5,
+  ABOUT: 6,
+  PROFILE: 7,
+  SETINGS: 8,
+  CHANGELOG: 9,
+  FEEDBACK: 10,
+  HELP: 11
 }
 
 let counter = 0
@@ -70,6 +75,7 @@ const nameArray = [
   'Dashboard',
   'Timetable',
   'Notes',
+  'Class Notes',
   'Notices',
   'Calendar',
   'Side'
@@ -299,7 +305,7 @@ class App extends Component {
       })
       res.on('end', () => {
         try {
-          window.dailyNotices = JSON.parse(d)
+          dailyNotices = JSON.parse(d)
         } catch (e) {
         }
       })
@@ -379,9 +385,8 @@ class App extends Component {
 
       res.on('end', () => {
         try {
-          window.participation = JSON.parse(data)
-        } catch (e) {
-        }
+          participation = JSON.parse(data)
+        } catch (e) { }
       })
     })
   }
@@ -451,6 +456,14 @@ class App extends Component {
       let visible = this.state.visible
       this.setState({ visible: window.STATES.NOTES })
       this.selectedNavbar(window.STATES.NOTES)
+    }
+  }
+
+  showClassNotes() {
+    if (Quill != undefined /*ANYTHING ELSE*/) {
+      let visible = this.state.visible
+      this.setState({ visible: window.STATES.CLASSNOTES })
+      this.selectedNavbar(window.STATES.CLASSNOTES)
     }
   }
 
@@ -577,10 +590,18 @@ class App extends Component {
                 </a>
               </li>
 
+              <li id='Class NotesLi' className='uk-animation-toggle' onClick={this.showClassNotes.bind(this)}>
+                <a id='Class NotesA' className='uk-box-shadow-hover-small'>
+                  <span id='Class NotesS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: file-edit' />
+                  <p className='collapseText' id='Class NotesP'>{nameArray[3]}</p>
+                  <b className='collapseText' id='Class NotesB'></b>
+                </a>
+              </li>
+
               <li id='NoticesLi' className='uk-animation-toggle' onClick={this.showNotices.bind(this)}>
                 <a id='NoticesA' className='uk-box-shadow-hover-small'>
                   <span id='NoticesS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: bell' />
-                  <p className='collapseText' id='NoticesP'>{nameArray[3]}</p>
+                  <p className='collapseText' id='NoticesP'>{nameArray[4]}</p>
                   <b className='collapseText' id='NoticesB'></b>
                 </a>
               </li>
@@ -588,7 +609,7 @@ class App extends Component {
               <li id='CalendarLi' className='uk-animation-toggle' onClick={this.showCalendar.bind(this)}>
                 <a id='CalendarA' className='uk-box-shadow-hover-small'>
                   <span id='CalendarS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: calendar' />
-                  <p className='collapseText' id='CalendarP'>{nameArray[4]}</p>
+                  <p className='collapseText' id='CalendarP'>{nameArray[5]}</p>
                   <b className='collapseText' id='CalendarB'></b>
                 </a>
               </li>
@@ -665,11 +686,12 @@ class App extends Component {
         <div id='content'>
           {this.state.visible === window.STATES.DASHBOARD && <Dashboard />}
           {this.state.visible === window.STATES.TIMETABLE && <Timetable />}
-          {this.state.visible === window.STATES.NOTES && <NotesSwitcher />}
-          {this.state.visible === window.STATES.NOTICES && <Notices />}
-          {this.state.visible === window.STATES.CALENDAR && <Calendar />}
+          {this.state.visible === window.STATES.NOTES && <Notes userID={window.userData.username} database={database} />}
+          {this.state.visible === window.STATES.CLASSNOTES && <ClassNotes userData={window.userData} database={database} />}
+          {this.state.visible === window.STATES.NOTICES && <Notices notices={dailyNotices} />}
+          {this.state.visible === window.STATES.CALENDAR && <Calendar database={database}/>}
           {this.state.visible === window.STATES.ABOUT && <About />}
-          {this.state.visible === window.STATES.PROFILE && <Profile />}
+          {this.state.visible === window.STATES.PROFILE && <Profile userData={window.userData} participation={participation} />}
           {this.state.visible === window.STATES.SETTINGS && <Settings />}
           {this.state.visible === window.STATES.CHANGELOG && <Changelog />}
           {this.state.visible === window.STATES.FEEDBACK && <Feedback />}
@@ -679,16 +701,6 @@ class App extends Component {
       </div>
     )
   }
-
-  /*
-              <li id='CalendarLi' className='uk-animation-toggle' onClick={this.showCalendar.bind(this)}>
-                <a id='CalendarA' className='uk-box-shadow-hover-medium'>
-                  <span id='CalendarS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: calendar' />
-                  <p className='collapseText' id='CalendarP'>{nameArray[4]}</p>
-                  <b className='collapseText' id='CalendarB'></b>
-                </a>
-              </li>*/
-
 }
 
 export default App

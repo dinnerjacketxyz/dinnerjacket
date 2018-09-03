@@ -1,24 +1,39 @@
 import React, { Component } from 'react'
 const http = require('http')
-const css= require('./ClassNotes.css')
-let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+const css = require('./ClassNotes.css')
+let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 let classNotesArray = []
 let noteID = 0
 const MAX_CLASSES = 12
 
+let userData
+let userID
+
+let ref
+let fb
+let database
+
 class ClassNotes extends Component {
   constructor(props) {
     super(props)
+
+    userData = props.userData
+
+    //fb = require('../../fb')(window.firebase)
+    //database = window.firebase.database()
+
+    userID = btoa(userData.username)
+    console.log('Username: ' + userID)
+
+    ref = props.database.ref('classNotes/' + userID) //sort by userID or subject or...????
   }
-
-
 
   render() {
     let classNotes
-    if (window.userData.role==='Student') {
-      classNotes = <NotesView array={classNotesArray}/>
-    } else if (window.userData.role==='Teacher') {
-      classNotes = <TeacherNotes/>
+    if (userData.role === 'Student') {
+      classNotes = <NotesView array={classNotesArray} />
+    } else if (window.userData.role === 'Teacher') {
+      classNotes = <TeacherNotes />
     }
     return (classNotes)
   }
@@ -36,7 +51,7 @@ class TeacherNotes extends Component {
     this.generateClasses()
   }
 
-  /**
+  /** thief innit
    * Loop through all the user's classes
    * Add valid classes to classes array held in this.state
    */
@@ -89,26 +104,26 @@ class TeacherNotes extends Component {
 
     return (
     <div>
-      <ul className="uk-subnav uk-subnav-pill uk-flex uk-flex-center" uk-switcher="">
-          <li aria-expanded="true" className="uk-active"><a>Post</a></li>
-          <li aria-expanded="false"><a>View</a></li>
+      <ul className='uk-subnav uk-subnav-pill uk-flex uk-flex-center' uk-switcher=''>
+          <li aria-expanded='true' className='uk-active'><a>Post</a></li>
+          <li aria-expanded='false'><a>View</a></li>
       </ul>
-      <ul className="uk-switcher uk-margin">
-          <li className="uk-active">
-            <div className="uk-flex uk-flex-center">
-              <select id='classNoteClass' className="uk-select uk-form-small uk-form-width-small">
+      <ul className='uk-switcher uk-margin'>
+          <li className='uk-active'>
+            <div className='uk-flex uk-flex-center'>
+              <select id='classNoteClass' className='uk-select uk-form-small uk-form-width-small'>
                 {classList}
               </select>
             </div>
-            <div className="uk-margin">
-              <input id='classNoteTitle' className="uk-input uk-form-blank uk-form-large" type="Title" placeholder="Title"/>
+            <div className='uk-margin'>
+              <input id='classNoteTitle' className='uk-input uk-form-blank uk-form-large' type='Title' placeholder='Title'/>
             </div>
-            <div className="uk-margin">
-              <textarea id='classNoteBody' className="uk-textarea uk-form-blank" rows="5" placeholder="Body" style={{margin: '0px', height: '110px', width: '100%', resize: 'none'}}></textarea>
+            <div className='uk-margin'>
+              <textarea id='classNoteBody' className='uk-textarea uk-form-blank' rows='5' placeholder='Body' style={{margin: '0px', height: '110px', width: '100%', resize: 'none'}}></textarea>
             </div>
             <h3></h3>
-            <a onClick={this.submitClassNote.bind(this)} className="uk-button uk-button-primary">Submit</a>
-            <a className="uk-button uk-button-default">Save</a>
+            <a onClick={this.submitClassNote.bind(this)} className='uk-button uk-button-primary'>Submit</a>
+            <a className='uk-button uk-button-default'>Save</a>
           </li>
           <li><NotesView array={this.state.array}/></li>
       </ul>
@@ -130,7 +145,7 @@ const NotesView = (props) =>  {
   }
   
   return(
-    <ul id="classNotesList" className="uk-accordion" uk-accordion="multiple: true">
+    <ul id='classNotesList' className='uk-accordion' uk-accordion='multiple: true'>
       {rows}
     </ul>
   )
@@ -138,13 +153,13 @@ const NotesView = (props) =>  {
 
 const FillClassNote = (props) => {
   return (
-    <li className="uk-open">
-      <span className="uk-label">{props.note.cnClass}</span>
-      <a className="uk-accordion-title">{props.note.title}</a>
+    <li className='uk-open'>
+      <span className='uk-label'>{props.note.cnClass}</span>
+      <a className='uk-accordion-title'>{props.note.title}</a>
       <b>Posted at {props.note.date}</b>
-      <div className="uk-accordion-content" aria-hidden="false">
+      <div className='uk-accordion-content' aria-hidden='false'>
         <p>{props.note.body}</p>
-        <p className="uk-margin-small-top">
+        <p className='uk-margin-small-top'>
           <b>{props.note.author}</b>
         </p>
       </div>

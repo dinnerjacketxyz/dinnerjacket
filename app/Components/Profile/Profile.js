@@ -10,6 +10,8 @@ let detailsTab
 let partTab
 let content
 
+let apiPart
+
 let id = 0
 
 // part is participation innit too long innit
@@ -18,6 +20,9 @@ class Profile extends Component {
   constructor(props) {
     super(props)
     this.state = { loading: true, content: 'details' }
+
+    apiPart = props.participation
+    userData = props.userData
   }
   componentWillUnmount(){
     let content = document.getElementById('content')
@@ -32,8 +37,6 @@ class Profile extends Component {
     detailsTab = document.getElementById('detailsTab')
     partTab = document.getElementById('partTab')
 
-    let apiPart = window.participation
-    userData = window.userData
     yearList = []
     part = {}
 

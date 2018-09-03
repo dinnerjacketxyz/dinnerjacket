@@ -59,15 +59,15 @@ class Notes extends Component {
 
     userID = props.userID
 
-    fb = require('../../fb')(window.firebase)
-    database = window.firebase.database()
+    //fb = require('../../fb')(window.firebase)
+    //database = window.firebase.database()
 
     // Encode fetched username to maintain user security
     userID = btoa(userID)
     console.log('Username: ' + userID)
 
     // Link firebase reference to 'userNotes' database of this userID's index
-    ref = database.ref('userNotes/' + userID)
+    ref = props.database.ref('userNotes/' + userID)
 
     ///////
     ///////
@@ -138,6 +138,9 @@ class Notes extends Component {
    * 
    */
   componentDidMount() {
+    let content = document.getElementById('content')
+    content.className = 'full vcNavbarParent'
+
     contextMenu = document.getElementById('contextMenu')
     
     // Initialise quill editor
@@ -153,9 +156,10 @@ class Notes extends Component {
     this.initNote()
 
 
+    UIkit.switcher(notesLayout).show(window.selectedNote)
 
     //HELP BUSTOR
-    console.log(window.selectedNote)
+    /*console.log(window.selectedNote)
     let notesLayout = document.getElementById('notesLayout')
     for (let i = 0; i < notesLayout.childNodes; i++) {
       if (i === window.selectedNote) {
@@ -167,7 +171,7 @@ class Notes extends Component {
         notesLayout.childNodes[i].setAttribute('aria-expanded', 'false')
         notesLayout.childNodes[i].className = ''
       }
-    }
+    }*/
 
     console.log(notesLayout.childNodes)
 
@@ -249,6 +253,9 @@ class Notes extends Component {
     localStorage.setItem('notesDB', btoa(JSON.stringify(this.state.notes)))
     // Upload updated notes database to firebase
     this.updateFirebase()
+
+    let content = document.getElementById('content')
+    content.className = 'full'
   }
 
   /**
@@ -340,7 +347,8 @@ class Notes extends Component {
     if (this.titleInUse(title)) {
       // QUIGLEY
       // I would keep the alert message contents but maybe present it in some uikit element that looks better innit
-      alert('The note \'' + title.toUpperCase() + '\' already exists.')
+      //alert('The note \'' + title.toUpperCase() + '\' already exists.')
+      UIkit.modal.alert('The note \'' + title.toUpperCase() + '\' already exists. Please enter a unique title.')
     } else {
       currentID++
       let n = this.state.notes
@@ -420,8 +428,16 @@ class Notes extends Component {
   removeNote() {
     if (this.state.notes.length > 1) {
       contextMenu.style.visibility = 'hidden'
-      if (confirm('r u sure innit')) {
 
+      let title = ''
+      for (let i = 0; i < this.state.notes.length; i++) {
+        if (this.state.notes[i].title === this.state.onContext) {
+          title = this.state.notes[i].title
+        }
+        break
+      }
+
+      UIkit.modal.confirm('Are you sure? \'' + title + '\' will be permanently deleted.').then(_ => {
         for (let i = 0; i < this.state.notes.length; i++) {
           if (this.state.notes[i].title === this.state.onContext) {
             this.state.notes.splice(i, 1)
@@ -436,9 +452,9 @@ class Notes extends Component {
             break
           }
         }
-      }
-    } else {
-      alert('No!')
+      }, _ => {
+        UIkit.modal.alert('No!')
+      })
     }
   }
 
@@ -447,7 +463,16 @@ class Notes extends Component {
    */
   clearContents() {
     contextMenu.style.visibility = 'hidden'
-    if (confirm('r u sure innit')) {
+
+    let title = ''
+    for (let i = 0; i < this.state.notes.length; i++) {
+      if (this.state.notes[i].title === this.state.onContext) {
+        title = this.state.notes[i].title
+      }
+      break
+    }
+
+    UIkit.modal.confirm('Are you sure? The contents of \'' + title + '\' will be permanently deleted.').then(_=> {
       for (let i = 0; i < this.state.notes.length; i++) {
         if (this.state.notes[i].title === this.state.onContext) {
           this.state.notes[i].content = ''
@@ -456,7 +481,7 @@ class Notes extends Component {
           break
         }
       }
-    }
+    })
   }
 
   /**
@@ -467,11 +492,12 @@ class Notes extends Component {
 
     for (let i = 0; i < this.state.notes.length; i++) {
       if (this.state.notes[i].title === this.state.onContext) {
-        let title = prompt('name')
-        if (title !== null && /\S/.test(title)) {
-          this.state.notes[i].title = title
-          this.refreshNotesList()
-        }
+        UIkit.modal.prompt('Enter a title to rename \'' + this.state.notes[i].title + '\'', 'Title').then(title => {
+          if (title !== null && /\S/.test(title)) {
+            this.state.notes[i].title = title
+            this.refreshNotesList()
+          }
+        })
         break
       }
     }
@@ -568,15 +594,15 @@ class Notes extends Component {
             <li onClick={this.removeNote.bind(this)}><span className='uk-margin-right uk-icon' uk-icon='trash'/>Remove</li>
           </ul>
         </div>
-        <div className='notesChild card'>
-        <a uk-icon='icon: info' uk-tooltip='title: Right click to rename, clear, or delete notes' className='doNotPrint uk-float-right'/>
-        <ul id='notesLayout' className='doNotPrint uk-subnav uk-subnav-pill uk-flex-center' uk-switcher='animation: uk-animation-fade' uk-sortable='cls-custom: uk-box-shadow-small uk-flex uk-flex-middle uk-background'>
+        <div className='notesChild card uk-animation-slide-top-small'>
+        <a uk-icon='icon: info' uk-tooltip='title: Right click to rename, clear, or delete notes' className='uk-float-right'/>
+        <ul id='notesLayout' className='uk-subnav uk-subnav-pill uk-flex-center' uk-switcher='animation: uk-animation-fade' uk-sortable='cls-custom: uk-box-shadow-small uk-flex uk-flex-middle uk-background'>
           {notes}
         </ul>
           <div className='pad'>
             <div id='editor' onInput={this.updateDB.bind(this)} onMouseMove={this.onMouseMove.bind(this)}/>
           </div>
-          <div className='doNotPrint'>
+          <div className=''>
             <a uk-icon='plus-circle' uk-tooltip='title: Add custom notes; pos: bottom-center;'></a>
             <div uk-dropdown='mode: click;pos: top-center'>
               <p className='uk-text-left'>Classes</p>
