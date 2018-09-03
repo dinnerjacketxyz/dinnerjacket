@@ -13,7 +13,6 @@
 
 // localstorage only - below is the WIP firebase code
 import React, { Component } from 'react'
-import { isNullOrUndefined } from 'util';
 const http = require('http')
 const css = require('./Notes.css')
 

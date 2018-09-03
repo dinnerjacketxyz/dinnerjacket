@@ -1,10 +1,29 @@
+
+/**
+ * CLASS NOTES TO DO LIST
+ *   - Ability to delete notes as teacher - Greg (i have a good idea about how i want to do this)
+ *   - Fix CSS that broke when it became its own tab.
+ *   - Look at possibly making this more uniform with notes. Entries start closed and an expand all button can open them all.
+ *   - There is no 0 in front of one digit times. E.g. when i tested a post at 22:06 it showed 22:6
+ *   - Modals where i wrote the comment below?
+ *   - Some sort of visual feedback when a note is Submitted or saved to drafts
+ *   - Currently the class changes back to option 1 after sending a note. Stop this. keep it at the same class by default
+ *   - Fix up drafts style like i said in the draft i may or may not have posted in the software class!
+ */
+
+
+
 import React, { Component } from 'react'
 const http = require('http')
 const css = require('./ClassNotes.css')
 let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-let classNotesArray = []
 let noteID = 0
 const MAX_CLASSES = 12
+
+//
+// TEMPORARY - FIX THIS QUIGLEY
+//
+const css2 = require('../Notes/Notes.css')
 
 let userData
 let userID
@@ -12,43 +31,55 @@ let userID
 let ref
 let fb
 let database
+let key = 0
 
 class ClassNotes extends Component {
   constructor(props) {
     super(props)
+    
+    let notesState = []
+    if (localStorage.getItem('classNotesDB')) {
+      try {
+        notesState = JSON.parse(atob("W10="))
+        console.log(notesState)
+      } catch (e) { console.log(e) }
+    }
+    
+    this.state = {
+      notes: notesState,
+      classes: []
+    }
 
     userData = props.userData
-
-    //fb = require('../../fb')(window.firebase)
-    //database = window.firebase.database()
-
+    
     userID = btoa(userData.username)
     console.log('Username: ' + userID)
+    
+    ref = props.database.ref('classNotes/') //sort by userID or subject or...????
+    
+    this.generateClasses()
 
-    ref = props.database.ref('classNotes/' + userID) //sort by userID or subject or...????
+    console.log(btoa(JSON.stringify(this.state.notes)))
+
+    ref.on('value', (data) => {
+      console.log('REF.ON CALLED')
+      console.log(data.val())
+      try {
+        this.state.notes = JSON.parse(atob(data.val().classNotes))
+        let n = this.state.notes
+        this.setState({ n: this.state.notes })
+      } catch (e) { }
+    })
   }
 
   render() {
     let classNotes
     if (userData.role === 'Student') {
-      classNotes = <NotesView array={classNotesArray} />
-    } else if (window.userData.role === 'Teacher') {
-      classNotes = <TeacherNotes />
+      classNotes = <NotesView notes={this.state.notes} classes={this.state.classes} />
+    } else if (userData.role === 'Teacher') {
+      classNotes = <TeacherNotes notes={this.state.notes} classes={this.state.classes} />
     }
-    return (classNotes)
-  }
-}
-
-export default ClassNotes
-
-class TeacherNotes extends Component {
-  constructor(props){
-    super(props)
-    this.state = {
-      array: classNotesArray,
-      classes: []
-    }
-    this.generateClasses()
+    return classNotes
   }
 
   /** thief innit
@@ -65,8 +96,20 @@ class TeacherNotes extends Component {
     }
     console.log(this.state.classes)
   }
+}
 
-  submitClassNote() {
+export default ClassNotes
+
+class TeacherNotes extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      notes: props.notes,
+      classes: props.classes
+    } 
+  }
+
+  submitClassNote(e) {
     let inputTitle = document.getElementById('classNoteTitle')
     let inputClass = document.getElementById('classNoteClass')
     let inputBody = document.getElementById('classNoteBody')
@@ -79,20 +122,30 @@ class TeacherNotes extends Component {
       let title = inputTitle.value
       let cnClass = inputClass.value
       let body = inputBody.value
+      let draft = e.target.innerHTML === 'Save'
+
+      console.log(draft)
+      console.log(e.target.innerHTML)
 
       let cn = {
         title: title, 
         body: body, 
         cnClass: cnClass, 
         date: date, 
-        author: author
+        author: author,
+        draft: draft
       }
 
-      classNotesArray.push(cn)
-      this.setState({array: classNotesArray})
-      console.log('teachernotes: '+ classNotesArray[0].title)
-    } else {
+      this.state.notes.unshift(cn)
+      let notes = this.state.notes
+      this.setState({ notes: this.state.notes })
+      localStorage.setItem('classNotesDB', btoa(JSON.stringify(this.state.notes)))
+      
+      let notesDB = { classNotes: btoa(JSON.stringify(this.state.notes)) }
+      ref.update(notesDB)
 
+    } else {
+      // modal, error?
     }
   }
 
@@ -103,51 +156,87 @@ class TeacherNotes extends Component {
     })
 
     return (
-    <div>
-      <ul className='uk-subnav uk-subnav-pill uk-flex uk-flex-center' uk-switcher=''>
-          <li aria-expanded='true' className='uk-active'><a>Post</a></li>
-          <li aria-expanded='false'><a>View</a></li>
-      </ul>
-      <ul className='uk-switcher uk-margin'>
-          <li className='uk-active'>
-            <div className='uk-flex uk-flex-center'>
-              <select id='classNoteClass' className='uk-select uk-form-small uk-form-width-small'>
-                {classList}
-              </select>
-            </div>
-            <div className='uk-margin'>
-              <input id='classNoteTitle' className='uk-input uk-form-blank uk-form-large' type='Title' placeholder='Title'/>
-            </div>
-            <div className='uk-margin'>
-              <textarea id='classNoteBody' className='uk-textarea uk-form-blank' rows='5' placeholder='Body' style={{margin: '0px', height: '110px', width: '100%', resize: 'none'}}></textarea>
-            </div>
-            <h3></h3>
-            <a onClick={this.submitClassNote.bind(this)} className='uk-button uk-button-primary'>Submit</a>
-            <a className='uk-button uk-button-default'>Save</a>
-          </li>
-          <li><NotesView array={this.state.array}/></li>
-      </ul>
-    </div>
+      <div>
+        <ul className='uk-subnav uk-subnav-pill uk-flex uk-flex-center' uk-switcher=''>
+            <li aria-expanded='true' className='uk-active'><a>Post</a></li>
+            <li aria-expanded='false'><a>View</a></li>
+        </ul>
+        <ul className='uk-switcher uk-margin'>
+            <li className='uk-active'>
+              <div className='uk-flex uk-flex-center'>
+                <select id='classNoteClass' className='uk-select uk-form-small uk-form-width-small'>
+                  {classList}
+                </select>
+              </div>
+              <div className='uk-margin'>
+                <input id='classNoteTitle' className='uk-input uk-form-blank uk-form-large' type='Title' placeholder='Title'/>
+              </div>
+              <div className='uk-margin'>
+                <textarea id='classNoteBody' className='uk-textarea uk-form-blank' rows='20' placeholder='Body' style={{margin: '0px', height: '110px', width: '100%', resize: 'none'}}></textarea>
+              </div>
+              <h3></h3>
+              <a onClick={this.submitClassNote.bind(this)} className='uk-button uk-button-primary'>Submit</a>
+              <a onClick={this.submitClassNote.bind(this)} className='uk-button uk-button-default'>Save</a>
+            </li>
+            <li><NotesView notes={this.state.notes} classes={this.state.classes} /></li>
+        </ul>
+      </div>
     )
   }
 }
 
+const noteInClasses = (note, classes) => {
+  for (let i = 0; i < classes.length; i++) {
+    if (note.cnClass === classes[i]) {
+      return true
+    }
+  }
+  return false
+}
+
 const NotesView = (props) =>  {
-  console.log('notesview: '+props.array)
+  console.log('notesview: ' + props.notes)
   let rows
-  if (props.array.length == 0) {
+  let drafts = null
+  noteID = 0
+  if (props.notes.length === 0) {
     rows = <h1 className='uk-heading-line uk-text-center' style={{marginTop:'50px',marginBottom:'50px'}}><span>No class notes</span></h1>
   } else {
-    noteID++
-    rows = props.array.map(note => {
-      return <FillClassNote key={noteID} note={note} />
+    if (userData.role === 'Teacher') {
+      drafts = props.notes.map(note => {
+        if (note.draft && noteInClasses(note, props.classes)) {
+          noteID++
+          return <FillClassNote key={noteID} note={note} />
+        }
+      })
+    }
+    rows = props.notes.map(note => {
+      if (!note.draft && noteInClasses(note, props.classes)) {
+        noteID++
+        return <FillClassNote key={noteID} note={note} />
+      }
     })
   }
+
+  let draftUI
+  if (userData.role === 'Teacher' && drafts !== null) {
+    draftUI = (
+      <div>
+        <ul id='classNotesList' className='uk-accordion' uk-accordion='multiple: true'>
+        {drafts}
+        </ul>
+        <hr />
+      </div>
+    )
+  }
   
-  return(
-    <ul id='classNotesList' className='uk-accordion' uk-accordion='multiple: true'>
-      {rows}
-    </ul>
+  return (
+    <div>
+      {draftUI}
+      <ul id='classNotesList' className='uk-accordion' uk-accordion='multiple: true'>
+        {rows}
+      </ul>
+    </div>
   )
 }
 
