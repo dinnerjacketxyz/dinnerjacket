@@ -63,7 +63,7 @@ class Notes extends Component {
 
     // Encode fetched username to maintain user security
     userID = btoa(userID)
-    console.log('Username: ' + userID)
+    //console.log('Username: ' + userID)
 
     // Link firebase reference to 'userNotes' database of this userID's index
     ref = props.database.ref('userNotes/' + userID)
@@ -96,7 +96,7 @@ class Notes extends Component {
     // questionable innit
     window.addEventListener('beforeunload', (event) => {
       // Autosaves before enduser exits notes
-      console.log('ISTHISEVERUSEDBEFOREUNLEAD?')
+      //console.log('ISTHISEVERUSEDBEFOREUNLEAD?')
     }, false)
 
     this.selectNote = this.selectNote.bind(this)
@@ -158,21 +158,21 @@ class Notes extends Component {
     UIkit.switcher(notesLayout).show(window.selectedNote)
 
     //HELP BUSTOR
-    /*console.log(window.selectedNote)
+    /*//console.log(window.selectedNote)
     let notesLayout = document.getElementById('notesLayout')
     for (let i = 0; i < notesLayout.childNodes; i++) {
       if (i === window.selectedNote) {
-        console.log('At ' + i + ' TRUE')
+        //console.log('At ' + i + ' TRUE')
         notesLayout.childNodes[i].setAttribute('aria-expanded', 'true')
         notesLayout.childNodes[i].className = 'uk-active'
       } else {
-        console.log('At ' + i + ' FALSE')
+        //console.log('At ' + i + ' FALSE')
         notesLayout.childNodes[i].setAttribute('aria-expanded', 'false')
         notesLayout.childNodes[i].className = ''
       }
     }*/
 
-    console.log(notesLayout.childNodes)
+    //console.log(notesLayout.childNodes)
 
     let posSaved = this.state.posSaved
     this.setState({ posSaved: true })
@@ -181,8 +181,8 @@ class Notes extends Component {
 
     //alsways get data n that
     ref.on('value', (data) => {
-      console.log('data changed')
-      console.log(!document.getElementById('editor').focus())
+      //console.log('data changed')
+      //console.log(!document.getElementById('editor').focus())
 
       if (forceUpdate || !quill.hasFocus()) {
         this.retrieveFirebase(data)      
@@ -195,7 +195,7 @@ class Notes extends Component {
    * @param {*} data 
    */
   retrieveFirebase(data) {
-    console.log('firebase data accessed')
+    //console.log('firebase data accessed')
     this.state.notes = JSON.parse(atob(data.val().notes))
     let n = this.state.notes
     this.generateClasses()
@@ -204,7 +204,7 @@ class Notes extends Component {
     this.initNote()
     this.selectNoteInt(this.state.selected)
 
-    console.log(this.state.notes)
+    //console.log(this.state.notes)
   }
 
   /**
@@ -213,19 +213,19 @@ class Notes extends Component {
   componentWillUnmount() {
     // Autosaves before enduser exits notes
     this.updateDB()
-    console.log(document.getElementById('notesLayout'))
+    //console.log(document.getElementById('notesLayout'))
     let notesLayout = document.getElementById('notesLayout')
     
     let oldNotes = this.state.notes
     let notes = []
 
-    console.log(this.state.notes)
+    //console.log(this.state.notes)
 
     // IMPROVE EFFICIENCY
     for (let i = 0; i < notesLayout.childNodes.length; i++) {
       let title = notesLayout.childNodes[i].getAttribute('text')
-      console.log(title)
-      console.log(this.state.notes[i].title)
+      //console.log(title)
+      //console.log(this.state.notes[i].title)
       
       if (this.state.notes[i].title !== title) {
         for (let j = 0; j < this.state.notes.length; j++) {
@@ -263,23 +263,15 @@ class Notes extends Component {
    * Notes are encryted and stored in an unreadable format to maintain user security
    */
   updateDB() {
-    console.log('UPDATE DATABASE CALLED')
-
-    console.log(document.hasFocus())
-
-    //if (!document.hasFocus()) {
-      //document.getElementById('parent').focus()
-      
-    //}
-
     forceUpdate = !document.hasFocus()
-
 
     // Save updated contents and last update time to notes database
     let content = quill.getContents()
     //let currentTime = new Date()
     this.state.notes[this.state.selected].content = JSON.stringify(content)
-    //this.state.notes[this.state.selected].lastUpdated = new Date()
+    
+    // REMINDERS MAYBE?
+    this.extractReminders()
 
     // Save updated notes database in browser's localstorage
     localStorage.setItem('notesDB', btoa(JSON.stringify(this.state.notes)))
@@ -299,7 +291,7 @@ class Notes extends Component {
     try {
       ref.update(notesDB)
     } catch (error) { // Exception handling in case of failed upload/bad internet etc.
-      console.log(error)
+      //console.log(error)
     }
   }
 
@@ -352,7 +344,7 @@ class Notes extends Component {
       currentID++
       let n = this.state.notes
       this.setState({ n: n.push(this.noteStruct(title, '', this.state.notes.length)) })
-      //console.log(this.state.notes)
+      ////console.log(this.state.notes)
     }
   }
 
@@ -385,7 +377,7 @@ class Notes extends Component {
     currentID++
     let n = this.state.notes
     this.setState({ n: n.push(this.noteStruct(e.target.title, '', this.state.notes.length)) })
-    //console.log(this.state.notes)
+    ////console.log(this.state.notes)
   }
 
   /**
@@ -396,7 +388,7 @@ class Notes extends Component {
     //this.setState({ mousePos: { x: e.screenX, y: e.screenY } })
     mouseX = e.screenX
     mouseY = e.screenY
-    //console.log(mouseX,mouseY)
+    ////console.log(mouseX,mouseY)
 
     this.state.mousePos.x = e.screenX
     this.state.mousePos.y = e.screenY
@@ -406,11 +398,11 @@ class Notes extends Component {
    * @param {*} e 
    */
   notesContextMenu(e) {
-    console.log('context opened')
+    //console.log('context opened')
     contextMenu.style.visibility = 'visible'
 
     this.state.onContext = e.target.text
-    //console.log(this.state.onContext)
+    ////console.log(this.state.onContext)
 
     let dropdown = document.getElementById('contextMenu')
     //UIkit.dropdown(dropdown).show()
@@ -429,11 +421,11 @@ class Notes extends Component {
       contextMenu.style.visibility = 'hidden'
 
       let title = ''
-      for (let i = 0; i < this.state.notes.length; i++) {
-        if (this.state.notes[i].title === this.state.onContext) {
-          title = this.state.notes[i].title
+      for (let j = 0; j < this.state.notes.length; j++) {
+        if (this.state.notes[j].title === this.state.onContext) {
+          title = this.state.notes[j].title
+          break
         }
-        break
       }
 
       UIkit.modal.confirm('Are you sure? \'' + title + '\' will be permanently deleted.').then(_ => {
@@ -451,8 +443,6 @@ class Notes extends Component {
             break
           }
         }
-      }, _ => {
-        UIkit.modal.alert('No!')
       })
     }
   }
@@ -467,8 +457,8 @@ class Notes extends Component {
     for (let i = 0; i < this.state.notes.length; i++) {
       if (this.state.notes[i].title === this.state.onContext) {
         title = this.state.notes[i].title
+        break
       }
-      break
     }
 
     UIkit.modal.confirm('Are you sure? The contents of \'' + title + '\' will be permanently deleted.').then(_=> {
@@ -516,32 +506,22 @@ class Notes extends Component {
    * @param {*} e 
    */
   selectNote(e) {
-    //console.log(this.state.notes)
     this.updateDB()
 
-    ///////////////////////////////////////
-    //let contentaaa = quill.getContents()
-    //this.state.notes[this.state.selected].content = JSON.stringify(contentaaa)
-
-    //localStorage.setItem('notesDB', btoa(JSON.stringify(this.state.notes)))
-    ///////////////////////////////////////
-
-    console.log(this.state.notes)
-
-    let content// = this.state.notes[this.state.selected].content
+    let content
     for (let i = 0; i < this.state.notes.length; i++) {
       if (this.state.notes[i].title === e.target.text) {
         this.state.selected = i
         content = this.state.notes[i].content
       }
     }
-
-    //console.log(this.state.selected)
-    //console.log(content)
-
     this.displayContent(content)
   }
 
+  /**
+   * 
+   * @param {*} int 
+   */
   selectNoteInt(int) {
     this.updateDB()
 
@@ -560,15 +540,14 @@ class Notes extends Component {
       try {
         quill.setContents(JSON.parse(content))
       } catch (e) {
-        console.log(content)
-        console.log(e)
+        //console.log(content)
+        //console.log(e)
       }
     }
   }
 
-  // Render uikit card and quill editor
   /**
-   * 
+   * Render uikit card and quill editor
    */
   render() {
     let key = 0
@@ -584,13 +563,20 @@ class Notes extends Component {
       return <p key={key2} title={cls} onClick={this.createNote.bind(this)}>{cls}</p>
     })
 
+    let removeNote = null
+    if (this.state.notes.length > 1) {
+      removeNote = (
+        <li onClick={this.removeNote.bind(this)}><span className='uk-margin-right uk-icon' uk-icon='trash'/>Remove</li>
+      )
+    }
+
     return (
       <div id='parent' className='vcNavbarCard notesParent'>
         <div id='contextMenu' className='contextMenu card' style={{visibility: 'hidden', minHeight: '50px',minWidth:'50px',position:'absolute',zIndex:1000}}>
           <ul className='uk-list'>
             <li onClick={this.rename.bind(this)}><span className='uk-margin-right uk-icon' uk-icon='pencil'/>Rename</li>
             <li onClick={this.clearContents.bind(this)}><span className='uk-margin-right uk-icon' uk-icon='ban'/>Clear</li>
-            <li onClick={this.removeNote.bind(this)}><span className='uk-margin-right uk-icon' uk-icon='trash'/>Remove</li>
+            {removeNote}
           </ul>
         </div>
         <div className='notesChild card uk-animation-slide-top-small'>
@@ -618,168 +604,3 @@ class Notes extends Component {
 }
 
 export default Notes
-
-/*
-<ul className='uk-switcher uk-margin'>
-              <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
-              <li>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
-              <li>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur, sed do eiusmod.</li>
-          </ul>
-
-*/
-
-
-//fb code innit
-
-/*// Sync notes (list detailed modules this file covers later)
-// George
-
-import React, { Component } from 'react'
-const http = require('http')
-const css = require('./Notes.css')
-
-let ref
-let quill
-let userID
-let offline
-const firebase = require('firebase')
-const fb = require('./fb')(firebase)
-let database = firebase.database()
-
-let lastNotes
-
-class Notes extends Component {
-  constructor(props) {
-    super(props)
-
-    this.getUserID()
-
-    // questionable innit
-    window.addEventListener('beforeunload', (event) => {
-      // Autosaves before enduser exits notes
-      this.updateDB()
-    }, false)
-  }
-
-  interval() {
-    console.log('test')
-
-    /*if (quill.getText() === lastNotes) {
-      console.log('test2')
-      // no edits have been made in the last 5 seconds
-      //this.retrieveDB()
-      this.retrieveDB
-    }*/
-
-/*    ref.once('value', (data) => {
-      if (data.val().content !== localStorage.getItem('content')) {
-        console.log('test')
-        retrieveDB(data.val().content)
-      }
-    })
-
-    lastNotes = quill.getText()
-
-    function retrieveDB(content) {
-      quill.setContents(JSON.parse(atob(content)))
-      localStorage.setItem('content', content)
-    }
-  }
-
-  componentDidMount() {
-    let content = document.getElementById('content')
-    content.className = 'full vcNavbarParent'
-
-    // Initialise quill editor
-    quill = new Quill('#editor', {
-      modules: {
-        toolbar: true
-      },
-      // Snow theme displays formatting options above text box
-      theme: 'snow', // OK I CHANGED IT FRICKER !
-      placeholder:
-        'Write any notes here! Notes are encrypted and are not visible to anyone else. Notes are currently stored locally on your device. In future, notes will seamlessly sync across all your devices.'
-    })
-
-    // Add previously saved text into quill editor
-    if (localStorage.getItem('content') !== '') {
-      try {
-        quill.setContents(JSON.parse(atob(localStorage.getItem('content'))))
-      } catch (e) {
-        console.log(e)
-      }
-    }
-
-    lastNotes = quill.getText()
-  }
-
-  getUserID() {
-    http.get('/getdata?token=' + localStorage.getItem('accessToken') + '&url=details/userinfo.json', (res) => {
-      res.setEncoding('utf8')
-      let data = ''
-      res.on('data', (body) => {
-        data += body
-      })
-      res.on('end', () => {
-        try {
-          userID = btoa(JSON.parse(data).username)
-          if (userID !== undefined) {
-            console.log(userID)
-            ref = database.ref('userNotes/' + userID)
-            ref.once('value', (data) => {
-              this.retrieveDB(data.val().content)
-            })
-            setInterval(this.interval, 5000)
-          }
-        } catch (e) {
-          console.log('error getting userID')
-          //getUserID()
-        }
-      })
-    })
-  }
-
-  componentWillUnmount() {
-    // Autosaves before enduser exits notes
-    this.updateDB()
-    let content = document.getElementById('content')
-    content.className = 'full'
-  }
-
-  updateDB() {
-    // Save notes in localStorage in unreadable format
-    let content = btoa(JSON.stringify(quill.getContents()))
-    let data = { content: content }
-    localStorage.setItem('content', content)
-    try {
-      ref.update(data)
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  retrieveDB(content) {
-    //ref.once('value', (data) => {
-    //  quill.setContents(JSON.parse(atob(data.val().content)))
-    //  localStorage.setItem('content', data.val().content)
-    //})
-    quill.setContents(JSON.parse(atob(content)))
-    localStorage.setItem('content', content)
-  }
-
-  // Render uikit card and quill editor
-  render() {
-    return (
-      <div className='vcNavbarCard notesParent'>
-        <div className='notesChild card uk-animation-slide-top-small'>
-          <div className='pad'>
-            <div id='editor' onInput={this.updateDB.bind(this)}/>
-          </div>
-        </div>
-      </div>
-    )
-  }
-}
-
-export default Notes
-*/
