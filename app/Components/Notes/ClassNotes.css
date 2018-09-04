@@ -1,3 +1,18 @@
 #classNotesList {
   text-align: left!important;
 }
+
+#cnVisualFeedback.active {
+  color: #2dc0d5!important;
+  text-align: center;
+  margin: 10px 0 0 0;
+  padding: 10px 0;
+  width: 100%;
+  z-index: 3;
+}
+
+#cnVisualFeedback.unactive {
+  height: 0px;
+  display: none;
+  visibility: hidden;
+}

@@ -2,11 +2,7 @@
 /**
  * CLASS NOTES TO DO LIST
  *   - Ability to delete notes as teacher - Greg (i have a good idea about how i want to do this)
- *   - Fix CSS that broke when it became its own tab.
- *   - Look at possibly making this more uniform with notes. Entries start closed and an expand all button can open them all.
- *   - There is no 0 in front of one digit times. E.g. when i tested a post at 22:06 it showed 22:6
- *   - Modals where i wrote the comment below?
- *   - Some sort of visual feedback when a note is Submitted or saved to drafts
+ *   - Look at possibly making this more uniform with notices. Entries start closed and an expand all button can open them all.
  *   - Currently the class changes back to option 1 after sending a note. Stop this. keep it at the same class by default
  *   - Fix up drafts style like i said in the draft i may or may not have posted in the software class!
  */
@@ -20,13 +16,10 @@ let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'A
 let noteID = 0
 const MAX_CLASSES = 12
 
-//
-// TEMPORARY - FIX THIS QUIGLEY
-//
-const css2 = require('../Notes/Notes.css')
-
 let userData
 let userID
+
+let saveComboIndex
 
 let ref
 let fb
@@ -79,13 +72,17 @@ class ClassNotes extends Component {
     } else if (userData.role === 'Teacher') {
       classNotes = <TeacherNotes notes={this.state.notes} classes={this.state.classes} />
     }
-    return classNotes
+    return (
+      <div className='noticesParent'>
+        <div className='noticesChild card uk-animation-slide-top-small'>{classNotes}</div>
+      </div>
+    )
   }
 
-  /** thief innit
-   * Loop through all the user's classes
-   * Add valid classes to classes array held in this.state
-   */
+  /** 
+    * Loop through all the user's classes
+    * Add valid classes to classes array held in this.state
+    */
   generateClasses() {
     this.state.classes = []
     for (let i = 1; i < MAX_CLASSES + 1; i++) {
@@ -109,18 +106,36 @@ class TeacherNotes extends Component {
     } 
   }
 
+  componentWillUnmount() {
+    window.saveComboIndex = inputClass.selectedIndex
+    console.log('unmounting')
+  }
+
+  componentDidMount() {
+    document.getElementById('classNoteClass').selectedIndex = window.saveComboIndex
+  }
+
   submitClassNote(e) {
     let inputTitle = document.getElementById('classNoteTitle')
     let inputClass = document.getElementById('classNoteClass')
     let inputBody = document.getElementById('classNoteBody')
     let today = new Date()
+    let date
+
+    if (today.getHours().length == 1) {
+      date = '0'+today.getHours()+':'+today.getMinutes() +' on '+ today.getDate() + ' ' + (months[today.getMonth()]) + ' ' + today.getFullYear()
+    } else if (today.getMinutes().length == 1) {
+      date = today.getHours()+':0'+today.getMinutes() +' on '+ today.getDate() + ' ' + (months[today.getMonth()]) + ' ' + today.getFullYear()
+    } else {
+      date = today.getHours()+':'+today.getMinutes() +' on '+ today.getDate() + ' ' + (months[today.getMonth()]) + ' ' + today.getFullYear()
+    }
     
-    let date = today.getHours()+':'+today.getMinutes() +' on '+ today.getDate() + ' ' + (months[today.getMonth()]) + ' ' + today.getFullYear()
     let author = window.userData.givenName + ' ' + window.userData.surname
     
     if (inputTitle.value.length > 0 || inputBody.value.length > 0) {
       let title = inputTitle.value
       let cnClass = inputClass.value
+      
       let body = inputBody.value
       let draft = e.target.innerHTML === 'Save'
 
@@ -135,17 +150,28 @@ class TeacherNotes extends Component {
         author: author,
         draft: draft
       }
-
-      this.state.notes.unshift(cn)
-      let notes = this.state.notes
-      this.setState({ notes: this.state.notes })
-      localStorage.setItem('classNotesDB', btoa(JSON.stringify(this.state.notes)))
       
-      let notesDB = { classNotes: btoa(JSON.stringify(this.state.notes)) }
-      ref.update(notesDB)
+      //this.state.notes.unshift(cn)
+      //let notes = this.state.notes
+      //this.setState({ notes: this.state.notes })
+      //localStorage.setItem('classNotesDB', btoa(JSON.stringify(this.state.notes)))
+      
+      //let notesDB = { classNotes: btoa(JSON.stringify(this.state.notes)) }
+      //ref.update(notesDB)
 
+      document.getElementById('cnVisualFeedback').className = 'active'
+      if (draft) {
+        document.getElementById('cnVisualFeedback').innerHTML = 'Successfully <b>saved</b> your note'
+      } else {
+        document.getElementById('cnVisualFeedback').innerHTML = 'Successfully <b>posted</b> your note'
+      }      
+      setTimeout( function(){
+        document.getElementById('cnVisualFeedback').className = 'unactive'
+        document.getElementById('cnVisualFeedback').innerText = ''
+      }, 5000)
     } else {
       // modal, error?
+      UIkit.modal.alert('Your title and/or body was empty. Please fill these fields and try again')
     }
   }
 
@@ -156,7 +182,7 @@ class TeacherNotes extends Component {
     })
 
     return (
-      <div>
+      <div className='card'>
         <ul className='uk-subnav uk-subnav-pill uk-flex uk-flex-center' uk-switcher=''>
             <li aria-expanded='true' className='uk-active'><a>Post</a></li>
             <li aria-expanded='false'><a>View</a></li>
@@ -177,6 +203,7 @@ class TeacherNotes extends Component {
               <h3></h3>
               <a onClick={this.submitClassNote.bind(this)} className='uk-button uk-button-primary'>Submit</a>
               <a onClick={this.submitClassNote.bind(this)} className='uk-button uk-button-default'>Save</a>
+              <div id='cnVisualFeedback' className='unactive'/>
             </li>
             <li><NotesView notes={this.state.notes} classes={this.state.classes} /></li>
         </ul>
@@ -221,7 +248,7 @@ const NotesView = (props) =>  {
   let draftUI
   if (userData.role === 'Teacher' && drafts !== null) {
     draftUI = (
-      <div>
+      <div className='card'>
         <ul id='classNotesList' className='uk-accordion' uk-accordion='multiple: true'>
         {drafts}
         </ul>

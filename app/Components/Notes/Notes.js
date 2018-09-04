@@ -601,15 +601,16 @@ class Notes extends Component {
           <div className='pad'>
             <div id='editor' onInput={this.updateDB.bind(this)} onMouseMove={this.onMouseMove.bind(this)}/>
           </div>
-          <div className=''>
+          <div>
             <a uk-icon='plus-circle' uk-tooltip='title: Add custom notes; pos: bottom-center;'></a>
             <div uk-dropdown='mode: click;pos: top-center'>
               <p className='uk-text-left'>Classes</p>
-              {classList}
+                <div id='notesClassList'>{classList}</div>
+              <hr/>
               <p className='uk-text-left'>Custom</p>
-              <input id='customTitle' className='uk-input' type='text' placeholder='Title' maxLength='10'/>
-              <button onClick={this.createCustomNote.bind(this)} className='uk-margin-top uk-button uk-button-default'>Add</button>
-            </div>
+              <input id='customTitle' className='uk-input uk-width-2-3' type='text' placeholder='Title' maxLength='10'/>
+              <button id='customNoteSubmitButton' onClick={this.createCustomNote.bind(this)} className='uk-width-1-3 uk-button uk-button-default'>Add</button>
+            </div> 
           </div>
         </div>
       </div>
