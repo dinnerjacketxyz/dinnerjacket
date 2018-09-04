@@ -10,25 +10,27 @@ let day = 'MON' //decides what day to display by default
 //Variables for the data of both timetables
 let timetableData = '' //Raw api return
 
+//Arrays used to create the timetable
 let tempArray1 = []
 let finalArray = []
 
+
 let subject = ''
-let leave = ''
 let posArray = []
+
 let fadeArray = []
 let mcFadeArr = []
+
 let subjectOnly = []
 let tempSO = []
 let uniqueSubjects = []
 
-let fullTable
-let smallTable
 
 let remArr = []
 let mcNum = 0
 let mcArr = ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '',]
 
+//Array of valid rooms
 let validRoom = ['101', '102', '103', '104', '105', '106', '107', '108',
   '201', '202', '203', '204', '205', '206', '207', '208', '209', '210', '211', '212', '213', '214', '215',
   '301', '302', '303', '304',
@@ -252,6 +254,7 @@ class Timetable extends Component {
     }
   }
 
+  //Makes all of the small timetable tab selector unselected
   blankTab() {
     for (let x = 0; x < tabArray.length; x++) {
       let unactive = document.getElementById(tabArray[x])
@@ -259,20 +262,23 @@ class Timetable extends Component {
     }
   }
 
+  //Event method fired when a tab is clicked on the small timetable
   smallInput(e) {
     if (document.getElementById(e.target.innerHTML) != null) {
-      if (e.target.innerHTML.length == 1) {
+      if (e.target.innerHTML.length == 1) { //if the week tab has been clicked
         week = e.target.innerHTML
         window.week = week
-      } else {
+      } else { //if a day tab has been clicked
         day = e.target.innerHTML
         window.day = day
       }
     }
   }
 
+  //displays the small timetable
   displaySmall() {
-    let dayNum = tabArray.indexOf(`${day}`)
+    //dayNum is a variable that corresponds input to the relevant information in the database
+    let dayNum = tabArray.indexOf(`${day}`) 
     if (week == 'A') {
       dayNum += 1
     } else if (week == 'B') {
@@ -281,16 +287,18 @@ class Timetable extends Component {
       dayNum += 11
     }
 
-    let xyzz = dayNum - 1
+    let temp = dayNum - 1 //temporary variable used because Javascript interprets it weirdly
 
     let smallOutput = ''
     let smallDay = timetableData.days[dayNum].periods
 
-    let x = mcArr[xyzz].split('!')
+    //adds morning class
+    let x = mcArr[temp].split('!')
     if (x != '') {
       smallOutput += `<tr><td class='periodIndicator'>0</td><td>${x[0]}</td><td>${x[1]}</td></tr>`
     }
 
+    //adds periods from the API
     for (let u = 1; u <= 5; u++) {
       if (smallDay[`${u}`] == undefined) {
         smallOutput += `<tr><td class='periodIndicator'>${u}</td><td>-</td><td>-</td></tr>`
@@ -301,11 +309,14 @@ class Timetable extends Component {
       }
     }
 
+    //sets the small timetable
     let small = document.getElementById('smallTable')
     small.innerHTML = smallOutput
   }
 
-  bigInput(e) {
+  //Event method fired when a subject is highlighted in timetable
+  //Saves the highlighted subject into a global variable
+  ttableHoverEvent(e) {
     subject = e.target.innerHTML.slice(0, 4)
 
     if (subject.slice(2, 3) == '&') {
@@ -318,28 +329,36 @@ class Timetable extends Component {
     }
   }
 
+  //highlights the subjects
   subjectHighlight() {
     if (subject != '') {
       let start = 0
       let indexArray = []
       let relevant = []
 
+      //Searches the subjects in the regular timetable for matches
       while (subjectOnly.indexOf(subject, start) != -1) {
         indexArray.push(subjectOnly.indexOf(subject, start))
         start = subjectOnly.indexOf(subject, start) + 1
       }
 
+      //Searches the morning classes
       for (let i = 0; i < mcArr.length; i++) {
         if (subject == mcArr[i].split('!')[0]) {
           relevant.push(mcArr[i])
         }
       }
 
+      console.log(indexArray)
       this.highlightMC(relevant)
       this.calcPos(indexArray)
     }
   }
 
+  /**
+    * Highlights the morning classes passed to it
+    * @param {array} array - an array of any length containing matching morning classes
+    */
   highlightMC(array) {
     this.mcBlank()
     for (let i = 0; i < array.length; i++) {
@@ -360,6 +379,9 @@ class Timetable extends Component {
     }
   }
 
+  /**
+    * Makes all morning classes blank before they are highlight
+    */
   mcBlank() {
     for (let u = -1; u > -4; u -= 1) {
       for (let i = 0; i <= 4; i++) {
@@ -369,9 +391,11 @@ class Timetable extends Component {
     }
   }
 
+  /**
+    * Calculates the positions of the correct timetable element to highlight
+    * @param {array} array - an array of the indexes of the matching classes
+    */
   calcPos(array) {
-    let row = 0
-    let day = 0
     for (let u = 0; u < array.length; u++) {
       let day = this.specialRound(array[u])
       let row = array[u] % 5
@@ -383,6 +407,10 @@ class Timetable extends Component {
     posArray = []
   }
 
+  /**
+    * Displays highlight by changing className
+    * @param {array} array - an array of coordinates matching elements (day,row)
+    */
   dispHighlight(array) {
     this.blankHighlight()
     for (let u = 0; u < array.length; u++) {
@@ -391,6 +419,9 @@ class Timetable extends Component {
     }
   }
 
+  /**
+    * Blanks all subjects before highlighting
+    */
   blankHighlight() {
     for (let u = 0; u <= 14; u++) {
       for (let i = 0; i <= 4; i++) {
@@ -400,8 +431,9 @@ class Timetable extends Component {
     }
   }
 
-
-
+  /**
+    * Fades out subject highlight after a set number of miliseconds
+    */
   fade() {
     setTimeout(function () { //TODO MAKE SURE THIS ONLY EXECUTES WHEN TIMETABLE IS OPEN
       for (let u = 0; u < fadeArray.length; u++) {
@@ -415,6 +447,10 @@ class Timetable extends Component {
     }, 1000)
   }
 
+  /**
+    * Initialises the add morning class form
+    * Populates the subject combobox
+    */
   initForm() {
     let temp = []
 
@@ -441,6 +477,11 @@ class Timetable extends Component {
     dropdown.innerHTML = options
   }
 
+  /**
+    * Event method fired when add button is pressed
+    * Processes the add morning class form
+    * Adds morning classes to storage
+    */
   processForm() {
     let room = document.getElementById('acRoom')
     let subject = document.getElementById('acSubject')
@@ -479,9 +520,6 @@ class Timetable extends Component {
           mcArr[temp + 5] = subject2.value + '!' + room2.value + '!' + 'B' + '!' + day2.value
           mcArr[temp + 10] = subject2.value + '!' + room2.value + '!' + 'C' + '!' + day2.value
         }
-      } else {
-        setTimeout(this.displayTooltip(button.parentNode), 2000)
-        console.log('display tooltip')
       }
     } else {
       if (button.getAttribute('disabled') != true) {
@@ -500,9 +538,6 @@ class Timetable extends Component {
           mcArr[temp + 5] = subject.value + '!' + room.value + '!' + 'B' + '!' + day.value
           mcArr[temp + 10] = subject.value + '!' + room.value + '!' + 'C' + '!' + day.value
         }
-      } else {
-        setTimeout(this.displayTooltip(button.parentNode), 2000)
-        console.log('display tooltip')
       }
     }
 
@@ -514,6 +549,9 @@ class Timetable extends Component {
     this.displayMorningClass()
   }
 
+  /**
+    * Displays morning classes from storage
+    */
   displayMorningClass() {
     let count = 0
     for (let i = 0; i < mcArr.length; i++) {
@@ -533,20 +571,25 @@ class Timetable extends Component {
         count++
       }
     }
-    let day = document.getElementById('zeroIndicator1')
-    let day1 = document.getElementById('zeroIndicator2')
-    let day2 = document.getElementById('zeroIndicator3')
+    //Morning class period indicator
+    let weekA = document.getElementById('zeroIndicator1')
+    let weekB = document.getElementById('zeroIndicator2')
+    let weekC = document.getElementById('zeroIndicator3')
     if (count == 15) {
-      day.innerHTML = ''
-      day1.innerHTML = ''
-      day2.innerHTML = ''
+      weekA.innerHTML = ''
+      weekB.innerHTML = ''
+      weekC.innerHTML = ''
     } else {
-      day.innerHTML = '0'
-      day1.innerHTML = '0'
-      day2.innerHTML = '0'
+      weekA.innerHTML = '0'
+      weekB.innerHTML = '0'
+      weekC.innerHTML = '0'
     }
   }
 
+  /** 
+    * Event method fired when checkbox is changed
+    * Makes the week selecting combobox disabled
+    */
   repeatCheckbox() {
     let week = document.getElementById('acWeek')
     let repeat = document.getElementById('acRepeat')
@@ -557,6 +600,11 @@ class Timetable extends Component {
     }
   }
 
+  /**
+    * Event method fired when a different room is input
+    * Verifies that the inputed room is valid
+    * Makes it possible to press the submit button
+    */
   verifyRoom() {
     let room = document.getElementById('acRoom')
     let button = document.getElementById('acAdd')
@@ -584,18 +632,13 @@ class Timetable extends Component {
       } else {
         button.setAttribute('disabled', true)
         //button.className = 'uk-button uk-button-danger'
-        //setTimeout(this.displayTooltip(button.parentNode), 2000)
       }
     }
   }
 
-  displayTooltip(element) {
-    console.log('display tooltip')
-    element.setAttribute('uk-tooltip','title: Enter a valid room')
-    UIkit.tooltip(element).show()
-    setTimeout(function () {UIkit.tooltip(element).hide()}, 10000)
-  }
-
+  /** 
+    * Initialises remove morning class form
+    */
   initRemove() {
     let counter = 0
     let body = ''
@@ -609,11 +652,13 @@ class Timetable extends Component {
         counter++
       }
     }
+
     mcNum = counter
     let div = document.getElementById('rmTableDiv')
     let p = document.getElementById('noText')
     let div2 = document.getElementById('rmTableDiv2')
     let p2 = document.getElementById('noText2')
+    
     if (body == '') {
       div.hidden = true
       p.hidden = false
@@ -632,6 +677,10 @@ class Timetable extends Component {
     this.initSelectAll()
   }
 
+  /** 
+    * Processes the remove morning classes form
+    * Edits the stored class
+    */
   processRem() {
     let tempArr = []
     for (let i = 0; i < mcNum; i++) {
@@ -662,11 +711,19 @@ class Timetable extends Component {
     this.displayMorningClass()
   }
 
+  /** 
+    * Initialises remove morning class form
+    * Sets the text
+    */
   initSelectAll() {
     let button = document.getElementById('btnSelectall')
     button.innerText = this.ifChecked()
   }
 
+  /** 
+    * Event method fired when the select all button is pressed
+    * Processes whether the checkboxes should be all deselected or selected
+    */
   selectAll() {
     let button = document.getElementById('btnSelectall')
     let button2 = document.getElementById('btnSelectall2')
@@ -681,6 +738,12 @@ class Timetable extends Component {
     }
   }
 
+
+  /** 
+    * Looks at the checkboxes and determines the content and function of the
+    * select all button
+    * @returns {string} String that will be in the select button
+    */
   ifChecked() {
     let falseCount = 0
     let trueCount = 0
@@ -701,6 +764,9 @@ class Timetable extends Component {
     }
   }
 
+  /** Ticks or unticks all checkboxes based on input
+    * @param {bool} bool the state that all the checkboxes will be changed to 
+    */
   changeCheckbox(bool) {
     for (let i = 0; i < mcNum; i++) {
       let temp = document.getElementById('remove' + i)
@@ -730,7 +796,7 @@ class Timetable extends Component {
                 </tr>
               </thead>
               <tbody id='wA' className='timetable' onMouseOver={this.subjectHighlight.bind(this)}>
-                <tr id='r-1' onMouseOver={this.bigInput}>
+                <tr id='r-1' onMouseOver={this.ttableHoverEvent}>
                   <td id='zeroIndicator1' className='periodIndicator'></td>
                   <td id='0,-1' className=''></td>
                   <td id='1,-1' className=''></td>
@@ -738,11 +804,11 @@ class Timetable extends Component {
                   <td id='3,-1' className=''></td>
                   <td id='4,-1' className=''></td>
                 </tr>
-                <tr id='row0' onMouseOver={this.bigInput}><td id='' className='periodIndicator'>1</td></tr>
-                <tr id='row1' onMouseOver={this.bigInput}><td id='' className='periodIndicator'>2</td></tr>
-                <tr id='row2' onMouseOver={this.bigInput}><td id='' className='periodIndicator'>3</td></tr>
-                <tr id='row3' onMouseOver={this.bigInput}><td id='' className='periodIndicator'>4</td></tr>
-                <tr id='row4' onMouseOver={this.bigInput}><td id='' className='periodIndicator'>5</td></tr>
+                <tr id='row0' onMouseOver={this.ttableHoverEvent}><td id='' className='periodIndicator'>1</td></tr>
+                <tr id='row1' onMouseOver={this.ttableHoverEvent}><td id='' className='periodIndicator'>2</td></tr>
+                <tr id='row2' onMouseOver={this.ttableHoverEvent}><td id='' className='periodIndicator'>3</td></tr>
+                <tr id='row3' onMouseOver={this.ttableHoverEvent}><td id='' className='periodIndicator'>4</td></tr>
+                <tr id='row4' onMouseOver={this.ttableHoverEvent}><td id='' className='periodIndicator'>5</td></tr>
               </tbody>
             </table>
           </div>
@@ -762,7 +828,7 @@ class Timetable extends Component {
                 </tr>
               </thead>
               <tbody id='wB' className='timetable' onMouseOver={this.subjectHighlight.bind(this)}>
-                <tr id='r-2' onMouseOver={this.bigInput}>
+                <tr id='r-2' onMouseOver={this.ttableHoverEvent}>
                   <td id='zeroIndicator2' className='periodIndicator'></td>
                   <td id='0,-2' className=''></td>
                   <td id='1,-2' className=''></td>
@@ -770,11 +836,11 @@ class Timetable extends Component {
                   <td id='3,-2' className=''></td>
                   <td id='4,-2' className=''></td>
                 </tr>
-                <tr id='row5' onMouseOver={this.bigInput}><td id='' className='periodIndicator'>1</td></tr>
-                <tr id='row6' onMouseOver={this.bigInput}><td id='' className='periodIndicator'>2</td></tr>
-                <tr id='row7' onMouseOver={this.bigInput}><td id='' className='periodIndicator'>3</td></tr>
-                <tr id='row8' onMouseOver={this.bigInput}><td id='' className='periodIndicator'>4</td></tr>
-                <tr id='row9' onMouseOver={this.bigInput}><td id='' className='periodIndicator'>5</td></tr>
+                <tr id='row5' onMouseOver={this.ttableHoverEvent}><td id='' className='periodIndicator'>1</td></tr>
+                <tr id='row6' onMouseOver={this.ttableHoverEvent}><td id='' className='periodIndicator'>2</td></tr>
+                <tr id='row7' onMouseOver={this.ttableHoverEvent}><td id='' className='periodIndicator'>3</td></tr>
+                <tr id='row8' onMouseOver={this.ttableHoverEvent}><td id='' className='periodIndicator'>4</td></tr>
+                <tr id='row9' onMouseOver={this.ttableHoverEvent}><td id='' className='periodIndicator'>5</td></tr>
               </tbody>
             </table>
           </div>
@@ -785,7 +851,7 @@ class Timetable extends Component {
             <table className='uk-table uk-table-small'>
               <thead>
                 <tr>
-                  <th id=''></th>
+                  <th></th>
                   <th id='moC'>MON C</th>
                   <th id='tuC'>TUE C</th>
                   <th id='weC'>WED C</th>
@@ -794,7 +860,7 @@ class Timetable extends Component {
                 </tr>
               </thead>
               <tbody id='wC' className='timetable' onMouseOver={this.subjectHighlight.bind(this)} >
-                <tr id='r-3' onMouseOver={this.bigInput}>
+                <tr id='r-3' onMouseOver={this.ttableHoverEvent}>
                   <td id='zeroIndicator3' className='periodIndicator'>0</td>
                   <td id='0,-3' className=''></td>
                   <td id='1,-3' className=''></td>
@@ -802,11 +868,11 @@ class Timetable extends Component {
                   <td id='3,-3' className=''></td>
                   <td id='4,-3' className=''></td>
                 </tr>
-                <tr id='row10' onMouseOver={this.bigInput}><td id='' className='periodIndicator'>1</td></tr>
-                <tr id='row11' onMouseOver={this.bigInput}><td id='' className='periodIndicator'>2</td></tr>
-                <tr id='row12' onMouseOver={this.bigInput}><td id='' className='periodIndicator'>3</td></tr>
-                <tr id='row13' onMouseOver={this.bigInput}><td id='' className='periodIndicator'>4</td></tr>
-                <tr id='row14' onMouseOver={this.bigInput}><td id='' className='periodIndicator'>5</td></tr>
+                <tr id='row10' onMouseOver={this.ttableHoverEvent}><td id='' className='periodIndicator'>1</td></tr>
+                <tr id='row11' onMouseOver={this.ttableHoverEvent}><td id='' className='periodIndicator'>2</td></tr>
+                <tr id='row12' onMouseOver={this.ttableHoverEvent}><td id='' className='periodIndicator'>3</td></tr>
+                <tr id='row13' onMouseOver={this.ttableHoverEvent}><td id='' className='periodIndicator'>4</td></tr>
+                <tr id='row14' onMouseOver={this.ttableHoverEvent}><td id='' className='periodIndicator'>5</td></tr>
               </tbody>
             </table>
           </div>

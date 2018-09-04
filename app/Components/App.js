@@ -592,7 +592,7 @@ class App extends Component {
 
               <li id='Class NotesLi' className='uk-animation-toggle' onClick={this.showClassNotes.bind(this)}>
                 <a id='Class NotesA' className='uk-box-shadow-hover-small'>
-                  <span id='Class NotesS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: file-edit' />
+                  <span id='Class NotesS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: users' />
                   <p className='collapseText' id='Class NotesP'>{nameArray[3]}</p>
                   <b className='collapseText' id='Class NotesB'></b>
                 </a>
@@ -682,6 +682,8 @@ class App extends Component {
             </ul>
           </div>
         </nav>
+
+        <div id='status'/>
 
         <div id='content'>
           {this.state.visible === window.STATES.DASHBOARD && <Dashboard />}

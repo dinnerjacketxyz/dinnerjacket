@@ -5,6 +5,15 @@
   padding: 0px!important;
 }
 
+#customTitle {
+  border-radius: 5px 0 0 5px;
+  border-right: 0px;
+}
+
+#customNoteSubmitButton {
+  border-radius: 0 5px 5px 0;
+}
+
 .contextMenu ul {
   padding: 16px 0px 16px 0px;
 }
@@ -36,6 +45,19 @@
   background-color: #effdff;
   transition: background-color 100ms linear;
   border-left: 4px solid #2dc0d5;
+}
+
+.ql-editor {
+  -webkit-touch-callout: text; /* iOS Safari */
+  -webkit-user-select: text; /* Safari */
+  -khtml-user-select: text; /* Konqueror HTML */
+  -moz-user-select: text; /* Firefox */
+  -ms-user-select: text; /* Internet Explorer/Edge */
+  user-select: text; /* Non-prefixed version, currently supported by Chrome and Opera */
+}
+
+#notesClassList p:hover {
+  color: #2dc0d5!important
 }
 
 .ql-editor p{
@@ -123,8 +145,4 @@ input:focus{
   .pad {
     margin: 10px 10px 10px 10px;
   }
-}
-
-@media (max-height: 650px) {
-
 }
