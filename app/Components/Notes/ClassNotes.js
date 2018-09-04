@@ -194,26 +194,46 @@ const noteInClasses = (note, classes) => {
   return false
 }
 
+const SingleNote = () => {
+          return (
+            <div>
+              <FillClassNote key={noteID} note={note} />
+              {noteOptions}
+            </div>
+          )
+}
+
 const NotesView = (props) =>  {
   console.log('notesview: ' + props.notes)
   let rows
   let drafts = null
   noteID = 0
+
+  let noteOptions = null
+  if (userData.role === 'Teacher') {
+    noteOptions = (
+      <div>
+        <button>Edit</button>
+        <button onClick={() => {props.notes}}>Remove</button>
+      </div>
+    )
+  }
+
   if (props.notes.length === 0) {
     rows = <h1 className='uk-heading-line uk-text-center' style={{marginTop:'50px',marginBottom:'50px'}}><span>No class notes</span></h1>
   } else {
     if (userData.role === 'Teacher') {
       drafts = props.notes.map(note => {
         if (note.draft && noteInClasses(note, props.classes)) {
-          noteID++
-          return <FillClassNote key={noteID} note={note} />
+          noteid++
+          SingleNote()
         }
       })
     }
     rows = props.notes.map(note => {
       if (!note.draft && noteInClasses(note, props.classes)) {
-        noteID++
-        return <FillClassNote key={noteID} note={note} />
+        noteid++
+        SingleNote()
       }
     })
   }
