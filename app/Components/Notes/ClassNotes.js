@@ -1,4 +1,3 @@
-
 /**
  * CLASS NOTES TO DO LIST
  *   - Ability to delete notes as teacher - Greg (i have a good idea about how i want to do this)
@@ -201,8 +200,8 @@ class TeacherNotes extends Component {
                 <textarea id='classNoteBody' className='uk-textarea uk-form-blank' rows='20' placeholder='Body' style={{margin: '0px', height: '110px', width: '100%', resize: 'none'}}></textarea>
               </div>
               <h3></h3>
-              <a onClick={this.submitClassNote.bind(this)} className='uk-button uk-button-primary'>Submit</a>
-              <a onClick={this.submitClassNote.bind(this)} className='uk-button uk-button-default'>Save</a>
+              <a style={{borderRadius:'5px 0 0 5px'}} onClick={this.submitClassNote.bind(this)} className='uk-button uk-button-primary'>Submit</a>
+              <a style={{borderRadius:'0 5px 5px 0'}} onClick={this.submitClassNote.bind(this)} className='uk-button uk-button-default'>Save</a>
               <div id='cnVisualFeedback' className='unactive'/>
             </li>
             <li><NotesView notes={this.state.notes} classes={this.state.classes} /></li>
@@ -221,46 +220,26 @@ const noteInClasses = (note, classes) => {
   return false
 }
 
-const SingleNote = () => {
-          return (
-            <div>
-              <FillClassNote key={noteID} note={note} />
-              {noteOptions}
-            </div>
-          )
-}
-
 const NotesView = (props) =>  {
   console.log('notesview: ' + props.notes)
   let rows
   let drafts = null
   noteID = 0
-
-  let noteOptions = null
-  if (userData.role === 'Teacher') {
-    noteOptions = (
-      <div>
-        <button>Edit</button>
-        <button onClick={() => {props.notes}}>Remove</button>
-      </div>
-    )
-  }
-
   if (props.notes.length === 0) {
     rows = <h1 className='uk-heading-line uk-text-center' style={{marginTop:'50px',marginBottom:'50px'}}><span>No class notes</span></h1>
   } else {
     if (userData.role === 'Teacher') {
       drafts = props.notes.map(note => {
         if (note.draft && noteInClasses(note, props.classes)) {
-          noteid++
-          SingleNote()
+          noteID++
+          return <FillClassNote key={noteID} note={note} />
         }
       })
     }
     rows = props.notes.map(note => {
       if (!note.draft && noteInClasses(note, props.classes)) {
-        noteid++
-        SingleNote()
+        noteID++
+        return <FillClassNote key={noteID} note={note} />
       }
     })
   }
