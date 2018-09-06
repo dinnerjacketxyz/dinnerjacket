@@ -26,6 +26,8 @@ let fb
 let database
 let key = 0
 
+let editedClassNotes
+
 class ClassNotes extends Component {
   constructor(props) {
     super(props)
@@ -68,9 +70,9 @@ class ClassNotes extends Component {
   render() {
     let classNotes
     if (userData.role === 'Student') {
-      classNotes = <NotesView notes={this.state.notes} classes={this.state.classes} />
+      classNotes = <NotesView notes={this.state.notes} classes={this.state.classes} editNote={this.editNote.bind(this)} removeNote={this.removeNote.bind(this)} />
     } else if (userData.role === 'Teacher') {
-      classNotes = <TeacherNotes notes={this.state.notes} classes={this.state.classes} />
+      classNotes = <TeacherNotes notes={this.state.notes} classes={this.state.classes} editNote={this.editNote.bind(this)} removeNote={this.removeNote.bind(this)} />
     }
     return (
       <div className='noticesParent'>
@@ -93,22 +95,43 @@ class ClassNotes extends Component {
     }
     console.log(this.state.classes)
   }
+
+  editNote() {
+    console.log('edit note')
+  }
+
+  removeNote(e) {
+    console.log(this.state.notes)
+    console.log('remove note')
+    this.state.notes.splice(e.target.noteid, 1)
+    let n = this.state.notes
+    this.setState({ n : this.state.notes })
+    
+    console.log(e.target)
+    console.log(this.state.notes)
+  }
 }
 
 export default ClassNotes
 
+let edit
+let remove
 class TeacherNotes extends Component {
+
   constructor(props){
     super(props)
     this.state = {
       notes: props.notes,
       classes: props.classes
     } 
+
+    edit = props.editNote
+    remove = props.removeNote
   }
 
   componentWillUnmount() {
-    window.saveComboIndex = inputClass.selectedIndex
-    console.log('unmounting')
+    //window.saveComboIndex = inputClass.selectedIndex BUSTED
+    //console.log('unmounting')
   }
 
   componentDidMount() {
@@ -151,13 +174,13 @@ class TeacherNotes extends Component {
         draft: draft
       }
       
-      //this.state.notes.unshift(cn)
-      //let notes = this.state.notes
-      //this.setState({ notes: this.state.notes })
-      //localStorage.setItem('classNotesDB', btoa(JSON.stringify(this.state.notes)))
+      this.state.notes.unshift(cn)
+      let notes = this.state.notes
+      this.setState({ notes: this.state.notes })
+      localStorage.setItem('classNotesDB', btoa(JSON.stringify(this.state.notes)))
       
-      //let notesDB = { classNotes: btoa(JSON.stringify(this.state.notes)) }
-      //ref.update(notesDB)
+      let notesDB = { classNotes: btoa(JSON.stringify(this.state.notes)) }
+      ref.update(notesDB)
 
       document.getElementById('cnVisualFeedback').className = 'active'
       if (draft) {
@@ -198,18 +221,22 @@ class TeacherNotes extends Component {
                 <input id='classNoteTitle' className='uk-input uk-form-blank uk-form-large' type='Title' placeholder='Title'/>
               </div>
               <div className='uk-margin'>
-                <textarea id='classNoteBody' className='uk-textarea uk-form-blank' rows='20' placeholder='Body' style={{margin: '0px', height: '110px', width: '100%', resize: 'none'}}></textarea>
+                <textarea id='classNoteBody' className='uk-textarea uk-form-blank' rows='20' placeholder='Body' 
+                  style={{margin: '0px', height: '110px', width: '100%', resize: 'none'}}></textarea>
               </div>
               <h3></h3>
               <a onClick={this.submitClassNote.bind(this)} className='uk-button uk-button-primary'>Submit</a>
               <a onClick={this.submitClassNote.bind(this)} className='uk-button uk-button-default'>Save</a>
               <div id='cnVisualFeedback' className='unactive'/>
             </li>
-            <li><NotesView notes={this.state.notes} classes={this.state.classes} /></li>
+            <li><NotesView notes={this.state.notes} classes={this.state.classes} 
+              editNote={edit} removeNote={remove}/></li>
         </ul>
       </div>
     )
   }
+
+  
 }
 
 const noteInClasses = (note, classes) => {
@@ -221,30 +248,11 @@ const noteInClasses = (note, classes) => {
   return false
 }
 
-const SingleNote = () => {
-          return (
-            <div>
-              <FillClassNote key={noteID} note={note} />
-              {noteOptions}
-            </div>
-          )
-}
-
 const NotesView = (props) =>  {
   console.log('notesview: ' + props.notes)
   let rows
   let drafts = null
-  noteID = 0
-
-  let noteOptions = null
-  if (userData.role === 'Teacher') {
-    noteOptions = (
-      <div>
-        <button>Edit</button>
-        <button onClick={() => {props.notes}}>Remove</button>
-      </div>
-    )
-  }
+  noteID = -1
 
   if (props.notes.length === 0) {
     rows = <h1 className='uk-heading-line uk-text-center' style={{marginTop:'50px',marginBottom:'50px'}}><span>No class notes</span></h1>
@@ -252,15 +260,15 @@ const NotesView = (props) =>  {
     if (userData.role === 'Teacher') {
       drafts = props.notes.map(note => {
         if (note.draft && noteInClasses(note, props.classes)) {
-          noteid++
-          SingleNote()
+          noteID++
+          return <FillClassNote key={noteID} note={note} noteID={noteID} editNote={props.editNote} removeNote={props.removeNote} />
         }
       })
     }
     rows = props.notes.map(note => {
       if (!note.draft && noteInClasses(note, props.classes)) {
-        noteid++
-        SingleNote()
+        noteID++
+        return <FillClassNote key={noteID} note={note} noteID={noteID} editNote={props.editNote} removeNote={props.removeNote} />
       }
     })
   }
@@ -288,17 +296,30 @@ const NotesView = (props) =>  {
 }
 
 const FillClassNote = (props) => {
+  let options = null
+  if (userData.role === 'Teacher') {
+    options = (
+      <div>
+        <button noteid={props.noteID} onClick={props.editNote}>Edit</button>
+        <button noteid={props.noteID} onClick={props.removeNote}>Remove</button>
+      </div>
+    )
+  }
+
+  let postedText = (props.note.draft) ? 'Drafted at ' : 'Posted at '
+
   return (
     <li className='uk-open'>
       <span className='uk-label'>{props.note.cnClass}</span>
       <a className='uk-accordion-title'>{props.note.title}</a>
-      <b>Posted at {props.note.date}</b>
+      <b>{postedText}{props.note.date}</b>
       <div className='uk-accordion-content' aria-hidden='false'>
         <p>{props.note.body}</p>
         <p className='uk-margin-small-top'>
           <b>{props.note.author}</b>
         </p>
       </div>
+      {options}
     </li>
   )
 }
