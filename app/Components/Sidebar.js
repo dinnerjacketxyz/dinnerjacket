@@ -36,38 +36,49 @@ class Sidebar extends Component {
         <h3 style={{marginTop:'40px'}}>Reminders</h3>
           <button style={{borderRadius:'5px 0 0 5px',borderRight:'0px none'}} onClick={this.expandAll} className='uk-margin-top uk-button uk-button-default uk-width-3-5'>expand</button>
           <button style={{borderRadius:'0 5px 5px 0'}} onClick={this.addReminder} className='uk-margin-top uk-button uk-button-default uk-width-2-5' uk-icon='plus'></button>
-        <table  className="uk-table uk-table-hover uk-table-middle uk-table-divider uk-table-small">
+        <table className="uk-table uk-table-hover uk-table-middle uk-table-divider uk-table-small">
           <thead>
               <tr>
                   <th className="uk-table-shrink"></th>
                   <th></th>
               </tr>
           </thead>
+          <tbody>
+              <tr>
+                  <td><input className="uk-checkbox" type="checkbox"/></td>
+                  <td className='uk-text-truncate' onClick={this.expandReminder}>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                  </td>
+              </tr>
+              <tr>
+                  <td><input className="uk-checkbox" type="checkbox"/></td>
+                  <td className='uk-text-truncate' onClick={this.expandReminder}>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                  </td>
+              </tr>
+              <tr>
+                  <td><input className="uk-checkbox" type="checkbox"/></td>
+                  <td className='uk-text-truncate' onClick={this.expandReminder}>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                  </td>
+              </tr>
+              <tr>
+                  <td><input className="uk-checkbox" type="checkbox"/></td>
+                  <td className='uk-text-truncate' onClick={this.expandReminder}>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                  </td>
+              </tr>
+          </tbody>
+        </table>
+        <table className="uk-table uk-table-hover uk-table-middle uk-table-divider uk-table-small">
+          <thead>
+              <tr>
+                  <th className="uk-table-shrink"></th>
+                  <th></th>
+                  <th></th>
+              </tr>
+          </thead>
           <tbody id='remindersTable'>
-              <tr>
-                  <td><input className="uk-checkbox" type="checkbox"/></td>
-                  <td className='uk-text-truncate' onClick={this.expandReminder}>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-                  </td>
-              </tr>
-              <tr>
-                  <td><input className="uk-checkbox" type="checkbox"/></td>
-                  <td className='uk-text-truncate' onClick={this.expandReminder}>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-                  </td>
-              </tr>
-              <tr>
-                  <td><input className="uk-checkbox" type="checkbox"/></td>
-                  <td className='uk-text-truncate' onClick={this.expandReminder}>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-                  </td>
-              </tr>
-              <tr>
-                  <td><input className="uk-checkbox" type="checkbox"/></td>
-                  <td className='uk-text-truncate' onClick={this.expandReminder}>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-                  </td>
-              </tr>
           </tbody>
         </table>
       </div>
