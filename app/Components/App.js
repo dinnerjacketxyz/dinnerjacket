@@ -12,6 +12,7 @@ import Feedback from './Feedback/Feedback'
 import Changelog from './Changelog/Changelog'
 import Settings from './Settings/Settings'
 import Help from './Help/Help'
+import Sidebar from './Sidebar'
 //import NotesSwitcher from './Notes/NotesSwitcher'
 
 //import NotesSwitcher from './Notes/NotesSwitcher'
@@ -552,19 +553,27 @@ class App extends Component {
   // Renders active page
   render() {
     return (
-      <div id='main' className='main'>
+      <div id='main' className='main uk-offcanvas-content'>
         {this.state.visible === window.STATES.LOADING && <Loading />}
         {this.state.visible === window.STATES.WELCOME && <Welcome />}
 
         <nav id='navbar' className='uk-navbar uk-navbar-container welcomeNav uk-sticky' uk-sticky='true' uk-navbar='true'>
           <div className='uk-navbar-left'>
-            <div onClick={this.logo.bind(this)}>
-              <img
-                className='djLogo uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom'
-                alt='logo' src='./icons/64.png'>
-              </img>
-            </div>
             <ul className='uk-navbar-nav'>
+            
+              <li className='uk-animation-toggle' uk-toggle='target: #sidebar'>
+                <a className='uk-box-shadow-hover-small'>
+                  <span className='collapseSpan uk-icon' uk-icon='menu' />
+                </a>
+              </li>
+
+              <li onClick={this.logo.bind(this)}>
+                <a>
+                  <img
+                    className='djLogo uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom'
+                    alt='logo' src='./icons/touch/icon-128x128.png'/>
+                </a>
+              </li>
 
               <li id='DashboardLi' className='uk-animation-toggle uk-active' onClick={this.showDashboard.bind(this)}>
                 <a id='DashboardA' className='uk-box-shadow-hover-small uk-card-primary'>
@@ -700,6 +709,9 @@ class App extends Component {
           {this.state.visible === window.STATES.HELP && <Help />}
         </div>
 
+        <div id='sidebar' uk-offcanvas='mode: push' >
+          <Sidebar />
+        </div>
       </div>
     )
   }

@@ -1,3 +1,27 @@
+.uk-dark.Clean .uk-offcanvas-bar {
+  background: #f9f9f9;
+}
+
+.uk-light.Clean .uk-offcanvas-bar {
+  background: #2f3136;
+}
+
+.uk-dark.Material .uk-offcanvas-bar {
+  background: white;
+}
+
+.uk-light.Material .uk-offcanvas-bar {
+  background: #36393e;
+}
+
+.uk-dark .uk-offcanvas-bar .uk-close {
+  color: #666!important;
+}
+
+.uk-offcanvas-bar .uk-table-small th {
+  padding: 0;
+}
+
 .uk-navbar-nav>li>a {
   -webkit-font-smoothing: antialiased!important;
   -moz-osx-font-smoothing: grayscale!important;
