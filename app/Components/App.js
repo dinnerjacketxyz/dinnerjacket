@@ -700,7 +700,7 @@ class App extends Component {
           {this.state.visible === window.STATES.NOTES && <Notes userID={window.userData.username} database={database} />}
           {this.state.visible === window.STATES.CLASSNOTES && <ClassNotes userData={window.userData} database={database} />}
           {this.state.visible === window.STATES.NOTICES && <Notices notices={dailyNotices} />}
-          {this.state.visible === window.STATES.CALENDAR && <Calendar database={database}/>}
+          {this.state.visible === window.STATES.CALENDAR && <Calendar userID={window.userData.username} database={database}/>}
           {this.state.visible === window.STATES.ABOUT && <About />}
           {this.state.visible === window.STATES.PROFILE && <Profile userData={window.userData} participation={participation} />}
           {this.state.visible === window.STATES.SETTINGS && <Settings />}
@@ -710,7 +710,7 @@ class App extends Component {
         </div>
 
         <div id='sidebar' uk-offcanvas='mode: push' >
-          <Sidebar />
+          <Sidebar userID={window.userData.username} />
         </div>
       </div>
     )

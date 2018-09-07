@@ -33,18 +33,19 @@ class ClassNotes extends Component {
   constructor(props) {
     super(props)
     
-    let notesState = []
-    if (localStorage.getItem('classNotesDB')) {
-      try {
-        notesState = JSON.parse(atob("W10="))
-        console.log(notesState)
-      } catch (e) { console.log(e) }
-    }
-    
     this.state = {
-      notes: notesState,
+      notes: [],
       classes: []
     }
+    
+    if (localStorage.getItem('classNotesDB')) {
+      try {
+        this.state.notes = JSON.parse(atob(localStorage.getItem('classNotesDB')))
+      } catch (e) { console.log(e) }
+    }
+
+    let n = this.state.notes
+    this.setState({ n: this.state.notes })
 
     userData = props.userData
     
