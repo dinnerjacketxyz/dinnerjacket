@@ -269,9 +269,6 @@ class Notes extends Component {
     let content = quill.getContents()
     //let currentTime = new Date()
     this.state.notes[this.state.selected].content = JSON.stringify(content)
-    
-    // REMINDERS MAYBE?
-    this.extractReminders()
 
     // Save updated notes database in browser's localstorage
     localStorage.setItem('notesDB', btoa(JSON.stringify(this.state.notes)))

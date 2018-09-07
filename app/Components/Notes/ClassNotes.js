@@ -12,12 +12,13 @@
 import React, { Component } from 'react'
 const http = require('http')
 const css = require('./ClassNotes.css')
-let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-let noteID = 0
+const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 const MAX_CLASSES = 12
 
 let userData
 let userID
+
+let noteID
 
 let saveComboIndex
 
@@ -70,9 +71,9 @@ class ClassNotes extends Component {
   render() {
     let classNotes
     if (userData.role === 'Student') {
-      classNotes = <NotesView notes={this.state.notes} classes={this.state.classes} editNote={this.editNote.bind(this)} removeNote={this.removeNote.bind(this)} />
+      classNotes = <NotesView notes={this.state.notes} classes={this.state.classes} />
     } else if (userData.role === 'Teacher') {
-      classNotes = <TeacherNotes notes={this.state.notes} classes={this.state.classes} editNote={this.editNote.bind(this)} removeNote={this.removeNote.bind(this)} />
+      classNotes = <TeacherNotes notes={this.state.notes} classes={this.state.classes} />
     }
     return (
       <div className='noticesParent'>
@@ -95,29 +96,11 @@ class ClassNotes extends Component {
     }
     console.log(this.state.classes)
   }
-
-  editNote() {
-    console.log('edit note')
-  }
-
-  removeNote(e) {
-    console.log(this.state.notes)
-    console.log('remove note')
-    this.state.notes.splice(e.target.noteid, 1)
-    let n = this.state.notes
-    this.setState({ n : this.state.notes })
-    
-    console.log(e.target)
-    console.log(this.state.notes)
-  }
 }
 
 export default ClassNotes
 
-let edit
-let remove
 class TeacherNotes extends Component {
-
   constructor(props){
     super(props)
     this.state = {
@@ -125,8 +108,7 @@ class TeacherNotes extends Component {
       classes: props.classes
     } 
 
-    edit = props.editNote
-    remove = props.removeNote
+    this.sync()
   }
 
   componentWillUnmount() {
@@ -230,13 +212,37 @@ class TeacherNotes extends Component {
               <div id='cnVisualFeedback' className='unactive'/>
             </li>
             <li><NotesView notes={this.state.notes} classes={this.state.classes} 
-              editNote={edit} removeNote={remove}/></li>
+              editNote={this.editNote.bind(this)} removeNote={this.removeNote.bind(this)}/></li>
         </ul>
       </div>
     )
   }
 
-  
+  editNote() {
+    console.log('edit note')
+  }
+
+  removeNote(e) {
+    console.log(this.state.notes)
+    console.log('remove note')
+    let n = this.state.notes
+    this.state.notes.splice(e.target.noteid, 1)
+    this.setState({ n : this.state.notes })
+
+    console.log(this.state.notes)
+  }
+
+  sync() {
+    ref.on('value', (data) => {
+      console.log('REF.ON CALLED')
+      console.log(data.val())
+      try {
+        this.state.notes = JSON.parse(atob(data.val().classNotes))
+        let n = this.state.notes
+        this.setState({ n: this.state.notes })
+      } catch (e) { }
+    })
+  }
 }
 
 const noteInClasses = (note, classes) => {

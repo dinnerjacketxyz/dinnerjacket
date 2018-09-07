@@ -46,7 +46,7 @@ class Welcome extends Component {
           <div id='welcomeContent' className='card uk-animation-slide-top-small'>
             <img id='welcomelogo' alt='logo' src='./icons/256.png' width='150px' height='150px'/>
             <h1 id='welcomeTitle'>DinnerJacket</h1>
-            <p id='welcomeLabel'>beta v1.1.0</p>
+            <p id='welcomeLabel'>beta v1.2.0</p>
             <p id='welcomeText'>This is a beta release of DinnerJacket. 
                                 New features are still in development and technical issues may occasionally arise. 
                                 Please report any issues or suggestions in the feedback tab. 
