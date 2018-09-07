@@ -2,9 +2,20 @@ import React, { Component } from 'react'
 import styles from './Calendar.css'
 const http = require('http')
 
-let input = ''
-let contextMenu
-let loading
+// stores user click input
+var input = ''
+
+// right click menun
+var contextMenu
+
+// for loading wheel
+var loading
+
+// decides whether or not to show "_ matches" for search bar
+var showMatchesInSearch
+
+// stuff for firebase syncing
+var ref
 
 // used in the UI display
 const ListItem = ({ value }) => (
@@ -65,6 +76,9 @@ class Calendar extends Component {
     this.removePersonalEvent = this.removePersonalEvent.bind(this)
     this.changeSelectedSearchResult = this.changeSelectedSearchResult.bind(this)
     this.preloadAdjacentMonths = this.preloadAdjacentMonths.bind(this)
+    
+    // setup firebase syncing
+    ref = props.database.ref('calendarEvents/' + btoa(props.userID))
   }
   
   // setup
@@ -78,6 +92,17 @@ class Calendar extends Component {
     this.highlightSelectedDay(this.state.selectedDay)
     contextMenu = document.getElementById('contextMenu')
     this.preloadAdjacentMonths(window.m, window.y)
+    
+    // implement firebase syncing (constantly check for updates)
+    ref.on('value', (data) => {
+      console.log('ref.on')
+      console.log(data.val().calendarEvents)
+      console.log(atob(data.val().calendarEvents))
+      if (data.val() != null) {
+        localStorage.setItem('calPersonalEvents', atob(data.val().calendarEvents))
+        this.setPersonalEvents(this.state.selectedDay + '-' + (this.state.selectedMonth + 1) + '-' + this.state.selectedYear)
+      }
+    })
   }
  
   componentWillUnmount() {
@@ -460,7 +485,9 @@ class Calendar extends Component {
   // waits for 500 ms for user to change input before starting the (lengthy) search
   
   onSearchClick() {
+    console.log('onsearchclick')
     var searchwords = keywords.value
+    showMatchesInSearch = false
     
     // remove punctuation from string
     searchwords = searchwords.replace(/[:",\[\]\{\}]/g, '')
@@ -472,6 +499,10 @@ class Calendar extends Component {
       }
       this.setState( ()=> ({
         searchTimer: setTimeout(this.search, 500)
+      }))
+    } else {
+      this.setState( ()=> ({
+        searchHits: []
       }))
     }
   }
@@ -642,6 +673,7 @@ class Calendar extends Component {
       console.log('search done')
       
       loading.style.visibility = 'hidden'
+      showMatchesInSearch = true
 
       console.log(results)
       this.setState( ()=> ({
@@ -750,9 +782,10 @@ class Calendar extends Component {
     }
     
     var calPersonalEvents = JSON.parse(localStorage.getItem('calPersonalEvents'))
-    
+    console.log(calPersonalEvents)
     // if date exists, merge new event with existing ones
     if (calPersonalEvents[eventDate] != null) {
+    
       calPersonalEvents[eventDate].push(eventName)
       
     // otherwise create a new date field
@@ -766,8 +799,10 @@ class Calendar extends Component {
     this.setState( ()=> ({
       personalEventsToShow: personalEventsArray
     }))
-    
     localStorage.setItem('calPersonalEvents', JSON.stringify(calPersonalEvents))
+    
+    // sync events with firebase
+    ref.update({ calendarEvents: btoa(JSON.stringify(calPersonalEvents))})
     
   }
   
@@ -835,7 +870,7 @@ class Calendar extends Component {
                 </div>
                 <button id='calPrev' onClick={this.prevSearchResult.bind(this)} className="uk-button uk-button-default"><a uk-icon="icon: chevron-left"></a></button>
                 <button id='calNext' onClick={this.nextSearchResult.bind(this)} className="uk-button uk-button-default"><a uk-icon="icon: chevron-right"></a></button>
-                <div id='calMatches' className='uk-text-muted uk-align-right'>{this.state.searchHits.length} matches</div>
+                <div id='calMatches' className='uk-text-muted uk-align-right'>{showMatchesInSearch ? this.state.searchHits.length + ' matches' : '' }</div>
             </div>
             
             <div id='calIcons' className="uk-align-right">
