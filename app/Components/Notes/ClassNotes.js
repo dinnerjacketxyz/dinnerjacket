@@ -106,7 +106,7 @@ class TeacherNotes extends Component {
   }
 
   componentWillUnmount() {
-    window.saveComboIndex = inputClass.selectedIndex
+    //window.saveComboIndex = inputClass.selectedIndex
     console.log('unmounting')
   }
 
