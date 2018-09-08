@@ -141,6 +141,7 @@ input:focus{
   }
   .notesChild {
     box-shadow: none;
+    max-width: 100%;
   }
   .pad {
     margin: 10px 10px 10px 10px;
