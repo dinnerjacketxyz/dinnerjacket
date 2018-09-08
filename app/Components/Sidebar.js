@@ -53,8 +53,22 @@ class Sidebar extends Component {
 
           // Link firebase reference to 'userNotes' database of this userID's index
           ref = props.database.ref('reminders/' + userID)
+
+          // get reminders
+          this.retrieveReminders()
         } catch (e) { }
       })
+    })
+  }
+
+  /**
+   * 
+   */
+  retrieveReminders() {
+    ref.on('value', (data) => {
+      this.state.reminders = JSON.parse(atob(ref.val().reminders))
+      let reminders = this.state.reminders
+      this.setState({ reminders: this.state.reminders })
     })
   }
 
