@@ -1,4 +1,8 @@
 import React, { Component } from 'react'
+const http = require('http')
+
+let userID
+let ref
 
 /**
  * 
@@ -15,13 +19,43 @@ class Sidebar extends Component {
       reminders: []
     }
 
-    userID = props.userID
+    /* User Info
+       {"username" : "436345789",     
+        "studentId" : "436345789",
+        "givenName" : "John",        
+        "surname"   : "Citizen",        
+        "rollClass" : "07E",        
+        "yearGroup" : "7",        
+        "role"      : "Student",      // may be valid for staff
+        "department": "Year 7",       // may be valid for staff
+        "office"    : "7E",           // may be valid for staff
+        "email"     : "436345789@student.sbhs.nsw.edu.au",
+        "emailAliases : [             // array of email addresses also valid for the user
+          "john.citizen23@student.sbhs.nsw.edu.au"],
+        "decEmail"  : "jcz@education.nsw.gov.au",
+        "groups"    : []              // array of network group memberships
+      }
+    */
+    
+    http.get('/getdata?token=' + localStorage.getItem('accessToken') + '&url=details/userinfo.json', (res) => {
+      res.setEncoding('utf8')
 
-    // Encode fetched username to maintain user security
-    userID = btoa(userID)
+      let data = ''
+      res.on('data', (body) => {
+        data += body
+      })
+      res.on('end', () => {
+        try {
+          userID = JSON.parse(data).username
 
-    // Link firebase reference to 'userNotes' database of this userID's index
-    ref = props.database.ref('reminders/' + userID)
+          // Encode fetched username to maintain user security
+          userID = btoa(userID)
+
+          // Link firebase reference to 'userNotes' database of this userID's index
+          ref = props.database.ref('reminders/' + userID)
+        } catch (e) { }
+      })
+    })
   }
 
   /**

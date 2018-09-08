@@ -710,7 +710,7 @@ class App extends Component {
         </div>
 
         <div id='sidebar' uk-offcanvas='mode: push' >
-          <Sidebar userID={window.userData.username} />
+          <Sidebar database={database} />
         </div>
       </div>
     )
