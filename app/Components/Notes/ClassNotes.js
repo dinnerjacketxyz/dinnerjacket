@@ -18,9 +18,13 @@ const MAX_CLASSES = 12
 let userData
 let userID
 
+window.onLeave = false
+
 let noteID
 
 let saveComboIndex
+
+let edit
 
 let ref
 let fb
@@ -67,6 +71,7 @@ class ClassNotes extends Component {
         this.setState({ n: this.state.notes })
       } catch (e) { }
     })
+    window.userData.role = "Teacher"
   }
 
   render() {
@@ -113,8 +118,8 @@ class TeacherNotes extends Component {
   }
 
   componentWillUnmount() {
-    //window.saveComboIndex = inputClass.selectedIndex BUSTED
-    //console.log('unmounting')
+    window.onLeave = true
+    this.submitClassNote()
   }
 
   componentDidMount() {
@@ -122,6 +127,7 @@ class TeacherNotes extends Component {
   }
 
   submitClassNote(e) {
+    console.log('on leave: '+window.onLeave)
     let inputTitle = document.getElementById('classNoteTitle')
     let inputClass = document.getElementById('classNoteClass')
     let inputBody = document.getElementById('classNoteBody')
@@ -143,10 +149,17 @@ class TeacherNotes extends Component {
       let cnClass = inputClass.value
       
       let body = inputBody.value
-      let draft = e.target.innerHTML === 'Save'
 
-      console.log(draft)
-      console.log(e.target.innerHTML)
+      let draft
+      if(window.onLeave) {
+        draft = true
+      } else {
+        draft = e.target.innerHTML === 'Save'
+      }
+      
+
+      //console.log(draft)
+      //console.log(e.target.innerHTML)
 
       let cn = {
         title: title, 
@@ -175,7 +188,7 @@ class TeacherNotes extends Component {
         document.getElementById('cnVisualFeedback').className = 'unactive'
         document.getElementById('cnVisualFeedback').innerText = ''
       }, 5000)
-    } else {
+    } else if (window.onLeave == false) {
       // modal, error?
       UIkit.modal.alert('Your title and/or body was empty. Please fill these fields and try again')
     }
@@ -188,9 +201,9 @@ class TeacherNotes extends Component {
     })
 
     return (
-      <div className='card'>
-        <ul className='uk-subnav uk-subnav-pill uk-flex uk-flex-center' uk-switcher=''>
-            <li aria-expanded='true' className='uk-active'><a>Post</a></li>
+      <div className=''>
+        <ul id='classNotesSwitcher' className='uk-subnav uk-subnav-pill uk-flex uk-flex-center' uk-switcher=''>
+            <li aria-expanded='true' className='uk-active'><a>Editor</a></li>
             <li aria-expanded='false'><a>View</a></li>
         </ul>
         <ul className='uk-switcher uk-margin'>
@@ -208,8 +221,8 @@ class TeacherNotes extends Component {
                   style={{margin: '0px', height: '110px', width: '100%', resize: 'none'}}></textarea>
               </div>
               <h3></h3>
-              <a onClick={this.submitClassNote.bind(this)} className='uk-button uk-button-primary'>Submit</a>
-              <a onClick={this.submitClassNote.bind(this)} className='uk-button uk-button-default'>Save</a>
+              <a style={{borderRadius:'5px 0 0 5px'}} onClick={this.submitClassNote.bind(this)} className='uk-button uk-button-primary'>Post</a>
+              <a style={{borderRadius:'0 5px 5px 0'}} onClick={this.submitClassNote.bind(this)} className='uk-button uk-button-default'>Save</a>
               <div id='cnVisualFeedback' className='unactive'/>
             </li>
             <li><NotesView notes={this.state.notes} classes={this.state.classes} 
@@ -219,16 +232,26 @@ class TeacherNotes extends Component {
     )
   }
 
-  editNote() {
-    console.log('edit note')
+  editNote(e) {
+    UIkit.switcher(document.getElementById('classNotesSwitcher')).show(0)
+    document.getElementById('classNoteClass').selectedIndex = this.state.classes.indexOf(this.state.notes[e.target.getAttribute('noteid')].cnClass)
+    document.getElementById('classNoteBody').value = this.state.notes[e.target.getAttribute('noteid')].body
+    document.getElementById('classNoteTitle').value = this.state.notes[e.target.getAttribute('noteid')].title
+
+    let n = this.state.notes
+    this.state.notes.splice(e.target.getAttribute('noteid'), 1)
+    this.setState({notes: n})
+
+    console.log(this.state.notes)
   }
 
   removeNote(e) {
     console.log(this.state.notes)
     console.log('remove note')
+
     let n = this.state.notes
-    this.state.notes.splice(e.target.noteid, 1)
-    this.setState({ n : this.state.notes })
+    this.state.notes.splice(e.target.getAttribute('noteid'), 1)
+    this.setState({notes: n})
 
     console.log(this.state.notes)
   }

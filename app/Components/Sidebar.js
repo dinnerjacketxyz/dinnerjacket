@@ -116,8 +116,9 @@ class Sidebar extends Component {
     console.log(e.target)
     console.log(e.target.style.whiteSpace)
     if (e.target.style.whiteSpace === 'nowrap' || e.target.style.whiteSpace === ''){
-      e.target.style.whiteSpace = 'normal'
-    } else if (e.target.style.whiteSpace === 'normal') {
+      e.target.style.whiteSpace = 'pre-wrap'
+      e.target.style.wordWrap = 'break-word'
+    } else if (e.target.style.whiteSpace === 'pre-wrap') {
       e.target.style.whiteSpace = 'nowrap'
     }
   }
@@ -189,19 +190,28 @@ class Sidebar extends Component {
     let reminders = this.state.reminders.map(reminder => {
       if (!reminder.complete) {
         ID++
-        return <Reminder key={ID} id={ID} reminder={reminder} dateUI={dateUI} chkClicked={this.chkClicked.bind(this)} />
+        return <Reminder expand={this.expandReminder} key={ID} id={ID} reminder={reminder} dateUI={dateUI} chkClicked={this.chkClicked.bind(this)} />
       }
     })
 
     let complete = this.state.reminders.map(reminder => {
       if (reminder.complete) {
         ID++
-        return <Complete key={ID} id={ID} reminder={reminder} chkClicked={this.chkClicked.bind(this)} />
+        return <Complete expand={this.expandReminder} key={ID} id={ID} reminder={reminder} chkClicked={this.chkClicked.bind(this)} />
       }
     })
 
+    let header = (
+      <tr>
+        <th className='uk-table-shrink'></th>
+        <th></th>
+        <th className='uk-table-shrink'></th>
+      </tr>
+    )
+
     if (this.state.reminders.length === 0) {
-      reminders = (<p>No incomplete reminders</p>)
+      reminders = (<tr><td>No incomplete reminders</td></tr>)
+      header = (<tr><th></th></tr>)
     }
 
 
@@ -209,15 +219,11 @@ class Sidebar extends Component {
       <div className='uk-offcanvas-bar'>
         <button className='uk-offcanvas-close' type='button' uk-close=''></button>
         <h3 style={{marginTop:'40px'}}>Reminders</h3>
-        <button onClick={this.expandAll} className='uk-margin-top uk-button uk-button-default uk-width-1-1'>expand</button>
+        {/*<button onClick={this.expandAll} className='uk-margin-top uk-button uk-button-default uk-width-1-1'>expand</button>*/}
 
-        <table className='uk-table uk-table-hover uk-table-middle uk-table-divider uk-table-small'>
+        <table id='reminders' className='uk-table uk-table-hover uk-table-middle uk-table-divider uk-table-small'>
           <thead>
-              <tr>
-                  <th className='uk-table-shrink'></th>
-                  <th></th>
-                  <th className='uk-table-shrink'></th>
-              </tr>
+            {header}
           </thead>
           <tbody style={{fontSize: '12px'}} uk-sortable='cls-custom: uk-flex uk-box-shadow-small uk-background-primary'>
               {reminders}
@@ -248,9 +254,10 @@ class Sidebar extends Component {
                     <tr>
                         <th className='uk-table-shrink'></th>
                         <th></th>
+                        <th className='uk-table-shrink'></th>
                     </tr>
                 </thead>
-                <tbody style={{fontSize: '12px',color:'#c7c7c7'}}>
+                <tbody >
                     {complete}
                 </tbody>
               </table>
@@ -267,13 +274,14 @@ class Sidebar extends Component {
  * @param {*} props 
  */
 const Reminder = (props) => {
+  
   return (
     <tr>
       <td style={{paddingLeft: '0px'}}>
-        <input className='uk-checkbox' type='checkbox' id={props.id} onClick={props.chkClicked} />
+        <input className='uk-checkbox' type='checkbox' id={props.id} onChange={props.chkClicked} />
       </td>
-      <td className='uk-text-truncate' onClick={this.expandReminder}>
-        {props.reminder.content}
+      <td className='uk-text-truncate'>
+        <p className='uk-text-truncate' onClick={props.expand}>{props.reminder.content}</p>
       </td>
       <td style={{paddingRight: '0px',paddingLeft:'2px'}}>
         {props.dateUI}
@@ -290,10 +298,13 @@ const Complete = (props) => {
   return (
     <tr>
       <td style={{paddingLeft: '0px'}}>
-        <input className='uk-checkbox' checked type='checkbox' id={props.id} onClick={props.chkClicked} />
+        <input className='uk-checkbox' defaultChecked type='checkbox' id={props.id} onChange={props.chkClicked} />
       </td>
-      <td className='uk-text-truncate'>
-        {props.reminder.content}
+      <td style={{fontSize: '12px',color:'#c7c7c7'}} className='uk-text-truncate'>
+        <p className='uk-text-truncate' onClick={props.expand}>{props.reminder.content}</p>
+      </td>
+      <td>
+        <a uk-icon='trash'></a>
       </td>
     </tr>
   )
