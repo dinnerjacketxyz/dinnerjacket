@@ -831,9 +831,14 @@ class Calendar extends Component {
         statePersonalEvents.splice(i, 1)
       }
     }
+    
     this.setState( ()=> ({
         personalEventsToShow: statePersonalEvents
     }))
+    
+    // sync events with firebase
+    ref.update({ calendarEvents: btoa(JSON.stringify(personalEvents))})
+    
   }
   
   render() {
