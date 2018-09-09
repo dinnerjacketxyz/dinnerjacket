@@ -71,14 +71,13 @@ class ClassNotes extends Component {
         this.setState({ n: this.state.notes })
       } catch (e) { }
     })
-    window.userData.role = "Teacher"
   }
 
   render() {
     let classNotes
     if (userData.role === 'Student') {
       classNotes = <NotesView notes={this.state.notes} classes={this.state.classes} />
-    } else if (userData.role === 'Teacher') {
+    } else {
       classNotes = <TeacherNotes notes={this.state.notes} classes={this.state.classes} />
     }
     return (
@@ -286,10 +285,22 @@ const NotesView = (props) =>  {
   let drafts = null
   noteID = -1
 
+  /*let noNotes = false
+  for (let i = 0; i < props.notes.length; i++) {
+    if (noteInClasses(props.notes[i], props.classes)) {
+      noNotes = true
+      break
+    }
+  }*/
+
   if (props.notes.length === 0) {
-    rows = <h1 className='uk-heading-line uk-text-center' style={{marginTop:'50px',marginBottom:'50px'}}><span>No class notes</span></h1>
+    rows = (
+      <h1 className='uk-heading-line uk-text-center' style={{marginTop:'50px',marginBottom:'50px'}}>
+        <span>No class notes</span>
+      </h1>
+    )
   } else {
-    if (userData.role === 'Teacher') {
+    if (userData.role !== 'Student') {
       drafts = props.notes.map(note => {
         if (note.draft && noteInClasses(note, props.classes)) {
           noteID++
@@ -306,7 +317,7 @@ const NotesView = (props) =>  {
   }
 
   let draftUI
-  if (userData.role === 'Teacher' && drafts !== null) {
+  if (userData.role !== 'Student' && drafts !== null) {
     draftUI = (
       <div className='card'>
         <ul id='classNotesList' className='uk-accordion' uk-accordion='multiple: true'>
@@ -329,7 +340,7 @@ const NotesView = (props) =>  {
 
 const FillClassNote = (props) => {
   let options = null
-  if (userData.role === 'Teacher') {
+  if (userData.role !== 'Student') {
     options = (
       <div>
         <button noteid={props.noteID} onClick={props.editNote}>Edit</button>

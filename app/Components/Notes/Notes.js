@@ -14,6 +14,7 @@
 // localstorage only - below is the WIP firebase code
 import React, { Component } from 'react'
 import debounce from 'lodash.debounce'
+import { EPERM } from 'constants';
 const http = require('http')
 const css = require('./Notes.css')
 
@@ -100,7 +101,6 @@ class Notes extends Component {
       //console.log('ISTHISEVERUSEDBEFOREUNLEAD?')
     }, false)
 
-    this.handleClick = this.handleClick.bind(this)
     this.selectNoteDebounced = debounce(this.selectNote, 250)
   }
 
@@ -504,14 +504,14 @@ class Notes extends Component {
    * 
    * @param {*} e 
    */
-  selectNote(e) {
+  selectNote(text) {
     console.log('SELECT NOTE CALLED')
 
     this.updateDB()
 
     let content
     for (let i = 0; i < this.state.notes.length; i++) {
-      if (this.state.notes[i].title === e.target.text) {
+      if (this.state.notes[i].title === text) {
         this.state.selected = i
         content = this.state.notes[i].content
       }
@@ -540,7 +540,7 @@ class Notes extends Component {
    * 
    */
   handleClick(e) {
-    this.selectNoteDebounced(e)
+    this.selectNoteDebounced(e.target.innerHTML)
   }
 
   /**
@@ -568,7 +568,7 @@ class Notes extends Component {
     let notes = this.state.notes.map(note => {
       key++
       return <li key={key} text={note.title} onContextMenu={this.notesContextMenu.bind(this)} 
-        onClick={this.handleClick}><a id={note.id}>{note.title}</a></li>
+        onClick={this.handleClick.bind(this)}><a id={note.id}>{note.title}</a></li>
     })
 
     let key2 = 0
