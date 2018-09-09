@@ -238,9 +238,7 @@ class TeacherNotes extends Component {
     document.getElementById('classNoteBody').value = this.state.notes[e.target.getAttribute('noteid')].body
     document.getElementById('classNoteTitle').value = this.state.notes[e.target.getAttribute('noteid')].title
 
-    let n = this.state.notes
-    this.state.notes.splice(e.target.getAttribute('noteid'), 1)
-    this.setState({notes: n})
+    this.removeNote(e)
 
     console.log(this.state.notes)
   }
@@ -252,6 +250,10 @@ class TeacherNotes extends Component {
     let n = this.state.notes
     this.state.notes.splice(e.target.getAttribute('noteid'), 1)
     this.setState({notes: n})
+
+    localStorage.setItem('classNotesDB', btoa(JSON.stringify(this.state.notes)))
+    let notesDB = { classNotes: btoa(JSON.stringify(this.state.notes)) }
+    ref.update(notesDB)
 
     console.log(this.state.notes)
   }
