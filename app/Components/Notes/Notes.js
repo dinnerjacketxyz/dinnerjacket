@@ -13,6 +13,8 @@
 
 // localstorage only - below is the WIP firebase code
 import React, { Component } from 'react'
+import debounce from 'lodash.debounce'
+import { EPERM } from 'constants';
 const http = require('http')
 const css = require('./Notes.css')
 
@@ -99,16 +101,9 @@ class Notes extends Component {
       //console.log('ISTHISEVERUSEDBEFOREUNLEAD?')
     }, false)
 
-    this.selectNote = this.selectNote.bind(this)
+    this.selectNoteDebounced = debounce(this.selectNote, 250)
   }
 
-  extractReminders() {
-    let note
-    for (let i = 0; i < this.state.notes.length; i++) {
-      note = this.state.notes[i].content
-    }
-  }
-  
   /**
    * Loop through all the user's classes
    * Add valid classes to classes array held in this.state
@@ -276,9 +271,6 @@ class Notes extends Component {
     let content = quill.getContents()
     //let currentTime = new Date()
     this.state.notes[this.state.selected].content = JSON.stringify(content)
-    
-    // REMINDERS MAYBE?
-    this.extractReminders()
 
     // Save updated notes database in browser's localstorage
     localStorage.setItem('notesDB', btoa(JSON.stringify(this.state.notes)))
@@ -512,18 +504,26 @@ class Notes extends Component {
    * 
    * @param {*} e 
    */
-  selectNote(e) {
+  selectNote(text) {
+    console.log('SELECT NOTE CALLED')
+
     this.updateDB()
 
     let content
     for (let i = 0; i < this.state.notes.length; i++) {
-      if (this.state.notes[i].title === e.target.text) {
+      if (this.state.notes[i].title === text) {
         this.state.selected = i
         content = this.state.notes[i].content
       }
     }
     this.displayContent(content)
   }
+
+  /*selectNoteDebounced(e) {
+    debounce(() => {
+      this.selectNote(e)
+    }, 250)
+  }*/
 
   /**
    * 
@@ -534,6 +534,13 @@ class Notes extends Component {
 
     let content = this.state.notes[int].content
     this.displayContent(content)
+  }
+
+  /**
+   * 
+   */
+  handleClick(e) {
+    this.selectNoteDebounced(e.target.innerHTML)
   }
 
   /**
@@ -561,13 +568,13 @@ class Notes extends Component {
     let notes = this.state.notes.map(note => {
       key++
       return <li key={key} text={note.title} onContextMenu={this.notesContextMenu.bind(this)} 
-        onClick={this.selectNote}><a id={note.id}>{note.title}</a></li>
+        onClick={this.handleClick.bind(this)}><a id={note.id}>{note.title}</a></li>
     })
 
     let key2 = 0
     let classList = this.state.classes.map(cls => {
       key2++
-      return <p key={key2} title={cls} onClick={this.createNote.bind(this)}>{cls}</p>
+      return <p className='notesClassList' key={key2} title={cls} onClick={this.createNote.bind(this)}>{cls}</p>
     })
 
     let removeNote = null
@@ -588,7 +595,7 @@ class Notes extends Component {
         </div>
         <div className='notesChild card uk-animation-slide-top-small'>
         <a uk-icon='icon: info' uk-tooltip='title: Right click to rename, clear, or delete notes' className='uk-float-right'/>
-        <ul id='notesLayout' className='uk-subnav uk-subnav-pill uk-flex-center' uk-switcher='animation: uk-animation-fade' uk-sortable='cls-custom: uk-box-shadow-small uk-flex uk-flex-middle uk-background'>
+        <ul onClick={function(){UIkit.dropdown(document.getElementById('notesDropdown')).hide()}} id='notesLayout' className='uk-subnav uk-subnav-pill uk-flex-center' uk-switcher='animation: uk-animation-fade' uk-sortable='cls-custom: uk-box-shadow-small uk-flex uk-flex-middle uk-background'>
           {notes}
         </ul>
           <div className='pad'>
@@ -596,12 +603,12 @@ class Notes extends Component {
           </div>
           <div className=''>
             <a uk-icon='plus-circle' uk-tooltip='title: Add custom notes; pos: bottom-center;'></a>
-            <div uk-dropdown='mode: click;pos: top-center'>
+            <div id='notesDropdown' uk-dropdown='mode: click;pos: top-center'>
               <p className='uk-text-left'>Classes</p>
               {classList}
               <p className='uk-text-left'>Custom</p>
-              <input id='customTitle' className='uk-input' type='text' placeholder='Title' maxLength='10'/>
-              <button onClick={this.createCustomNote.bind(this)} className='uk-margin-top uk-button uk-button-default'>Add</button>
+              <input style={{borderRadius:'5px 0 0 5px'}} id='customTitle' className='uk-input' type='text' placeholder='Title' maxLength='10'/>
+              <button style={{borderRadius:'0 5px 5px 0'}}  onClick={this.createCustomNote.bind(this)} className='uk-margin-top uk-button uk-button-default'>Add</button>
             </div>
           </div>
         </div>
