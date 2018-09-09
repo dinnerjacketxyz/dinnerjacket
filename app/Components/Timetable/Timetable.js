@@ -287,7 +287,7 @@ class Timetable extends Component {
       dayNum += 11
     }
 
-    let temp = dayNum - 1 //temporary variable used because Javascript interprets it weirdly
+    let temp = dayNum - 1 //temporary variable used because Javascript concatenation
 
     let smallOutput = ''
     let smallDay = timetableData.days[dayNum].periods
