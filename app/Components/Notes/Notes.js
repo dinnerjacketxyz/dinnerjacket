@@ -101,7 +101,17 @@ class Notes extends Component {
       //console.log('ISTHISEVERUSEDBEFOREUNLEAD?')
     }, false)
 
-    this.selectNoteDebounced = debounce(this.selectNote, 250)
+    
+
+    this.selectNoteDebounced = debounce(this.selectNote, 1000)
+  }
+  
+  /**
+   * Enable loading spinner over the place of the notes editor
+   * @param {boolean} bool - true -> enable spinner, false -> disable spinner
+   */
+  enableSpinner(bool) {
+    document.getElementById('spinner').disabled = !bool
   }
 
   /**
@@ -139,6 +149,8 @@ class Notes extends Component {
    * 
    */
   componentDidMount() {
+    this.enableSpinner(false)
+
     let content = document.getElementById('content')
     content.className = 'full vcNavbarParent'
 
@@ -517,6 +529,7 @@ class Notes extends Component {
       }
     }
     this.displayContent(content)
+    this.enableSpinner(false)
   }
 
   /*selectNoteDebounced(e) {
@@ -540,6 +553,7 @@ class Notes extends Component {
    * 
    */
   handleClick(e) {
+    this.enableSpinner(true)
     this.selectNoteDebounced(e.target.innerHTML)
   }
 
@@ -586,7 +600,8 @@ class Notes extends Component {
 
     return (
       <div id='parent' className='vcNavbarCard notesParent'>
-        <div id='contextMenu' className='contextMenu card' style={{visibility: 'hidden', minHeight: '50px',minWidth:'50px',position:'absolute',zIndex:1000}}>
+        <div id='contextMenu' className='contextMenu card' 
+          style={{visibility: 'hidden', minHeight: '50px',minWidth:'50px',position:'absolute',zIndex:1000}}>
           <ul className='uk-list'>
             <li onClick={this.rename.bind(this)}><span className='uk-margin-right uk-icon' uk-icon='pencil'/>Rename</li>
             <li onClick={this.clearContents.bind(this)}><span className='uk-margin-right uk-icon' uk-icon='ban'/>Clear</li>
@@ -595,20 +610,29 @@ class Notes extends Component {
         </div>
         <div className='notesChild card uk-animation-slide-top-small'>
         <a uk-icon='icon: info' uk-tooltip='title: Right click to rename, clear, or delete notes' className='uk-float-right'/>
-        <ul onClick={function(){UIkit.dropdown(document.getElementById('notesDropdown')).hide()}} id='notesLayout' className='uk-subnav uk-subnav-pill uk-flex-center' uk-switcher='animation: uk-animation-fade' uk-sortable='cls-custom: uk-box-shadow-small uk-flex uk-flex-middle uk-background'>
+        <ul onClick={() => {UIkit.dropdown(document.getElementById('notesDropdown')).hide()}} 
+          id='notesLayout' className='uk-subnav uk-subnav-pill uk-flex-center' 
+          uk-switcher='animation: uk-animation-fade' 
+          uk-sortable='cls-custom: uk-box-shadow-small uk-flex uk-flex-middle uk-background'>
           {notes}
         </ul>
-          <div className='pad'>
+          <div id='pad' className='pad'>
             <div id='editor' onInput={this.updateDB.bind(this)} onMouseMove={this.onMouseMove.bind(this)}/>
+            <div id='spinner' uk-spinner='ratio: 4' className='uk-spinner uk-icon'></div>
           </div>
           <div className=''>
             <a uk-icon='plus-circle' uk-tooltip='title: Add custom notes; pos: bottom-center;'></a>
             <div id='notesDropdown' uk-dropdown='mode: click;pos: top-center'>
               <p className='uk-text-left'>Classes</p>
               {classList}
+
+              <hr/>
+
               <p className='uk-text-left'>Custom</p>
-              <input style={{borderRadius:'5px 0 0 5px'}} id='customTitle' className='uk-input' type='text' placeholder='Title' maxLength='10'/>
-              <button style={{borderRadius:'0 5px 5px 0'}}  onClick={this.createCustomNote.bind(this)} className='uk-margin-top uk-button uk-button-default'>Add</button>
+              <input style={{borderRadius:'5px 0 0 5px'}} id='customTitle' className='uk-input' 
+                type='text' placeholder='Title' maxLength='20'/>
+              <button style={{borderRadius:'0 5px 5px 0'}}  onClick={this.createCustomNote.bind(this)} 
+                className='uk-margin-top uk-button uk-button-default'>Add</button>
             </div>
           </div>
         </div>

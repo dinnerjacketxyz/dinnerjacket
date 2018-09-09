@@ -249,11 +249,40 @@ class Sidebar extends Component {
   }
 
 /**
- * 
+ * Refresh the reminders display
+ * Called when a change to the database has been made
+ * E.g. editing or deleting a reminder
  */
   refresh() {
     let reminders = this.state.reminders
     this.setState({ reminders: this.state.reminders })
+  }
+
+  /**
+   * Handle user adding a notification to a particular reminder
+   */
+  addNotif() {
+    let hour = document.getElementById('hour').value
+    let minutes = document.getElementById('minutes').value
+    let ampm = document.getElementById('am/pm').value
+    let date = document.getElementById('date').value
+    let month = document.getElementById('month').value
+    let year = document.getElementById('year').value
+
+    // Check no fields have been left empty
+    if (hour && minutes && date && month && year) {
+      console.log(hour, minutes, date, month, year)
+    }
+  }
+
+  /**
+   * Disable AM/PM select box if the user has entered a 24-hour time format
+   */
+  hourChange() {
+    let hour = document.getElementById('hour').value
+    let ampm = document.getElementById('am/pm')
+
+    ampm.disabled = (hour > 12)
   }
 
   /**
@@ -265,9 +294,11 @@ class Sidebar extends Component {
         <a uk-icon='clock'></a>
         <div style={{minWidth:'220px'}} uk-dropdown='mode: click;boundary: .uk-table'>
           <p>Time</p>
-          <input className='uk-input uk-form-blank uk-width-1-3' min='0' max='12' type='number' placeholder='H' maxLength='2' autoFocus/>
-          <input className='uk-input uk-form-blank uk-width-1-3' min='0' max='59' type='number' placeholder='M' maxLength='2'/>
-          <select className='uk-select uk-width-1-3'>
+          <input id='hour' onChange={this.hourChange.bind(this)} className='uk-input uk-form-blank uk-width-1-3' 
+            min='0' max='24' type='number' placeholder='H' maxLength='2' defaultValue={(new Date()).getHours()} autoFocus />
+          <input id='minutes' className='uk-input uk-form-blank uk-width-1-3' 
+            min='0' max='59' type='number' placeholder='M' maxLength='2' defaultValue={(new Date()).getMinutes()} />
+          <select id='am/pm'className='uk-select uk-width-1-3'>
             <option>AM</option>
             <option>PM</option>
           </select>
@@ -275,12 +306,13 @@ class Sidebar extends Component {
           <hr/>
 
           <p>Date</p>
-          <input className='uk-input uk-form-blank uk-width-1-2' min='1' max='28' type='number' placeholder='D' maxLength='2'/>
-          <input className='uk-input uk-form-blank uk-width-1-2' min='1' max='12' type='number' placeholder='M' maxLength='2'/>
-          <select className='uk-select uk-width-1-1'>
-            <option>2018</option>
-            <option>2019</option>
-          </select>
+          <input id='date' className='uk-input uk-form-blank uk-width-1-4' 
+            min='1' max='28' type='number' placeholder='D' maxLength='2' defaultValue={(new Date()).getUTCDate()} />
+          <input id='month' className='uk-input uk-form-blank uk-width-1-4' 
+            min='1' max='12' type='number' placeholder='M' maxLength='2' defaultValue={(new Date()).getUTCMonth()} />
+          <input id='year' className='uk-input uk-form-blank uk-width-2-4' 
+            min='1970' max='9999' type='number' placeholder='Y' maxLength='4' defaultValue={(new Date()).getUTCFullYear()} />
+          <button onClick={this.addNotif.bind(this)}>Add</button>
         </div>
       </div>
     )
