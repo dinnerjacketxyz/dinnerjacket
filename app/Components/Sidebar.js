@@ -307,6 +307,7 @@ class Sidebar extends Component {
         <th className='uk-table-shrink'></th>
         <th></th>
         <th className='uk-table-shrink'></th>
+        <th className='uk-table-shrink'></th>
       </tr>
     )
 
@@ -326,7 +327,7 @@ class Sidebar extends Component {
           <thead>
             {header}
           </thead>
-          <tbody style={{fontSize: '12px'}} uk-sortable='cls-custom: uk-flex uk-box-shadow-small uk-background-primary'>
+          <tbody onMouseOver={this.hover} style={{fontSize: '12px'}} uk-sortable='cls-custom: uk-flex uk-box-shadow-small uk-background-primary'>
             {reminders}
           </tbody>
         </table>
@@ -376,19 +377,30 @@ class Sidebar extends Component {
  * @param {*} props 
  */
 const Reminder = (props) => {
-  
+  function hover(bool){
+    if (bool) {
+      document.getElementById('editButton'+props.id).style.display = 'table-cell'
+      document.getElementById('schedule'+props.id).style.display = 'table-cell'
+    } else {
+      document.getElementById('editButton'+props.id).style.display = 'none'
+      document.getElementById('schedule'+props.id).style.display = 'none'
+    }
+  }
   return (
-    <tr>
+    <tr onMouseEnter={function(){hover(true)}} onMouseLeave={function(){hover(false)}}>
       <td style={{paddingLeft: '0px'}}>
-        <input className='uk-checkbox' type='checkbox' content={props.reminder.content} onClick={props.chkClicked} />
+        <input className='uk-checkbox' type='checkbox' content={props.reminder.content} onChange={props.chkClicked} />
       </td>
       <td className='uk-text-truncate'>
         <p className='uk-text-truncate' onClick={props.expand}>{props.reminder.content}</p>
+        <p className='uk-text-muted'>Time here innit</p>
       </td>
-      <td>
-        <button content={props.reminder.content} onClick={props.editReminder} >Edit</button>
+
+      <td id={'editButton'+props.id} style={{display:'none'}}>
+        <button className='uk-button-small uk-button-default' content={props.reminder.content} onClick={props.editReminder}>Edit</button>
       </td>
-      <td style={{paddingRight: '0px',paddingLeft:'2px'}}>
+      
+      <td id={'schedule'+props.id} style={{display:'none',paddingRight: '0px',paddingLeft:'2px'}}>
         {props.dateUI}
       </td>
     </tr>
@@ -400,16 +412,24 @@ const Reminder = (props) => {
  * @param {*} props 
  */
 const Complete = (props) => {
+  function hover(bool){
+    if (bool) {
+      document.getElementById('remove'+props.id).style.display = 'table-cell'
+    } else {
+      document.getElementById('remove'+props.id).style.display = 'none'
+    }
+  }
   return (
-    <tr>
+    <tr onMouseEnter={function(){hover(true)}} onMouseLeave={function(){hover(false)}}>
       <td style={{paddingLeft: '0px'}}>
-        <input className='uk-checkbox' type='checkbox' content={props.reminder.content} onClick={props.chkClicked} />
+        <input className='uk-checkbox' type='checkbox' content={props.reminder.content} onChange={props.chkClicked} />
       </td>
       <td style={{fontSize: '12px',color:'#c7c7c7'}} className='uk-text-truncate'>
         <p className='uk-text-truncate' onClick={props.expand}>{props.reminder.content}</p>
+        <p className='uk-text-muted'>Time here innit</p>
       </td>
       <td>
-        <a uk-icon='trash' content={props.reminder.content} onClick={props.deleteReminder}></a>
+        <a id={'remove'+props.id} style={{display:'none'}} uk-icon='trash' content={props.reminder.content} onClick={props.deleteReminder}></a>
       </td>
     </tr>
   )

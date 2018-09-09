@@ -461,7 +461,7 @@ class App extends Component {
   }
 
   showClassNotes() {
-    if (Quill != undefined /*ANYTHING ELSE*/) {
+    if (Quill != undefined && window.userData!=='') {
       let visible = this.state.visible
       this.setState({ visible: window.STATES.CLASSNOTES })
       this.selectedNavbar(window.STATES.CLASSNOTES)

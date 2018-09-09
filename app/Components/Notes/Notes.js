@@ -574,7 +574,7 @@ class Notes extends Component {
     let key2 = 0
     let classList = this.state.classes.map(cls => {
       key2++
-      return <p key={key2} title={cls} onClick={this.createNote.bind(this)}>{cls}</p>
+      return <p className='notesClassList' key={key2} title={cls} onClick={this.createNote.bind(this)}>{cls}</p>
     })
 
     let removeNote = null
@@ -595,7 +595,7 @@ class Notes extends Component {
         </div>
         <div className='notesChild card uk-animation-slide-top-small'>
         <a uk-icon='icon: info' uk-tooltip='title: Right click to rename, clear, or delete notes' className='uk-float-right'/>
-        <ul id='notesLayout' className='uk-subnav uk-subnav-pill uk-flex-center' uk-switcher='animation: uk-animation-fade' uk-sortable='cls-custom: uk-box-shadow-small uk-flex uk-flex-middle uk-background'>
+        <ul onClick={function(){UIkit.dropdown(document.getElementById('notesDropdown')).hide()}} id='notesLayout' className='uk-subnav uk-subnav-pill uk-flex-center' uk-switcher='animation: uk-animation-fade' uk-sortable='cls-custom: uk-box-shadow-small uk-flex uk-flex-middle uk-background'>
           {notes}
         </ul>
           <div className='pad'>
@@ -603,12 +603,12 @@ class Notes extends Component {
           </div>
           <div className=''>
             <a uk-icon='plus-circle' uk-tooltip='title: Add custom notes; pos: bottom-center;'></a>
-            <div uk-dropdown='mode: click;pos: top-center'>
+            <div id='notesDropdown' uk-dropdown='mode: click;pos: top-center'>
               <p className='uk-text-left'>Classes</p>
               {classList}
               <p className='uk-text-left'>Custom</p>
-              <input id='customTitle' className='uk-input' type='text' placeholder='Title' maxLength='10'/>
-              <button onClick={this.createCustomNote.bind(this)} className='uk-margin-top uk-button uk-button-default'>Add</button>
+              <input style={{borderRadius:'5px 0 0 5px'}} id='customTitle' className='uk-input' type='text' placeholder='Title' maxLength='10'/>
+              <button style={{borderRadius:'0 5px 5px 0'}}  onClick={this.createCustomNote.bind(this)} className='uk-margin-top uk-button uk-button-default'>Add</button>
             </div>
           </div>
         </div>

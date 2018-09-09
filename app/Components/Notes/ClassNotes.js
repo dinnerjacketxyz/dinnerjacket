@@ -194,6 +194,24 @@ class TeacherNotes extends Component {
     }
   }
 
+  //Event method fired when a tab is clicked
+  tabInput(e) {
+    console.log(e.target.innerText)
+    if (document.getElementById(e.target.innerText.toLowerCase()) != null) {
+      if (e.target.innerText.toLowerCase() == 'editor') {
+        document.getElementById('editor').style.visibility = 'visible'
+        document.getElementById('editor').style.display = 'block'
+        document.getElementById('view').style.visibility = 'hidden'
+        document.getElementById('view').style.display = 'none'
+      } else if (e.target.innerText.toLowerCase() == 'view') {
+        document.getElementById('view').style.visibility = 'visible'
+        document.getElementById('view').style.display = 'block'
+        document.getElementById('editor').style.visibility = 'hidden'
+        document.getElementById('editor').style.display = 'none'
+      }
+    }
+  }
+
   render() {
     let classList = this.state.classes.map(cls => {
       key++
@@ -202,38 +220,54 @@ class TeacherNotes extends Component {
 
     return (
       <div className=''>
-        <ul id='classNotesSwitcher' className='uk-subnav uk-subnav-pill uk-flex uk-flex-center' uk-switcher=''>
+        <ul onClick={this.tabInput.bind(this)} id='classNotesSwitcher' className='uk-margin-bottom uk-flex-center' uk-tab=''>
             <li aria-expanded='true' className='uk-active'><a>Editor</a></li>
             <li aria-expanded='false'><a>View</a></li>
         </ul>
-        <ul className='uk-switcher uk-margin'>
-            <li className='uk-active'>
-              <div className='uk-flex uk-flex-center'>
-                <select id='classNoteClass' className='uk-select uk-form-small uk-form-width-small'>
-                  {classList}
-                </select>
-              </div>
-              <div className='uk-margin'>
-                <input id='classNoteTitle' className='uk-input uk-form-blank uk-form-large' type='Title' placeholder='Title'/>
-              </div>
-              <div className='uk-margin'>
-                <textarea id='classNoteBody' className='uk-textarea uk-form-blank' rows='20' placeholder='Body' 
-                  style={{margin: '0px', height: '110px', width: '100%', resize: 'none'}}></textarea>
-              </div>
-              <h3></h3>
-              <a style={{borderRadius:'5px 0 0 5px'}} onClick={this.submitClassNote.bind(this)} className='uk-button uk-button-primary'>Post</a>
-              <a style={{borderRadius:'0 5px 5px 0'}} onClick={this.submitClassNote.bind(this)} className='uk-button uk-button-default'>Save</a>
-              <div id='cnVisualFeedback' className='unactive'/>
-            </li>
-            <li><NotesView notes={this.state.notes} classes={this.state.classes} 
-              editNote={this.editNote.bind(this)} removeNote={this.removeNote.bind(this)}/></li>
-        </ul>
+        <div id='editor' style={{visibility:'visible',display:'block'}}>
+          <p>Class</p>
+          <select id='classNoteClass' className='uk-select uk-form-small uk-form-width-small'>
+            {classList}
+          </select>
+          
+          <hr/>
+
+          <p>Due date</p>
+          <select style={{borderRadius:'5px 0 0 5px'}} id='dueDay' className='uk-select uk-form-small uk-width-1-3'>
+            <option>1</option>
+            <option>2</option>
+          </select>
+          <select style={{borderRadius:'0'}} id='dueMonth' className='uk-select uk-form-small uk-width-1-3'>
+            <option>January</option>
+            <option>February</option>
+          </select>
+          <select style={{borderRadius:'0 5px 5px 0'}} id='dueYear' className='uk-select uk-form-small uk-width-1-3'>
+            <option>2018</option>
+            <option>2019</option>
+          </select>
+          
+          <hr/>
+
+          <div className='uk-margin'>
+            <input id='classNoteTitle' className='uk-input uk-form-blank uk-form-large' type='Title' placeholder='Title'/>
+          </div>
+          <div className='uk-margin'>
+            <textarea id='classNoteBody' className='uk-textarea uk-form-blank' rows='20' placeholder='Body' 
+              style={{margin: '0px', height: '110px', width: '100%', resize: 'none'}}></textarea>
+          </div>
+          <h3></h3>
+          <a style={{borderRadius:'5px 0 0 5px'}} onClick={this.submitClassNote.bind(this)} className='uk-button uk-button-primary'>Post</a>
+          <a style={{borderRadius:'0 5px 5px 0'}} onClick={this.submitClassNote.bind(this)} className='uk-button uk-button-default'>Save</a>
+          <div id='cnVisualFeedback' className='unactive'/>
+        </div>
+        <div id='view' style={{visibility:'hidden',display:'none'}}><NotesView notes={this.state.notes} classes={this.state.classes} 
+          editNote={this.editNote.bind(this)} removeNote={this.removeNote.bind(this)}/></div>
       </div>
     )
   }
 
   editNote(e) {
-    UIkit.switcher(document.getElementById('classNotesSwitcher')).show(0)
+    UIkit.tab(document.getElementById('classNotesSwitcher')).show(0)
     document.getElementById('classNoteClass').selectedIndex = this.state.classes.indexOf(this.state.notes[e.target.getAttribute('noteid')].cnClass)
     document.getElementById('classNoteBody').value = this.state.notes[e.target.getAttribute('noteid')].body
     document.getElementById('classNoteTitle').value = this.state.notes[e.target.getAttribute('noteid')].title
@@ -289,7 +323,7 @@ const NotesView = (props) =>  {
   if (props.notes.length === 0) {
     rows = <h1 className='uk-heading-line uk-text-center' style={{marginTop:'50px',marginBottom:'50px'}}><span>No class notes</span></h1>
   } else {
-    if (userData.role === 'Teacher') {
+    if (userData.role === 'Teacher'||userData.role === 'Head Teacher') {
       drafts = props.notes.map(note => {
         if (note.draft && noteInClasses(note, props.classes)) {
           noteID++
@@ -305,16 +339,21 @@ const NotesView = (props) =>  {
     })
   }
 
-  let draftUI
-  if (userData.role === 'Teacher' && drafts !== null) {
+  let draftUI = null
+  console.log(drafts[0])
+  console.log(drafts[0]==undefined)
+  if ((userData.role === 'Teacher'||userData.role === 'Head Teacher') && drafts !== null && drafts[0]!=undefined) {
     draftUI = (
-      <div className='card'>
+      <div>
         <ul id='classNotesList' className='uk-accordion' uk-accordion='multiple: true'>
         {drafts}
         </ul>
-        <hr />
+        <hr/>
       </div>
     )
+    console.log('drafts is set')
+  } else {
+    console.log('drafts is empty')
   }
   
   return (
@@ -329,11 +368,11 @@ const NotesView = (props) =>  {
 
 const FillClassNote = (props) => {
   let options = null
-  if (userData.role === 'Teacher') {
+  if (userData.role === 'Teacher'||userData.role==='Head Teacher') {
     options = (
-      <div>
-        <button noteid={props.noteID} onClick={props.editNote}>Edit</button>
-        <button noteid={props.noteID} onClick={props.removeNote}>Remove</button>
+      <div className='uk-margin-top'>
+        <button style={{borderRadius:'5px 0 0 5px'}} className='uk-button-default uk-button-small' noteid={props.noteID} onClick={props.editNote}><span className='uk-margin-small-right' uk-icon='pencil'/>Edit</button>
+        <button style={{borderRadius:'0 5px 5px 0'}} className='uk-button-default uk-button-small' noteid={props.noteID} onClick={props.removeNote}><span className='uk-margin-small-right' uk-icon='trash'/>Remove</button>
       </div>
     )
   }
