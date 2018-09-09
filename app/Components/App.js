@@ -72,6 +72,8 @@ window.STATES = {
 
 let counter = 0
 
+let isMobile = false
+
 const nameArray = [
   'Dashboard',
   'Timetable',
@@ -93,6 +95,12 @@ class App extends Component {
     // Set default state on open to Welcome page
     this.state = {
       visible: window.STATES.LOADING
+    }
+
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+      window.isMobile = true
+    } else {
+      window.isMobile = false
     }
 
     document.addEventListener('touchstart', handleTouchStart, false)     
@@ -567,8 +575,8 @@ class App extends Component {
                 </a>
               </li>
 
-              <li onClick={this.logo.bind(this)}>
-                <a>
+              <li className='djLogo uk-margin-small-right uk-margin-small-left' onClick={this.logo.bind(this)}>
+                <a className='djLogo'>
                   <img
                     className='djLogo uk-disabled uk-margin-small-left uk-margin-small-right uk-margin-small-top uk-margin-small-bottom'
                     alt='logo' src='./icons/touch/icon-128x128.png'/>

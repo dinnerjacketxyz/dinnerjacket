@@ -32,7 +32,7 @@ class Settings extends Component {
 
   componentDidMount() {
     timetable = document.getElementById('timetableSelect')
-    if (width < MIN_WIDTH || height < MIN_HEIGHT) {
+    if (window.isMobile) {
       timetable.setAttribute('disabled', true)
     }
 

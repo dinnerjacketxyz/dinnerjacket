@@ -111,7 +111,14 @@ class Notes extends Component {
    * @param {boolean} bool - true -> enable spinner, false -> disable spinner
    */
   enableSpinner(bool) {
-    document.getElementById('spinner').disabled = !bool
+    if (bool) {
+      document.getElementById('spinner').style.display = 'block'
+      document.getElementById('spinner').style.visibility = 'visible'
+    } else {
+      document.getElementById('spinner').style.display = 'none'
+      document.getElementById('spinner').style.visibility = 'hidden'
+    }
+    
   }
 
   /**
@@ -608,19 +615,21 @@ class Notes extends Component {
             {removeNote}
           </ul>
         </div>
+        
         <div className='notesChild card uk-animation-slide-top-small'>
-        <a uk-icon='icon: info' uk-tooltip='title: Right click to rename, clear, or delete notes' className='uk-float-right'/>
-        <ul onClick={() => {UIkit.dropdown(document.getElementById('notesDropdown')).hide()}} 
-          id='notesLayout' className='uk-subnav uk-subnav-pill uk-flex-center' 
-          uk-switcher='animation: uk-animation-fade' 
-          uk-sortable='cls-custom: uk-box-shadow-small uk-flex uk-flex-middle uk-background'>
-          {notes}
-        </ul>
+          <div id='spinner' style={{position: 'fixed', display: 'none',visibility:'hidden', width: '100%',height: '100%',top: '0',left: '0', right: '0', bottom: '0', backgroundColor: 'rgba(0,0,0,0.3)', zIndex: '2', cursor: 'pointer', borderRadius:'5px'}}><div className='calLoadingParent'><div className='calLoadingChild uk-flex-center' uk-spinner="ratio: 4"/></div></div>
+          <a uk-icon='icon: info' uk-tooltip='title: Right click to rename, clear, or delete notes' className='uk-float-right'/>
+          <ul onClick={() => {UIkit.dropdown(document.getElementById('notesDropdown')).hide()}} 
+            id='notesLayout' className='uk-subnav uk-subnav-pill uk-flex-center' 
+            uk-switcher='animation: uk-animation-fade' 
+            uk-sortable='cls-custom: uk-box-shadow-small uk-flex uk-flex-middle uk-background'>
+            {notes}
+          </ul>
           <div id='pad' className='pad'>
             <div id='editor' onInput={this.updateDB.bind(this)} onMouseMove={this.onMouseMove.bind(this)}/>
-            <div id='spinner' uk-spinner='ratio: 4' className='uk-spinner uk-icon'></div>
+            <div style={{display:'none',visibility:'hidden'}} id='' uk-spinner='ratio: 4' className='uk-spinner uk-icon'></div>
           </div>
-          <div className=''>
+          <div>
             <a uk-icon='plus-circle' uk-tooltip='title: Add custom notes; pos: bottom-center;'></a>
             <div id='notesDropdown' uk-dropdown='mode: click;pos: top-center'>
               <p className='uk-text-left'>Classes</p>
@@ -629,10 +638,10 @@ class Notes extends Component {
               <hr/>
 
               <p className='uk-text-left'>Custom</p>
-              <input style={{borderRadius:'5px 0 0 5px'}} id='customTitle' className='uk-input' 
+              <input style={{borderRadius:'5px 0 0 5px'}} id='customTitle' className='uk-input uk-width-2-3' 
                 type='text' placeholder='Title' maxLength='20'/>
               <button style={{borderRadius:'0 5px 5px 0'}}  onClick={this.createCustomNote.bind(this)} 
-                className='uk-margin-top uk-button uk-button-default'>Add</button>
+                className='uk-button uk-button-default uk-width-1-3'>Add</button>
             </div>
           </div>
         </div>

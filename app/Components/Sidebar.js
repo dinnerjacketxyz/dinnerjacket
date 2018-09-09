@@ -180,14 +180,6 @@ class Sidebar extends Component {
     }
   }
 
-  //this isn't final, it's just the scren design, expanding and closing doesn't work after u add a new thing because of this
-  /**
-   * 
-   */
-  addReminder() {
-    document.getElementById('remindersTable').innerHTML += ``
-  }
-
   /**
    * 
    */
@@ -306,13 +298,15 @@ class Sidebar extends Component {
           <hr/>
 
           <p>Date</p>
-          <input id='date' className='uk-input uk-form-blank uk-width-1-4' 
-            min='1' max='28' type='number' placeholder='D' maxLength='2' defaultValue={(new Date()).getUTCDate()} />
-          <input id='month' className='uk-input uk-form-blank uk-width-1-4' 
-            min='1' max='12' type='number' placeholder='M' maxLength='2' defaultValue={(new Date()).getUTCMonth()} />
-          <input id='year' className='uk-input uk-form-blank uk-width-2-4' 
-            min='1970' max='9999' type='number' placeholder='Y' maxLength='4' defaultValue={(new Date()).getUTCFullYear()} />
-          <button onClick={this.addNotif.bind(this)}>Add</button>
+          <div className='uk-inline'>
+            <input id='date' className='uk-input uk-form-blank uk-width-1-4' 
+              min='1' max='28' type='number' placeholder='D' maxLength='2' defaultValue={(new Date()).getUTCDate()} />
+            <input id='month' className='uk-input uk-form-blank uk-width-1-4' 
+              min='1' max='12' type='number' placeholder='M' maxLength='2' defaultValue={(new Date()).getUTCMonth()} />
+            <input id='year' className='uk-input uk-form-blank uk-width-1-2' 
+              min='1970' max='9999' type='number' placeholder='Y' maxLength='4' defaultValue={(new Date()).getUTCFullYear()} />
+          </div>
+          <button style={{marginBottom:'0',borderRadius:'5px'}} className='uk-button-small uk-button-default uk-align-center' onClick={this.addNotif.bind(this)}>Add</button>
         </div>
       </div>
     )
@@ -429,7 +423,7 @@ const Reminder = (props) => {
       </td>
 
       <td id={'editButton'+props.id} style={{display:'none'}}>
-        <button className='uk-button-small uk-button-default' content={props.reminder.content} onClick={props.editReminder}>Edit</button>
+        <button style={{borderRadius:'5px'}} className='uk-button-small uk-button-default' content={props.reminder.content} onClick={props.editReminder}>Edit</button>
       </td>
       
       <td id={'schedule'+props.id} style={{display:'none',paddingRight: '0px',paddingLeft:'2px'}}>

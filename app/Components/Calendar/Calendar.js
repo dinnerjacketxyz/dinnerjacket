@@ -511,6 +511,7 @@ class Calendar extends Component {
     console.log('search initiated')
 
     loading.style.visibility = 'visible'
+    loading.style.display = 'block'
 
     const terms = keywords.value.split(' ')
     
@@ -673,6 +674,7 @@ class Calendar extends Component {
       console.log('search done')
       
       loading.style.visibility = 'hidden'
+      loading.style.display = 'block'
       showMatchesInSearch = true
 
       console.log(results)
