@@ -13,6 +13,7 @@
 
 // localstorage only - below is the WIP firebase code
 import React, { Component } from 'react'
+import debounce from 'lodash.debounce'
 const http = require('http')
 const css = require('./Notes.css')
 
@@ -99,16 +100,10 @@ class Notes extends Component {
       //console.log('ISTHISEVERUSEDBEFOREUNLEAD?')
     }, false)
 
-    this.selectNote = this.selectNote.bind(this)
+    this.handleClick = this.handleClick.bind(this)
+    this.selectNoteDebounced = debounce(this.selectNote, 250)
   }
 
-  extractReminders() {
-    let note
-    for (let i = 0; i < this.state.notes.length; i++) {
-      note = this.state.notes[i].content
-    }
-  }
-  
   /**
    * Loop through all the user's classes
    * Add valid classes to classes array held in this.state
@@ -510,6 +505,8 @@ class Notes extends Component {
    * @param {*} e 
    */
   selectNote(e) {
+    console.log('SELECT NOTE CALLED')
+
     this.updateDB()
 
     let content
@@ -522,6 +519,12 @@ class Notes extends Component {
     this.displayContent(content)
   }
 
+  /*selectNoteDebounced(e) {
+    debounce(() => {
+      this.selectNote(e)
+    }, 250)
+  }*/
+
   /**
    * 
    * @param {*} int 
@@ -531,6 +534,13 @@ class Notes extends Component {
 
     let content = this.state.notes[int].content
     this.displayContent(content)
+  }
+
+  /**
+   * 
+   */
+  handleClick(e) {
+    this.selectNoteDebounced(e)
   }
 
   /**
@@ -558,7 +568,7 @@ class Notes extends Component {
     let notes = this.state.notes.map(note => {
       key++
       return <li key={key} text={note.title} onContextMenu={this.notesContextMenu.bind(this)} 
-        onClick={this.selectNote}><a id={note.id}>{note.title}</a></li>
+        onClick={this.handleClick}><a id={note.id}>{note.title}</a></li>
     })
 
     let key2 = 0

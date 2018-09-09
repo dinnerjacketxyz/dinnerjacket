@@ -1,15 +1,22 @@
 import React, { Component } from 'react'
 const http = require('http')
 
+const firebase = require('firebase')
+const fb = require('../fb')(firebase)
+const database = firebase.database()
+
 let userID
 let ref
 
+
 /**
- * 
+ * Sidebar component that appears on the left side of the app
+ * Contains reminders
  */
 class Sidebar extends Component {
   /**
-   * 
+   * Initialises reminders from initially from firebase
+   * Retrieves from firebase once firebase loads and userID is retrieved from API and encrypted
    * @param {*} props 
    */
   constructor(props) {
@@ -19,6 +26,14 @@ class Sidebar extends Component {
       reminders: []
     }
 
+    // Sets reminders from local storage except on first use
+    if (localStorage.getItem('reminders')) {
+      try {
+        this.state.reminders = JSON.parse(atob(localStorage.getItem('reminders')))
+      } catch (e) { }
+    }
+
+    // Return information for user information from SBHS API
     /* User Info
        {"username" : "436345789",     
         "studentId" : "436345789",
@@ -37,6 +52,7 @@ class Sidebar extends Component {
       }
     */
     
+    // Access user info from SBHS API and retrieve userID specifically from username field
     http.get('/getdata?token=' + localStorage.getItem('accessToken') + '&url=details/userinfo.json', (res) => {
       res.setEncoding('utf8')
 
@@ -52,9 +68,9 @@ class Sidebar extends Component {
           userID = btoa(userID)
 
           // Link firebase reference to 'userNotes' database of this userID's index
-          ref = props.database.ref('reminders/' + userID)
+          ref = database.ref('reminders/' + userID)
 
-          // get reminders
+          // Retrieve reminders from firebase
           this.retrieveReminders()
         } catch (e) { }
       })
@@ -62,50 +78,78 @@ class Sidebar extends Component {
   }
 
   /**
-   * 
+   * Retrieves reminders from firebase database
+   * Sets reminders in 'this.state.reminders' to synced firebase data
    */
   retrieveReminders() {
     ref.on('value', (data) => {
-      this.state.reminders = JSON.parse(atob(ref.val().reminders))
-      let reminders = this.state.reminders
-      this.setState({ reminders: this.state.reminders })
+      let reminders
+      try {
+        reminders = JSON.parse(atob(data.val().reminders))
+      } catch (e) { }
+      if (reminders) {
+        this.state.reminders = JSON.parse(atob(data.val().reminders))
+        this.refresh()
+      }
     })
+  }
+
+  /**
+   * Pushes a new reminder to the reminders database
+   * @param {string} content - the reminder itself (title/content)
+   * @param {*} date - date of the reminder's notification
+   * @param {boolean} complete - whether the reminder is checked as complete
+   */
+  pushReminder(content, date, complete) {
+    this.state.reminders.push({ content, date, complete })
+
+    this.updateFirebase()
+    this.refresh()
+  }
+
+  /**
+   * Syncs firebase database with the local reminders database in 'this.state.reminders'
+   * Local -> Firebase
+   */
+  updateFirebase() {
+    let remindersDB = { reminders: btoa(JSON.stringify(this.state.reminders))}
+    ref.update(remindersDB)
+
+    localStorage.setItem('reminders', btoa(JSON.stringify(this.state.reminders)))
+  }
+
+  /**
+   * Called when the user adds a reminder
+   * @param {*} e - onKeyDown event
+   */
+  submitReminder(e) {
+    // Check if key pressed is ENTER
+    // ENTER is used in the input field to submit a new reminder
+    if (e.keyCode === 13) {
+      let input = document.getElementById('addReminder')
+      
+      // Display a warning if the user attempts to create an already existant reminder
+      if (this.reminderInUse(input.value)) {
+        UIKit.modal.alert('The reminder \'' + input.value + '\' already exists. Please enter a different reminder.')
+      } else {
+        // Push reminder to database and reset input field if the reminder is unused
+        this.pushReminder(input.value, '', false)
+        input.value = ''
+      }
+    }
   }
 
   /**
    * 
    * @param {*} content 
-   * @param {*} date 
-   * @param {*} complete 
    */
-  pushReminder(content, date, complete) {
-    this.state.reminders.push({ content, date, complete })
-
-    let r = this.state.reminders
-    this.setState({ r : this.state.reminders })
-
-    this.updateFirebase()
-  }
-
-  /**
-   * 
-   */
-  updateFirebase() {
-    let remindersDB = { reminders: btoa(JSON.stringify(this.state.notes))}
-    ref.update(remindersDB)
-  }
-
-  /**
-   * 
-   * @param {*} e 
-   */
-  submitReminder(e) {
-    if (e.keyCode === 13) {
-      let input = document.getElementById('addReminder')
-      console.log(input.value)
-      this.pushReminder(input.value, '', false)
-      input.value = ''
+  reminderInUse(content) {
+    for (let i = 0; i < this.state.reminders.length; i++) {
+      if (content === this.state.reminders[i].content) {
+        return true
+      }
     }
+    return false
   }
 
   /**
@@ -150,11 +194,66 @@ class Sidebar extends Component {
   chkClicked(e) {
     console.log(e.target)
 
-    this.state.reminders[e.target.id].complete = !this.state.reminders[e.target.id].complete
-    let reminders = this.state.reminders
-    this.setState({ reminders: this.state.reminders })
+    let content = e.target.getAttribute('content')
+    console.log(content)
+    let id = this.findIndex(content)
+
+    console.log(id)
+
+    this.state.reminders[id].complete = !this.state.reminders[id].complete
 
     this.updateFirebase()
+    this.refresh()
+  }
+
+  editReminder(e) {
+    let content = e.target.getAttribute('content')
+    let id = this.findIndex(content)
+    UIkit.modal.prompt('Entar a new name for the reminder \'' + content + '\'', 'Name').then(title => {
+      if (title !== null && /\S/.test(title)) {
+        this.state.reminders[id].content = title
+        this.updateFirebase()
+        this.refresh()
+      }
+    })
+  }
+
+  /**
+   * DOESN'T WORK
+   */
+  deleteReminder(e) {
+    console.log(e.target)
+
+    let content = e.target.getAttribute('content')
+    console.log(content)
+    let id = this.findIndex(content)
+
+    console.log(id)
+
+    this.state.reminders.splice(id, 1)
+
+    this.updateFirebase()
+    this.refresh()
+  }
+
+  /**
+   * 
+   * @param {*} content 
+   */
+  findIndex(content) {
+    for (let i = 0; i < this.state.reminders.length; i++) {
+      if (content === this.state.reminders[i].content) {
+        return i
+      }
+    }
+  }
+
+/**
+ * 
+ */
+  refresh() {
+    let reminders = this.state.reminders
+    this.setState({ reminders: this.state.reminders })
   }
 
   /**
@@ -190,14 +289,16 @@ class Sidebar extends Component {
     let reminders = this.state.reminders.map(reminder => {
       if (!reminder.complete) {
         ID++
-        return <Reminder expand={this.expandReminder} key={ID} id={ID} reminder={reminder} dateUI={dateUI} chkClicked={this.chkClicked.bind(this)} />
+        return <Reminder expand={this.expandReminder} key={ID} id={ID} reminder={reminder} 
+          dateUI={dateUI} chkClicked={this.chkClicked.bind(this)} editReminder={this.editReminder.bind(this)} />
       }
     })
 
     let complete = this.state.reminders.map(reminder => {
       if (reminder.complete) {
         ID++
-        return <Complete expand={this.expandReminder} key={ID} id={ID} reminder={reminder} chkClicked={this.chkClicked.bind(this)} />
+        return <Complete expand={this.expandReminder} key={ID} id={ID} reminder={reminder} 
+          deleteReminder={this.deleteReminder.bind(this)} chkClicked={this.chkClicked.bind(this)} />
       }
     })
 
@@ -226,19 +327,20 @@ class Sidebar extends Component {
             {header}
           </thead>
           <tbody style={{fontSize: '12px'}} uk-sortable='cls-custom: uk-flex uk-box-shadow-small uk-background-primary'>
-              {reminders}
+            {reminders}
           </tbody>
         </table>
         <table className='uk-table uk-table-hover uk-table-middle uk-table-divider uk-table-small'>
           <thead>
               <tr>
-                  <th></th>
-                  <th className='uk-table-shrink'></th>
+                <th></th>
+                <th className='uk-table-shrink'></th>
               </tr>
           </thead>
           <tbody style={{fontSize: '12px'}} id='remindersTable'>
             <tr>
-              <td style={{paddingLeft: '0px'}}><input id='addReminder' className='uk-input uk-form-blank' onKeyDown={this.submitReminder.bind(this)} type='text' placeholder='Add reminder' autoFocus/></td>
+              <td style={{paddingLeft: '0px'}}><input id='addReminder' className='uk-input uk-form-blank' 
+                onKeyDown={this.submitReminder.bind(this)} type='text' placeholder='Add reminder' autoFocus/></td>
               <td style={{paddingRight: '0px',paddingLeft:'2px'}}>
                 {dateUI}
               </td>
@@ -251,14 +353,14 @@ class Sidebar extends Component {
             <div className='uk-accordion-content'>
               <table className='uk-table uk-table-hover uk-table-middle uk-table-divider uk-table-small'>
                 <thead>
-                    <tr>
-                        <th className='uk-table-shrink'></th>
-                        <th></th>
-                        <th className='uk-table-shrink'></th>
-                    </tr>
+                  <tr>
+                    <th className='uk-table-shrink'></th>
+                    <th></th>
+                    <th className='uk-table-shrink'></th>
+                  </tr>
                 </thead>
                 <tbody >
-                    {complete}
+                  {complete}
                 </tbody>
               </table>
             </div>
@@ -278,10 +380,13 @@ const Reminder = (props) => {
   return (
     <tr>
       <td style={{paddingLeft: '0px'}}>
-        <input className='uk-checkbox' type='checkbox' id={props.id} onChange={props.chkClicked} />
+        <input className='uk-checkbox' type='checkbox' content={props.reminder.content} onClick={props.chkClicked} />
       </td>
       <td className='uk-text-truncate'>
         <p className='uk-text-truncate' onClick={props.expand}>{props.reminder.content}</p>
+      </td>
+      <td>
+        <button content={props.reminder.content} onClick={props.editReminder} >Edit</button>
       </td>
       <td style={{paddingRight: '0px',paddingLeft:'2px'}}>
         {props.dateUI}
@@ -298,13 +403,13 @@ const Complete = (props) => {
   return (
     <tr>
       <td style={{paddingLeft: '0px'}}>
-        <input className='uk-checkbox' defaultChecked type='checkbox' id={props.id} onChange={props.chkClicked} />
+        <input className='uk-checkbox' type='checkbox' content={props.reminder.content} onClick={props.chkClicked} />
       </td>
       <td style={{fontSize: '12px',color:'#c7c7c7'}} className='uk-text-truncate'>
         <p className='uk-text-truncate' onClick={props.expand}>{props.reminder.content}</p>
       </td>
       <td>
-        <a uk-icon='trash'></a>
+        <a uk-icon='trash' content={props.reminder.content} onClick={props.deleteReminder}></a>
       </td>
     </tr>
   )
