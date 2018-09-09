@@ -5,6 +5,12 @@ const firebase = require('firebase')
 const fb = require('../fb')(firebase)
 const database = firebase.database()
 
+const MONTHS = [
+  'January', 'February', 'March', 'April', 
+  'May', 'June', 'July', 'August', 'September', 
+  'October', 'November', 'December'
+]
+
 let userID
 let ref
 
@@ -130,10 +136,11 @@ class Sidebar extends Component {
       
       // Display a warning if the user attempts to create an already existant reminder
       if (this.reminderInUse(input.value)) {
-        UIKit.modal.alert('The reminder \'' + input.value + '\' already exists. Please enter a different reminder.')
+        UIkit.modal.alert('The reminder \'' + input.value + '\' already exists. Please enter a different reminder.')
       } else {
         // Push reminder to database and reset input field if the reminder is unused
         this.pushReminder(input.value, '', false)
+        this.addNotif(this.findIndex(input.value))
         input.value = ''
       }
     }
@@ -198,6 +205,10 @@ class Sidebar extends Component {
     this.refresh()
   }
 
+  /**
+   * 
+   * @param {*} e 
+   */
   editReminder(e) {
     let content = e.target.getAttribute('content')
     let id = this.findIndex(content)
@@ -253,28 +264,31 @@ class Sidebar extends Component {
   /**
    * Handle user adding a notification to a particular reminder
    */
-  addNotif() {
-    let hour = document.getElementById('hour').value
-    let minutes = document.getElementById('minutes').value
-    let ampm = document.getElementById('am/pm').value
-    let date = document.getElementById('date').value
-    let month = document.getElementById('month').value
-    let year = document.getElementById('year').value
+  addNotif(id) {
+    let hour = document.getElementById('hour')
+    let minutes = document.getElementById('minutes')
+    let dayDate = document.getElementById('date')
+    let month = document.getElementById('month')
+    let year = document.getElementById('year')
 
     // Check no fields have been left empty
-    if (hour && minutes && date && month && year) {
-      console.log(hour, minutes, date, month, year)
+    if (hour.value && minutes.value && dayDate.value && month.value && year.value) {
+      console.log(hour.value, minutes.value, dayDate.value, month.value, year.value)
+
+      let date = new Date()
+
+      if ((hour.value >= date.getHours() && dayDate.value >= date.getUTCDate() && 
+        month.value >= date.getUTCMonth() && year.value >= date.getUTCFullYear()) || 
+        (minutes.value > date.getMinutes())) {
+
+        this.state.reminders[id].date = dayDate.value + ' ' + MONTHS[month.value - 1] + ' ' + 
+          year.value + ', ' + hour.value + ':' + document.getElementById('minutes').value
+      } else {
+        this.state.reminders[id].date = 'No notification'
+      }
     }
-  }
 
-  /**
-   * Disable AM/PM select box if the user has entered a 24-hour time format
-   */
-  hourChange() {
-    let hour = document.getElementById('hour').value
-    let ampm = document.getElementById('am/pm')
-
-    ampm.disabled = (hour > 12)
+    console.log(this.state.reminders[id].date)
   }
 
   /**
@@ -286,14 +300,10 @@ class Sidebar extends Component {
         <a uk-icon='clock'></a>
         <div style={{minWidth:'220px'}} uk-dropdown='mode: click;boundary: .uk-table'>
           <p>Time</p>
-          <input id='hour' onChange={this.hourChange.bind(this)} className='uk-input uk-form-blank uk-width-1-3' 
-            min='0' max='24' type='number' placeholder='H' maxLength='2' defaultValue={(new Date()).getHours()} autoFocus />
-          <input id='minutes' className='uk-input uk-form-blank uk-width-1-3' 
-            min='0' max='59' type='number' placeholder='M' maxLength='2' defaultValue={(new Date()).getMinutes()} />
-          <select id='am/pm'className='uk-select uk-width-1-3'>
-            <option>AM</option>
-            <option>PM</option>
-          </select>
+          <input id='hour' className='uk-input uk-form-blank uk-width-1-2' 
+            min='00' max='23' type='number' placeholder='H' maxLength='2' defaultValue={(new Date()).getHours()} autoFocus />
+          <input id='minutes' className='uk-input uk-form-blank uk-width-1-2' 
+            min='00' max='59' type='number' placeholder='M' maxLength='2' defaultValue={(new Date()).getMinutes()} />
 
           <hr/>
 
@@ -304,9 +314,8 @@ class Sidebar extends Component {
             <input id='month' className='uk-input uk-form-blank uk-width-1-4' 
               min='1' max='12' type='number' placeholder='M' maxLength='2' defaultValue={(new Date()).getUTCMonth()} />
             <input id='year' className='uk-input uk-form-blank uk-width-1-2' 
-              min='1970' max='9999' type='number' placeholder='Y' maxLength='4' defaultValue={(new Date()).getUTCFullYear()} />
+              min={new Date().getUTCFullYear()} max='9999' type='number' placeholder='Y' maxLength='4' defaultValue={(new Date()).getUTCFullYear()} />
           </div>
-          <button style={{marginBottom:'0',borderRadius:'5px'}} className='uk-button-small uk-button-default uk-align-center' onClick={this.addNotif.bind(this)}>Add</button>
         </div>
       </div>
     )
@@ -403,23 +412,23 @@ class Sidebar extends Component {
  * @param {*} props 
  */
 const Reminder = (props) => {
-  function hover(bool){
+  const hover = (bool) => {
     if (bool) {
-      document.getElementById('editButton'+props.id).style.display = 'table-cell'
-      document.getElementById('schedule'+props.id).style.display = 'table-cell'
+      document.getElementById('editButton' + props.id).style.display = 'table-cell'
+      document.getElementById('schedule' + props.id).style.display = 'table-cell'
     } else {
-      document.getElementById('editButton'+props.id).style.display = 'none'
-      document.getElementById('schedule'+props.id).style.display = 'none'
+      document.getElementById('editButton' + props.id).style.display = 'none'
+      document.getElementById('schedule' + props.id).style.display = 'none'
     }
   }
   return (
-    <tr onMouseEnter={function(){hover(true)}} onMouseLeave={function(){hover(false)}}>
+    <tr onMouseEnter={() => {hover(true)}} onMouseLeave={() => {hover(false)}}>
       <td style={{paddingLeft: '0px'}}>
         <input className='uk-checkbox' type='checkbox' content={props.reminder.content} onChange={props.chkClicked} />
       </td>
       <td className='uk-text-truncate'>
         <p className='uk-text-truncate' onClick={props.expand}>{props.reminder.content}</p>
-        <p className='uk-text-muted'>Time here innit</p>
+        <p className='uk-text-muted'>{props.reminder.date}</p>
       </td>
 
       <td id={'editButton'+props.id} style={{display:'none'}}>
@@ -438,21 +447,20 @@ const Reminder = (props) => {
  * @param {*} props 
  */
 const Complete = (props) => {
-  function hover(bool){
+  const hover = (bool) => {
     if (bool) {
-      document.getElementById('remove'+props.id).style.display = 'table-cell'
+      document.getElementById('remove' + props.id).style.display = 'table-cell'
     } else {
-      document.getElementById('remove'+props.id).style.display = 'none'
+      document.getElementById('remove' + props.id).style.display = 'none'
     }
   }
   return (
-    <tr onMouseEnter={function(){hover(true)}} onMouseLeave={function(){hover(false)}}>
+    <tr onMouseEnter={() => {hover(true)}} onMouseLeave={() => {hover(false)}}>
       <td style={{paddingLeft: '0px'}}>
         <input className='uk-checkbox' type='checkbox' content={props.reminder.content} onChange={props.chkClicked} />
       </td>
       <td style={{fontSize: '12px',color:'#c7c7c7'}} className='uk-text-truncate'>
         <p className='uk-text-truncate' onClick={props.expand}>{props.reminder.content}</p>
-        <p className='uk-text-muted'>Time here innit</p>
       </td>
       <td>
         <a id={'remove'+props.id} style={{display:'none'}} uk-icon='trash' content={props.reminder.content} onClick={props.deleteReminder}></a>
