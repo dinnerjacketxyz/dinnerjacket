@@ -218,6 +218,10 @@ class Sidebar extends Component {
   chkClicked(e) {
     let content = e.target.getAttribute('content')
     let id = this.findIndex(content)
+    
+    e.preventDefault()
+
+    console.log(e.target)
 
     // Swap complete reminders with incomplete and incomplete with complete
     this.state.reminders[id].complete = !this.state.reminders[id].complete
@@ -366,7 +370,7 @@ class Sidebar extends Component {
       if (!reminder.complete) {
         ID++
         return <Reminder key={ID} id={ID} reminder={reminder} 
-          dateUI={dateUI} chkClicked={this.chkClicked.bind(this)} />
+          dateUI={dateUI} expand={this.expandReminder} chkClicked={this.chkClicked.bind(this)} />
       }
     })
 
@@ -374,19 +378,10 @@ class Sidebar extends Component {
     let complete = this.state.reminders.map(reminder => {
       if (reminder.complete) {
         ID++
-        return <Complete key={ID} id={ID} reminder={reminder} 
+        return <Complete expand={this.expandReminder} key={ID} id={ID} reminder={reminder} 
            chkClicked={this.chkClicked.bind(this)} />
       }
     })
-
-    let header = (
-      <tr>
-        <th className='uk-table-shrink'></th>
-        <th></th>
-        <th className='uk-table-shrink'></th>
-        <th className='uk-table-shrink'></th>
-      </tr>
-    )
 
     return (
       <div className='uk-offcanvas-bar'>
@@ -398,7 +393,10 @@ class Sidebar extends Component {
 
         <table id='reminders' className='uk-table uk-table-hover uk-table-middle uk-table-divider uk-table-small'>
           <thead>
-            {header}
+            <tr>
+              <th className='uk-table-shrink'></th>
+              <th></th>
+            </tr>
           </thead>
           <tbody onMouseOver={this.hover} style={{fontSize: '12px'}} uk-sortable='cls-custom: uk-flex uk-box-shadow-small uk-background-primary'>
             {reminders}
@@ -438,7 +436,7 @@ class Sidebar extends Component {
         <ul uk-accordion=''>
           <li>
             <div style={{display:'inline', fontSize:'15px'}} className='uk-accordion-title uk-inline'>Show completed</div>
-            <button onClick={this.removeCompleted.bind(this)}>Clear all</button>
+            <button onClick={this.removeCompleted.bind(this)} className='uk-button-small uk-button-default uk-margin-small-left' style={{padding:'0 10px'}}>Clear all</button>
             <div className='uk-accordion-content'>
               <table className='uk-table uk-table-hover uk-table-middle uk-table-divider uk-table-small'>
                 <thead>
@@ -465,32 +463,14 @@ class Sidebar extends Component {
  * @param {*} props - reminder passed as props.reminder
  */
 const Reminder = (props) => {
-  const hover = (bool) => {
-    if (bool) {
-      document.getElementById('editButton' + props.id).style.display = 'table-cell'
-      document.getElementById('schedule' + props.id).style.display = 'table-cell'
-    } else {
-      document.getElementById('editButton' + props.id).style.display = 'none'
-      document.getElementById('schedule' + props.id).style.display = 'none'
-    }
-  }
   return (
-    <tr onMouseEnter={() => {hover(true)}} onMouseLeave={() => {hover(false)}}>
+    <tr>
       <td style={{paddingLeft: '0px'}}>
-        <input className='uk-checkbox' type='checkbox' content={props.reminder.content} onChange={props.chkClicked} />
+        <input className='uk-checkbox' type='checkbox' content={props.reminder.content} onClick={props.chkClicked} />
       </td>
       <td className='uk-text-truncate'>
         <p className='uk-text-truncate' onClick={props.expand}>{props.reminder.content}</p>
         <p className='uk-text-muted'>{props.reminder.date}</p>
-      </td>
-
-      <td id={'editButton'+props.id} style={{display:'none'}}>
-        <button style={{borderRadius:'5px'}} className='uk-button-small uk-button-default' 
-          content={props.reminder.content} onClick={props.editReminder}>Edit</button>
-      </td>
-      
-      <td id={'schedule'+props.id} style={{display:'none',paddingRight: '0px',paddingLeft:'2px'}}>
-        {props.dateUI}
       </td>
     </tr>
   )
@@ -504,7 +484,7 @@ const Complete = (props) => {
   return (
     <tr>
       <td style={{paddingLeft: '0px'}}>
-        <input className='uk-checkbox' type='checkbox' content={props.reminder.content} onChange={props.chkClicked} />
+        <input className='uk-checkbox' type='checkbox' content={props.reminder.content} defaultChecked onClick={props.chkClicked} />
       </td>
       <td style={{fontSize: '12px',color:'#c7c7c7'}} className='uk-text-truncate'>
         <p className='uk-text-truncate' onClick={props.expand}>{props.reminder.content}</p>
