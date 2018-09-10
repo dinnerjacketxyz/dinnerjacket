@@ -55,7 +55,6 @@ class Dashboard extends Component {
       this.getAPIData = this.getAPIData.bind(this)
       this.getAPIData()
     }
-
     // initial update
     this.updateTimetableDisplay('')
 
@@ -269,20 +268,38 @@ class Dashboard extends Component {
         // check if this morning class is for today
         if (dayname == timetable['timetable']['timetable']['dayname']) {
           // add to periods
-          const studentYear = window.timetable['student']['year']
-          const className = timetable['timetable']['subjects'][studentYear + thisDay[0]]['title']
-          const fullClassName = timetable['timetable']['subjects'][studentYear + thisDay[0]]['subject']
-          const teacherName = timetable['timetable']['subjects'][studentYear + thisDay[0]]['fullTeacher']
-          const morningClass = { name: className,
-                                 teacher: teacherName,
-                                 room: thisDay[1],
-                                 time: '08:00',
-                                 fullName: fullClassName,
-                                 changed: [] }
+          
+          var morningClass
+          var bellName
+          
+          // student
+          if (window.timetable['student']['year'] != undefined) {
+            const studentYear = window.timetable['student']['year']
+            const className = timetable['timetable']['subjects'][studentYear + thisDay[0]]['title']
+            const fullClassName = timetable['timetable']['subjects'][studentYear + thisDay[0]]['subject']
+            const teacherName = timetable['timetable']['subjects'][studentYear + thisDay[0]]['fullTeacher']
+            bellName = fullClassName
+            morningClass = { name: className,
+                                   teacher: teacherName,
+                                   room: thisDay[1],
+                                   time: '08:00',
+                                   fullName: fullClassName,
+                                   changed: [] }
+          // teacher
+          } else {
+            bellName = thisDay[0]
+            morningClass = { name: thisDay[0],
+                                   teacher: window.timetable['student']['title'] + ' ' + window.timetable['student']['surname'],
+                                   room: thisDay[1],
+                                   time: '08:00',
+                                   fullName: thisDay[0],
+                                   changed: [] }
+          }
+
           periods.splice(0, 0, morningClass)
           
           // add to bells
-          const morningClassBell = { bell: fullClassName,
+          const morningClassBell = { bell: bellName,
                                      time: '08:00' }
           bells.splice(0, 0, morningClassBell)
           break
@@ -319,7 +336,7 @@ class Dashboard extends Component {
       // Wednesday, Thursday, Friday
       case 'R1T2=3=4T5': periods.splice(2, 0, recess); periods.splice(4, 0, lunch); break
       // Mon, Tue for Teacher?
-      case 'R1T2AB3T4C5': periods.splice(2, 0, lunch); periods.splice(5, 0, recess); break
+      case 'R1T2BC3T4A5': periods.splice(2, 0, lunch); periods.splice(5, 0, recess); break
       // Wed, Thu, Fri for Teacher?
       case 'R1T2A3BC4T5': periods.splice(2, 0, recess); periods.splice(4, 0, lunch); break
       default: break
@@ -369,6 +386,7 @@ class Dashboard extends Component {
       if (bells[i][1]) {
         returnData[i].changed.push('bells')
       }
+      //console.log(returnData[i])
     }
     console.log('Getclasses')
     return returnData
@@ -442,7 +460,7 @@ class Dashboard extends Component {
 
   // create the HTML for displaying classes
   processHTML(periods) {
-
+    //console.log(periods)
     const numPeriods = Object.keys(periods).length
     
     // these change the
@@ -489,6 +507,8 @@ class Dashboard extends Component {
                         </tr>
                       )
     var periodArr = [0, 1, 2, 3, 4, 5, 6]
+    
+    // handle morning class
     if (periods.length == 8) {
       periodArr.push(7)
     }
@@ -512,7 +532,6 @@ class Dashboard extends Component {
     let date = new Date()
 
     // if timetable exists and is current (i.e. it is not past 3:15pm), use the timetable periods
-    
     // nested if's are used for readability
     if (timetable != '') {
       console.log('loading fresh periods')
