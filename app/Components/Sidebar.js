@@ -1,7 +1,10 @@
+// Reminders
+
 import React, { Component } from 'react'
 const http = require('http')
 
 const firebase = require('firebase')
+// fb -> firebase file in which firebase is defined
 const fb = require('../fb')(firebase)
 const database = firebase.database()
 
@@ -12,6 +15,8 @@ const MONTHS = [
 ]
 
 let userID
+
+// Reference to firebase database
 let ref
 
 /**
@@ -83,16 +88,14 @@ class Sidebar extends Component {
   }
 
   /**
-   * 
+   * Called upon the component loading
    */
   componentDidMount() {
-    console.log((new Date()).toISOString().split('T')[0])
-    
     this.setDateTime()
   }
 
   /**
-   * 
+   * Sets clock sidebar values to current and formatted date and time
    */
   setDateTime() {
     document.getElementById('sidebarDate').value = (new Date()).toISOString().split('T')[0]
@@ -171,10 +174,11 @@ class Sidebar extends Component {
   }
 
   /**
-   * 
-   * @param {*} content 
+   * Checks if a reminder exists with the same title
+   * @param {*} content - text to check if repeated
    */
   reminderInUse(content) {
+    // Linear search through reminders array do perform comparison with parameter 'content'
     for (let i = 0; i < this.state.reminders.length; i++) {
       if (content === this.state.reminders[i].content) {
         return true
@@ -184,12 +188,10 @@ class Sidebar extends Component {
   }
 
   /**
-   * 
-   * @param {*} e 
+   * Edits the UI of the selected reminder to expand it
+   * @param {*} e - event corresponding to selected reminder
    */
   expandReminder(e) {
-    console.log(e.target)
-    console.log(e.target.style.whiteSpace)
     if (e.target.style.whiteSpace === 'nowrap' || e.target.style.whiteSpace === ''){
       e.target.style.whiteSpace = 'pre-wrap'
       e.target.style.wordWrap = 'break-word'
@@ -199,30 +201,27 @@ class Sidebar extends Component {
   }
 
   /**
-   * 
-   * @param {*} e 
+   * REMOVED from final build - very buggy and unnecessary
+   * Expands all completed reminders
+   * @param {*} e - event corresponding to selected reminder
    */
-  expandAll(e) {
-    console.log(e.target.innerHTML)
+  /*expandAll(e) {
     if (e.target.innerHTML==='expand') {
       e.target.innerHTML = 'collapse'
     } else if (e.target.innerHTML==='collapse') {
       e.target.innerHTML = 'expand'
     }
-  }
+  }*/
 
   /**
-   * 
+   * Event handler called when a reminder is checked
+   * @param {*} e - event corresponding to selected reminder
    */
   chkClicked(e) {
-    console.log(e.target)
-
     let content = e.target.getAttribute('content')
-    console.log(content)
     let id = this.findIndex(content)
 
-    console.log(id)
-
+    // Swap complete reminders with incomplete and incomplete with complete
     this.state.reminders[id].complete = !this.state.reminders[id].complete
 
     this.updateFirebase()
@@ -230,10 +229,11 @@ class Sidebar extends Component {
   }
 
   /**
-   * 
-   * @param {*} e 
+   * REMOVED from final build - option satisfied by checking and creating a new reminder
+   * Edits the selected reminder
+   * @param {*} e - event corresponding to selected reminder
    */
-  editReminder(e) {
+  /*editReminder(e) {
     let content = e.target.getAttribute('content')
     let id = this.findIndex(content)
     UIkit.modal.prompt('Entar a new name for the reminder \'' + content + '\'', 'Name').then(title => {
@@ -243,14 +243,14 @@ class Sidebar extends Component {
         this.refresh()
       }
     })
-  }
+  }*/
 
   /**
    * REMOVED from final build - option replaced by 'clear all' for simplicity
-   * Deletes the clicked reminder
-   * @param {*} e - event corresponding to reminder that was clicked on
+   * Deletes the selected reminder
+   * @param {*} e - event corresponding to selected reminder
    */
-  deleteReminder(e) {
+  /*deleteReminder(e) {
     let content = e.target.getAttribute('content')
     let id = this.findIndex(content)
 
@@ -258,11 +258,11 @@ class Sidebar extends Component {
 
     this.updateFirebase()
     this.refresh()
-  }
+  }*/
 
   /**
-   * 
-   * @param {*} content 
+   * Finds index of the reminder in this.state.reminders array
+   * @param {*} content - content of the desired reminder
    */
   findIndex(content) {
     for (let i = 0; i < this.state.reminders.length; i++) {
@@ -291,6 +291,7 @@ class Sidebar extends Component {
 
     // Check no fields have been left empty
     if (sidebarTime.value && sidebarDate.value) {
+      // Get date format from values entered into time sidebar
       let dateFormat = sidebarDate.value.substr(8, 2) + ' ' + MONTHS[sidebarDate.value.substr(5, 2) - 1] + 
       ' ' + sidebarDate.value.substr(0, 4)
 
@@ -300,13 +301,15 @@ class Sidebar extends Component {
         ('0' + (new Date()).getHours()).slice(-2) + 
         ':' + ('0' + (new Date()).getMinutes()).slice(-2))
 
+      // 'Short' format of both current and select dates designed for easy integer calculations
+      // (Determining which date and time is newer)
       let sideBarShort = sidebarDate.value.substr(0, 4) + (sidebarDate.value.substr(5, 2) - 1) +
         sidebarDate.value.substr(8, 2) + sidebarTime.value.substr(0, 2) + sidebarTime.value.substr(3, 2)
-
       let currentShort = (new Date()).getUTCFullYear().toString() + (new Date()).getUTCMonth().toString() + 
         (new Date().getUTCDate()).toString() + ('0' + (new Date()).getHours()).slice(-2).toString() + 
         ('0' + (new Date()).getMinutes()).slice(-2).toString()
 
+      // Convert current and selected dates to integers
       try {
         sideBarShort = parseInt(sideBarShort)
       } catch (e) { }
@@ -314,9 +317,7 @@ class Sidebar extends Component {
         currentShort = parseInt(currentShort)
       } catch (e) { }
 
-      console.log(sideBarShort)
-      console.log(currentShort)
-
+      // Show reminder date and time if the sidebar time is newer than the current time
       if (sideBarFormat !== currentFormat && sideBarShort >= currentShort) {
         this.state.reminders[id].date = dateFormat + ', ' + sidebarTime.value
       }
@@ -326,7 +327,7 @@ class Sidebar extends Component {
   }
 
   /**
-   * 
+   * Delete all completed reminders permanently, with prompt
    */
   removeCompleted() {
     for (let i = this.state.reminders.length - 1; i >= 0; i--) {
@@ -340,7 +341,7 @@ class Sidebar extends Component {
   }
 
   /**
-   * 
+   * Render UI including dateUI and UI elements for incomplete and complete reminders
    */
   render() {
     let dateUI = (
@@ -360,6 +361,7 @@ class Sidebar extends Component {
     )
 
     let ID = -1
+    // Complete reminders UI
     let reminders = this.state.reminders.map(reminder => {
       if (!reminder.complete) {
         ID++
@@ -368,6 +370,7 @@ class Sidebar extends Component {
       }
     })
 
+    // Incomplete reminders UI
     let complete = this.state.reminders.map(reminder => {
       if (reminder.complete) {
         ID++
@@ -454,8 +457,8 @@ class Sidebar extends Component {
 }
 
 /**
- * 
- * @param {*} props 
+ * Complete reminders UI
+ * @param {*} props - reminder passed as props.reminder
  */
 const Reminder = (props) => {
   const hover = (bool) => {
@@ -490,8 +493,8 @@ const Reminder = (props) => {
 }
 
 /**
- * 
- * @param {*} props 
+ * Incomelete reminders UI
+ * @param {*} props - reminder passed as props.reminder
  */
 const Complete = (props) => {
   return (
