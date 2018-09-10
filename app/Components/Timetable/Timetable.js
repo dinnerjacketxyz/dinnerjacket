@@ -93,7 +93,8 @@ class Timetable extends Component {
     if (localStorage.getItem('forceSmallTable') !== undefined
       && localStorage.getItem('forceSmallTable') !== null
       && localStorage.getItem('forceSmallTable') !== 'true'
-      && localStorage.getItem('forceSmallTable') !== 'false') {
+      && localStorage.getItem('forceSmallTable') !== 'false'
+      && localStorage.getItem('forceSmallTable') !== 'Default') {
       //if the user settings exists and is not from a past version use it
       card.className = localStorage.getItem('forceSmallTable')
     } else {

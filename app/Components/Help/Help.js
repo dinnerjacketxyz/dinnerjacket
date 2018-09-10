@@ -64,6 +64,7 @@ class Help extends Component {
                 <a className="uk-accordion-title">Calendar</a>
                 <div className="uk-accordion-content">
                   <p>A more accessible format and the ability to add personal events.</p>
+                  <hr/>
                   <p>Remove personal events on mobile</p>
                   <ol type='1'>
                     <li>Long press the event you wish you operate on</li>
@@ -82,6 +83,14 @@ class Help extends Component {
                 <a className="uk-accordion-title">Settings</a>
                 <div className="uk-accordion-content">
                   <p>Allows you to customise DinnerJacket to your liking</p>
+                  <hr/>
+                  <p>Bugs with theme or timetable are likely caused by conflicts with past versions of DinnerJacket
+                    and can be fixed by doing the following:
+                  </p>
+                  <ol type='1'>
+                    <li>Navigate to the settings page in the dropdown on the right side of the navigation bar.</li>
+                    <li>Set the settings to your liking making sure that the combination box is changed.</li>
+                  </ol>
                 </div>
               </li>
             </ul>

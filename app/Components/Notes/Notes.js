@@ -17,6 +17,8 @@ let firstLoad = false
 
 let mouseX, mouseY = 0
 
+window.notesMouseTimer
+
 let contextMenu
 
 const MAX_CLASSES = 12
@@ -177,43 +179,44 @@ class Notes extends Component {
       }
     })
 
-    let mouseTimer
+    document.getElementById('notesLayout').addEventListener("touchstart", this.touchDown)
+    document.getElementById('notesLayout').addEventListener("touchleave", this.touchUp)
+  }
 
-    function exec(e) {
-      contextMenu.style.visibility = 'visible'
+  touchDown() {
+    this.touchUp
+    window.notesMouseTimer = window.setTimeout(this.exec,1500); //set timeout to fire in 1.5 seconds when the user presses mouse button down
+  }
 
-      if ((e.touches[0].pageY+150.16)>window.innerHeight) {
-        console.log('too close to the right')
-        contextMenu.style.top = parseFloat(e.touches[0].pageY-150.16)+'px'
-      } else {
-        contextMenu.style.top = e.touches[0].pageY+'px'
-      }
+  touchUp() {
+    if (window.notesMouseTimer){
+      window.clearTimeout(window.notesMouseTimer)
+      console.log('released')
+    }
+  }
 
-      if ((e.touches[0].pageX+137.45)>window.innerWidth) {
-        console.log('too close to the right')
-        contextMenu.style.left = parseFloat(e.touches[0].pageX-137)+'px'
-      } else {
-        contextMenu.style.left = e.touches[0].pageX+'px'
-      }
-      console.log(e.target.text)
-      //this.state.onContext = e.target.text//THIS IS THE LINE THAT DOES NOT work
-      this.setState({onContext: e.target.text})
-      e.preventDefault()
+  exec(e) {
+    contextMenu.style.visibility = 'visible'
+
+    if ((e.touches[0].pageY+150.16)>window.innerHeight) {
+      console.log('too close to the right')
+      contextMenu.style.top = parseFloat(e.touches[0].pageY-150.16)+'px'
+    } else {
+      contextMenu.style.top = e.touches[0].pageY+'px'
     }
 
-    function touchUp() {
-      if (mouseTimer){
-        window.clearTimeout(mouseTimer)
-        console.log('released')
-      }
+    if ((e.touches[0].pageX+137.45)>window.innerWidth) {
+      console.log('too close to the right')
+      contextMenu.style.left = parseFloat(e.touches[0].pageX-137)+'px'
+    } else {
+      contextMenu.style.left = e.touches[0].pageX+'px'
     }
+    console.log(e.target.text)
+    console.log(this.state)
 
-    document.getElementById('notesLayout').addEventListener("touchstart", function(e) {
-      console.log('hold down')
-      touchUp()
-      mouseTimer = window.setTimeout(exec(e),1500); //set timeout to fire in 1.5 seconds when the user presses mouse button down
-    })
-    document.getElementById('notesLayout').addEventListener("touchleave", touchUp)
+    this.state.onContext = e.target.text//THIS IS THE LINE THAT DOES NOT work
+
+    e.preventDefault()
   }
 
   /**
