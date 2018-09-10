@@ -906,7 +906,7 @@ class Timetable extends Component {
               <hr />
 
               <p className='uk-align-left uk-margin-bottom-small'>Week</p>
-              <select id='acWeek' className='uk-select'>
+              <select style={{marginBottom:'20px'}} id='acWeek' className='uk-select'>
                 <option>A</option>
                 <option>B</option>
                 <option>C</option>

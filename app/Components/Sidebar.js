@@ -351,7 +351,7 @@ class Sidebar extends Component {
     let dateUI = (
       <div className='uk-inline'>
         <a uk-icon='clock' onClick={this.setDateTime.bind(this)}></a>
-        <div style={{minWidth:'220px'}} uk-dropdown='mode: click;boundary: .uk-table'>
+        <div style={{minWidth:'210px'}} uk-dropdown='mode: click;pos: left-center'>
           <p>Time</p>
 
           <input className='uk-input uk-form-blank' type='time' placeholder='hh/mm'/> {/* if you want to set this to a value it has to be in the format hh:mm in 24 hour time */}
@@ -416,7 +416,7 @@ class Sidebar extends Component {
               <td style={{paddingRight: '0px',paddingLeft:'2px'}}>
                 <div className='uk-inline'>
                   <a uk-icon='clock'></a>
-                  <div style={{minWidth:'220px'}} uk-dropdown='mode: click;boundary: .uk-table'>
+                  <div style={{minWidth:'220px'}} uk-dropdown='mode: click;pos: left-bottom'>
                   <a uk-icon='icon: info' uk-tooltip='title: The selected time and date will appear under the corresponding reminder.' className='uk-align-right' />
                     <p>Time</p>
 

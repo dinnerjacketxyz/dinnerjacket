@@ -17,9 +17,10 @@ class Settings extends Component {
   componentDidMount() {
     timetable = document.getElementById('timetableSelect')
 
+    /*
     if (window.isMobile) {
       timetable.setAttribute('disabled', true)
-    }
+    }*/
 
     //centers the content vertically
     let content = document.getElementById('content')

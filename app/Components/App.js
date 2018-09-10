@@ -650,7 +650,7 @@ class App extends Component {
                   <span uk-icon="icon: triangle-down"></span>
                 </a>
 
-                <div id="rightDropdown" className='uk-navbar-dropdown' uk-dropdown='mode: click'>
+                <div id="rightDropdown" className='uk-navbar-dropdown' uk-dropdown='mode: click;pos:bottom-right'>
                   <ul className='uk-nav uk-navbar-dropdown-nav'>
 
                     <li>

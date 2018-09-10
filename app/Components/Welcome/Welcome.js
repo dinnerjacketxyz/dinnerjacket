@@ -46,7 +46,7 @@ class Welcome extends Component {
           <div id='welcomeContent' className='card uk-animation-slide-top-small'>
             <img id='welcomelogo' alt='logo' src='./icons/256.png' width='150px' height='150px'/>
             <h1 id='welcomeTitle'>DinnerJacket</h1>
-            <p id='welcomeLabel'>v2.0.0</p>
+            <p id='welcomeLabel' className='uk-label'>v2.0.0</p>
             <p id='welcomeText'>Welcome to dinnerjacket, a student organiser designed SBHS' students and teachers.
                                 Please report any issues or suggestions in the feedback tab. 
                                 Thanks!</p>

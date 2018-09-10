@@ -252,6 +252,7 @@ class Notices extends Component {
     return (
       <div className='noticesParent'>
         <div className='noticesChild card uk-animation-slide-top-small'>
+          <div style={{height:'30px'}}><a uk-icon='icon: info' uk-tooltip='title: Click on individual notices to toggle them open/closed, or use the EXPAND/COLLAPSE button to taggle all at once.' className='uk-align-right' /></div>
           <div className='uk-margin-large-bottom'>
             <div className='yearSelect'>
               <select id='yearSelector' onChange={this.selectYear.bind(this)} className='yearSelect uk-select'>
@@ -272,8 +273,9 @@ class Notices extends Component {
             <button onClick={this.toggleNotices.bind(this)} className='uk-button uk-align-left uk-button-default'>
               {this.state.text}
             </button>
-            <a uk-icon='icon: info' uk-tooltip='title: Click on individual notices to toggle them open/closed, or use the EXPAND/COLLAPSE button to taggle all at once.' className='uk-align-right' />
+            
           </div>
+          
           <div>
             <ul id='noticesList' className='under' uk-accordion='multiple: true'>
               {rows}

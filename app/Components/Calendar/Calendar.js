@@ -890,6 +890,11 @@ class Calendar extends Component {
           </div>
     */
     
+
+    let addDropdown
+    if (window.isMobile) {addDropdown = 'left-bottom'}
+    else {addDropdown = 'bottom-left'}
+    
     return (
       <div className='flex-container uk-width-1-1 vcNavbarCard'>
         <div id='contextMenu' className='contextMenu card' style={{visibility: 'hidden', minHeight: '50px',minWidth:'50px',position:'absolute',zIndex:1000}}>
@@ -912,8 +917,8 @@ class Calendar extends Component {
             
             <div id='calIcons' className="uk-align-right">
               <div className="uk-inline">
-                <a uk-icon="icon: plus-circle" uk-tooltip='title: Add event for this day;pos:right'></a>
-                <div id='calAddDropdown' uk-dropdown="mode: click;pos:left-bottom">
+                <a uk-icon="icon: plus-circle" uk-tooltip='title: Add event for this day;pos:left'></a>
+                <div id='calAddDropdown' uk-dropdown={"mode: click;pos: "+addDropdown}>
                   <p className='uk-text-left'>Add personal event</p>
                   <input id='personalEventName' className="uk-input" type="text" placeholder="Event"/>
                   <button onClick={this.addPersonalEvent.bind(this)} className='uk-margin-top uk-button uk-button-default'>Add</button>
