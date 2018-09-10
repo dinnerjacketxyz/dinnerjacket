@@ -55,7 +55,6 @@ class Dashboard extends Component {
       this.getAPIData = this.getAPIData.bind(this)
       this.getAPIData()
     }
-
     // initial update
     this.updateTimetableDisplay('')
 
@@ -319,7 +318,7 @@ class Dashboard extends Component {
       // Wednesday, Thursday, Friday
       case 'R1T2=3=4T5': periods.splice(2, 0, recess); periods.splice(4, 0, lunch); break
       // Mon, Tue for Teacher?
-      case 'R1T2AB3T4C5': periods.splice(2, 0, lunch); periods.splice(5, 0, recess); break
+      case 'R1T2BC3T4A5': periods.splice(2, 0, lunch); periods.splice(5, 0, recess); break
       // Wed, Thu, Fri for Teacher?
       case 'R1T2A3BC4T5': periods.splice(2, 0, recess); periods.splice(4, 0, lunch); break
       default: break
@@ -369,6 +368,7 @@ class Dashboard extends Component {
       if (bells[i][1]) {
         returnData[i].changed.push('bells')
       }
+      //console.log(returnData[i])
     }
     console.log('Getclasses')
     return returnData
@@ -442,7 +442,7 @@ class Dashboard extends Component {
 
   // create the HTML for displaying classes
   processHTML(periods) {
-
+    //console.log(periods)
     const numPeriods = Object.keys(periods).length
     
     // these change the
@@ -512,7 +512,6 @@ class Dashboard extends Component {
     let date = new Date()
 
     // if timetable exists and is current (i.e. it is not past 3:15pm), use the timetable periods
-    
     // nested if's are used for readability
     if (timetable != '') {
       console.log('loading fresh periods')
