@@ -166,7 +166,7 @@ class Notes extends Component {
   }
 
   /**
-   * 
+   * Called upon the component mounting
    */
   componentDidMount() {
     this.enableSpinner(false)
@@ -187,37 +187,16 @@ class Notes extends Component {
     })
 
     this.initNote()
-
-
     UIkit.switcher(notesLayout).show(window.selectedNote)
-
-    //HELP BUSTOR
-    /*//console.log(window.selectedNote)
-    let notesLayout = document.getElementById('notesLayout')
-    for (let i = 0; i < notesLayout.childNodes; i++) {
-      if (i === window.selectedNote) {
-        //console.log('At ' + i + ' TRUE')
-        notesLayout.childNodes[i].setAttribute('aria-expanded', 'true')
-        notesLayout.childNodes[i].className = 'uk-active'
-      } else {
-        //console.log('At ' + i + ' FALSE')
-        notesLayout.childNodes[i].setAttribute('aria-expanded', 'false')
-        notesLayout.childNodes[i].className = ''
-      }
-    }*/
-
-    //console.log(notesLayout.childNodes)
 
     let posSaved = this.state.posSaved
     this.setState({ posSaved: true })
 
+    // Set interval for note sync
     setInterval(() => { this.updateDB() }, 1000) // 1sec
 
-    //alsways get data n that
+    // Get data from firebase reference
     ref.on('value', (data) => {
-      //console.log('data changed')
-      //console.log(!document.getElementById('editor').focus())
-
       if (forceUpdate || !quill.hasFocus()) {
         this.retrieveFirebase(data)      
       }
@@ -225,8 +204,8 @@ class Notes extends Component {
   }
 
   /**
-   * 
-   * @param {*} data 
+   * Retrieve synced data from online firebase database
+   * @param {*} data - returned sync data containing notes
    */
   retrieveFirebase(data) {
     //console.log('firebase data accessed')
@@ -237,30 +216,22 @@ class Notes extends Component {
     
     this.initNote()
     this.selectNoteInt(this.state.selected)
-
-    //console.log(this.state.notes)
   }
 
   /**
-   * 
+   * Called upon thecomponent unmounting
    */
   componentWillUnmount() {
     // Autosaves before enduser exits notes
     this.updateDB()
-    //console.log(document.getElementById('notesLayout'))
     let notesLayout = document.getElementById('notesLayout')
     
     let oldNotes = this.state.notes
     let notes = []
 
-    //console.log(this.state.notes)
-
-    // IMPROVE EFFICIENCY
+    // Linear search through notes UI elements to save notes positions as they can shift
     for (let i = 0; i < notesLayout.childNodes.length; i++) {
       let title = notesLayout.childNodes[i].getAttribute('text')
-      //console.log(title)
-      //console.log(this.state.notes[i].title)
-      
       if (this.state.notes[i].title !== title) {
         for (let j = 0; j < this.state.notes.length; j++) {
           if (this.state.notes[j].title === title) {
@@ -270,20 +241,12 @@ class Notes extends Component {
       } else {
         notes.push(this.state.notes[i])
       }
-
-      // CURRENT SELECTION
-      //if (notesLayout.childNodes[i].getAttribute('aria-expanded') === 'true') {
-      //  window.selectedNote = 
-      //}
-
-      //this.selectNoteThrottled.cancel()
     }
 
     window.selectedNote = this.state.selected 
-
     this.state.notes = notes
-
     localStorage.setItem('notesDB', btoa(JSON.stringify(this.state.notes)))
+
     // Upload updated notes database to firebase
     this.updateFirebase()
 
@@ -313,7 +276,7 @@ class Notes extends Component {
   }
 
   /**
-   * 
+   * Update firebase notes to be equivalent to current locally stored notes
    */
   updateFirebase() {
     // Consolidate encrypted notes database and last update time into a single notesDB
@@ -327,10 +290,11 @@ class Notes extends Component {
   }
 
   /**
-   * 
-   * @param {*} ttl 
-   * @param {*} cnt 
-   * @param {*} ID
+   * Template notes structure
+   * Called to add a noteStruct object to database
+   * @param {*} ttl - note title
+   * @param {*} cnt - note content
+   * @param {*} ID - note ID
    */
   noteStruct(ttl, cnt, ID) {
     let note = {
@@ -341,12 +305,8 @@ class Notes extends Component {
     return note
   }
 
-  /*rows = this.state.notices.map(notice => {
-    return <CollapsedNotices key={notice.ID} notices={notice} />
-  })*/
-
   /**
-   * 
+   * Initialises notes and sets editor contents to current (default) note content
    */
   initNote() {
     let content = this.state.notes[this.state.selected].content
@@ -361,29 +321,29 @@ class Notes extends Component {
   }
 
   /**
-   * 
+   * Handles creation of custom note from input field
    */
   createCustomNote() {
     this.updateDB()
     let title = document.getElementById('customTitle').value
     if (this.titleInUse(title)) {
-      // QUIGLEY
-      // I would keep the alert message contents but maybe present it in some uikit element that looks better innit
-      //alert('The note \'' + title.toUpperCase() + '\' already exists.')
+      // Alert to warn users of duplicate notes
       UIkit.modal.alert('The note \'' + title.toUpperCase() + '\' already exists. Please enter a unique title.')
     } else {
       currentID++
+
+      // Refresh
       let n = this.state.notes
       this.setState({ n: n.push(this.noteStruct(title, '', this.state.notes.length)) })
-      ////console.log(this.state.notes)
     }
   }
 
   /**
-   * 
-   * @param {*} title 
+   * Checks if note title is already in use
+   * @param {*} title - title to check for
    */
   titleInUse(title) {
+    // Linear search through 'this.state.notes' array to check for duplicate from parameter, title
     for (let i = 0; i < this.state.notes.length; i++) {
       if (title.toLowerCase() === this.state.notes[i].title.toLowerCase()) {
         return true
@@ -393,8 +353,8 @@ class Notes extends Component {
   }
 
   /**
-   * 
-   * @param {*} e 
+   * Handles creating a new note from the preset class fields
+   * @param {*} e - event handler of selected class field
    */
   createNote(e) {
     this.updateDB()
@@ -406,24 +366,24 @@ class Notes extends Component {
     }
 
     currentID++
+
+    // Refreshes notes
     let n = this.state.notes
     this.setState({ n: n.push(this.noteStruct(e.target.title, '', this.state.notes.length)) })
-    ////console.log(this.state.notes)
   }
 
   /**
-   * 
-   * @param {*} e 
+   * Saves screen position as mouse moves across component
+   * @param {*} e - mouse move event
    */
   onMouseMove(e) {
-    //this.setState({ mousePos: { x: e.screenX, y: e.screenY } })
     mouseX = e.screenX
     mouseY = e.screenY
-    ////console.log(mouseX,mouseY)
 
     this.state.mousePos.x = e.screenX
     this.state.mousePos.y = e.screenY
   }
+
   /**
    * 
    * @param {*} e 
@@ -634,7 +594,7 @@ class Notes extends Component {
             height: '100%',top: '0',left: '0', right: '0', bottom: '0', backgroundColor: 'rgba(0,0,0,0.3)', 
             zIndex: '2', cursor: 'pointer', borderRadius:'5px'}}><div className='calLoadingParent'>
             <div className='calLoadingChild uk-flex-center' uk-spinner="ratio: 4"/></div></div>
-          <a uk-icon='icon: info' uk-tooltip='title: Right click to rename, clear, or delete notes' className='doNotPrint uk-float-right' />
+          <a uk-icon='icon: info' uk-tooltip='title: Right click note titles to rename, clear, or delete notes' className='doNotPrint uk-float-right' />
           <ul onClick={() => {UIkit.dropdown(document.getElementById('notesDropdown')).hide()}} 
             id='notesLayout' className='doNotPrint uk-subnav uk-subnav-pill uk-flex-center' 
             uk-switcher='animation: uk-animation-fade' 

@@ -1,5 +1,3 @@
-// Reminders
-
 import React, { Component } from 'react'
 const http = require('http')
 
@@ -20,8 +18,8 @@ let userID
 let ref
 
 /**
+ * Reminders
  * Sidebar component that appears on the left side of the app
- * Contains reminders
  */
 class Sidebar extends Component {
   /**
@@ -88,7 +86,7 @@ class Sidebar extends Component {
   }
 
   /**
-   * Called upon the component loading
+   * Called upon the component mounting
    */
   componentDidMount() {
     this.setDateTime()
