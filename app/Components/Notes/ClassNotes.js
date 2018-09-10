@@ -30,30 +30,31 @@ class ClassNotes extends Component {
       notes: [],
       classes: []
     }
-    
+
+    //Syncs class notes
     if (localStorage.getItem('classNotesDB')) {
       try {
         this.state.notes = JSON.parse(atob(localStorage.getItem('classNotesDB')))
-      } catch (e) { console.log(e) }
+      } catch (e) {  }//console.log(e)
     }
-
     let n = this.state.notes
     this.setState({ n: this.state.notes })
 
+    //Set variables used for notes authorship
     userData = props.userData
-    
     userID = btoa(userData.username)
-    console.log('Username: ' + userID)
+    //console.log('Username: ' + userID)
     
     ref = props.database.ref('classNotes/') //sort by userID or subject or...????
     
+    //generates a list of classes from API for teacehrs
     this.generateClasses()
 
-    console.log(btoa(JSON.stringify(this.state.notes)))
+    //console.log(btoa(JSON.stringify(this.state.notes)))
 
     ref.on('value', (data) => {
-      console.log('REF.ON CALLED')
-      console.log(data.val())
+      //console.log('REF.ON CALLED')
+      //console.log(data.val())
       try {
         this.state.notes = JSON.parse(atob(data.val().classNotes))
         let n = this.state.notes
@@ -62,6 +63,7 @@ class ClassNotes extends Component {
     })
   }
 
+  //Mandatory react function for classes, outputs classnotes based on access level
   render() {
     let classNotes
     if (userData.role === 'Student') {
@@ -85,14 +87,14 @@ class ClassNotes extends Component {
 
     let i = 0
     while (i > -1) {
-      console.log(window.timetable.subjects[i])
+      //console.log(window.timetable.subjects[i])
       if (window.timetable.subjects[i]) {
         if (window.timetable.subjects[i] !== -1 && window.timetable.subjects[i].shortTitle[0] !== '_' &&
           window.timetable.subjects[i].subject !== '') {  
               
           let subject = window.timetable.subjects[i].year + window.timetable.subjects[i].shortTitle
           this.state.classes.push(subject)
-          console.log(this.state.classes)
+          //console.log(this.state.classes)
         }
       }
 
@@ -102,12 +104,13 @@ class ClassNotes extends Component {
         i = -1
       }
     }
-    console.log(this.state.classes)
+    //console.log(this.state.classes)
   }
 }
 
 export default ClassNotes
 
+//Class for teacher notes
 class TeacherNotes extends Component {
   constructor(props){
     super(props)
@@ -115,15 +118,22 @@ class TeacherNotes extends Component {
       notes: props.notes,
       classes: props.classes
     } 
-
+    window.onLeave = false
     this.sync()
   }
 
+  /**
+    * React life cycle function that saves the text, this only works as you move around the application because
+    * browsers restrict the developer's controlling of tab closing
+    */
   componentWillUnmount() {
     window.onLeave = true
     this.submitClassNote()
   }
 
+  /**
+    * Processes the form
+    */
   submitClassNote(e) {
     let inputTitle = document.getElementById('classNoteTitle')
     let inputClass = document.getElementById('classNoteClass')
@@ -132,7 +142,7 @@ class TeacherNotes extends Component {
     let today = new Date()
     let date
 
-    
+    //Puts the submitted date together
     if (today.getHours() < 10) {
       date = '0'+today.getHours()+':'+today.getMinutes() +' on '+ today.getDate() + ' ' + (months[today.getMonth()]) + ' ' + today.getFullYear()
     } else if (today.getMinutes() < 10) {
@@ -150,6 +160,8 @@ class TeacherNotes extends Component {
       let body = inputBody.value
 
       let draft
+
+      // if the form is being processed because user is leaving the page it saves automatically saves as a draft
       if(window.onLeave) {
         draft = true
       } else {
@@ -160,6 +172,7 @@ class TeacherNotes extends Component {
       //console.log(draft)
       //console.log(e.target.innerHTML)
 
+      // setting the record
       let cn = {
         title: title, 
         body: body, 
@@ -169,6 +182,7 @@ class TeacherNotes extends Component {
         draft: draft
       }
       
+      //syncing
       this.state.notes.unshift(cn)
       let notes = this.state.notes
       this.setState({ notes: this.state.notes })
@@ -177,6 +191,7 @@ class TeacherNotes extends Component {
       let notesDB = { classNotes: btoa(JSON.stringify(this.state.notes)) }
       ref.update(notesDB)
 
+      //visual feedback
       document.getElementById('cnVisualFeedback').className = 'active'
       if (draft) {
         document.getElementById('cnVisualFeedback').innerHTML = 'Successfully <b>saved</b> your note'
@@ -189,28 +204,12 @@ class TeacherNotes extends Component {
       }, 5000)
     } else if (window.onLeave == false) {
       // modal, error?
+      //error handling
       UIkit.modal.alert('Your title and/or body was empty. Please fill these fields and try again')
     }
+    //resetting control elements for a consistent, fresh start
     inputBody.value = ''
     inputTitle.value = ''
-  }
-
-  //Event method fired when a tab is clicked
-  tabInput(e) {
-    console.log(e.target.innerText)
-    if (document.getElementById(e.target.innerText.toLowerCase()) != null) {
-      if (e.target.innerText.toLowerCase() == 'editor') {
-        document.getElementById('editor').style.visibility = 'visible'
-        document.getElementById('editor').style.display = 'block'
-        document.getElementById('view').style.visibility = 'hidden'
-        document.getElementById('view').style.display = 'none'
-      } else if (e.target.innerText.toLowerCase() == 'view') {
-        document.getElementById('view').style.visibility = 'visible'
-        document.getElementById('view').style.display = 'block'
-        document.getElementById('editor').style.visibility = 'hidden'
-        document.getElementById('editor').style.display = 'none'
-      }
-    }
   }
 
   render() {
@@ -251,6 +250,9 @@ class TeacherNotes extends Component {
     )
   }
 
+  /**
+    * Fills in the editor with the values being edited and deletes the original instance
+    */
   editNote(e) {
     UIkit.switcher(document.getElementById('classNotesSwitcher')).show(0)
     document.getElementById('classNoteClass').selectedIndex = this.state.classes.indexOf(this.state.notes[e.target.getAttribute('noteid')].cnClass)
@@ -259,12 +261,15 @@ class TeacherNotes extends Component {
 
     this.removeNote(e)
 
-    console.log(this.state.notes)
+    //this.state.notes)
   }
 
+  /**
+    * Removes the note and syncs to the database
+    */
   removeNote(e) {
-    console.log(this.state.notes)
-    console.log('remove note')
+    //console.log(this.state.notes)
+    //console.log('remove note')
 
     let n = this.state.notes
     this.state.notes.splice(e.target.getAttribute('noteid'), 1)
@@ -274,13 +279,16 @@ class TeacherNotes extends Component {
     let notesDB = { classNotes: btoa(JSON.stringify(this.state.notes)) }
     ref.update(notesDB)
 
-    console.log(this.state.notes)
+    //console.log(this.state.notes)
   }
 
+  /**
+    * Called when the component mounts to sync class notes database
+    */
   sync() {
     ref.on('value', (data) => {
-      console.log('REF.ON CALLED')
-      console.log(data.val())
+      //console.log('REF.ON CALLED')
+      //console.log(data.val())
       try {
         this.state.notes = JSON.parse(atob(data.val().classNotes))
         let n = this.state.notes
@@ -290,6 +298,9 @@ class TeacherNotes extends Component {
   }
 }
 
+/**
+    * Checks if the notes received are meant to be displayed
+    */
 const noteInClasses = (note, classes) => {
   for (let i = 0; i < classes.length; i++) {
     if (note.cnClass === classes[i]) {
@@ -299,8 +310,9 @@ const noteInClasses = (note, classes) => {
   return false
 }
 
+
 const NotesView = (props) =>  {
-  console.log('notesview: ' + props.notes)
+  //console.log('notesview: ' + props.notes)
   let rows
   let drafts = null
   noteID = -1
@@ -313,7 +325,7 @@ const NotesView = (props) =>  {
     }
   }*/
 
-  console.log(props.notes.length)
+  //console.log(props.notes.length)
 
   if (props.notes.length === 0) {
     rows = (
@@ -365,9 +377,9 @@ const NotesView = (props) =>  {
         <hr/>
       </div>
     )
-    console.log('drafts is set')
+    //console.log('drafts is set')
   } else {
-    console.log('drafts is empty')
+    //console.log('drafts is empty')
   }
   
   return (

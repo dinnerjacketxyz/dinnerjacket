@@ -7,10 +7,15 @@ class Changelog extends Component {
         <div id='changelog' className='hCenterOnlyContainer'>
           <div style={{textAlign:'left'}} className='hCenterOnlyCard card uk-animation-slide-top-small'>
             <article className="uk-article">
-              <h1 className="uk-article-title">Unreleased features</h1>
+              <h1 className="uk-article-title">v2.0.0</h1>
+              <p className="uk-article-meta">11 September 2018</p>
+              <p>Post Trials update finalising DinnerJacket for assessment and marking its exit from acceptability testing.</p>
               <ul>
-                <li>Morning class support</li>
-                <li>Personal calendar integration</li>
+                <li>The reminders sidebar</li>
+                <li>Class notes that sync</li>
+                <li>Notes stability</li>
+                <li>Calendar personal events and search</li>
+                <li>Procedural and conceptual help</li>
               </ul>
             </article>
 

@@ -105,10 +105,9 @@ class App extends Component {
     }
 
     // Safari 3.0+ "[object HTMLElementConstructor]" 
-    window.isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
+    window.isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification))
 
-    
-
+    /*
     document.addEventListener('touchstart', handleTouchStart, false)     
     document.addEventListener('touchmove', handleTouchMove, false)
     
@@ -117,6 +116,7 @@ class App extends Component {
     function handleTouchStart(evt) {                                         
       xDown = evt.touches[0].clientX
       yDown = evt.touches[0].clientY
+
     }                  
   
     function handleTouchMove(evt) {
@@ -130,25 +130,23 @@ class App extends Component {
   
       if (Math.abs(xDiff) > Math.abs(yDiff)) {
         if (xDiff > 0) {
-          /* left swipe */ 
           console.log('left swipe')
+          UIkit.offcanvas(document.getElementById('sidebar')).hide()
         } else {
-          /* right swipe */
           console.log('right swipe')
+          UIkit.offcanvas(document.getElementById('sidebar')).show()
         }                       
       } else {
         if (yDiff > 0) {
-          /* up swipe */ 
           console.log('up swipe')
-        } else { 
-          /* down swipe */
+        } else {
           console.log('down swipe')
         }                                                                 
       }
 
       // reset values
-      xDown, yDown = null                                             
-    }
+      xDown, yDown = null                                           
+    }*/  
   }
 
   showLogin() {
@@ -603,7 +601,7 @@ class App extends Component {
 
               <li id='TimetableLi' className='uk-animation-toggle' onClick={this.showTimetable.bind(this)}>
                 <a id='TimetableA' className='uk-box-shadow-hover-small'>
-                  <span id='TimetableS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: table' />
+                  <span id='TimetableS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: grid' />
                   <p className='collapseText' id='TimetableP'>{nameArray[1]}</p>
                   <b className='collapseText' id='TimetableB'></b>
                 </a>

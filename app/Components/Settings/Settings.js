@@ -6,38 +6,25 @@ let color
 let theme
 let bodyArray = ['uk-dark','Clean']
 
-let width = 0
-let height = 0
-
-let validParentKey = false
-
-const KEY_TIMEOUT = 120 // 2 Minutes
-const KEY_LENGTH = 6
-const MIN_WIDTH = 530
-const MIN_HEIGHT = 620
-
-let validKey
-
 class Settings extends Component {
   constructor(props) {
     super(props)
-    width = window.innerWidth
-    height = window.innerHeight
-
-    this.state = {
-      parentText: 'Generate Parent Access Key',
-      ptText: ''
-    }
   }
 
+  /**
+    * React lifecycle method that sets up the settings combination boxes from local storage
+    */
   componentDidMount() {
     timetable = document.getElementById('timetableSelect')
+
     if (window.isMobile) {
       timetable.setAttribute('disabled', true)
     }
 
+    //centers the content vertically
     let content = document.getElementById('content')
     content.className = 'full vcNavbarParent'
+
 
     this.loadBodyArray()
     this.init('colorSelect', 'color', 'Light')
@@ -45,28 +32,36 @@ class Settings extends Component {
     this.init('timetableSelect', 'forceSmallTable', 'Dynamic')
   }
 
+  /**
+    * Generalised method to initialised the three combination boxes
+    */
+
   init(elementID, option, defaultValue) {
     let element = document.getElementById(elementID)
-    if (localStorage.getItem(option) !== undefined
-        && localStorage.getItem(option) !== null
-        && localStorage.getItem(option) !== 'true'
-        && localStorage.getItem(option) !== 'false') {
+    if (localStorage.getItem(option) != undefined
+        && localStorage.getItem(option) != null
+        && localStorage.getItem(option) != 'true'
+        && localStorage.getItem(option) != 'false') {
 
       if (localStorage.getItem(option) !== 'Dynamic' && option==='forceSmallTable') {
-        console.log(option)
         element.value = 'Force '+ localStorage.getItem(option)
       } else {
         element.value = localStorage.getItem(option)
       }
-      console.log(localStorage.getItem(option))
     } else { // first time load
       localStorage.setItem(option, defaultValue)
       element.value = defaultValue
     }
   }
 
+  /**
+    * Loads the body array which is an array that controls the properties of the <body> element
+    * which control the appearance of the application
+    */
   loadBodyArray() {
-    bodyArray[1] = localStorage.getItem('theme') 
+    if (bodyArray[1]!=null||bodyArray[1]!=undefined) {
+      bodyArray[1] = localStorage.getItem('theme') 
+    }
     if (localStorage.getItem('color') === 'Dark') {
       bodyArray[0] = 'uk-light'
     } else if (localStorage.getItem('color') ==='Light') {
@@ -75,11 +70,18 @@ class Settings extends Component {
     localStorage.setItem('bodyArray',bodyArray)
   }
 
+  /**
+    * React lifecycle method called when the user leaves the page
+    * clears vertically centering changes to parent elements
+    */
   componentWillUnmount() {
     let content = document.getElementById('content')
     content.className = 'full'
   }
 
+  /**
+    * Saves the setting in local storage
+    */
   timetable() {
     timetable = document.getElementById('timetableSelect')
     if(timetable.value.split(' ').length==2){
@@ -90,21 +92,30 @@ class Settings extends Component {
     }
   }
 
+  /**
+    * Sets the color in localstorage
+    */
   color() {
     color = document.getElementById('colorSelect')
     localStorage.setItem('color',color.value)
     this.changeBody(color.value)
   }
 
+  /**
+    * Saves the theme in local storage
+    */
   theme() {
     theme = document.getElementById('themeSelect')
     localStorage.setItem('theme',theme.value)
     this.changeBody(theme.value)
   }
 
+  /**
+    * Changes the appearance of the body and saves it to local storage
+    */
   changeBody(text) {
     theme = document.getElementById('themeSelect')
-    if (text == 'Clean' || text == 'Material') {
+    if (text === 'Clean' || text === 'Material') {
       bodyArray[1] = text
       color = document.getElementById('colorSelect')
       if (color.value == 'Dark') {
