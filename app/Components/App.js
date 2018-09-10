@@ -482,7 +482,7 @@ class App extends Component {
 
   showNotices() {
     ////('Daily notices tab clicked')
-    if (window.dailyNotices !== '') {
+    if (dailyNotices !== '') {
       let visible = this.state.visible
       this.setState({ visible: window.STATES.NOTICES })
       this.selectedNavbar(window.STATES.NOTICES)
