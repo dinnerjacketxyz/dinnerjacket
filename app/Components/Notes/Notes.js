@@ -628,7 +628,7 @@ class Notes extends Component {
           <div>
             <a uk-icon='plus-circle' uk-tooltip='title: Add custom notes; pos: bottom-center;' className='doNotPrint'></a>
             <div id='notesDropdown' uk-dropdown='mode: click;pos: top-center' className='doNotPrint'>
-            <a uk-icon='icon: info' uk-tooltip='title: Select a class or type in a custom title and press ADD to create a new note. ' className='uk-align-right' />
+            <a style={{marginLeft:'0px',marginBottom:'0px'}} uk-icon='icon: info' uk-tooltip='title: Select a class or type in a custom title and press ADD to create a new note. ' className='uk-align-right' />
               <p className='uk-text-left'>Classes</p>
               {classList}
 
