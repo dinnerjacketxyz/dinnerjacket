@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import debounce from 'lodash.debounce'
-//import throttle from 'lodash.throttle'
+import throttle from 'lodash.throttle'
 import { EEXIST } from 'constants';
 const http = require('http')
 const css = require('./Notes.css')
