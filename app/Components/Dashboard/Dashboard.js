@@ -270,7 +270,7 @@ class Dashboard extends Component {
           // add to periods
           
           // student
-          if (window.timetable['student'] !== undefined) {
+          if (window.timetable['student']['year'] != undefined) {
             const studentYear = window.timetable['student']['year']
             const className = timetable['timetable']['subjects'][studentYear + thisDay[0]]['title']
             const fullClassName = timetable['timetable']['subjects'][studentYear + thisDay[0]]['subject']
@@ -284,7 +284,7 @@ class Dashboard extends Component {
           // teacher
           } else {
             const morningClass = { name: thisDay[0],
-                                   teacher: '',
+                                   teacher: window.timetable['student']['title'] + ' ' + window.timetable['student']['surname'],
                                    room: thisDay[1],
                                    time: '08:00',
                                    fullName: thisDay[0],
