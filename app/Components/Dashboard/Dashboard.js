@@ -269,15 +269,28 @@ class Dashboard extends Component {
         if (dayname == timetable['timetable']['timetable']['dayname']) {
           // add to periods
           const studentYear = window.timetable['student']['year']
-          const className = timetable['timetable']['subjects'][studentYear + thisDay[0]]['title']
-          const fullClassName = timetable['timetable']['subjects'][studentYear + thisDay[0]]['subject']
-          const teacherName = timetable['timetable']['subjects'][studentYear + thisDay[0]]['fullTeacher']
-          const morningClass = { name: className,
-                                 teacher: teacherName,
-                                 room: thisDay[1],
-                                 time: '08:00',
-                                 fullName: fullClassName,
-                                 changed: [] }
+          
+          // student
+          if (studentYear !== undefined) {
+            const className = timetable['timetable']['subjects'][studentYear + thisDay[0]]['title']
+            const fullClassName = timetable['timetable']['subjects'][studentYear + thisDay[0]]['subject']
+            const teacherName = timetable['timetable']['subjects'][studentYear + thisDay[0]]['fullTeacher']
+            const morningClass = { name: className,
+                                   teacher: teacherName,
+                                   room: thisDay[1],
+                                   time: '08:00',
+                                   fullName: fullClassName,
+                                   changed: [] }
+          // teacher
+          } else {
+            const morningClass = { name: thisDay[0],
+                                   teacher: '',
+                                   room: thisDay[1],
+                                   time: '08:00',
+                                   fullName: thisDay[0],
+                                   changed: [] }
+          }
+
           periods.splice(0, 0, morningClass)
           
           // add to bells
@@ -489,6 +502,8 @@ class Dashboard extends Component {
                         </tr>
                       )
     var periodArr = [0, 1, 2, 3, 4, 5, 6]
+    
+    // handle morning class
     if (periods.length == 8) {
       periodArr.push(7)
     }
