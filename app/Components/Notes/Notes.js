@@ -1,17 +1,3 @@
-/* 
- * NOTES TO DO LIST
- * 
- *   DONE(ithink) when clicking off page the quill editor does not lose focus
- *   - conflicts on two seperate devices
- *   - offline indicator using firebase offline api
- *   - switching tabs too quickly bug
- *   - re add modals
- */
-
-// Sync notes (list detailed modules this file covers later)
-// George
-
-// localstorage only - below is the WIP firebase code
 import React, { Component } from 'react'
 import debounce from 'lodash.debounce'
 //import throttle from 'lodash.throttle'
@@ -42,10 +28,15 @@ let ref
 let fb
 let database
 
+/**
+ * User notes component
+ * Support for multiple notes organised by classes and other custom notes
+ * Syncs online with firebase database
+ */
 class Notes extends Component {
   /**
-   * 
-   * @param {*} props 
+   * Called on component load
+   * @param {*} props - includes firebase database and userID
    */
   constructor(props) {
     super(props)
@@ -407,8 +398,8 @@ class Notes extends Component {
   }
 
   /**
-   * 
-   * @param {*} e 
+   * Opens the notes context menu which displays options for rename, clear and delete
+   * @param {*} e - onContextMenu event
    */
   notesContextMenu(e) {
     contextMenu.style.visibility = 'visible'
@@ -425,13 +416,14 @@ class Notes extends Component {
   }
 
   /**
-   * 
+   * Removes the note which is currently right-clicked
    */
   removeNote() {
     if (this.state.notes.length > 1) {
       contextMenu.style.visibility = 'hidden'
 
       let title = ''
+      // Linear search to find note title
       for (let j = 0; j < this.state.notes.length; j++) {
         if (this.state.notes[j].title === this.state.onContext) {
           title = this.state.notes[j].title
@@ -439,7 +431,9 @@ class Notes extends Component {
         }
       }
 
+      // Prompt to eliminate accidental deleting of notes
       UIkit.modal.confirm('Are you sure? \'' + title + '\' will be permanently deleted.').then(_ => {
+        // Linear search to find note to delete
         for (let i = 0; i < this.state.notes.length; i++) {
           if (this.state.notes[i].title === this.state.onContext) {
             this.state.notes.splice(i, 1)
@@ -459,7 +453,7 @@ class Notes extends Component {
   }
 
   /**
-   * 
+   * Clears content of the note which is right-clicked
    */
   clearContents() {
     contextMenu.style.visibility = 'hidden'
@@ -472,7 +466,9 @@ class Notes extends Component {
       }
     }
 
+    // Prompt to ensure users dont accidentally clear content
     UIkit.modal.confirm('Are you sure? The contents of \'' + title + '\' will be permanently deleted.').then(_=> {
+      // Linear search to find note to clear
       for (let i = 0; i < this.state.notes.length; i++) {
         if (this.state.notes[i].title === this.state.onContext) {
           this.state.notes[i].content = ''
@@ -485,13 +481,14 @@ class Notes extends Component {
   }
 
   /**
-   * 
+   * Renames note which is currently right-clicked 
    */
   rename() {
     contextMenu.style.visibility = 'hidden'
 
     for (let i = 0; i < this.state.notes.length; i++) {
       if (this.state.notes[i].title === this.state.onContext) {
+        // Prompt asking for the new name of the note
         UIkit.modal.prompt('Enter a title to rename \'' + this.state.notes[i].title + '\'', 'Title').then(title => {
           if (title !== null && /\S/.test(title)) {
             this.state.notes[i].title = title
@@ -504,7 +501,7 @@ class Notes extends Component {
   }
 
   /**
-   * 
+   * Refreshes the list of notes and updates the database
    */
   refreshNotesList() {
     let notes = this.state.notes
@@ -513,8 +510,8 @@ class Notes extends Component {
   }
 
   /**
-   * 
-   * @param {*} e 
+   * Selects note out of the multiple in the database
+   * @param {string} text - text contained within the note to select
    */
   selectNote(text) {
 
@@ -535,8 +532,8 @@ class Notes extends Component {
   }
 
   /**
-   * 
-   * @param {*} int 
+   * Selects note out of the multiple in the database by the integer ID
+   * @param {int} int - ID to select
    */
   selectNoteInt(int) {
     this.updateDB()
@@ -546,7 +543,8 @@ class Notes extends Component {
   }
 
   /**
-   * 
+   * Event handler for clicking a new note title
+   * @param {*} e - event for clicking the note title
    */
   handleClick(e) {
     this.enableSpinner(true)
@@ -555,13 +553,14 @@ class Notes extends Component {
   }
 
   /**
-   * 
-   * @param {*} content 
+   * Displays the desired content in the quill text editor
+   * @param {*} content - content to be shown
    */
   displayContent(content) {
     if (content === '' || content === undefined) {
       quill.setText('')
     } else {
+      // Exception handling in case of 'corrupted save'
       try {
         quill.setContents(JSON.parse(content))
       } catch (e) {
@@ -588,6 +587,7 @@ class Notes extends Component {
       return <p className='notesClassList' key={key2} title={cls} onClick={this.createNote.bind(this)}>{cls}</p>
     })
 
+    // Prevent users from removing the last note
     let removeNote = null
     if (this.state.notes.length > 1) {
       removeNote = (
