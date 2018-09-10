@@ -269,10 +269,10 @@ class Dashboard extends Component {
         // check if this morning class is for today
         if (dayname == timetable['timetable']['timetable']['dayname']) {
           // add to periods
-          //const studentYear = window.timetable['student']['year']
-          const className = timetable['timetable']['subjects']['12' + thisDay[0]]['title']
-          const fullClassName = timetable['timetable']['subjects']['12' + thisDay[0]]['subject']
-          const teacherName = timetable['timetable']['subjects']['12' + thisDay[0]]['fullTeacher']
+          const studentYear = window.timetable['student']['year']
+          const className = timetable['timetable']['subjects'][studentYear + thisDay[0]]['title']
+          const fullClassName = timetable['timetable']['subjects'][studentYear + thisDay[0]]['subject']
+          const teacherName = timetable['timetable']['subjects'][studentYear + thisDay[0]]['fullTeacher']
           const morningClass = { name: className,
                                  teacher: teacherName,
                                  room: thisDay[1],
@@ -480,12 +480,12 @@ class Dashboard extends Component {
     
     // adjust how many periods need to be shown
     const PeriodItem = ({ value }) => (
-                        <tr> {/*
+                        <tr>
                           <td className='uk-text-left'>
                             {periods[value].name}
                             {periods[value].teacher}
                           </td>
-                          {periods[value].room} */}
+                          {periods[value].room}
                         </tr>
                       )
     var periodArr = [0, 1, 2, 3, 4, 5, 6]
