@@ -32,8 +32,6 @@ class Sidebar extends Component {
       reminders: []
     }
 
-    
-
     // Sets reminders from local storage except on first use
     if (localStorage.getItem('reminders')) {
       try {
@@ -43,20 +41,20 @@ class Sidebar extends Component {
 
     // Return information for user information from SBHS API
     /* User Info
-       {"username" : "436345789",     
-        "studentId" : "436345789",
-        "givenName" : "John",        
-        "surname"   : "Citizen",        
-        "rollClass" : "07E",        
-        "yearGroup" : "7",        
-        "role"      : "Student",      // may be valid for staff
-        "department": "Year 7",       // may be valid for staff
-        "office"    : "7E",           // may be valid for staff
-        "email"     : "436345789@student.sbhs.nsw.edu.au",
-        "emailAliases : [             // array of email addresses also valid for the user
-          "john.citizen23@student.sbhs.nsw.edu.au"],
-        "decEmail"  : "jcz@education.nsw.gov.au",
-        "groups"    : []              // array of network group memberships
+       {'username' : '436345789',     
+        'studentId' : '436345789',
+        'givenName' : 'John',        
+        'surname'   : 'Citizen',        
+        'rollClass' : '07E',        
+        'yearGroup' : '7',        
+        'role'      : 'Student',      // may be valid for staff
+        'department': 'Year 7',       // may be valid for staff
+        'office'    : '7E',           // may be valid for staff
+        'email'     : '436345789@student.sbhs.nsw.edu.au',
+        'emailAliases : [             // array of email addresses also valid for the user
+          'john.citizen23@student.sbhs.nsw.edu.au'],
+        'decEmail'  : 'jcz@education.nsw.gov.au',
+        'groups'    : []              // array of network group memberships
       }
     */
     
@@ -85,9 +83,22 @@ class Sidebar extends Component {
     })
   }
 
+  /**
+   * 
+   */
   componentDidMount() {
     console.log((new Date()).toISOString().split('T')[0])
+    
+    this.setDateTime()
+  }
+
+  /**
+   * 
+   */
+  setDateTime() {
     document.getElementById('sidebarDate').value = (new Date()).toISOString().split('T')[0]
+    document.getElementById('sidebarTime').value = ('0' + (new Date()).getHours()).slice(-2) + 
+      ':' + ('0' + (new Date()).getMinutes()).slice(-2)
   }
 
   /**
@@ -95,16 +106,18 @@ class Sidebar extends Component {
    * Sets reminders in 'this.state.reminders' to synced firebase data
    */
   retrieveReminders() {
-    ref.on('value', (data) => {
-      let reminders
-      try {
-        reminders = JSON.parse(atob(data.val().reminders))
-      } catch (e) { }
-      if (reminders) {
-        this.state.reminders = JSON.parse(atob(data.val().reminders))
-        this.refresh()
-      }
-    })
+    try {
+      ref.on('value', (data) => {
+        let reminders
+        try {
+          reminders = JSON.parse(atob(data.val().reminders))
+        } catch (e) { }
+        if (reminders) {
+          this.state.reminders = JSON.parse(atob(data.val().reminders))
+          this.refresh()
+        }
+      })
+    } catch (e) { }
   }
 
   /**
@@ -115,9 +128,6 @@ class Sidebar extends Component {
    */
   pushReminder(content, date, complete) {
     this.state.reminders.push({ content, date, complete })
-
-    this.updateFirebase()
-    this.refresh()
   }
 
   /**
@@ -126,7 +136,9 @@ class Sidebar extends Component {
    */
   updateFirebase() {
     let remindersDB = { reminders: btoa(JSON.stringify(this.state.reminders))}
-    ref.update(remindersDB)
+    try {
+      ref.update(remindersDB)
+    } catch (e) { }
 
     localStorage.setItem('reminders', btoa(JSON.stringify(this.state.reminders)))
   }
@@ -140,15 +152,21 @@ class Sidebar extends Component {
     // ENTER is used in the input field to submit a new reminder
     if (e.keyCode === 13) {
       let input = document.getElementById('addReminder')
-      
-      // Display a warning if the user attempts to create an already existant reminder
-      if (this.reminderInUse(input.value)) {
-        UIkit.modal.alert('The reminder \'' + input.value + '\' already exists. Please enter a different reminder.')
-      } else {
-        // Push reminder to database and reset input field if the reminder is unused
-        this.pushReminder(input.value, '', false)
-        this.addNotif(this.findIndex(input.value))
-        input.value = ''
+
+      if (input.value !== '') {
+        // Display a warning if the user attempts to create an already existant reminder
+        if (this.reminderInUse(input.value)) {
+          UIkit.modal.alert('The reminder \'' + input.value + '\' already exists. Please enter a different reminder.')
+        } else {
+          // Push reminder to database and reset input field if the reminder is unused
+          this.pushReminder(input.value, '', false)
+          this.addNotif(this.findIndex(input.value))
+          input.value = ''
+          this.setDateTime()
+
+          this.updateFirebase()
+          this.refresh()
+        }
       }
     }
   }
@@ -272,17 +290,47 @@ class Sidebar extends Component {
    * Handle user adding a notification to a particular reminder
    */
   addNotif(id) {
-    let hour = document.getElementById('hour')
-    let minutes = document.getElementById('minutes')
-    let dayDate = document.getElementById('date')
-    let month = document.getElementById('month')
-    let year = document.getElementById('year')
+    let sidebarTime = document.getElementById('sidebarTime')
+    let sidebarDate = document.getElementById('sidebarDate')
 
     // Check no fields have been left empty
-    if (hour.value && minutes.value && dayDate.value && month.value && year.value) {
-      console.log(hour.value, minutes.value, dayDate.value, month.value, year.value)
+    if (sidebarTime.value && sidebarDate.value) {
+      let dateFormat = sidebarDate.value.substr(8, 2) + ' ' + MONTHS[sidebarDate.value.substr(5, 2) - 1] + 
+      ' ' + sidebarDate.value.substr(0, 4)
 
-      let date = new Date()
+      let sideBarFormat = (dateFormat + ' ' + sidebarTime.value)
+      let currentFormat = (((new Date()).getUTCDate() + ' ' + 
+        MONTHS[(new Date()).getUTCMonth()]) + ' ' + (new Date()).getUTCFullYear() + ' ' + 
+        ('0' + (new Date()).getHours()).slice(-2) + 
+        ':' + ('0' + (new Date()).getMinutes()).slice(-2))
+
+      let sideBarShort = sidebarDate.value.substr(0, 4) + (sidebarDate.value.substr(5, 2) - 1) +
+        sidebarDate.value.substr(8, 2) + sidebarTime.value.substr(0, 2) + sidebarTime.value.substr(3, 2)
+
+      let currentShort = (new Date()).getUTCFullYear().toString() + (new Date()).getUTCMonth().toString() + 
+        (new Date().getUTCDate()).toString() + ('0' + (new Date()).getHours()).slice(-2).toString() + 
+        ('0' + (new Date()).getMinutes()).slice(-2).toString()
+
+      try {
+        sideBarShort = parseInt(sideBarShort)
+      } catch (e) { }
+      try {
+        currentShort = parseInt(currentShort)
+      } catch (e) { }
+
+      console.log(sideBarShort)
+      console.log(currentShort)
+
+      if (sideBarFormat !== currentFormat && sideBarShort >= currentShort) {
+        this.state.reminders[id].date = dateFormat + ', ' + sidebarTime.value
+      }
+    }
+
+    console.log(this.state.reminders[id].date)
+  }
+
+  /*
+  let date = new Date()
 
       if ((hour.value >= date.getHours() && dayDate.value >= date.getUTCDate() && 
         month.value >= date.getUTCMonth() && year.value >= date.getUTCFullYear()) || 
@@ -293,10 +341,7 @@ class Sidebar extends Component {
       } else {
         this.state.reminders[id].date = 'No notification'
       }
-    }
-
-    console.log(this.state.reminders[id].date)
-  }
+  */
 
   /**
    * 
@@ -304,16 +349,16 @@ class Sidebar extends Component {
   render() {
     let dateUI = (
       <div className='uk-inline'>
-        <a uk-icon='clock'></a>
+        <a uk-icon='clock' onClick={this.setDateTime.bind(this)}></a>
         <div style={{minWidth:'220px'}} uk-dropdown='mode: click;boundary: .uk-table'>
           <p>Time</p>
 
-          <input className='uk-input uk-form-blank' type="time" placeholder='hh/mm'/> {/* if you want to set this to a value it has to be in the format hh:mm in 24 hour time */}
+          <input className='uk-input uk-form-blank' type='time' placeholder='hh/mm'/> {/* if you want to set this to a value it has to be in the format hh:mm in 24 hour time */}
 
           <hr/>
 
           <p>Date</p>
-          <input className='uk-input uk-form-blank' type="date" name="due" placeholder='dd/mm/yyyy'/> {/* to set this value it has to be yyyy-mm-dd */}
+          <input className='uk-input uk-form-blank' type='date' name='due' placeholder='dd/mm/yyyy'/> {/* to set this value it has to be yyyy-mm-dd */}
         </div>
       </div>
     )
@@ -354,7 +399,6 @@ class Sidebar extends Component {
       <div className='uk-offcanvas-bar'>
         <button className='uk-offcanvas-close' type='button' uk-close=''></button>
         <h3 style={{marginTop:'40px'}}>Reminders</h3>
-        {/*<button onClick={this.expandAll} className='uk-margin-top uk-button uk-button-default uk-width-1-1'>expand</button>*/}
 
         <table id='reminders' className='uk-table uk-table-hover uk-table-middle uk-table-divider uk-table-small'>
           <thead>
@@ -381,13 +425,13 @@ class Sidebar extends Component {
                   <div style={{minWidth:'220px'}} uk-dropdown='mode: click;boundary: .uk-table'>
                     <p>Time</p>
 
-                    <input id='sidebarTime' className='uk-input uk-form-blank' type="time" placeholder='hh/mm' value={(new Date()).getHours() +':'+ (new Date()).getMinutes()}/>
+                    <input id='sidebarTime' className='uk-input uk-form-blank' type='time' placeholder='hh/mm' />
 
                     <hr/>
 
                     <p>Date</p>
 
-                    <input id='sidebarDate' className='uk-input uk-form-blank' type="date" placeholder='dd/mm/yyyy'/>
+                    <input id='sidebarDate' className='uk-input uk-form-blank' type='date' placeholder='dd/mm/yyyy'/>
                   </div>
                 </div>
               </td>
@@ -443,7 +487,8 @@ const Reminder = (props) => {
       </td>
 
       <td id={'editButton'+props.id} style={{display:'none'}}>
-        <button style={{borderRadius:'5px'}} className='uk-button-small uk-button-default' content={props.reminder.content} onClick={props.editReminder}>Edit</button>
+        <button style={{borderRadius:'5px'}} className='uk-button-small uk-button-default' 
+          content={props.reminder.content} onClick={props.editReminder}>Edit</button>
       </td>
       
       <td id={'schedule'+props.id} style={{display:'none',paddingRight: '0px',paddingLeft:'2px'}}>

@@ -211,7 +211,7 @@ class Notes extends Component {
     let posSaved = this.state.posSaved
     this.setState({ posSaved: true })
 
-    setInterval(() => { this.updateDB() }, 2000) // 2sec
+    setInterval(() => { this.updateDB() }, 1000) // 1sec
 
     //alsways get data n that
     ref.on('value', (data) => {
@@ -630,8 +630,11 @@ class Notes extends Component {
         </div>
         
         <div className='notesChild card uk-animation-slide-top-small'>
-          <div id='spinner' style={{position: 'fixed', display: 'none',visibility:'hidden', width: '100%',height: '100%',top: '0',left: '0', right: '0', bottom: '0', backgroundColor: 'rgba(0,0,0,0.3)', zIndex: '2', cursor: 'pointer', borderRadius:'5px'}}><div className='calLoadingParent'><div className='calLoadingChild uk-flex-center' uk-spinner="ratio: 4"/></div></div>
-          <a uk-icon='icon: info' uk-tooltip='title: Right click to rename, clear, or delete notes' className='doNotPrint uk-float-right'/>
+          <div id='spinner' style={{position: 'fixed', display: 'none',visibility:'hidden', width: '100%',
+            height: '100%',top: '0',left: '0', right: '0', bottom: '0', backgroundColor: 'rgba(0,0,0,0.3)', 
+            zIndex: '2', cursor: 'pointer', borderRadius:'5px'}}><div className='calLoadingParent'>
+            <div className='calLoadingChild uk-flex-center' uk-spinner="ratio: 4"/></div></div>
+          <a uk-icon='icon: info' uk-tooltip='title: Right click to rename, clear, or delete notes' className='doNotPrint uk-float-right' />
           <ul onClick={() => {UIkit.dropdown(document.getElementById('notesDropdown')).hide()}} 
             id='notesLayout' className='doNotPrint uk-subnav uk-subnav-pill uk-flex-center' 
             uk-switcher='animation: uk-animation-fade' 
@@ -639,7 +642,7 @@ class Notes extends Component {
             {notes}
           </ul>
           <div id='pad' className='pad'>
-            <div id='editor' onInput={this.updateDB.bind(this)} onMouseMove={this.onMouseMove.bind(this)}/>
+            <div id='editor' onMouseMove={this.onMouseMove.bind(this)}/>
             <div style={{display:'none',visibility:'hidden'}} id='' uk-spinner='ratio: 4' className='uk-spinner uk-icon'></div>
           </div>
           <div>
