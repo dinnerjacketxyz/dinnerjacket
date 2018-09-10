@@ -14,7 +14,6 @@ const MONTHS = [
 let userID
 let ref
 
-
 /**
  * Sidebar component that appears on the left side of the app
  * Contains reminders
@@ -247,16 +246,13 @@ class Sidebar extends Component {
   }
 
   /**
-   * DOESN'T WORK
+   * REMOVED from final build - option replaced by 'clear all' for simplicity
+   * Deletes the clicked reminder
+   * @param {*} e - event corresponding to reminder that was clicked on
    */
   deleteReminder(e) {
-    console.log(e.target)
-
     let content = e.target.getAttribute('content')
-    console.log(content)
     let id = this.findIndex(content)
-
-    console.log(id)
 
     this.state.reminders.splice(id, 1)
 
@@ -329,19 +325,19 @@ class Sidebar extends Component {
     console.log(this.state.reminders[id].date)
   }
 
-  /*
-  let date = new Date()
-
-      if ((hour.value >= date.getHours() && dayDate.value >= date.getUTCDate() && 
-        month.value >= date.getUTCMonth() && year.value >= date.getUTCFullYear()) || 
-        (minutes.value > date.getMinutes())) {
-
-        this.state.reminders[id].date = dayDate.value + ' ' + MONTHS[month.value - 1] + ' ' + 
-          year.value + ', ' + hour.value + ':' + document.getElementById('minutes').value
-      } else {
-        this.state.reminders[id].date = 'No notification'
+  /**
+   * 
+   */
+  removeCompleted() {
+    for (let i = this.state.reminders.length - 1; i >= 0; i--) {
+      if (this.state.reminders[i].complete) {
+        this.state.reminders.splice(i, 1)
       }
-  */
+    }
+
+    this.updateFirebase()
+    this.refresh()
+  }
 
   /**
    * 
@@ -389,12 +385,6 @@ class Sidebar extends Component {
       </tr>
     )
 
-    if (this.state.reminders.length === 0) {
-      reminders = (<tr><td>No incomplete reminders</td></tr>)
-      header = (<tr><th></th></tr>)
-    }
-
-
     return (
       <div className='uk-offcanvas-bar'>
         <button className='uk-offcanvas-close' type='button' uk-close=''></button>
@@ -441,6 +431,7 @@ class Sidebar extends Component {
         <ul uk-accordion=''>
           <li>
             <div style={{display:'inline', fontSize:'15px'}} className='uk-accordion-title uk-inline'>Show completed</div>
+            <button onClick={this.removeCompleted.bind(this)}>Clear all</button>
             <div className='uk-accordion-content'>
               <table className='uk-table uk-table-hover uk-table-middle uk-table-divider uk-table-small'>
                 <thead>
@@ -503,23 +494,13 @@ const Reminder = (props) => {
  * @param {*} props 
  */
 const Complete = (props) => {
-  const hover = (bool) => {
-    if (bool) {
-      document.getElementById('remove' + props.id).style.display = 'table-cell'
-    } else {
-      document.getElementById('remove' + props.id).style.display = 'none'
-    }
-  }
   return (
-    <tr onMouseEnter={() => {hover(true)}} onMouseLeave={() => {hover(false)}}>
+    <tr>
       <td style={{paddingLeft: '0px'}}>
         <input className='uk-checkbox' type='checkbox' content={props.reminder.content} onChange={props.chkClicked} />
       </td>
       <td style={{fontSize: '12px',color:'#c7c7c7'}} className='uk-text-truncate'>
         <p className='uk-text-truncate' onClick={props.expand}>{props.reminder.content}</p>
-      </td>
-      <td>
-        <a id={'remove'+props.id} style={{display:'none'}} uk-icon='trash' content={props.reminder.content} onClick={props.deleteReminder}></a>
       </td>
     </tr>
   )
