@@ -365,8 +365,8 @@ class Sidebar extends Component {
     let reminders = this.state.reminders.map(reminder => {
       if (!reminder.complete) {
         ID++
-        return <Reminder expand={this.expandReminder} key={ID} id={ID} reminder={reminder} 
-          dateUI={dateUI} chkClicked={this.chkClicked.bind(this)} editReminder={this.editReminder.bind(this)} />
+        return <Reminder key={ID} id={ID} reminder={reminder} 
+          dateUI={dateUI} chkClicked={this.chkClicked.bind(this)} />
       }
     })
 
@@ -374,8 +374,8 @@ class Sidebar extends Component {
     let complete = this.state.reminders.map(reminder => {
       if (reminder.complete) {
         ID++
-        return <Complete expand={this.expandReminder} key={ID} id={ID} reminder={reminder} 
-          deleteReminder={this.deleteReminder.bind(this)} chkClicked={this.chkClicked.bind(this)} />
+        return <Complete key={ID} id={ID} reminder={reminder} 
+           chkClicked={this.chkClicked.bind(this)} />
       }
     })
 
@@ -391,7 +391,10 @@ class Sidebar extends Component {
     return (
       <div className='uk-offcanvas-bar'>
         <button className='uk-offcanvas-close' type='button' uk-close=''></button>
-        <h3 style={{marginTop:'40px'}}>Reminders</h3>
+        <div>
+          <h4 className='uk-align-left' style={{marginTop:'40px'}}>Reminders</h4>
+          <a uk-icon='icon: info' style={{marginTop:'40px'}} uk-tooltip='title: text here' className='uk-align-right' />
+        </div>
 
         <table id='reminders' className='uk-table uk-table-hover uk-table-middle uk-table-divider uk-table-small'>
           <thead>
@@ -416,6 +419,7 @@ class Sidebar extends Component {
                 <div className='uk-inline'>
                   <a uk-icon='clock'></a>
                   <div style={{minWidth:'220px'}} uk-dropdown='mode: click;boundary: .uk-table'>
+                  <a uk-icon='icon: info' uk-tooltip='title: text here' className='uk-align-right' />
                     <p>Time</p>
 
                     <input id='sidebarTime' className='uk-input uk-form-blank' type='time' placeholder='hh/mm' />

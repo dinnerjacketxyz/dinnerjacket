@@ -176,6 +176,10 @@ body {
   }
 }
 
+.uk-tooltip {
+  z-index: 1001;
+}
+
 @media screen and (max-width: 580px) {
   .djLogo {
     width: 0px!important;

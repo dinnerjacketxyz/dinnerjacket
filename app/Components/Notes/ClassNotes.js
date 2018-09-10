@@ -1,14 +1,3 @@
-
-/**
- * CLASS NOTES TO DO LIST
- *   - Ability to delete notes as teacher - Greg (i have a good idea about how i want to do this)
- *   - Look at possibly making this more uniform with notices. Entries start closed and an expand all button can open them all.
- *   - Currently the class changes back to option 1 after sending a note. Stop this. keep it at the same class by default
- *   - Fix up drafts style like i said in the draft i may or may not have posted in the software class!
- */
-
-
-
 import React, { Component } from 'react'
 const http = require('http')
 const css = require('./ClassNotes.css')
@@ -91,7 +80,7 @@ class ClassNotes extends Component {
     * Loop through all the user's classes
     * Add valid classes to classes array held in this.state
     */
-  generateClasses() {
+   generateClasses() {
     this.state.classes = []
 
     let i = 0
@@ -135,21 +124,18 @@ class TeacherNotes extends Component {
     this.submitClassNote()
   }
 
-  componentDidMount() {
-    document.getElementById('classNoteClass').selectedIndex = window.saveComboIndex
-  }
-
   submitClassNote(e) {
-    console.log('on leave: '+window.onLeave)
     let inputTitle = document.getElementById('classNoteTitle')
     let inputClass = document.getElementById('classNoteClass')
     let inputBody = document.getElementById('classNoteBody')
+    
     let today = new Date()
     let date
 
-    if (today.getHours().length == 1) {
+    
+    if (today.getHours() < 10) {
       date = '0'+today.getHours()+':'+today.getMinutes() +' on '+ today.getDate() + ' ' + (months[today.getMonth()]) + ' ' + today.getFullYear()
-    } else if (today.getMinutes().length == 1) {
+    } else if (today.getMinutes() < 10) {
       date = today.getHours()+':0'+today.getMinutes() +' on '+ today.getDate() + ' ' + (months[today.getMonth()]) + ' ' + today.getFullYear()
     } else {
       date = today.getHours()+':'+today.getMinutes() +' on '+ today.getDate() + ' ' + (months[today.getMonth()]) + ' ' + today.getFullYear()
@@ -157,7 +143,7 @@ class TeacherNotes extends Component {
     
     let author = window.userData.givenName + ' ' + window.userData.surname
     
-    if (inputTitle.value.length > 0 || inputBody.value.length > 0) {
+    if (inputTitle.value.length > 0 && inputBody.value.length > 0) {
       let title = inputTitle.value
       let cnClass = inputClass.value
       
@@ -178,7 +164,7 @@ class TeacherNotes extends Component {
         title: title, 
         body: body, 
         cnClass: cnClass, 
-        date: date, 
+        date: date,
         author: author,
         draft: draft
       }
@@ -205,6 +191,8 @@ class TeacherNotes extends Component {
       // modal, error?
       UIkit.modal.alert('Your title and/or body was empty. Please fill these fields and try again')
     }
+    inputBody.value = ''
+    inputTitle.value = ''
   }
 
   //Event method fired when a tab is clicked
@@ -232,45 +220,39 @@ class TeacherNotes extends Component {
     })
 
     return (
-      <div className=''>
-        <ul onClick={this.tabInput.bind(this)} id='classNotesSwitcher' className='uk-margin-bottom uk-flex-center' uk-tab=''>
+      <div>
+        <ul id='classNotesSwitcher' className='uk-subnav uk-subnav-pill uk-flex uk-flex-center' uk-switcher=''>
             <li aria-expanded='true' className='uk-active'><a>Editor</a></li>
             <li aria-expanded='false'><a>View</a></li>
         </ul>
-        <div id='editor' style={{visibility:'visible',display:'block'}}>
-          <p>Class</p>
-          <select id='classNoteClass' className='uk-select uk-form-small uk-form-width-small'>
-            {classList}
-          </select>
-          
-          <hr/>
-
-          <p>Due date</p>
-
-          <input className='uk-input uk-form-blank' type="date" placeholder='dd/mm/yyyy'/>
-          
-          <hr/>
-
-          <div className='uk-margin'>
-            <input id='classNoteTitle' className='uk-input uk-form-blank uk-form-large' type='Title' placeholder='Title'/>
-          </div>
-          <div className='uk-margin'>
-            <textarea id='classNoteBody' className='uk-textarea uk-form-blank' rows='20' placeholder='Body' 
-              style={{margin: '0px', height: '110px', width: '100%', resize: 'none'}}></textarea>
-          </div>
-          <h3></h3>
-          <a style={{borderRadius:'5px 0 0 5px'}} onClick={this.submitClassNote.bind(this)} className='uk-button uk-button-primary'>Post</a>
-          <a style={{borderRadius:'0 5px 5px 0'}} onClick={this.submitClassNote.bind(this)} className='uk-button uk-button-default'>Save</a>
-          <div id='cnVisualFeedback' className='unactive'/>
-        </div>
-        <div id='view' style={{visibility:'hidden',display:'none'}}><NotesView notes={this.state.notes} classes={this.state.classes} 
-          editNote={this.editNote.bind(this)} removeNote={this.removeNote.bind(this)}/></div>
+        <ul className='uk-switcher uk-margin'>
+            <li className='uk-active'>
+              <div className='uk-flex uk-flex-center'>
+                <select id='classNoteClass' className='uk-select uk-form-small uk-form-width-small'>
+                  {classList}
+                </select>
+              </div>
+              <div className='uk-margin'>
+                <input id='classNoteTitle' className='uk-input uk-form-blank uk-form-large' type='Title' placeholder='Title'/>
+              </div>
+              <div className='uk-margin'>
+                <textarea id='classNoteBody' className='uk-textarea uk-form-blank' rows='20' placeholder='Body' 
+                  style={{margin: '0px', height: '110px', width: '100%', resize: 'none'}}></textarea>
+              </div>
+              <h3></h3>
+              <a style={{borderRadius:'5px 0 0 5px'}} onClick={this.submitClassNote.bind(this)} className='uk-button uk-button-primary'>Post</a>
+              <a style={{borderRadius:'0 5px 5px 0'}} onClick={this.submitClassNote.bind(this)} className='uk-button uk-button-default'>Save</a>
+              <div id='cnVisualFeedback' className='unactive'/>
+            </li>
+            <li><NotesView notes={this.state.notes} classes={this.state.classes} 
+              editNote={this.editNote.bind(this)} removeNote={this.removeNote.bind(this)}/></li>
+        </ul>
       </div>
     )
   }
 
   editNote(e) {
-    UIkit.tab(document.getElementById('classNotesSwitcher')).show(0)
+    UIkit.switcher(document.getElementById('classNotesSwitcher')).show(0)
     document.getElementById('classNoteClass').selectedIndex = this.state.classes.indexOf(this.state.notes[e.target.getAttribute('noteid')].cnClass)
     document.getElementById('classNoteBody').value = this.state.notes[e.target.getAttribute('noteid')].body
     document.getElementById('classNoteTitle').value = this.state.notes[e.target.getAttribute('noteid')].title
@@ -331,6 +313,8 @@ const NotesView = (props) =>  {
     }
   }*/
 
+  console.log(props.notes.length)
+
   if (props.notes.length === 0) {
     rows = (
       <h1 className='uk-heading-line uk-text-center' style={{marginTop:'50px',marginBottom:'50px'}}>
@@ -352,6 +336,23 @@ const NotesView = (props) =>  {
         return <FillClassNote key={noteID} note={note} noteID={noteID} editNote={props.editNote} removeNote={props.removeNote} />
       }
     })
+  }
+
+  let isEmpty = true
+
+  for (let i=0;i<=rows.length;i++) {
+    if (rows[i]!==undefined) {
+      isEmpty = false
+      break
+    }
+  }
+
+  if (isEmpty) {
+    rows = (
+      <h1 className='uk-heading-line uk-text-center' style={{marginTop:'50px',marginBottom:'50px'}}>
+        <span>No class notes</span>
+      </h1>
+    )
   }
 
   let draftUI
