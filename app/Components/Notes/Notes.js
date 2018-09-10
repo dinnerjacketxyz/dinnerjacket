@@ -14,7 +14,8 @@
 // localstorage only - below is the WIP firebase code
 import React, { Component } from 'react'
 import debounce from 'lodash.debounce'
-import { EPERM } from 'constants';
+import throttle from 'lodash.throttle'
+import { EEXIST } from 'constants';
 const http = require('http')
 const css = require('./Notes.css')
 
@@ -65,13 +66,9 @@ class Notes extends Component {
 
     // Encode fetched username to maintain user security
     userID = btoa(userID)
-    //console.log('Username: ' + userID)
 
     // Link firebase reference to 'userNotes' database of this userID's index
     ref = props.database.ref('userNotes/' + userID)
-
-    ///////
-    ///////
 
     //restore notes from localstorage and selection from window var
     if (localStorage.getItem('notesDB') === null) {
@@ -90,20 +87,7 @@ class Notes extends Component {
       })
     }
 
-
-    ////////
-    
-    this.generateClasses()
-    
-    // questionable innit
-    window.addEventListener('beforeunload', (event) => {
-      // Autosaves before enduser exits notes
-      //console.log('ISTHISEVERUSEDBEFOREUNLEAD?')
-    }, false)
-
-    
-
-    this.selectNoteDebounced = debounce(this.selectNote, 1000)
+    this.selectNoteDebounced = throttle(this.selectNote, 1000)
   }
   
   /**
@@ -183,7 +167,7 @@ class Notes extends Component {
       },
       theme: 'snow', // Snow theme enables permanent style and formatting options above note
       placeholder:
-      'Write any notes here! Notes are encoded and are not visible to anyone else. Notes are currently stored locally on your device. In future, notes will seamlessly sync across all your devices.'
+      'Write any notes here! Your notes are encrypted and are not visible to anyone else. Notes also sync in realtime across all of your devices!'
     })
 
     this.initNote()
@@ -208,7 +192,6 @@ class Notes extends Component {
    * @param {*} data - returned sync data containing notes
    */
   retrieveFirebase(data) {
-    //console.log('firebase data accessed')
     this.state.notes = JSON.parse(atob(data.val().notes))
     let n = this.state.notes
     this.generateClasses()
@@ -264,6 +247,7 @@ class Notes extends Component {
 
     // Save updated contents and last update time to notes database
     let content = quill.getContents()
+
     //let currentTime = new Date()
     this.state.notes[this.state.selected].content = JSON.stringify(content)
 
@@ -389,11 +373,9 @@ class Notes extends Component {
    * @param {*} e 
    */
   notesContextMenu(e) {
-    //console.log('context opened')
     contextMenu.style.visibility = 'visible'
 
     this.state.onContext = e.target.text
-    ////console.log(this.state.onContext)
 
     let dropdown = document.getElementById('contextMenu')
     //UIkit.dropdown(dropdown).show()
@@ -497,9 +479,8 @@ class Notes extends Component {
    * @param {*} e 
    */
   selectNote(text) {
-    console.log('SELECT NOTE CALLED')
 
-    this.updateDB()
+    //this.updateDB()
 
     let content
     for (let i = 0; i < this.state.notes.length; i++) {
@@ -508,15 +489,12 @@ class Notes extends Component {
         content = this.state.notes[i].content
       }
     }
+
+    //this.updateDB()
+
     this.displayContent(content)
     this.enableSpinner(false)
   }
-
-  /*selectNoteDebounced(e) {
-    debounce(() => {
-      this.selectNote(e)
-    }, 250)
-  }*/
 
   /**
    * 
@@ -534,6 +512,7 @@ class Notes extends Component {
    */
   handleClick(e) {
     this.enableSpinner(true)
+    this.updateDB()
     this.selectNoteDebounced(e.target.innerHTML)
   }
 
@@ -602,12 +581,13 @@ class Notes extends Component {
             {notes}
           </ul>
           <div id='pad' className='pad'>
-            <div id='editor' onMouseMove={this.onMouseMove.bind(this)}/>
+            <div id='editor' onInput={this.updateDB.bind(this)} onMouseMove={this.onMouseMove.bind(this)}/>
             <div style={{display:'none',visibility:'hidden'}} id='' uk-spinner='ratio: 4' className='uk-spinner uk-icon'></div>
           </div>
           <div>
             <a uk-icon='plus-circle' uk-tooltip='title: Add custom notes; pos: bottom-center;' className='doNotPrint'></a>
             <div id='notesDropdown' uk-dropdown='mode: click;pos: top-center' className='doNotPrint'>
+            <a uk-icon='icon: info' uk-tooltip='title: Select a class or type in a custom title and press ADD to create a new note. ' className='uk-align-right' />
               <p className='uk-text-left'>Classes</p>
               {classList}
 

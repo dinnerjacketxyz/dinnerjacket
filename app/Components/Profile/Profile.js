@@ -218,6 +218,7 @@ const NESA = () => {
 const PARTICIPATION = (rows) => {
   return (
     <ul uk-accordion='multiple: true'>
+      <a uk-icon='icon: info' uk-tooltip='title: Participation involves your points collected in the SBHS Award Scheme Program.' className='uk-align-right' />
       {rows}
     </ul>
   )
