@@ -268,10 +268,10 @@ class Dashboard extends Component {
         // check if this morning class is for today
         if (dayname == timetable['timetable']['timetable']['dayname']) {
           // add to periods
-          const studentYear = window.timetable['student']['year']
           
           // student
-          if (studentYear !== undefined) {
+          if (window.timetable['student'] !== undefined) {
+            const studentYear = window.timetable['student']['year']
             const className = timetable['timetable']['subjects'][studentYear + thisDay[0]]['title']
             const fullClassName = timetable['timetable']['subjects'][studentYear + thisDay[0]]['subject']
             const teacherName = timetable['timetable']['subjects'][studentYear + thisDay[0]]['fullTeacher']
