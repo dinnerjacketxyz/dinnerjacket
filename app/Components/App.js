@@ -42,6 +42,7 @@ const firebase = require('firebase')
 const fb = require('../fb')(firebase)
 const database = firebase.database()
 
+window.isSafari = false
 
 // Requirements for beta release
 // Daily timetable
@@ -102,6 +103,11 @@ class App extends Component {
     } else {
       window.isMobile = false
     }
+
+    // Safari 3.0+ "[object HTMLElementConstructor]" 
+    window.isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
+
+    
 
     document.addEventListener('touchstart', handleTouchStart, false)     
     document.addEventListener('touchmove', handleTouchMove, false)
@@ -498,41 +504,41 @@ class App extends Component {
     ////('About tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.ABOUT })
-    this.selectedNavbar(5)
+    this.selectedNavbar(6)
   }
 
   showProfile() {
     if (window.participation !== '' && window.userData !== '') {
       let visible = this.state.visible
       this.setState({ visible: window.STATES.PROFILE })
-      this.selectedNavbar(5)
+      this.selectedNavbar(6)
     }
   }
 
   showSettings() {
     let visible = this.state.visible
     this.setState({ visible: window.STATES.SETTINGS })
-    this.selectedNavbar(5)
+    this.selectedNavbar(6)
   }
 
   showChangelog() {
     ////('Changelog tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.CHANGELOG })
-    this.selectedNavbar(5)
+    this.selectedNavbar(6)
   }
 
   showFeedback() {
     ////('Feedback tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.FEEDBACK })
-    this.selectedNavbar(5)
+    this.selectedNavbar(6)
   }
 
   showHelp() {
     ////('Help tab clicked')
     this.setState({ visible: window.STATES.HELP })
-    this.selectedNavbar(5)
+    this.selectedNavbar(6)
   }
 
   logout() {
@@ -560,6 +566,10 @@ class App extends Component {
   // Always renders navbar
   // Renders active page
   render() {
+    let sidebarMode
+    if (window.isSafari) {sidebarMode='slide'} 
+    else {sidebarMode = 'push'}
+    
     return (
       <div id='main' className='main uk-offcanvas-content'>
         {this.state.visible === window.STATES.LOADING && <Loading />}
@@ -717,7 +727,7 @@ class App extends Component {
           {this.state.visible === window.STATES.HELP && <Help />}
         </div>
 
-        <div id='sidebar' uk-offcanvas='mode: slide' >
+        <div id='sidebar' uk-offcanvas={'mode: '+ sidebarMode}>
           <Sidebar />
         </div>
       </div>
