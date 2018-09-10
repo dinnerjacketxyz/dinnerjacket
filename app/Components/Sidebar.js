@@ -328,14 +328,16 @@ class Sidebar extends Component {
    * Delete all completed reminders permanently, with prompt
    */
   removeCompleted() {
-    for (let i = this.state.reminders.length - 1; i >= 0; i--) {
-      if (this.state.reminders[i].complete) {
-        this.state.reminders.splice(i, 1)
+    UIkit.modal.confirm('Are you sure? All completed reminders will be permanently deleted.').then(_ => {
+      for (let i = this.state.reminders.length - 1; i >= 0; i--) {
+        if (this.state.reminders[i].complete) {
+          this.state.reminders.splice(i, 1)
+        }
       }
-    }
 
-    this.updateFirebase()
-    this.refresh()
+      this.updateFirebase()
+      this.refresh()
+    })
   }
 
   /**
@@ -391,7 +393,7 @@ class Sidebar extends Component {
         <button className='uk-offcanvas-close' type='button' uk-close=''></button>
         <div>
           <h4 className='uk-align-left' style={{marginTop:'40px'}}>Reminders</h4>
-          <a uk-icon='icon: info' style={{marginTop:'40px'}} uk-tooltip='title: text here' className='uk-align-right' />
+          <a uk-icon='icon: info' style={{marginTop:'40px'}} uk-tooltip='title: After typing in a reminder, click ENTER to save it. The checkbox can then be used to send it to completed reminders.' className='uk-align-right' />
         </div>
 
         <table id='reminders' className='uk-table uk-table-hover uk-table-middle uk-table-divider uk-table-small'>
@@ -417,7 +419,7 @@ class Sidebar extends Component {
                 <div className='uk-inline'>
                   <a uk-icon='clock'></a>
                   <div style={{minWidth:'220px'}} uk-dropdown='mode: click;boundary: .uk-table'>
-                  <a uk-icon='icon: info' uk-tooltip='title: text here' className='uk-align-right' />
+                  <a uk-icon='icon: info' uk-tooltip='title: The selected time and date will appear under the corresponding reminder.' className='uk-align-right' />
                     <p>Time</p>
 
                     <input id='sidebarTime' className='uk-input uk-form-blank' type='time' placeholder='hh/mm' />
