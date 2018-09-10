@@ -5,6 +5,7 @@ import React, { Component } from 'react'
 const css = require('./Notices.css')
 
 let dailyNotices = ''
+let apiNotices = ''
 window.year = ''
 let search
 
@@ -15,8 +16,16 @@ class Notices extends Component {
     // Checks for student access level
     // Sets notice filter to student year if student is logged in
     // If a teacher is logged in, default filter is set to ALL
-    if (window.year === '' && window.userData.role === 'Student') {
+    /*if (!window.year === '' && window.userData.role === 'Student') {
       window.year = window.userData['yearGroup']
+    } else {
+      window.year = 'ALL'
+    }*/
+
+    if (window.userData.role === 'Student') {
+      if (!window.year) {
+        window.year = window.userData['yearGroup']
+      }
     } else {
       window.year = 'ALL'
     }
@@ -27,7 +36,10 @@ class Notices extends Component {
       text: 'EXPAND', // State indicating whether all notices are expanded or collapsed
       keywords: [] // Current search keywords entered into input box
     }
-    this.init(props.notices)
+
+    dailyNotices = props.notices
+    apiNotices = props.notices
+    this.init()
   }
   
   componentDidMount() {
@@ -55,7 +67,7 @@ class Notices extends Component {
    * Formats room, date, teacher, title, content etc. of notice
    * Pushes all notices to be rendered in this.state.notices
    */
-  init(apiNotices) {
+  init() {
     dailyNotices = apiNotices
     this.state.notices = []
     let count = 0
