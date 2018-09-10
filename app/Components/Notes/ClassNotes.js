@@ -93,10 +93,24 @@ class ClassNotes extends Component {
     */
   generateClasses() {
     this.state.classes = []
-    for (let i = 0; i < 4; i++) {
-      if (window.timetable.subjects[i] !== -1 && window.timetable.subjects[i].shortTitle[0] !== '_') {      
-        let subject = window.timetable.subjects[i].year + window.timetable.subjects[i].shortTitle
-        this.state.classes.push(subject)
+
+    let i = 0
+    while (i > -1) {
+      console.log(window.timetable.subjects[i])
+      if (window.timetable.subjects[i]) {
+        if (window.timetable.subjects[i] !== -1 && window.timetable.subjects[i].shortTitle[0] !== '_' &&
+          window.timetable.subjects[i].subject !== '') {  
+              
+          let subject = window.timetable.subjects[i].year + window.timetable.subjects[i].shortTitle
+          this.state.classes.push(subject)
+          console.log(this.state.classes)
+        }
+      }
+
+      if (window.timetable.subjects[i + 1]) {
+        i++
+      } else {
+        i = -1
       }
     }
     console.log(this.state.classes)
