@@ -124,10 +124,11 @@ class Notes extends Component {
   /**
    * Loop through all the user's classes
    * Add valid classes to classes array held in this.state
+   * TODO MAKE SURE THIS DOES NOT BUST WITH TEACHER WHO DO NOT HAVE 12 SUBJECTS
    */
   generateClasses() {
     this.state.classes = []
-    for (let i = 1; i < MAX_CLASSES + 1; i++) {
+    for (let i = 0; i < 4; i++) {
       if (window.timetable.subjects[i] !== -1 && window.timetable.subjects[i].shortTitle[0] !== '_') {      
         let subject = window.timetable.subjects[i].year + window.timetable.subjects[i].shortTitle
 
@@ -618,9 +619,9 @@ class Notes extends Component {
         
         <div className='notesChild card uk-animation-slide-top-small'>
           <div id='spinner' style={{position: 'fixed', display: 'none',visibility:'hidden', width: '100%',height: '100%',top: '0',left: '0', right: '0', bottom: '0', backgroundColor: 'rgba(0,0,0,0.3)', zIndex: '2', cursor: 'pointer', borderRadius:'5px'}}><div className='calLoadingParent'><div className='calLoadingChild uk-flex-center' uk-spinner="ratio: 4"/></div></div>
-          <a uk-icon='icon: info' uk-tooltip='title: Right click to rename, clear, or delete notes' className='uk-float-right'/>
+          <a uk-icon='icon: info' uk-tooltip='title: Right click to rename, clear, or delete notes' className='doNotPrint uk-float-right'/>
           <ul onClick={() => {UIkit.dropdown(document.getElementById('notesDropdown')).hide()}} 
-            id='notesLayout' className='uk-subnav uk-subnav-pill uk-flex-center' 
+            id='notesLayout' className='doNotPrint uk-subnav uk-subnav-pill uk-flex-center' 
             uk-switcher='animation: uk-animation-fade' 
             uk-sortable='cls-custom: uk-box-shadow-small uk-flex uk-flex-middle uk-background'>
             {notes}
@@ -630,8 +631,8 @@ class Notes extends Component {
             <div style={{display:'none',visibility:'hidden'}} id='' uk-spinner='ratio: 4' className='uk-spinner uk-icon'></div>
           </div>
           <div>
-            <a uk-icon='plus-circle' uk-tooltip='title: Add custom notes; pos: bottom-center;'></a>
-            <div id='notesDropdown' uk-dropdown='mode: click;pos: top-center'>
+            <a uk-icon='plus-circle' uk-tooltip='title: Add custom notes; pos: bottom-center;' className='doNotPrint'></a>
+            <div id='notesDropdown' uk-dropdown='mode: click;pos: top-center' className='doNotPrint'>
               <p className='uk-text-left'>Classes</p>
               {classList}
 

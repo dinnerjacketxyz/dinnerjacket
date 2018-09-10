@@ -93,7 +93,7 @@ class ClassNotes extends Component {
     */
   generateClasses() {
     this.state.classes = []
-    for (let i = 1; i < MAX_CLASSES + 1; i++) {
+    for (let i = 0; i < 4; i++) {
       if (window.timetable.subjects[i] !== -1 && window.timetable.subjects[i].shortTitle[0] !== '_') {      
         let subject = window.timetable.subjects[i].year + window.timetable.subjects[i].shortTitle
         this.state.classes.push(subject)
@@ -232,18 +232,8 @@ class TeacherNotes extends Component {
           <hr/>
 
           <p>Due date</p>
-          <select style={{borderRadius:'5px 0 0 5px'}} id='dueDay' className='uk-select uk-form-small uk-width-1-3'>
-            <option>1</option>
-            <option>2</option>
-          </select>
-          <select style={{borderRadius:'0'}} id='dueMonth' className='uk-select uk-form-small uk-width-1-3'>
-            <option>January</option>
-            <option>February</option>
-          </select>
-          <select style={{borderRadius:'0 5px 5px 0'}} id='dueYear' className='uk-select uk-form-small uk-width-1-3'>
-            <option>2018</option>
-            <option>2019</option>
-          </select>
+
+          <input className='uk-input uk-form-blank' type="date" placeholder='dd/mm/yyyy'/>
           
           <hr/>
 

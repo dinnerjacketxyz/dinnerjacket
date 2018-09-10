@@ -130,7 +130,7 @@ class Timetable extends Component {
   displayName() {
     //Puts your name at the top
     let name = document.getElementById('ttableName')
-    name.innerHTML = `${timetableData.student.givenname}&nbsp;${timetableData.student.surname}`
+    name.innerHTML = window.userData.givenName + ' ' + window.userData.surname
   }
 
   /**

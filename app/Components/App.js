@@ -717,7 +717,7 @@ class App extends Component {
           {this.state.visible === window.STATES.HELP && <Help />}
         </div>
 
-        <div id='sidebar' uk-offcanvas='mode: push' >
+        <div id='sidebar' uk-offcanvas='mode: slide' >
           <Sidebar />
         </div>
       </div>

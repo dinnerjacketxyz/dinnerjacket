@@ -32,6 +32,8 @@ class Sidebar extends Component {
       reminders: []
     }
 
+    
+
     // Sets reminders from local storage except on first use
     if (localStorage.getItem('reminders')) {
       try {
@@ -81,6 +83,11 @@ class Sidebar extends Component {
         } catch (e) { }
       })
     })
+  }
+
+  componentDidMount() {
+    console.log((new Date()).toISOString().split('T')[0])
+    document.getElementById('sidebarDate').value = (new Date()).toISOString().split('T')[0]
   }
 
   /**
@@ -300,22 +307,13 @@ class Sidebar extends Component {
         <a uk-icon='clock'></a>
         <div style={{minWidth:'220px'}} uk-dropdown='mode: click;boundary: .uk-table'>
           <p>Time</p>
-          <input id='hour' className='uk-input uk-form-blank uk-width-1-2' 
-            min='00' max='23' type='number' placeholder='H' maxLength='2' defaultValue={(new Date()).getHours()} autoFocus />
-          <input id='minutes' className='uk-input uk-form-blank uk-width-1-2' 
-            min='00' max='59' type='number' placeholder='M' maxLength='2' defaultValue={(new Date()).getMinutes()} />
+
+          <input className='uk-input uk-form-blank' type="time" placeholder='hh/mm'/> {/* if you want to set this to a value it has to be in the format hh:mm in 24 hour time */}
 
           <hr/>
 
           <p>Date</p>
-          <div className='uk-inline'>
-            <input id='date' className='uk-input uk-form-blank uk-width-1-4' 
-              min='1' max='28' type='number' placeholder='D' maxLength='2' defaultValue={(new Date()).getUTCDate()} />
-            <input id='month' className='uk-input uk-form-blank uk-width-1-4' 
-              min='1' max='12' type='number' placeholder='M' maxLength='2' defaultValue={(new Date()).getUTCMonth()} />
-            <input id='year' className='uk-input uk-form-blank uk-width-1-2' 
-              min={new Date().getUTCFullYear()} max='9999' type='number' placeholder='Y' maxLength='4' defaultValue={(new Date()).getUTCFullYear()} />
-          </div>
+          <input className='uk-input uk-form-blank' type="date" name="due" placeholder='dd/mm/yyyy'/> {/* to set this value it has to be yyyy-mm-dd */}
         </div>
       </div>
     )
@@ -378,7 +376,20 @@ class Sidebar extends Component {
               <td style={{paddingLeft: '0px'}}><input id='addReminder' className='uk-input uk-form-blank' 
                 onKeyDown={this.submitReminder.bind(this)} type='text' placeholder='Add reminder' autoFocus/></td>
               <td style={{paddingRight: '0px',paddingLeft:'2px'}}>
-                {dateUI}
+                <div className='uk-inline'>
+                  <a uk-icon='clock'></a>
+                  <div style={{minWidth:'220px'}} uk-dropdown='mode: click;boundary: .uk-table'>
+                    <p>Time</p>
+
+                    <input id='sidebarTime' className='uk-input uk-form-blank' type="time" placeholder='hh/mm' value={(new Date()).getHours() +':'+ (new Date()).getMinutes()}/>
+
+                    <hr/>
+
+                    <p>Date</p>
+
+                    <input id='sidebarDate' className='uk-input uk-form-blank' type="date" placeholder='dd/mm/yyyy'/>
+                  </div>
+                </div>
               </td>
             </tr>
           </tbody>

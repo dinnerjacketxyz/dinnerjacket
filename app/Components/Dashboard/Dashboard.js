@@ -480,12 +480,12 @@ class Dashboard extends Component {
     
     // adjust how many periods need to be shown
     const PeriodItem = ({ value }) => (
-                        <tr>
+                        <tr> {/*
                           <td className='uk-text-left'>
                             {periods[value].name}
                             {periods[value].teacher}
                           </td>
-                          {periods[value].room}
+                          {periods[value].room} */}
                         </tr>
                       )
     var periodArr = [0, 1, 2, 3, 4, 5, 6]
