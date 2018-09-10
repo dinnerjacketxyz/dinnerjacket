@@ -299,7 +299,7 @@ class Dashboard extends Component {
           periods.splice(0, 0, morningClass)
           
           // add to bells
-          const morningClassBell = { bell: fullClassName,
+          const morningClassBell = { bell: bellName,
                                      time: '08:00' }
           bells.splice(0, 0, morningClassBell)
           break
