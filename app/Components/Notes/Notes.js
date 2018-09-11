@@ -80,7 +80,7 @@ class Notes extends Component {
       })
     }
 
-    this.selectNoteDebounced = throttle(this.selectNote, 1000)
+    this.selectNoteDebounced = debounce(this.selectNote, 1000)
   }
   
   /**
