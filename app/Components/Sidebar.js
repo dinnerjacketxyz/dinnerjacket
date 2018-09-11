@@ -31,7 +31,8 @@ class Sidebar extends Component {
     super(props)
 
     this.state = {
-      reminders: []
+      reminders: [], // Local reminders database
+      showInvalid: false // Whether or not to show invalid time indicator
     }
 
     // Sets reminders from local storage except on first use
@@ -90,13 +91,19 @@ class Sidebar extends Component {
    */
   componentDidMount() {
     this.setDateTime()
+
+    // Set invalid time indicator to hidden by default
+    //let invalidTime = document.getElementById('invalidTime')
+    //invalidTime.style.visibility = 'hidden'
   }
 
   /**
    * Sets clock sidebar values to current and formatted date and time
    */
   setDateTime() {
-    document.getElementById('sidebarDate').value = (new Date()).toISOString().split('T')[0]
+    //document.getElementById('sidebarDate').value = (new Date()).toISOString().split('T')[0]
+    document.getElementById('sidebarDate').value = (new Date()).getUTCFullYear() + '-' + 
+      ('0' + (((new Date()).getUTCMonth() + 1).toString()).slice(-2)) + '-' + ('0' + (new Date()).getDate()).slice(-2)
     document.getElementById('sidebarTime').value = ('0' + (new Date()).getHours()).slice(-2) + 
       ':' + ('0' + (new Date()).getMinutes()).slice(-2)
   }
@@ -285,6 +292,16 @@ class Sidebar extends Component {
   }
 
   /**
+   * Returns current date and time with appropriate formatting
+   */
+  getCurrentFormat() {
+    return (((new Date()).getDate() + ' ' + 
+      MONTHS[(new Date()).getUTCMonth()]) + ' ' + (new Date()).getUTCFullYear() + ' ' + 
+      ('0' + (new Date()).getHours()).slice(-2) + 
+      ':' + ('0' + (new Date()).getMinutes()).slice(-2))
+  }
+
+  /**
    * Handle user adding a notification to a particular reminder
    */
   addNotif(id) {
@@ -298,17 +315,14 @@ class Sidebar extends Component {
       ' ' + sidebarDate.value.substr(0, 4)
 
       let sideBarFormat = (dateFormat + ' ' + sidebarTime.value)
-      let currentFormat = (((new Date()).getUTCDate() + ' ' + 
-        MONTHS[(new Date()).getUTCMonth()]) + ' ' + (new Date()).getUTCFullYear() + ' ' + 
-        ('0' + (new Date()).getHours()).slice(-2) + 
-        ':' + ('0' + (new Date()).getMinutes()).slice(-2))
+      let currentFormat = this.getCurrentFormat()
 
       // 'Short' format of both current and select dates designed for easy integer calculations
       // (Determining which date and time is newer)
       let sideBarShort = sidebarDate.value.substr(0, 4) + (sidebarDate.value.substr(5, 2) - 1) +
         sidebarDate.value.substr(8, 2) + sidebarTime.value.substr(0, 2) + sidebarTime.value.substr(3, 2)
       let currentShort = (new Date()).getUTCFullYear().toString() + (new Date()).getUTCMonth().toString() + 
-        (new Date().getUTCDate()).toString() + ('0' + (new Date()).getHours()).slice(-2).toString() + 
+        (new Date().getDate()).toString() + ('0' + (new Date()).getHours()).slice(-2).toString() + 
         ('0' + (new Date()).getMinutes()).slice(-2).toString()
 
       // Convert current and selected dates to integers
@@ -322,6 +336,15 @@ class Sidebar extends Component {
       // Show reminder date and time if the sidebar time is newer than the current time
       if (sideBarFormat !== currentFormat && sideBarShort >= currentShort) {
         this.state.reminders[id].date = dateFormat + ', ' + sidebarTime.value
+      } else if (sideBarShort < currentShort) {
+        // Show invalid time indicator if the selected time/date is in the past
+        this.state.showInvalid = true
+        this.refresh()
+        // Remove the indicator after it's visible for 5 seconds
+        setTimeout(() => {
+          this.state.showInvalid = false
+          this.refresh()
+        }, 5000)
       }
     }
 
@@ -383,6 +406,14 @@ class Sidebar extends Component {
       }
     })
 
+    // Render invalid time indicator if required
+    let invalidTimeInd = null
+    if (this.state.showInvalid) {
+      invalidTimeInd = (
+        <p id='invalidTime' style={{color:'#2dc0d5',fontSize:'12px'}}>Date and time not added. Please enter a date and time after {this.getCurrentFormat()}</p>
+      )
+    }
+
     return (
       <div className='uk-offcanvas-bar'>
         <button className='uk-offcanvas-close' type='button' uk-close=''></button>
@@ -427,13 +458,14 @@ class Sidebar extends Component {
                     <p>Date</p>
 
                     <input id='sidebarDate' className='uk-input uk-form-blank' type='date' placeholder='dd/mm/yyyy'/>
-                    <p style={{color:'#2dc0d5',fontSize:'12px'}}>You entered a time before the current time.</p>
                   </div>
                 </div>
               </td>
             </tr>
           </tbody>
         </table>
+
+        {invalidTimeInd}
         
         <ul uk-accordion=''>
           <li>

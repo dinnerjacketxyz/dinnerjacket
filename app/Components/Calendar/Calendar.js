@@ -97,6 +97,7 @@ class Calendar extends Component {
     
     // implement firebase syncing (constantly check for updates)
     ref.on('value', (data) => {
+      console.log('ref.on')
       if (data.val() != null) {
         localStorage.setItem('calPersonalEvents', atob(data.val().calendarEvents))
         this.setPersonalEvents(this.state.selectedDay + '-' + (this.state.selectedMonth + 1) + '-' + this.state.selectedYear)
@@ -224,7 +225,7 @@ class Calendar extends Component {
   setEvents(events) {
     var eventsToAdd = []
     const items = events['items']
-    console.log(items)
+    //console.log(items)
 
     for (var i = 0; i < items.length; i++) {
       const thisEvent = items[i]
@@ -691,7 +692,7 @@ class Calendar extends Component {
               const month = keyName.split('-')[1]
               const day = keyName.split('-')[0]
               const date = year + '-' + (month > 9 ? month : '0' + month) + '-' + (day > 9 ? day : '0' + day)
-              console.log(date)
+              //console.log(date)
               results.push(date)
               break
             }
@@ -705,9 +706,10 @@ class Calendar extends Component {
       loading.style.display = 'block'
       showMatchesInSearch = true
 
-      console.log(results)
+      //console.log(results)
       this.setState( ()=> ({
-        searchHits: results
+        searchHits: results,
+        searchResultIndex: 0
       }), ()=> {
         if (this.state.searchHits.length > 0) {
           this.changeSelectedSearchResult(0)
@@ -741,6 +743,7 @@ class Calendar extends Component {
   
   // change is 1, 0 or -1
   changeSelectedSearchResult(change) {
+    console.log('change sel result: ' + this.state.searchResultIndex + ', ' + change)
     var newIndex
     if (this.state.searchResultIndex == 0 && change == -1) {
       newIndex = this.state.searchHits.length - 1
@@ -814,7 +817,7 @@ class Calendar extends Component {
     }
     
     var calPersonalEvents = JSON.parse(localStorage.getItem('calPersonalEvents'))
-    console.log(calPersonalEvents)
+    //console.log(calPersonalEvents)
     // if date exists, merge new event with existing ones
     if (calPersonalEvents[eventDate] != null) {
     
