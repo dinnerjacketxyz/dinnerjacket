@@ -49,6 +49,9 @@ class Notices extends Component {
     selector.value = window.year
     
     search = document.getElementById('search')
+
+    window.onbeforeprint = this.toggleNotices.bind(this)
+    window.onafterprint = this.toggleNotices.bind(this)
   }
 
   /**
@@ -207,6 +210,8 @@ class Notices extends Component {
     let newText = ''
     newText = (text === 'EXPAND') ? 'COLLAPSE' : 'EXPAND'
     this.setState({ text: newText })
+    console.log(document.getElementById('noticesList').innerText)
+    this.forceUpdate()
   }
 
   /**
@@ -250,10 +255,11 @@ class Notices extends Component {
     let numMatches = (searchValue !== '') ? Matches(this.state.notices.length) : null
 
     return (
+      
       <div className='noticesParent'>
         <div className='noticesChild card uk-animation-slide-top-small'>
-          <div style={{height:'30px'}}><a uk-icon='icon: info' uk-tooltip='title: Click on individual notices to toggle them open/closed, or use the EXPAND/COLLAPSE button to taggle all at once.' className='uk-align-right' /></div>
-          <div className='uk-margin-large-bottom'>
+          <div className='doNotPrint' style={{height:'30px'}}><a style={{marginBottom:'0px'}} uk-icon='icon: info' uk-tooltip='title: Click on individual notices to toggle them open/closed, or use the EXPAND/COLLAPSE button to taggle all at once.;pos:right' className='uk-align-left' /></div>
+          <div className='doNotPrint uk-margin-large-bottom'>
             <div className='yearSelect'>
               <select id='yearSelector' onChange={this.selectYear.bind(this)} className='yearSelect uk-select'>
                 <option>ALL</option>

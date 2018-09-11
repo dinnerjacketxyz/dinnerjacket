@@ -893,7 +893,7 @@ class Calendar extends Component {
 
     let addDropdown
     if (window.isMobile) {addDropdown = 'left-bottom'}
-    else {addDropdown = 'bottom-left'}
+    else {addDropdown = 'bottom-right'}
     
     return (
       <div className='flex-container uk-width-1-1 vcNavbarCard'>
@@ -967,7 +967,7 @@ class Calendar extends Component {
                 <p className='uk-text-center uk-text-large uk-margin-top-none'></p>
                 <p className='uk-text-center uk-text-large uk-margin-top-none uk-heading-line'><span>Personal Events</span></p>
                 <p className='uk-text-center uk-text-large uk-margin-top-none'></p>
-                <ul id='personalEventsList' className="eventsList uk-list uk-list-divider">
+                <ul style={{whiteSpace: 'pre-wrap',overflowWrap: 'break-word'}} id='personalEventsList' className="eventsList uk-list uk-list-divider">
                     { this.state.personalEventsToShow.map((item, i) => { return <li onContextMenu={this.calContextMenu.bind(this)} key={i}>{item}</li>})}
                 </ul>
               </div>
