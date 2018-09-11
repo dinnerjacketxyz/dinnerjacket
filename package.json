@@ -1,6 +1,6 @@
 {
   "name": "dinnerjacket",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "SBHS organiser",
   "main": "server/server.js",
   "scripts": {
@@ -19,6 +19,7 @@
     "i": "^0.3.6",
     "lodash": "^4.17.10",
     "lodash.debounce": "^4.0.8",
+    "lodash.throttle": "^4.1.1",
     "npm": "^5.10.0",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",

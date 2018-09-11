@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 const http = require('http')
 
 const firebase = require('firebase')
+// fb -> firebase file in which firebase is defined
 const fb = require('../fb')(firebase)
 const database = firebase.database()
 
@@ -12,12 +13,13 @@ const MONTHS = [
 ]
 
 let userID
+
+// Reference to firebase database
 let ref
 
-
 /**
+ * Reminders
  * Sidebar component that appears on the left side of the app
- * Contains reminders
  */
 class Sidebar extends Component {
   /**
@@ -32,8 +34,6 @@ class Sidebar extends Component {
       reminders: []
     }
 
-    
-
     // Sets reminders from local storage except on first use
     if (localStorage.getItem('reminders')) {
       try {
@@ -43,20 +43,20 @@ class Sidebar extends Component {
 
     // Return information for user information from SBHS API
     /* User Info
-       {"username" : "436345789",     
-        "studentId" : "436345789",
-        "givenName" : "John",        
-        "surname"   : "Citizen",        
-        "rollClass" : "07E",        
-        "yearGroup" : "7",        
-        "role"      : "Student",      // may be valid for staff
-        "department": "Year 7",       // may be valid for staff
-        "office"    : "7E",           // may be valid for staff
-        "email"     : "436345789@student.sbhs.nsw.edu.au",
-        "emailAliases : [             // array of email addresses also valid for the user
-          "john.citizen23@student.sbhs.nsw.edu.au"],
-        "decEmail"  : "jcz@education.nsw.gov.au",
-        "groups"    : []              // array of network group memberships
+       {'username' : '436345789',     
+        'studentId' : '436345789',
+        'givenName' : 'John',        
+        'surname'   : 'Citizen',        
+        'rollClass' : '07E',        
+        'yearGroup' : '7',        
+        'role'      : 'Student',      // may be valid for staff
+        'department': 'Year 7',       // may be valid for staff
+        'office'    : '7E',           // may be valid for staff
+        'email'     : '436345789@student.sbhs.nsw.edu.au',
+        'emailAliases : [             // array of email addresses also valid for the user
+          'john.citizen23@student.sbhs.nsw.edu.au'],
+        'decEmail'  : 'jcz@education.nsw.gov.au',
+        'groups'    : []              // array of network group memberships
       }
     */
     
@@ -85,9 +85,20 @@ class Sidebar extends Component {
     })
   }
 
+  /**
+   * Called upon the component mounting
+   */
   componentDidMount() {
-    console.log((new Date()).toISOString().split('T')[0])
+    this.setDateTime()
+  }
+
+  /**
+   * Sets clock sidebar values to current and formatted date and time
+   */
+  setDateTime() {
     document.getElementById('sidebarDate').value = (new Date()).toISOString().split('T')[0]
+    document.getElementById('sidebarTime').value = ('0' + (new Date()).getHours()).slice(-2) + 
+      ':' + ('0' + (new Date()).getMinutes()).slice(-2)
   }
 
   /**
@@ -95,16 +106,18 @@ class Sidebar extends Component {
    * Sets reminders in 'this.state.reminders' to synced firebase data
    */
   retrieveReminders() {
-    ref.on('value', (data) => {
-      let reminders
-      try {
-        reminders = JSON.parse(atob(data.val().reminders))
-      } catch (e) { }
-      if (reminders) {
-        this.state.reminders = JSON.parse(atob(data.val().reminders))
-        this.refresh()
-      }
-    })
+    try {
+      ref.on('value', (data) => {
+        let reminders
+        try {
+          reminders = JSON.parse(atob(data.val().reminders))
+        } catch (e) { }
+        if (reminders) {
+          this.state.reminders = JSON.parse(atob(data.val().reminders))
+          this.refresh()
+        }
+      })
+    } catch (e) { }
   }
 
   /**
@@ -115,9 +128,6 @@ class Sidebar extends Component {
    */
   pushReminder(content, date, complete) {
     this.state.reminders.push({ content, date, complete })
-
-    this.updateFirebase()
-    this.refresh()
   }
 
   /**
@@ -126,7 +136,9 @@ class Sidebar extends Component {
    */
   updateFirebase() {
     let remindersDB = { reminders: btoa(JSON.stringify(this.state.reminders))}
-    ref.update(remindersDB)
+    try {
+      ref.update(remindersDB)
+    } catch (e) { }
 
     localStorage.setItem('reminders', btoa(JSON.stringify(this.state.reminders)))
   }
@@ -140,24 +152,31 @@ class Sidebar extends Component {
     // ENTER is used in the input field to submit a new reminder
     if (e.keyCode === 13) {
       let input = document.getElementById('addReminder')
-      
-      // Display a warning if the user attempts to create an already existant reminder
-      if (this.reminderInUse(input.value)) {
-        UIkit.modal.alert('The reminder \'' + input.value + '\' already exists. Please enter a different reminder.')
-      } else {
-        // Push reminder to database and reset input field if the reminder is unused
-        this.pushReminder(input.value, '', false)
-        this.addNotif(this.findIndex(input.value))
-        input.value = ''
+
+      if (input.value !== '') {
+        // Display a warning if the user attempts to create an already existant reminder
+        if (this.reminderInUse(input.value)) {
+          UIkit.modal.alert('The reminder \'' + input.value + '\' already exists. Please enter a different reminder.')
+        } else {
+          // Push reminder to database and reset input field if the reminder is unused
+          this.pushReminder(input.value, '', false)
+          this.addNotif(this.findIndex(input.value))
+          input.value = ''
+          this.setDateTime()
+
+          this.updateFirebase()
+          this.refresh()
+        }
       }
     }
   }
 
   /**
-   * 
-   * @param {*} content 
+   * Checks if a reminder exists with the same title
+   * @param {*} content - text to check if repeated
    */
   reminderInUse(content) {
+    // Linear search through reminders array do perform comparison with parameter 'content'
     for (let i = 0; i < this.state.reminders.length; i++) {
       if (content === this.state.reminders[i].content) {
         return true
@@ -167,12 +186,10 @@ class Sidebar extends Component {
   }
 
   /**
-   * 
-   * @param {*} e 
+   * Edits the UI of the selected reminder to expand it
+   * @param {*} e - event corresponding to selected reminder
    */
   expandReminder(e) {
-    console.log(e.target)
-    console.log(e.target.style.whiteSpace)
     if (e.target.style.whiteSpace === 'nowrap' || e.target.style.whiteSpace === ''){
       e.target.style.whiteSpace = 'pre-wrap'
       e.target.style.wordWrap = 'break-word'
@@ -182,30 +199,31 @@ class Sidebar extends Component {
   }
 
   /**
-   * 
-   * @param {*} e 
+   * REMOVED from final build - very buggy and unnecessary
+   * Expands all completed reminders
+   * @param {*} e - event corresponding to selected reminder
    */
-  expandAll(e) {
-    console.log(e.target.innerHTML)
+  /*expandAll(e) {
     if (e.target.innerHTML==='expand') {
       e.target.innerHTML = 'collapse'
     } else if (e.target.innerHTML==='collapse') {
       e.target.innerHTML = 'expand'
     }
-  }
+  }*/
 
   /**
-   * 
+   * Event handler called when a reminder is checked
+   * @param {*} e - event corresponding to selected reminder
    */
   chkClicked(e) {
+    let content = e.target.getAttribute('content')
+    let id = this.findIndex(content)
+    
+    e.preventDefault()
+
     console.log(e.target)
 
-    let content = e.target.getAttribute('content')
-    console.log(content)
-    let id = this.findIndex(content)
-
-    console.log(id)
-
+    // Swap complete reminders with incomplete and incomplete with complete
     this.state.reminders[id].complete = !this.state.reminders[id].complete
 
     this.updateFirebase()
@@ -213,10 +231,11 @@ class Sidebar extends Component {
   }
 
   /**
-   * 
-   * @param {*} e 
+   * REMOVED from final build - option satisfied by checking and creating a new reminder
+   * Edits the selected reminder
+   * @param {*} e - event corresponding to selected reminder
    */
-  editReminder(e) {
+  /*editReminder(e) {
     let content = e.target.getAttribute('content')
     let id = this.findIndex(content)
     UIkit.modal.prompt('Entar a new name for the reminder \'' + content + '\'', 'Name').then(title => {
@@ -226,29 +245,26 @@ class Sidebar extends Component {
         this.refresh()
       }
     })
-  }
+  }*/
 
   /**
-   * DOESN'T WORK
+   * REMOVED from final build - option replaced by 'clear all' for simplicity
+   * Deletes the selected reminder
+   * @param {*} e - event corresponding to selected reminder
    */
-  deleteReminder(e) {
-    console.log(e.target)
-
+  /*deleteReminder(e) {
     let content = e.target.getAttribute('content')
-    console.log(content)
     let id = this.findIndex(content)
-
-    console.log(id)
 
     this.state.reminders.splice(id, 1)
 
     this.updateFirebase()
     this.refresh()
-  }
+  }*/
 
   /**
-   * 
-   * @param {*} content 
+   * Finds index of the reminder in this.state.reminders array
+   * @param {*} content - content of the desired reminder
    */
   findIndex(content) {
     for (let i = 0; i < this.state.reminders.length; i++) {
@@ -272,26 +288,40 @@ class Sidebar extends Component {
    * Handle user adding a notification to a particular reminder
    */
   addNotif(id) {
-    let hour = document.getElementById('hour')
-    let minutes = document.getElementById('minutes')
-    let dayDate = document.getElementById('date')
-    let month = document.getElementById('month')
-    let year = document.getElementById('year')
+    let sidebarTime = document.getElementById('sidebarTime')
+    let sidebarDate = document.getElementById('sidebarDate')
 
     // Check no fields have been left empty
-    if (hour.value && minutes.value && dayDate.value && month.value && year.value) {
-      console.log(hour.value, minutes.value, dayDate.value, month.value, year.value)
+    if (sidebarTime.value && sidebarDate.value) {
+      // Get date format from values entered into time sidebar
+      let dateFormat = sidebarDate.value.substr(8, 2) + ' ' + MONTHS[sidebarDate.value.substr(5, 2) - 1] + 
+      ' ' + sidebarDate.value.substr(0, 4)
 
-      let date = new Date()
+      let sideBarFormat = (dateFormat + ' ' + sidebarTime.value)
+      let currentFormat = (((new Date()).getUTCDate() + ' ' + 
+        MONTHS[(new Date()).getUTCMonth()]) + ' ' + (new Date()).getUTCFullYear() + ' ' + 
+        ('0' + (new Date()).getHours()).slice(-2) + 
+        ':' + ('0' + (new Date()).getMinutes()).slice(-2))
 
-      if ((hour.value >= date.getHours() && dayDate.value >= date.getUTCDate() && 
-        month.value >= date.getUTCMonth() && year.value >= date.getUTCFullYear()) || 
-        (minutes.value > date.getMinutes())) {
+      // 'Short' format of both current and select dates designed for easy integer calculations
+      // (Determining which date and time is newer)
+      let sideBarShort = sidebarDate.value.substr(0, 4) + (sidebarDate.value.substr(5, 2) - 1) +
+        sidebarDate.value.substr(8, 2) + sidebarTime.value.substr(0, 2) + sidebarTime.value.substr(3, 2)
+      let currentShort = (new Date()).getUTCFullYear().toString() + (new Date()).getUTCMonth().toString() + 
+        (new Date().getUTCDate()).toString() + ('0' + (new Date()).getHours()).slice(-2).toString() + 
+        ('0' + (new Date()).getMinutes()).slice(-2).toString()
 
-        this.state.reminders[id].date = dayDate.value + ' ' + MONTHS[month.value - 1] + ' ' + 
-          year.value + ', ' + hour.value + ':' + document.getElementById('minutes').value
-      } else {
-        this.state.reminders[id].date = 'No notification'
+      // Convert current and selected dates to integers
+      try {
+        sideBarShort = parseInt(sideBarShort)
+      } catch (e) { }
+      try {
+        currentShort = parseInt(currentShort)
+      } catch (e) { }
+
+      // Show reminder date and time if the sidebar time is newer than the current time
+      if (sideBarFormat !== currentFormat && sideBarShort >= currentShort) {
+        this.state.reminders[id].date = dateFormat + ', ' + sidebarTime.value
       }
     }
 
@@ -299,66 +329,74 @@ class Sidebar extends Component {
   }
 
   /**
-   * 
+   * Delete all completed reminders permanently, with prompt
+   */
+  removeCompleted() {
+    UIkit.modal.confirm('Are you sure? All completed reminders will be permanently deleted.').then(_ => {
+      for (let i = this.state.reminders.length - 1; i >= 0; i--) {
+        if (this.state.reminders[i].complete) {
+          this.state.reminders.splice(i, 1)
+        }
+      }
+
+      this.updateFirebase()
+      this.refresh()
+    })
+  }
+
+  /**
+   * Render UI including dateUI and UI elements for incomplete and complete reminders
    */
   render() {
     let dateUI = (
       <div className='uk-inline'>
-        <a uk-icon='clock'></a>
-        <div style={{minWidth:'220px'}} uk-dropdown='mode: click;boundary: .uk-table'>
+        <a uk-icon='clock' onClick={this.setDateTime.bind(this)}></a>
+        <div style={{minWidth:'210px'}} uk-dropdown='mode: click;pos: left-center'>
           <p>Time</p>
 
-          <input className='uk-input uk-form-blank' type="time" placeholder='hh/mm'/> {/* if you want to set this to a value it has to be in the format hh:mm in 24 hour time */}
+          <input className='uk-input uk-form-blank' type='time' placeholder='hh/mm'/> {/* if you want to set this to a value it has to be in the format hh:mm in 24 hour time */}
 
           <hr/>
 
           <p>Date</p>
-          <input className='uk-input uk-form-blank' type="date" name="due" placeholder='dd/mm/yyyy'/> {/* to set this value it has to be yyyy-mm-dd */}
+          <input className='uk-input uk-form-blank' type='date' name='due' placeholder='dd/mm/yyyy'/> {/* to set this value it has to be yyyy-mm-dd */}
         </div>
       </div>
     )
 
     let ID = -1
+    // Complete reminders UI
     let reminders = this.state.reminders.map(reminder => {
       if (!reminder.complete) {
         ID++
-        return <Reminder expand={this.expandReminder} key={ID} id={ID} reminder={reminder} 
-          dateUI={dateUI} chkClicked={this.chkClicked.bind(this)} editReminder={this.editReminder.bind(this)} />
+        return <Reminder key={ID} id={ID} reminder={reminder} 
+          dateUI={dateUI} expand={this.expandReminder} chkClicked={this.chkClicked.bind(this)} />
       }
     })
 
+    // Incomplete reminders UI
     let complete = this.state.reminders.map(reminder => {
       if (reminder.complete) {
         ID++
         return <Complete expand={this.expandReminder} key={ID} id={ID} reminder={reminder} 
-          deleteReminder={this.deleteReminder.bind(this)} chkClicked={this.chkClicked.bind(this)} />
+           chkClicked={this.chkClicked.bind(this)} />
       }
     })
-
-    let header = (
-      <tr>
-        <th className='uk-table-shrink'></th>
-        <th></th>
-        <th className='uk-table-shrink'></th>
-        <th className='uk-table-shrink'></th>
-      </tr>
-    )
-
-    if (this.state.reminders.length === 0) {
-      reminders = (<tr><td>No incomplete reminders</td></tr>)
-      header = (<tr><th></th></tr>)
-    }
-
 
     return (
       <div className='uk-offcanvas-bar'>
         <button className='uk-offcanvas-close' type='button' uk-close=''></button>
-        <h3 style={{marginTop:'40px'}}>Reminders</h3>
-        {/*<button onClick={this.expandAll} className='uk-margin-top uk-button uk-button-default uk-width-1-1'>expand</button>*/}
+        <div>
+          <h4 className='uk-align-left' style={{marginTop:'40px'}}>Reminders</h4>
+          <a uk-icon='icon: info' style={{marginTop:'40px'}} uk-tooltip='title: After typing in a reminder, click ENTER to save it. The checkbox can then be used to send it to completed reminders.' className='uk-align-right' />
+        </div>
 
         <table id='reminders' className='uk-table uk-table-hover uk-table-middle uk-table-divider uk-table-small'>
           <thead>
-            {header}
+            <tr>
+              <th className='uk-table-shrink'></th>
+              <th></th>
+            </tr>
           </thead>
           <tbody onMouseOver={this.hover} style={{fontSize: '12px'}} uk-sortable='cls-custom: uk-flex uk-box-shadow-small uk-background-primary'>
             {reminders}
@@ -378,25 +416,29 @@ class Sidebar extends Component {
               <td style={{paddingRight: '0px',paddingLeft:'2px'}}>
                 <div className='uk-inline'>
                   <a uk-icon='clock'></a>
-                  <div style={{minWidth:'220px'}} uk-dropdown='mode: click;boundary: .uk-table'>
+                  <div style={{minWidth:'220px'}} uk-dropdown='mode: click;pos: left-bottom'>
+                  <a uk-icon='icon: info' uk-tooltip='title: The selected time and date will appear under the corresponding reminder.' className='uk-align-right' />
                     <p>Time</p>
 
-                    <input id='sidebarTime' className='uk-input uk-form-blank' type="time" placeholder='hh/mm' value={(new Date()).getHours() +':'+ (new Date()).getMinutes()}/>
+                    <input id='sidebarTime' className='uk-input uk-form-blank' type='time' placeholder='hh/mm' />
 
                     <hr/>
 
                     <p>Date</p>
 
-                    <input id='sidebarDate' className='uk-input uk-form-blank' type="date" placeholder='dd/mm/yyyy'/>
+                    <input id='sidebarDate' className='uk-input uk-form-blank' type='date' placeholder='dd/mm/yyyy'/>
+                    <p style={{color:'#2dc0d5',fontSize:'12px'}}>You entered a time before the current time.</p>
                   </div>
                 </div>
               </td>
             </tr>
           </tbody>
         </table>
+        
         <ul uk-accordion=''>
           <li>
             <div style={{display:'inline', fontSize:'15px'}} className='uk-accordion-title uk-inline'>Show completed</div>
+            <button onClick={this.removeCompleted.bind(this)} className='uk-button-small uk-button-default uk-margin-small-left' style={{padding:'0 10px'}}>Clear all</button>
             <div className='uk-accordion-content'>
               <table className='uk-table uk-table-hover uk-table-middle uk-table-divider uk-table-small'>
                 <thead>
@@ -419,62 +461,35 @@ class Sidebar extends Component {
 }
 
 /**
- * 
- * @param {*} props 
+ * Complete reminders UI
+ * @param {*} props - reminder passed as props.reminder
  */
 const Reminder = (props) => {
-  const hover = (bool) => {
-    if (bool) {
-      document.getElementById('editButton' + props.id).style.display = 'table-cell'
-      document.getElementById('schedule' + props.id).style.display = 'table-cell'
-    } else {
-      document.getElementById('editButton' + props.id).style.display = 'none'
-      document.getElementById('schedule' + props.id).style.display = 'none'
-    }
-  }
   return (
-    <tr onMouseEnter={() => {hover(true)}} onMouseLeave={() => {hover(false)}}>
+    <tr>
       <td style={{paddingLeft: '0px'}}>
-        <input className='uk-checkbox' type='checkbox' content={props.reminder.content} onChange={props.chkClicked} />
+        <input className='uk-checkbox' type='checkbox' content={props.reminder.content} onClick={props.chkClicked} />
       </td>
       <td className='uk-text-truncate'>
         <p className='uk-text-truncate' onClick={props.expand}>{props.reminder.content}</p>
         <p className='uk-text-muted'>{props.reminder.date}</p>
-      </td>
-
-      <td id={'editButton'+props.id} style={{display:'none'}}>
-        <button style={{borderRadius:'5px'}} className='uk-button-small uk-button-default' content={props.reminder.content} onClick={props.editReminder}>Edit</button>
-      </td>
-      
-      <td id={'schedule'+props.id} style={{display:'none',paddingRight: '0px',paddingLeft:'2px'}}>
-        {props.dateUI}
       </td>
     </tr>
   )
 }
 
 /**
- * 
- * @param {*} props 
+ * Incomelete reminders UI
+ * @param {*} props - reminder passed as props.reminder
  */
 const Complete = (props) => {
-  const hover = (bool) => {
-    if (bool) {
-      document.getElementById('remove' + props.id).style.display = 'table-cell'
-    } else {
-      document.getElementById('remove' + props.id).style.display = 'none'
-    }
-  }
   return (
-    <tr onMouseEnter={() => {hover(true)}} onMouseLeave={() => {hover(false)}}>
+    <tr>
       <td style={{paddingLeft: '0px'}}>
-        <input className='uk-checkbox' type='checkbox' content={props.reminder.content} onChange={props.chkClicked} />
+        <input className='uk-checkbox' type='checkbox' content={props.reminder.content} defaultChecked onClick={props.chkClicked} />
       </td>
       <td style={{fontSize: '12px',color:'#c7c7c7'}} className='uk-text-truncate'>
         <p className='uk-text-truncate' onClick={props.expand}>{props.reminder.content}</p>
-      </td>
-      <td>
-        <a id={'remove'+props.id} style={{display:'none'}} uk-icon='trash' content={props.reminder.content} onClick={props.deleteReminder}></a>
       </td>
     </tr>
   )

@@ -79,6 +79,8 @@ class Calendar extends Component {
     
     // setup firebase syncing
     ref = props.database.ref('calendarEvents/' + btoa(props.userID))
+
+    
   }
   
   // setup
@@ -101,6 +103,35 @@ class Calendar extends Component {
         this.setPersonalEvents(this.state.selectedDay + '-' + (this.state.selectedMonth + 1) + '-' + this.state.selectedYear)
       }
     })
+
+    let mouseTimer
+
+    function exec(e) {
+      personalEventOfContextMenu = e.target.innerHTML
+      contextMenu.style.visibility = 'visible'
+      contextMenu.style.top = parseFloat(e.touches[0].pageY-74)+'px'
+      if ((e.touches[0].pageX+137)>window.innerWidth) {
+        console.log('too close to the right')
+        contextMenu.style.left = parseFloat(e.touches[0].pageX-137)+'px'
+      } else {
+        contextMenu.style.left = e.touches[0].pageX+'px'
+      }
+      e.preventDefault()
+    }
+
+    function touchUp() {
+      if (mouseTimer){
+        window.clearTimeout(mouseTimer)
+        console.log('released')
+      }
+    }
+
+    document.getElementById('personalEventsList').addEventListener("touchstart", function(e) {
+      console.log('hold down')
+      touchUp()
+      mouseTimer = window.setTimeout(exec(e),1500); //set timeout to fire in 1.5 seconds when the user presses mouse button down
+    })
+    document.getElementById('personalEventsList').addEventListener("touchleave", touchUp)
   }
  
   componentWillUnmount() {
@@ -706,6 +737,7 @@ class Calendar extends Component {
     contextMenu.style.visibility = 'visible'
     contextMenu.style.top = e.clientY+'px'
     contextMenu.style.left = e.clientX+'px'
+    console.log(e.clientX,e.clientY)
     e.preventDefault()
   }
   
@@ -776,6 +808,7 @@ class Calendar extends Component {
       }
   */
   addPersonalEvent() {
+    UIkit.dropdown(document.getElementById('calAddDropdown')).hide()
     var eventDate = this.state.selectedDay + '-' + (this.state.selectedMonth + 1) + '-' + this.state.selectedYear
     var eventName = personalEventName.value
 
@@ -860,6 +893,11 @@ class Calendar extends Component {
           </div>
     */
     
+
+    let addDropdown
+    if (window.isMobile) {addDropdown = 'left-bottom'}
+    else {addDropdown = 'bottom-right'}
+    
     return (
       <div className='flex-container uk-width-1-1 vcNavbarCard'>
         <div id='contextMenu' className='contextMenu card' style={{visibility: 'hidden', minHeight: '50px',minWidth:'50px',position:'absolute',zIndex:1000}}>
@@ -882,8 +920,8 @@ class Calendar extends Component {
             
             <div id='calIcons' className="uk-align-right">
               <div className="uk-inline">
-                <a uk-icon="icon: plus-circle" uk-tooltip='title: Add event for this day;pos:right'></a>
-                <div uk-dropdown="mode: click">
+                <a uk-icon="icon: plus-circle" uk-tooltip='title: Add event for this day;pos:left'></a>
+                <div id='calAddDropdown' uk-dropdown={"mode: click;pos: "+addDropdown}>
                   <p className='uk-text-left'>Add personal event</p>
                   <input id='personalEventName' className="uk-input" type="text" placeholder="Event"/>
                   <button onClick={this.addPersonalEvent.bind(this)} className='uk-margin-top uk-button uk-button-default'>Add</button>
@@ -932,7 +970,7 @@ class Calendar extends Component {
                 <p className='uk-text-center uk-text-large uk-margin-top-none'></p>
                 <p className='uk-text-center uk-text-large uk-margin-top-none uk-heading-line'><span>Personal Events</span></p>
                 <p className='uk-text-center uk-text-large uk-margin-top-none'></p>
-                <ul className="eventsList uk-list uk-list-divider">
+                <ul style={{whiteSpace: 'pre-wrap',overflowWrap: 'break-word'}} id='personalEventsList' className="eventsList uk-list uk-list-divider">
                     { this.state.personalEventsToShow.map((item, i) => { return <li onContextMenu={this.calContextMenu.bind(this)} key={i}>{item}</li>})}
                 </ul>
               </div>

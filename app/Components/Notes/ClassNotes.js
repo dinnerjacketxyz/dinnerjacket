@@ -1,14 +1,3 @@
-
-/**
- * CLASS NOTES TO DO LIST
- *   - Ability to delete notes as teacher - Greg (i have a good idea about how i want to do this)
- *   - Look at possibly making this more uniform with notices. Entries start closed and an expand all button can open them all.
- *   - Currently the class changes back to option 1 after sending a note. Stop this. keep it at the same class by default
- *   - Fix up drafts style like i said in the draft i may or may not have posted in the software class!
- */
-
-
-
 import React, { Component } from 'react'
 const http = require('http')
 const css = require('./ClassNotes.css')
@@ -41,30 +30,31 @@ class ClassNotes extends Component {
       notes: [],
       classes: []
     }
-    
+
+    //Syncs class notes
     if (localStorage.getItem('classNotesDB')) {
       try {
         this.state.notes = JSON.parse(atob(localStorage.getItem('classNotesDB')))
-      } catch (e) { console.log(e) }
+      } catch (e) {  }//console.log(e)
     }
-
     let n = this.state.notes
     this.setState({ n: this.state.notes })
 
+    //Set variables used for notes authorship
     userData = props.userData
-    
     userID = btoa(userData.username)
-    console.log('Username: ' + userID)
+    //console.log('Username: ' + userID)
     
     ref = props.database.ref('classNotes/') //sort by userID or subject or...????
     
+    //generates a list of classes from API for teacehrs
     this.generateClasses()
 
-    console.log(btoa(JSON.stringify(this.state.notes)))
+    //console.log(btoa(JSON.stringify(this.state.notes)))
 
     ref.on('value', (data) => {
-      console.log('REF.ON CALLED')
-      console.log(data.val())
+      //console.log('REF.ON CALLED')
+      //console.log(data.val())
       try {
         this.state.notes = JSON.parse(atob(data.val().classNotes))
         let n = this.state.notes
@@ -73,6 +63,7 @@ class ClassNotes extends Component {
     })
   }
 
+  //Mandatory react function for classes, outputs classnotes based on access level
   render() {
     let classNotes
     if (userData.role === 'Student') {
@@ -91,19 +82,19 @@ class ClassNotes extends Component {
     * Loop through all the user's classes
     * Add valid classes to classes array held in this.state
     */
-  generateClasses() {
+   generateClasses() {
     this.state.classes = []
 
     let i = 0
     while (i > -1) {
-      console.log(window.timetable.subjects[i])
+      //console.log(window.timetable.subjects[i])
       if (window.timetable.subjects[i]) {
         if (window.timetable.subjects[i] !== -1 && window.timetable.subjects[i].shortTitle[0] !== '_' &&
           window.timetable.subjects[i].subject !== '') {  
               
           let subject = window.timetable.subjects[i].year + window.timetable.subjects[i].shortTitle
           this.state.classes.push(subject)
-          console.log(this.state.classes)
+          //console.log(this.state.classes)
         }
       }
 
@@ -113,12 +104,13 @@ class ClassNotes extends Component {
         i = -1
       }
     }
-    console.log(this.state.classes)
+    //console.log(this.state.classes)
   }
 }
 
 export default ClassNotes
 
+//Class for teacher notes
 class TeacherNotes extends Component {
   constructor(props){
     super(props)
@@ -126,30 +118,34 @@ class TeacherNotes extends Component {
       notes: props.notes,
       classes: props.classes
     } 
-
+    window.onLeave = false
     this.sync()
   }
 
+  /**
+    * React life cycle function that saves the text, this only works as you move around the application because
+    * browsers restrict the developer's controlling of tab closing
+    */
   componentWillUnmount() {
     window.onLeave = true
     this.submitClassNote()
   }
 
-  componentDidMount() {
-    document.getElementById('classNoteClass').selectedIndex = window.saveComboIndex
-  }
-
+  /**
+    * Processes the form
+    */
   submitClassNote(e) {
-    console.log('on leave: '+window.onLeave)
     let inputTitle = document.getElementById('classNoteTitle')
     let inputClass = document.getElementById('classNoteClass')
     let inputBody = document.getElementById('classNoteBody')
+    
     let today = new Date()
     let date
 
-    if (today.getHours().length == 1) {
+    //Puts the submitted date together
+    if (today.getHours() < 10) {
       date = '0'+today.getHours()+':'+today.getMinutes() +' on '+ today.getDate() + ' ' + (months[today.getMonth()]) + ' ' + today.getFullYear()
-    } else if (today.getMinutes().length == 1) {
+    } else if (today.getMinutes() < 10) {
       date = today.getHours()+':0'+today.getMinutes() +' on '+ today.getDate() + ' ' + (months[today.getMonth()]) + ' ' + today.getFullYear()
     } else {
       date = today.getHours()+':'+today.getMinutes() +' on '+ today.getDate() + ' ' + (months[today.getMonth()]) + ' ' + today.getFullYear()
@@ -157,13 +153,15 @@ class TeacherNotes extends Component {
     
     let author = window.userData.givenName + ' ' + window.userData.surname
     
-    if (inputTitle.value.length > 0 || inputBody.value.length > 0) {
+    if (inputTitle.value.length > 0 && inputBody.value.length > 0) {
       let title = inputTitle.value
       let cnClass = inputClass.value
       
       let body = inputBody.value
 
       let draft
+
+      // if the form is being processed because user is leaving the page it saves automatically saves as a draft
       if(window.onLeave) {
         draft = true
       } else {
@@ -174,15 +172,17 @@ class TeacherNotes extends Component {
       //console.log(draft)
       //console.log(e.target.innerHTML)
 
+      // setting the record
       let cn = {
         title: title, 
         body: body, 
         cnClass: cnClass, 
-        date: date, 
+        date: date,
         author: author,
         draft: draft
       }
       
+      //syncing
       this.state.notes.unshift(cn)
       let notes = this.state.notes
       this.setState({ notes: this.state.notes })
@@ -191,6 +191,7 @@ class TeacherNotes extends Component {
       let notesDB = { classNotes: btoa(JSON.stringify(this.state.notes)) }
       ref.update(notesDB)
 
+      //visual feedback
       document.getElementById('cnVisualFeedback').className = 'active'
       if (draft) {
         document.getElementById('cnVisualFeedback').innerHTML = 'Successfully <b>saved</b> your note'
@@ -203,26 +204,12 @@ class TeacherNotes extends Component {
       }, 5000)
     } else if (window.onLeave == false) {
       // modal, error?
+      //error handling
       UIkit.modal.alert('Your title and/or body was empty. Please fill these fields and try again')
     }
-  }
-
-  //Event method fired when a tab is clicked
-  tabInput(e) {
-    console.log(e.target.innerText)
-    if (document.getElementById(e.target.innerText.toLowerCase()) != null) {
-      if (e.target.innerText.toLowerCase() == 'editor') {
-        document.getElementById('editor').style.visibility = 'visible'
-        document.getElementById('editor').style.display = 'block'
-        document.getElementById('view').style.visibility = 'hidden'
-        document.getElementById('view').style.display = 'none'
-      } else if (e.target.innerText.toLowerCase() == 'view') {
-        document.getElementById('view').style.visibility = 'visible'
-        document.getElementById('view').style.display = 'block'
-        document.getElementById('editor').style.visibility = 'hidden'
-        document.getElementById('editor').style.display = 'none'
-      }
-    }
+    //resetting control elements for a consistent, fresh start
+    inputBody.value = ''
+    inputTitle.value = ''
   }
 
   render() {
@@ -232,57 +219,57 @@ class TeacherNotes extends Component {
     })
 
     return (
-      <div className=''>
-        <ul onClick={this.tabInput.bind(this)} id='classNotesSwitcher' className='uk-margin-bottom uk-flex-center' uk-tab=''>
+      <div>
+        <ul id='classNotesSwitcher' className='uk-subnav uk-subnav-pill uk-flex uk-flex-center' uk-switcher=''>
             <li aria-expanded='true' className='uk-active'><a>Editor</a></li>
             <li aria-expanded='false'><a>View</a></li>
         </ul>
-        <div id='editor' style={{visibility:'visible',display:'block'}}>
-          <p>Class</p>
-          <select id='classNoteClass' className='uk-select uk-form-small uk-form-width-small'>
-            {classList}
-          </select>
-          
-          <hr/>
-
-          <p>Due date</p>
-
-          <input className='uk-input uk-form-blank' type="date" placeholder='dd/mm/yyyy'/>
-          
-          <hr/>
-
-          <div className='uk-margin'>
-            <input id='classNoteTitle' className='uk-input uk-form-blank uk-form-large' type='Title' placeholder='Title'/>
-          </div>
-          <div className='uk-margin'>
-            <textarea id='classNoteBody' className='uk-textarea uk-form-blank' rows='20' placeholder='Body' 
-              style={{margin: '0px', height: '110px', width: '100%', resize: 'none'}}></textarea>
-          </div>
-          <h3></h3>
-          <a style={{borderRadius:'5px 0 0 5px'}} onClick={this.submitClassNote.bind(this)} className='uk-button uk-button-primary'>Post</a>
-          <a style={{borderRadius:'0 5px 5px 0'}} onClick={this.submitClassNote.bind(this)} className='uk-button uk-button-default'>Save</a>
-          <div id='cnVisualFeedback' className='unactive'/>
-        </div>
-        <div id='view' style={{visibility:'hidden',display:'none'}}><NotesView notes={this.state.notes} classes={this.state.classes} 
-          editNote={this.editNote.bind(this)} removeNote={this.removeNote.bind(this)}/></div>
+        <ul className='uk-switcher uk-margin'>
+            <li className='uk-active'>
+              <div className='uk-flex uk-flex-center'>
+                <select id='classNoteClass' className='uk-select uk-form-small uk-form-width-small'>
+                  {classList}
+                </select>
+              </div>
+              <div className='uk-margin'>
+                <input id='classNoteTitle' className='uk-input uk-form-blank uk-form-large' type='Title' placeholder='Title'/>
+              </div>
+              <div className='uk-margin'>
+                <textarea id='classNoteBody' className='uk-textarea uk-form-blank' rows='20' placeholder='Body' 
+                  style={{margin: '0px', height: '110px', width: '100%', resize: 'none'}}></textarea>
+              </div>
+              <h3></h3>
+              <a style={{borderRadius:'5px 0 0 5px'}} onClick={this.submitClassNote.bind(this)} className='uk-button uk-button-primary'>Post</a>
+              <a style={{borderRadius:'0 5px 5px 0'}} onClick={this.submitClassNote.bind(this)} className='uk-button uk-button-default'>Save</a>
+              <div id='cnVisualFeedback' className='unactive'/>
+            </li>
+            <li><NotesView notes={this.state.notes} classes={this.state.classes} 
+              editNote={this.editNote.bind(this)} removeNote={this.removeNote.bind(this)}/></li>
+        </ul>
       </div>
     )
   }
 
+  /**
+    * Fills in the editor with the values being edited and deletes the original instance
+    */
   editNote(e) {
-    UIkit.tab(document.getElementById('classNotesSwitcher')).show(0)
+    UIkit.switcher(document.getElementById('classNotesSwitcher')).show(0)
     document.getElementById('classNoteClass').selectedIndex = this.state.classes.indexOf(this.state.notes[e.target.getAttribute('noteid')].cnClass)
     document.getElementById('classNoteBody').value = this.state.notes[e.target.getAttribute('noteid')].body
     document.getElementById('classNoteTitle').value = this.state.notes[e.target.getAttribute('noteid')].title
 
     this.removeNote(e)
 
-    console.log(this.state.notes)
+    //this.state.notes)
   }
 
+  /**
+    * Removes the note and syncs to the database
+    */
   removeNote(e) {
-    console.log(this.state.notes)
-    console.log('remove note')
+    //console.log(this.state.notes)
+    //console.log('remove note')
 
     let n = this.state.notes
     this.state.notes.splice(e.target.getAttribute('noteid'), 1)
@@ -292,13 +279,16 @@ class TeacherNotes extends Component {
     let notesDB = { classNotes: btoa(JSON.stringify(this.state.notes)) }
     ref.update(notesDB)
 
-    console.log(this.state.notes)
+    //console.log(this.state.notes)
   }
 
+  /**
+    * Called when the component mounts to sync class notes database
+    */
   sync() {
     ref.on('value', (data) => {
-      console.log('REF.ON CALLED')
-      console.log(data.val())
+      //console.log('REF.ON CALLED')
+      //console.log(data.val())
       try {
         this.state.notes = JSON.parse(atob(data.val().classNotes))
         let n = this.state.notes
@@ -308,6 +298,9 @@ class TeacherNotes extends Component {
   }
 }
 
+/**
+    * Checks if the notes received are meant to be displayed
+    */
 const noteInClasses = (note, classes) => {
   for (let i = 0; i < classes.length; i++) {
     if (note.cnClass === classes[i]) {
@@ -317,8 +310,9 @@ const noteInClasses = (note, classes) => {
   return false
 }
 
+
 const NotesView = (props) =>  {
-  console.log('notesview: ' + props.notes)
+  //console.log('notesview: ' + props.notes)
   let rows
   let drafts = null
   noteID = -1
@@ -330,6 +324,8 @@ const NotesView = (props) =>  {
       break
     }
   }*/
+
+  //console.log(props.notes.length)
 
   if (props.notes.length === 0) {
     rows = (
@@ -354,6 +350,23 @@ const NotesView = (props) =>  {
     })
   }
 
+  let isEmpty = true
+
+  for (let i=0;i<=rows.length;i++) {
+    if (rows[i]!==undefined) {
+      isEmpty = false
+      break
+    }
+  }
+
+  if (isEmpty) {
+    rows = (
+      <h1 className='uk-heading-line uk-text-center' style={{marginTop:'50px',marginBottom:'50px'}}>
+        <span>No class notes</span>
+      </h1>
+    )
+  }
+
   let draftUI
   if (userData.role !== 'Student' && drafts !== null) {
     draftUI = (
@@ -364,9 +377,9 @@ const NotesView = (props) =>  {
         <hr/>
       </div>
     )
-    console.log('drafts is set')
+    //console.log('drafts is set')
   } else {
-    console.log('drafts is empty')
+    //console.log('drafts is empty')
   }
   
   return (

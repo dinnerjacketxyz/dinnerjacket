@@ -1,6 +1,3 @@
-// George
-// Display daily notices
-
 import React, { Component } from 'react'
 const css = require('./Notices.css')
 
@@ -9,19 +6,19 @@ let apiNotices = ''
 window.year = ''
 let search
 
+/**
+ * Daily notices
+ */
 class Notices extends Component {
+  /**
+   * Called on Notices class load
+   * @param {*} props - contains API notices
+   */
   constructor(props) {
     super(props)
     
     // Checks for student access level
     // Sets notice filter to student year if student is logged in
-    // If a teacher is logged in, default filter is set to ALL
-    /*if (!window.year === '' && window.userData.role === 'Student') {
-      window.year = window.userData['yearGroup']
-    } else {
-      window.year = 'ALL'
-    }*/
-
     if (window.userData.role === 'Student') {
       if (!window.year) {
         window.year = window.userData['yearGroup']
@@ -42,6 +39,9 @@ class Notices extends Component {
     this.init()
   }
   
+  /**
+   * Called upon the component mounting
+   */
   componentDidMount() {
     // Updates the year selector UI element
     // Displays appropriate year group as selected in lines 16-20
@@ -49,6 +49,9 @@ class Notices extends Component {
     selector.value = window.year
     
     search = document.getElementById('search')
+
+    window.onbeforeprint = this.toggleNotices.bind(this)
+    window.onafterprint = this.toggleNotices.bind(this)
   }
 
   /**
@@ -72,6 +75,7 @@ class Notices extends Component {
     this.state.notices = []
     let count = 0
 
+    // Linear search through all notices from API
     for (let i = 0; i < dailyNotices.notices.length; i++) {
       if (this.state.year == 'ALL' || this.yearInNotice(this.state.year, dailyNotices.notices[i])) {
         if (this.state.keywords.length === 0 || this.keywordsInNotice(this.state.keywords, dailyNotices.notices[i])) {
@@ -82,10 +86,10 @@ class Notices extends Component {
           if (dailyNotices.notices[i].years.length >= 6) {
             years = 'ALL'
           } else {
-            let c = false
+            let yearFormat = false
             for (let j = 0; j < dailyNotices.notices[i].years.length; j++) {
               let start = 0
-              if (!c) {
+              if (!yearFormat) {
                 if (years.length > 0) {
                   years += ', '
                 }
@@ -93,10 +97,12 @@ class Notices extends Component {
                 years += start + ' '
               }
 
-              if (parseInt(dailyNotices.notices[i].years[j]) + 1 === parseInt(dailyNotices.notices[i].years[j+1]) && j < dailyNotices.notices[i].years.length - 1) {
-                c = true
+              if (parseInt(dailyNotices.notices[i].years[j]) + 1 === parseInt(dailyNotices.notices[i].years[j + 1]) && 
+                j < dailyNotices.notices[i].years.length - 1) {
+
+                yearFormat = true
               } else {
-                c = false
+                yearFormat = false
                 if (dailyNotices.notices[i].years[j] !== start) {
                   years += ' - ' + dailyNotices.notices[i].years[j] + ' '
                 }
@@ -104,10 +110,13 @@ class Notices extends Component {
             }
           }
 
+          // Format notice dates for notices with attached meeting dates
+          // Represented in the format dd/mm, where dd is days and mm is months
           let date = ''
           const MONTHS = [
-            'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+            'January', 'February', 'March', 'April', 
+            'May', 'June', 'July', 'August', 'September', 
+            'October', 'November', 'December'
           ]
 
           if (dailyNotices.notices[i].isMeeting) {
@@ -122,6 +131,7 @@ class Notices extends Component {
             date = MONTHS[mm] + ' ' + dd + ', ' + dailyNotices.notices[i].meetingTime
           }
 
+          // Compile final object containing all relevant and formatted notices information
           let obj = {
             title: dailyNotices.notices[i].title,
             date: date,
@@ -130,6 +140,8 @@ class Notices extends Component {
             author: dailyNotices.notices[i].authorName,
             ID: count
           }
+
+          // Push notices to this.state.notices array and increment counter storing number of notices
           this.state.numNotices++
           this.state.notices.push(obj)
         }
@@ -145,6 +157,7 @@ class Notices extends Component {
    */
   keywordsInNotice(keywords, notice) {
     let match = true
+    // Linear search through notices to check for matches
     for (let i = 0; i < keywords.length; i++) {
       if (!(notice.title.toLowerCase().includes(keywords[i]) ||
         notice.content.toLowerCase().includes(keywords[i]) ||
@@ -181,9 +194,10 @@ class Notices extends Component {
     let selector = document.getElementById('yearSelector')
     this.state.year = selector.options[selector.selectedIndex].text
     window.year = this.state.year
-    let a = this.state.a
-    this.setState({ a: 'test' })
-    //console.log(this.state.year)
+
+    // Refresh notices state hence re-rendering with updated notices for newly selected year
+    let refresh = this.state.refresh
+    this.setState({ refresh: 'refresh' })
 
     this.init()
   }
@@ -196,6 +210,8 @@ class Notices extends Component {
     let newText = ''
     newText = (text === 'EXPAND') ? 'COLLAPSE' : 'EXPAND'
     this.setState({ text: newText })
+    console.log(document.getElementById('noticesList').innerText)
+    this.forceUpdate()
   }
 
   /**
@@ -217,6 +233,9 @@ class Notices extends Component {
   render() {
     let text = this.state.text
     let rows
+
+    // Determines whether to display notices using default expanded or collapsed UI element
+    // Based on current setting for expand/collapse all
     if (text === 'EXPAND') {
       rows = this.state.notices.map(notice => {
         return <CollapsedNotices key={notice.ID} notices={notice} />
@@ -227,18 +246,20 @@ class Notices extends Component {
       })
     }
 
-    console.log(this.state.keywords.length)
     let searchValue = ''
     try {
       searchValue = document.getElementById('search').value
     } catch (e) { }
+
+    // Displays number of matches within notices for a particular search
     let numMatches = (searchValue !== '') ? Matches(this.state.notices.length) : null
-    console.log(numMatches)
 
     return (
+      
       <div className='noticesParent'>
         <div className='noticesChild card uk-animation-slide-top-small'>
-          <div className='uk-margin-large-bottom'>
+          <div className='doNotPrint' style={{height:'30px'}}><a style={{marginBottom:'0px'}} uk-icon='icon: info' uk-tooltip='title: Click on individual notices to toggle them open/closed, or use the EXPAND/COLLAPSE button to taggle all at once.;pos:right' className='uk-align-left' /></div>
+          <div className='doNotPrint uk-margin-large-bottom'>
             <div className='yearSelect'>
               <select id='yearSelector' onChange={this.selectYear.bind(this)} className='yearSelect uk-select'>
                 <option>ALL</option>
@@ -258,7 +279,9 @@ class Notices extends Component {
             <button onClick={this.toggleNotices.bind(this)} className='uk-button uk-align-left uk-button-default'>
               {this.state.text}
             </button>
+            
           </div>
+          
           <div>
             <ul id='noticesList' className='under' uk-accordion='multiple: true'>
               {rows}
@@ -271,8 +294,8 @@ class Notices extends Component {
 }
 
 /**
- * 
- * @param {*} matches - eeee
+ * UI element that represents the number of matches
+ * @param {*} matches - number of matches
  */
 const Matches = (matches) => {
   let text = (matches > 1) ? ' matches' : ' match'
@@ -285,8 +308,7 @@ const Matches = (matches) => {
 
 /**
  * Render mapped notices in their collapsed state
- * _____ always displayed
- * Content ... displayed and toggled on click
+ * Content is hidden and toggled on click to display all information
  * @param {*} props 
  */
 const CollapsedNotices = (props) => {

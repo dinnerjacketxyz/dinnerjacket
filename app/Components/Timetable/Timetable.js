@@ -93,7 +93,8 @@ class Timetable extends Component {
     if (localStorage.getItem('forceSmallTable') !== undefined
       && localStorage.getItem('forceSmallTable') !== null
       && localStorage.getItem('forceSmallTable') !== 'true'
-      && localStorage.getItem('forceSmallTable') !== 'false') {
+      && localStorage.getItem('forceSmallTable') !== 'false'
+      && localStorage.getItem('forceSmallTable') !== 'Default') {
       //if the user settings exists and is not from a past version use it
       card.className = localStorage.getItem('forceSmallTable')
     } else {
@@ -475,6 +476,9 @@ class Timetable extends Component {
     let dropdown1 = document.getElementById('acSubject2')
     dropdown1.innerHTML = options
     dropdown.innerHTML = options
+
+    document.getElementById('acAdd').removeAttribute('uk-tooltip')
+    document.getElementById('acAdd2').removeAttribute('uk-tooltip')
   }
 
   /**
@@ -502,7 +506,7 @@ class Timetable extends Component {
     let width = window.innerWidth
     let height = window.innerHeight
     console.log('process form')
-    if ((temp.className == 'Default' && width <= 530 || height <= 750) || (temp.className == 'Small')) {
+    if ((temp.className == 'Dynamic' && width <= 530 || height <= 750) || (temp.className == 'Small')) {
       if (button2.getAttribute('disabled') != true) {
         if (repeat2.checked == false) {
           let dayNum = tabArray.indexOf(`${day2.value}`)
@@ -520,6 +524,8 @@ class Timetable extends Component {
           mcArr[temp + 5] = subject2.value + '!' + room2.value + '!' + 'B' + '!' + day2.value
           mcArr[temp + 10] = subject2.value + '!' + room2.value + '!' + 'C' + '!' + day2.value
         }
+        document.getElementById('successAdd2').style.visibility = 'visible'
+        document.getElementById('successAdd2').style.display = 'block'
       }
     } else {
       if (button.getAttribute('disabled') != true) {
@@ -538,6 +544,9 @@ class Timetable extends Component {
           mcArr[temp + 5] = subject.value + '!' + room.value + '!' + 'B' + '!' + day.value
           mcArr[temp + 10] = subject.value + '!' + room.value + '!' + 'C' + '!' + day.value
         }
+        document.getElementById('successAdd').style.visibility = 'visible'
+        document.getElementById('successAdd').style.display = 'block'
+        console.log('editing successAdd')
       }
     }
 
@@ -546,7 +555,17 @@ class Timetable extends Component {
     localStorage.removeItem('timetablePeriods')
     localStorage.removeItem('timetablePeriodsDate')
 
+    
+
     this.displayMorningClass()
+
+    window.setTimeout(function(){
+      console.log('timer')
+      document.getElementById('successAdd2').style.visibility = 'hidden'
+      document.getElementById('successAdd2').style.display = 'none'
+      document.getElementById('successAdd').style.visibility = 'hidden'
+      document.getElementById('successAdd').style.display = 'none'
+    },2000)
   }
 
   /**
@@ -616,22 +635,27 @@ class Timetable extends Component {
     let width = window.innerWidth
     let height = window.innerHeight
 
-    if ((temp.className == 'Default' && width <= 530 || height <= 750) || (temp.className == 'Small')) {
+    if ((temp.className == 'Dynamic' && width <= 530 || height <= 750) || (temp.className == 'Small')) {
+      console.log('small')
       if (room2.value.length == 3 && validRoom.indexOf(room2.value) != -1) {
         button2.removeAttribute('disabled')
-        //button2.className = 'uk-button uk-button-primary'
+        button2.className = 'uk-button uk-button-primary'
+        button2.parentNode.setAttribute('uk-tooltip','title: The entered room is valid')
       } else {
         button2.setAttribute('disabled', true)
-        //button2.className = 'uk-button uk-button-danger'
+        button2.className = 'uk-button uk-button-danger'
+        button2.parentNode.setAttribute('uk-tooltip','title:Please enter a valid room')
       }
     } else {
+      console.log('large')
       if (room.value.length == 3 && validRoom.indexOf(room.value) != -1) {
         button.removeAttribute('disabled')
-        //button.className = 'uk-button uk-button-primary'
-        //button.parentNode.removeAttribute('uk-tooltip')
+        button.className = 'uk-button uk-button-primary'
+        button.parentNode.setAttribute('uk-tooltip','title: The entered room is valid')
       } else {
         button.setAttribute('disabled', true)
-        //button.className = 'uk-button uk-button-danger'
+        button.className = 'uk-button uk-button-danger'
+        button.parentNode.setAttribute('uk-tooltip','title:Please enter a valid room')
       }
     }
   }
@@ -705,6 +729,10 @@ class Timetable extends Component {
     localStorage.removeItem('timetableBells')
     localStorage.removeItem('timetablePeriods')
     localStorage.removeItem('timetablePeriodsDate')
+
+    let temp = document.getElementById('vcNavbarCard')
+    let button = document.getElementById('rmcButton')
+    let button2 = document.getElementById('rmcButton2')
 
     remArr.splice(tempArr[0], tempArr.length)
     this.initRemove()
@@ -906,7 +934,7 @@ class Timetable extends Component {
               <hr />
 
               <p className='uk-align-left uk-margin-bottom-small'>Week</p>
-              <select id='acWeek' className='uk-select'>
+              <select style={{marginBottom:'20px'}} id='acWeek' className='uk-select'>
                 <option>A</option>
                 <option>B</option>
                 <option>C</option>
@@ -916,6 +944,7 @@ class Timetable extends Component {
               <div className='uk-margin-top' onClick={this.processForm.bind(this)}>
                 <button id='acAdd' className='uk-button uk-button-default ' disabled='true'>Add</button>
               </div>
+              <p style={{color:'#2dc0d5',visibility:'hidden',display:'none'}} id='successAdd'>Successfully added your classnote</p>
             </div>
           </div>
           <div className='uk-align-right uk-inline removeMC'>
@@ -988,7 +1017,7 @@ class Timetable extends Component {
               <hr />
 
               <p className='uk-align-left uk-margin-bottom-small'>Week</p>
-              <select id='acWeek2' className='uk-select'>
+              <select style={{marginBottom:'20px'}} id='acWeek2' className='uk-select'>
                 <option>A</option>
                 <option>B</option>
                 <option>C</option>
@@ -998,6 +1027,7 @@ class Timetable extends Component {
               <div className='uk-margin-top' onClick={this.processForm.bind(this)}>
                 <button id='acAdd2' className='uk-button uk-button-default' disabled='true'>Add</button>
               </div>
+              <p style={{color:'rgb(45, 192, 213)}',visibility:'hidden',display:'none'}} id='successAdd2'>Successfully added your classnote</p>
             </div>
           </div>
           <div id='removeMC' className='uk-align-right uk-inline removeMC'>
@@ -1018,7 +1048,7 @@ class Timetable extends Component {
                   </tbody>
                 </table>
                 <div className='uk-margin-top' onClick={this.processRem.bind(this)}>
-                  <button id='rmcButton' className='uk-button uk-button-default'>Remove</button>
+                  <button id='rmcButton2' className='uk-button uk-button-default'>Remove</button>
                 </div>
               </div>
             </div>

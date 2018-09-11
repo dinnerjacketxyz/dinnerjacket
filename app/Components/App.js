@@ -42,6 +42,7 @@ const firebase = require('firebase')
 const fb = require('../fb')(firebase)
 const database = firebase.database()
 
+window.isSafari = false
 
 // Requirements for beta release
 // Daily timetable
@@ -103,6 +104,10 @@ class App extends Component {
       window.isMobile = false
     }
 
+    // Safari 3.0+ "[object HTMLElementConstructor]" 
+    window.isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification))
+
+    /*
     document.addEventListener('touchstart', handleTouchStart, false)     
     document.addEventListener('touchmove', handleTouchMove, false)
     
@@ -111,6 +116,7 @@ class App extends Component {
     function handleTouchStart(evt) {                                         
       xDown = evt.touches[0].clientX
       yDown = evt.touches[0].clientY
+
     }                  
   
     function handleTouchMove(evt) {
@@ -124,25 +130,23 @@ class App extends Component {
   
       if (Math.abs(xDiff) > Math.abs(yDiff)) {
         if (xDiff > 0) {
-          /* left swipe */ 
           console.log('left swipe')
+          UIkit.offcanvas(document.getElementById('sidebar')).hide()
         } else {
-          /* right swipe */
           console.log('right swipe')
+          UIkit.offcanvas(document.getElementById('sidebar')).show()
         }                       
       } else {
         if (yDiff > 0) {
-          /* up swipe */ 
           console.log('up swipe')
-        } else { 
-          /* down swipe */
+        } else {
           console.log('down swipe')
         }                                                                 
       }
 
       // reset values
-      xDown, yDown = null                                             
-    }
+      xDown, yDown = null                                           
+    }*/  
   }
 
   showLogin() {
@@ -478,7 +482,7 @@ class App extends Component {
 
   showNotices() {
     ////('Daily notices tab clicked')
-    if (window.dailyNotices !== '') {
+    if (dailyNotices !== '') {
       let visible = this.state.visible
       this.setState({ visible: window.STATES.NOTICES })
       this.selectedNavbar(window.STATES.NOTICES)
@@ -498,41 +502,41 @@ class App extends Component {
     ////('About tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.ABOUT })
-    this.selectedNavbar(5)
+    this.selectedNavbar(6)
   }
 
   showProfile() {
     if (window.participation !== '' && window.userData !== '') {
       let visible = this.state.visible
       this.setState({ visible: window.STATES.PROFILE })
-      this.selectedNavbar(5)
+      this.selectedNavbar(6)
     }
   }
 
   showSettings() {
     let visible = this.state.visible
     this.setState({ visible: window.STATES.SETTINGS })
-    this.selectedNavbar(5)
+    this.selectedNavbar(6)
   }
 
   showChangelog() {
     ////('Changelog tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.CHANGELOG })
-    this.selectedNavbar(5)
+    this.selectedNavbar(6)
   }
 
   showFeedback() {
     ////('Feedback tab clicked')
     let visible = this.state.visible
     this.setState({ visible: window.STATES.FEEDBACK })
-    this.selectedNavbar(5)
+    this.selectedNavbar(6)
   }
 
   showHelp() {
     ////('Help tab clicked')
     this.setState({ visible: window.STATES.HELP })
-    this.selectedNavbar(5)
+    this.selectedNavbar(6)
   }
 
   logout() {
@@ -560,6 +564,10 @@ class App extends Component {
   // Always renders navbar
   // Renders active page
   render() {
+    let sidebarMode
+    if (window.isSafari) {sidebarMode='slide'} 
+    else {sidebarMode = 'push'}
+    
     return (
       <div id='main' className='main uk-offcanvas-content'>
         {this.state.visible === window.STATES.LOADING && <Loading />}
@@ -593,7 +601,7 @@ class App extends Component {
 
               <li id='TimetableLi' className='uk-animation-toggle' onClick={this.showTimetable.bind(this)}>
                 <a id='TimetableA' className='uk-box-shadow-hover-small'>
-                  <span id='TimetableS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: table' />
+                  <span id='TimetableS' className='collapseSpan uk-icon uk-margin-small-right' uk-icon='icon: grid' />
                   <p className='collapseText' id='TimetableP'>{nameArray[1]}</p>
                   <b className='collapseText' id='TimetableB'></b>
                 </a>
@@ -642,7 +650,7 @@ class App extends Component {
                   <span uk-icon="icon: triangle-down"></span>
                 </a>
 
-                <div id="rightDropdown" className='uk-navbar-dropdown' uk-dropdown='mode: click'>
+                <div id="rightDropdown" className='uk-navbar-dropdown' uk-dropdown='mode: click;pos:bottom-right'>
                   <ul className='uk-nav uk-navbar-dropdown-nav'>
 
                     <li>
@@ -717,7 +725,7 @@ class App extends Component {
           {this.state.visible === window.STATES.HELP && <Help />}
         </div>
 
-        <div id='sidebar' uk-offcanvas='mode: slide' >
+        <div id='sidebar' uk-offcanvas={'mode: '+ sidebarMode}>
           <Sidebar />
         </div>
       </div>

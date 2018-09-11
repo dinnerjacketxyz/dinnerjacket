@@ -14,9 +14,15 @@ let apiPart
 
 let id = 0
 
-// part is participation innit too long innit
-
+/**
+ * Profile tab displays users profile information
+ * For student access level, award scheme participation is also shown
+ */
 class Profile extends Component {
+  /**
+   * Called on component load
+   * @param {*} props - including participation and userData
+   */
   constructor(props) {
     super(props)
     this.state = { loading: true, content: 'details' }
@@ -24,11 +30,19 @@ class Profile extends Component {
     apiPart = props.participation
     userData = props.userData
   }
+
+  /**
+   * Called upon the component unmounting and changes UI prior to unmounting
+   */
   componentWillUnmount(){
     let content = document.getElementById('content')
     content.className = 'full'
   }
 
+  /**
+   * Called upon the component mounting
+   * Linear search through API participation return to sort into more useable record
+   */
   componentDidMount() {
     let content = document.getElementById('content')
     content.className = 'full vcNavbarParent'
@@ -38,7 +52,7 @@ class Profile extends Component {
     partTab = document.getElementById('partTab')
 
     yearList = []
-    part = {}
+    part = {} // where part is shorthand for participation
 
     for (let i = 0; i < apiPart.length; i++) {
       if (!(apiPart[i].year in part)) {
@@ -48,6 +62,7 @@ class Profile extends Component {
         yearList.push({ year: apiPart[i].year })
       }
 
+      // Pushing to custom record which is used to render participation
       part[apiPart[i].year].event.push({
         activity: apiPart[i].activity,
         category: apiPart[i].categoryName,
@@ -55,20 +70,11 @@ class Profile extends Component {
       })
     }
 
-    //(part)
-    //(yearList)
-
     for (let j = 0; j < yearList.length; j++) {
       let year = yearList[j].year
-
-      //(year)
-      
-      /*yearList[j].push({
-        target: ' | Target: ' + part[year].event.shift().points,
-        total: ' | Total: ' + part[year].event.pop().points
-      })*/
+ 
+      // Set target and total points for each year by adding up event totals
       let eventOne = part[year].event[0].points
-      //(eventOne)
       yearList[j].target = ' | Target: '
       if (eventOne == 0) {
         part[year].event.shift()
@@ -78,21 +84,21 @@ class Profile extends Component {
       yearList[j].total = ', Total: ' + part[year].event.pop().points
     }
 
-    //(yearList)
-
-    //target = ' | Target: ' + part[props.years.year].event.shift().points
-    //total = ' | Total: ' + part[props.years.year].event.pop().points
-
+    // Set loading state once all data has been handled
     let loading = this.state.loading
     this.setState({ loading: false })
   }
 
+  /**
+   * Render all components including user details and award scheme participation
+   */
   render() {
     let rows = yearList.map(year => {
       id++
       return <YearList key={year+id} years={year} />
     })
 
+    // Render component depending on the selected tab
     let content
     if (this.state.content === 'details') {
       content = DETAILS()
@@ -100,6 +106,8 @@ class Profile extends Component {
       content = PARTICIPATION(rows)
     }
 
+    // Only display participation option for student access level
+    // (Teachers and unauthenticated access level don't get award scheme points)
     let pptOption
     if (window.userData.role === 'Student') {
       pptOption = (<li id='partTab' onClick={() => {this.setState({ content: 'part' })}}><a>Participation</a></li>)
@@ -122,6 +130,7 @@ class Profile extends Component {
               {pptOption}
             </ul>
             <div id='profileContent'>
+              <a style={{marginBottom:'0px',marginLeft:'0px'}} uk-icon='icon: info' uk-tooltip='title: Participation involves your points collected in the SBHS Award Scheme Program.' className='uk-align-right' />
               {content}
             </div>
           </div>
@@ -131,14 +140,14 @@ class Profile extends Component {
   }
 }
 
+/**
+ * Renders list of years the user has participated in the award scheme program
+ * @param {*} props 
+ */
 const YearList = (props) => {  
   let rows = part[String(props.years.year)].event.map(event => {
     return <TableRow key={event.activity} part={event} />
   })
-
-  ////(part[props.years.year].event)
-  /*let target = part[props.years.year].event[0]
-  let total = part[props.years.year].event[part[props.years.year].event.length - 1]*/
 
   return (
     <li>
@@ -161,6 +170,10 @@ const YearList = (props) => {
   )
 }
 
+/**
+ * Returns layout for award scheme table display
+ * @param {*} props 
+ */
 const TableRow = (props) => {
   return (
     <tr>
@@ -171,6 +184,9 @@ const TableRow = (props) => {
   )
 }
 
+/**
+ * Renders user details tab including optional NESA field
+ */
 const DETAILS = () => {
   let ID = (window.userData.role === 'Student') ? 'ID' : 'Username'
   let nesa = NESA()
@@ -204,6 +220,9 @@ const DETAILS = () => {
   )
 }
 
+/**
+ * NESA field rendered seperately as it should only be rendered for those with a NESA number, e.g. Yr 12s
+ */
 const NESA = () => {
   if (window.timetable.student.BoSNumber !== '' && window.userData.role === 'Student') {
     return (
@@ -215,9 +234,13 @@ const NESA = () => {
   }
 }
 
+/**
+ * Renders award scheme participation element
+ * @param {*} rows 
+ */
 const PARTICIPATION = (rows) => {
   return (
-    <ul uk-accordion='multiple: true'>
+    <ul style={{paddingTop:'30px'}} uk-accordion='multiple: true'>
       {rows}
     </ul>
   )
