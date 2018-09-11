@@ -110,7 +110,7 @@ class Profile extends Component {
     // (Teachers and unauthenticated access level don't get award scheme points)
     let pptOption
     if (window.userData.role === 'Student') {
-      pptOption = (<li id='partTab' onClick={() => {this.setState({ content: 'part' })}}><a>Participation</a></li>)
+      pptOption = (<li id='partTab' onClick={() => {this.setState({ content: 'part' })}}><a uk-tooltip='title: Participation involves your points collected in the SBHS Award Scheme Program.;delay:500'>Participation</a></li>)
     }
 
     let subtitle = userData.role
@@ -130,7 +130,7 @@ class Profile extends Component {
               {pptOption}
             </ul>
             <div id='profileContent'>
-              <a style={{marginBottom:'0px',marginLeft:'0px'}} uk-icon='icon: info' uk-tooltip='title: Participation involves your points collected in the SBHS Award Scheme Program.' className='uk-align-right' />
+              
               {content}
             </div>
           </div>

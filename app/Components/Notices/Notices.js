@@ -258,7 +258,6 @@ class Notices extends Component {
       
       <div className='noticesParent'>
         <div className='noticesChild card uk-animation-slide-top-small'>
-          <div className='doNotPrint' style={{height:'30px'}}><a style={{marginBottom:'0px'}} uk-icon='icon: info' uk-tooltip='title: Click on individual notices to toggle them open/closed, or use the EXPAND/COLLAPSE button to taggle all at once.;pos:right' className='uk-align-left' /></div>
           <div className='doNotPrint uk-margin-large-bottom'>
             <div className='yearSelect'>
               <select id='yearSelector' onChange={this.selectYear.bind(this)} className='yearSelect uk-select'>
@@ -276,7 +275,7 @@ class Notices extends Component {
                 <input id='search' className="uk-search-input" onInput={this.search.bind(this)} type="search" placeholder="Search"/>
             </div>
             {numMatches}
-            <button onClick={this.toggleNotices.bind(this)} className='uk-button uk-align-left uk-button-default'>
+            <button uk-tooltip='title: Click on individual notices to toggle them open/closed, or use the EXPAND/COLLAPSE button to taggle all at once.;delay:500' onClick={this.toggleNotices.bind(this)} className='uk-button uk-align-left uk-button-default'>
               {this.state.text}
             </button>
             
