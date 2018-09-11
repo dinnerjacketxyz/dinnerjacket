@@ -620,10 +620,10 @@ class Timetable extends Component {
     if ((temp.className == 'Default' && width <= 530 || height <= 750) || (temp.className == 'Small')) {
       if (room2.value.length == 3 && validRoom.indexOf(room2.value) != -1) {
         button2.removeAttribute('disabled')
-        //button2.className = 'uk-button uk-button-primary'
+        button2.className = 'uk-button uk-button-primary'
       } else {
         button2.setAttribute('disabled', true)
-        //button2.className = 'uk-button uk-button-danger'
+        button2.className = 'uk-button uk-button-danger'
       }
     } else {
       if (room.value.length == 3 && validRoom.indexOf(room.value) != -1) {

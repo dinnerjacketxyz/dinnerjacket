@@ -52,35 +52,8 @@
     <script src="app.js"></script>
     <script type='text/javascript'>
       
-      //Event method fires before print and processes the html to get rid of unnecessary elements for timetable printing
+
       
-      let formattedPrint = false //flag used to determine if print processing changes need to be undone
-      let printLayer
-      let backupClass
-      let backupTimetable
-      let fullTimetable
-       
-      document.getElementsByTagName("BODY")[0].onbeforeprint = function() {
-        window.fullTimetable = document.getElementById('fullTimetable')
-        if(window.fullTimetable !== null){ //if timetable is open, do the processing
-          window.backupTimetable = window.fullTimetable
-          window.printLayer = document.getElementById('vcNavbarCard')
-          window.backupClass = window.printLayer.className
-          window.printLayer.className = 'Full'
-          window.formattedPrint = true
-        } else {
-          window.formattedPrint = false
-        }
-      }
-
-      //This event method fires just after printing putting html back in place so that it can be used
-
-      document.getElementsByTagName("BODY")[0].onafterprint = function() {
-        if (window.formattedPrint == true) {
-          window.printLayer.className = window.backupClass
-          window.fullTimetable = window.backupTimetable
-        }
-      }
 
       //Event method fires when the screen is clicked and hides the context menu
 

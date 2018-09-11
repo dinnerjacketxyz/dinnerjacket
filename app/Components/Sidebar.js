@@ -427,12 +427,14 @@ class Sidebar extends Component {
                     <p>Date</p>
 
                     <input id='sidebarDate' className='uk-input uk-form-blank' type='date' placeholder='dd/mm/yyyy'/>
+                    <p style={{color:'#2dc0d5',fontSize:'12px'}}>You entered a time before the current time.</p>
                   </div>
                 </div>
               </td>
             </tr>
           </tbody>
         </table>
+        
         <ul uk-accordion=''>
           <li>
             <div style={{display:'inline', fontSize:'15px'}} className='uk-accordion-title uk-inline'>Show completed</div>

@@ -130,6 +130,7 @@ class Profile extends Component {
               {pptOption}
             </ul>
             <div id='profileContent'>
+              <a style={{marginBottom:'0px',marginLeft:'0px'}} uk-icon='icon: info' uk-tooltip='title: Participation involves your points collected in the SBHS Award Scheme Program.' className='uk-align-right' />
               {content}
             </div>
           </div>
@@ -239,8 +240,7 @@ const NESA = () => {
  */
 const PARTICIPATION = (rows) => {
   return (
-    <ul uk-accordion='multiple: true'>
-      <a uk-icon='icon: info' uk-tooltip='title: Participation involves your points collected in the SBHS Award Scheme Program.' className='uk-align-right' />
+    <ul style={{paddingTop:'30px'}} uk-accordion='multiple: true'>
       {rows}
     </ul>
   )
