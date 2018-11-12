@@ -11,10 +11,14 @@
   text-align: center!important;
 }
 
+#dev {
+  width:260px;
+}
+
 /*Onscreen elements of the welcome page*/
 #welcomeContent{
   padding: 30px;
-  width: 450px!important;
+  width: 450px;
   border-radius: 5px;
 }
 #welcomeTitle{
@@ -53,6 +57,7 @@
     width:100%;
   }
   #welcomeContent{
+    margin-top: 15px;
     padding: 0px;
     box-shadow: none;
   }
@@ -67,7 +72,7 @@
   #welcomelogo{
     width: 100px;
   }
-  #welcomeLabel,#loginButton,#welcomeContent{
+  #welcomeLabel,#loginButton,#welcomeContent,#devText{
     font-size: 13px;
   }
 }
@@ -75,7 +80,7 @@
   #welcomeTitle{
     font-size:2.5rem;line-height:1.4 
   }
-  #welcomeLabel,#loginButton,#welcomeContent{
+  #welcomeLabel,#loginButton,#welcomeContent,#devText{
     font-size: 12px;
   }
   #welcomelogo{
@@ -86,7 +91,7 @@
   #welcomeTitle{
     font-size:1.5rem;line-height:1.4
   }
-  #welcomeLabel,#loginButton,#welcomeContent{
+  #welcomeLabel,#loginButton,#welcomeContent,#devText{
     font-size: 10px;
   }
   #welcomelogo{
@@ -94,8 +99,9 @@
   }
 }
 
-@media screen and (max-height: 490px) {
+@media screen and (max-height: 585px) {
   #welcomeContent{
+    margin-top: 15px;
     padding: 0px;
     box-shadow: none;
   }
@@ -110,12 +116,27 @@
   #welcomelogo{
     width: 100px;
   }
-  #welcomeLabel,#loginButton,#welcomeContent{
+  #welcomeLabel,#loginButton,#welcomeContent,#devText{
     font-size: 13px;
   }
   #loginButton {
     margin-top: 10px!important;
     margin-bottom: 10px!important;
+  }
+}
+
+@media screen and (max-width: 780px) {
+  #dev{
+    width: 100%;
+  }
+  #welcomeContent {
+    width: 100%;
+  }
+  .uk-dark {
+    background-color: white!important;
+  }
+  .uk-light {
+    background-color: #36393e;
   }
 }
 
