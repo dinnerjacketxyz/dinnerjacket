@@ -50,13 +50,12 @@ class Dashboard extends Component {
       //console.log('timetable cache valid')
     }*/
     
-    // if cache empty then fill it
-    if (localStorage.getItem('timetableBells') == undefined) {
-      this.getAPIData = this.getAPIData.bind(this)
-      this.getAPIData()
-    }
     // initial update
     this.updateTimetableDisplay('')
+    
+    // get data in bg
+    this.getAPIData = this.getAPIData.bind(this)
+    this.getAPIData()
 
     this.timerTick = this.timerTick.bind(this)
     this.processHTML = this.processHTML.bind(this)
