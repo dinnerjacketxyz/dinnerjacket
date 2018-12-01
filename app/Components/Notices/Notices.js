@@ -275,7 +275,7 @@ class Notices extends Component {
                 <input id='search' className="uk-search-input" onInput={this.search.bind(this)} type="search" placeholder="Search"/>
             </div>
             {numMatches}
-            <button uk-tooltip='title: Click on individual notices to toggle them open/closed, or use the EXPAND/COLLAPSE button to taggle all at once.;delay:500' onClick={this.toggleNotices.bind(this)} className='uk-button uk-align-left uk-button-default'>
+            <button uk-tooltip='title: Click on individual notices to toggle them open/closed, or use the EXPAND/COLLAPSE button to toggle all at once.;delay:500' onClick={this.toggleNotices.bind(this)} className='uk-button uk-align-left uk-button-default'>
               {this.state.text}
             </button>
             
