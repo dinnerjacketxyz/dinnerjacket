@@ -20,6 +20,7 @@ let posArray = []
 
 let fadeArray = []
 let mcFadeArr = []
+window.save
 
 let subjectOnly = []
 let tempSO = []
@@ -60,6 +61,14 @@ class Timetable extends Component {
    * React lifecycle function that runs after the code is mounted. 
    */
   componentDidMount() {
+
+    window.onbeforeprint = function() {
+      window.save = document.getElementById('vcNavbarCard').className
+      document.getElementById('vcNavbarCard').className = ''
+      console.log(window.save)
+    }
+    window.onafterprint = function(){document.getElementById('vcNavbarCard').className = window.save}
+
     //Generates a timetable array used globally
     this.generateTTableArray()
 

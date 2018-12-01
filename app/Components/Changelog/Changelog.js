@@ -6,6 +6,41 @@ class Changelog extends Component {
     return (
         <div id='changelog' className='hCenterOnlyContainer'>
           <div style={{textAlign:'left'}} className='hCenterOnlyCard card uk-animation-slide-top-small'>
+            <div class="uk-card uk-card-primary uk-card-body">
+              <h2 style={{fontWeight: '300'}} class="uk-card-title">We are looking for developers</h2>
+              <p>If you're interested in learning how create web apps or can already code email us at <code style={{color:'black',userSelect:'text'}}>dinnerjacketxyz@gmail.com</code>, or contact us through the user feedback section.</p>
+            </div>
+            <br/>
+            <article className="uk-article">
+              <h1 className="uk-article-title">Known bugs and unreleased features</h1>
+              <p className="uk-article-meta">11 October 2018</p>
+              <p>Thank you for submitting user feedback, here are the things we have recorded, we should be working on it promptly. We are planning a v3 that should bring many new features as well as prepare DinnerJacket for long term stability as we are leaving the school this year. We should be fixing bugs in v2.0.1 scheduled for next weekend.</p>
+              <br/>
+              <b>Known Bugs</b>
+              <ul>
+                <li>Dashboard does not up date substitutes.</li>
+                <li>Switching between notes interferes with saving.</li>
+                <li>Bugs with selecting morning classes.</li>
+                <li>Reminders being cleared when you login and logout.</li>
+                <li>Saving issues to do with settings.</li>
+                <li>Month disreprancy in the daily notices.</li>
+                <li>Login issues in general, having to login too often or not being able to login on mobile clients.</li>
+                <li>Calendar and dashboard causing crashing.</li>
+              </ul>
+              <br/>
+              <b>Requested features</b>
+              <ul>
+                <li>Offline functionality in general, specifically offline timetabling.</li>
+                <li>See and add morning or afternoon sports and extra-curricular activities.</li>
+                <li>A standalone application.</li>
+                <li>Adding times for personal events on the calendar.</li>
+                <li>Adding calendar events repeatedly.</li>
+                <li>Table in the notes section.</li>
+                <li>Add event button on calendar too small.</li>
+                <li>See the length of the periods.</li>
+              </ul>
+            </article>
+
             <article className="uk-article">
               <h1 className="uk-article-title">v2.0.0</h1>
               <p className="uk-article-meta">11 September 2018</p>
