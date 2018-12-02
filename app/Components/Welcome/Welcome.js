@@ -42,21 +42,15 @@ class Welcome extends Component {
   render() {
     return (
       <div className='vcWelcomeParent'>
-        <div className='vcWelcomeCard uk-animation-slide-top-small'>
-          <div className='uk-grid uk-grid-collapse'>
-            <div id='dev' class="uk-card uk-card-primary uk-card-body">
-              <h2 style={{fontWeight:'300'}} class="uk-card-title">We are looking for developers</h2>
-              <p id='devText'>If you're interested in learning how create web apps or can already code email us at <code style={{color:'black',userSelect:'text'}}>dinnerjacketxyz@gmail.com</code>, or contact us through the user feedback section.</p>
-            </div>
-            <div id='welcomeContent' className='card'>
-              <img id='welcomelogo' alt='logo' src='./icons/256.png' width='150px' height='150px'/>
-              <h1 id='welcomeTitle'>DinnerJacket</h1>
-              <p id='welcomeLabel' className='uk-label'>v2.0.0</p>
-              <p className='welcomeText'>Welcome to dinnerjacket, a student organiser designed for SBHS's students and teachers.
-                                  Please report any issues or suggestions in the feedback tab. 
-                                  Thanks!</p>
-              <button id='loginButton' className='uk-button uk-button-primary' onClick={this.toggleLogin.bind(this)}>Login</button>
-            </div>
+        <div className='vcWelcomeCard'>
+          <div id='welcomeContent' className='card uk-animation-slide-top-small'>
+            <img id='welcomelogo' alt='logo' src='./icons/256.png' width='150px' height='150px'/>
+            <h1 id='welcomeTitle'>DinnerJacket</h1>
+            <p id='welcomeLabel' className='uk-label'>v2.0.0</p>
+            <p id='welcomeText'>Welcome to dinnerjacket, a student organiser designed for SBHS's students and teachers.
+                                Please report any issues or suggestions in the feedback tab. 
+                                Thanks!</p>
+            <button id='loginButton' className='uk-button uk-button-primary' onClick={this.toggleLogin.bind(this)}>Login</button>
           </div>
         </div>
       </div>
