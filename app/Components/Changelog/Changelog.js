@@ -4,8 +4,13 @@ const css = require('./Changelog.css')
 class Changelog extends Component {
   render() {
     return (
-        <div id='changelog' className='hCenterOnlyContainer'>
-          <div style={{textAlign:'left'}} className='hCenterOnlyCard card uk-animation-slide-top-small'>
+      <div id='changelog' className='hCenterOnlyContainer'>
+        <div style={{textAlign:'left'}} className='hCenterOnlyCard card uk-animation-slide-top-small'>
+          <div class="uk-card uk-card-primary uk-card-body">
+            <h2 style={{fontWeight: '300'}} class="uk-card-title">We are looking for developers</h2>
+            <p>If you're interested in learning how create web apps or can already code email us at <code style={{color:'black',userSelect:'text'}}>dinnerjacketxyz@gmail.com</code>, or contact us through the user feedback section.</p>
+          </div>
+          <br/>
             <article className="uk-article">
               <h1 className="uk-article-title">Known bugs and unreleased features</h1>
               <p className="uk-article-meta">11 October 2018</p>
